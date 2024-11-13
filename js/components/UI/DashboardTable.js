@@ -25,7 +25,7 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDPOINT, detailsView = true }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
@@ -114,7 +114,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
       me,
       // portalId,
       // hubspotObjectTypeId,
-      API_ENDPOINT,
+      apis.tableAPI,
       filterPropertyName,
       filterOperator,
       filterValue,
@@ -129,7 +129,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT,
+        API_ENDPOINT : apis.tableAPI,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -404,7 +404,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, API_ENDP
           </div>
         </Dialog>
       }
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} />}
     </div >
   );
 };

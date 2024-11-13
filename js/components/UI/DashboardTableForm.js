@@ -1,16 +1,12 @@
-const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId }) => {
+const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis }) => {
 
   const [data, setData] = useState([]);
-
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableFormData"
     ],
     mutationFn: async () => {
-      return await Client.form.fields({
-        portalId,
-        hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-      });
+      return await Client.form.fields({ API: apis.formAPI });
     },
 
     onSuccess: (response) => {
@@ -43,7 +39,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     const schemaShape = {};
 
     data.forEach((field) => {
-      if (field.requiredProperty && field.type === 'string') {
+      // if (field.requiredProperty && field.fieldType === 'string') {
+      if (field.requiredProperty) {
         // Add validation for required fields based on your criteria
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
@@ -57,18 +54,18 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       //   });
       // }
     });
-
-    return z.object(schemaShape);
+    if (Object.keys(schemaShape).length != 0) return z.object(schemaShape);
   };
 
   const validationSchema = createValidationSchema(data);
 
-  const { mutate: login, isLoading: submitLoading } = useMutation({
-    mutationKey: ["loginUser"],
+  const { mutate: addData, isLoading: submitLoading } = useMutation({
+    mutationKey: ["addData"],
     mutationFn: async (input) => {
       try {
-        const response = await Client.authentication.login({
-          username: input.email,
+        const response = await Client.form.create({
+          API: apis.createAPI,
+          data: input
         });
         return response;
       } catch (error) {
@@ -76,7 +73,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       }
     },
     onSuccess: async (data) => {
-      setAlert({ message: "Login successful", type: "success" });
+      setAlert({ message: "Ticket added successful", type: "success" });
+      setOpenModal(fakse)
     },
 
     onError: (error) => {
@@ -96,7 +94,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
   });
 
   const onSubmit = (data) => {
-    login(data);
+    addData(data);
   };
 
   return (
@@ -123,25 +121,30 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 serverError={serverError}
                 className="dark:bg-[#181818]"
               >
-                {({ register, formState: { errors } }) => (
+                {({ register, control, formState: { errors } }) => (
                   <div>
                     <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2">
                       {data.map((filled) => (
                         <div>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                              {filled.customLabel}
+                              {filled.customLabel} {filled.fieldType}
                             </FormLabel>
-                            <FormControl>
-                              <div>
-                                <Input
-                                  height="medium"
-                                  placeholder={filled.customLabel}
-                                  className=""
-                                  {...register(filled.name)}
-                                />
-                              </div>
-                            </FormControl>
+                            {filled.fieldType == 'select' ?
+                              <Select name={filled.name} options={filled.options} control={control} />
+                              :
+                              <FormControl>
+                                <div>
+                                  <Input
+                                    height="medium"
+                                    placeholder={filled.customLabel}
+                                    className=""
+                                    {...register(filled.name)}
+                                  />
+                                </div>
+                              </FormControl>
+                            }
+
                             {errors[filled.name] && (
                               <FormMessage className="text-red-600 dark:text-red-400">
                                 {errors[filled.name].message}
