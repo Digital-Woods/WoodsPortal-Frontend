@@ -13,8 +13,9 @@ const Tickets = ({ path, objectId, id }) => {
   const apis = {
     tableAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}${param}`,
     formAPI: `/api/${portalId}/hubspot-object-tickets/forms`,
-    createAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}`,
-    updateAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}/` // concat ticketId
+    stagesAPI: `/api/${portalId}/hubspot-object-tickets/stages/`, // concat pipelineId
+    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}`,
+    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}/` // concat ticketId
   }
 
   return (

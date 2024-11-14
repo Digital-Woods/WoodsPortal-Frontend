@@ -158,5 +158,7 @@ class Client {
     fields: ({ API }) =>
       HttpClient.get(API),
     create: ({API, data}) => HttpClient.post(API, data),
+    stages: ({ API }) =>
+      HttpClient.get(API),
   };
 }

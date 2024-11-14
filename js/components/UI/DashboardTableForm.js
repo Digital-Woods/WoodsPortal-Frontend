@@ -45,6 +45,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
         });
+      } else {
+        schemaShape[field.name] = z.string().nullable();
       }
       // Add more field types as needed, such as numbers, booleans, etc.
       // Example:
@@ -54,7 +56,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       //   });
       // }
     });
-    if (Object.keys(schemaShape).length != 0) return z.object(schemaShape);
+    // if (Object.keys(schemaShape).length != 0) return z.object(schemaShape);
+    return z.object(schemaShape);
   };
 
   const validationSchema = createValidationSchema(data);
@@ -72,7 +75,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
         throw error;
       }
     },
-    onSuccess: async (data) => {
+    onSuccess: async (response) => {
       setAlert({ message: "Ticket added successful", type: "success" });
       setOpenModal(fakse)
     },
@@ -93,8 +96,42 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
   });
 
+  const { mutate: getStags, isLoading: stageLoading } = useMutation({
+    mutationKey: ["getStageData"],
+    mutationFn: async (pipelineId) => {
+      try {
+        const response = await Client.form.stages({
+          API: `${apis.stagesAPI}${pipelineId}`,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: async (response) => {
+      const updatedProperties = data.map((property) =>
+        property.name === "hs_pipeline_stage"
+          ? { ...property, options: response.data }
+          : property
+      );
+      console.log('updatedProperties', updatedProperties)
+      setData(updatedProperties)
+    },
+    onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+      setAlert({ message: errorMessage, type: "error" });
+    },
+  });
+
   const onSubmit = (data) => {
+    console.log('data', data);
     addData(data);
+  };
+
+  const onChangeSelect = (filled, selectedValue) => {
+    if (filled.name === "hs_pipeline") {
+      getStags(selectedValue)
+    }
   };
 
   return (
@@ -128,10 +165,10 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         <div>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                              {filled.customLabel} {filled.fieldType}
+                              {filled.customLabel}
                             </FormLabel>
                             {filled.fieldType == 'select' ?
-                              <Select name={filled.name} options={filled.options} control={control} />
+                              <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>
                                 <div>
