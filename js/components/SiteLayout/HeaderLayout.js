@@ -60,8 +60,13 @@ const HeaderLayout = ({ title, path, id = null }) => {
 
   return (
     <nav className="flex justify-between items-center p-6 dark:bg-dark-200">
-      <Breadcrumb id={id} title={title} path={path} />
-
+      {env.DATA_SOURCE_SET != true ? (
+        <Breadcrumb id={id} title={title} path={path} />
+      ) : (
+        <div className="text-xs capitalize dark:text-cleanWhite">
+          {title}
+        </div>
+      )}
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
           <p className="text-primary font-semibold  dark:text-white">
@@ -80,10 +85,12 @@ const HeaderLayout = ({ title, path, id = null }) => {
 
       <div>
         <div className="flex gap-x-4">
-          <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
-            <SyncButton />
-          </div>
-
+          {env.DATA_SOURCE_SET != true ? (
+            <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
+              <SyncButton />
+            </div>
+          ) : ('')
+          }
           <div className="bg-cleanWhite  rounded-md dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
