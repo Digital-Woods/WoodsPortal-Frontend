@@ -438,6 +438,10 @@
 
 
   /* Headings */
+  :root{
+    --primary-color:{{primary_color}};
+    --secondary-color:{{secondary_color}};
+  }
 
 h1,
 .h1 {
