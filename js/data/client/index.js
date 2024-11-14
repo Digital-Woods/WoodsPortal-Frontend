@@ -155,7 +155,8 @@ class Client {
   };
 
   static form = {
-    fields: ({ portalId, hubspotObjectTypeId }) =>
-      HttpClient.get(`/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}/forms`)
+    fields: ({ API }) =>
+      HttpClient.get(API),
+    create: ({API, data}) => HttpClient.post(API, data),
   };
 }

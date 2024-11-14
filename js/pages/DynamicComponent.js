@@ -16,7 +16,14 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
   }
-  const API_ENDPOINT = `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`
+
+  const apis = {
+    tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+    formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
+    createAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+    updateAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
+  }
+
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -134,7 +141,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
           </div>
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} API_ENDPOINT={API_ENDPOINT} />
+          <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} />
         </div>
       ) : (
         <div className="dark:text-white text-cleanWhite">
