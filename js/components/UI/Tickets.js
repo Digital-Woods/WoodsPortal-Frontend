@@ -19,6 +19,6 @@ const Tickets = ({ path, objectId, id }) => {
   }
 
   return (
-    <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} />
+    <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} editView={true} />
   );
 };

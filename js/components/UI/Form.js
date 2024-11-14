@@ -7,6 +7,7 @@ const Form = ({
   validationSchema,
   serverError,
   resetFields,
+  initialValues = {},
   ...formProps
 }) => {
   const zodResolver = (schema) => async (data) => {
@@ -28,6 +29,7 @@ const Form = ({
     ...useFormProps,
     ...(validationSchema && {
       resolver: zodResolver(validationSchema),
+      defaultValues: initialValues
     }),
   });
   useEffect(() => {

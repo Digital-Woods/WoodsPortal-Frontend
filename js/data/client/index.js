@@ -157,8 +157,9 @@ class Client {
   static form = {
     fields: ({ API }) =>
       HttpClient.get(API),
-    create: ({API, data}) => HttpClient.post(API, data),
     stages: ({ API }) =>
       HttpClient.get(API),
+    create: ({API, data}) => HttpClient.post(API, data),
+    update: ({API, data}) => HttpClient.put(API, data),
   };
 }
