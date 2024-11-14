@@ -49,7 +49,7 @@ const Drawer = ({ className }) => {
 
   const [activeRoute, setActiveRoute] = useState("");
   const [sideBarOptions, setSideBarOptions] = useState({});
-  const [brandName, setBrandName] = useState("Digitalwoods");
+  const [brandName, setBrandName] = useState(hubSpotUserDetails.hubspotPortals.portalSettings.brandName);
 
   useEffect(() => setActiveRoute(customPath), [customPath]);
 
@@ -84,9 +84,7 @@ const Drawer = ({ className }) => {
     },
   });
   useEffect(() => {
-    if(env.DATA_SOURCE_SET == true){
-      setSideBarOptions(fakeUserDetails.sideBarOptions);
-    }
+      setSideBarOptions(hubSpotUserDetails.sideBarOptions);
   })
 
   return (
@@ -206,33 +204,19 @@ const Drawer = ({ className }) => {
                 </div>
 
                 {!sidebarCollapsed && (
-                  (env.DATA_SOURCE_SET == true && sideBarOptions ? (
-                    <div>
-                      <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-                        <p> {sideBarOptions.title} </p>
-                        <a href={sideBarOptions.buttonUrl}>
-                          <Button
-                            className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
-                            size="sm"
-                          >
-                            {sideBarOptions.buttonText}
-                          </Button>
-                        </a>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
-                        <p> Get the best Maintenance Service </p>
+                  <div>
+                    <div class="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                      <p> {sideBarOptions.title} </p>
+                      <a href={sideBarOptions.buttonUrl}>
                         <Button
                           className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
                           size="sm"
                         >
-                          Go Now
+                          {sideBarOptions.buttonText}
                         </Button>
-                      </div>
+                      </a>
                     </div>
-                  ))
+                  </div>
                 )}
 
                 <div>

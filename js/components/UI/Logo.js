@@ -38,7 +38,7 @@ const Logo = ({ className }) => {
 
   const logoToDisplay =
     logoSrc ||
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6VUACD-UCfCix84c3iUXMvU0N7ewxBtDKvg&s";
+    hubSpotUserDetails.hubspotPortals.portalSettings.logo;
 
   return (
     <div>
