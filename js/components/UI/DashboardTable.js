@@ -25,8 +25,10 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showEditData, setShowEditData] = useState(false);
   const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
@@ -129,7 +131,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT : apis.tableAPI,
+        API_ENDPOINT: apis.tableAPI,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -307,6 +309,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
 
                     </TableHead>
                   }
+                  {editView &&
+                    <TableHead className="font-semibold text-xs">
+                      Actions
+                    </TableHead>
+                  }
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -348,6 +355,18 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
                           >
                             View Details
                           </Link>
+                        </div>
+                      </TableCell>
+                    }
+                    {editView &&
+                      <TableCell>
+                        <div className="flex items-center space-x-2 gap-x-5">
+                          <Button size="sm" className="text-white" onClick={() => {
+                            setShowEditDialog(true);
+                            setShowEditData(item);
+                          }}>
+                            Edit
+                          </Button>
                         </div>
                       </TableCell>
                     }
@@ -404,7 +423,8 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
           </div>
         </Dialog>
       }
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
+      {showEditDialog && <DashboardTableEditForm openModal={showEditDialog} setOpenModal={setShowEditDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} showEditData={showEditData} refetch={getData} />}
     </div >
   );
 };
