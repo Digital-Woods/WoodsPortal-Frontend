@@ -5,7 +5,7 @@ const ProfileCard = () => {
   const loggedInDetails = useRecoilValue(userDetailsAtom);
 
   let email = "no-email@example.com";
-  let brandName = "Digitalwoods";
+  let brandName = hubSpotUserDetails.hubspotPortals.portalSettings.brandName;
 
   if (loggedInDetails && loggedInDetails.email) {
     email = loggedInDetails.email;

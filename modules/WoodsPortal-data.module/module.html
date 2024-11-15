@@ -135,6 +135,7 @@ objectType: "USER_DEFINED",
 {% endif %}
 
 {% if module.page_editor_preview_ %}
+{% if module.hubspot_data_source %}
 
 <div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
   <p>
@@ -688,6 +689,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
   </div> -->
 </div>
 
+{% endif %}
 {% endif %}
 {% endif %}
 {% endif %}
