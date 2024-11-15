@@ -17,6 +17,14 @@
   "inline_help_text" : "Please disable the preview before Publishing",
   "required" : false,
   "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
   "display" : "toggle",
   "type" : "boolean",
   "default" : true

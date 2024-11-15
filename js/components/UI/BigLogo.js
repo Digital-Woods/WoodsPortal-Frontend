@@ -1,4 +1,4 @@
-const Logo = ({ className }) => {
+const BigLogo = ({ className }) => {
   const { me } = useMe();
   const [logoSrc, setLogoSrc] = useState("");
 

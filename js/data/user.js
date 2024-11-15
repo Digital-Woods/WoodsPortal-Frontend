@@ -1,7 +1,7 @@
 function useMe() {
   if (isLivePreview()) {
     return {
-      me: fakeUserDetails,
+      me: hubSpotUserDetails,
       isLoading: false,
       error: null,
       isAuthorized: null,
