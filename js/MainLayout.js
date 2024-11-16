@@ -157,20 +157,21 @@ const MainLayout = ({ children }) => {
 
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
-      path: `/${formatPath(menuItem.label)}`,
-      title: formatCustomObjectLabel(menuItem.label),
+      path: `/${formatPath(menuItem.tabName || menuItem.label)}`,
+      title: formatCustomObjectLabel(menuItem.tabName || menuItem.label),
       icon: menuItem.icon,
       isRequiredAuth: true,
       isHeader: true,
       component: (
         <DynamicComponent
           hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
-          path={`/${formatPath(menuItem.label)}`}
-          title={formatCustomObjectLabel(menuItem.label)}
+          path={`/${formatPath(menuItem.tabName || menuItem.label)}`}
+          title={formatCustomObjectLabel(menuItem.tabName || menuItem.label)}
           icon={menuItem.icon}
         />
       ),
     }));
+    
 
     setRoutes(apiRoutes);
     setIsLoading(false);

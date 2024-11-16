@@ -74,11 +74,8 @@ const ForgetPassword = () => {
         />
       )}
       <div className="dark:bg-gray-800 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
-        <div className="w-16">
-          <img
-            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-            alt="user photo"
-          />
+        <div className="w-[50px]">
+          <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
         </div>
 
         <div className="w-full">
@@ -124,7 +121,7 @@ const ForgetPassword = () => {
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
                     disabled={isLoading}
-                    className="w-full !bg-defaultPrimary"
+                    className="w-full  "
                   >
                     {isLoading ? "Sending..." : "Send Link"}
                   </Button>

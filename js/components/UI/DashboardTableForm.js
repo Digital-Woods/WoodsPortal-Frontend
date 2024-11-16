@@ -198,7 +198,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         Close
                       </Button>
                       <Button
-                        className="!bg-defaultPrimary"
+                        className=" "
                         isLoading={submitLoading}
                       >
                         Create

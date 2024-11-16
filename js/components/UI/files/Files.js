@@ -230,7 +230,7 @@ const Files = ({ fileId, path, objectId, id }) => {
             <span className="rounded-md dark:text-white font-medium">
               {totalFiles}
             </span>
-            <p className="text-secondary dark:text-white font-normal text-sm dark:text-gray-300">
+            <p className="text-primary dark:text-white font-normal text-sm dark:text-gray-300">
               Results
             </p>
           </div>

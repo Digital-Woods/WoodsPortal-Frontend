@@ -1,5 +1,5 @@
 const variantClasses = {
-  default: "bg-primary text-white dark:bg-dark-400 shadow hover:bg-primary/90",
+  default: "bg-secondary text-white dark:bg-dark-400 shadow hover:bg-secondary/90",
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline:
@@ -7,7 +7,7 @@ const variantClasses = {
   secondary:
     "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
   ghost: "hover:bg-accent hover:text-accent-foreground",
-  link: "text-primary underline-offset-4 hover:underline",
+  link: "text-secondary underline-offset-4 hover:underline",
 };
 
 const sizeClasses = {

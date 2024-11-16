@@ -15,6 +15,26 @@
 
 {% set dynamicRouteList = [] %}
 
+{% if module.add_home_tab %}
+{% for item in module.home_tab %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+tabName: item.tab_name,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
 {% if module.hubspot_defined_object %}
 {% for item in module.objects %}
 
@@ -95,6 +115,27 @@ route.listObjectProperties) %}
 {% else %}
 
 {% set dynamicRouteList = [] %}
+
+{% if module.add_home_tab %}
+{% for item in module.home_tab %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicRouteList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
 
 {% if module.hubspot_defined_object %}
 {% for item in module.objects %}
@@ -713,7 +754,7 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
   let moduleCompanyOptions = {
     logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
     companyName: "{{ module.other_options.company_options.company_name }}",
-    logoUrl: "{{ module.other_options.company_options.logo_url.href|escape_url }}",
+    smallLogo: "{{ module.other_options.company_options.small_logo.src|escape_url }}",
   };
   let moduleDashBoardTitle = {
     lineChartTitle: "{{ module.other_options.line_chart_title }}",
@@ -721,13 +762,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     dataTableTitle: "{{ module.other_options.data_table_title }}",
   }
   let moduleBannerDetails = {
-    title: "{{ module.other_options.banner_details.title }}",
-    tagText: "{{ module.other_options.banner_details.tag_text }}",
-    description: "{{ module.other_options.banner_details.description }}",
-    buttonText: "{{ module.other_options.banner_details.button_text }}",
-    buttonUrl: "{{ module.other_options.banner_details.button_url.href|escape_url }}",
-    backgroundImage: "{{ module.other_options.banner_details.background_image.src }}",
+    title: "{{ module.home_tab_banner_details.title }}",
+    description: "{{ module.home_tab_banner_details.description }}",
+    buttonText: "{{ module.home_tab_banner_details.button_text }}",
+    buttonUrl: "{{ module.home_tab_banner_details.button_url.href|escape_url }}",
+    backgroundImage: "{{ module.home_tab_banner_details.background_image.src|escape_url }}",
   };
+  
   let loggedInUserDetails = {{ loggedInUser | tojson | safe }};
   let objList = {{ objectList | tojson | safe }};
   let iframeTest = {{ iframeDatas  | tojson | safe }};
@@ -736,4 +777,9 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
   let PodCastsEpisodes = {{ podCasts | safe || [] }};
   let lineChartDatas = {{ lineChart | safe || [] }};
   let dataSource = {{ module.hubspot_data_source }};
+  let showCompanyName = {{ module.other_options.company_options.show_company_name }};
+  let showSidebarCta = {{ module.other_options.show_sidebar_cta }};
+  let showSamllLogo = {{ module.other_options.company_options.show_small_logo_on_sidebar }};
+  let addHomeTab = {{module.add_home_tab}};
+  
 </script>

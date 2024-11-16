@@ -1,4 +1,4 @@
-const CustomCheckboxSelect = ({ buttonText, spanText, showSpan }) => {
+const CustomCheckboxSelect = ({children, buttonText, spanText, showSpan }) => {
   return (
     <div>
       <Select buttonText={buttonText} spanText={spanText} showSpan={showSpan}>

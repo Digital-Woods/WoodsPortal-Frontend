@@ -12,7 +12,8 @@ const hubSpotUserDetails = {
     hubspotSelectedDomain: "",
     portalSettings: {
       theme: "light",
-      logo: baseCompanyOptions && baseCompanyOptions.logoImg ? baseCompanyOptions.logoImg : "",
+      logo: baseCompanyOptions && baseCompanyOptions.logoImg ? baseCompanyOptions.logoImg : baseCompanyOptions.smallLogo,
+      smallLogo: baseCompanyOptions && baseCompanyOptions.smallLogo ? baseCompanyOptions.smallLogo : baseCompanyOptions.logoImg,
       primaryColor: primarycolor,
       secondaryColor: secondarycolor,
       brandName: baseCompanyOptions && baseCompanyOptions.companyName ? baseCompanyOptions.companyName : "CompanyName",
