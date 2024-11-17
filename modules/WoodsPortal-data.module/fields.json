@@ -9,6 +9,26 @@
   "type" : "boolean",
   "default" : true
 }, {
+  "id" : "44c02d86-d5ac-515b-5959-d040308ed6b1",
+  "name" : "backend_server_url",
+  "display_width" : null,
+  "label" : "Backend Server URL",
+  "required" : false,
+  "locked" : false,
+  "validation_regex" : "",
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "NOT_EQUAL",
+    "access" : null
+  },
+  "allow_new_line" : false,
+  "show_emoji_picker" : false,
+  "type" : "text",
+  "default" : "https://app.demo.digitalwoods.io"
+}, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
   "display_width" : null,
@@ -48,6 +68,257 @@
   "display" : "toggle",
   "type" : "boolean",
   "default" : false
+}, {
+  "id" : "492fa57e-894f-64bc-7bd5-8a25b5f7c40a",
+  "name" : "add_home_tab",
+  "display_width" : null,
+  "label" : "Add Home Tab",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "9a6edab5-4b55-2deb-25ae-d4296815500e",
+  "name" : "home_tab",
+  "display_width" : null,
+  "label" : " Home Tab",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : null,
+    "max" : null,
+    "sorting_label_field" : null,
+    "default" : 1
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_home_tab",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "84ad91c0-b166-29f6-5f5a-a3135cac9d3a",
+    "name" : "tab_name",
+    "display_width" : null,
+    "label" : "Tab Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Home"
+  }, {
+    "id" : "f60179ff-76c4-fee1-d35d-1b8359918f97",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "company"
+  }, {
+    "id" : "e52e24d4-4784-b251-c297-fda3279eeff4",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "dealname,dealstage,amount"
+  }, {
+    "id" : "5c9ae80f-a878-73ff-5f22-6fb2dcd5fe12",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Associated Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "display" : "text",
+    "step" : 1,
+    "type" : "number",
+    "default" : 0
+  }, {
+    "id" : "6eb1f720-f63d-a88e-e7fc-fe7149e98eb0",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "0-2"
+  }, {
+    "id" : "05fcab51-dabc-8230-b501-5dc3b00c01f6",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "company",
+    "list_object_properties" : "dealname,dealstage,amount",
+    "association_object_type_id" : 0,
+    "object_type_id" : "0-2",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+    "tab_name" : "Home"
+  } ]
+}, {
+  "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
+  "name" : "home_tab_banner_details",
+  "display_width" : null,
+  "label" : "Home Tab Banner Details",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_home_tab",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
+    "name" : "title",
+    "display_width" : null,
+    "label" : "Title",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Welcome to Woods Portal. The HubSpot Solution"
+  }, {
+    "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
+    "name" : "description",
+    "display_width" : null,
+    "label" : "Description",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus."
+  }, {
+    "id" : "082643eb-96a9-1535-2588-474fd68ee854",
+    "name" : "button_text",
+    "display_width" : null,
+    "label" : "Button text",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Get Partnership"
+  }, {
+    "id" : "076f638c-cc42-7d31-103b-d1d69e63c6a7",
+    "name" : "button_url",
+    "display_width" : null,
+    "label" : "Button Url",
+    "required" : false,
+    "locked" : false,
+    "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+    "type" : "url",
+    "default" : {
+      "content_id" : null,
+      "href" : "https://hub.digitalwoods.io",
+      "type" : "EXTERNAL"
+    }
+  }, {
+    "id" : "473873ea-c361-d919-71d7-b768362269cc",
+    "name" : "background_image",
+    "display_width" : null,
+    "label" : "Background image",
+    "required" : false,
+    "locked" : false,
+    "responsive" : true,
+    "resizable" : false,
+    "show_loading" : false,
+    "type" : "image",
+    "default" : {
+      "size_type" : "auto",
+      "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+      "alt" : "Banner-woods-portal",
+      "loading" : "lazy",
+      "width" : 848,
+      "height" : 309,
+      "max_width" : 848,
+      "max_height" : 309
+    }
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "title" : "Welcome to Woods Portal. The HubSpot Solution",
+    "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
+    "button_text" : "Get Partnership",
+    "button_url" : {
+      "content_id" : null,
+      "href" : "https://hub.digitalwoods.io",
+      "type" : "EXTERNAL"
+    },
+    "background_image" : {
+      "size_type" : "auto",
+      "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+      "alt" : "Banner-woods-portal",
+      "loading" : "lazy",
+      "width" : 848,
+      "height" : 309,
+      "max_width" : 848,
+      "max_height" : 309
+    }
+  }
 }, {
   "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
   "name" : "hubspot_defined_object",
@@ -330,6 +601,47 @@
         "max_height" : 500
       }
     }, {
+      "id" : "44cde3d6-4cd9-54cd-6802-4a9c90b6697e",
+      "name" : "small_logo",
+      "display_width" : null,
+      "label" : "Small Logo",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
+        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "loading" : "lazy",
+        "width" : 500,
+        "height" : 500,
+        "max_width" : 500,
+        "max_height" : 500
+      }
+    }, {
+      "id" : "b675141e-9014-d0ab-3867-d7c2c4d8940a",
+      "name" : "show_company_name",
+      "display_width" : null,
+      "label" : "Show Company Name",
+      "required" : false,
+      "locked" : false,
+      "display" : "checkbox",
+      "type" : "boolean",
+      "default" : false
+    }, {
+      "id" : "bd45fd06-6aba-0238-39de-f7b9339705d4",
+      "name" : "show_small_logo_on_sidebar",
+      "display_width" : null,
+      "label" : "Show Small Logo On Sidebar",
+      "required" : false,
+      "locked" : false,
+      "display" : "checkbox",
+      "type" : "boolean",
+      "default" : false
+    }, {
       "id" : "6deba33a-0ad3-265a-1fb2-913295dca4f1",
       "name" : "company_name",
       "display_width" : null,
@@ -337,10 +649,18 @@
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "other_options.company_options.show_company_name",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "default" : "ACME"
+      "default" : "CompanyName"
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -357,8 +677,30 @@
         "max_width" : 500,
         "max_height" : 500
       },
-      "company_name" : "ACME"
+      "small_logo" : {
+        "size_type" : "auto",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
+        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "loading" : "lazy",
+        "width" : 500,
+        "height" : 500,
+        "max_width" : 500,
+        "max_height" : 500
+      },
+      "show_company_name" : false,
+      "show_small_logo_on_sidebar" : false,
+      "company_name" : "CompanyName"
     }
+  }, {
+    "id" : "c077d677-6815-7789-f81e-ad337959d9d3",
+    "name" : "show_sidebar_cta",
+    "display_width" : null,
+    "label" : "Show sidebar CTA",
+    "required" : false,
+    "locked" : false,
+    "display" : "checkbox",
+    "type" : "boolean",
+    "default" : false
   }, {
     "id" : "809b00e0-388d-cb9b-8a22-5b931af517ca",
     "name" : "sidebar_cta_details",
@@ -366,6 +708,14 @@
     "label" : "Sidebar CTA Details",
     "required" : false,
     "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "other_options.show_sidebar_cta",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
     "children" : [ {
       "id" : "1b5b5550-38ba-b702-2c86-6507ecdfc4df",
       "name" : "title",
@@ -435,8 +785,21 @@
         "max_width" : 500,
         "max_height" : 500
       },
-      "company_name" : "ACME"
+      "small_logo" : {
+        "size_type" : "auto",
+        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
+        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "loading" : "lazy",
+        "width" : 500,
+        "height" : 500,
+        "max_width" : 500,
+        "max_height" : 500
+      },
+      "show_company_name" : false,
+      "show_small_logo_on_sidebar" : false,
+      "company_name" : "CompanyName"
     },
+    "show_sidebar_cta" : false,
     "sidebar_cta_details" : {
       "title" : "Get early access to our best apps, themes, and modules",
       "button_text" : "Click Me",
