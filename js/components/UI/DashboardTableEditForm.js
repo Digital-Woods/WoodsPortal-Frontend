@@ -209,7 +209,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                         Close
                       </Button>
                       <Button
-                        className="!bg-defaultPrimary"
+                        className=" "
                         isLoading={submitLoading}
                       >
                         Save

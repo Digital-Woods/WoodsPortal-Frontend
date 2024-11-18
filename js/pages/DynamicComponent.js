@@ -10,7 +10,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  const param =  mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -20,10 +20,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const apis = {
     tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-    createAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-    updateAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
+    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
   }
-
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -53,7 +52,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200  dark:text-white px-6 pb-6">
+    <div className="dark:bg-dark-200 bg-white dark:text-white px-6 pb-6 pt-6">
       <div className="flex justify-between items-center relative">
         <div className="flex items-start flex-col gap-2">
           {objectTypeName &&
@@ -61,12 +60,15 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
               <BackIcon />
             </div>
           }
-          <span className="text-xl font-semibold text-primary capitalize dark:text-white">
-            {tableTitle()}
-          </span>
-          <p className="text-secondary  dark:text-white leading-5 text-sm">
-            {env.DATA_SOURCE_SET !== true ? viewText : viewText + 's' }
-          </p>
+          {hubSpotUserDetails.sideMenu[0].tabName != title ?
+            <span>
+              <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
+                {tableTitle()}
+              </span>
+              <p className="text-primary  dark:text-white leading-5 text-sm">
+                {env.DATA_SOURCE_SET !== true ? viewText : viewText + 's'}
+              </p>
+            </span> : ''}
         </div>
 
         {/* <div className="centered-tab border rounded-lg p-1 bg-cleanWhite dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
@@ -114,9 +116,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
       </div>
 
       {activeTab === "account" ? (
-        <div>
-          <div className="flex flex-col justify-end items-end py-6">
-            {/* <div className="flex gap-x-4">
+        <div className="flex gap-4">
+          {/* <div className="flex flex-col justify-end items-end py-6">
+            <div className="flex gap-x-4">
               <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
               <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
               <CustomCheckbox
@@ -129,19 +131,57 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
                 spanText="3"
                 showSpan={true}
               />
-            </div> */}
-
-            {/* <div className="w-[25%]">
+            </div> 
+             <div className="w-[25%]">
               <Input
                 className="dark:bg-dark-400"
                 value={inputValue}
                 onChange={handleInputChange}
               />
-            </div> */}
-          </div>
+            </div>
+          </div> */}
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} />
+          <div className={`${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6`}`}>
+            {hubSpotUserDetails.sideMenu[0].tabName == title ?
+              <div>
+                <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
+              </div> : ''}
+            <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} />
+          </div>
+          {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
+            <div className="w-[350px] max-h-[calc(100vh-100px)] overflow-y-auto p-3">
+              <div className="flex-col flex gap-6">
+                {sidebarListDataOption.map((option, index) => {
+                  const hubspotObjectTypeId = option.hubspotObjectTypeId; 
+                  const sidebarDataApis = {
+                    tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+                    formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
+                    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+                    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
+                  };
+
+                  return index === 0 ? (
+                    <SidebarData
+                      key={index}
+                      hubspotObjectTypeId={hubspotObjectTypeId}
+                      path={`/${formatPath(option.label)}`}
+                      title={option.label}
+                      apis={sidebarDataApis}
+                    />
+                  ) : (
+                    <SidebarTable
+                      key={index}
+                      hubspotObjectTypeId={hubspotObjectTypeId}
+                      path={`/${formatPath(option.label)}`}
+                      title={option.label}
+                      apis={sidebarDataApis}
+                    />
+                  );
+                })}
+
+              </div>
+            </div> : ''}
         </div>
       ) : (
         <div className="dark:text-white text-cleanWhite">

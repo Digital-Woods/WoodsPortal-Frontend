@@ -53,8 +53,8 @@ tailwind.config = {
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",
-        sidelayoutColor: "#343A40",
-        activeState: "#495159", // Darker grey
+        sidelayoutColor: "#2D3E50",
+        activeState: "#425B76", // Darker grey
         brand: {
           DEFAULT: "#0289A4",
           dark: "#0091AE",

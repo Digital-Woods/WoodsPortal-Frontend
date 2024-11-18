@@ -20,7 +20,7 @@
           }
         },
         "default": {
-          "color": "#212121"
+          "color": "#FF7A59"
         }
       },
       {
@@ -39,7 +39,7 @@
           }
         },
         "default": {
-          "color": "#212121"
+          "color": "#DFE3EB"
         }
       }
     ]
@@ -145,7 +145,7 @@
               }
             },
             "default": {
-              "size": 46,
+              "size": 42,
               "size_unit": "px",
               "styles": {
                 "text-decoration": "none"
@@ -422,7 +422,7 @@
               }
             },
             "default": {
-              "color": "#212121",
+              "color": "#525259",
               "styles": {
                 "text-decoration": "underline"
               }
@@ -454,7 +454,7 @@
               }
             },
             "default": {
-              "color": "#212121",
+              "color": "#FF7A59",
               "size": 16,
               "size_unit": "px"
             }
@@ -1732,7 +1732,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#494A52"
+                    "color": "#F5F5FF"
                   },
                   "right": {
                     "width": {
@@ -1741,7 +1741,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#494A52"
+                    "color": "#F5F5FF"
                   },
                   "bottom": {
                     "width": {
@@ -1750,7 +1750,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#494A52"
+                    "color": "#F5F5FF"
                   },
                   "left": {
                     "width": {
@@ -1759,7 +1759,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#494A52"
+                    "color": "#F5F5FF"
                   }
 
                 }

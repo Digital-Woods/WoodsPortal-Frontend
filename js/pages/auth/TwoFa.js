@@ -11,7 +11,7 @@ const TwoFa = () => {
     }),
   });
 
-  const {tokenData} = getLoggedInDetails()
+  const { tokenData } = getLoggedInDetails()
 
   // const { getMe, me } = useMe();
   const setUserDetails = useSetRecoilState(userDetailsAtom);
@@ -89,12 +89,9 @@ const TwoFa = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className="dark:bg-gray-900 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
-        <div className="w-16">
-          <img
-            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-            alt="user photo"
-          />
+      <div className="dark:bg-gray-900 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+        <div className="w-[50px]">
+          <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
         </div>
         <div className="w-full">
           <Form
@@ -137,7 +134,7 @@ const TwoFa = () => {
                 </div>
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
-                    className="w-full !bg-defaultPrimary"
+                    className="w-full  "
                     isLoading={isLoading}
                   >
                     Login

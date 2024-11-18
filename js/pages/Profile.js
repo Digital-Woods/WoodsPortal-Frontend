@@ -13,7 +13,7 @@ const Profile = ({ title, path }) => {
           <h1 className="text-xl font-semibold dark:text-white mb-2">
             My Profile Settings
           </h1>
-          <p className="text-secondary leading-5 text-sm dark:text-white">
+          <p className="text-primary leading-5 text-sm dark:text-white">
             Manage and update your profile settings
           </p>
         </div>

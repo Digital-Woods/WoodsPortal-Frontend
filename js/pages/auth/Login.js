@@ -116,9 +116,9 @@ const Login = () => {
       const currentDomain = window.location.origin;
       const portal = data.data.loggedInDetails.portals.find(item => item.portalUrl === currentDomain);
       setPortal(portal)
-      if(data.data.loggedInDetails && data.data.loggedInDetails.hubspot && data.data.loggedInDetails.hubspot.twoFa) {
+      if (data.data.loggedInDetails && data.data.loggedInDetails.hubspot && data.data.loggedInDetails.hubspot.twoFa) {
         setLoggedInDetails(data.data)
-        setTwoFa({twoFa: data.data.loggedInDetails.hubspot.twoFa})
+        setTwoFa({ twoFa: data.data.loggedInDetails.hubspot.twoFa })
         window.location.hash = '/login/tow-fa';
       } else {
         await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
@@ -172,12 +172,11 @@ const Login = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className="dark:bg-gray-900 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
-        <div className="w-16">
-          <img
-            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-            alt="user photo"
-          />
+      <div className="dark:bg-gray-900 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+        <div className="">
+          <div className="w-[50px]">
+            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+          </div>
         </div>
         <div className="w-full">
           <Form
@@ -247,7 +246,7 @@ const Login = () => {
                 </div>
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
-                    className="w-full !bg-defaultPrimary"
+                    className="w-full  "
                     isLoading={isLoading}
                   >
                     Continue

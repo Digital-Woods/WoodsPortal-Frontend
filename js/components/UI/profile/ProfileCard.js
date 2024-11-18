@@ -37,10 +37,10 @@ const ProfileCard = () => {
           <h1 className="text-2xl font-semibold dark:text-white">{`${
             getFirstName() || "N/A"
           } ${getLastName() || "N/A"}`}</h1>
-          <p className="text-secondary dark:text-white font-medium text-sm">
+          <p className="text-primary dark:text-white font-medium text-sm">
             User, {brandName}
           </p>
-          <p className="text-xs font-normal dark:text-white text-secondary">
+          <p className="text-xs font-normal dark:text-white text-primary">
             {email}
           </p>
         </div>
