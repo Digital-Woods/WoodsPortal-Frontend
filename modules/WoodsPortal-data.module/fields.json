@@ -9,6 +9,26 @@
   "type" : "boolean",
   "default" : true
 }, {
+  "id" : "44c02d86-d5ac-515b-5959-d040308ed6b1",
+  "name" : "backend_server_url",
+  "display_width" : null,
+  "label" : "Backend Server URL",
+  "required" : false,
+  "locked" : false,
+  "validation_regex" : "",
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "NOT_EQUAL",
+    "access" : null
+  },
+  "allow_new_line" : false,
+  "show_emoji_picker" : false,
+  "type" : "text",
+  "default" : "https://app.demo.digitalwoods.io"
+}, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
   "display_width" : null,
@@ -66,8 +86,8 @@
   "required" : false,
   "locked" : false,
   "occurrence" : {
-    "min" : null,
-    "max" : null,
+    "min" : 1,
+    "max" : 1,
     "sorting_label_field" : null,
     "default" : 1
   },
@@ -299,6 +319,139 @@
       "max_height" : 309
     }
   }
+}, {
+  "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
+  "name" : "add_right_sidebar",
+  "display_width" : null,
+  "label" : "Add Right Sidebar",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : true
+}, {
+  "id" : "f06ac208-a6a4-bb4b-13f1-52e2d323a457",
+  "name" : "right_sidebar_object",
+  "display_width" : null,
+  "label" : "Right Sidebar Object",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : 1,
+    "max" : 2,
+    "sorting_label_field" : null,
+    "default" : 2
+  },
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_right_sidebar",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "7fc1aca2-d7ce-8931-e5f9-24120ede2a19",
+    "name" : "list_object_name",
+    "display_width" : null,
+    "label" : "Object Name",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Ticket"
+  }, {
+    "id" : "5f21af54-2728-6f53-e016-ad5141acb3fb",
+    "name" : "list_object_properties",
+    "display_width" : null,
+    "label" : "Object Properties",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "subject,hs_pipeline_stage,hs_pipeline"
+  }, {
+    "id" : "542b99e2-50e3-5725-2b64-53ccf129e716",
+    "name" : "association_object_type_id",
+    "display_width" : null,
+    "label" : "Associated Object Type Id",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "display" : "text",
+    "step" : 1,
+    "type" : "number",
+    "default" : 15
+  }, {
+    "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
+    "name" : "object_type_id",
+    "display_width" : null,
+    "label" : "Object Type ID",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "hubspot_data_source",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "NOT_EQUAL",
+      "access" : null
+    },
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "0-5"
+  }, {
+    "id" : "43518b07-391d-24fa-3cdf-2da018624b6e",
+    "name" : "icon_svg_code",
+    "display_width" : null,
+    "label" : "Icon SVG Code",
+    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : [ {
+    "list_object_name" : "Ticket",
+    "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+    "association_object_type_id" : 15,
+    "object_type_id" : "0-5",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  }, {
+    "list_object_name" : "Ticket",
+    "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+    "association_object_type_id" : 15,
+    "object_type_id" : "0-5",
+    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+  } ]
 }, {
   "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
   "name" : "hubspot_defined_object",

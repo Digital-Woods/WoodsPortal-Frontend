@@ -274,7 +274,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
                   {tableHeader.map((column) => (
                     <TableHead
                       key={column.key}
-                      className="whitespace-nowrap dark:text-white cursor-pointer"
+                      className="whitespace-nowrap dark:text-primary cursor-pointer"
                       onClick={() => handleSort(column.key)}
                     >
                       <div className="flex columns-center">

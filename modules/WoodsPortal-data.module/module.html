@@ -12,6 +12,27 @@
 {% do iframeDatas.append({'name': name, 'url': url}) %}
 {% endfor %}
 
+{% set dynamicSidebarList = [] %}
+
+{% if module.add_right_sidebar %}
+{% for item in module.right_sidebar_object %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicSidebarList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
+
 
 {% set dynamicRouteList = [] %}
 
@@ -113,6 +134,27 @@ route.listObjectProperties) %}
 {% endfor %}
 
 {% else %}
+
+{% set dynamicSidebarList = [] %}
+
+{% if module.add_right_sidebar %}
+{% for item in module.right_sidebar_object %}
+
+{% set objName = item.list_object_name | replace("p_","") %}
+{% do dynamicSidebarList.append({
+label: item.list_object_name,
+icon: item.icon_svg_code,
+listObjectName: item.list_object_name,
+listObjectProperties: item.list_object_properties,
+associateObjectName: item.association_object_name,
+hubspotObjectId: item.association_object_type_id,
+hubspotObjectTypeId: item.object_type_id,
+associateObjectProperties: item.association_object_properties,
+objectType: "HUBSPOT_DEFINED",
+}) %}
+
+{% endfor %}
+{% endif %}
 
 {% set dynamicRouteList = [] %}
 
@@ -746,6 +788,8 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     }
   }
   let testData = {{ dynamicRouteList | tojson | safe }};
+  let sidebarListData = {{ dynamicSidebarList | tojson | safe }};
+  let showSidebarListData = {{ module.add_right_sidebar}};
   let sidebarCta = {
     title: "{{ module.other_options.sidebar_cta_details.title }}",
     buttonText: "{{ module.other_options.sidebar_cta_details.button_text }}",
@@ -781,5 +825,5 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
   let showSidebarCta = {{ module.other_options.show_sidebar_cta }};
   let showSamllLogo = {{ module.other_options.company_options.show_small_logo_on_sidebar }};
   let addHomeTab = {{module.add_home_tab}};
-  
+  let apiBaseUrl = "{{ module.backend_server_url }}";
 </script>

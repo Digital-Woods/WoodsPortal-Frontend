@@ -20,10 +20,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const apis = {
     tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-    createAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-    updateAPI: `/api//${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
+    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
   }
-
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -143,17 +142,45 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
           </div> */}
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <div className={`${hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6`}`}>
+          <div className={`${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6`}`}>
             {hubSpotUserDetails.sideMenu[0].tabName == title ?
               <div>
                 <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
               </div> : ''}
-            <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} />
+            <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} />
           </div>
-          {hubSpotUserDetails.sideMenu[0].tabName == title ?
-            <div className="w-[350px] flex-col flex gap-6">
-              <SidebarData/>
-              <SidebarTable />
+          {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
+            <div className="w-[350px] max-h-[calc(100vh-100px)] overflow-y-auto p-3">
+              <div className="flex-col flex gap-6">
+                {sidebarListDataOption.map((option, index) => {
+                  const hubspotObjectTypeId = option.hubspotObjectTypeId; 
+                  const sidebarDataApis = {
+                    tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+                    formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
+                    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+                    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
+                  };
+
+                  return index === 0 ? (
+                    <SidebarData
+                      key={index}
+                      hubspotObjectTypeId={hubspotObjectTypeId}
+                      path={`/${formatPath(option.label)}`}
+                      title={option.label}
+                      apis={sidebarDataApis}
+                    />
+                  ) : (
+                    <SidebarTable
+                      key={index}
+                      hubspotObjectTypeId={hubspotObjectTypeId}
+                      path={`/${formatPath(option.label)}`}
+                      title={option.label}
+                      apis={sidebarDataApis}
+                    />
+                  );
+                })}
+
+              </div>
             </div> : ''}
         </div>
       ) : (

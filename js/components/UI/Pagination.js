@@ -34,7 +34,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   }, [currentPage, numOfPages]);
 
   return (
-    <div className="flex justify-end items-center py-6 px-4">
+    <div className="flex justify-end items-center py-6 px-2">
       <ul className="flex items-center space-x-2">
         <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
           <li
