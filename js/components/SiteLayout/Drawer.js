@@ -113,7 +113,7 @@ const Drawer = ({ className }) => {
                   <div className="w-[50px]">
                     <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
                   </div> :
-                  <div className={`mr-2 ${showCompanyNameOption === true ? 'w-[50px]' : 'w-full'}`}>
+                  <div className={`mr-2 ${showCompanyNameOption === true ? 'w-[50px]' : 'w-full max-h-[70px]'}`}>
                     <Logo />
                   </div>}
 

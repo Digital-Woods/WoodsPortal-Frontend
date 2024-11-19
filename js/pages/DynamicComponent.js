@@ -52,7 +52,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200 bg-white dark:text-white px-6 pb-6 pt-6">
+    <div className="dark:bg-dark-200 bg-cleanWhite dark:text-white pl-6 pt-6 relative">
+      <div class="h-12 bg-gradient-to-b from-[#f6f6f6] to-[#f6f6f6]/10 absolute top-0 left-0 right-0 z-[1]"></div>
       <div className="flex justify-between items-center relative">
         <div className="flex items-start flex-col gap-2">
           {objectTypeName &&
@@ -142,7 +143,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
           </div> */}
 
           {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <div className={`${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6`}`}>
+          <div className={` max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto ${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6 pr-6`}`}>
             {hubSpotUserDetails.sideMenu[0].tabName == title ?
               <div>
                 <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
@@ -150,7 +151,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
             <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} />
           </div>
           {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
-            <div className="w-[350px] max-h-[calc(100vh-100px)] overflow-y-auto p-3">
+            <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">
               <div className="flex-col flex gap-6">
                 {sidebarListDataOption.map((option, index) => {
                   const hubspotObjectTypeId = option.hubspotObjectTypeId; 

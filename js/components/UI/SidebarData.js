@@ -242,7 +242,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
                   >
                     <div className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{column.value}:</div>
 
-                    <div className="dark:text-white">
+                    <div className="dark:text-white text-xs ">
                       {/* {console.log('item', item)} */}
                       {renderCellContent(
                         item[column.key],
