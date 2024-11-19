@@ -53,7 +53,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
 
   return (
     <div className="dark:bg-dark-200 bg-cleanWhite dark:text-white pl-6 pt-6 relative">
-      <div class="h-12 bg-gradient-to-b from-[#f6f6f6] to-[#f6f6f6]/10 absolute top-0 left-0 right-0 z-[1]"></div>
+      <div class="h-12 bg-gradient-to-b from-cleanWhite to-[#f6f6f6]/0 absolute top-0 left-0 right-0 z-[1]"></div>
       <div className="flex justify-between items-center relative">
         <div className="flex items-start flex-col gap-2">
           {objectTypeName &&
