@@ -287,8 +287,8 @@ const Notes = ({ path, objectId, id }) => {
 
   useEffect(() => {
     const portalId = getPortal().portalId
-    setImageUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/images/${objectId}/${id}`)
-    setAttachmentUploadUrl(`${env.API_BASE_URL}/api/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`)
+    setImageUploadUrl(`${env.API_BASE_URL}/api/${hubId}/${portalId}/hubspot-object-notes/images/${objectId}/${id}`)
+    setAttachmentUploadUrl(`${env.API_BASE_URL}/api/${hubId}/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`)
   }, []);
 
   if (isLoading) {

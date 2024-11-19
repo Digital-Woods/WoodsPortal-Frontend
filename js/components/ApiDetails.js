@@ -33,6 +33,7 @@ const ApiDetails = ({ path, objectId, id }) => {
         mediatorObjectTypeId,
         mediatorObjectRecordId,
         portalId,
+        hubId,
         cache: sync ? false : true
       }),
     onSuccess: (data) => {

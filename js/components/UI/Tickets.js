@@ -11,11 +11,11 @@ const Tickets = ({ path, objectId, id }) => {
   }
 
   const apis = {
-    tableAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}${param}`,
-    formAPI: `/api/${portalId}/hubspot-object-tickets/forms`,
-    stagesAPI: `/api/${portalId}/hubspot-object-tickets/stages/`, // concat pipelineId
-    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}`,
-    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}/` // concat ticketId
+    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}${param}`,
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/forms`,
+    stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/stages/`, // concat pipelineId
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}`,
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${id}/` // concat ticketId
   }
 
   return (
