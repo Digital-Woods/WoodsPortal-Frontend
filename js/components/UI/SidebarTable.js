@@ -232,11 +232,11 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
         {/* <h3 className="text-sm font-semibold text-gray-500">
             {activity.date} <span className="font-normal">{activity.day}</span>
           </h3> */}
-        <ul className={`mt-2 space-y-2  transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
+        <ul className={`mt-2 space-y-4   transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
           {tableData.map((item, index) => (
             <li
               key={item.id}
-              className={`p-3 rounded-lg dark:bg-dark-300 ${index % 2 === 0 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-[#2d3e50]'
                 }`}
             >
               {tableHeader.map((column) => (
@@ -245,7 +245,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
                   className="flex items-start space-x-1"
                 >
                   <div className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{column.value}:</div>
-                  <div className="dark:text-white">
+                  <div className="dark:text-white text-xs">
                     {/* {console.log('item', item)} */}
                     {renderCellContent(
                       item[column.key],

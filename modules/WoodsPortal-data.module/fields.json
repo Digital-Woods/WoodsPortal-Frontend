@@ -453,7 +453,6 @@
     "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
   } ]
 }, {
-
   "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
   "name" : "hubspot_defined_object",
   "display_width" : null,
@@ -726,13 +725,13 @@
       "type" : "image",
       "default" : {
         "size_type" : "auto",
-        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
-        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
         "loading" : "lazy",
-        "width" : 500,
-        "height" : 500,
-        "max_width" : 500,
-        "max_height" : 500
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
       }
     }, {
       "id" : "44cde3d6-4cd9-54cd-6802-4a9c90b6697e",
@@ -747,24 +746,14 @@
       "type" : "image",
       "default" : {
         "size_type" : "auto",
-        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
-        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
         "loading" : "lazy",
-        "width" : 500,
-        "height" : 500,
-        "max_width" : 500,
-        "max_height" : 500
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
       }
-    }, {
-      "id" : "b675141e-9014-d0ab-3867-d7c2c4d8940a",
-      "name" : "show_company_name",
-      "display_width" : null,
-      "label" : "Show Company Name",
-      "required" : false,
-      "locked" : false,
-      "display" : "checkbox",
-      "type" : "boolean",
-      "default" : false
     }, {
       "id" : "bd45fd06-6aba-0238-39de-f7b9339705d4",
       "name" : "show_small_logo_on_sidebar",
@@ -774,7 +763,17 @@
       "locked" : false,
       "display" : "checkbox",
       "type" : "boolean",
-      "default" : false
+      "default" : true
+    }, {
+      "id" : "b675141e-9014-d0ab-3867-d7c2c4d8940a",
+      "name" : "show_company_name",
+      "display_width" : null,
+      "label" : "Show Company Name",
+      "required" : false,
+      "locked" : false,
+      "display" : "checkbox",
+      "type" : "boolean",
+      "default" : true
     }, {
       "id" : "6deba33a-0ad3-265a-1fb2-913295dca4f1",
       "name" : "company_name",
@@ -803,26 +802,26 @@
     "default" : {
       "logo" : {
         "size_type" : "auto",
-        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
-        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
         "loading" : "lazy",
-        "width" : 500,
-        "height" : 500,
-        "max_width" : 500,
-        "max_height" : 500
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
       },
       "small_logo" : {
         "size_type" : "auto",
-        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
-        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
         "loading" : "lazy",
-        "width" : 500,
-        "height" : 500,
-        "max_width" : 500,
-        "max_height" : 500
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
       },
-      "show_company_name" : false,
-      "show_small_logo_on_sidebar" : false,
+      "show_small_logo_on_sidebar" : true,
+      "show_company_name" : true,
       "company_name" : "CompanyName"
     }
   }, {
@@ -911,26 +910,26 @@
     "company_options" : {
       "logo" : {
         "size_type" : "auto",
-        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
-        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
         "loading" : "lazy",
-        "width" : 500,
-        "height" : 500,
-        "max_width" : 500,
-        "max_height" : 500
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
       },
       "small_logo" : {
         "size_type" : "auto",
-        "src" : "https://140615827.fs1.hubspotusercontent-eu1.net/hubfs/140615827/Lightning_Corporate_Logo-removebg-preview.png",
-        "alt" : "Lightning_Corporate_Logo-removebg-preview",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
         "loading" : "lazy",
-        "width" : 500,
-        "height" : 500,
-        "max_width" : 500,
-        "max_height" : 500
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
       },
-      "show_company_name" : false,
-      "show_small_logo_on_sidebar" : false,
+      "show_small_logo_on_sidebar" : true,
+      "show_company_name" : true,
       "company_name" : "CompanyName"
     },
     "show_sidebar_cta" : false,
