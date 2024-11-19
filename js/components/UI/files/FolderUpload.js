@@ -8,6 +8,7 @@ const FolderUpload = ({
   objectId, 
   id
 }) => {
+  const { sync, setSync } = useSync();
   const { me } = useMe();
   const [newFolderName, setNewFolderName] = useState("");
 
@@ -28,7 +29,8 @@ const FolderUpload = ({
         type: "success",
         show: true,
       });
-      refetch();
+      // refetch();
+      setSync(true)
       setNewFolderName("");
       onClose(); // Close modal after folder creation
     },

@@ -3,6 +3,7 @@ const EditIcon = () => (
 );
 
 const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, refetch, setAlert }) => {
+  const { sync, setSync } = useSync();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState(note.hs_note_body);
@@ -45,7 +46,8 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
     {
       onSuccess: (res) => {
         queryClient.invalidateQueries(["data"]);
-        refetch();
+        // refetch();
+        setSync(true);
         setAlert({
           message: res.statusMsg,
           type: "success",
@@ -202,13 +204,13 @@ const Notes = ({ path, objectId, id }) => {
         portalId: portalId,
         cache: sync ? false : true
       }),
-      onSuccess: (data) => {
-        setSync(false)
-      },
-      onError: (error) => {
-        setSync(false)
-        console.error("Error fetching file details:", error);
-      },
+    onSuccess: (data) => {
+      setSync(false)
+    },
+    onError: (error) => {
+      setSync(false)
+      console.error("Error fetching file details:", error);
+    },
     refetchInterval: env.NOTE_INTERVAL_TIME,
   });
   // const createNoteMutation = useMutation(
@@ -247,7 +249,7 @@ const Notes = ({ path, objectId, id }) => {
   //   };
   //   createNoteMutation.mutate();
   // };
-  
+
   useEffect(() => {
     if (sync == true) refetch()
   }, [sync]);
@@ -267,14 +269,12 @@ const Notes = ({ path, objectId, id }) => {
     },
 
     onSuccess: (response) => {
-      if (response.statusCode === "200") {
-        refetch();
-        setShowDialog(false);
-        setAlert({
-          message: response.statusMsg,
-          type: "success",
-        });
-      }
+      setSync(true)
+      setShowDialog(false);
+      setAlert({
+        message: response.statusMsg,
+        type: "success",
+      });
     },
     onError: (error) => {
       console.error("Error creating note:", error);
@@ -330,7 +330,7 @@ const Notes = ({ path, objectId, id }) => {
       )}
       <Dialog
         open={showDialog}
-        onClose={() => { }}
+        onClose={setShowDialog}
         className=" relative mx-auto bg-white overflow-y-auto w-[50%]"
       >
         <div
