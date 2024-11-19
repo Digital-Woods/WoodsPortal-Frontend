@@ -11,15 +11,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        setData(
-          response.data.sort((a, b) => {
-            if (a.primaryDisplayProperty) return -1;
-            if (b.primaryDisplayProperty) return 1;
-            if (a.secondaryDisplayProperty) return -1;
-            if (b.secondaryDisplayProperty) return 1;
-            return 0;
-          })
-        )
+        console.log('response.data', response.data)
+        return setData(sortFormData(response.data))
       }
     },
     onError: () => {
@@ -159,7 +152,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2">
+                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2 gap-1">
                       {data.map((filled) => (
                         <div>
                           <FormItem className="mb-0">
