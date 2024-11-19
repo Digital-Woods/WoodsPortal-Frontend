@@ -52,27 +52,28 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200 bg-cleanWhite dark:text-white pl-6 pt-6 relative">
-      <div class="h-12 bg-gradient-to-b from-cleanWhite to-[#f6f6f6]/0 absolute top-0 left-0 right-0 z-[1]"></div>
-      <div className="flex justify-between items-center relative">
-        <div className="flex items-start flex-col gap-2">
-          {objectTypeName &&
-            <div className="pr-2 cursor-pointer" onClick={() => back()}>
-              <BackIcon />
-            </div>
-          }
-          {hubSpotUserDetails.sideMenu[0].tabName != title ?
-            <span>
-              <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
-                {tableTitle()}
-              </span>
-              <p className="text-primary  dark:text-white leading-5 text-sm">
-                {env.DATA_SOURCE_SET !== true ? viewText : viewText + 's'}
-              </p>
-            </span> : ''}
-        </div>
+    <div className="bg-sidelayoutColor dark:bg-dark-300">
+      <div className="dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white pl-6 pt-6 relative">
+        <div class="h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]"></div>
+        <div className="flex justify-between items-center relative">
+          <div className="flex items-start flex-col gap-2">
+            {objectTypeName &&
+              <div className="pr-2 cursor-pointer" onClick={() => back()}>
+                <BackIcon />
+              </div>
+            }
+            {hubSpotUserDetails.sideMenu[0].tabName != title ?
+              <span>
+                <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
+                  {tableTitle()}
+                </span>
+                <p className="text-primary  dark:text-white leading-5 text-sm">
+                  {env.DATA_SOURCE_SET !== true ? viewText : viewText + 's'}
+                </p>
+              </span> : ''}
+          </div>
 
-        {/* <div className="centered-tab border rounded-lg p-1 bg-cleanWhite dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
+          {/* <div className="centered-tab border rounded-lg p-1 bg-cleanWhite dark:bg-dark-300 border-flatGray dark:border-gray-700 ">
           <Tabs
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -109,16 +110,16 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
           </Tabs>
         </div> */}
 
-        {/* <div>
+          {/* <div>
           <Button className="text-white">
             New Site <span className="ml-2"> + </span>{" "}
           </Button>
         </div> */}
-      </div>
+        </div>
 
-      {activeTab === "account" ? (
-        <div className="flex gap-4">
-          {/* <div className="flex flex-col justify-end items-end py-6">
+        {activeTab === "account" ? (
+          <div className="flex gap-4">
+            {/* <div className="flex flex-col justify-end items-end py-6">
             <div className="flex gap-x-4">
               <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
               <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
@@ -142,53 +143,54 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
             </div>
           </div> */}
 
-          {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-          <div className={` max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto ${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6 pr-6`}`}>
-            {hubSpotUserDetails.sideMenu[0].tabName == title ?
-              <div>
-                <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
+            {/* <DashboardTable path={path} inputValue={inputValue} /> */}
+            <div className={` max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto ${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6 pr-6`}`}>
+              {hubSpotUserDetails.sideMenu[0].tabName == title ?
+                <div>
+                  <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
+                </div> : ''}
+              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} />
+            </div>
+            {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
+              <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">
+                <div className="flex-col flex gap-6">
+                  {sidebarListDataOption.map((option, index) => {
+                    const hubspotObjectTypeId = option.hubspotObjectTypeId;
+                    const sidebarDataApis = {
+                      tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
+                      createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
+                    };
+
+                    return index === 0 ? (
+                      <SidebarData
+                        key={index}
+                        hubspotObjectTypeId={hubspotObjectTypeId}
+                        path={`/${formatPath(option.label)}`}
+                        title={option.label}
+                        apis={sidebarDataApis}
+                      />
+                    ) : (
+                      <SidebarTable
+                        key={index}
+                        hubspotObjectTypeId={hubspotObjectTypeId}
+                        path={`/${formatPath(option.label)}`}
+                        title={option.label}
+                        apis={sidebarDataApis}
+                      />
+                    );
+                  })}
+
+                </div>
               </div> : ''}
-            <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} />
           </div>
-          {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
-            <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">
-              <div className="flex-col flex gap-6">
-                {sidebarListDataOption.map((option, index) => {
-                  const hubspotObjectTypeId = option.hubspotObjectTypeId; 
-                  const sidebarDataApis = {
-                    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-                    formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-                    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-                    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
-                  };
-
-                  return index === 0 ? (
-                    <SidebarData
-                      key={index}
-                      hubspotObjectTypeId={hubspotObjectTypeId}
-                      path={`/${formatPath(option.label)}`}
-                      title={option.label}
-                      apis={sidebarDataApis}
-                    />
-                  ) : (
-                    <SidebarTable
-                      key={index}
-                      hubspotObjectTypeId={hubspotObjectTypeId}
-                      path={`/${formatPath(option.label)}`}
-                      title={option.label}
-                      apis={sidebarDataApis}
-                    />
-                  );
-                })}
-
-              </div>
-            </div> : ''}
-        </div>
-      ) : (
-        <div className="dark:text-white text-cleanWhite">
-          Under Construction
-        </div>
-      )}
+        ) : (
+          <div className="dark:text-white text-cleanWhite">
+            Under Construction
+          </div>
+        )}
+      </div>
     </div>
   );
 };
