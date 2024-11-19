@@ -266,6 +266,9 @@ const sortData = (list, type = 'list') => {
 // };
 
 const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '', detailsView = true) => {
+  if (!value) {
+    return '--';
+  }
   if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath && detailsView) {
     return (
       <Link
@@ -289,13 +292,10 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
   if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
     return formatDate(isObject(value) ? value.label : value);
   }
-  if (!value) {
-    return '--';
-  }
-  if(isObject(value)) return value.label || '--';
+  if (isObject(value)) return value.label || '--';
 
   const { truncated, isTruncated } = truncateString(value || "");
-  return  type == 'list' && isTruncated ?
+  return type == 'list' && isTruncated ?
     <Tooltip right content={value}>
       <Link
         className="dark:text-white"
@@ -735,7 +735,7 @@ function formatCustomObjectLabel(label) {
 // format column labels 
 
 function formatColumnLabel(label) {
-  return label.replace(/_/g, ' ');
+  return typeof label === 'string' ? label.replace(/_/g, ' ') : '';
 }
 
 function sortFormData(data) {

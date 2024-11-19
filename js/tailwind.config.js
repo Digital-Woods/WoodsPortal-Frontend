@@ -35,8 +35,7 @@ tailwind.config = {
     extend: {
       backgroundImage: {
         "custom-gradient":
-          "linear-gradient(180deg, #005FAD 0%, rgba(0, 63, 115, 0.90) 100%)",
-
+          "linear-gradient(194deg, #fc5b36 0%, rgb(45 62 80) 72%)",
         "custom-bg":
           "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
       },

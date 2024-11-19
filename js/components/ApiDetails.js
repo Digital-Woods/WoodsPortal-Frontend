@@ -102,7 +102,7 @@ const ApiDetails = ({ path, objectId, id }) => {
   }
 
   return (
-    <div className="h-full dark:bg-dark-200 w-[100%] p-6">
+    <div className="h-full dark:bg-dark-200 w-[100%] p-6 rounded-tl-xl">
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
