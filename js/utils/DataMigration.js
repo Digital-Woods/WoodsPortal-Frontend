@@ -737,3 +737,23 @@ function formatCustomObjectLabel(label) {
 function formatColumnLabel(label) {
   return label.replace(/_/g, ' ');
 }
+
+function sortFormData(data) {
+  return data.sort((a, b) => {
+    // Define priority scores for sorting
+    const getPriority = (item) => {
+      if (item.customLabel.toLowerCase().includes('name')) return 1; // First
+      if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
+      if (item.name === 'hs_pipeline') return 3; // Third
+      if (item.name === 'hs_pipeline_stage') return 4; // Fourth
+      if (item.secondaryDisplayProperty) return 5; // Fifth
+      return 6; // Default to others
+    };
+
+    // Compare by priority
+    const priorityA = getPriority(a);
+    const priorityB = getPriority(b);
+
+    return priorityA - priorityB; // Sort in ascending order of priority
+  });
+}
