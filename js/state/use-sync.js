@@ -19,7 +19,7 @@ function useSync() {
   }
 
   const setSync = (status) => {
-    console.log("setSync", status)
+    // console.log("setSync", status)
     setLoader(status)
     setSyncStatus(status)
   }
