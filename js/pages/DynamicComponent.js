@@ -18,10 +18,10 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   }
 
   const apis = {
-    tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-    formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
+    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
   }
 
   const handleInputChange = (event) => {
@@ -155,10 +155,10 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
                 {sidebarListDataOption.map((option, index) => {
                   const hubspotObjectTypeId = option.hubspotObjectTypeId; 
                   const sidebarDataApis = {
-                    tableAPI: `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-                    formAPI: `/api/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-                    createAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-                    updateAPI: `/api/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
+                    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+                    formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
+                    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
+                    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
                   };
 
                   return index === 0 ? (

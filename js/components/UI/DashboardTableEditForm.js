@@ -1,4 +1,5 @@
 const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, showEditData, refetch }) => {
+  const { sync, setSync } = useSync();
   const [isSata, setisData] = useState(false);
   const [data, setData] = useState([]);
   const [initialValues, setInitialValues] = useState(false);
@@ -92,7 +93,8 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     },
     onSuccess: async (response) => {
       setAlert({ message: response.statusMsg, type: "success" });
-      refetch()
+      // refetch()
+      setSync(true)
       setOpenModal(false)
     },
 

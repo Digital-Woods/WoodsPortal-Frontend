@@ -118,11 +118,11 @@ const ProfileUpdate = () => {
               <h1 className="text-xl font-semibold dark:text-white pb-4">
                 Personal Information
               </h1>
-              {isEditPersonalInfo ? (
+              {/* {isEditPersonalInfo ? (
                 <SaveButton onClick={handleButtonClick} isLoading={isLoading} />
               ) : (
                 <EditButton onClick={handleButtonClick} />
-              )}
+              )} */}
             </div>
 
             <div>

@@ -1,5 +1,5 @@
 const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch }) => {
-
+  const { sync, setSync } = useSync();
   const [data, setData] = useState([]);
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
@@ -77,7 +77,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
     onSuccess: async (response) => {
       setAlert({ message: response.statusMsg, type: "success" });
-      refetch()
+      setSync(true)
       setOpenModal(false)
     },
 

@@ -12,6 +12,7 @@ const CloseIcon = () => (
 
 const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
   id }) => {
+  const { sync, setSync } = useSync();
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -85,7 +86,8 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
         type: "success",
         show: true,
       });
-      refetch();
+      // refetch();
+      setSync(true)
       onClose();
     },
     onError: (error) => {
