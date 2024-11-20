@@ -1,4 +1,4 @@
-const Attachments = ({ attachments = [], objectId, id }) => {
+const Attachments = ({ attachments = [], objectId, id, isLoadingUoloading }) => {
 
     const [selectedFileId, setSelectedFileId] = useState(null);
 
@@ -37,27 +37,30 @@ const Attachments = ({ attachments = [], objectId, id }) => {
     }
 
     return (
-        <div className="flex items-start">
-            <ul class="list-none inline-block max-w-full">
-                {attachments.map((attachment) => (
-                    <li className="p-2 bg-slate-200 border border-slate-300 rounded-sm mt-2 flex gap-1 text-sm flex items-center">
-                        <FileIcon />
-                        <div class="flex gap-1">
-                            <span onClick={() => setSelectedFileId(attachment.id)} class="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{getFileName(attachment.name)}</span>
-                            <span>({attachment.size})</span>
-                        </div>
-                    </li>
-                ))
-                }
-            </ul>
-            {selectedFileId && (
-                <FileDetailsModal
-                    file={fileDetails}
-                    onClose={closeModal}
-                    loading={isLoading}
-                    error={isError}
-                />
-            )}
+        <div>
+            {isLoadingUoloading && <div className="loader-line mt-2"></div>}
+            <div className="flex items-start">
+                <ul class="list-none inline-block max-w-full">
+                    {attachments.map((attachment) => (
+                        <li className="p-2 bg-slate-200 border border-slate-300 rounded-sm mt-2 flex gap-1 text-sm flex items-center">
+                            <FileIcon />
+                            <div class="flex gap-1">
+                                <span onClick={() => setSelectedFileId(attachment.id)} class="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline" target="_blank">{getFileName(attachment.name)}</span>
+                                <span>({attachment.size})</span>
+                            </div>
+                        </li>
+                    ))
+                    }
+                </ul>
+                {selectedFileId && (
+                    <FileDetailsModal
+                        file={fileDetails}
+                        onClose={closeModal}
+                        loading={isLoading}
+                        error={isError}
+                    />
+                )}
+            </div>
         </div>
     );
 };

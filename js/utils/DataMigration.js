@@ -746,7 +746,8 @@ function sortFormData(data) {
       if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
       if (item.name === 'hs_pipeline') return 3; // Third
       if (item.name === 'hs_pipeline_stage') return 4; // Fourth
-      if (item.secondaryDisplayProperty) return 5; // Fifth
+      if ((item.secondaryProperty || item.secondaryDisplayProperty) && item.fieldType != 'textarea') return 5; // Fifth
+      if (item.fieldType === 'textarea') return 7; // Fifth
       return 6; // Default to others
     };
 

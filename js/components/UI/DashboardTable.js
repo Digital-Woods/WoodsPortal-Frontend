@@ -106,7 +106,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
     portalId = getPortal().portalId
   }
 
-  const { mutate: getData, isLoading } = useMutation({
+  const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
       path,
@@ -258,6 +258,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         </div>
 
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
+        {console.log('tableAPiData', tableAPiData)}
         {env.DATA_SOURCE_SET != true &&
           <Button className="text-white" onClick={() => setShowAddDialog(true)}>
             <span className="mr-2"> + </span> Add {title}

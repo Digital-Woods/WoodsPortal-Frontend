@@ -11,7 +11,6 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        console.log('response.data', response.data)
         return setData(sortFormData(response.data))
       }
     },
@@ -152,9 +151,9 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2 gap-1">
+                    <div className={`text-gray-800 dark:text-gray-200 grid gap-x-4 ${data.length == 2 ? 'grid-cols-1' : 'grid-cols-2'} gap-1`}>
                       {data.map((filled) => (
-                        <div>
+                        <div className={filled.fieldType == 'textarea' ? "col-span-2" : ""}>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
@@ -164,12 +163,21 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                               :
                               <FormControl>
                                 <div>
-                                  <Input
-                                    height="medium"
-                                    placeholder={filled.customLabel}
-                                    className=""
-                                    {...register(filled.name)}
-                                  />
+                                  {filled.fieldType == 'textarea' ?
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                    :
+                                    <Input
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  }
                                 </div>
                               </FormControl>
                             }
