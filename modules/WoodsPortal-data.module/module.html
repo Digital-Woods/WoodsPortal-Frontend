@@ -787,6 +787,13 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
       window.open(target, "_blank");
     }
   }
+  let moduleStyles = {
+  bannerTextColor:"{{ module.style.home_tab_banner_text_color.color }}",
+  buttonStyles :{
+    backgroundColor:"{{ module.style.button_styles.background_color.color }}",
+    textColor:"{{ module.style.button_styles.text_color.color }}",
+  }
+  }
   let testData = {{ dynamicRouteList | tojson | safe }};
   let sidebarListData = {{ dynamicSidebarList | tojson | safe }};
   let showSidebarListData = {{ module.add_right_sidebar}};

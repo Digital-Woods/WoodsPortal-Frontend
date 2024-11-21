@@ -699,6 +699,92 @@
     "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
   } ]
 }, {
+  "id" : "97ed5f0f-5ac2-1cc8-2290-7fad244a1973",
+  "name" : "style",
+  "display_width" : null,
+  "label" : "Style",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
+    "name" : "home_tab_banner_text_color",
+    "display_width" : null,
+    "label" : "Home Tab Banner Text Color",
+    "required" : false,
+    "locked" : false,
+    "type" : "color",
+    "default" : {
+      "color" : "#2a2a2a",
+      "opacity" : 100
+    }
+  }, {
+    "id" : "efda18b7-39cc-4402-54b5-ea93e09bb5e9",
+    "name" : "button_styles",
+    "display_width" : null,
+    "label" : "Home Tab Banner Button Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "15f07d17-dc13-0be0-c4eb-8e091c56a4e8",
+      "name" : "background_color",
+      "display_width" : null,
+      "label" : "Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#14bba4",
+        "opacity" : 50
+      }
+    }, {
+      "id" : "01e4a5d8-532a-9929-07be-aadffbb44bd4",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 50
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  } ],
+  "tab" : "STYLE",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "home_tab_banner_text_color" : {
+      "color" : "#2a2a2a",
+      "opacity" : 100
+    },
+    "button_styles" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 50
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }
+}, {
   "id" : "9b29ea6c-a0cd-4cd7-d092-8e3f356d8871",
   "name" : "other_options",
   "display_width" : null,

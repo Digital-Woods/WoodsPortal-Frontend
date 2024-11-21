@@ -234,7 +234,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
             {tableData.map((item) => (
-              <li key={item.id} className="flex items-start p-2 flex-col gap-1 border rounded-md justify-between">
+              <li key={item.id} className="flex items-start text-primary dark:text-white p-2 flex-col gap-1 border rounded-md justify-between">
                 {tableHeader.map((column) => (
                   <div
                     key={column.value}
