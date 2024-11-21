@@ -69,13 +69,13 @@ const HeaderLayout = ({ title, path, id = null }) => {
       )}
       <div className="lg:hidden">
         <div className="cursor-pointer" onClick={toggleDrawer}>
-          <p className="text-primary font-semibold  dark:text-white">
+          <p className="text-sidelayoutTextColor font-semibold  dark:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
-              className="dark:fill-white fill-black"
+              className="dark:fill-white fill-sidelayoutTextColor"
             >
               <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
             </svg>
@@ -86,17 +86,17 @@ const HeaderLayout = ({ title, path, id = null }) => {
       <div>
         <div className="flex gap-4 ">
           {env.DATA_SOURCE_SET != true ? (
-            <div className="bg-none border-[1px] border-[#4F6C8D] rounded-full dark:bg-dark-400">
+            <div className="bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400">
               <SyncButton />
             </div>
           ) : ('')
           }
-          <div className="bg-none border-[1px] border-[#4F6C8D] rounded-full dark:bg-dark-400">
+          <div className="bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400">
             <ThemeSwitcher />
           </div>
 
           <div
-            className=" bg-none border-[1px] border-[#4F6C8D] rounded-full dark:bg-dark-400  cursor-pointer  profile-section"
+            className=" bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400  cursor-pointer  profile-section"
             onClick={toggleDropdown}
             ref={toggleButtonRef}
           >

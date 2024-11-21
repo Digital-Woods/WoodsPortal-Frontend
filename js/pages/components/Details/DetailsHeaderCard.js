@@ -46,10 +46,10 @@ const DetailsHeaderCard = ({
     <div
       className={`relative h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient`}
     >
-      <div className="relative flex flex-col justify-center px-4 text-white z-10">
-        <p className="text-xs font-normal text-flatGray line-clamp-2">{displayValueSecondary}</p>
+      <div className="relative flex flex-col justify-center px-4 text-detailsBannerTextColor z-10">
+        <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">{displayValueSecondary}</p>
         <p className="text-2xl font-semibold mt-1">{clarifierName}</p>
-        {showDate && <p className="text-xs text-flatGray mt-1">{date}</p>}
+        {showDate && <p className="text-xs text-detailsBannerTextColor mt-1">{date}</p>}
 
         {showServiceName && (
           <span className="bg-sidelayoutColor w-fit px-3 py-1 rounded-md mt-2">

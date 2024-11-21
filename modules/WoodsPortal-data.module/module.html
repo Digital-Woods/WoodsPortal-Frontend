@@ -788,11 +788,33 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     }
   }
   let moduleStyles = {
-  bannerTextColor:"{{ module.style.home_tab_banner_text_color.color }}",
-  buttonStyles :{
-    backgroundColor:"{{ module.style.button_styles.background_color.color }}",
-    textColor:"{{ module.style.button_styles.text_color.color }}",
-  }
+    homeTabStyles:{
+      headingColor:"{{ module.style.home_tab_styles.home_tab_banner_text_color.color }}",
+      descriptionColor:"{{ module.style.home_tab_styles.description_color.color }}",
+      buttonStyles :{
+        backgroundColor:"{{ module.style.home_tab_styles.button_styles.background_color.color }}",
+        textColor:"{{ module.style.home_tab_styles.button_styles.text_color.color }}",
+      },
+      overlayer:{
+        color:"{{ module.style.home_tab_styles.banner_overlayer_color.color }}",
+        opacity:"{{ module.style.home_tab_styles.banner_overlayer_color.opacity }}",
+      }
+    },
+    sidebarStyles:{
+      textColor:"{{ module.style.sidebar_styles.text_color.color }}",
+      backgroundColor:"{{ module.style.sidebar_styles.sidebar_background_color.color }}",
+    },
+    detailsPageStyles:{
+      textColor:"{{ module.style.details_page_styles.text_color.color }}",
+      bannerColors:{
+        color1:"{{ module.style.details_page_styles.banner_background_options.banner_color_1.color }}",
+        color2:"{{ module.style.details_page_styles.banner_background_options.banner_color_2.color }}",
+      }
+    },
+    rightSidebarDetailsColors:{
+        color1:"{{ module.style.sidebar_details_background_colors.color_1.color }}",
+        color2:"{{ module.style.sidebar_details_background_colors.color_2.color }}",
+      }
   }
   let testData = {{ dynamicRouteList | tojson | safe }};
   let sidebarListData = {{ dynamicSidebarList | tojson | safe }};

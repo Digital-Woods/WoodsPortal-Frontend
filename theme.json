@@ -1,7 +1,7 @@
 {
   "label" : "WoodsPortal",
-  "preview_path" : "./templates/layouts/base.html",
-  "screenshot_path" : "./images/template-previews/home.png",
+  "preview_path" : "./templates/layout/membership-base-template.html",
+  "screenshot_path" : "./images/template-previews/Membership-Integration-preview-banner.png",
   "enable_domain_stylesheets" : false,
   "is_available_for_new_content" : true,
   "responsive_breakpoints" : [ {
@@ -15,7 +15,7 @@
   } ],
   "author" : {
     "name" : "Digital Woods",
-    "email" : "support@digitalwods.ne",
-    "url" : "https://www.digitalwoods.io/"
+    "email" : "support@digitalwoods.io",
+    "url" : "https://hub.digitalwoods.io/"
   }
 }

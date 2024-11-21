@@ -247,11 +247,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
           <p className="text-primary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
-          <span className="border border-2 border-black font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+          <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {endItem}
           </span>
-          <span>/</span>
-          <span className="rounded-md font-medium">{totalItems}</span>
+          <span  className="text-primary dark:text-gray-300">/</span>
+          <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
           <p className="text-primary font-normal text-sm dark:text-gray-300">
             Results
           </p>

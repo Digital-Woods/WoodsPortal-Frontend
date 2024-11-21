@@ -168,7 +168,7 @@ const Notes = ({ fileId, path }) => {
           </div>
         ))
       ) : (
-        <div>No notes available.</div>
+        <div className="text-primary dark:text-cleanWhite">No notes available.</div>
       )}
 
       {totalNotes > limit && (

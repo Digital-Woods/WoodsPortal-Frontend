@@ -138,7 +138,7 @@ const ProfileUpdate = () => {
                       defaultValue={getFirstName()}
                       placeholder="First Name"
                       {...register("firstName")}
-                      className="text-xs text-gray-500 ml-2 w-full"
+                      className="text-xs text-gray-500 dark:text-cleanWhite ml-2 w-full"
                     />
                     {errors.firstName && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-full">
@@ -147,7 +147,7 @@ const ProfileUpdate = () => {
                     )}
                   </FormControl>
                 ) : (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 dark:text-cleanWhite">
                     {getFirstName() || "N/A"}
                   </div>
                 )}
@@ -165,16 +165,16 @@ const ProfileUpdate = () => {
                       defaultValue={getLastName()}
                       placeholder="Last Name"
                       {...register("lastName")}
-                      className="text-xs text-gray-500 ml-2 w-full"
+                      className="text-xs text-gray-500 dark:text-cleanWhite ml-2 w-full"
                     />
                     {errors.lastName && (
-                      <div className="text-red-600 text-[12px] px-2 mt-1 max-w-full">
+                      <div className="text-red-600 text-[12px] dark:text-cleanWhite px-2 mt-1 max-w-full">
                         {errors.lastName.message}
                       </div>
                     )}
                   </FormControl>
                 ) : (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 dark:text-cleanWhite">
                     {getLastName() || "N/A"}
                   </div>
                 )}

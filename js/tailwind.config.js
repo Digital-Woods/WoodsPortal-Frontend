@@ -35,7 +35,7 @@ tailwind.config = {
     extend: {
       backgroundImage: {
         "custom-gradient":
-          "linear-gradient(194deg, #fc5b36 0%, rgb(45 62 80) 72%)",
+          `linear-gradient(194deg, ${moduleStylesOptions.detailsPageStyles.bannerColors.color2 || "#fc5b36"} 0%,  ${moduleStylesOptions.detailsPageStyles.bannerColors.color1 || "#2d3e50"} 72% )`,
         "custom-bg":
           "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
       },
@@ -52,8 +52,10 @@ tailwind.config = {
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",
-        sidelayoutColor: "#2D3E50",
-        activeState: "#425B76", // Darker grey
+        sidelayoutColor: `${moduleStylesOptions.sidebarStyles.backgroundColor || "#2d3e50"}`,
+        sidelayoutTextColor: `${moduleStylesOptions.sidebarStyles.textColor || "#ffffff"}`,
+        detailsBannerTextColor: `${moduleStylesOptions.detailsPageStyles.textColor || "#ffffff"}`,
+        activeState: `${moduleStylesOptions.sidebarStyles.textColor || "#ffffff"}20`, // Darker grey
         brand: {
           DEFAULT: "#0289A4",
           dark: "#0091AE",

@@ -58,13 +58,13 @@ const Breadcrumb = ({ id, title, path }) => {
           return (
             <li key={index} className="flex items-center">
               <Link
-                className={`capitalize ${index == 0 ? 'text-white' : 'text-secondary'} hover:text-secondary`}
+                className={`capitalize ${index == 0 ? 'text-sidelayoutTextColor' : 'text-sidelayoutTextColor/90'} hover:text-sidelayoutTextColor/90`}
                 to={breadcrumb.path}
               >
                 {getParamHash(formatCustomObjectLabel(breadcrumb.name))}
               </Link>
               {index < breadcrumbs.length - 1 && (
-                <span className="mx-1 text-secondary">
+                <span className="mx-1 text-sidelayoutTextColor">
                   <svg width="8" height="10" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 6.5L4 3.5L1 0.5" stroke="currentcolor" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
