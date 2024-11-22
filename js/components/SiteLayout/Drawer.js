@@ -118,7 +118,7 @@ const Drawer = ({ className }) => {
                   </div>}
 
                 {showCompanyNameOption === true ? <h1
-                  className={`text-lg font-semibold pr-4 pl-1 break-all text-white dark:text-white ${sidebarCollapsed ? "hidden" : "block"
+                  className={`text-lg font-semibold pr-4 pl-1 break-all text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"
                     }`}
                 >
                   {shouldShowTooltip ? (
@@ -142,7 +142,7 @@ const Drawer = ({ className }) => {
                     height="20px"
                     viewBox="0 -960 960 960"
                     width="20px"
-                    className="fill-white dark:fill-white"
+                    className="fill-sidelayoutTextColor dark:fill-white"
                   >
                     <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
                   </svg>
@@ -152,7 +152,7 @@ const Drawer = ({ className }) => {
                     height="20px"
                     viewBox="0 -960 960 960"
                     width="20px"
-                    className="fill-white dark:fill-white"
+                    className="fill-sidelayoutTextColor dark:fill-white"
                   >
                     <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
                   </svg>
@@ -167,7 +167,7 @@ const Drawer = ({ className }) => {
                   height="20px"
                   viewBox="0 -960 960 960"
                   width="20px"
-                  className="fill-white"
+                  className="fill-sidelayoutTextColor"
                 >
                   <path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z" />
                 </svg>
@@ -186,7 +186,7 @@ const Drawer = ({ className }) => {
                         onClick={() => setActiveRoute(path)}
                       >
                         <div
-                          className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed
+                          className={`flex items-center text-sidelayoutTextColor dark:text-white gap-x-3 gap-y-1 ${sidebarCollapsed
                             ? "justify-center"
                             : "justify-start"
                             }`}
@@ -200,7 +200,7 @@ const Drawer = ({ className }) => {
                             className={`${sidebarCollapsed
                               ? "hidden opacity-0"
                               : "opacity-100"
-                              } text-white dark:text-white text-sm font-medium transition-opacity capitalize duration-500 opacity-0 ml-2`}
+                              } text-sidelayoutTextColor dark:text-white text-sm font-medium transition-opacity capitalize duration-500 opacity-0 ml-2`}
                           >
                             {`${title}`}
                           </p>
@@ -212,11 +212,11 @@ const Drawer = ({ className }) => {
                   showSidebarCtaOption === true && (
                     !sidebarCollapsed && (
                       <div>
-                        <div className="bg-custom-gradient text-white p-10 text-md text-center font-medium rounded-md">
+                        <div className="bg-custom-gradient text-detailsBannerTextColor p-10 text-md text-center font-medium rounded-md">
                           <p>{sideBarOptions.title}</p>
                           <a href={sideBarOptions.buttonUrl}>
                             <Button
-                              className="bg-white dark:bg-white hover:bg-white text-blue-important mt-8"
+                              className="bg-detailsBannerTextColor dark:bg-white hover:bg-white text-blue-important mt-8"
                               size="sm"
                             >
                               {sideBarOptions.buttonText}
@@ -275,14 +275,14 @@ const Drawer = ({ className }) => {
                           height="20px"
                           viewBox="0 -960 960 960"
                           width="20px"
-                          className="fill-white"
+                          className="fill-sidelayoutTextColor"
                         >
                           <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
                         </svg>
                       </div>
                       <p
                         className={`${sidebarCollapsed ? "hidden" : ""
-                          } text-cleanWhite dark:text-white text-sm font-medium `}
+                          } text-sidelayoutTextColor dark:text-white text-sm font-medium `}
                       >
                         Logout
                       </p>

@@ -236,7 +236,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
           {tableData.map((item, index) => (
             <li
               key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-[#2d3e50]'
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1  || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2  || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
                 }`}
             >
               {tableHeader.map((column) => (

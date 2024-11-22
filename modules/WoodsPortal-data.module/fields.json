@@ -699,6 +699,376 @@
     "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
   } ]
 }, {
+  "id" : "97ed5f0f-5ac2-1cc8-2290-7fad244a1973",
+  "name" : "style",
+  "display_width" : null,
+  "label" : "Style",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
+    "name" : "home_tab_styles",
+    "display_width" : null,
+    "label" : "Home Tab Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
+      "name" : "home_tab_banner_text_color",
+      "display_width" : null,
+      "label" : "Title Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "0dfda916-6aa6-344f-546b-5d16f1ea0533",
+      "name" : "description_color",
+      "display_width" : null,
+      "label" : "Description Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "efda18b7-39cc-4402-54b5-ea93e09bb5e9",
+      "name" : "button_styles",
+      "display_width" : null,
+      "label" : "Button Styles",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "15f07d17-dc13-0be0-c4eb-8e091c56a4e8",
+        "name" : "background_color",
+        "display_width" : null,
+        "label" : "Background Color",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "01e4a5d8-532a-9929-07be-aadffbb44bd4",
+        "name" : "text_color",
+        "display_width" : null,
+        "label" : "Text Color",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "default" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      }
+    }, {
+      "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
+      "name" : "banner_overlayer_color",
+      "display_width" : null,
+      "label" : "Banner Overlayer Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#ffffff",
+        "opacity" : 50
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "home_tab_banner_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "description_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "button_styles" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      },
+      "banner_overlayer_color" : {
+        "color" : "#ffffff",
+        "opacity" : 50
+      }
+    }
+  }, {
+    "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
+    "name" : "sidebar_styles",
+    "display_width" : null,
+    "label" : "Sidebar Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "3fb5a5f8-3b5d-2c0b-50e9-4380dd35c9ed",
+      "name" : "sidebar_background_color",
+      "display_width" : null,
+      "label" : "Sidebar Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
+    "name" : "details_page_styles",
+    "display_width" : null,
+    "label" : "Details Page Styles",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "e898e4ce-46ca-a2c4-3a50-bdfaa2d3981d",
+      "name" : "banner_background_options",
+      "display_width" : null,
+      "label" : "Banner Background Options",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "54067526-66c2-7d40-26ae-5f512e3fa605",
+        "name" : "banner_color_1",
+        "display_width" : null,
+        "label" : "Banner Color 1",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "99720ee2-3c7c-3ef8-643f-733cb7a4fceb",
+        "name" : "banner_color_2",
+        "display_width" : null,
+        "label" : "Banner Color 2",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "default" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      }
+    }, {
+      "id" : "db027850-c7ed-f436-f9ae-93787c6bce31",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "banner_background_options" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
+    "name" : "sidebar_details_background_colors",
+    "display_width" : null,
+    "label" : "Right Sidebar Details Background Colors",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "54733607-eb81-1c21-df3a-03d8068d4f16",
+      "name" : "color_1",
+      "display_width" : null,
+      "label" : "Color 1",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
+      "name" : "color_2",
+      "display_width" : null,
+      "label" : "Color 2",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#15803D",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "color_1" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "color_2" : {
+        "color" : "#15803D",
+        "opacity" : 100
+      }
+    }
+  } ],
+  "tab" : "STYLE",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "default" : {
+    "home_tab_styles" : {
+      "home_tab_banner_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "description_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "button_styles" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      },
+      "banner_overlayer_color" : {
+        "color" : "#ffffff",
+        "opacity" : 50
+      }
+    },
+    "sidebar_styles" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "details_page_styles" : {
+      "banner_background_options" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "sidebar_details_background_colors" : {
+      "color_1" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "color_2" : {
+        "color" : "#15803D",
+        "opacity" : 100
+      }
+    }
+  }
+}, {
   "id" : "9b29ea6c-a0cd-4cd7-d092-8e3f356d8871",
   "name" : "other_options",
   "display_width" : null,

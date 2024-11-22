@@ -319,7 +319,7 @@ const Notes = ({ path, objectId, id }) => {
           <NoteCard note={note} objectId={objectId} id={id} imageUploadUrl={imageUploadUrl} attachmentUploadUrl={attachmentUploadUrl} refetch={refetch} setAlert={setAlert} />
         ))
       ) : (
-        <div>No notes available.</div>
+        <div className="text-primary dark:text-cleanWhite">No notes available.</div>
       )}
       {totalNotes > limit && (
         <Pagination

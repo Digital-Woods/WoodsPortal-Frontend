@@ -15,13 +15,15 @@ const DetailsHeaderCard = ({
         const valueObject = item[key];
         if (
           valueObject &&
-          valueObject.isPrimaryDisplayProperty
+          valueObject.isPrimaryDisplayProperty &&
+          valueObject.value
         ) {
           displayValue = isObject(valueObject.value) ? valueObject.value.label : valueObject.value;
         }
         if (
           valueObject &&
-          valueObject.isSecondaryDisplayProperty
+          valueObject.isSecondaryDisplayProperty &&
+          valueObject.value
         ) {
           displayValue2 = isObject(valueObject.value) ? valueObject.value.label : valueObject.value;
         }
@@ -44,12 +46,10 @@ const DetailsHeaderCard = ({
     <div
       className={`relative h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient`}
     >
-      {/* <div className="absolute inset-0 bg-black opacity-40"></div> */}
-
-      <div className="relative flex flex-col justify-center px-4 text-white z-10">
-        <p className="text-xs font-normal text-flatGray line-clamp-2">{displayValueSecondary}</p>
+      <div className="relative flex flex-col justify-center px-4 text-detailsBannerTextColor z-10">
+        <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">{displayValueSecondary}</p>
         <p className="text-2xl font-semibold mt-1">{clarifierName}</p>
-        {showDate && <p className="text-xs text-flatGray mt-1">{date}</p>}
+        {showDate && <p className="text-xs text-detailsBannerTextColor mt-1">{date}</p>}
 
         {showServiceName && (
           <span className="bg-sidelayoutColor w-fit px-3 py-1 rounded-md mt-2">
@@ -57,7 +57,6 @@ const DetailsHeaderCard = ({
           </span>
         )}
       </div>
-
       {/* <div className="relative flex gap-3 mb-10 px-4 z-10">
         {showFollowing && (
           <span className="flex gap-x-4 dark:bg-dark-300 dark:text-white bg-cleanWhite text-gray-400 rounded-md px-4 py-2 font-medium text-sm">
