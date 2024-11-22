@@ -60,15 +60,16 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        setData(
-          response.data.sort((a, b) => {
-            if (a.primaryDisplayProperty) return -1;
-            if (b.primaryDisplayProperty) return 1;
-            if (a.secondaryDisplayProperty) return -1;
-            if (b.secondaryDisplayProperty) return 1;
-            return 0;
-          })
-        )
+        // setData(
+        //   response.data.sort((a, b) => {
+        //     if (a.primaryDisplayProperty) return -1;
+        //     if (b.primaryDisplayProperty) return 1;
+        //     if (a.secondaryDisplayProperty) return -1;
+        //     if (b.secondaryDisplayProperty) return 1;
+        //     return 0;
+        //   })
+        // )
+        setData(sortFormData(response.data))
         setisData(true)
       }
     },
@@ -172,9 +173,9 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className="text-gray-800 dark:text-gray-200 grid gap-x-4 grid-cols-2">
+                    <div className={`text-gray-800 dark:text-gray-200 grid gap-x-4 ${data.length == 2 ? 'grid-cols-1' : 'grid-cols-2'} gap-1`}>
                       {data.map((filled) => (
-                        <div>
+                        <div className={filled.fieldType == 'textarea' ? "col-span-2" : ""}>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
@@ -184,12 +185,21 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                               :
                               <FormControl>
                                 <div>
-                                  <Input
-                                    height="medium"
-                                    placeholder={filled.customLabel}
-                                    className=""
-                                    {...register(filled.name)}
-                                  />
+                                  {filled.fieldType == 'textarea' ?
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                    :
+                                    <Input
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  }
                                 </div>
                               </FormControl>
                             }

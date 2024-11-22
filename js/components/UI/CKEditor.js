@@ -1,6 +1,6 @@
 let IMAGE_UPLOAD_URL = ''
 let ATTACHMENT_UPLOAD_URL = ''
-
+let IS_LOADING_UPLOADING = false
 class CustomUploadAdapter {
     constructor(loader) {
         this.loader = loader;
@@ -55,7 +55,9 @@ function CustomUploadAdapterPlugin(editor) {
     };
 }
 
-const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedAttachments) => {
+const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedAttachments, setisLoadingUoloading) => {
+    // console.log("uoloadAttachment", true)
+    // IS_LOADING_UPLOADING = true;
     const token = getAuthToken();
     fetch(ATTACHMENT_UPLOAD_URL, {
         method: attachmentUploadMethod,
@@ -69,15 +71,19 @@ const uoloadAttachment = (attachmentUploadMethod, payload, refetch, setUploadedA
         .then((result) => {
             setUploadedAttachments((prevAttachments) => [...prevAttachments, result.data]);
             if (refetch) refetch()
+            setisLoadingUoloading(false)
             resolve({ default: result.data.url });
         })
         .catch((error) => {
+            setisLoadingUoloading(false)
             reject(error);
         });
 }
 
 const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = 'new', imageUploadUrl, attachmentUploadUrl, attachmentUploadMethod = "POST", setAttachmentId = null, refetch = null, objectId, mainRowId }) => {
     const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
+    const [isLoadingUoloading, setisLoadingUoloading] = useState(false);
+
     IMAGE_UPLOAD_URL = imageUploadUrl
     ATTACHMENT_UPLOAD_URL = attachmentUploadUrl
 
@@ -98,7 +104,8 @@ const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = '
             };
 
             const onAttachmentUpload = (data) => {
-                uoloadAttachment(attachmentUploadMethod, data, refetch, setUploadedAttachments);
+                setisLoadingUoloading(true)
+                uoloadAttachment(attachmentUploadMethod, data, refetch, setUploadedAttachments, setisLoadingUoloading);
             };
 
             script.innerHTML = `
@@ -256,7 +263,7 @@ const CKEditor = ({ initialData = "", attachments = [], setEditorContent, id = '
         <div>
             <div id={id} ref={editorRef}>
             </div>
-            <Attachments attachments={uploadedAttachments} objectId={objectId} id={id} />
+            <Attachments attachments={uploadedAttachments} objectId={objectId} id={id} isLoadingUoloading={isLoadingUoloading} />
         </div>
 
     );
