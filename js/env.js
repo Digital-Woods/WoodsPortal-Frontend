@@ -9,6 +9,14 @@ const env = {
   AUTH_USER_KEY: "testUser",
   AUTH_PORTAL_KEY: "portalSettings",
   COOKIE_EXPIRE: 7,
-  DATA_SOURCE_SET:dataSource || false,
-  NOTE_INTERVAL_TIME: 10000
+  DATA_SOURCE_SET: dataSource || false,
+  NOTE_INTERVAL_TIME: 10000,
+  HUBSPOT_DEFAULT_OBJECT_IDS: {
+    "contacts": "0-1",
+    "companies": "0-2",
+    "deals": "0-3",
+    "tickets": "0-5"
+  },
 };
+
+
