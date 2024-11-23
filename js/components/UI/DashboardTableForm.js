@@ -11,7 +11,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        return setData(sortFormData(response.data.properties))
+        // return setData(sortFormData(response.data.properties))
+        return setData(response.data.properties)
       }
     },
     onError: () => {
@@ -103,7 +104,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
     onSuccess: async (response) => {
       const updatedProperties = data.map((property) =>
-        property.name === "hs_pipeline_stage"
+        property.name === "hs_pipeline_stage" || property.name === "dealstage"
           ? { ...property, options: response.data }
           : property
       );
@@ -120,7 +121,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
   };
 
   const onChangeSelect = (filled, selectedValue) => {
-    if (filled.name === "hs_pipeline") {
+    if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
       getStags(selectedValue)
     }
   };
@@ -158,7 +159,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>
-                            {filled.fieldType == 'select' ?
+                            {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
                               <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>

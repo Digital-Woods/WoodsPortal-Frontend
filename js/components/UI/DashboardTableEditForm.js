@@ -60,16 +60,8 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        // setData(
-        //   response.data.sort((a, b) => {
-        //     if (a.primaryDisplayProperty) return -1;
-        //     if (b.primaryDisplayProperty) return 1;
-        //     if (a.secondaryDisplayProperty) return -1;
-        //     if (b.secondaryDisplayProperty) return 1;
-        //     return 0;
-        //   })
-        // )
-        setData(sortFormData(response.data.properties))
+        // setData(sortFormData(response.data.properties))
+        setData(response.data.properties)
         setisData(true)
       }
     },
