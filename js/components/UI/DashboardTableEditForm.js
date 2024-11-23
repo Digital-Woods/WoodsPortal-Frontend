@@ -69,7 +69,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
         //     return 0;
         //   })
         // )
-        setData(sortFormData(response.data))
+        setData(sortFormData(response.data.properties))
         setisData(true)
       }
     },
@@ -84,7 +84,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationFn: async (input) => {
       try {
         const response = await Client.form.update({
-          API: `${apis.updateAPI}${showEditData.hs_object_id}`,
+          API: apis.updateAPI.replace(":formId", showEditData.hs_object_id),
           data: input
         });
         return response;

@@ -67,7 +67,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
             )
           )}
         </div>
-        {association.hasMore &&
+        {/* {association.hasMore && */}
           <div className="text-right mb-2">
             <Link
               className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
@@ -76,7 +76,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
               Show more {association.labels.plural}
             </Link>
           </div>
-        }
+        {/* } */}
       </AccordionDetails>
     </Accordion>
   );

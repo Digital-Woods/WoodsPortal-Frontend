@@ -4,6 +4,7 @@ const BackIcon = () => (
 
 
 const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
+  hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId")
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
 
@@ -12,6 +13,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
 
+  console.log('param', param)
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
@@ -19,9 +21,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}` // concat ticketId
   }
 
   const handleInputChange = (event) => {

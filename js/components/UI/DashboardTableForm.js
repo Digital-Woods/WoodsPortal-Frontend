@@ -11,7 +11,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        return setData(sortFormData(response.data))
+        return setData(sortFormData(response.data.properties))
       }
     },
     onError: () => {
@@ -94,7 +94,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationFn: async (pipelineId) => {
       try {
         const response = await Client.form.stages({
-          API: `${apis.stagesAPI}${pipelineId}`,
+          API: `${apis.stagesAPI}${pipelineId}/stages`,
         });
         return response;
       } catch (error) {
