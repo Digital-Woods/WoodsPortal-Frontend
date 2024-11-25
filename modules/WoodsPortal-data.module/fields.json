@@ -1,18 +1,9 @@
 [ {
-  "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",
-  "name" : "hubspot_data_source",
-  "display_width" : null,
-  "label" : "HubSpot Data Source",
-  "required" : false,
-  "locked" : false,
-  "display" : "toggle",
-  "type" : "boolean",
-  "default" : true
-}, {
   "id" : "44c02d86-d5ac-515b-5959-d040308ed6b1",
   "name" : "backend_server_url",
   "display_width" : null,
   "label" : "Backend Server URL",
+  "help_text" : "Server URL is your Admin Panel base URL",
   "required" : false,
   "locked" : false,
   "validation_regex" : "",
@@ -59,7 +50,7 @@
   "locked" : false,
   "visibility" : {
     "controlling_field" : null,
-    "controlling_field_path" : "page_editor_preview_",
+    "controlling_field_path" : "hubspot_data_source",
     "controlling_value_regex" : "true",
     "property" : null,
     "operator" : "EQUAL",
@@ -73,6 +64,7 @@
   "name" : "add_home_tab",
   "display_width" : null,
   "label" : "Add Home Tab",
+  "help_text" : "Toggle to show Home Tab on sidebar",
   "required" : false,
   "locked" : false,
   "display" : "toggle",
@@ -213,6 +205,7 @@
   "name" : "home_tab_banner_details",
   "display_width" : null,
   "label" : "Home Tab Banner Details",
+  "help_text" : "These details will be displayed on the home page banner.",
   "required" : false,
   "locked" : false,
   "visibility" : {
@@ -324,6 +317,7 @@
   "name" : "add_right_sidebar",
   "display_width" : null,
   "label" : "Add Right Sidebar",
+  "help_text" : "Toggle to display a right sidebar showing multiple data on the home tab.",
   "required" : false,
   "locked" : false,
   "display" : "toggle",
@@ -457,6 +451,7 @@
   "name" : "hubspot_defined_object",
   "display_width" : null,
   "label" : "Hubspot Defined Object",
+  "help_text" : "Toggle to display HubSpot standard objects.",
   "required" : false,
   "locked" : false,
   "display" : "toggle",
@@ -488,13 +483,14 @@
     "name" : "list_object_name",
     "display_width" : null,
     "label" : "Object Name",
+    "help_text" : "",
     "required" : false,
     "locked" : false,
     "validation_regex" : "",
     "allow_new_line" : false,
     "show_emoji_picker" : false,
     "type" : "text",
-    "default" : "deal"
+    "default" : "Contacts"
   }, {
     "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
     "name" : "list_object_properties",
@@ -535,13 +531,12 @@
     "type" : "number",
     "default" : 4
   }, {
-    "id" : "7c126648-95fd-7a87-3fb9-fe5deaf04aee",
+    "id" : "2bb1f861-ddb2-df74-c8e5-eb093519fad5",
     "name" : "object_type_id",
     "display_width" : null,
     "label" : "Object Type ID",
-    "required" : false,
+    "required" : true,
     "locked" : false,
-    "validation_regex" : "",
     "visibility" : {
       "controlling_field" : null,
       "controlling_field_path" : "hubspot_data_source",
@@ -550,9 +545,13 @@
       "operator" : "NOT_EQUAL",
       "access" : null
     },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text"
+    "display" : "select",
+    "choices" : [ [ "0-1", "Contacts (0-1)" ], [ "0-2", "Companies (0-2)" ], [ "0-3", "Deals (0-3)" ], [ "0-5", "Tickets (0-5)" ], [ "0-421", "Appointments (0-421)" ], [ "0-48", "Calls (0-48)" ], [ "0-18", "Communications (0-18)" ], [ "0-410", "Courses (0-410)" ], [ "0-49", "Emails (0-49)" ], [ "0-19", "Feedback submissions (0-19)" ], [ "0-52", "Invoices (0-52)" ], [ "0-136", "Leads (0-136)" ], [ "0-8", "Line items (0-8)" ], [ "0-420", "Listings (0-420)" ], [ "0-54", "Marketing events (0-54)" ], [ "0-47", "Meetings (0-47)" ], [ "0-46", "Notes (0-46)" ], [ "0-101", "Payments (0-101)" ], [ "0-116", "Postal mail (0-116)" ], [ "0-7", "Products (0-7)" ], [ "0-14", "Quotes (0-14)" ], [ "0-162", "Services (0-162)" ], [ "0-27", "Tasks (0-27)" ], [ "0-115", "Users (0-115)" ], [ "0-69", "Subscriptions (0-69)" ] ],
+    "multiple" : false,
+    "reordering_enabled" : true,
+    "preset" : null,
+    "type" : "choice",
+    "default" : "0-1"
   }, {
     "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
     "name" : "icon_svg_code",
@@ -572,9 +571,10 @@
   "group_occurrence_meta" : null,
   "type" : "group",
   "default" : [ {
-    "list_object_name" : "deal",
+    "list_object_name" : "Contacts",
     "list_object_properties" : "dealname,dealstage,amount",
     "association_object_type_id" : 4,
+    "object_type_id" : "0-1",
     "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
   } ]
 }, {
@@ -582,6 +582,7 @@
   "name" : "hubspot_custom_object",
   "display_width" : null,
   "label" : "Hubspot Custom Object",
+  "help_text" : "Toggle to display HubSpot custom objects.",
   "required" : false,
   "locked" : false,
   "display" : "toggle",
@@ -1073,6 +1074,7 @@
   "name" : "other_options",
   "display_width" : null,
   "label" : "Other Options",
+  "help_text" : "Here, you can customize the logos and sidebar CTA options, including headings and button URL.",
   "required" : false,
   "locked" : false,
   "children" : [ {
@@ -1108,6 +1110,7 @@
       "name" : "small_logo",
       "display_width" : null,
       "label" : "Small Logo",
+      "help_text" : "This logo will be displayed in all modals, such as login and logout.",
       "required" : false,
       "locked" : false,
       "responsive" : true,
@@ -1199,6 +1202,7 @@
     "name" : "show_sidebar_cta",
     "display_width" : null,
     "label" : "Show sidebar CTA",
+    "help_text" : "Toggle to display a CTA section in the sidebar",
     "required" : false,
     "locked" : false,
     "display" : "checkbox",
@@ -1313,4 +1317,22 @@
       }
     }
   }
+}, {
+  "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",
+  "name" : "hubspot_data_source",
+  "display_width" : null,
+  "label" : "HubSpot Data Source",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "backend_server_url",
+    "controlling_value_regex" : null,
+    "property" : null,
+    "operator" : "EMPTY",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "default" : false
 } ]

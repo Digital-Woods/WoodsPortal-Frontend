@@ -81,7 +81,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
     portalId = getPortal().portalId
   }
 
-  const { mutate: getData, isLoading } = useMutation({
+  const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
       path,
@@ -219,11 +219,16 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
           <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
+          {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
+            <p className="text-primary text-2xl dark:text-gray-300">
+              {tableAPiData.data.configurations.associationMessage}
+            </p>
+          }
         </div>
       )}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {env.DATA_SOURCE_SET != true &&
+        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
           <Button variant='outline' size='sm' onClick={() => setShowAddDialog(true)}>+ {title}</Button>
         }
       </div>
@@ -236,7 +241,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
           {tableData.map((item, index) => (
             <li
               key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1  || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2  || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
                 }`}
             >
               {tableHeader.map((column) => (
@@ -263,18 +268,20 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
             </li>
           ))}
         </ul>
-        <div className="flex justify-between mt-3 items-center">
-          <div className="text-end">
-            {env.DATA_SOURCE_SET != true &&
-              <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
-            }
+        {tableData.length > 0 &&
+          <div className="flex justify-between mt-3 items-center">
+            <div className="text-end">
+              {env.DATA_SOURCE_SET != true &&
+                <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
+              }
+            </div>
+            <Pagination
+              numOfPages={numOfPages}
+              currentPage={currentPage}
+              setCurrentPage={handlePageChange}
+            />
           </div>
-          <Pagination
-            numOfPages={numOfPages}
-            currentPage={currentPage}
-            setCurrentPage={handlePageChange}
-          />
-        </div>
+        }
       </div>
       {/* ))} */}
       {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}

@@ -83,7 +83,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
     portalId = getPortal().portalId
   }
 
-  const { mutate: getData, isLoading } = useMutation({
+  const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
     mutationKey: [
       "TableData",
       path,
@@ -221,11 +221,16 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
           <p className="text-primary text-2xl dark:text-gray-300">
             No records found
           </p>
+          {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
+            <p className="text-primary text-2xl dark:text-gray-300">
+              {tableAPiData.data.configurations.associationMessage}
+            </p>
+          }
         </div>
       )}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {env.DATA_SOURCE_SET != true &&
+        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
           <Button variant='outline' size='sm' onClick={() => setShowAddDialog(true)}>+ {title}</Button>
         }
       </div>
@@ -285,18 +290,20 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
 
             ))}
           </ul>
-          <div className="flex justify-between mt-3 items-center">
-            <div className="text-end">
-              {env.DATA_SOURCE_SET != true &&
-                <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
-              }
+          {tableData.length > 0 &&
+            <div className="flex justify-between mt-3 items-center">
+              <div className="text-end">
+                {env.DATA_SOURCE_SET != true &&
+                  <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
+                }
+              </div>
+              <Pagination
+                numOfPages={numOfPages}
+                currentPage={currentPage}
+                setCurrentPage={handlePageChange}
+              />
             </div>
-            <Pagination
-              numOfPages={numOfPages}
-              currentPage={currentPage}
-              setCurrentPage={handlePageChange}
-            />
-          </div>
+          }
         </React.Fragment>
       )
       }
