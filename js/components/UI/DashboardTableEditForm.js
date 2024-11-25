@@ -10,7 +10,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   const createValidationSchema = (data) => {
     const schemaShape = {};
     data.forEach((field) => {
-      if (field.requiredProperty) {
+      if (field.requiredField || field.primaryProperty) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
         });
@@ -161,18 +161,18 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 validationSchema={validationSchema}
                 serverError={serverError}
                 initialValues={initialValues}
-                className="dark:bg-[#181818]"
+                className="dark:bg-[#181818] m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className={`text-gray-800 dark:text-gray-200 grid gap-x-4 ${data.length == 2 ? 'grid-cols-1' : 'grid-cols-2'} gap-1`}>
+                    <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
-                        <div className={filled.fieldType == 'textarea' ? "col-span-2" : ""}>
+                        <div>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>
-                            {filled.fieldType == 'select' ?
+                            {/* {filled.fieldType == 'select' ?
                               <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>
@@ -194,7 +194,38 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                                   }
                                 </div>
                               </FormControl>
-                            }
+                            } */}
+
+                            <FormControl>
+                              <div>
+                                {
+                                  filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                    <Select
+                                      label={`Select ${filled.customLabel}`}
+                                      name={filled.name}
+                                      options={filled.options}
+                                      control={control}
+                                      filled={filled}
+                                      onChangeSelect={onChangeSelect}
+                                    />
+                                  ) : filled.fieldType === 'textarea' ? (
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  ) : (
+                                    <Input
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  )
+                                }
+                              </div>
+                            </FormControl>
 
                             {errors[filled.name] && (
                               <FormMessage className="text-red-600 dark:text-red-400">

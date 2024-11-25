@@ -2,18 +2,22 @@ const BackIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
 );
 
-
 const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId")
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
+  const [param, setParam] = useState("");
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
 
-  const param = getQueryParamsFromCurrentUrl()
-  console.log('param', param)
+  useEffect(() => {
+    const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
+    if (queryParamsFromCurrentUrl) {
+      setParam(queryParamsFromCurrentUrl)
+    }
+  }, [getQueryParamsFromCurrentUrl()]);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {

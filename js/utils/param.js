@@ -54,6 +54,10 @@ const setParamHash = (string) => {
     return result;
 }
 
+const isNotEmptyObject = (obj) => {
+    return Object.keys(obj).length > 0;
+}
+
 const getQueryParamsFromCurrentUrl = () => {
     // Get the current URL
     const currentUrl = window.location.href;
@@ -77,5 +81,5 @@ const getQueryParamsFromCurrentUrl = () => {
 
     const mParams = new URLSearchParams(paramsObject);
 
-    return paramsObject ? `?${mParams}` : '';
+    return isNotEmptyObject(mParams) ? `?${mParams}` : '';
 }
