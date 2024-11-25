@@ -346,7 +346,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
                             path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                             path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                             'list',
-                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                            path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                             detailsView
                           )}
                         </div>

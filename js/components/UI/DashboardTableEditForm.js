@@ -29,7 +29,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationFn: async (pipelineId) => {
       try {
         const response = await Client.form.stages({
-          API: `${apis.stagesAPI}${pipelineId}`,
+          API: `${apis.stagesAPI}${pipelineId}/stages`,
         });
         return response;
       } catch (error) {
@@ -112,7 +112,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   };
 
   const onChangeSelect = (filled, selectedValue) => {
-    if (filled.name === "hs_pipeline") {
+    if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
       getStags(selectedValue)
     }
   };
@@ -121,7 +121,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     if (isSata) {
       const mapData = Object.fromEntries(
         Object.entries(showEditData).map(([key, value]) => {
-          if (key === "hs_pipeline") {
+          if (key === "hs_pipeline" || key === "pipeline") {
             getStags(value.value);
           }
           return [

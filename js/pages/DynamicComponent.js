@@ -10,10 +10,11 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
-  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
 
+  const param = getQueryParamsFromCurrentUrl()
   console.log('param', param)
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
