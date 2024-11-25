@@ -32,10 +32,21 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     const schemaShape = {};
 
     data.forEach((field) => {
-      if (field.requiredField || field.primaryProperty) {
+      const isDomain = field.name === 'domain'
+      if ((field.requiredField || field.primaryProperty) && !isDomain) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
         });
+      } else if (isDomain) {
+        schemaShape[field.name] = z.string().refine(
+          (value) => {
+            const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return domainRegex.test(value);
+          },
+          {
+            message: "Invalid domain format",
+          }
+        );
       } else {
         schemaShape[field.name] = z.string().nullable();
       }

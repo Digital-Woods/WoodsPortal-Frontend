@@ -6,18 +6,20 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId")
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
-  const [param, setParam] = useState("");
+  // const [param, setParam] = useState("");
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-
-  useEffect(() => {
-    const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
-    if (queryParamsFromCurrentUrl) {
-      setParam(queryParamsFromCurrentUrl)
-    }
-  }, [getQueryParamsFromCurrentUrl()]);
+  const param = getQueryParamsFromCurrentUrl()
+  // console.log('param', param)
+  // useEffect(() => {
+  //   const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
+  //   console.log('queryParamsFromCurrentUrl', queryParamsFromCurrentUrl)
+  //   if (queryParamsFromCurrentUrl) {
+  //     setParam(queryParamsFromCurrentUrl)
+  //   }
+  // }, [getQueryParamsFromCurrentUrl()]);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
