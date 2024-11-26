@@ -53,3 +53,66 @@ const setParamHash = (string) => {
     const result = string.replace(/#/g, '%23');
     return result;
 }
+
+// const isNotEmptyObject = (obj) => {
+//     return Object.keys(obj).length > 0;
+// }
+
+// const getQueryParamsFromCurrentUrl = () => {
+//     // Get the current URL
+//     const currentUrl = window.location.href;
+
+//     // Check if the URL has query parameters
+//     const queryString = currentUrl.includes("?") ? currentUrl.split("?")[1] : "";
+
+//     if (!queryString) return {}; // Return empty object if no query parameters
+
+//     const params = new URLSearchParams(queryString);
+//     const paramsObject = {};
+
+//     // Convert query parameters to an object
+//     params.forEach((value, key) => {
+//         paramsObject[key] = value;
+//     });
+//     delete paramsObject?.b
+//     delete paramsObject?.objectTypeName
+//     delete paramsObject?.objectTypeId
+//     delete paramsObject?.parentObjectTypeName
+
+//     const mParams = new URLSearchParams(paramsObject);
+//     console.log('mParams', mParams)
+
+//     return isNotEmptyObject(mParams) ? `?${mParams}` : '';
+// }
+
+const getQueryParamsFromCurrentUrl = () => {
+    // Get the current URL
+    const currentUrl = window.location.href;
+
+    // Check if the URL has query parameters
+    const queryString = currentUrl.includes("?") ? currentUrl.split("?")[1] : "";
+
+    if (!queryString) return ""; // Return empty string if no query parameters
+
+    const params = new URLSearchParams(queryString);
+    const paramsObject = {};
+
+    // Convert query parameters to an object
+    params.forEach((value, key) => {
+        paramsObject[key] = value;
+    });
+
+    // Remove unwanted keys
+    delete paramsObject.b;
+    delete paramsObject.objectTypeName;
+    delete paramsObject.objectTypeId;
+    delete paramsObject.parentObjectTypeName;
+
+    // Convert the cleaned object back into a query string
+    const filteredParams = new URLSearchParams(
+        Object.entries(paramsObject).filter(([_, value]) => value !== undefined)
+    );
+
+    // Check if the filteredParams is not empty
+    return filteredParams.toString() ? `?${filteredParams.toString()}` : "";
+};

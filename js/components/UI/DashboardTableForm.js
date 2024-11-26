@@ -11,7 +11,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        return setData(sortFormData(response.data))
+        // return setData(sortFormData(response.data.properties))
+        return setData(response.data.properties)
       }
     },
     onError: () => {
@@ -31,24 +32,25 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     const schemaShape = {};
 
     data.forEach((field) => {
-      // if (field.requiredProperty && field.fieldType === 'string') {
-      if (field.requiredProperty) {
-        // Add validation for required fields based on your criteria
+      const isDomain = field.name === 'domain'
+      if ((field.requiredField || field.primaryProperty) && !isDomain) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
         });
+      } else if (isDomain) {
+        schemaShape[field.name] = z.string().refine(
+          (value) => {
+            const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return domainRegex.test(value);
+          },
+          {
+            message: "Invalid domain format",
+          }
+        );
       } else {
         schemaShape[field.name] = z.string().nullable();
       }
-      // Add more field types as needed, such as numbers, booleans, etc.
-      // Example:
-      // if (field.type === 'number') {
-      //   schemaShape[field.name] = z.number().min(1, {
-      //     message: `${field.customLabel || field.label} must be at least 1.`,
-      //   });
-      // }
     });
-    // if (Object.keys(schemaShape).length != 0) return z.object(schemaShape);
     return z.object(schemaShape);
   };
 
@@ -94,7 +96,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationFn: async (pipelineId) => {
       try {
         const response = await Client.form.stages({
-          API: `${apis.stagesAPI}${pipelineId}`,
+          API: `${apis.stagesAPI}${pipelineId}/stages`,
         });
         return response;
       } catch (error) {
@@ -103,7 +105,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
     onSuccess: async (response) => {
       const updatedProperties = data.map((property) =>
-        property.name === "hs_pipeline_stage"
+        property.name === "hs_pipeline_stage" || property.name === "dealstage"
           ? { ...property, options: response.data }
           : property
       );
@@ -120,7 +122,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
   };
 
   const onChangeSelect = (filled, selectedValue) => {
-    if (filled.name === "hs_pipeline") {
+    if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
       getStags(selectedValue)
     }
   };
@@ -147,18 +149,18 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
                 serverError={serverError}
-                className="dark:bg-[#181818]"
+                className="dark:bg-[#181818] m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
-                    <div className={`text-gray-800 dark:text-gray-200 grid gap-x-4 ${data.length == 2 ? 'grid-cols-1' : 'grid-cols-2'} gap-1`}>
+                    <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
-                        <div className={filled.fieldType == 'textarea' ? "col-span-2" : ""}>
+                        <div>
                           <FormItem className="mb-0">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>
-                            {filled.fieldType == 'select' ?
+                            {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
                               <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>
@@ -180,7 +182,38 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                                   }
                                 </div>
                               </FormControl>
-                            }
+                            } */}
+
+                            <FormControl>
+                              <div>
+                                {
+                                  filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                    <Select
+                                      label={`Select ${filled.customLabel}`}
+                                      name={filled.name}
+                                      options={filled.options}
+                                      control={control}
+                                      filled={filled}
+                                      onChangeSelect={onChangeSelect}
+                                    />
+                                  ) : filled.fieldType === 'textarea' ? (
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  ) : (
+                                    <Input
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  )
+                                }
+                              </div>
+                            </FormControl>
 
                             {errors[filled.name] && (
                               <FormMessage className="text-red-600 dark:text-red-400">

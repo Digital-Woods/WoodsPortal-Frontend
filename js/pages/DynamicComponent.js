@@ -2,15 +2,24 @@ const BackIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
 );
 
-
 const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
+  hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId")
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
+  // const [param, setParam] = useState("");
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
-  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param = getQueryParamsFromCurrentUrl()
+  // console.log('param', param)
+  // useEffect(() => {
+  //   const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
+  //   console.log('queryParamsFromCurrentUrl', queryParamsFromCurrentUrl)
+  //   if (queryParamsFromCurrentUrl) {
+  //     setParam(queryParamsFromCurrentUrl)
+  //   }
+  // }, [getQueryParamsFromCurrentUrl()]);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -19,9 +28,10 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-    createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/` // concat ticketId
+    stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}` // concat ticketId
   }
 
   const handleInputChange = (event) => {
@@ -149,7 +159,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
                 <div>
                   <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
                 </div> : ''}
-              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} />
+              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} editView={true} />
             </div>
             {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
               <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">

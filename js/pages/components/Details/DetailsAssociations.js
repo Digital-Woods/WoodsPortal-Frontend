@@ -54,7 +54,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                                 item.hs_object_id.value, 
                                 `/${association.labels.plural}`, 
                                 association.objectTypeId, 'associations', 
-                                `/${setParamHash(isObject(value.value) ? value.value.label : value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
+                                `/${setParamHash(isObject(value.value) ? value.value.label : value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
                               </td>
                             </tr>
                           ))}
@@ -67,16 +67,16 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
             )
           )}
         </div>
-        {association.hasMore &&
+        {/* {association.hasMore && */}
           <div className="text-right mb-2">
             <Link
               className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
-              to={`/${'association'}?objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`}
+              to={`/${'association'}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`}
             >
               Show more {association.labels.plural}
             </Link>
           </div>
-        }
+        {/* } */}
       </AccordionDetails>
     </Accordion>
   );
