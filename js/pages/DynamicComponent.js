@@ -160,7 +160,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
                 <div>
                   <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
                 </div> : ''}
-              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} editView={true} />
+              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={tableTitle() || hubSpotUserDetails.sideMenu[0].label} apis={apis} editView={true} />
             </div>
             {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
               <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">

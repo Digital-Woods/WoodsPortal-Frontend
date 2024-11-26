@@ -229,13 +229,13 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                       >
-                        Close
+                        Cancel
                       </Button>
                       <Button
                         className=" "
                         isLoading={submitLoading}
                       >
-                        Create
+                        Create {title}
                       </Button>
                     </div>
                   </div>

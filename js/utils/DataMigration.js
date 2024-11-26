@@ -40,6 +40,7 @@ function isNull(data) {
 }
 
 function isObject(data) {
+  if(data == null) return false
   return typeof data === "object";
 }
 
@@ -289,7 +290,7 @@ const renderCellContent = (value, column, itemId = null, path = null, hubspotObj
       </Link>
     )
   }
-  if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate')) {
+  if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate'  || column.key == 'createdate')) {
     return formatDate(isObject(value) ? value.label : value);
   }
   if (isObject(value)) return value.label || '--';

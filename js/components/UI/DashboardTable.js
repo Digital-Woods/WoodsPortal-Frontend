@@ -37,7 +37,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("hs_createdate");
+  const [sortConfig, setSortConfig] = useState("-hs_createdate");
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
@@ -266,7 +266,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         {/* {tableAPiData && tableAPiData.data && console.log('tableAPiData', tableAPiData.data.configurations.createFormButton)} */}
         {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
           <Button className="text-white" onClick={() => setShowAddDialog(true)}>
-            <span className="mr-2"> + </span> Add {title}
+            <span className="mr-2"> + </span> Create {title}
           </Button>
         }
       </div>

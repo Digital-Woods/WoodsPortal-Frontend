@@ -48,13 +48,15 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
                           sortData(item, 'associations').map((value, index) => (
                             <tr key={value.key}>
                               <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{value.label}:</td>
-                              <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">{renderCellContent(
-                                value.value, 
-                                value, 
-                                item.hs_object_id.value, 
-                                `/${association.labels.plural}`, 
-                                association.objectTypeId, 'associations', 
-                                `/${setParamHash(isObject(value.value) ? value.value.label : value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`)}
+                              <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">
+                                {renderCellContent(
+                                  value.value, 
+                                  value, 
+                                  item.hs_object_id.value, 
+                                  `/${association.labels.plural}`, 
+                                  association.objectTypeId, 'associations', 
+                                  value.isPrimaryDisplayProperty ? `/${setParamHash(isObject(value.value) && value.value.label ? value.value.label : value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}` : ''
+                                )}
                               </td>
                             </tr>
                           ))}

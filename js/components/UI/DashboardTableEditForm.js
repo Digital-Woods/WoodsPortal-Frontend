@@ -335,13 +335,13 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                       >
-                        Close
+                        Calcel
                       </Button>
                       <Button
                         className=" "
                         isLoading={submitLoading}
                       >
-                        Save
+                        Save {title}
                       </Button>
                     </div>
                   </div>
