@@ -73,7 +73,7 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
               className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
               to={`/${'association'}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`}
             >
-              Show more {association.labels.plural}
+              View associated {association.labels.plural}
             </Link>
           </div>
         {/* } */}
