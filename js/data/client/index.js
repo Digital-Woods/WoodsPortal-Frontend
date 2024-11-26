@@ -119,14 +119,12 @@ class Client {
         }
       ),
 
-    byObjectId: ({ path, objectId, id, mediatorObjectTypeId, mediatorObjectRecordId, portalId,hubId, cache, ...query }) =>
+    byObjectId: ({ path, objectId, id, urlParam, portalId,hubId, cache, ...query }) =>
       HttpClient.get(
         // `${API_ENDPOINTS.OBJECTS_BY_ID}/${me.hubspotPortals.templateName}${path}/${objectId}`
         // `/api/${portalId}/hubspot-object-data/${objectId}/${id}${mediatorObjectTypeId && mediatorObjectRecordId ? '?mediatorObjectTypeId='+mediatorObjectTypeId+'&mediatorObjectRecordId='+mediatorObjectRecordId : ''}`
-        `/api/${hubId}/${portalId}/hubspot-object-data/${objectId}/${id}`,
+        `/api/${hubId}/${portalId}/hubspot-object-data/${objectId}/${id}${urlParam}`,
         {
-          mediatorObjectTypeId,
-          mediatorObjectRecordId,
           cache: !!cache,
           ...query,
         }
@@ -157,6 +155,7 @@ class Client {
   static form = {
     fields: ({ API }) =>
       HttpClient.get(API),
+    formData: ({ API, params }) =>HttpClient.get(generateApiUrl({route: API, params})),
     stages: ({ API }) =>
       HttpClient.get(API),
     create: ({API, data}) => HttpClient.post(API, data),

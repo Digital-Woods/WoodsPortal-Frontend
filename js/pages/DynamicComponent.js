@@ -12,7 +12,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = getQueryParamsFromCurrentUrl()
-  // console.log('param', param)
+  console.log('param', param)
   // useEffect(() => {
   //   const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
   //   console.log('queryParamsFromCurrentUrl', queryParamsFromCurrentUrl)
@@ -30,6 +30,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
     formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param+'&isForm=true' : '?isForm=true'}`,
     createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}` // concat ticketId
   }
@@ -159,7 +160,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
                 <div>
                   <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
                 </div> : ''}
-              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={hubSpotUserDetails.sideMenu[0].label} apis={apis} editView={true} />
+              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={tableTitle() || hubSpotUserDetails.sideMenu[0].label} apis={apis} editView={true} />
             </div>
             {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
               <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">

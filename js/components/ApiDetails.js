@@ -8,8 +8,9 @@ const ApiDetails = ({ path, objectId, id }) => {
   const param = getParam("t")
   const [activeTab, setActiveTab] = useState(param || "overview");
 
-  const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
-  const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+  // const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
+  // const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+  const urlParam = getQueryParamsFromCurrentUrl()
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
@@ -30,8 +31,7 @@ const ApiDetails = ({ path, objectId, id }) => {
       await Client.objects.byObjectId({
         objectId: objectId,
         id: id,
-        mediatorObjectTypeId,
-        mediatorObjectRecordId,
+        urlParam,
         portalId,
         hubId,
         cache: sync ? false : true
@@ -168,7 +168,11 @@ const ApiDetails = ({ path, objectId, id }) => {
 
             {activeTab === "notes" && <Notes path={path} objectId={objectId} id={id} />}
 
-            {activeTab === "tickets" && <Tickets path={path} objectId={objectId} id={id} />}
+            {activeTab === "tickets" && <Tickets path={path} objectId={objectId} id={id}
+             parentObjectTypeId={objectId}
+             parentObjectRowId={id}
+            
+            />}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery

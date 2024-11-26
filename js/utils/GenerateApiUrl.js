@@ -1,12 +1,19 @@
 const generateApiUrl = ({
   route,
   params = [],
-  queryParams = null,
+  queryParams = '',
 }) => {
+
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal().portalId
+  }
+
   const defaultParams = {
-    hubId: getHubId(),
-    portalId: getPortalId(),
+    hubId: hubId,
+    portalId: portalId,
   };
+
   params = { ...defaultParams, ...params };
 
   const url = route.replace(/:([a-zA-Z]+)/g, (_, key) => {

@@ -18,7 +18,7 @@ const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
 
         <div
           className="fixed inset-0 z-10 w-screen overflow-y-auto"
-          onClick={() => onClose && onClose(false)}
+          // onClick={() => onClose && onClose(false)}
         >
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div
