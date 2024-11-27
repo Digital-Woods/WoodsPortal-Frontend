@@ -216,7 +216,7 @@ const Drawer = ({ className }) => {
                           <p>{sideBarOptions.title}</p>
                           <a href={sideBarOptions.buttonUrl}>
                             <Button
-                              className="bg-detailsBannerTextColor dark:bg-white hover:bg-white text-blue-important mt-8"
+                              className="bg-detailsBannerTextColor dark:bg-white hover:bg-white hover:text-secondary dark::text-secondary text-white mt-8"
                               size="sm"
                             >
                               {sideBarOptions.buttonText}
