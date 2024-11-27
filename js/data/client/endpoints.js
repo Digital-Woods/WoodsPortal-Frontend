@@ -1,5 +1,8 @@
 const API_ENDPOINTS = {
+  PRE_LOGIN: "/api/auth/pre-login",
   USERS_LOGIN: "/api/auth/login",
+  EXISTING_USER_REGISTER: "/api/auth/existing-user-register",
+  VERIFY_EMAIL: 'api/auth/verify-email',
   VERIFY_OTP: "/api/auth/verify-otp",
   USER_LOGOUT: "/api/auth/logout",
   USERS_REGISTER: "/register",
