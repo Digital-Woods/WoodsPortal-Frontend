@@ -335,7 +335,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                       >
-                        Calcel
+                        Cancel
                       </Button>
                       <Button
                         className=" "

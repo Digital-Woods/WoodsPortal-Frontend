@@ -793,7 +793,7 @@
       "type" : "color",
       "default" : {
         "color" : "#ffffff",
-        "opacity" : 50
+        "opacity" : 0
       }
     } ],
     "tab" : "STYLE",
@@ -821,7 +821,7 @@
       },
       "banner_overlayer_color" : {
         "color" : "#ffffff",
-        "opacity" : 50
+        "opacity" : 0
       }
     }
   }, {
@@ -1029,7 +1029,7 @@
       },
       "banner_overlayer_color" : {
         "color" : "#ffffff",
-        "opacity" : 50
+        "opacity" : 0
       }
     },
     "sidebar_styles" : {
@@ -1323,7 +1323,7 @@
   "display_width" : null,
   "label" : "HubSpot Data Source",
   "required" : false,
-  "locked" : false,
+  "locked" : true,
   "visibility" : {
     "controlling_field" : null,
     "controlling_field_path" : "backend_server_url",
