@@ -12,15 +12,28 @@
 {% do iframeDatas.append({'name': name, 'url': url}) %}
 {% endfor %}
 
-{% set dynamicSidebarList = [] %}
+{% set iframeList = [] %}
 
-{% if module.add_right_sidebar %}
-{% for item in module.right_sidebar_object %}
+{% set dynamicSidebarList = [] %}
+{% if module.add_home_tab %}
+{% if module.home.add_right_sidebar %}
+{% for item in module.home.right_sidebar_object %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
+
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicSidebarList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -31,19 +44,30 @@ objectType: "HUBSPOT_DEFINED",
 }) %}
 
 {% endfor %}
+{% endif %}
 {% endif %}
 
 
 {% set dynamicRouteList = [] %}
 
 {% if module.add_home_tab %}
-{% for item in module.home_tab %}
+{% for item in module.home.home_tab %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
 tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -56,13 +80,24 @@ objectType: "HUBSPOT_DEFINED",
 {% endfor %}
 {% endif %}
 
-{% if module.hubspot_defined_object %}
-{% for item in module.objects %}
+{% if module.menu_options.hubspot_defined_object %}
+{% for item in module.menu_options.objects %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
+
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -75,13 +110,24 @@ objectType: "HUBSPOT_DEFINED",
 {% endfor %}
 {% endif %}
 
-{% if module.hubspot_custom_object %}
-{% for item in module.hubspot_custom_objects %}
+{% if module.menu_options.hubspot_custom_object %}
+{% for item in module.menu_options.hubspot_custom_objects %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
+
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -134,16 +180,27 @@ route.listObjectProperties) %}
 {% endfor %}
 
 {% else %}
-
+{% set iframeList = [] %}
 {% set dynamicSidebarList = [] %}
+{% if module.add_home_tab %}
+{% if module.home.add_right_sidebar %}
+{% for item in module.home.right_sidebar_object %}
 
-{% if module.add_right_sidebar %}
-{% for item in module.right_sidebar_object %}
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
+
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicSidebarList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -155,16 +212,28 @@ objectType: "HUBSPOT_DEFINED",
 
 {% endfor %}
 {% endif %}
+{% endif %}
 
 {% set dynamicRouteList = [] %}
 
+
 {% if module.add_home_tab %}
-{% for item in module.home_tab %}
+{% for item in module.home.home_tab %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 icon: item.icon_svg_code,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
@@ -179,13 +248,23 @@ objectType: "HUBSPOT_DEFINED",
 {% endif %}
 
 
-{% if module.hubspot_defined_object %}
-{% for item in module.objects %}
+{% if module.menu_options.hubspot_defined_object %}
+{% for item in module.menu_options.objects %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -198,13 +277,23 @@ objectType: "HUBSPOT_DEFINED",
 {% endfor %}
 {% endif %}
 
-{% if module.hubspot_custom_object %}
-{% for item in module.hubspot_custom_objects %}
+{% if module.menu_options.hubspot_custom_object %}
+{% for item in module.menu_options.hubspot_custom_objects %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -241,14 +330,25 @@ objectType: "USER_DEFINED",
 {% set fileURL = loggedInUser.file_url | split(",")%}
 
 {% set dynamicRouteList = [] %}
+{% set iframeList = [] %}
 
-{% if module.hubspot_defined_object %}
-{% for item in module.objects %}
+{% if module.menu_options.hubspot_defined_object %}
+{% for item in module.menu_options.objects %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -260,13 +360,23 @@ objectType: "HUBSPOT_DEFINED",
 {% endfor %}
 {% endif %}
 
-{% if module.hubspot_custom_object %}
-{% for item in module.hubspot_custom_objects %}
+{% if module.menu_options.hubspot_custom_object %}
+{% for item in module.menu_options.hubspot_custom_objects %}
+
+{% do iframeList.append({
+label: item.list_object_name,
+tabName: item.tab_name,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
+}) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicRouteList.append({
 label: item.list_object_name,
 icon: item.icon_svg_code,
+showIframe: item.show_iframe,
+propertyName: item.property_name,
 listObjectName: item.list_object_name,
 listObjectProperties: item.list_object_properties,
 associateObjectName: item.association_object_name,
@@ -813,13 +923,18 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
       }
     },
     rightSidebarDetailsColors:{
-        color1:"{{ module.style.sidebar_details_background_colors.color_1.color }}",
-        color2:"{{ module.style.sidebar_details_background_colors.color_2.color }}",
+        color1:"{{ module.style.home_tab_styles.sidebar_details_background_colors.color_1.color }}",
+        color2:"{{ module.style.home_tab_styles.sidebar_details_background_colors.color_2.color }}",
+      },
+     creatButtonStyles :{
+        backgroundColor:"{{ module.style.table_record_creation_button.background_color.color }}",
+        textColor:"{{ module.style.table_record_creation_button.text_color.color }}",
       }
   }
   let testData = {{ dynamicRouteList | tojson | safe }};
+  let moduleIframeList = {{ iframeList | tojson | safe }};
   let sidebarListData = {{ dynamicSidebarList | tojson | safe }};
-  let showSidebarListData = {{ module.add_right_sidebar}};
+  let showSidebarListData = {{ module.home.add_right_sidebar }};
   let sidebarCta = {
     title: "{{ module.other_options.sidebar_cta_details.title }}",
     buttonText: "{{ module.other_options.sidebar_cta_details.button_text }}",
@@ -836,11 +951,11 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     dataTableTitle: "{{ module.other_options.data_table_title }}",
   }
   let moduleBannerDetails = {
-    title: "{{ module.home_tab_banner_details.title }}",
-    description: "{{ module.home_tab_banner_details.description }}",
-    buttonText: "{{ module.home_tab_banner_details.button_text }}",
-    buttonUrl: "{{ module.home_tab_banner_details.button_url.href|escape_url }}",
-    backgroundImage: "{{ module.home_tab_banner_details.background_image.src|escape_url }}",
+    title: "{{ module.home.home_tab_banner_details.title }}",
+    description: "{{ module.home.home_tab_banner_details.description }}",
+    buttonText: "{{ module.home.home_tab_banner_details.button_text }}",
+    buttonUrl: "{{ module.home.home_tab_banner_details.button_url.href|escape_url }}",
+    backgroundImage: "{{ module.home.home_tab_banner_details.background_image.src|escape_url }}",
   };
   
   let loggedInUserDetails = {{ loggedInUser | tojson | safe }};

@@ -1,5 +1,5 @@
 
-const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false }) => {
+const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -230,9 +230,11 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
       )}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
-          <Button variant='outline' size='sm' onClick={() => setShowAddDialog(true)}>+ {title}</Button>
-        }
+        {/* {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
+          <Button className="text-white" onClick={() => setShowAddDialog(true)}>
+            <span className="mr-2"> + </span> Create {title}
+          </Button>
+        } */}
       </div>
 
       {tableData.length > 0 && (

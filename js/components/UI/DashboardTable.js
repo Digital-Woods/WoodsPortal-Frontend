@@ -265,7 +265,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
         {/* {tableAPiData && tableAPiData.data && console.log('tableAPiData', tableAPiData.data.configurations.createFormButton)} */}
         {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
-          <Button className="text-white" onClick={() => setShowAddDialog(true)}>
+          <Button variant='create' onClick={() => setShowAddDialog(true)}>
             <span className="mr-2"> + </span> Create {title}
           </Button>
         }
