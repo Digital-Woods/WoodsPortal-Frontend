@@ -24,21 +24,47 @@ function VerifyEmail() {
   const [isVerifying, setIsVerifying] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
 
+  const token = getParam("token")
+
+  const { mutate: getVeifyEmail, isLoading } = useMutation({
+    mutationKey: ["verifyEmail"],
+    mutationFn: async (input) => {
+      try {
+        const response = await Client.authentication.verifyEmail({
+          token: token,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: async (data) => {
+      setIsVerified(true)
+      setIsVerifying(false)
+    },
+    onError: (error) => {
+      console.log('error', error.response.data.detailedMessage)
+      setAlert({ message: errorMessage, type: "error" });
+      setIsVerifying(false)
+    },
+  });
+
   // Mock API call to verify email
   useEffect(() => {
-    const fakeApiCall = () => {
-      setTimeout(() => {
-        setIsVerifying(false);
-        setIsVerified(true);
-      }, 5000); // Simulates a 5-second API call
-    };
+    // const fakeApiCall = () => {
+    //   setTimeout(() => {
+    //     setIsVerifying(false);
+    //     setIsVerified(true);
+    //   }, 5000); // Simulates a 5-second API call
+    // };
 
-    fakeApiCall();
-  }, []);
+    // fakeApiCall();
+    getVeifyEmail();
+  }, [token]);
 
   // Redirect to dashboard on button click
   const handleRedirect = () => {
-    window.location.hash("/login");
+    window.location.hash= "/login";
   };
 
   return (
@@ -47,10 +73,10 @@ function VerifyEmail() {
         {isVerified ? "Email Verified" : "Verify your email"}
       </h1>
       <p className="text-lg text-gray-600 mb-8 text-center">
-        {isVerified ? "The message for email verif" : "confirm verify"}
+        {isVerified ? "The message for email verify" : "confirm verify"}
       </p>
 
-      {isVerifying ? (
+      {isLoading ? (
         <div className="loader border-t-4 border-blue-500 rounded-full w-16 h-16 mb-6 animate-spin"></div>
       ) : isVerified ? (
         <div>
@@ -59,7 +85,16 @@ function VerifyEmail() {
             Okay
           </Button>
         </div>
-      ) : null}
+      ) :
+        <div className="flex flex-col items-center justify-center">
+          <div>
+            Session is expired
+          </div>
+          <Button className="my-4 ml-3 !bg-black" onClick={handleRedirect}>
+            Back to login
+          </Button>
+        </div>
+      }
     </div>
   );
 }
