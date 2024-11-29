@@ -25,7 +25,7 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis,showIframe,propertyName, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
@@ -265,7 +265,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis,sho
         {/* {tableData.length > 0 && <Select buttonText="Order: Ascending" />} */}
         {/* {tableAPiData && tableAPiData.data && console.log('tableAPiData', tableAPiData.data.configurations.createFormButton)} */}
         {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
-          <Button className="text-white" onClick={() => setShowAddDialog(true)}>
+          <Button variant='create' onClick={() => setShowAddDialog(true)}>
             <span className="mr-2"> + </span> Create {title}
           </Button>
         }

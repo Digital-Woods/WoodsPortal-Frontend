@@ -11,7 +11,9 @@
 {% set url = fileURL[i] %}
 {% do iframeDatas.append({'name': name, 'url': url}) %}
 {% endfor %}
+
 {% set iframeList = [] %}
+
 {% set dynamicSidebarList = [] %}
 {% if module.add_home_tab %}
 {% if module.home.add_right_sidebar %}
@@ -22,6 +24,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 
@@ -55,6 +58,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
@@ -84,6 +88,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 
@@ -113,6 +118,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 
@@ -185,6 +191,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 
@@ -218,6 +225,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
@@ -248,6 +256,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
@@ -276,6 +285,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
@@ -330,6 +340,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
@@ -357,6 +368,7 @@ label: item.list_object_name,
 tabName: item.tab_name,
 showIframe: item.show_iframe,
 propertyName: item.property_name,
+hubspotObjectTypeId: item.object_type_id,
 }) %}
 
 {% set objName = item.list_object_name | replace("p_","") %}
@@ -913,6 +925,10 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     rightSidebarDetailsColors:{
         color1:"{{ module.style.home_tab_styles.sidebar_details_background_colors.color_1.color }}",
         color2:"{{ module.style.home_tab_styles.sidebar_details_background_colors.color_2.color }}",
+      },
+     creatButtonStyles :{
+        backgroundColor:"{{ module.style.table_record_creation_button.background_color.color }}",
+        textColor:"{{ module.style.table_record_creation_button.text_color.color }}",
       }
   }
   let testData = {{ dynamicRouteList | tojson | safe }};

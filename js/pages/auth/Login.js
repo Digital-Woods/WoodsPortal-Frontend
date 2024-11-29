@@ -239,7 +239,7 @@ const Login = () => {
                   <div>
                     <NavLink to="/forget-password">
                       <p className="text-black text-xs dark:text-gray-300">
-                        Forget password?
+                        Forgot password?
                       </p>
                     </NavLink>
                   </div>

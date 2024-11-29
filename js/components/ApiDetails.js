@@ -1,4 +1,4 @@
-const ApiDetails = ({ path, objectId, id }) => {
+const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
   const [sortItems, setSortItems] = useState([]);
@@ -10,6 +10,7 @@ const ApiDetails = ({ path, objectId, id }) => {
 
   // const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   // const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+
   const urlParam = getQueryParamsFromCurrentUrl()
 
   const [galleryDialog, setGalleryDialog] = useState(false);
@@ -160,7 +161,7 @@ const ApiDetails = ({ path, objectId, id }) => {
             )} */}
 
             {activeTab === "overview" && (
-              <DetailsView item={item} />
+              <DetailsView  propertyName={propertyName} showIframe={showIframe} item={item} />
             )}
 
 

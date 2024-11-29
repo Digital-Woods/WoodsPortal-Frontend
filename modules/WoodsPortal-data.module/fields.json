@@ -213,7 +213,7 @@
       "id" : "776eb9b5-b357-602e-2684-84ffd276dc4d",
       "name" : "show_iframe",
       "display_width" : null,
-      "label" : "Show Iframe",
+      "label" : "Enable Iframe",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -224,6 +224,8 @@
       "name" : "property_name",
       "display_width" : null,
       "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
@@ -488,7 +490,7 @@
       "id" : "dcc8acd8-c095-e3a8-affb-48eaa7233c29",
       "name" : "show_iframe",
       "display_width" : null,
-      "label" : "Show Iframe",
+      "label" : "Enable Iframe",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -499,6 +501,8 @@
       "name" : "property_name",
       "display_width" : null,
       "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
@@ -716,7 +720,7 @@
       "id" : "2f696b36-bc41-53d2-5416-533ad1867a65",
       "name" : "show_iframe",
       "display_width" : null,
-      "label" : "Show Iframe",
+      "label" : "Enable Iframe",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -727,6 +731,8 @@
       "name" : "property_name",
       "display_width" : null,
       "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
@@ -874,7 +880,7 @@
       "id" : "3f4d23a3-9049-1b8b-4e17-ebda2be3c49e",
       "name" : "show_iframe",
       "display_width" : null,
-      "label" : "Show Iframe",
+      "label" : "Enable Iframe",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -885,6 +891,8 @@
       "name" : "property_name",
       "display_width" : null,
       "label" : "Property Name",
+      "help_text" : "To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
@@ -1113,6 +1121,52 @@
       }
     }
   }, {
+    "id" : "76f40114-fea8-8230-7167-74a8f484d787",
+    "name" : "table_record_creation_button",
+    "display_width" : null,
+    "label" : "Table Record Creation Button",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "7e66b2db-a298-305f-bb55-e10e67aeda01",
+      "name" : "background_color",
+      "display_width" : null,
+      "label" : "Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "64f6b394-e8d0-cb77-4298-365c313df588",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
     "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
     "name" : "sidebar_styles",
     "display_width" : null,
@@ -1282,6 +1336,16 @@
           "color" : "#15803D",
           "opacity" : 100
         }
+      }
+    },
+    "table_record_creation_button" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
       }
     },
     "sidebar_styles" : {

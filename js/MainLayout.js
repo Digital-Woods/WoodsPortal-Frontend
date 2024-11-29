@@ -174,10 +174,8 @@ const MainLayout = ({ children }) => {
 
     setRoutes(apiRoutes);
     setIsLoading(false);
-    console.log(sideMenu,'sideMenu');
   }, []);
 
-  console.log(moduleIframeListOptions,'moduleIframeListOptions');
   // const getRouteDetails = (path) => {
   //   console.log('route', routes)
   //   console.log('path', path)

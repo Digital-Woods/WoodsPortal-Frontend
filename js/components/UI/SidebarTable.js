@@ -228,9 +228,9 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, deta
       )}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
+        {/* {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
           <Button variant='outline' size='sm' onClick={() => setShowAddDialog(true)}>+ {title}</Button>
-        }
+        } */}
       </div>
       {/* {activities.map((activity, index) => ( */}
       <div>
