@@ -2,7 +2,7 @@ const BackIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
 );
 
-const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
+const DynamicComponent = ({ hubspotObjectTypeId, path, title,showIframe,propertyName }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId")
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
@@ -12,7 +12,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = getQueryParamsFromCurrentUrl()
-  console.log('param', param)
+
   // useEffect(() => {
   //   const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
   //   console.log('queryParamsFromCurrentUrl', queryParamsFromCurrentUrl)
@@ -155,12 +155,12 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title }) => {
           </div> */}
 
             {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-            <div className={` max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto ${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full mt-6 pr-6`}`}>
+            <div className={` max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto ${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full  pr-6`}`}>
               {hubSpotUserDetails.sideMenu[0].tabName == title ?
                 <div>
                   <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
                 </div> : ''}
-              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={tableTitle() || hubSpotUserDetails.sideMenu[0].label} apis={apis} editView={true} />
+              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={tableTitle() || hubSpotUserDetails.sideMenu[0].label} propertyName={propertyName} showIframe={showIframe} apis={apis} editView={true} />
             </div>
             {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
               <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">

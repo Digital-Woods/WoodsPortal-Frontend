@@ -153,7 +153,6 @@ const MainLayout = ({ children }) => {
         // ]
       }
     ]
-    // console.log(sideMenu,'sideMenu');
 
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
@@ -175,8 +174,10 @@ const MainLayout = ({ children }) => {
 
     setRoutes(apiRoutes);
     setIsLoading(false);
+    console.log(sideMenu,'sideMenu');
   }, []);
 
+  console.log(moduleIframeListOptions,'moduleIframeListOptions');
   // const getRouteDetails = (path) => {
   //   console.log('route', routes)
   //   console.log('path', path)

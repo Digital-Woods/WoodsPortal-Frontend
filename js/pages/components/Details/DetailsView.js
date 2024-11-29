@@ -1,5 +1,5 @@
 const DetailsView = ({ item }) => {
-  // const [viewDialog, setViewDialog] = useState(false);
+  const [iframeViewDialog, setIframeViewDialog] = useState(false);
   return (
     <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table className=" dark:bg-[#2a2a2a] ">
@@ -36,7 +36,7 @@ const DetailsView = ({ item }) => {
                 className="bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite text-blue-important"
                 variant="outline"
                 size="lg"
-                onClick={() => setViewDialog(true)}
+                onClick={() => setIframeViewDialog(true)}
               >
                 View
               </Button>
@@ -45,12 +45,28 @@ const DetailsView = ({ item }) => {
         </div>
       )} */}
 
-      {/* <Dialog open={viewDialog}>
+        <div className={`py-2 flex`}>
+          <div className="text-sm font-semibold w-[200px]">Document:</div>
+          <div className="text-sm text-gray-500 ">
+            <div className="flex justify-end">
+              <Button
+                className="bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite text-blue-important"
+                variant="outline"
+                size="lg"
+                onClick={() => setIframeViewDialog(true)}
+              >
+                View
+              </Button>
+            </div>
+          </div>
+        </div>
+
+      <Dialog open={iframeViewDialog}>
         <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center inline-flex w-[90vw] h-[90vh]">
           <div className="flex justify-end w-[100%]">
             <div
               className="cursor-pointer"
-              onClick={() => setViewDialog(false)}
+              onClick={() => setIframeViewDialog(false)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,12 +81,12 @@ const DetailsView = ({ item }) => {
           </div>
           <iframe
             id="frame"
-            src={item.iframe_url}
+            src="https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Data%20Types.pdf"
             width="100%"
             height="100%"
           ></iframe>
         </div>
-      </Dialog> */}
+      </Dialog>
     </div>
   );
 };

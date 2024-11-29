@@ -72,146 +72,10 @@
   "type" : "boolean",
   "default" : true
 }, {
-  "id" : "9a6edab5-4b55-2deb-25ae-d4296815500e",
-  "name" : "home_tab",
+  "id" : "a4270e27-ef0e-6fc3-dc25-0fb97ecff318",
+  "name" : "home",
   "display_width" : null,
-  "label" : " Home Tab",
-  "required" : false,
-  "locked" : false,
-  "occurrence" : {
-    "min" : 1,
-    "max" : 1,
-    "sorting_label_field" : null,
-    "default" : 1
-  },
-  "visibility" : {
-    "controlling_field" : null,
-    "controlling_field_path" : "add_home_tab",
-    "controlling_value_regex" : "true",
-    "property" : null,
-    "operator" : "EQUAL",
-    "access" : null
-  },
-  "children" : [ {
-    "id" : "84ad91c0-b166-29f6-5f5a-a3135cac9d3a",
-    "name" : "tab_name",
-    "display_width" : null,
-    "label" : "Tab Name",
-    "help_text" : "Enter the name of the tab as it will appear in the sidebar menu.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "Home"
-  }, {
-    "id" : "f60179ff-76c4-fee1-d35d-1b8359918f97",
-    "name" : "list_object_name",
-    "display_width" : null,
-    "label" : "Object Name",
-    "help_text" : "Specify the object name to display in the dashboard view.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "company"
-  }, {
-    "id" : "e52e24d4-4784-b251-c297-fda3279eeff4",
-    "name" : "list_object_properties",
-    "display_width" : null,
-    "label" : "Object Properties",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "dealname,dealstage,amount"
-  }, {
-    "id" : "5c9ae80f-a878-73ff-5f22-6fb2dcd5fe12",
-    "name" : "association_object_type_id",
-    "display_width" : null,
-    "label" : "Associated Object Type Id",
-    "help_text" : "Provide the unique Associated  Object Type ID to link the correct data.",
-    "required" : false,
-    "locked" : false,
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "display" : "text",
-    "step" : 1,
-    "type" : "number",
-    "default" : 0
-  }, {
-    "id" : "6eb1f720-f63d-a88e-e7fc-fe7149e98eb0",
-    "name" : "object_type_id",
-    "display_width" : null,
-    "label" : "Object Type ID",
-    "help_text" : "Provide the unique Object Type ID to link the correct data.",
-    "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "NOT_EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "0-2"
-  }, {
-    "id" : "05fcab51-dabc-8230-b501-5dc3b00c01f6",
-    "name" : "icon_svg_code",
-    "display_width" : null,
-    "label" : "Icon SVG Code",
-    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  } ],
-  "tab" : "CONTENT",
-  "expanded" : false,
-  "group_occurrence_meta" : null,
-  "type" : "group",
-  "default" : [ {
-    "list_object_name" : "company",
-    "list_object_properties" : "dealname,dealstage,amount",
-    "association_object_type_id" : 0,
-    "object_type_id" : "0-2",
-    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
-    "tab_name" : "Home"
-  } ]
-}, {
-  "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
-  "name" : "home_tab_banner_details",
-  "display_width" : null,
-  "label" : "Home Tab Banner Details",
-  "help_text" : "These details will be displayed on the home page banner.",
+  "label" : "Home",
   "required" : false,
   "locked" : false,
   "visibility" : {
@@ -223,493 +87,850 @@
     "access" : null
   },
   "children" : [ {
-    "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
-    "name" : "title",
+    "id" : "9a6edab5-4b55-2deb-25ae-d4296815500e",
+    "name" : "home_tab",
     "display_width" : null,
-    "label" : "Title",
+    "label" : " Home Tab",
     "required" : false,
     "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "Welcome to Woods Portal. The HubSpot Solution"
+    "occurrence" : {
+      "min" : 1,
+      "max" : 1,
+      "sorting_label_field" : null,
+      "default" : 1
+    },
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "add_home_tab",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "84ad91c0-b166-29f6-5f5a-a3135cac9d3a",
+      "name" : "tab_name",
+      "display_width" : null,
+      "label" : "Tab Name",
+      "help_text" : "Enter the name of the tab as it will appear in the sidebar menu.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Home"
+    }, {
+      "id" : "f60179ff-76c4-fee1-d35d-1b8359918f97",
+      "name" : "list_object_name",
+      "display_width" : null,
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "company"
+    }, {
+      "id" : "e52e24d4-4784-b251-c297-fda3279eeff4",
+      "name" : "list_object_properties",
+      "display_width" : null,
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "dealname,dealstage,amount"
+    }, {
+      "id" : "5c9ae80f-a878-73ff-5f22-6fb2dcd5fe12",
+      "name" : "association_object_type_id",
+      "display_width" : null,
+      "label" : "Associated Object Type Id",
+      "help_text" : "Provide the unique Associated  Object Type ID to link the correct data.",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "default" : 0
+    }, {
+      "id" : "6eb1f720-f63d-a88e-e7fc-fe7149e98eb0",
+      "name" : "object_type_id",
+      "display_width" : null,
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "0-2"
+    }, {
+      "id" : "05fcab51-dabc-8230-b501-5dc3b00c01f6",
+      "name" : "icon_svg_code",
+      "display_width" : null,
+      "label" : "Icon SVG Code",
+      "help_text" : "To change the icon color Update the stroke variable with a hex color code (e.g., #FF5733).",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    }, {
+      "id" : "776eb9b5-b357-602e-2684-84ffd276dc4d",
+      "name" : "show_iframe",
+      "display_width" : null,
+      "label" : "Show Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "default" : false
+    }, {
+      "id" : "b721202e-6edf-625b-37c5-a213219c43a9",
+      "name" : "property_name",
+      "display_width" : null,
+      "label" : "Property Name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.home_tab.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : [ {
+      "tab_name" : "Home",
+      "list_object_name" : "company",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "association_object_type_id" : 0,
+      "object_type_id" : "0-2",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ]
   }, {
-    "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
-    "name" : "description",
+    "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
+    "name" : "home_tab_banner_details",
     "display_width" : null,
-    "label" : "Description",
+    "label" : "Home Tab Banner Details",
+    "help_text" : "These details will be displayed on the home page banner.",
     "required" : false,
     "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus."
-  }, {
-    "id" : "082643eb-96a9-1535-2588-474fd68ee854",
-    "name" : "button_text",
-    "display_width" : null,
-    "label" : "Button text",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "Get Partnership"
-  }, {
-    "id" : "076f638c-cc42-7d31-103b-d1d69e63c6a7",
-    "name" : "button_url",
-    "display_width" : null,
-    "label" : "Button Url",
-    "required" : false,
-    "locked" : false,
-    "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
-    "type" : "url",
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "add_home_tab",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
+      "name" : "title",
+      "display_width" : null,
+      "label" : "Title",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : ""
+    }, {
+      "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
+      "name" : "description",
+      "display_width" : null,
+      "label" : "Description",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus."
+    }, {
+      "id" : "082643eb-96a9-1535-2588-474fd68ee854",
+      "name" : "button_text",
+      "display_width" : null,
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Get Partnership"
+    }, {
+      "id" : "076f638c-cc42-7d31-103b-d1d69e63c6a7",
+      "name" : "button_url",
+      "display_width" : null,
+      "label" : "Button Url",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+      "type" : "url",
+      "default" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    }, {
+      "id" : "473873ea-c361-d919-71d7-b768362269cc",
+      "name" : "background_image",
+      "display_width" : null,
+      "label" : "Background image",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : false,
+      "show_loading" : false,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+        "alt" : "Banner-woods-portal",
+        "loading" : "lazy",
+        "width" : 848,
+        "height" : 309,
+        "max_width" : 848,
+        "max_height" : 309
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
     "default" : {
-      "content_id" : null,
-      "href" : "https://hub.digitalwoods.io",
-      "type" : "EXTERNAL"
+      "title" : "",
+      "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
+      "button_text" : "Get Partnership",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      },
+      "background_image" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+        "alt" : "Banner-woods-portal",
+        "loading" : "lazy",
+        "width" : 848,
+        "height" : 309,
+        "max_width" : 848,
+        "max_height" : 309
+      }
     }
   }, {
-    "id" : "473873ea-c361-d919-71d7-b768362269cc",
-    "name" : "background_image",
+    "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
+    "name" : "add_right_sidebar",
     "display_width" : null,
-    "label" : "Background image",
+    "label" : "Add Right Sidebar",
+    "help_text" : "Toggle to display a right sidebar showing multiple data on the home tab.",
     "required" : false,
     "locked" : false,
-    "responsive" : true,
-    "resizable" : false,
-    "show_loading" : false,
-    "type" : "image",
-    "default" : {
-      "size_type" : "auto",
-      "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
-      "alt" : "Banner-woods-portal",
-      "loading" : "lazy",
-      "width" : 848,
-      "height" : 309,
-      "max_width" : 848,
-      "max_height" : 309
-    }
+    "display" : "toggle",
+    "type" : "boolean",
+    "default" : true
+  }, {
+    "id" : "f06ac208-a6a4-bb4b-13f1-52e2d323a457",
+    "name" : "right_sidebar_object",
+    "display_width" : null,
+    "label" : "Right Sidebar Object",
+    "required" : false,
+    "locked" : false,
+    "occurrence" : {
+      "min" : 1,
+      "max" : 2,
+      "sorting_label_field" : null,
+      "default" : 2
+    },
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "home.add_right_sidebar",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "7fc1aca2-d7ce-8931-e5f9-24120ede2a19",
+      "name" : "list_object_name",
+      "display_width" : null,
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Ticket"
+    }, {
+      "id" : "5f21af54-2728-6f53-e016-ad5141acb3fb",
+      "name" : "list_object_properties",
+      "display_width" : null,
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "subject,hs_pipeline_stage,hs_pipeline"
+    }, {
+      "id" : "542b99e2-50e3-5725-2b64-53ccf129e716",
+      "name" : "association_object_type_id",
+      "display_width" : null,
+      "label" : "Associated Object Type Id",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "default" : 15
+    }, {
+      "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
+      "name" : "object_type_id",
+      "display_width" : null,
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "0-5"
+    }, {
+      "id" : "43518b07-391d-24fa-3cdf-2da018624b6e",
+      "name" : "icon_svg_code",
+      "display_width" : null,
+      "label" : "Icon SVG Code",
+      "help_text" : "To change the icon color Update the stroke variable with a hex color code (e.g., #FF5733).",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    }, {
+      "id" : "dcc8acd8-c095-e3a8-affb-48eaa7233c29",
+      "name" : "show_iframe",
+      "display_width" : null,
+      "label" : "Show Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "default" : false
+    }, {
+      "id" : "859678db-7601-5a54-66e2-605338e6c8c8",
+      "name" : "property_name",
+      "display_width" : null,
+      "label" : "Property Name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.right_sidebar_object.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : [ {
+      "list_object_name" : "Ticket",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "object_type_id" : "0-5",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    }, {
+      "list_object_name" : "Ticket",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "object_type_id" : "0-5",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ]
   } ],
   "tab" : "CONTENT",
   "expanded" : false,
   "group_occurrence_meta" : null,
   "type" : "group",
   "default" : {
-    "title" : "Welcome to Woods Portal. The HubSpot Solution",
-    "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
-    "button_text" : "Get Partnership",
-    "button_url" : {
-      "content_id" : null,
-      "href" : "https://hub.digitalwoods.io",
-      "type" : "EXTERNAL"
+    "home_tab" : [ {
+      "tab_name" : "Home",
+      "list_object_name" : "company",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "association_object_type_id" : 0,
+      "object_type_id" : "0-2",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ],
+    "home_tab_banner_details" : {
+      "title" : "",
+      "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
+      "button_text" : "Get Partnership",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      },
+      "background_image" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
+        "alt" : "Banner-woods-portal",
+        "loading" : "lazy",
+        "width" : 848,
+        "height" : 309,
+        "max_width" : 848,
+        "max_height" : 309
+      }
     },
-    "background_image" : {
-      "size_type" : "auto",
-      "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
-      "alt" : "Banner-woods-portal",
-      "loading" : "lazy",
-      "width" : 848,
-      "height" : 309,
-      "max_width" : 848,
-      "max_height" : 309
-    }
+    "add_right_sidebar" : true,
+    "right_sidebar_object" : [ {
+      "list_object_name" : "Ticket",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "object_type_id" : "0-5",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    }, {
+      "list_object_name" : "Ticket",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "object_type_id" : "0-5",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ]
   }
 }, {
-  "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
-  "name" : "add_right_sidebar",
+  "id" : "fe529cab-9191-8852-cc8a-784093415a59",
+  "name" : "menu_options",
   "display_width" : null,
-  "label" : "Add Right Sidebar",
-  "help_text" : "Toggle to display a right sidebar showing multiple data on the home tab.",
+  "label" : "Menu Options",
   "required" : false,
   "locked" : false,
-  "display" : "toggle",
-  "type" : "boolean",
-  "default" : true
-}, {
-  "id" : "f06ac208-a6a4-bb4b-13f1-52e2d323a457",
-  "name" : "right_sidebar_object",
-  "display_width" : null,
-  "label" : "Right Sidebar Object",
-  "required" : false,
-  "locked" : false,
-  "occurrence" : {
-    "min" : 1,
-    "max" : 2,
-    "sorting_label_field" : null,
-    "default" : 2
-  },
-  "visibility" : {
-    "controlling_field" : null,
-    "controlling_field_path" : "add_right_sidebar",
-    "controlling_value_regex" : "true",
-    "property" : null,
-    "operator" : "EQUAL",
-    "access" : null
-  },
   "children" : [ {
-    "id" : "7fc1aca2-d7ce-8931-e5f9-24120ede2a19",
-    "name" : "list_object_name",
+    "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
+    "name" : "hubspot_defined_object",
     "display_width" : null,
-    "label" : "Object Name",
-    "help_text" : "Specify the object name to display in the dashboard view.",
+    "label" : "Hubspot Defined Object",
+    "help_text" : "Toggle to display HubSpot standard objects.",
     "required" : false,
     "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "Ticket"
+    "display" : "toggle",
+    "type" : "boolean",
+    "default" : true
   }, {
-    "id" : "5f21af54-2728-6f53-e016-ad5141acb3fb",
-    "name" : "list_object_properties",
+    "id" : "2448d2e9-dc1b-552c-2731-a00855e1c1d8",
+    "name" : "objects",
     "display_width" : null,
-    "label" : "Object Properties",
+    "label" : "Objects",
     "required" : false,
     "locked" : false,
-    "validation_regex" : "",
+    "occurrence" : {
+      "min" : null,
+      "max" : null,
+      "sorting_label_field" : null,
+      "default" : 1
+    },
     "visibility" : {
       "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
+      "controlling_field_path" : "menu_options.hubspot_defined_object",
       "controlling_value_regex" : "true",
       "property" : null,
       "operator" : "EQUAL",
       "access" : null
     },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "subject,hs_pipeline_stage,hs_pipeline"
+    "children" : [ {
+      "id" : "421e3e26-9834-2827-daae-5af486df2cc3",
+      "name" : "list_object_name",
+      "display_width" : null,
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "Contacts"
+    }, {
+      "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
+      "name" : "list_object_properties",
+      "display_width" : null,
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "dealname,dealstage,amount"
+    }, {
+      "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
+      "name" : "association_object_type_id",
+      "display_width" : null,
+      "label" : "Associated Object Type Id",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "default" : 4
+    }, {
+      "id" : "2bb1f861-ddb2-df74-c8e5-eb093519fad5",
+      "name" : "object_type_id",
+      "display_width" : null,
+      "label" : "Select Object Type ID",
+      "required" : true,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "display" : "select",
+      "choices" : [ [ "0-1", "Contacts (0-1)" ], [ "0-2", "Companies (0-2)" ], [ "0-3", "Deals (0-3)" ], [ "0-5", "Tickets (0-5)" ], [ "0-421", "Appointments (0-421)" ], [ "0-48", "Calls (0-48)" ], [ "0-18", "Communications (0-18)" ], [ "0-410", "Courses (0-410)" ], [ "0-49", "Emails (0-49)" ], [ "0-19", "Feedback submissions (0-19)" ], [ "0-52", "Invoices (0-52)" ], [ "0-136", "Leads (0-136)" ], [ "0-8", "Line items (0-8)" ], [ "0-420", "Listings (0-420)" ], [ "0-54", "Marketing events (0-54)" ], [ "0-47", "Meetings (0-47)" ], [ "0-46", "Notes (0-46)" ], [ "0-101", "Payments (0-101)" ], [ "0-116", "Postal mail (0-116)" ], [ "0-7", "Products (0-7)" ], [ "0-14", "Quotes (0-14)" ], [ "0-162", "Services (0-162)" ], [ "0-27", "Tasks (0-27)" ], [ "0-115", "Users (0-115)" ], [ "0-69", "Subscriptions (0-69)" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "default" : "0-1"
+    }, {
+      "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
+      "name" : "icon_svg_code",
+      "display_width" : null,
+      "label" : "Icon SVG Code",
+      "help_text" : "To change the icon color Update the stroke variable with a hex color code (e.g., #FF5733).",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    }, {
+      "id" : "2f696b36-bc41-53d2-5416-533ad1867a65",
+      "name" : "show_iframe",
+      "display_width" : null,
+      "label" : "Show Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "default" : false
+    }, {
+      "id" : "7bf9300a-0fb9-719d-782a-d516a38908de",
+      "name" : "property_name",
+      "display_width" : null,
+      "label" : "Property Name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.objects.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : [ {
+      "list_object_name" : "Contacts",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "association_object_type_id" : 4,
+      "object_type_id" : "0-1",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ]
   }, {
-    "id" : "542b99e2-50e3-5725-2b64-53ccf129e716",
-    "name" : "association_object_type_id",
+    "id" : "49155e57-6695-78de-cce9-e05e90a399c1",
+    "name" : "hubspot_custom_object",
     "display_width" : null,
-    "label" : "Associated Object Type Id",
+    "label" : "Hubspot Custom Object",
+    "help_text" : "Toggle to display HubSpot custom objects.",
     "required" : false,
     "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "default" : false
+  }, {
+    "id" : "4ead23fa-98bf-7348-0024-e87eb0a11ade",
+    "name" : "hubspot_custom_objects",
+    "display_width" : null,
+    "label" : "Hubspot Custom Objects",
+    "required" : false,
+    "locked" : false,
+    "occurrence" : {
+      "min" : null,
+      "max" : null,
+      "sorting_label_field" : null,
+      "default" : 1
+    },
     "visibility" : {
       "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
+      "controlling_field_path" : "menu_options.hubspot_custom_object",
       "controlling_value_regex" : "true",
       "property" : null,
       "operator" : "EQUAL",
       "access" : null
     },
-    "display" : "text",
-    "step" : 1,
-    "type" : "number",
-    "default" : 15
-  }, {
-    "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
-    "name" : "object_type_id",
-    "display_width" : null,
-    "label" : "Object Type ID",
-    "help_text" : "Provide the unique Object Type ID to link the correct data.",
-    "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "NOT_EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "0-5"
-  }, {
-    "id" : "43518b07-391d-24fa-3cdf-2da018624b6e",
-    "name" : "icon_svg_code",
-    "display_width" : null,
-    "label" : "Icon SVG Code",
-    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    "children" : [ {
+      "id" : "f0467f72-bad2-c77e-c943-2b779c5862dd",
+      "name" : "list_object_name",
+      "display_width" : null,
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : ""
+    }, {
+      "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
+      "name" : "list_object_properties",
+      "display_width" : null,
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text"
+    }, {
+      "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
+      "name" : "association_object_type_id",
+      "display_width" : null,
+      "label" : "Associated Object Type Id",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number"
+    }, {
+      "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
+      "name" : "object_type_id",
+      "display_width" : null,
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text"
+    }, {
+      "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
+      "name" : "icon_svg_code",
+      "display_width" : null,
+      "label" : "Icon SVG Code",
+      "help_text" : "To change the icon color Update the stroke variable with a hex color code (e.g., #FF5733).",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+    }, {
+      "id" : "3f4d23a3-9049-1b8b-4e17-ebda2be3c49e",
+      "name" : "show_iframe",
+      "display_width" : null,
+      "label" : "Show Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "default" : false
+    }, {
+      "id" : "92e405a9-bd74-b68f-3120-99750fe843a5",
+      "name" : "property_name",
+      "display_width" : null,
+      "label" : "Property Name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.hubspot_custom_objects.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : [ {
+      "list_object_name" : "",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ]
   } ],
   "tab" : "CONTENT",
   "expanded" : false,
   "group_occurrence_meta" : null,
   "type" : "group",
-  "default" : [ {
-    "list_object_name" : "Ticket",
-    "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
-    "association_object_type_id" : 15,
-    "object_type_id" : "0-5",
-    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  }, {
-    "list_object_name" : "Ticket",
-    "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
-    "association_object_type_id" : 15,
-    "object_type_id" : "0-5",
-    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  } ]
-}, {
-  "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
-  "name" : "hubspot_defined_object",
-  "display_width" : null,
-  "label" : "Hubspot Defined Object",
-  "help_text" : "Toggle to display HubSpot standard objects.",
-  "required" : false,
-  "locked" : false,
-  "display" : "toggle",
-  "type" : "boolean",
-  "default" : true
-}, {
-  "id" : "2448d2e9-dc1b-552c-2731-a00855e1c1d8",
-  "name" : "objects",
-  "display_width" : null,
-  "label" : "Objects",
-  "required" : false,
-  "locked" : false,
-  "occurrence" : {
-    "min" : null,
-    "max" : null,
-    "sorting_label_field" : null,
-    "default" : 1
-  },
-  "visibility" : {
-    "controlling_field" : null,
-    "controlling_field_path" : "hubspot_defined_object",
-    "controlling_value_regex" : "true",
-    "property" : null,
-    "operator" : "EQUAL",
-    "access" : null
-  },
-  "children" : [ {
-    "id" : "421e3e26-9834-2827-daae-5af486df2cc3",
-    "name" : "list_object_name",
-    "display_width" : null,
-    "label" : "Object Name",
-    "help_text" : "Specify the object name to display in the dashboard view.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "Contacts"
-  }, {
-    "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
-    "name" : "list_object_properties",
-    "display_width" : null,
-    "label" : "Object Properties",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "dealname,dealstage,amount"
-  }, {
-    "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
-    "name" : "association_object_type_id",
-    "display_width" : null,
-    "label" : "Associated Object Type Id",
-    "required" : false,
-    "locked" : false,
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "display" : "text",
-    "step" : 1,
-    "type" : "number",
-    "default" : 4
-  }, {
-    "id" : "2bb1f861-ddb2-df74-c8e5-eb093519fad5",
-    "name" : "object_type_id",
-    "display_width" : null,
-    "label" : "Select Object Type ID",
-    "required" : true,
-    "locked" : false,
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "NOT_EQUAL",
-      "access" : null
-    },
-    "display" : "select",
-    "choices" : [ [ "0-1", "Contacts (0-1)" ], [ "0-2", "Companies (0-2)" ], [ "0-3", "Deals (0-3)" ], [ "0-5", "Tickets (0-5)" ], [ "0-421", "Appointments (0-421)" ], [ "0-48", "Calls (0-48)" ], [ "0-18", "Communications (0-18)" ], [ "0-410", "Courses (0-410)" ], [ "0-49", "Emails (0-49)" ], [ "0-19", "Feedback submissions (0-19)" ], [ "0-52", "Invoices (0-52)" ], [ "0-136", "Leads (0-136)" ], [ "0-8", "Line items (0-8)" ], [ "0-420", "Listings (0-420)" ], [ "0-54", "Marketing events (0-54)" ], [ "0-47", "Meetings (0-47)" ], [ "0-46", "Notes (0-46)" ], [ "0-101", "Payments (0-101)" ], [ "0-116", "Postal mail (0-116)" ], [ "0-7", "Products (0-7)" ], [ "0-14", "Quotes (0-14)" ], [ "0-162", "Services (0-162)" ], [ "0-27", "Tasks (0-27)" ], [ "0-115", "Users (0-115)" ], [ "0-69", "Subscriptions (0-69)" ] ],
-    "multiple" : false,
-    "reordering_enabled" : true,
-    "preset" : null,
-    "type" : "choice",
-    "default" : "0-1"
-  }, {
-    "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
-    "name" : "icon_svg_code",
-    "display_width" : null,
-    "label" : "Icon SVG Code",
-    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  } ],
-  "tab" : "CONTENT",
-  "expanded" : false,
-  "group_occurrence_meta" : null,
-  "type" : "group",
-  "default" : [ {
-    "list_object_name" : "Contacts",
-    "list_object_properties" : "dealname,dealstage,amount",
-    "association_object_type_id" : 4,
-    "object_type_id" : "0-1",
-    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  } ]
-}, {
-  "id" : "49155e57-6695-78de-cce9-e05e90a399c1",
-  "name" : "hubspot_custom_object",
-  "display_width" : null,
-  "label" : "Hubspot Custom Object",
-  "help_text" : "Toggle to display HubSpot custom objects.",
-  "required" : false,
-  "locked" : false,
-  "display" : "toggle",
-  "type" : "boolean",
-  "default" : false
-}, {
-  "id" : "4ead23fa-98bf-7348-0024-e87eb0a11ade",
-  "name" : "hubspot_custom_objects",
-  "display_width" : null,
-  "label" : "Hubspot Custom Objects",
-  "required" : false,
-  "locked" : false,
-  "occurrence" : {
-    "min" : null,
-    "max" : null,
-    "sorting_label_field" : null,
-    "default" : 1
-  },
-  "visibility" : {
-    "controlling_field" : null,
-    "controlling_field_path" : "hubspot_custom_object",
-    "controlling_value_regex" : "true",
-    "property" : null,
-    "operator" : "EQUAL",
-    "access" : null
-  },
-  "children" : [ {
-    "id" : "f0467f72-bad2-c77e-c943-2b779c5862dd",
-    "name" : "list_object_name",
-    "display_width" : null,
-    "label" : "Object Name",
-    "help_text" : "Specify the object name to display in the dashboard view.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : ""
-  }, {
-    "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
-    "name" : "list_object_properties",
-    "display_width" : null,
-    "label" : "Object Properties",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text"
-  }, {
-    "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
-    "name" : "association_object_type_id",
-    "display_width" : null,
-    "label" : "Associated Object Type Id",
-    "required" : false,
-    "locked" : false,
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "display" : "text",
-    "step" : 1,
-    "type" : "number"
-  }, {
-    "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
-    "name" : "object_type_id",
-    "display_width" : null,
-    "label" : "Object Type ID",
-    "help_text" : "Provide the unique Object Type ID to link the correct data.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "hubspot_data_source",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "NOT_EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text"
-  }, {
-    "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
-    "name" : "icon_svg_code",
-    "display_width" : null,
-    "label" : "Icon SVG Code",
-    "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
-    "required" : false,
-    "locked" : false,
-    "validation_regex" : "",
-    "allow_new_line" : false,
-    "show_emoji_picker" : false,
-    "type" : "text",
-    "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  } ],
-  "tab" : "CONTENT",
-  "expanded" : false,
-  "group_occurrence_meta" : null,
-  "type" : "group",
-  "default" : [ {
-    "list_object_name" : "",
-    "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-  } ]
+  "default" : {
+    "hubspot_defined_object" : true,
+    "objects" : [ {
+      "list_object_name" : "Contacts",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "association_object_type_id" : 4,
+      "object_type_id" : "0-1",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ],
+    "hubspot_custom_object" : false,
+    "hubspot_custom_objects" : [ {
+      "list_object_name" : "",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "show_iframe" : false
+    } ]
+  }
 }, {
   "id" : "97ed5f0f-5ac2-1cc8-2290-7fad244a1973",
   "name" : "style",
@@ -721,7 +942,7 @@
     "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
     "name" : "home_tab_styles",
     "display_width" : null,
-    "label" : "Home Tab Styles",
+    "label" : "Home",
     "required" : false,
     "locked" : false,
     "children" : [ {
@@ -798,13 +1019,59 @@
       "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
       "name" : "banner_overlayer_color",
       "display_width" : null,
-      "label" : "Banner Overlayer Color",
+      "label" : "Banner Overlay Color",
       "required" : false,
       "locked" : false,
       "type" : "color",
       "default" : {
         "color" : "#ffffff",
         "opacity" : 0
+      }
+    }, {
+      "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
+      "name" : "sidebar_details_background_colors",
+      "display_width" : null,
+      "label" : "Right Sidebar Cards Background Color",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "54733607-eb81-1c21-df3a-03d8068d4f16",
+        "name" : "color_1",
+        "display_width" : null,
+        "label" : "Color 1",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
+        "name" : "color_2",
+        "display_width" : null,
+        "label" : "Color 2",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "default" : {
+          "color" : "#15803D",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "default" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 100
+        }
       }
     } ],
     "tab" : "STYLE",
@@ -833,13 +1100,23 @@
       "banner_overlayer_color" : {
         "color" : "#ffffff",
         "opacity" : 0
+      },
+      "sidebar_details_background_colors" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 100
+        }
       }
     }
   }, {
     "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
     "name" : "sidebar_styles",
     "display_width" : null,
-    "label" : "Sidebar Styles",
+    "label" : "Menu",
     "required" : false,
     "locked" : false,
     "children" : [ {
@@ -885,7 +1162,7 @@
     "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
     "name" : "details_page_styles",
     "display_width" : null,
-    "label" : "Details Page Styles",
+    "label" : "Details Page",
     "required" : false,
     "locked" : false,
     "children" : [ {
@@ -967,52 +1244,6 @@
         "opacity" : 100
       }
     }
-  }, {
-    "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
-    "name" : "sidebar_details_background_colors",
-    "display_width" : null,
-    "label" : "Right Sidebar Details Background Colors",
-    "required" : false,
-    "locked" : false,
-    "children" : [ {
-      "id" : "54733607-eb81-1c21-df3a-03d8068d4f16",
-      "name" : "color_1",
-      "display_width" : null,
-      "label" : "Color 1",
-      "required" : false,
-      "locked" : false,
-      "type" : "color",
-      "default" : {
-        "color" : "#2d3e50",
-        "opacity" : 100
-      }
-    }, {
-      "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
-      "name" : "color_2",
-      "display_width" : null,
-      "label" : "Color 2",
-      "required" : false,
-      "locked" : false,
-      "type" : "color",
-      "default" : {
-        "color" : "#15803D",
-        "opacity" : 100
-      }
-    } ],
-    "tab" : "STYLE",
-    "expanded" : false,
-    "group_occurrence_meta" : null,
-    "type" : "group",
-    "default" : {
-      "color_1" : {
-        "color" : "#2d3e50",
-        "opacity" : 100
-      },
-      "color_2" : {
-        "color" : "#15803D",
-        "opacity" : 100
-      }
-    }
   } ],
   "tab" : "STYLE",
   "expanded" : false,
@@ -1041,6 +1272,16 @@
       "banner_overlayer_color" : {
         "color" : "#ffffff",
         "opacity" : 0
+      },
+      "sidebar_details_background_colors" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 100
+        }
       }
     },
     "sidebar_styles" : {
@@ -1068,23 +1309,13 @@
         "color" : "#FFFFFF",
         "opacity" : 100
       }
-    },
-    "sidebar_details_background_colors" : {
-      "color_1" : {
-        "color" : "#2d3e50",
-        "opacity" : 100
-      },
-      "color_2" : {
-        "color" : "#15803D",
-        "opacity" : 100
-      }
     }
   }
 }, {
   "id" : "9b29ea6c-a0cd-4cd7-d092-8e3f356d8871",
   "name" : "other_options",
   "display_width" : null,
-  "label" : "Other Options",
+  "label" : "Branding",
   "help_text" : "Here, you can customize the logos and sidebar CTA options, including headings and button URL.",
   "required" : false,
   "locked" : false,
@@ -1120,7 +1351,7 @@
       "id" : "44cde3d6-4cd9-54cd-6802-4a9c90b6697e",
       "name" : "small_logo",
       "display_width" : null,
-      "label" : "Small Logo",
+      "label" : "Icon",
       "help_text" : "This logo will be displayed in all modals, such as login and logout.",
       "required" : false,
       "locked" : false,

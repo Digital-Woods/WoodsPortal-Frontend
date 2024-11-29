@@ -25,7 +25,7 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
+const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis,showIframe,propertyName, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
