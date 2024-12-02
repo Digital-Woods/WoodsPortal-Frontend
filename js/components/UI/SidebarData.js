@@ -1,5 +1,5 @@
 
-const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
+const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, companyAsMediator, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -70,6 +70,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
       setTableHeader(sortData(columns));
     }
   };
+  console.log(companyAsMediator,'companyAsMediator');
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
@@ -77,7 +78,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
 
-  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param = companyAsMediator ? `?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=&mediatorObjectTypeId=0-2&mediatorObjectRecordId=` : ''
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
@@ -108,7 +110,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, detai
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: apis.tableAPI,
+        API_ENDPOINT: `${apis.tableAPI}${param}`,
+        // API_ENDPOINT: `${apis.tableAPI}?parentObjectTypeId=${hubspotObjectTypeId}&mediatorObjectTypeId=${mediatorObjectTypeId}`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,

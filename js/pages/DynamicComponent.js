@@ -61,7 +61,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   const back = () => {
     window.location.hash = `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRowId")}`;
   }
-
+console.log(sidebarListDataOption,'sidebarListDataOption');
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
       <div className="dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white pl-6 pt-6 relative">
@@ -169,9 +169,11 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                     const hubspotObjectTypeId = option.hubspotObjectTypeId;
                     const sidebarDataApis = {
                       tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-properties/${hubspotObjectTypeId}`,
-                      createAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}`,
-                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-tickets/${hubspotObjectTypeId}/${123}/`, // concat ticketId
+                      stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
+                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + '&isForm=true' : '?isForm=true'}`,
+                      createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}` // concat ticketId
                     };
 
                     return index === 0 ? (
@@ -181,6 +183,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                         path={`/${formatPath(option.label)}`}
                         title={option.label}
                         apis={sidebarDataApis}
+                        companyAsMediator={option.companyAsMediator}
                       />
                     ) : (
                       <SidebarTable
@@ -189,6 +192,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                         path={`/${formatPath(option.label)}`}
                         title={option.label}
                         apis={sidebarDataApis}
+                        companyAsMediator={option.companyAsMediator}
                       />
                     );
                   })}

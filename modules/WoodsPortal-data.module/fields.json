@@ -412,6 +412,16 @@
       "type" : "text",
       "default" : "Ticket"
     }, {
+      "id" : "f1319d61-aa3b-088b-b243-d105de0909dc",
+      "name" : "mediator_object_type_id",
+      "display_width" : null,
+      "label" : "Show Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "default" : false
+    }, {
       "id" : "5f21af54-2728-6f53-e016-ad5141acb3fb",
       "name" : "list_object_properties",
       "display_width" : null,
@@ -524,6 +534,7 @@
     "type" : "group",
     "default" : [ {
       "list_object_name" : "Ticket",
+      "mediator_object_type_id" : false,
       "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
       "object_type_id" : "0-5",
@@ -531,6 +542,7 @@
       "show_iframe" : false
     }, {
       "list_object_name" : "Ticket",
+      "mediator_object_type_id" : false,
       "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
       "object_type_id" : "0-5",
@@ -575,6 +587,7 @@
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
       "list_object_name" : "Ticket",
+      "mediator_object_type_id" : false,
       "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
       "object_type_id" : "0-5",
@@ -582,6 +595,7 @@
       "show_iframe" : false
     }, {
       "list_object_name" : "Ticket",
+      "mediator_object_type_id" : false,
       "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
       "object_type_id" : "0-5",
