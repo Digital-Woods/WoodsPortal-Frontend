@@ -10,6 +10,7 @@ const API_ENDPOINTS = {
   USERS_FORGET_PASSWORD: "/api/auth/forget-password",
   USER_RESET_PASSWORD: "/api/auth/reset-password",
   RESEND_EMAIL: "/api/auth/resend-email",
+  VERIFY_EMAIL_RESEND: "/api/verify-email/resend",
   PRODUCTS: "/products",
   FEATURES: "api/templates/demo/features?featureType=BASE",
   OBJECTS: "/api/feature-data",
