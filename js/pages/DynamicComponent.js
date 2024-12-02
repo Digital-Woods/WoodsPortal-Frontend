@@ -61,7 +61,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   const back = () => {
     window.location.hash = `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRowId")}`;
   }
-console.log(sidebarListDataOption,'sidebarListDataOption');
+  
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
       <div className="dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white pl-6 pt-6 relative">

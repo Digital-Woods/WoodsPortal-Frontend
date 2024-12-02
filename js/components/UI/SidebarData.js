@@ -70,8 +70,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, compa
       setTableHeader(sortData(columns));
     }
   };
-  console.log(companyAsMediator,'companyAsMediator');
-
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   const parentObjectTypeName = getParam("parentObjectTypeName")
