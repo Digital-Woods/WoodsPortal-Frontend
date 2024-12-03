@@ -415,7 +415,7 @@
       "id" : "f1319d61-aa3b-088b-b243-d105de0909dc",
       "name" : "mediator_object_type_id",
       "display_width" : null,
-      "label" : "Show Company Associated Data",
+      "label" : "Show Primary Company Associated Data",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -1595,6 +1595,18 @@
         "type" : "EXTERNAL"
       }
     }
+  }, {
+    "id" : "21068a9c-1dc7-4147-35d3-dada3429372a",
+    "name" : "welcome_message",
+    "display_width" : null,
+    "label" : "Welcome Message",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "default" : "Your all-in-one dashboard for streamlined management, better insights, and enhanced collaboration."
   } ],
   "tab" : "CONTENT",
   "expanded" : false,
@@ -1635,7 +1647,8 @@
         "href" : "https://hub.digitalwoods.io",
         "type" : "EXTERNAL"
       }
-    }
+    },
+    "welcome_message" : "Your all-in-one dashboard for streamlined management, better insights, and enhanced collaboration."
   }
 }, {
   "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",

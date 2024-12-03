@@ -77,7 +77,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, title, apis, compa
   const objectTypeName = getParam("objectTypeName")
 
    // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  const param = companyAsMediator ? `?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=&mediatorObjectTypeId=0-2&mediatorObjectRecordId=` : ''
+  const param = companyAsMediator ? `?mediatorObjectTypeId=0-2` : ''
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
