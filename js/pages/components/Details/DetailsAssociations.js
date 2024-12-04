@@ -1,6 +1,17 @@
-const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, parentObjectRowId, parentObjectTypeName }) => {
-  const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
-  const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
+const DetailsAssociations = ({
+  key,
+  association,
+  isActive,
+  parentObjectTypeId,
+  parentObjectRowId,
+  parentObjectTypeName,
+  refetch,
+  objectId,
+  id,
+}) => {
+  const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
+  const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
+  console.log('association', association)
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -36,32 +47,82 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
             association.data.length > 0 && (
               <div className=" rounded-md dark:text-white">
                 {association.data.map((item, index) => (
-                  <div
-                    key={index}
-                    className="mb-2"
-                  >
-                    <div
-                      className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500"
-                    >
+                  <div key={index} className="mb-2">
+                    <div className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500">
                       <table className="dark:bg-[#3e3e3e]">
                         {item &&
-                          sortData(item, 'associations').map((value, index) => (
+                          sortData(item, "associations").map((value, index) => (
                             <tr key={value.key}>
-                              <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{value.label}:</td>
+                              <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">
+                                {value.label}:
+                              </td>
                               <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">
-                                {renderCellContent(
-                                  value.value, 
-                                  value, 
-                                  item.hs_object_id.value, 
-                                  `/${association.labels.plural}`, 
-                                  association.objectTypeId, 'associations', 
-                                  value.isPrimaryDisplayProperty ? `/${setParamHash(isObject(value.value) && value.value.label ? value.value.label : value.value)}/${association.objectTypeId}/${item.hs_object_id.value}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}` : ''
+                                {value.isEditableField ? (
+                                  <DetailsViewUpdate
+                                    renderValue={renderCellContent(
+                                      value.value,
+                                      value,
+                                      item.hs_object_id.value,
+                                      `/${association.labels.plural}`,
+                                      association.objectTypeId,
+                                      "associations",
+                                      value.isPrimaryDisplayProperty
+                                        ? `/${setParamHash(
+                                            isObject(value.value) &&
+                                              value.value.label
+                                              ? value.value.label
+                                              : value.value
+                                          )}/${association.objectTypeId}/${
+                                            item.hs_object_id.value
+                                          }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
+                                            mediatorObjectTypeId
+                                              ? mediatorObjectTypeId
+                                              : parentObjectTypeId
+                                          }&mediatorObjectRecordId=${
+                                            mediatorObjectRecordId
+                                              ? mediatorObjectRecordId
+                                              : parentObjectRowId
+                                          }`
+                                        : ""
+                                    )}
+                                    value={value}
+                                    refetch={refetch}
+                                    id={29759577773}
+                                    objectId={association.objectTypeId}
+                                    item={item}
+                                  />
+                                ) : (
+                                  renderCellContent(
+                                    value.value,
+                                    value,
+                                    item.hs_object_id.value,
+                                    `/${association.labels.plural}`,
+                                    association.objectTypeId,
+                                    "associations",
+                                    value.isPrimaryDisplayProperty
+                                      ? `/${setParamHash(
+                                          isObject(value.value) &&
+                                            value.value.label
+                                            ? value.value.label
+                                            : value.value
+                                        )}/${association.objectTypeId}/${
+                                          item.hs_object_id.value
+                                        }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
+                                          mediatorObjectTypeId
+                                            ? mediatorObjectTypeId
+                                            : parentObjectTypeId
+                                        }&mediatorObjectRecordId=${
+                                          mediatorObjectRecordId
+                                            ? mediatorObjectRecordId
+                                            : parentObjectRowId
+                                        }`
+                                      : ""
+                                  )
                                 )}
                               </td>
                             </tr>
                           ))}
                       </table>
-
                     </div>
                   </div>
                 ))}
@@ -70,14 +131,24 @@ const DetailsAssociations = ({ key, association, isActive, parentObjectTypeId, p
           )}
         </div>
         {/* {association.hasMore && */}
-          <div className="text-right mb-2">
-            <Link
-              className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
-              to={`/${'association'}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural}&objectTypeId=${association.objectTypeId}&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}`}
-            >
-              View associated {association.labels.plural}
-            </Link>
-          </div>
+        <div className="text-right mb-2">
+          <Link
+            className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+            to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
+              association.labels.plural
+            }&objectTypeId=${
+              association.objectTypeId
+            }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${
+              mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+            }&mediatorObjectRecordId=${
+              mediatorObjectRecordId
+                ? mediatorObjectRecordId
+                : parentObjectRowId
+            }`}
+          >
+            View associated {association.labels.plural}
+          </Link>
+        </div>
         {/* } */}
       </AccordionDetails>
     </Accordion>

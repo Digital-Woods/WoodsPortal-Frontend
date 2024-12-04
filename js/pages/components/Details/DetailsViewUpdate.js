@@ -287,41 +287,6 @@ const DetailsViewUpdate = ({
 
   const validationSchema = createValidationSchema(data);
 
-  // const { mutate: getStags, isLoading: stageLoading } = useMutation({
-  //   mutationKey: ["getStageData"],
-  //   mutationFn: async (pipelineId) => {
-  //     try {
-  //       const response = await Client.details.stages({
-  //         params: {
-  //           objectTypeId: objectId,
-  //           pipelineId,
-  //         },
-  //       });
-  //       return response;
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   },
-  //   onSuccess: async (response) => {
-  //     const filterStage = data.find(
-  //       (item) =>
-  //         item.key === "hs_pipeline_stage" || item.key === "hs_pipeline_stage"
-  //     );
-  //     if (filterStage) filterStage.options = response.data;
-  //     setStages(filterStage);
-  //   },
-  //   onError: (error) => {
-  //     let errorMessage = "An unexpected error occurred.";
-  //     setAlert({ message: errorMessage, type: "error" });
-  //   },
-  // });
-
-  // const onChangeSelectPipeline = (filled, selectedValue) => {
-  //   if (filled.key === "hs_pipeline" || filled.key === "pipeline") {
-  //     getStags(selectedValue);
-  //   }
-  // };
-
   const { mutate: saveData, isLoading } = useMutation({
     mutationKey: ["saveData"],
     mutationFn: async (payload) => {
@@ -424,6 +389,12 @@ const DetailsViewUpdate = ({
                               data={data}
                               objectTypeId={objectId}
                             />
+                          ) : editRow.fieldType === "textarea" ? (
+                            <Textarea
+                              rows="1"
+                              defaultValue={getValue(editRow.value)}
+                              {...register(editRow.key)}
+                            ></Textarea>
                           ) : (
                             <Input
                               placeholder={`Enter ${editRow.label}`}

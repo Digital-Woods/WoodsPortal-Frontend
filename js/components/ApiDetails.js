@@ -194,6 +194,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                       parentObjectTypeName={path}
                       parentObjectTypeId={objectId}
                       parentObjectRowId={id}
+                      refetch={getData}
+                      objectId={objectId}
+                      id={id}
                     />
                   )
                 )}
