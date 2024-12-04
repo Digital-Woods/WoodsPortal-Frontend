@@ -6,6 +6,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId")
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   // const [param, setParam] = useState("");
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
@@ -61,13 +62,25 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   const back = () => {
     window.location.hash = `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRowId")}`;
   }
-  
+  const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
+
+
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
-      <div className="dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white pl-6 pt-6 relative">
-        <div class="h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]"></div>
-        <div className="flex justify-between items-center relative">
-          <div className="flex items-start flex-col gap-2  mb-6 ">
+      <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-6 pl-3 md:pt-6 pt-3 
+      ${isLargeScreen
+          ? " "
+          : `${!sidebarOpen ? 'md:pr-6 pr-3' : ''} rounded-tr-xl`
+        }
+      relative`}>
+        <div class={`h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
+                ${isLargeScreen
+            ? " "
+            : "md:pr-6 pr-3 rounded-tr-xl"
+          }
+          `}></div>
+        <div className="flex justify-between items-center relative gap-6">
+          <div className="flex items-start flex-col gap-2">
             {objectTypeName &&
               <div className="pr-2 cursor-pointer" onClick={() => back()}>
                 <BackIcon />
@@ -129,77 +142,100 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
         </div>
 
         {activeTab === "account" ? (
-          <div className="flex gap-4">
-            {/* <div className="flex flex-col justify-end items-end py-6">
-            <div className="flex gap-x-4">
-              <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
-              <CustomCheckbox buttonText="Asset" spanText="3" showSpan={true} />
-              <CustomCheckbox
-                buttonText="Status"
-                spanText="3"
-                showSpan={true}
-              />
-              <CustomCheckbox
-                buttonText="Job Type"
-                spanText="3"
-                showSpan={true}
-              />
-            </div> 
-             <div className="w-[25%]">
-              <Input
-                className="dark:bg-dark-400"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div> */}
-
-            {/* <DashboardTable path={path} inputValue={inputValue} /> */}
-            <div className={` max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto ${showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ? `w-[calc(100%_-350px)]` : `w-full pr-6`}`}>
-              {hubSpotUserDetails.sideMenu[0].tabName == title ?
+          <div className="flex gap-4 w-full overflow-hidden relative">
+            {/* Main content container */}
+            <div
+              className={`lg:max-h-[calc(100vh-82px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto  ${showSidebarListDataOption &&
+                hubSpotUserDetails.sideMenu[0].tabName === title
+                ? isLargeScreen
+                  ? "w-[calc(100%_-350px)]"
+                  : "w-full"
+                : "w-full lg:pr-6 pr-0"
+                }`}
+            >
+              {hubSpotUserDetails.sideMenu[0].tabName === title && (
                 <div>
                   <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
-                </div> : ''}
-              <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={tableTitle() || hubSpotUserDetails.sideMenu[0].label} propertyName={propertyName} showIframe={showIframe} apis={apis} editView={true} />
-            </div>
-            {showSidebarListDataOption === true && hubSpotUserDetails.sideMenu[0].tabName == title ?
-              <div className="w-[350px] max-h-[calc(100vh-100px)] hide-scrollbar overflow-y-auto p-3">
-                <div className="flex-col flex gap-6">
-                  {sidebarListDataOption.map((option, index) => {
-                    const hubspotObjectTypeId = option.hubspotObjectTypeId;
-                    const sidebarDataApis = {
-                      tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-                      stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + '&isForm=true' : '?isForm=true'}`,
-                      createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}` // concat ticketId
-                    };
-
-                    return index === 0 ? (
-                      <SidebarData
-                        key={index}
-                        hubspotObjectTypeId={hubspotObjectTypeId}
-                        path={`/${formatPath(option.label)}`}
-                        title={option.label}
-                        apis={sidebarDataApis}
-                        companyAsMediator={option.companyAsMediator}
-                      />
-                    ) : (
-                      <SidebarTable
-                        key={index}
-                        hubspotObjectTypeId={hubspotObjectTypeId}
-                        path={`/${formatPath(option.label)}`}
-                        title={option.label}
-                        apis={sidebarDataApis}
-                        companyAsMediator={option.companyAsMediator}
-                      />
-                    );
-                  })}
-
                 </div>
-              </div> : ''}
+              )}
+              {hubSpotUserDetails.sideMenu[0].tabName === title && !isLargeScreen ?
+                <div className="text-end">
+                  <Button className='text-end' variant='outline' size='sm' onClick={() => setSidebarOpen(true)}>
+                    Associated Data
+                  </Button>
+                </div>
+                : ''
+              }
+
+              <DashboardTable
+                hubspotObjectTypeId={hubspotObjectTypeId}
+                path={path}
+                title={tableTitle() || hubSpotUserDetails.sideMenu[0].label}
+                propertyName={propertyName}
+                showIframe={showIframe}
+                apis={apis}
+                editView={true}
+              />
+            </div>
+
+            {/* Sidebar container */}
+            {showSidebarListDataOption &&
+              hubSpotUserDetails.sideMenu[0].tabName === title && (
+                <div
+                  className={`${isLargeScreen
+                    ? "relative translate-x-0"
+                    : "absolute translate-x-full  md:p-3 p-2 z-50"
+                    } inset-y-0 bg-cleanWhite dark:bg-dark-200 right-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
+                >
+                  {!isLargeScreen ?
+                    <div className="text-end mb-3 roundex-md dark:bg-dark-200 z-50 bg-cleanWhite absolute right-[15px]">
+                      <Button className='' variant='outline' size='sm' onClick={() => setSidebarOpen(false)}>
+                        Close
+                      </Button>
+                    </div>
+                    : ''
+                  }
+                  <div className={`${!isSmallScreen ? 'w-[350px] ' : 'w-[310px] '} lg:max-h-[calc(100vh-82px)]  max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto pr-3`}>
+                    <div className="flex-col flex gap-6">
+                      {sidebarListDataOption.map((option, index) => {
+                        const hubspotObjectTypeId = option.hubspotObjectTypeId;
+                        const sidebarDataApis = {
+                          tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+                          stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
+                          formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+                          formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+                            }`,
+                          createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+                          updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
+                        };
+
+                        return index === 0 ? (
+                          <SidebarData
+                            key={index}
+                            hubspotObjectTypeId={hubspotObjectTypeId}
+                            path={`/${formatPath(option.label)}`}
+                            title={option.label}
+                            apis={sidebarDataApis}
+                            companyAsMediator={option.companyAsMediator}
+                          />
+                        ) : (
+                          <SidebarTable
+                            key={index}
+                            hubspotObjectTypeId={hubspotObjectTypeId}
+                            path={`/${formatPath(option.label)}`}
+                            title={option.label}
+                            apis={sidebarDataApis}
+                            companyAsMediator={option.companyAsMediator}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
+
         ) : (
           <div className="dark:text-white text-cleanWhite">
             Under Construction

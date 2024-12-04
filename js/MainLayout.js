@@ -231,13 +231,13 @@ const MainLayout = ({ children }) => {
       {isLoading != false ? (
         <div className="loader-line"></div>
       ) : (
-        <div className="dark:bg-dark-200 bg-flatGray lg:flex-col flex lg:h-[100vh]">
+        <div className="dark:bg-dark-200 bg-cleanWhite lg:flex-col flex lg:h-[100vh]">
           <Drawer
             className={`duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${sidebarCollapsed ? "[100px]" : "[300px]"
               }`}
           />
           <div
-            className={`dark:bg-dark-200 bg-flatGray duration-300 ml-auto w-full lg:w-${sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
+            className={`dark:bg-dark-200 bg-cleanWhite duration-300 ml-auto w-full lg:w-${sidebarCollapsed ? "[calc(100%_-_100px)]" : "[calc(100%_-_300px)]"
               }`}
           >
             <Switch>

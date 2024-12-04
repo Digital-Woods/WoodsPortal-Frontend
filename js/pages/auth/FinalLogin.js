@@ -157,6 +157,8 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
+  const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
+
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
@@ -167,14 +169,14 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className="dark:bg-gray-900 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+      <div className={`dark:bg-gray-900 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
         <div className="">
-          <div className="w-[50px]">
+          <div className="w-[80px]">
             <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
           </div>
         </div>
         <p className="text-center">
-          Lorem Ipsum is simply dummy text of the printing and typesetting login
+        { moduleCompanyOptions.welcomeMessage || "Welcome" }
         </p>
         <div className="w-full">
           <Form

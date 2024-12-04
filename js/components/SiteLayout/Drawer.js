@@ -86,6 +86,7 @@ const Drawer = ({ className }) => {
   useEffect(() => {
     setSideBarOptions(hubSpotUserDetails.sideBarOptions);
   })
+  const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   return (
     <div>
@@ -100,7 +101,7 @@ const Drawer = ({ className }) => {
       )}
       <div className={className}>
         <div
-          className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
         ${sidebarCollapsed ? "p-3" : "p-4"}
         `}
