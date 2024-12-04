@@ -11,7 +11,6 @@ const DetailsAssociations = ({
 }) => {
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
-  console.log('association', association)
   return (
     <Accordion className="mb-0 rounded-none" isActive={isActive}>
       <AccordionSummary>
@@ -56,6 +55,7 @@ const DetailsAssociations = ({
                               <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">
                                 {value.label}:
                               </td>
+                              {console.log('item.hs_object_id.value', item.hs_object_id.value)}
                               <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">
                                 {value.isEditableField ? (
                                   <DetailsViewUpdate
@@ -87,7 +87,7 @@ const DetailsAssociations = ({
                                     )}
                                     value={value}
                                     refetch={refetch}
-                                    id={29759577773}
+                                    id={item.hs_object_id.value}
                                     objectId={association.objectTypeId}
                                     item={item}
                                   />
