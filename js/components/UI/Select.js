@@ -1,10 +1,25 @@
 const { Controller } = ReactHookForm;
 
-const Select = ({ label, name, options, value = "", control, filled = null, onChangeSelect = null }) => {
+const Select = ({ label, name, options, value = "", control, filled = null, onChangeSelect = null, size = "medium", className, ...props }) => {
+  // console.log('filled', filled)
+  // console.log('name', name)
+
+  const getValue = (value) => {
+    // console.log('value', value)
+    if (value && typeof value === "object") value.label;
+    return value;
+  };
 
   const handleChange = (event) => {
     const value = event.target.value;
     if (onChangeSelect) onChangeSelect(filled, value);
+  };
+
+  const heightClasses = {
+    small: "p-1.5 text-xs",
+    semiMedium: "py-2",
+    medium: "p-2.5 text-sm",
+    large: "py-5",
   };
 
   return (
@@ -19,14 +34,18 @@ const Select = ({ label, name, options, value = "", control, filled = null, onCh
             field.onChange(e);
             handleChange(e)
           }}
-          value={field.value}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          value={getValue(field.value)}
+          className={classNames(
+            "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+            heightClasses[size],
+            className
+          )}
         >
           <option value="" selected="selected" disabled hidden>
             {label}
           </option>
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={getValue(option.value)} value={getValue(option.value)}>
               {option.label}
             </option>
           ))}

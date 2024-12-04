@@ -4,29 +4,34 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
+  const [configurations, setConfigurations] = useState(null);
 
-  const param = getParam("t")
+  const param = getParam("t");
   const [activeTab, setActiveTab] = useState(param || "overview");
 
   // const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   // const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
 
-  const urlParam = getQueryParamsFromCurrentUrl()
+  const urlParam = getQueryParamsFromCurrentUrl();
 
   const [galleryDialog, setGalleryDialog] = useState(false);
 
   const { sync, setSync } = useSync();
 
   const setActiveTabFucntion = (active) => {
-    setParam("t", active)
-    setActiveTab(active)
-  }
+    setParam("t", active);
+    setActiveTab(active);
+  };
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId
+    portalId = getPortal().portalId;
   }
 
-  const { mutate: getData, error, isLoading } = useMutation({
+  const {
+    mutate: getData,
+    error,
+    isLoading,
+  } = useMutation({
     mutationKey: ["DetailsData", path, id],
     mutationFn: async () =>
       await Client.objects.byObjectId({
@@ -35,14 +40,18 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         urlParam,
         portalId,
         hubId,
-        cache: sync ? false : true
+        cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      setSync(false)
-      const associations = data.data.associations
+      setSync(false);
+      const associations = data.data.associations;
       setAssociations(associations);
+
+      const mConfigurations = data.configurations;
+      setConfigurations(mConfigurations);
+
       const details = data.data;
-      const sortedItems = sortData(details, 'details');
+      const sortedItems = sortData(details, "details");
       setItems(sortedItems);
 
       // if (data.data) {
@@ -59,17 +68,17 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       // getImages(data.data);
     },
     onError: (error) => {
-      setSync(false)
+      setSync(false);
       console.error("Error fetching file details:", error);
     },
   });
 
   useEffect(() => {
-    getData()
+    getData();
   }, []);
 
   useEffect(() => {
-    if(sync) getData()
+    if (sync) getData();
   }, [sync]);
 
   const getImages = (data) => {
@@ -81,12 +90,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   };
 
   const back = () => {
-    let breadcrumbItems = JSON.parse(localStorage.getItem('breadcrumbItems')) || [];
-    let path = breadcrumbItems[breadcrumbItems.length - 1]
-    console.log("breadcrumbItems", breadcrumbItems)
-    console.log("path", path)
+    let breadcrumbItems =
+      JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
+    let path = breadcrumbItems[breadcrumbItems.length - 1];
     return path.path;
-  }
+  };
 
   if (error) {
     return (
@@ -97,9 +105,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   if (isLoading && !item) {
-    return (
-      <div className="loader-line"></div>
-    );
+    return <div className="loader-line"></div>;
   }
 
   return (
@@ -128,15 +134,21 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   <TabsTrigger value="overview">
                     <p className="text-black dark:text-white">Overview</p>
                   </TabsTrigger>
-                  <TabsTrigger value="files">
-                    <p className="text-black dark:text-white">Files</p>
-                  </TabsTrigger>
-                  <TabsTrigger value="notes">
-                    <p className="text-black dark:text-white">Notes</p>
-                  </TabsTrigger>
-                  <TabsTrigger value="tickets">
-                    <p className="text-black dark:text-white">Tickets</p>
-                  </TabsTrigger>
+                  {configurations.fileManager && (
+                    <TabsTrigger value="files">
+                      <p className="text-black dark:text-white">Files</p>
+                    </TabsTrigger>
+                  )}
+                  {configurations.note && (
+                    <TabsTrigger value="notes">
+                      <p className="text-black dark:text-white">Notes</p>
+                    </TabsTrigger>
+                  )}
+                  {configurations.ticket && (
+                    <TabsTrigger value="tickets">
+                      <p className="text-black dark:text-white">Tickets</p>
+                    </TabsTrigger>
+                  )}
                   {/* <TabsTrigger value="photos">
                     <p className="text-black dark:text-white">Photos</p>
                   </TabsTrigger> */}
@@ -161,19 +173,33 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             )} */}
 
             {activeTab === "overview" && (
-              <DetailsView  propertyName={propertyName} showIframe={showIframe} item={item} />
+              <DetailsView
+                propertyName={propertyName}
+                showIframe={showIframe}
+                item={item}
+                objectId={objectId}
+                id={id}
+                refetch={getData}
+              />
             )}
 
+            {activeTab === "files" && (
+              <Files fileId={id} path={path} objectId={objectId} id={id} />
+            )}
 
-            {activeTab === "files" && <Files fileId={id} path={path} objectId={objectId} id={id} />}
+            {activeTab === "notes" && (
+              <Notes path={path} objectId={objectId} id={id} />
+            )}
 
-            {activeTab === "notes" && <Notes path={path} objectId={objectId} id={id} />}
-
-            {activeTab === "tickets" && <Tickets path={path} objectId={objectId} id={id}
-             parentObjectTypeId={objectId}
-             parentObjectRowId={id}
-            
-            />}
+            {activeTab === "tickets" && (
+              <Tickets
+                path={path}
+                objectId={objectId}
+                id={id}
+                parentObjectTypeId={objectId}
+                parentObjectRowId={id}
+              />
+            )}
 
             {images.length > 0 && activeTab === "photos" && (
               <DetailsGallery
@@ -195,6 +221,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                       parentObjectTypeName={path}
                       parentObjectTypeId={objectId}
                       parentObjectRowId={id}
+                      refetch={getData}
+                      objectId={objectId}
+                      id={id}
                     />
                   )
                 )}
@@ -220,8 +249,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             </div>
           </Dialog>
         </div>
-      )
-        :
+      ) : (
         <div className="h-[calc(100vh_-136px)] flex flex-col justify-center items-center">
           <span>See the Jobs associated with this record.</span>
           {/* <Link
@@ -230,10 +258,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           >
             Back
           </Link> */}
-          
         </div>
-      }
-
+      )}
     </div>
   );
 };

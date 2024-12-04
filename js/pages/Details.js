@@ -1,7 +1,5 @@
 const Details = ({ path, objectId, id }) => {
 
-  console.log(moduleIframeListOptions, 'moduleIframeListOptions');
-
   // Find the object in moduleIframeListOptions that matches the objectId
   const matchedObject = moduleIframeListOptions.find(
     (item) => item.hubspotObjectTypeId === objectId
