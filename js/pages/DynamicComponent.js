@@ -67,10 +67,10 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
 
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
-      <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-6 pl-3 md:pt-6 pt-3 
+      <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-6 md:pt-6 
       ${isLargeScreen
           ? " "
-          : `${!sidebarOpen ? 'md:pr-6 pr-3' : ''} rounded-tr-xl`
+          : `${!sidebarOpen ? 'md:pr-6 pr-3  pl-3  pt-3' : 'pt-0 pl-0'} rounded-tr-xl`
         }
       relative`}>
         <div class={`h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
@@ -144,6 +144,28 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
         {activeTab === "account" ? (
           <div className="flex gap-4 w-full overflow-hidden relative">
             {/* Main content container */}
+            {hubSpotUserDetails.sideMenu[0].tabName === title &&
+              !isLargeScreen &&
+              !sidebarOpen ? (
+              <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
+                <button
+                  className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
+                  onClick={() => setSidebarOpen(true)}
+                >
+                  <svg
+                    viewBox="0 0 1024 1024"
+                    fill="currentColor"
+                    height="1em"
+                    width="1em"
+                  >
+                    <path d="M872 474H286.9l350.2-304c5.6-4.9 2.2-14-5.2-14h-88.5c-3.9 0-7.6 1.4-10.5 3.9L155 487.8a31.96 31.96 0 000 48.3L535.1 866c1.5 1.3 3.3 2 5.2 2h91.5c7.4 0 10.8-9.2 5.2-14L286.9 550H872c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z" />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
+
             <div
               className={`lg:max-h-[calc(100vh-82px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto  ${showSidebarListDataOption &&
                 hubSpotUserDetails.sideMenu[0].tabName === title
@@ -158,14 +180,6 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                   <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
                 </div>
               )}
-              {hubSpotUserDetails.sideMenu[0].tabName === title && !isLargeScreen ?
-                <div className="text-end">
-                  <Button className='text-end' variant='outline' size='sm' onClick={() => setSidebarOpen(true)}>
-                    Associated Data
-                  </Button>
-                </div>
-                : ''
-              }
 
               <DashboardTable
                 hubspotObjectTypeId={hubspotObjectTypeId}
@@ -188,16 +202,23 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                     } inset-y-0 bg-cleanWhite dark:bg-dark-200 right-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "translate-x-full"
                     }`}
                 >
-                  {!isLargeScreen ?
-                    <div className="text-end mb-3 roundex-md dark:bg-dark-200 z-50 bg-cleanWhite absolute right-[15px]">
-                      <Button className='' variant='outline' size='sm' onClick={() => setSidebarOpen(false)}>
-                        Close
-                      </Button>
+                  {!isLargeScreen && sidebarOpen ?
+                    <div className=" rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
+                      <button className='rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark' onClick={() => setSidebarOpen(false)}>
+                        <svg
+                          viewBox="0 0 1024 1024"
+                          fill="currentColor"
+                          height="1em"
+                          width="1em"
+                        >
+                          <path d="M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-.7 5.2-2L869 536.2a32.07 32.07 0 000-48.4z" />
+                        </svg>
+                      </button>
                     </div>
                     : ''
                   }
-                  <div className={`${!isSmallScreen ? 'w-[350px] ' : 'w-[310px] '} lg:max-h-[calc(100vh-82px)]  max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto pr-3`}>
-                    <div className="flex-col flex gap-6">
+                  <div className={`${!isSmallScreen ? 'w-[350px]  pr-3' : 'w-full'} lg:max-h-[calc(100vh-82px)]  max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
+                    <div className="flex-col flex lg:gap-6 gap-3">
                       {sidebarListDataOption.map((option, index) => {
                         const hubspotObjectTypeId = option.hubspotObjectTypeId;
                         const sidebarDataApis = {

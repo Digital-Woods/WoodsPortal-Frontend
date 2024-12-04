@@ -113,7 +113,7 @@ const ProfileUpdate = () => {
     <div>
       <Form onSubmit={handleSaveChanges} validationSchema={validationSchema}>
         {({ register, formState: { errors } }) => (
-          <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
+          <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md dark:text-white">
             <div className="flex justify-between">
               <h1 className="text-xl font-semibold dark:text-white pb-4">
                 Personal Information
@@ -126,8 +126,8 @@ const ProfileUpdate = () => {
             </div>
 
             <div>
-              <FormItem className="!mb-0 py-2 flex items-center">
-                <FormLabel className="text-xs font-semibold w-[200px]">
+              <FormItem className="!mb-0 py-2 flex md:flex-row flex-col  md:items-center items-start">
+                <FormLabel className="text-xs font-semibold md:w-[200px]">
                   First Name:
                 </FormLabel>
                 {isEditPersonalInfo ? (
@@ -153,8 +153,8 @@ const ProfileUpdate = () => {
                 )}
               </FormItem>
 
-              <FormItem className="!mb-0 py-2 flex items-center">
-                <FormLabel className="text-xs font-semibold w-[200px]">
+              <FormItem className="!mb-0 py-2 flex md:flex-row flex-col  md:items-center items-start">
+                <FormLabel className="text-xs font-semibold md:w-[200px]">
                   Last Name:
                 </FormLabel>
                 {isEditPersonalInfo ? (

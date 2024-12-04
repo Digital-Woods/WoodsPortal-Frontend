@@ -127,7 +127,7 @@ const ChangePassword = () => {
 
       <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
         {({ register, formState: { errors } }) => (
-          <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
+          <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md  dark:text-white">
             <div className="flex justify-between">
               <h1 className="text-xl font-semibold dark:text-white pb-4">
                 Password Information
@@ -143,7 +143,7 @@ const ChangePassword = () => {
             </div>
 
             <div>
-              <FormItem className="!mb-0 py-2 flex items-center">
+              <FormItem className="!mb-0 py-2 flex md:flex-row flex-col  md:items-center items-start">
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   Current Password
                 </FormLabel>
@@ -153,7 +153,7 @@ const ChangePassword = () => {
                       type={showCurrentPassword ? "text" : "password"}
                       placeholder="Current Password"
                       {...register("currentPassword")}
-                      className="text-xs text-gray-500 ml-2 w-full !px-10"
+                      className="text-xs text-gray-500 md:ml-2 w-full !px-10"
                       icon={CurrentpassIcon}
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
@@ -173,7 +173,7 @@ const ChangePassword = () => {
                 </FormControl>
               </FormItem>
 
-              <FormItem className="!mb-0 py-2 flex items-center">
+              <FormItem className="!mb-0 py-2 flex md:flex-row flex-col  md:items-center items-start">
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   New Password
                 </FormLabel>
@@ -183,7 +183,7 @@ const ChangePassword = () => {
                       type={showNewPassword ? "text" : "password"}
                       placeholder="New password"
                       {...register("newPassword")}
-                      className="text-xs text-gray-500 ml-2 !px-10 w-full"
+                      className="text-xs text-gray-500 md:ml-2 !px-10 w-full"
                       icon={ConfirmandCurrentPassIcon}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
@@ -203,7 +203,7 @@ const ChangePassword = () => {
                 </FormControl>
               </FormItem>
 
-              <FormItem className="!mb-0 py-2 flex items-center">
+              <FormItem className="!mb-0 py-2 flex md:flex-row flex-col  md:items-center items-start">
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   Confirm New Password
                 </FormLabel>
@@ -213,7 +213,7 @@ const ChangePassword = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm new password"
                       {...register("confirmPassword")}
-                      className="text-xs text-gray-500 ml-2 !px-10 w-full"
+                      className="text-xs text-gray-500 md:ml-2 !px-10 w-full"
                       icon={ConfirmandCurrentPassIcon}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}

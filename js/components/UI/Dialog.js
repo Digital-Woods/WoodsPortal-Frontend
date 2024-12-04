@@ -17,16 +17,16 @@ const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
         ></div>
 
         <div
-          className="fixed inset-0 z-10 w-screen overflow-y-auto"
+          className="fixed inset-0 z-10 w-screen flex items-center justify-center overflow-y-auto"
           // onClick={() => onClose && onClose(false)}
         >
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
             <div
               className={`relative transform overflow-hidden rounded-lg ${className}`}
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="bg-cleanWhite px-4  sm:p-6 dark:bg-dark-100"
+                className="bg-cleanWhite p-4  sm:p-6 dark:bg-dark-100"
                 {...props}
               />
             </div>

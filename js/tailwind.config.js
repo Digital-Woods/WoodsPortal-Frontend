@@ -39,7 +39,22 @@ tailwind.config = {
         "custom-bg":
           "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
       },
-
+      keyframes: {
+        pulseEffect: {
+          '0%': { boxShadow: '0 0 0 0 rgba(0, 0, 0, 0.5)' },
+          '70%': { boxShadow: '0 0 0 10px rgba(0, 0, 0, 0)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)' },
+        },
+        pulseEffectDark: {
+          '0%': { boxShadow: '0 0 0 0 rgba(255, 255, 255, 0.5)' },
+          '70%': { boxShadow: '0 0 0 10px rgba(255, 255, 255, 0)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(255, 255, 255, 0)' },
+        },
+      },
+      animation: {
+        pulseEffect: 'pulseEffect 2s infinite',
+        pulseEffectDark: 'pulseEffectDark 2s infinite',
+      },
       colors: {
         cleanWhite: "#FFFFFF",
         white: "#FAF9F6",

@@ -8,8 +8,8 @@ const Profile = ({ title, path }) => {
 
   return (
     <div>
-      <div className="p-6 w-[calc(100%_-350px)]">
-        <div>
+      <div className="lg:w-[calc(100%_-350px)] w-full">
+        <div className="px-6 pt-6">
           <h1 className="text-xl font-semibold dark:text-white mb-2">
             My Profile Settings
           </h1>

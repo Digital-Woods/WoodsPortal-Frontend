@@ -241,7 +241,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px]">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px] min-w-[305px]">
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-start text-xl dark:text-white font-semibold">
             Edit {title}
