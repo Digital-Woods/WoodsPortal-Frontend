@@ -48,7 +48,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       setAssociations(associations);
 
       const mConfigurations = data.configurations;
-      console.log("mConfigurations", mConfigurations);
       setConfigurations(mConfigurations);
 
       const details = data.data;
@@ -94,8 +93,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     let breadcrumbItems =
       JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
     let path = breadcrumbItems[breadcrumbItems.length - 1];
-    console.log("breadcrumbItems", breadcrumbItems);
-    console.log("path", path);
     return path.path;
   };
 
@@ -128,7 +125,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             />
 
             <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
-              {console.log("configurations", configurations)}
               <Tabs
                 activeTab={activeTab}
                 setActiveTab={setActiveTabFucntion}

@@ -55,7 +55,6 @@ const DetailsAssociations = ({
                               <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">
                                 {value.label}:
                               </td>
-                              {console.log('item.hs_object_id.value', item.hs_object_id.value)}
                               <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">
                                 {value.isEditableField ? (
                                   <DetailsViewUpdate
