@@ -19,6 +19,9 @@ const API_ENDPOINTS = {
   GET_PROFILE_DETAILS: "/api/auth/me",
   USERS_ME: "/api/auth/me",
 
+  DETAILS_SAVE: "/api/:hubId/:portalId/hubspot-object-forms/:objectTypeId/properties/:recordId",
+  STAGES: "/api/:hubId/:portalId/hubspot-object-pipelines/:objectTypeId/:pipelineId/stages",
+
   //File Upload
   FILE_UPLOAD: "/api/feature-data/files",
   ALL_FILES: "/api/feature-data/files",

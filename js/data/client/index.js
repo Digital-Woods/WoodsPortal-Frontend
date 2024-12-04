@@ -165,4 +165,15 @@ class Client {
     create: ({API, data}) => HttpClient.post(API, data),
     update: ({API, data}) => HttpClient.put(API, data),
   };
+
+  static details = {
+    update: ({data, params}) => {
+      const apiUrl = generateApiUrl({route:API_ENDPOINTS.DETAILS_SAVE, params})
+      return HttpClient.put(apiUrl, data)
+    },
+    stages: ({params}) => {
+      const apiUrl = generateApiUrl({route:API_ENDPOINTS.STAGES, params})
+      return HttpClient.get(apiUrl)
+    },
+  };
 }

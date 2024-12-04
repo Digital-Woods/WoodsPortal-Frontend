@@ -161,9 +161,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             )} */}
 
             {activeTab === "overview" && (
-              <DetailsView  propertyName={propertyName} showIframe={showIframe} item={item} />
+              <DetailsView  propertyName={propertyName} showIframe={showIframe} item={item}  objectId={objectId} id={id} refetch={getData} />
             )}
-
 
             {activeTab === "files" && <Files fileId={id} path={path} objectId={objectId} id={id} />}
 
