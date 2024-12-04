@@ -24,8 +24,8 @@ const ProfileCard = () => {
 
   return (
     <div className="flex justify-between dark:bg-dark-300 p-5 bg-cleanWhite rounded-md mt-8">
-      <div className="flex gap-x-10">
-        <div className="w-[80px]">
+      <div className="flex justify-between lg:gap-x-10 gap-4">
+        <div className="md:w-[80px] w-[50px]">
           <img
             src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
             alt="Profile"

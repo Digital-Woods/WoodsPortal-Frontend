@@ -91,7 +91,7 @@ const Drawer = ({ className }) => {
   return (
     <div>
       {sidebarOpen && (
-        <div className="relative z-[10]">
+        <div className="relative z-[53]">
           <div
             className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity lg:hidden"
             aria-hidden="true"
@@ -101,7 +101,7 @@ const Drawer = ({ className }) => {
       )}
       <div className={className}>
         <div
-          className={`h-[100vh] z-50 sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          className={`h-[100vh] z-[54] sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
         ${sidebarCollapsed ? "p-3" : "p-4"}
         `}
@@ -298,18 +298,13 @@ const Drawer = ({ className }) => {
 
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
         <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-          <div className="">
-            <div className="w-[50px]">
-              <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
-            </div>
+          <div className="w-[50px]">
+            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
           </div>
-
-          <div className="flex-col justify-start items-start gap-1 flex">
-            <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
-              Log out of your account?
-            </div>
+          <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
+            Log out of your account?
           </div>
-          <div className="pt-3 sm:flex sm:flex-row-reverse gap-x-3 justify-between w-full">
+          <div className="pt-3 flex sm:flex-row-reverse gap-x-3 justify-between w-full">
             <Button
               className="dark:text-white"
               onClick={() => setLogoutDialog(false)}

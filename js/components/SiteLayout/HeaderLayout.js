@@ -60,7 +60,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   return (
-    <nav className="bg-sidelayoutColor dark:bg-dark-300 px-6 flex gap-1 flex-col py-2 dark:bg-dark-200">
+    <nav className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
       <div className=" flex justify-between items-center">
         <div className="lg:hidden">
           <div className="cursor-pointer" onClick={toggleDrawer}>
