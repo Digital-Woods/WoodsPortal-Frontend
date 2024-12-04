@@ -1,11 +1,18 @@
-const DetailsView = ({ item, propertyName, showIframe }) => {
+const DetailsView = ({
+  item,
+  propertyName,
+  showIframe,
+  objectId,
+  id,
+  refetch,
+}) => {
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
   const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
 
   // Function to check if URL is an image
   const isImageUrl = (url) => {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+    const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
 
     // Check if the URL ends with an image extension
     const hasImageExtension = imageExtensions.some((ext) =>
@@ -14,12 +21,11 @@ const DetailsView = ({ item, propertyName, showIframe }) => {
 
     // Check if the URL contains known patterns for image URLs
     const containsImagePattern =
-      url.includes('images.unsplash.com') || url.includes('photo');
+      url.includes("images.unsplash.com") || url.includes("photo");
 
     // Return true if either condition is true
     return hasImageExtension || containsImagePattern;
   };
-
 
   const handleViewClick = (urls) => {
     const urlArray = urls.split(","); // Split the comma-separated URLs into an array
@@ -70,14 +76,32 @@ const DetailsView = ({ item, propertyName, showIframe }) => {
                 <td className="py-2 pr-1 text-sm dark:text-white whitespace-nowrap align-top">
                   {value.label}:
                 </td>
-                <td className="py-2 pl-1 text-sm dark:text-white align-top break-all">
-                  {renderCellContent(
-                    value.value,
-                    value,
-                    null,
-                    null,
-                    null,
-                    "details"
+                <td className="py-2 pl-1 text-sm dark:text-white align-top break-all flex gap-2">
+                  {value.isEditableField ? (
+                    <DetailsViewUpdate
+                      renderValue={renderCellContent(
+                        value.value,
+                        value,
+                        null,
+                        null,
+                        null,
+                        "details"
+                      )}
+                      value={value}
+                      refetch={refetch}
+                      id={id}
+                      objectId={objectId}
+                      item={item}
+                    />
+                  ) : (
+                    renderCellContent(
+                      value.value,
+                      value,
+                      null,
+                      null,
+                      null,
+                      "details"
+                    )
                   )}
                 </td>
               </tr>
@@ -159,28 +183,29 @@ const DetailsView = ({ item, propertyName, showIframe }) => {
             ></iframe>
           )}
 
-          {iframeUrls.length > 1 && !isImageUrl(iframeUrls[currentIframeIndex]) && (
-            <div className="flex justify-between w-full p-4">
-              <Button
-                className="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:text-cleanWhite"
-                variant="outline"
-                size="sm"
-                onClick={handlePrevious}
-                disabled={currentIframeIndex === 0}
-              >
-                Previous
-              </Button>
-              <Button
-                className="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:text-cleanWhite"
-                variant="outline"
-                size="sm"
-                onClick={handleNext}
-                disabled={currentIframeIndex === iframeUrls.length - 1}
-              >
-                Next
-              </Button>
-            </div>
-          )}
+          {iframeUrls.length > 1 &&
+            !isImageUrl(iframeUrls[currentIframeIndex]) && (
+              <div className="flex justify-between w-full p-4">
+                <Button
+                  className="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:text-cleanWhite"
+                  variant="outline"
+                  size="sm"
+                  onClick={handlePrevious}
+                  disabled={currentIframeIndex === 0}
+                >
+                  Previous
+                </Button>
+                <Button
+                  className="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:text-cleanWhite"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleNext}
+                  disabled={currentIframeIndex === iframeUrls.length - 1}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
         </div>
       </Dialog>
     </div>
