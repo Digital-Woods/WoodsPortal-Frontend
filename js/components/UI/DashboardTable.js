@@ -237,11 +237,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-primary text-2xl dark:text-gray-300">
+          <p className="text-primary md:text-2xl text-base dark:text-gray-300">
             No records found
           </p>
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-2xl dark:text-gray-300">
+            <p className="text-primary text-base md:text-2xl dark:text-gray-300">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }
