@@ -237,17 +237,17 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-primary text-2xl dark:text-gray-300">
+          <p className="text-primary md:text-2xl text-base dark:text-gray-300">
             No records found
           </p>
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-2xl dark:text-gray-300">
+            <p className="text-primary text-base md:text-2xl dark:text-gray-300">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }
         </div>
       )}
-      <div className="flex justify-between items-center px-6 py-5">
+      <div className="flex justify-between md:flex-row flex-col-reverse md:items-center md:px-6 px-0 md:py-5 py-2">
         <div className="flex items-center gap-x-2 pt-3 text-sm">
           <p className="text-primary leading-5 text-sm dark:text-gray-300">
             Showing
@@ -264,9 +264,11 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         {hubSpotUserDetails.sideMenu[0].tabName === title
           ? null
           : (tableAPiData && tableAPiData.configurations && tableAPiData.configurations.createFormButton) && (
+            <div className="text-end">
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
               <span className="mr-2"> + </span> Create {title}
             </Button>
+            </div>
           )}
       </div>
 

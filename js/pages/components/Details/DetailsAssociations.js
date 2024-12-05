@@ -12,7 +12,7 @@ const DetailsAssociations = ({
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
   return (
-    <Accordion className="mb-0 rounded-none" isActive={isActive}>
+    <Accordion className="mb-0 rounded-sm" isActive={isActive}>
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
           <span>
