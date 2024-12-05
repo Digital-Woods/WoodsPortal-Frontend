@@ -143,7 +143,7 @@ const DetailsView = ({
       )} */}
 
       <Dialog open={iframeViewDialog}>
-        <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center inline-flex w-[90vw] h-[90vh]">
+        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center inline-flex w-[90vw] lg:h-[90vh] h-[85vh]">
           <div className="flex justify-end w-[100%]">
             <div
               className="cursor-pointer text-primary dark:text-cleanWhite"

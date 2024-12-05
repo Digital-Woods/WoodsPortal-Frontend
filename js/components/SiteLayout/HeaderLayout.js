@@ -110,7 +110,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
           {dropdownOpen && (
             <div
               ref={dropdownRef}
-              className="absolute right-8 mt-2 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400"
+              className="absolute right-8 mt-2 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400 z-[53]"
             >
               <div className="flex flex-col p-4">
                 <div className="flex">

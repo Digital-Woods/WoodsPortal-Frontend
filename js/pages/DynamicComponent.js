@@ -64,13 +64,17 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   }
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
+  useEffect(() => {
+    if (isLargeScreen) setSidebarOpen(false);
+  }, [isLargeScreen]);
+
 
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
       <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-6 md:pt-6 
       ${isLargeScreen
           ? " "
-          : `${!sidebarOpen ? 'md:pr-6 pr-3  pl-3  pt-3' : 'pt-0 pl-0'} rounded-tr-xl`
+          : `${!sidebarOpen ? 'md:pr-6 pr-3  pl-3  pt-3' : 'pl-3 pt-3'} rounded-tr-xl`
         }
       relative`}>
         <div class={`h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
@@ -204,7 +208,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 <div
                   className={`${isLargeScreen
                     ? "relative translate-x-0"
-                    : "absolute translate-x-full  md:p-3 px-2 pb-2 z-50"
+                    : "absolute translate-x-full md:w-[365px] w-screen md:p-3 px-2 pb-2 z-50"
                     } inset-y-0 bg-cleanWhite dark:bg-dark-200 right-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0 pt-2" : "translate-x-full"
                     }`}
                 >
@@ -245,6 +249,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                             title={option.label}
                             apis={sidebarDataApis}
                             companyAsMediator={option.companyAsMediator}
+                            pipeLineId={option.pipeLineId}
+                            specPipeLine={option.specPipeLine}
                           />
                         ) : (
                           <SidebarTable
@@ -254,6 +260,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                             title={option.label}
                             apis={sidebarDataApis}
                             companyAsMediator={option.companyAsMediator}
+                            pipeLineId={option.pipeLineId}
+                            specPipeLine={option.specPipeLine}
                           />
                         );
                       })}

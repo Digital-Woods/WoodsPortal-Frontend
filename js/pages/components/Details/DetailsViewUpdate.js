@@ -174,7 +174,7 @@ const DetailsViewUpdateDialog = ({
               validationSchema={validationSchemaPipeline}
               initialValues={initialValues}
               // serverError={serverError}
-              className="dark:bg-[#181818] m-0"
+              className="dark:bg-dark-500 m-0"
             >
               {({ register, control, formState: { errors } }) => (
                 <div>
@@ -374,7 +374,7 @@ const DetailsViewUpdate = ({
               validationSchema={validationSchema}
               initialValues={initialValues}
               // serverError={serverError}
-              className="dark:bg-[#181818] m-0"
+              className=" m-0"
             >
               {({ register, control, formState: { errors } }) => (
                 <div className="flex gap-2">

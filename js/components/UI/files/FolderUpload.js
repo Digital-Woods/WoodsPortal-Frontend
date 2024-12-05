@@ -5,7 +5,7 @@ const FolderUpload = ({
   folderId,
   fileId,
   setAlert,
-  objectId, 
+  objectId,
   id
 }) => {
   const { sync, setSync } = useSync();
@@ -68,13 +68,13 @@ const FolderUpload = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={() => {} /* Disable closing on backdrop click */}
+      onClose={() => { } /* Disable closing on backdrop click */}
     >
       <div
         className="flex relative items-center justify-center"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on modal content
       >
-        <div className="bg-cleanWhite dark:bg-dark-200 p-4">
+        <div className="bg-cleanWhite min-w-[256px] dark:bg-dark-200">
           <h2 className="text-lg font-semibold mb-4 dark:text-white">
             <div
               className="absolute right-0 top-[-10px] cursor-pointer"
@@ -88,11 +88,12 @@ const FolderUpload = ({
             type="text"
             value={newFolderName}
             onChange={(e) => setNewFolderName(e.target.value)}
-            className="border border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
+            className="border text-white border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
             placeholder="Folder Name"
           />
           <div className="mt-4 flex gap-x-5 justify-end">
             <Button
+              className='dark:text-white'
               onClick={onClose}
               variant="outline"
               disabled={createFolderMutation.isLoading}

@@ -240,8 +240,8 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
   };
 
   return (
-    <div className="table-container">
-      <table className=" dark:bg-[#2a2a2a]  table-auto w-full mb-6">
+    <div className="table-container w-full overflow-x-auto">
+      <table className=" dark:bg-[#2a2a2a] w-full table-auto mb-6">
         <thead className="bg-gray-100 text-left dark:bg-dark-200">
           <tr>
             <th className="px-4 py-2 text-xs"></th>
