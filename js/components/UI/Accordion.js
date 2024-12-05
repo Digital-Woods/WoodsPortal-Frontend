@@ -79,7 +79,7 @@ const AccordionDetails = ({ children, active, id }) => {
   return (
     <div
       ref={contentEl}
-      className={`transition-height duration-300 overflow-hidden ${
+      className={`rounded-md transition-height duration-300 overflow-hidden  bg-white dark:bg-dark-300 ${
         active != null ? "max-h-screens" : "max-h-0"
       }`}
       style={
@@ -88,7 +88,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      <div className="px-2 bg-white bg-[#fff] dark:bg-dark-300">{children}</div>
+      <div className="rounded-md px-2 bg-white dark:bg-dark-300">{children}</div>
     </div>
   );
 };

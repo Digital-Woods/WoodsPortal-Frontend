@@ -198,8 +198,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 <div
                   className={`${isLargeScreen
                     ? "relative translate-x-0"
-                    : "absolute translate-x-full  md:p-3 p-2 z-50"
-                    } inset-y-0 bg-cleanWhite dark:bg-dark-200 right-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "translate-x-full"
+                    : "absolute translate-x-full  md:p-3 px-2 pb-2 z-50"
+                    } inset-y-0 bg-cleanWhite dark:bg-dark-200 right-0 transform transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0 pt-2" : "translate-x-full"
                     }`}
                 >
                   {!isLargeScreen && sidebarOpen ?
