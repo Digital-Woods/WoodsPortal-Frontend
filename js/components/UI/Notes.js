@@ -126,7 +126,7 @@ const NoteCard = ({ note, objectId, id, imageUploadUrl, attachmentUploadUrl, ref
               }
             </div>
             :
-            <div className="p-[24px] cursor-text"
+            <div className="p-[16px] cursor-text"
               onClick={(e) => e.stopPropagation()}
             >
               <CKEditor
@@ -294,7 +294,7 @@ const Notes = ({ path, objectId, id }) => {
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
   return (
-    <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-[#212121] p-4">
+    <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-[#212121]">
       {alert && (
         <Alert
           message={alert.message}
@@ -324,7 +324,7 @@ const Notes = ({ path, objectId, id }) => {
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className=" relative mx-auto bg-white overflow-y-auto w-[50%]"
+        className=" relative mx-auto bg-white overflow-y-auto lg:w-[460px] md:w-[400px] w-[300px] "
       >
         <div
           className="absolute right-3 top-2 cursor-pointer"

@@ -38,7 +38,7 @@ const DetailsAssociations = ({
       <AccordionDetails>
         <div className="flex flex-col py-2">
           {association.total === 0 ? (
-            <div className="p-2 dark:bg-[#3e3e3e] rounded-md text-xs font-semibold dark:text-white">
+            <div className="p-2 dark:bg-[#3e3e3e] bg-white rounded-md text-xs font-semibold dark:text-white">
               See the {association.labels.plural} associated with this record.
             </div>
           ) : (
@@ -48,7 +48,7 @@ const DetailsAssociations = ({
                 {association.data.map((item, index) => (
                   <div key={index} className="mb-2">
                     <div className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500">
-                      <table className="dark:bg-[#3e3e3e]">
+                      <table className="dark:bg-[#3e3e3e] bg-white">
                         {item &&
                           sortData(item, "associations").map((value, index) => (
                             <tr key={value.key}>

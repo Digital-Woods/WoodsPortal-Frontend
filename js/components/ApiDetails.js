@@ -95,8 +95,13 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     let path = breadcrumbItems[breadcrumbItems.length - 1];
     return path.path;
   };
-
+  
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
+
+  useEffect(() => {
+    if (isLargeScreen) setSidebarOpen(false);
+  }, [isLargeScreen]);
+
 
   if (error) {
     return (
