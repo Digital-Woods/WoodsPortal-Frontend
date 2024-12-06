@@ -5,7 +5,7 @@ const Login = () => {
   return (
     <div>
       {activeState === "pre-login" ? (
-        <PreLogin setActiveState={setActiveState} setEntredEmail={setEntredEmail} />
+        <PreLogin setActiveState={setActiveState} entredEmail={entredEmail} setEntredEmail={setEntredEmail} />
       ) : activeState === "final-login" ? (
         <FinalLogin setActiveState={setActiveState} entredEmail={entredEmail} />
       ) : (
