@@ -4,7 +4,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
-  const [configurations, setConfigurations] = useState(null);
+  const [configurations, setConfigurations] = useState({
+    fileManager: false,
+    note: false,
+    ticket: false
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const param = getParam("t");
   const [activeTab, setActiveTab] = useState(param || "overview");
@@ -170,17 +174,17 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                     <TabsTrigger value="overview">
                       <p className="text-black dark:text-white">Overview</p>
                     </TabsTrigger>
-                    {configurations.fileManager && (
+                    {configurations && configurations.fileManager && (
                       <TabsTrigger value="files">
                         <p className="text-black dark:text-white">Files</p>
                       </TabsTrigger>
                     )}
-                    {configurations.note && (
+                    {configurations && configurations.note && (
                       <TabsTrigger value="notes">
                         <p className="text-black dark:text-white">Notes</p>
                       </TabsTrigger>
                     )}
-                    {configurations.ticket && (
+                    {configurations && configurations.ticket && (
                       <TabsTrigger value="tickets">
                         <p className="text-black dark:text-white">Tickets</p>
                       </TabsTrigger>

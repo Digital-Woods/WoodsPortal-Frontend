@@ -174,7 +174,6 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                         id="fileupload"
                         className="file-upload-input"
                         onChange={inputChange}
-                        multiple
                       />
                       <p> Drag and drop </p>
                       <p> or </p>
