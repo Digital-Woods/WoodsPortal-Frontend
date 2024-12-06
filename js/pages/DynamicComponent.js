@@ -71,10 +71,10 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
 
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
-      <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-6 md:pt-6 
+      <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-4 md:pt-4 
       ${isLargeScreen
           ? " "
-          : `${!sidebarOpen ? 'md:pr-6 pr-3  pl-3  pt-3' : 'pl-3 pt-3'} rounded-tr-xl`
+          : `${!sidebarOpen ? 'md:pr-4 pr-3  pl-3  pt-3' : 'pl-3 pt-3'} rounded-tr-xl`
         }
       relative`}>
         <div class={`h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
@@ -177,7 +177,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
             )}
 
             <div
-              className={`lg:max-h-[calc(100vh-82px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto  ${showSidebarListDataOption &&
+              className={`lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto  ${showSidebarListDataOption &&
                 hubSpotUserDetails.sideMenu[0].tabName === title
                 ? isLargeScreen
                   ? "w-[calc(100%_-350px)]"
@@ -227,7 +227,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                     </div>
                     : ''
                   }
-                  <div className={`${!isSmallScreen ? 'w-[350px]  pr-3' : 'w-full'} lg:max-h-[calc(100vh-82px)]  max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
+                  <div className={`${!isSmallScreen ? 'w-[350px]  pr-3' : 'w-full'} lg:max-h-[calc(100vh-90px)]  max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
                     <div className="flex-col flex lg:gap-6 gap-3">
                       {sidebarListDataOption.map((option, index) => {
                         const hubspotObjectTypeId = option.hubspotObjectTypeId;

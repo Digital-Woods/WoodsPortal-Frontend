@@ -30,7 +30,7 @@ const IframeViewDialog = ({
 
         {/* Render image or iframe based on the URL extension */}
         {iframeUrls.length > 0 && isImageUrl(iframeUrls[0]) ? (
-          <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 w-full h-auto p-4 overflow-auto">
+          <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 w-full h-auto pt-4 overflow-auto">
             {iframeUrls.map((url, index) => (
               <div key={index} className="flex justify-center items-start">
                 <img
@@ -42,13 +42,15 @@ const IframeViewDialog = ({
             ))}
           </div>
         ) : (
-          <iframe
-            id="frame"
-            src={iframeUrls[currentIframeIndex]}
-            width="100%"
-            height="100%"
-            title={`iframe-${currentIframeIndex}`}
-          ></iframe>
+          <div className="pt-4 h-full w-full">
+            <iframe
+              id="frame"
+              src={iframeUrls[currentIframeIndex]}
+              width="100%"
+              height="100%"
+              title={`iframe-${currentIframeIndex}`}
+            ></iframe>
+          </div>
         )}
 
         {iframeUrls.length > 1 &&

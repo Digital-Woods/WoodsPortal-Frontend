@@ -31,10 +31,10 @@ const FileDetailsModal = ({ file, onClose }) => {
 
   return (
     <div>
-      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="fixed inset-0 flex items-center justify-center z-[60] bg-black bg-opacity-50">
         <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[720px] min-h-[380px] max-h-[80vh] overflow-auto">
           <div className="flex justify-between items-center border-b pb-4">
-            <h2 className="font-semibold dark:text-white">{file.data.name}</h2>
+            <h2 className="font-medium text-lg dark:text-white">{file.data.name}</h2>
             <button onClick={onClose} className="text-xl font-bold">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,10 +53,10 @@ const FileDetailsModal = ({ file, onClose }) => {
               {copyMessage}
             </div>
           )}
-          <div className="mt-4 flex md:flex-row flex-col gap-4 h-full items-end">
+          <div className="flex md:flex-row flex-col gap-4 items-center pt-3">
             {file.data.url ? (
               file.data.type === "IMG" ? (
-                <div>
+                <div className="aspect-[16/9] flex items-center justify-center">
                   {isImageLoading && (
                     <div role="status" class="animate-pulse h-48">
                       <div class="flex items-center justify-center max-w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
@@ -70,24 +70,38 @@ const FileDetailsModal = ({ file, onClose }) => {
                   <img
                     src={file.data.url}
                     alt={file.data.name}
-                    className={`max-w-full max-h-full mx-auto rounded-lg shadow-md transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
+                    className={`max-w-full w-auto h-full max-h-full mx-auto rounded-lg transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
                       }`}
                     onLoad={() => setIsImageLoading(false)}
                   />
                 </div>
               ) : (
-                <iframe
-                  src={`${file.data.url}#toolbar=0`}
-                  title={file.data.name}
-                  className="w-full h-[271px] border-0 rounded-lg shadow-md"
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
+                // <iframe
+                //   src={`${file.data.url}#toolbar=0`}
+                //   title={file.data.name}
+                //   className="w-full h-[271px] border-0 rounded-lg shadow-md"
+                //   frameBorder="0"
+                //   allowFullScreen
+                // ></iframe>
+                <div className="aspect-video flex items-center justify-center">
+                  {isImageLoading && (
+                    <div role="status" class="animate-pulse h-48">
+                      <div class="flex items-center justify-center max-w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
+                        <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+
+                  {getIcon(file.data.type)}
+
+                </div>
               )) : null}
 
-            <div className="">
-              <div className="mt-4 w-full">
-                <table className=" dark:bg-[#2a2a2a] w-full table-auto">
+            <div className="w-full">
+              <div className=" w-full">
+                <table className="bg-white dark:bg-[#2a2a2a] w-full rounded-lg table-auto">
                   <tbody>
                     <tr>
                       <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
@@ -162,7 +176,7 @@ const FileDetailsModal = ({ file, onClose }) => {
 
       {
         isFullImageVisible && (
-          <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-80">
+          <div className="fixed inset-0 flex items-center justify-center z-[61] bg-black bg-opacity-80">
             <button
               onClick={closeFullImage}
               className="absolute top-4 right-4 text-white text-xl"

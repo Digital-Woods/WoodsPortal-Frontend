@@ -116,7 +116,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200 w-[100%] md:p-6 p-3 !pb-0 overflow-hidden rounded-tl-xl">
+    <div className="dark:bg-dark-200 w-[100%] md:p-4 p-3 overflow-hidden rounded-tl-xl">
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
@@ -149,7 +149,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             ""
           )}
 
-          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:max-h-[calc(100vh-82px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
+          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:max-h-[calc(100vh-100px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
             <div className={``}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
@@ -250,7 +250,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             : " md:w-[350px] absolute translate-x-full w-full md:p-3 px-2 pb-2 z-50"
             } ${sidebarOpen ? "translate-x-0 pt-2" : "translate-x-full"}
             rounded-md bg-cleanWhite dark:bg-dark-200  right-0 transform transition duration-200 ease-in-out
-            lg:h-[calc(100vh-82px)] h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
+            lg:h-[calc(100vh-100px)] h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
             {associations && !isLargeScreen && sidebarOpen ?
               <div className=" rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
                 <button className='rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark' onClick={() => setSidebarOpen(false)}>
