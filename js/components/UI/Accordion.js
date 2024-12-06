@@ -20,7 +20,7 @@ const Accordion = ({ children, className, isActive }) => {
   return (
     <div
       className={twMerge(
-        "rounded overflow-hidden border dark:border-gray-600 bg-[#fff] dark:bg-dark-300 dark:text-white mb-4",
+        "rounded overflow-hidden border dark:border-gray-600 bg-white dark:bg-dark-300 dark:text-white mb-4",
         className
       )}
     >
@@ -37,7 +37,7 @@ const Accordion = ({ children, className, isActive }) => {
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
   return (
     <div
-      className={`flex justify-between dark:border-gray-600 bg-[#fff] dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
+      className={`flex justify-between dark:border-gray-600 bg-white dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
         active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}

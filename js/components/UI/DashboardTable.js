@@ -243,7 +243,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
           }
         </div>
       )}
-      <div className="flex justify-between md:flex-row flex-col-reverse md:items-center md:px-6 px-0 md:py-5 py-2">
+      <div className="flex justify-between md:flex-row flex-col-reverse md:items-center md:px-6 px-0 md:py-5 py-2 dark:px-2">
         <div className="flex items-center gap-x-2 pt-3 text-sm">
           <p className="text-primary leading-5 text-sm dark:text-gray-300">
             Showing

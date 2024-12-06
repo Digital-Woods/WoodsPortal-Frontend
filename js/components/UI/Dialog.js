@@ -26,7 +26,7 @@ const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="bg-cleanWhite p-4  sm:p-6 dark:bg-dark-100"
+                className="bg-cleanWhite p-4  sm:p-6 dark:bg-dark-200"
                 {...props}
               />
             </div>

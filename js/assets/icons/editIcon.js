@@ -2,7 +2,7 @@ const EditIcon = (props) => (
   <svg
     {...props}
     xmlns="http://www.w3.org/2000/svg"
-    height="153x"
+    height="153px"
     viewBox="0 -960 960 960"
     width="13px"
     fill="#5f6368"

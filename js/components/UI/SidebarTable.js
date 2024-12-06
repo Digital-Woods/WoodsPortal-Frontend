@@ -1,5 +1,5 @@
 
-const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, companyAsMediator, apis, detailsView = true, editView = false }) => {
+const SidebarTable = ({ hubspotObjectTypeId, path, inputValue,pipeLineId, specPipeLine, title, companyAsMediator, apis, detailsView = true, editView = false }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -8,7 +8,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, companyAsM
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
@@ -75,7 +75,10 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, companyAsM
   const objectTypeName = getParam("objectTypeName")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  const param = companyAsMediator ? `?mediatorObjectTypeId=0-2` : ''
+  const param = companyAsMediator
+  ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+  : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`; 
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal().portalId
@@ -270,7 +273,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, title, companyAsM
           ))}
         </ul>
         {tableData.length > 0 &&
-          <div className="flex justify-between mt-3 items-center">
+          <div className="flex lg:flex-row flex-col justify-between mt-3 items-center">
             <div className="text-end">
               {env.DATA_SOURCE_SET != true &&
                 <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>

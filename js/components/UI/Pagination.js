@@ -3,31 +3,20 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
 
   useEffect(() => {
     let tempNumberOfButtons = [];
-    const dotsInitial = "...";
-    const dotsLeft = "... ";
-    const dotsRight = " ...";
+    const dots = "...";
 
-    if (numOfPages < 6) {
+    if (numOfPages <= 3) {
+      // Show all pages if numOfPages is less than or equal to 3
       tempNumberOfButtons = Array.from({ length: numOfPages }, (_, i) => i + 1);
-    } else if (currentPage >= 1 && currentPage <= 3) {
-      tempNumberOfButtons = [1, 2, 3, 4, dotsInitial, numOfPages];
-    } else if (currentPage === 4) {
-      const sliced = Array.from({ length: 5 }, (_, i) => i + 1);
-      tempNumberOfButtons = [...sliced, dotsInitial, numOfPages];
-    } else if (currentPage > 4 && currentPage < numOfPages - 2) {
-      const sliced1 = [currentPage - 2, currentPage - 1];
-      const sliced2 = [currentPage];
-      tempNumberOfButtons = [
-        1,
-        dotsLeft,
-        ...sliced1,
-        ...sliced2,
-        dotsRight,
-        numOfPages,
-      ];
-    } else if (currentPage > numOfPages - 3) {
-      const sliced = Array.from({ length: 4 }, (_, i) => numOfPages - 3 + i);
-      tempNumberOfButtons = [1, dotsLeft, ...sliced];
+    } else if (currentPage === 1) {
+      // If currentPage is the first page
+      tempNumberOfButtons = [1, dots, numOfPages];
+    } else if (currentPage === numOfPages) {
+      // If currentPage is the last page
+      tempNumberOfButtons = [1, dots, numOfPages];
+    } else {
+      // For pages in between
+      tempNumberOfButtons = [1, dots, currentPage, dots, numOfPages];
     }
 
     setArrOfCurrButtons(tempNumberOfButtons);
@@ -63,7 +52,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
         {arrOfCurrButtons.map((data, index) => (
           <li
             key={index}
-            className={`cursor-pointer px-4 py-2 rounded-md text-sm ${
+            className={`cursor-pointer text-sm px-2 py-1 rounded-md text-sm ${
               currentPage === data
                 ? " bg-primary dark:bg-dark-400 text-white"
                 : ""

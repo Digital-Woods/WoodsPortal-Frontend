@@ -169,7 +169,7 @@ const Files = ({ fileId, path, objectId, id }) => {
 
   return (
     <div onClick={closeContextMenu}>
-      <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 p-4">
+      <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 md:p-4 p-2">
         <div className="flex justify-between mb-6 items-center mt-2">
           <Input
             placeholder="Search..."
@@ -179,13 +179,13 @@ const Files = ({ fileId, path, objectId, id }) => {
           />
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex md:flex-row flex-col-reverse justify-between gap-2 md:items-center ">
           <FileBreadcrumb
             id={id}
             folderStack={folderStack}
             onClick={handleBreadcrumbClick}
           />
-          <div className="flex space-x-2">
+          <div className="flex justify-end space-x-2">
             <Button
               size="sm"
               className="text-white w-28"
@@ -218,7 +218,7 @@ const Files = ({ fileId, path, objectId, id }) => {
         />
         {/* <ModuleFileTable/> */}
 
-        <div className="flex justify-between items-center px-4">
+        <div className="flex flex md:flex-row flex-col gap-2 justify-between items-center ">
           <div className="flex items-center gap-x-2 pt-3 text-sm">
             <p className="text-primary leading-5 text-sm dark:text-gray-300">
               Showing
