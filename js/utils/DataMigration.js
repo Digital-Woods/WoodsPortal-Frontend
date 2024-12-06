@@ -131,7 +131,7 @@ const sortData = (list, type = 'list') => {
   if (type == 'associations') list = filterAssociationsData(list)
   let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key })) : list
 
-  data = data.filter(item => item.key !== "hs_object_id");
+  data = data.filter(item => item.key !== "hs_object_id" && item.key !== "associations");
 
   // Sorting function
   data.sort((a, b) => {

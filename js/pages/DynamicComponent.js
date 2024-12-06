@@ -194,7 +194,6 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 propertyName={propertyName}
                 showIframe={showIframe}
                 apis={apis}
-                editView={true}
               />
             </div>
 

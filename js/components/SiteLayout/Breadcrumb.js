@@ -23,14 +23,13 @@ const Breadcrumb = ({ id, title, path }) => {
       routeName: routeName
     }]
 
-    if (cPath.length == 2) localStorage.clear();
+    // if (cPath.length == 2) localStorage.clear();
 
     let breadcrumb = getParam("b")
 
     let breadcrumbItems = breadcrumb ? JSON.parse(decodeToBase64(breadcrumb)) : breadcrumbs;
 
     let index = breadcrumbItems.findIndex(breadcrumb => breadcrumb.routeName === routeName);
-
 
     let updatedBreadcrumbs = index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems;
 
