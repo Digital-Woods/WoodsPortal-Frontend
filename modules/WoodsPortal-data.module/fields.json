@@ -412,6 +412,28 @@
       "type" : "text",
       "default" : "Ticket"
     }, {
+      "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
+      "name" : "object_type_id",
+      "display_width" : null,
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "default" : "0-5"
+    }, {
       "id" : "f1319d61-aa3b-088b-b243-d105de0909dc",
       "name" : "mediator_object_type_id",
       "display_width" : null,
@@ -425,7 +447,7 @@
       "id" : "92d7d9dc-97b4-2824-8ae4-d1b8f54d85d5",
       "name" : "add_specific_pipeline",
       "display_width" : null,
-      "label" : "Add Specific Pipeline",
+      "label" : "Filter By Pipeline",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -490,28 +512,6 @@
       "step" : 1,
       "type" : "number",
       "default" : 15
-    }, {
-      "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
-      "name" : "object_type_id",
-      "display_width" : null,
-      "label" : "Object Type ID",
-      "help_text" : "Provide the unique Object Type ID to link the correct data.",
-      "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-      "required" : false,
-      "locked" : false,
-      "validation_regex" : "",
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "hubspot_data_source",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "NOT_EQUAL",
-        "access" : null
-      },
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
-      "default" : "0-5"
     }, {
       "id" : "43518b07-391d-24fa-3cdf-2da018624b6e",
       "name" : "icon_svg_code",

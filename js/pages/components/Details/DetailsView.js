@@ -28,7 +28,7 @@ const DetailsView = ({
   };
 
   const handleViewClick = (urls) => {
-    const urlArray = urls.split(","); // Split the comma-separated URLs into an array
+    const urlArray = urls.split(",").map((url) => url.trim()); // Split and trim the comma-separated URLs
     setIframeUrls(urlArray);
     setCurrentIframeIndex(0); // Start with the first URL
     setIframeViewDialog(true);
@@ -142,72 +142,17 @@ const DetailsView = ({
         </div>
       )} */}
 
-      <Dialog open={iframeViewDialog}>
-        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center inline-flex w-[90vw] lg:h-[90vh] h-[85vh]">
-          <div className="flex justify-end w-[100%]">
-            <div
-              className="cursor-pointer text-primary dark:text-cleanWhite"
-              onClick={() => setIframeViewDialog(false)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="currentcolor"
-              >
-                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
-            </div>
-          </div>
+      {/* Iframe View Dialog Component */}
+      <IframeViewDialog
+        open={iframeViewDialog}
+        onClose={() => setIframeViewDialog(false)}
+        iframeUrls={iframeUrls}
+        currentIframeIndex={currentIframeIndex}
+        handleNext={handleNext}
+        handlePrevious={handlePrevious}
+        isImageUrl={isImageUrl}
+      />
 
-          {/* Render image or iframe based on the URL extension */}
-          {iframeUrls.length > 0 && isImageUrl(iframeUrls[0]) ? (
-            <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 w-full h-full p-4 overflow-auto">
-              {iframeUrls.map((url, index) => (
-                <div key={index} className="flex justify-center items-start">
-                  <img
-                    src={url}
-                    alt={`Gallery Image ${index + 1}`}
-                    className="w-full h-auto object-contain"
-                  />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <iframe
-              id="frame"
-              src={iframeUrls[currentIframeIndex]}
-              width="100%"
-              height="100%"
-            ></iframe>
-          )}
-
-          {iframeUrls.length > 1 &&
-            !isImageUrl(iframeUrls[currentIframeIndex]) && (
-              <div className="flex justify-between w-full p-4">
-                <Button
-                  className="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:text-cleanWhite"
-                  variant="outline"
-                  size="sm"
-                  onClick={handlePrevious}
-                  disabled={currentIframeIndex === 0}
-                >
-                  Previous
-                </Button>
-                <Button
-                  className="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:text-cleanWhite"
-                  variant="outline"
-                  size="sm"
-                  onClick={handleNext}
-                  disabled={currentIframeIndex === iframeUrls.length - 1}
-                >
-                  Next
-                </Button>
-              </div>
-            )}
-        </div>
-      </Dialog>
     </div>
   );
 };

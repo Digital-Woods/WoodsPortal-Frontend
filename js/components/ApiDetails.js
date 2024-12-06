@@ -95,7 +95,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     let path = breadcrumbItems[breadcrumbItems.length - 1];
     return path.path;
   };
-  
+
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200 w-[100%] md:p-6 p-3 overflow-hidden rounded-tl-xl">
+    <div className="dark:bg-dark-200 w-[100%] md:p-6 p-3 !pb-0 overflow-hidden rounded-tl-xl">
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
@@ -159,7 +159,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 path={path}
                 item={item}
               />
-
+              <IframeViewDialog />
               <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
                 <Tabs
                   activeTab={activeTab}
