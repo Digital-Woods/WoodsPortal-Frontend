@@ -198,6 +198,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 propertyName={propertyName}
                 showIframe={showIframe}
                 apis={apis}
+                componentName="object"
               />
             </div>
 

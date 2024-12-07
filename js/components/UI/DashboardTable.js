@@ -25,7 +25,19 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, detailsView = true, editView = false, viewName = '', detailsUrl='' }) => {
+const DashboardTable = ({ 
+  hubspotObjectTypeId, 
+  path, 
+  inputValue, 
+  title, 
+  apis, 
+  detailsView = true, 
+  editView = false, 
+  viewName = '', 
+  detailsUrl='',
+  componentName,
+  defPermissions = null
+}) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
@@ -43,6 +55,8 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [permissions, setPermissions] = useState(defPermissions);
+  
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
@@ -140,6 +154,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
+        if(defPermissions === null) setPermissions(data.configurations[componentName])
       }
     },
     onError: () => {
@@ -236,9 +251,9 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
           <p className="text-primary md:text-2xl text-base dark:text-gray-300">
             No records found
           </p>
-          {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
+          {(permissions && permissions.association) &&
             <p className="text-primary text-base md:text-2xl dark:text-gray-300">
-              {tableAPiData.data.configurations.associationMessage}
+              {permissions.associationMessage}
             </p>
           }
         </div>
@@ -259,7 +274,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
         </div>
         {hubSpotUserDetails.sideMenu[0].tabName === title
           ? null
-          : (tableAPiData && tableAPiData.configurations && tableAPiData.configurations.createFormButton) && (
+          : (permissions && permissions.create) && (
             <div className="text-end">
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
               <span className="mr-2"> + </span> Create {title}
@@ -312,7 +327,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
 
                     </TableHead>
                   }
-                  {editView &&
+                  {editView && (permissions && permissions.update) &&
                     <TableHead className="font-semibold text-xs">
                       Actions
                     </TableHead>
@@ -386,7 +401,7 @@ const DashboardTable = ({ hubspotObjectTypeId, path, inputValue, title, apis, de
                         </div>
                       </TableCell>
                     }
-                    {editView &&
+                    {editView && (permissions && permissions.update) &&
                       <TableCell>
                         <div className="flex items-center space-x-2 gap-x-5">
                           <Button size="sm" className="text-white" onClick={() => {

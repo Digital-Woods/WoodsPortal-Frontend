@@ -133,6 +133,8 @@ const sortData = (list, type = 'list') => {
 
   data = data.filter(item => item.key !== "hs_object_id" && item.key !== "associations");
 
+  if (type == 'associations') data = data.filter(item => item.key !== "hs_pipeline_stage");
+
   // Sorting function
   data.sort((a, b) => {
     // 1. Key "hs_object_id" comes first
