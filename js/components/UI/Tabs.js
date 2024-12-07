@@ -21,7 +21,8 @@ const Tabs = ({ children, activeTab, setActiveTab = null, className }) => {
   }
 
   // Map over tabs and contents to generate JSX elements
-  const tabsList = React.Children.map(tabs[0].props.children, (trigger) => (
+  const filteredTabls = tabs[0].props.children.filter(item => item !== null && item !== false && item !== undefined);
+  const tabsList = React.Children.map(filteredTabls, (trigger) => (
     <TabsTrigger
       key={trigger.props.value}
       value={trigger.props.value}

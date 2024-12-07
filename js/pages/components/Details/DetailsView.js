@@ -5,6 +5,7 @@ const DetailsView = ({
   objectId,
   id,
   refetch,
+  permissions,
 }) => {
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
@@ -77,7 +78,7 @@ const DetailsView = ({
                   {value.label}:
                 </td>
                 <td className="py-2 pl-1 text-sm dark:text-white align-top break-all flex gap-2">
-                  {value.isEditableField ? (
+                  {value.isEditableField && (permissions && permissions.update) ? (
                     <DetailsViewUpdate
                       renderValue={renderCellContent(
                         value.value,

@@ -1,4 +1,4 @@
-const PreLogin = ({ setActiveState, setEntredEmail }) => {
+const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
   const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
@@ -108,6 +108,7 @@ const PreLogin = ({ setActiveState, setEntredEmail }) => {
                         icon={emailIcon}
                         placeholder="Email"
                         className=""
+                        defaultValue={entredEmail}
                         {...register("email")}
                       />
                     </div>

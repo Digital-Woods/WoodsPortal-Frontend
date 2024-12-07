@@ -4,10 +4,15 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [sortItems, setSortItems] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
-  const [configurations, setConfigurations] = useState(null);
+  const [configurations, setConfigurations] = useState({
+    fileManager: false,
+    note: false,
+    ticket: false
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const param = getParam("t");
   const [activeTab, setActiveTab] = useState(param || "overview");
+  const [permissions, setPermissions] = useState(null);
 
   // const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   // const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
@@ -53,6 +58,10 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       const details = data.data;
       const sortedItems = sortData(details, "details");
       setItems(sortedItems);
+
+      // console.log('data', data.configurations.object)
+      setPermissions(data.configurations)
+
 
       // if (data.data) {
       //   const finalData = JSON.parse(
@@ -170,17 +179,17 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                     <TabsTrigger value="overview">
                       <p className="text-black dark:text-white">Overview</p>
                     </TabsTrigger>
-                    {configurations.fileManager && (
+                    {permissions && permissions.fileManager.display && (
                       <TabsTrigger value="files">
                         <p className="text-black dark:text-white">Files</p>
                       </TabsTrigger>
                     )}
-                    {configurations.note && (
+                    {permissions && permissions.note.display && (
                       <TabsTrigger value="notes">
                         <p className="text-black dark:text-white">Notes</p>
                       </TabsTrigger>
                     )}
-                    {configurations.ticket && (
+                    {permissions && permissions.ticket.display && (
                       <TabsTrigger value="tickets">
                         <p className="text-black dark:text-white">Tickets</p>
                       </TabsTrigger>
@@ -216,15 +225,16 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   objectId={objectId}
                   id={id}
                   refetch={getData}
+                  permissions={permissions ? permissions.object : null}
                 />
               )}
 
               {activeTab === "files" && (
-                <Files fileId={id} path={path} objectId={objectId} id={id} />
+                <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
               )}
 
               {activeTab === "notes" && (
-                <Notes path={path} objectId={objectId} id={id} />
+                <Notes path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
               )}
 
               {activeTab === "tickets" && (
@@ -234,6 +244,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   id={id}
                   parentObjectTypeId={objectId}
                   parentObjectRowId={id}
+                  permissions={permissions ? permissions.ticket : null}
                 />
               )}
 

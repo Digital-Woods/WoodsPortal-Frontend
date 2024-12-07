@@ -1,4 +1,4 @@
-const Files = ({ fileId, path, objectId, id }) => {
+const Files = ({ fileId, path, objectId, id, permissions }) => {
   const [currentFiles, setCurrentFiles] = useState({ child: [] });
   const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -12,6 +12,8 @@ const Files = ({ fileId, path, objectId, id }) => {
   const itemsPerPage = 10;
 
   const [alert, setAlert] = useState({ message: "", type: "", show: false });
+
+  // const [permissions, setPermissions] = useState(null);
 
   const handleCloseAlert = () => {
     setAlert({ message: "", type: "", show: false });
@@ -39,7 +41,7 @@ const Files = ({ fileId, path, objectId, id }) => {
     return null;
   };
 
-  const portalId = getPortal().portalId
+  const portalId = getPortal().portalId;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () =>
@@ -47,11 +49,12 @@ const Files = ({ fileId, path, objectId, id }) => {
         objectId: objectId,
         id: id,
         portalId: portalId,
-        cache: sync ? false : true
+        cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      setSync(false)
-      if(data && data.data) {
+      setSync(false);
+      // setPermissions(data.configurations.fileManager);
+      if (data && data.data) {
         if (folderStack.length > 0 && currentFiles.name != id) {
           const foundObject = findObjectById(data.data, currentFiles.id);
           setCurrentFiles(foundObject);
@@ -62,7 +65,7 @@ const Files = ({ fileId, path, objectId, id }) => {
       }
     },
     onError: (error) => {
-      setSync(false)
+      setSync(false);
       console.error("Error fetching file details:", error);
     },
     // queryFn: async () => {
@@ -90,7 +93,7 @@ const Files = ({ fileId, path, objectId, id }) => {
   // }, [data]);
 
   useEffect(() => {
-    if (sync == true) refetch()
+    if (sync == true) refetch();
   }, [sync]);
 
   // console.log('folderStack', folderStack)
@@ -185,22 +188,25 @@ const Files = ({ fileId, path, objectId, id }) => {
             folderStack={folderStack}
             onClick={handleBreadcrumbClick}
           />
-          <div className="flex justify-end space-x-2">
-            <Button
-              size="sm"
-              className="text-white w-28"
-              onClick={() => setIsCreateFolderOpen(true)}
-            >
-              <span className="mr-2"> + </span> New Folder
-            </Button>
-            <Button
-              size="sm"
-              className="text-white w-28"
-              onClick={() => setIsDialogOpen(true)}
-            >
-              <span className="mr-2"> + </span> New File
-            </Button>
-          </div>
+          {permissions && permissions.create && (
+            <div className="flex justify-end space-x-2">
+              <Button
+                size="sm"
+                className="text-white w-28"
+                onClick={() => setIsCreateFolderOpen(true)}
+              >
+                <span className="mr-2"> + </span> New Folder
+              </Button>
+
+              <Button
+                size="sm"
+                className="text-white w-28"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                <span className="mr-2"> + </span> New File
+              </Button>
+            </div>
+          )}
         </div>
 
         <h1 className="text-xl font-semibold mb-4 dark:text-white">
@@ -215,6 +221,7 @@ const Files = ({ fileId, path, objectId, id }) => {
           refetch={refetch}
           objectId={objectId}
           id={id}
+          componentName="files"
         />
         {/* <ModuleFileTable/> */}
 

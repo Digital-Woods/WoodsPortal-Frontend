@@ -1,4 +1,4 @@
-const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId }) => {
+const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, permissions }) => {
   const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   const title = "Ticket"
 
@@ -25,6 +25,16 @@ const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId }) 
   }
 
   return (
-    <DashboardTable hubspotObjectTypeId={hubspotObjectTypeId} path={path} title={title} apis={apis} editView={true} viewName='ticket' detailsUrl={detailsUrl} />
+    <DashboardTable 
+      hubspotObjectTypeId={hubspotObjectTypeId} 
+      path={path} 
+      title={title} 
+      apis={apis} 
+      editView={true} 
+      viewName='ticket' 
+      detailsUrl={detailsUrl} 
+      componentName="ticket"
+      defPermissions={permissions}
+    />
   );
 };

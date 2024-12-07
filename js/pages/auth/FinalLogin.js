@@ -70,7 +70,19 @@ const EyeOffIcon = () => (
   </svg>
 );
 
-const FinalLogin = ({setActiveState, entredEmail}) => {
+const EditIcon2 = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="20px"
+    viewBox="0 -960 960 960"
+    width="20px"
+    fill="#5f6368"
+  >
+    <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+  </svg>
+);
+
+const FinalLogin = ({ setActiveState, entredEmail }) => {
   const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
@@ -114,12 +126,18 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
       }
 
       const currentDomain = window.location.origin;
-      const portal = data.data.loggedInDetails.portals.find(item => item.portalUrl === currentDomain);
-      setPortal(portal)
-      if (data.data.loggedInDetails && data.data.loggedInDetails.hubspot && data.data.loggedInDetails.hubspot.twoFa) {
-        setLoggedInDetails(data.data)
-        setTwoFa({ twoFa: data.data.loggedInDetails.hubspot.twoFa })
-        window.location.hash = '/login/tow-fa';
+      const portal = data.data.loggedInDetails.portals.find(
+        (item) => item.portalUrl === currentDomain
+      );
+      setPortal(portal);
+      if (
+        data.data.loggedInDetails &&
+        data.data.loggedInDetails.hubspot &&
+        data.data.loggedInDetails.hubspot.twoFa
+      ) {
+        setLoggedInDetails(data.data);
+        setTwoFa({ twoFa: data.data.loggedInDetails.hubspot.twoFa });
+        window.location.hash = "/login/tow-fa";
       } else {
         await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
         // getMe(); // Fetch user details
@@ -159,7 +177,6 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
   };
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
-
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
       {alert && (
@@ -169,14 +186,22 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className={`dark:bg-gray-900 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
+      <div
+        className={`dark:bg-gray-900 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${
+          isLargeScreen && "w-[30%]"
+        }  ${isMediumScreen && "w-[45%]"}  ${isSmallScreen && "w-[85%]"} `}
+      >
         <div className="">
           <div className="w-[80px]">
-            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo}
+              alt="Logo"
+              className={`h-auto `}
+            />
           </div>
         </div>
         <p className="text-center">
-        { moduleCompanyOptions.welcomeMessage || "Welcome" }
+          {moduleCompanyOptions.welcomeMessage || "Welcome"}
         </p>
         <div className="w-full">
           <Form
@@ -193,16 +218,24 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
                   </FormLabel>
                   <FormControl>
                     <div>
-                      <Input
-                        height="medium"
-                        icon={emailIcon}
-                        placeholder="Email"
-                        className=""
-                        {...register("email")}
-                        defaultValue={entredEmail}
-                        disabled
-                        readonly
-                      />
+                      <div className="relative">
+                        <Input
+                          height="medium"
+                          icon={emailIcon}
+                          placeholder="Email"
+                          className=""
+                          {...register("email")}
+                          defaultValue={entredEmail}
+                          disabled
+                          readonly
+                        />
+                        <span
+                          className="absolute right-2 top-3 cursor-pointer"
+                          onClick={() => setActiveState("pre-login")}
+                        >
+                          <EditIcon2 />
+                        </span>
+                      </div>
                     </div>
                   </FormControl>
                   {errors.username && (
@@ -225,7 +258,7 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
                         {...register("password")}
                       />
                       <span
-                        className="absolute right-2 top-2 cursor-pointer"
+                        className="absolute right-2 top-3 cursor-pointer"
                         onClick={togglePasswordVisibility}
                       >
                         {showPassword ? <EyeIcon /> : <EyeOffIcon />}
@@ -240,7 +273,10 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
                 </FormItem>
                 <div className="flex justify-end items-center">
                   <div>
-                    <NavLink to="/login" onClick={()=>setActiveState('pre-login')}>
+                    <NavLink
+                      to="/login"
+                      onClick={() => setActiveState("pre-login")}
+                    >
                       <p className="text-black text-xs dark:text-gray-300">
                         Back to enter email
                       </p>
@@ -248,10 +284,7 @@ const FinalLogin = ({setActiveState, entredEmail}) => {
                   </div>
                 </div>
                 <div className="mt-4 flex flex-col justify-center items-center">
-                  <Button
-                    className="w-full  "
-                    isLoading={isLoading}
-                  >
+                  <Button className="w-full  " isLoading={isLoading}>
                     Login
                   </Button>
                 </div>
