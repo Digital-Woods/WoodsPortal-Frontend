@@ -1,23 +1,18 @@
-{% if request_contact.is_logged_in %}
 
-{% set contact_id = request.contact.contact_vid %}
-{% set loggedInUser = crm_object('contact', contact_id,
-"firstname,lastname,email,phone,file_name,file_url,chart_value,chart_label,music_player,line_chart" ) %}
-{% set fileNames = loggedInUser.file_name | split(",")%}
-{% set fileURL = loggedInUser.file_url | split(",")%}
 
-{% for i in range(fileNames|length) %}
-{% set name = fileNames[i] %}
-{% set url = fileURL[i] %}
-{% do iframeDatas.append({'name': name, 'url': url}) %}
-{% endfor %}
+{% set iframeList = [] %} {# For Iframe Showing Logic #}
+{% set dynamicSidebarList = [] %} {# For Home tab right sidebar Logic #}
 
-{% set iframeList = [] %}
+  {# Home tab Add logic #}
 
-{% set dynamicSidebarList = [] %}
 {% if module.add_home_tab %}
+
+  {# Home tab Right Sidebar  Add logic #}
+
 {% if module.home.add_right_sidebar %}
 {% for item in module.home.right_sidebar_object %}
+
+  {# Iframe popup Logic #}
 
 {% do iframeList.append({
 label: item.list_object_name,
@@ -27,6 +22,9 @@ propertyName: item.property_name,
 hubspotObjectTypeId: item.object_type_id,
 }) %}
 
+  {# End Iframe popup Logic #}
+
+{# Right sidebar Tabs and item route list #}
 
 {% set objName = item.list_object_name | replace("p_","") %}
 {% do dynamicSidebarList.append({
@@ -48,180 +46,14 @@ objectType: "HUBSPOT_DEFINED",
 
 {% endfor %}
 {% endif %}
+
+{# End Right sidebar Tabs and item route list #}
+
 {% endif %}
 
+  {#End  Home tab Right Sidebar  Add logic #}
 
-{% set dynamicRouteList = [] %}
-
-{% if module.add_home_tab %}
-{% for item in module.home.home_tab %}
-
-{% do iframeList.append({
-label: item.list_object_name,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-hubspotObjectTypeId: item.object_type_id,
-}) %}
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicRouteList.append({
-label: item.list_object_name,
-icon: item.icon_svg_code,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-hubspotObjectId: item.association_object_type_id,
-hubspotObjectTypeId: item.object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "HUBSPOT_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-
-{% if module.menu_options.hubspot_defined_object %}
-{% for item in module.menu_options.objects %}
-
-{% do iframeList.append({
-label: item.list_object_name,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-hubspotObjectTypeId: item.object_type_id,
-}) %}
-
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicRouteList.append({
-label: item.list_object_name,
-icon: item.icon_svg_code,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-hubspotObjectId: item.association_object_type_id,
-hubspotObjectTypeId: item.object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "HUBSPOT_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-
-{% if module.menu_options.hubspot_custom_object %}
-{% for item in module.menu_options.hubspot_custom_objects %}
-
-{% do iframeList.append({
-label: item.list_object_name,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-hubspotObjectTypeId: item.object_type_id,
-}) %}
-
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicRouteList.append({
-label: item.list_object_name,
-icon: item.icon_svg_code,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-hubspotObjectId: item.association_object_type_id,
-hubspotObjectTypeId: item.object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "USER_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-
-
-
-{% set objectList = [] %}
-
-{# Routelist loop #}
-{% for route in dynamicRouteList %}
-
-{# Get the associated CRM objects #}
-{% set objList = crm_associations(contact_id, route.objectType, route.hubspotObjectId, "limit=100",
-route.listObjectProperties) %}
-
-{% set objColumns = [] %}
-{# Loop through the results of objList #}
-{% for item in objList.results %}
-
-{# Loop through each key-value pair in the item, ensuring the key exists and is not null #}
-{% for key, val in item.items() %}
-{# Check if the key is not already in objColumns #}
-{% if not objColumns | selectattr("key", "equalto", key) | list %}
-{% do objColumns.append({
-"key": key,
-"value": key | title,
-"isPrimaryDisplayProperty": false,
-"isSecondaryDisplayProperty": false
-}) %}
-{% endif %}
-{% endfor %}
-{% endfor %}
-
-{# Append the data to objectList with objColumns and objList #}
-{% do objectList.append({
-"name": route.listObjectName,
-"assoc_objectTypeId": route.hubspotObjectId,
-"assoc_objectType": route.objectType,
-"assoc_properties": route.associateObjectProperties,
-"results": {columns: objColumns, rows: objList.results}
-}) %}
-{% endfor %}
-
-{% else %}
-{% set iframeList = [] %}
-{% set dynamicSidebarList = [] %}
-{% if module.add_home_tab %}
-{% if module.home.add_right_sidebar %}
-{% for item in module.home.right_sidebar_object %}
-
-{% do iframeList.append({
-label: item.list_object_name,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-hubspotObjectTypeId: item.object_type_id,
-}) %}
-
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicSidebarList.append({
-label: item.list_object_name,
-icon: item.icon_svg_code,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-hubspotObjectId: item.association_object_type_id,
-hubspotObjectTypeId: item.object_type_id,
-companyAsMediator: item.mediator_object_type_id,
-associateObjectProperties: item.association_object_properties,
-pipeLineId: item.pipeline_id,
-specPipeLine: item.add_specific_pipeline,
-objectType: "HUBSPOT_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-{% endif %}
-
-{% set dynamicRouteList = [] %}
-
+{% set dynamicRouteList = [] %} {# Sidebar Routing List #}
 
 {% if module.add_home_tab %}
 {% for item in module.home.home_tab %}
@@ -253,6 +85,9 @@ objectType: "HUBSPOT_DEFINED",
 {% endfor %}
 {% endif %}
 
+  {# End Home tab Add logic #}
+
+{# Logic for hubspot defined object #}
 
 {% if module.menu_options.hubspot_defined_object %}
 {% for item in module.menu_options.objects %}
@@ -283,6 +118,10 @@ objectType: "HUBSPOT_DEFINED",
 {% endfor %}
 {% endif %}
 
+{# End  Logic for hubspot defined object #}
+
+{# Logic for Custom defined object #}
+
 {% if module.menu_options.hubspot_custom_object %}
 {% for item in module.menu_options.hubspot_custom_objects %}
 
@@ -312,651 +151,69 @@ objectType: "USER_DEFINED",
 {% endfor %}
 {% endif %}
 
-{% if module.page_editor_preview_ %}
-{% set module.hubspot_data_source = false %}
-{% if module.hubspot_data_source %}
-
-<div class="bg-[#FF0022] text-white text-center py-2 font-semibold w-full">
-  <p>
-    Please disable the preview and complete the setup before publishing.
-  </p>
-</div>
-
-{% if module.see_documentation == "false" %}
-{% set id_contact = module.contact_id.contact_id %}
-{% set contact_id = id_contact|string %}
-{% set loggedInUser = {
-"firstname": "John",
-"id": 42416077044,
-"email": "example@demo.net",
-"lastname": "Doe"
-}
-%}
-{% set fileNames = loggedInUser.file_name | split(",")%}
-{% set fileURL = loggedInUser.file_url | split(",")%}
-
-{% set dynamicRouteList = [] %}
-{% set iframeList = [] %}
-
-{% if module.menu_options.hubspot_defined_object %}
-{% for item in module.menu_options.objects %}
-
-{% do iframeList.append({
-label: item.list_object_name,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-hubspotObjectTypeId: item.object_type_id,
-}) %}
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicRouteList.append({
-label: item.list_object_name,
-icon: item.icon_svg_code,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-hubspotObjectId: item.association_object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "HUBSPOT_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-
-{% if module.menu_options.hubspot_custom_object %}
-{% for item in module.menu_options.hubspot_custom_objects %}
-
-{% do iframeList.append({
-label: item.list_object_name,
-tabName: item.tab_name,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-hubspotObjectTypeId: item.object_type_id,
-}) %}
-
-{% set objName = item.list_object_name | replace("p_","") %}
-{% do dynamicRouteList.append({
-label: item.list_object_name,
-icon: item.icon_svg_code,
-showIframe: item.show_iframe,
-propertyName: item.property_name,
-listObjectName: item.list_object_name,
-listObjectProperties: item.list_object_properties,
-associateObjectName: item.association_object_name,
-hubspotObjectId: item.association_object_type_id,
-associateObjectProperties: item.association_object_properties,
-objectType: "USER_DEFINED",
-}) %}
-
-{% endfor %}
-{% endif %}
-
-
-
-{% set objectList = [] %}
-{# routelist loop #}
-
-{% for route in dynamicRouteList %}
-
-{% set objList = {
-  "name": "contact",
-  "assoc_objectTypeId": 449,
-  "assoc_objectType": "HUBSPOT_DEFINED",
-  "assoc_properties": null,
-  "results": {
-      "columns": [
-          {
-              "key": "firstname",
-              "value": "Firstname",
-              "isPrimaryDisplayProperty": false,
-              "isSecondaryDisplayProperty": false
-          },
-          {
-              "key": "id",
-              "value": "Id",
-              "isPrimaryDisplayProperty": false,
-              "isSecondaryDisplayProperty": false
-          },
-          {
-              "key": "email",
-              "value": "Email",
-              "isPrimaryDisplayProperty": false,
-              "isSecondaryDisplayProperty": false
-          },
-          {
-              "key": "lastname",
-              "value": "Lastname",
-              "isPrimaryDisplayProperty": false,
-              "isSecondaryDisplayProperty": false
-          },
-          {
-              "key": "images",
-              "value": "Images",
-              "isPrimaryDisplayProperty": false,
-              "isSecondaryDisplayProperty": false
-          },
-          {
-              "key": "files",
-              "value": "Files",
-              "isPrimaryDisplayProperty": false,
-              "isSecondaryDisplayProperty": false
-          }
-      ],
-      "rows": [
-          {
-              "firstname": "Anna",
-              "id": 101,
-              "email": "anna.miller@example.com",
-              "lastname": "Miller"
-          },
-          {
-              "firstname": "James",
-              "id": 102,
-              "email": "james.anderson@example.com",
-              "lastname": "Anderson"
-          },
-          {
-              "firstname": "Lucas",
-              "id": 103,
-              "email": "lucas.taylor@fakedomain.com",
-              "lastname": "Taylor"
-          },
-          {
-              "id": 104,
-              "email": "noah.jones@fakedomain.com"
-          },
-          {
-              "firstname": "Olivia",
-              "id": 105,
-              "email": "olivia.brown@example.com",
-              "lastname": "Brown"
-          },
-          {
-              "firstname": "Emma",
-              "images": "https://example.com/image1.jpg,https://example.com/image2.jpg",
-              "files": "https://example.com/file1.pdf,https://example.com/file2.pdf",
-              "id": 106,
-              "email": "emma.wilson@fakedomain.com",
-              "lastname": "Wilson"
-          },
-          {
-              "id": 107,
-              "email": "william.davis@example.org"
-          },
-          {
-              "images": "https://example.com/image3.jpg,https://example.com/image4.jpg",
-              "files": "https://example.com/file3.pdf,https://example.com/file4.pdf",
-              "id": 108,
-              "email": "isabella.martin@example.com"
-          }
-      ]
-  }
-}
-%}
-{% do objectList.append({name: route.listObjectName, assoc_objectTypeId: route.hubspotObjectId, assoc_objectType:
-route.objectType, assoc_properties: route.associateObjectProperties, "results": {columns: objList.results.columns, rows: objList.results.rows}}) %}
-
-{% endfor %}
-
-{% else %}
-
-<div class="max-w-screen-xl mx-auto flex gap-[5rem] bg-[#fff] px-5 py-12">
-  <div class="w-2/3 mx-auto">
-    <div class="flex gap-4 items-center mb-10">
-      <div class="max-w-[150px]">
-        <img class="w-full" src="{{ get_asset_url('../../images/documentation-png.png') }}" />
-      </div>
-      <div>
-        <h1 class="text-3xl font-bold mb-2">Documentation</h1>
-        <p class="text-gray-600">
-          Here you will find all the information you need regarding our CRM and you
-          can also ask for
-          <button onclick='openLink("support@digitalwoods.io")'
-            class="text-[#006AF5] hover:underline text-sm">support@digitalwoods.io</button>
-        </p>
-      </div>
-    </div>
-
-
-    <div class="grid grid-cols-2 gap-5 mb-10">
-      <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
-        <div>
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <rect width="34" height="34" fill="url(#pattern0_23_1300)" />
-            <defs>
-              <pattern id="pattern0_23_1300" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <use xlink:href="#image0_23_1300" transform="scale(0.0078125)" />
-              </pattern>
-              <image id="image0_23_1300" width="128" height="128"
-                xlink:href="data:image/png;base64,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" />
-            </defs>
-          </svg>
-        </div>
-        <div class="flex flex-col gap-4">
-          <div>
-            <h3 class="flex items-center gap-1 items-center text-lg font-bold">
-              Quickstart
-            </h3>
-            <p class="text-sm text-[#B6C8D8]">
-              Our quickstarts help you get something
-            </p>
-          </div>
-          <ul class="list-none p-0">
-            <li class="flex items-start gap-2">
-              <span class="mt-[5px]">
-                <svg width="16" height="18" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <button
-                onclick='openLink("https://digitalwoods.io/blog/step-by-step-guide-to-building-a-hubspot-membership-site")'
-                class="text-[#006AF5] hover:underline text-start text-base">How to Build a HubSpot Membership
-                Site</button>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="mt-[5px]">
-                <svg width="16" height="18" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <button
-                onclick='openLink("https://digitalwoods.io/blog/building-your-hubspot-membership-portal-step-by-step-guide-to-module-setup")'
-                class="text-[#006AF5] text-start hover:underline text-base">Setting Up Your HubSpot Membership Portal: A
-                Step-by-Step Guide</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
-        <div>
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <rect width="34" height="34" fill="url(#pattern0_23_1270)" />
-            <defs>
-              <pattern id="pattern0_23_1270" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <use xlink:href="#image0_23_1270" transform="scale(0.0078125)" />
-              </pattern>
-              <image id="image0_23_1270" width="128" height="128"
-                xlink:href="data:image/png;base64,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" />
-            </defs>
-          </svg>
-        </div>
-        <div class="flex flex-col gap-4">
-          <div>
-            <h3 class="flex items-center gap-1 items-center text-lg font-bold">
-              Platform Basics
-            </h3>
-            <p class="text-sm text-[#B6C8D8]">
-              Basic principles of working with the platform
-            </p>
-          </div>
-          <ul class="list-none p-0">
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Funnels</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Tracking Software</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Clients</a>
-            </li>
-          </ul>
-        </div>
-      </div> -->
-    </div>
-
-    <!-- <div class="grid grid-cols-2 gap-5 mb-10">
-      <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
-        <div>
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <rect width="34" height="34" fill="url(#pattern0_23_1330)" />
-            <defs>
-              <pattern id="pattern0_23_1330" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <use xlink:href="#image0_23_1330" transform="scale(0.0078125)" />
-              </pattern>
-              <image id="image0_23_1330" width="128" height="128"
-                xlink:href="data:image/png;base64,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" />
-            </defs>
-          </svg>
-
-        </div>
-        <div class="flex flex-col gap-4">
-          <div>
-            <h3 class="flex items-center gap-1 items-center text-lg font-bold">
-              Developer Guides
-            </h3>
-            <p class="text-sm text-[#B6C8D8]">
-              These articles are about development basics
-            </p>
-          </div>
-          <ul class="list-none p-0">
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Funnels</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Tracking Software</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Clients</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="bg-[#fff] border border-[#F1F1F1] p-5 shadow rounded-lg flex items-start gap-4">
-        <div>
-          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <rect width="34" height="34" fill="url(#pattern0_23_1360)" />
-            <defs>
-              <pattern id="pattern0_23_1360" patternContentUnits="objectBoundingBox" width="1" height="1">
-                <use xlink:href="#image0_23_1360" transform="scale(0.0078125)" />
-              </pattern>
-              <image id="image0_23_1360" width="128" height="128"
-                xlink:href="data:image/png;base64,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" />
-            </defs>
-          </svg>
-        </div>
-        <div class="flex flex-col gap-4">
-          <div>
-            <h3 class="flex items-center gap-1 items-center text-lg font-bold">
-              API
-            </h3>
-            <p class="text-sm text-[#B6C8D8]">
-              All about working with API
-            </p>
-          </div>
-          <ul class="list-none p-0">
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Funnels</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Tracking Software</a>
-            </li>
-            <li class="flex items-center gap-2">
-              <span>
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M3.1998 9.60005C3.09372 9.60005 2.99198 9.55791 2.91696 9.48289C2.84195 9.40788 2.7998 9.30614 2.7998 9.20005C2.7998 9.09396 2.84195 8.99222 2.91696 8.91721C2.99198 8.84219 3.09372 8.80005 3.1998 8.80005H8.7998C8.90589 8.80005 9.00763 8.84219 9.08265 8.91721C9.15766 8.99222 9.1998 9.09396 9.1998 9.20005C9.1998 9.30614 9.15766 9.40788 9.08265 9.48289C9.00763 9.55791 8.90589 9.60005 8.7998 9.60005H3.1998ZM3.1998 12C3.09372 12 2.99198 11.9579 2.91696 11.8829C2.84195 11.8079 2.7998 11.7061 2.7998 11.6C2.7998 11.494 2.84195 11.3922 2.91696 11.3172C2.99198 11.2422 3.09372 11.2 3.1998 11.2H8.7998C8.90589 11.2 9.00763 11.2422 9.08265 11.3172C9.15766 11.3922 9.1998 11.494 9.1998 11.6C9.1998 11.7061 9.15766 11.8079 9.08265 11.8829C9.00763 11.9579 8.90589 12 8.7998 12H3.1998Z"
-                    fill="#A5B3D9" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M6.9479 0.800049H1.5999C1.28164 0.800049 0.976418 0.926477 0.751374 1.15152C0.526331 1.37656 0.399902 1.68179 0.399902 2.00005V14C0.399902 14.3183 0.526331 14.6235 0.751374 14.8486C0.976418 15.0736 1.28164 15.2 1.5999 15.2H10.3999C10.7182 15.2 11.0234 15.0736 11.2484 14.8486C11.4735 14.6235 11.5999 14.3183 11.5999 14V5.76165C11.5998 5.46123 11.4871 5.17176 11.2839 4.95045L7.8327 1.18885C7.72023 1.06625 7.58349 0.968369 7.43117 0.901437C7.27885 0.834504 7.11428 0.799977 6.9479 0.800049ZM1.1999 2.00005C1.1999 1.89396 1.24205 1.79222 1.31706 1.71721C1.39207 1.64219 1.49382 1.60005 1.5999 1.60005H6.9479C7.00341 1.59999 7.05832 1.61148 7.10914 1.63379C7.15996 1.6561 7.20558 1.68875 7.2431 1.72965L10.6943 5.49125C10.7621 5.56498 10.7998 5.66147 10.7999 5.76165V14C10.7999 14.1061 10.7578 14.2079 10.6827 14.2829C10.6077 14.3579 10.506 14.4 10.3999 14.4H1.5999C1.49382 14.4 1.39207 14.3579 1.31706 14.2829C1.24205 14.2079 1.1999 14.1061 1.1999 14V2.00005Z"
-                    fill="#A5B3D9" />
-                  <path
-                    d="M6.8 5.60005H11.2C11.3061 5.60005 11.4078 5.64219 11.4828 5.71721C11.5579 5.79222 11.6 5.89396 11.6 6.00005C11.6 6.10614 11.5579 6.20788 11.4828 6.28289C11.4078 6.35791 11.3061 6.40005 11.2 6.40005H6.4C6.29391 6.40005 6.19217 6.35791 6.11716 6.28289C6.04214 6.20788 6 6.10614 6 6.00005V1.20005C6 1.09396 6.04214 0.992221 6.11716 0.917206C6.19217 0.842192 6.29391 0.800049 6.4 0.800049C6.50609 0.800049 6.60783 0.842192 6.68284 0.917206C6.75786 0.992221 6.8 1.09396 6.8 1.20005V5.60005Z"
-                    fill="#A5B3D9" />
-                </svg>
-              </span>
-              <a href="#" class="text-[#006AF5] hover:underline text-sm">Clients</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
-
-
-    <div class="flex justify-between gap-5 mb-10">
-      <div class="w-1/2">
-        <h3 class="text-lg font-bold mb-5">
-          How to set up Membership Portal?<span class="text-[#006AF5]">★</span>
-        </h3>
-        <button onclick='openLink("https://digitalwoods.net/meetings/saurav4/website")'
-          class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
-          Book a Meeting
-        </button>
-        <!-- <a href="#" class="block w-full p-4 border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
-          How to set up Membership Portal
-        </a> -->
-      </div>
-
-      <div class="w-1/2">
-        <h3 class="text-lg font-bold mb-5">
-          Our other Applications
-        </h3>
-        <button onclick='openLink("https://hub.digitalwoods.io")'
-          class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
-          Find latest Apps,Themes nad Modules
-          <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
-            New
-          </span>
-        </button>
-        <!-- <a href="#"
-          class="block w-full p-4 relative border border-[#DBE2E8] font-semibold rounded-lg text-left mb-2 bg-[#fff]">
-          How to set up Membership Portal
-          <span class="px-2 py-1 text-sm bg-[#E7EFFF] rounded-lg text-[#4381F9] absolute top-0 right-0">
-            New
-          </span>
-        </a> -->
-      </div>
-    </div>
-
-    <div class="flex justify-end gap-5">
-      <!-- <button id="showPreviewButton" class="py-2 px-4 min-w-[120px] border border-[#006AF5] rounded-lg text-[#006AF5] bg-gray-100">
-        Preview
-      </button> -->
-      <button onclick='openLink("https://app.dev.one.digitalwoods.io/login")'
-        class="py-2 px-4 min-w-[180px] bg-[#006AF5] text-white rounded-lg">
-        Switch to Woods Portal
-      </button>
-    </div>
-  </div>
-
-  <!-- <div class="w-1/3 p-4 rounded-lg bg-[#FBFBFB]">
-    <h2 class="text-2xl font-bold mb-4">How to set up Membership Portal</h2>
-    <div id="video-dis" class="bg-black rounded-lg overflow-hidden shadow-lg mb-5">
-      <iframe id="display-frame" src="" title="YouTube video player" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-        class="w-full h-64"></iframe>
-    </div>
-
-    <div id="v-list" class="video-li">
-      <div id="vli-info" class="pb-5">
-        <div id="upper-info" class="flex flex-col">
-          <div id="li-titles">
-            <div class="title text-lg font-bold">Related Video</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="vli-videos"></div>
-    </div>
-  </div> -->
-</div>
-
-{% endif %}
-{% endif %}
-{% endif %}
-{% endif %}
+{# End Logic for Custom defined object #}
 
 
 <script>
 
-  function openLink(target) {
-    if (target.includes("@")) {
-      window.location.href = `mailto:${target}`;
-    } else {
-      window.open(target, "_blank");
+{# Module Custom Styles #}
+
+  let moduleStyles = {
+    homeTabStyles: {
+      headingColor: "{{ module.style.home_tab_styles.home_tab_banner_text_color.color }}",
+      descriptionColor: "{{ module.style.home_tab_styles.description_color.color }}",
+      buttonStyles: {
+        backgroundColor: "{{ module.style.home_tab_styles.button_styles.background_color.color }}",
+        textColor: "{{ module.style.home_tab_styles.button_styles.text_color.color }}",
+      },
+      overlayer: {
+        color: "{{ module.style.home_tab_styles.banner_overlayer_color.color }}",
+        opacity: "{{ module.style.home_tab_styles.banner_overlayer_color.opacity }}",
+      }
+    },
+    sidebarStyles: {
+      textColor: "{{ module.style.sidebar_styles.text_color.color }}",
+      backgroundColor: "{{ module.style.sidebar_styles.sidebar_background_color.color }}",
+    },
+    detailsPageStyles: {
+      textColor: "{{ module.style.details_page_styles.text_color.color }}",
+      bannerColors: {
+        color1: "{{ module.style.details_page_styles.banner_background_options.banner_color_1.color }}",
+        color2: "{{ module.style.details_page_styles.banner_background_options.banner_color_2.color }}",
+      }
+    },
+    rightSidebarDetailsColors: {
+      color1: "{{ module.style.home_tab_styles.sidebar_details_background_colors.color_1.color }}",
+      color2: "{{ module.style.home_tab_styles.sidebar_details_background_colors.color_2.color }}",
+    },
+    creatButtonStyles: {
+      backgroundColor: "{{ module.style.table_record_creation_button.background_color.color }}",
+      textColor: "{{ module.style.table_record_creation_button.text_color.color }}",
     }
   }
-  let moduleStyles = {
-    homeTabStyles:{
-      headingColor:"{{ module.style.home_tab_styles.home_tab_banner_text_color.color }}",
-      descriptionColor:"{{ module.style.home_tab_styles.description_color.color }}",
-      buttonStyles :{
-        backgroundColor:"{{ module.style.home_tab_styles.button_styles.background_color.color }}",
-        textColor:"{{ module.style.home_tab_styles.button_styles.text_color.color }}",
-      },
-      overlayer:{
-        color:"{{ module.style.home_tab_styles.banner_overlayer_color.color }}",
-        opacity:"{{ module.style.home_tab_styles.banner_overlayer_color.opacity }}",
-      }
-    },
-    sidebarStyles:{
-      textColor:"{{ module.style.sidebar_styles.text_color.color }}",
-      backgroundColor:"{{ module.style.sidebar_styles.sidebar_background_color.color }}",
-    },
-    detailsPageStyles:{
-      textColor:"{{ module.style.details_page_styles.text_color.color }}",
-      bannerColors:{
-        color1:"{{ module.style.details_page_styles.banner_background_options.banner_color_1.color }}",
-        color2:"{{ module.style.details_page_styles.banner_background_options.banner_color_2.color }}",
-      }
-    },
-    rightSidebarDetailsColors:{
-        color1:"{{ module.style.home_tab_styles.sidebar_details_background_colors.color_1.color }}",
-        color2:"{{ module.style.home_tab_styles.sidebar_details_background_colors.color_2.color }}",
-      },
-     creatButtonStyles :{
-        backgroundColor:"{{ module.style.table_record_creation_button.background_color.color }}",
-        textColor:"{{ module.style.table_record_creation_button.text_color.color }}",
-      }
-  }
-  let testData = {{ dynamicRouteList | tojson | safe }};
-  let moduleIframeList = {{ iframeList | tojson | safe }};
-  let sidebarListData = {{ dynamicSidebarList | tojson | safe }};
-  let showSidebarListData = {{ module.home.add_right_sidebar }};
+
+{# Module Custom Styles #}
+
+  let sidebarMenu = {{ dynamicRouteList | tojson | safe }}; {# Setting sidebar route list data #}
+  let moduleIframeList = {{ iframeList | tojson | safe }}; {# Setting Iframe logic data #}
+  let sidebarListData = {{ dynamicSidebarList | tojson | safe }}; {# Setting home tab right sidebar list data #}
+  let showSidebarListData = {{ module.home.add_right_sidebar }}; {# Boolean for home tab right sidebar list data  #}
+  {# Sidebar Cta data #}
   let sidebarCta = {
     title: "{{ module.other_options.sidebar_cta_details.title }}",
     buttonText: "{{ module.other_options.sidebar_cta_details.button_text }}",
     buttonUrl: "{{ module.other_options.sidebar_cta_details.button_url.href|escape_url }}",
   };
+  {#End Sidebar Cta data #}
+  {# Branding Data #}
   let moduleCompanyOptions = {
     logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
     companyName: "{{ module.other_options.company_options.company_name }}",
     smallLogo: "{{ module.other_options.company_options.small_logo.src|escape_url }}",
     welcomeMessage: "{{ module.other_options.welcome_message }}"
   };
-  let moduleDashBoardTitle = {
-    lineChartTitle: "{{ module.other_options.line_chart_title }}",
-    doughnutChartTitle: "{{ module.other_options.doughnut_chart_title }}",
-    dataTableTitle: "{{ module.other_options.data_table_title }}",
-  }
+  {# end bransing data #}
+{# Home banner data #}
   let moduleBannerDetails = {
     title: "{{ module.home.home_tab_banner_details.title }}",
     description: "{{ module.home.home_tab_banner_details.description }}",
@@ -964,18 +221,12 @@ route.objectType, assoc_properties: route.associateObjectProperties, "results": 
     buttonUrl: "{{ module.home.home_tab_banner_details.button_url.href|escape_url }}",
     backgroundImage: "{{ module.home.home_tab_banner_details.background_image.src|escape_url }}",
   };
-  
-  let loggedInUserDetails = {{ loggedInUser | tojson | safe }};
-  let objList = {{ objectList | tojson | safe }};
-  let iframeTest = {{ iframeDatas  | tojson | safe }};
-  let chartLabel = {{ chartLabels  | tojson | safe }};
-  let chartValue = {{ chartValues  | tojson | safe }};
-  let PodCastsEpisodes = {{ podCasts | safe || [] }};
-  let lineChartDatas = {{ lineChart | safe || [] }};
-  let dataSource = {{ module.hubspot_data_source }};
-  let showCompanyName = {{ module.other_options.company_options.show_company_name }};
-  let showSidebarCta = {{ module.other_options.show_sidebar_cta }};
-  let showSamllLogo = {{ module.other_options.company_options.show_small_logo_on_sidebar }};
-  let addHomeTab = {{module.add_home_tab}};
-  let apiBaseUrl = "{{ module.backend_server_url }}";
+{# End Home banner data #}
+  let loggedInUserDetails = {{ loggedInUser | tojson | safe }}; {# Logedin user details #}
+  let objList = {{ objectList | tojson | safe }}; {# Objects Data #}
+  let showCompanyName = {{ module.other_options.company_options.show_company_name }}; {# Brand name showing Boolean #}
+  let showSidebarCta = {{ module.other_options.show_sidebar_cta }}; {# Sidebar cta showing Boolean #}
+  let addHomeTab = {{ module.add_home_tab }}; {# Home tab adding Boolean #}
+  let apiBaseUrl = "{{ module.backend_server_url }}";  {# Backend server URL #}
+
 </script>

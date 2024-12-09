@@ -25,16 +25,16 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ 
-  hubspotObjectTypeId, 
-  path, 
-  inputValue, 
-  title, 
-  apis, 
-  detailsView = true, 
-  editView = false, 
-  viewName = '', 
-  detailsUrl='',
+const DashboardTable = ({
+  hubspotObjectTypeId,
+  path,
+  inputValue,
+  title,
+  apis,
+  detailsView = true,
+  editView = false,
+  viewName = '',
+  detailsUrl = '',
   componentName,
   defPermissions = null
 }) => {
@@ -56,7 +56,7 @@ const DashboardTable = ({
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [permissions, setPermissions] = useState(defPermissions);
-  
+
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
@@ -154,7 +154,7 @@ const DashboardTable = ({
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
-        if(defPermissions === null) setPermissions(data.configurations[componentName])
+        if (defPermissions === null) setPermissions(data.configurations[componentName])
       }
     },
     onError: () => {
@@ -244,7 +244,7 @@ const DashboardTable = ({
   };
 
   return (
-    <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
+    <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'}shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300`}>
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -276,9 +276,9 @@ const DashboardTable = ({
           ? null
           : (permissions && permissions.create) && (
             <div className="text-end">
-            <Button variant="create" onClick={() => setShowAddDialog(true)}>
-              <span className="mr-2"> + </span> Create {title}
-            </Button>
+              <Button variant="create" onClick={() => setShowAddDialog(true)}>
+                <span className="mr-2"> + </span> Create {title}
+              </Button>
             </div>
           )}
       </div>

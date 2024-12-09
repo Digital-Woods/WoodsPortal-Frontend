@@ -107,30 +107,31 @@ const Drawer = ({ className }) => {
         `}
         >
           <div className="h-full flex flex-col">
-            <div className="flex justify-between items-center mb-8 h-[50px]">
+            <div className="flex relative justify-between items-center mb-8 h-[50px]">
               <div className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2`}>
 
-                {showSamllLogoOption ?
+                {showCompanyNameOption ?
                   <div className="w-[50px]">
-                    <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+                    <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
                   </div> :
-                  <div className={`mr-2 ${showCompanyNameOption === true ? 'w-[50px]' : 'w-full max-h-[70px]'}`}>
-                    <Logo />
+                  <div className={`${sidebarCollapsed ? 'w-40px' : 'w-full'}  max-h-[60px]`}>
+                    {sidebarCollapsed ?
+                      <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto`} /> :
+                      <Logo className={'max-h-[60px]'} />
+                    }
                   </div>}
 
-                {showCompanyNameOption === true ? <h1
-                  className={`text-lg font-semibold pr-4 pl-1 break-all text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"
-                    }`}
-                >
-                  {shouldShowTooltip ? (
-                    <Tooltip content={brandName} right>
-                      {brandName.slice(0, 15)}
-                      {brandName.length > 15 ? "..." : ""}
-                    </Tooltip>
-                  ) : (
-                    brandName
-                  )}
-                </h1> : ''}
+                {showCompanyNameOption === true ?
+                  <h1 className={`text-lg font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
+                    {shouldShowTooltip ? (
+                      <Tooltip content={brandName} right>
+                        {brandName.slice(0, 15)}
+                        {brandName.length > 15 ? "..." : ""}
+                      </Tooltip>
+                    ) : (
+                      brandName
+                    )}
+                  </h1> : ''}
 
               </div>
               <div
@@ -160,7 +161,7 @@ const Drawer = ({ className }) => {
                 )}
               </div>
               <div
-                className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 lg:hidden"
+                className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-[-10px]"
                 onClick={() => setSidebarOpen(false)}
               >
                 <svg
@@ -182,7 +183,7 @@ const Drawer = ({ className }) => {
                       <NavLink
                         key={path}
                         to={path}
-                        className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white p-3 rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
+                        className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
                           }`}
                         onClick={() => setActiveRoute(path)}
                       >
@@ -263,7 +264,7 @@ const Drawer = ({ className }) => {
                 </NavLink> */}
 
                   <div
-                    className="block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white  p-3 rounded-md no-underline cursor-pointer"
+                    className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white   ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'}  rounded-md no-underline cursor-pointer`}
                     onClick={() => setLogoutDialog(true)}
                   >
                     <div

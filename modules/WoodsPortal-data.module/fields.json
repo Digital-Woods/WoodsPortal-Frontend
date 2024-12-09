@@ -927,7 +927,7 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
     }, {
       "id" : "3f4d23a3-9049-1b8b-4e17-ebda2be3c49e",
       "name" : "show_iframe",
@@ -966,7 +966,7 @@
     "type" : "group",
     "default" : [ {
       "list_object_name" : "",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
       "show_iframe" : false
     } ]
   } ],
@@ -987,7 +987,7 @@
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
       "list_object_name" : "",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
       "show_iframe" : false
     } ]
   }
@@ -1486,16 +1486,6 @@
         "max_height" : 96
       }
     }, {
-      "id" : "bd45fd06-6aba-0238-39de-f7b9339705d4",
-      "name" : "show_small_logo_on_sidebar",
-      "display_width" : null,
-      "label" : "Show Small Logo On Sidebar",
-      "required" : false,
-      "locked" : false,
-      "display" : "checkbox",
-      "type" : "boolean",
-      "default" : true
-    }, {
       "id" : "b675141e-9014-d0ab-3867-d7c2c4d8940a",
       "name" : "show_company_name",
       "display_width" : null,
@@ -1551,7 +1541,6 @@
         "max_width" : 268,
         "max_height" : 96
       },
-      "show_small_logo_on_sidebar" : true,
       "show_company_name" : true,
       "company_name" : "CompanyName"
     }
@@ -1672,7 +1661,6 @@
         "max_width" : 268,
         "max_height" : 96
       },
-      "show_small_logo_on_sidebar" : true,
       "show_company_name" : true,
       "company_name" : "CompanyName"
     },

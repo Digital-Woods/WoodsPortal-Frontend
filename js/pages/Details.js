@@ -12,8 +12,8 @@ const Details = ({ path, objectId, id }) => {
   const { isLargeScreen } = useResponsive();
 
   return (
-    <div className="bg-sidelayoutColor dark:bg-dark-300">
-    <div className={`rounded-tl-xl bg-cleanWhite dark:bg-dark-200  ${!isLargeScreen ? 'rounded-tr-xl' : '' }`}>
+    <div className="bg-sidelayoutColor lg:max-h-[calc(100vh-68px)] max-h-[calc(100vh-75px)] hide-scrollbar overflow-hidden dark:bg-dark-300">
+    <div className={`rounded-tl-xl lg:max-h-[calc(100vh-68px)] max-h-[calc(100vh-75px)] hide-scrollbar overflow-hidden  bg-cleanWhite dark:bg-dark-200  ${!isLargeScreen ? 'rounded-tr-xl' : '' }`}>
       {env.DATA_SOURCE_SET !== true ? (
         <ApiDetails objectId={objectId} path={path} id={id} propertyName={propertyName} showIframe={showIframe} />
       ) : (

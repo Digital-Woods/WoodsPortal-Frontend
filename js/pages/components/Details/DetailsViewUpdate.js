@@ -364,8 +364,8 @@ const DetailsViewUpdate = ({
   };
 
   return (
-    <div>
-      <div className="flex gap-2">
+    <div  className="flex  items-center">
+      <div className="flex  items-center gap-2">
         {editRow && !pipelineDialog ? (
           <div>
             {/* {console.log("initialValues", initialValues)} */}
@@ -377,54 +377,55 @@ const DetailsViewUpdate = ({
               className=" m-0"
             >
               {({ register, control, formState: { errors } }) => (
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
                   <div className="text-gray-800 dark:text-gray-200">
-                    <div>
-                      <FormItem className="mb-0">
-                        <FormControl>
-                          {editRow.fieldType === "select" ? (
-                            <DetailsViewUpdateDD
-                              optionData={editRow}
-                              control={control}
-                              data={data}
-                              objectTypeId={objectId}
-                            />
-                          ) : editRow.fieldType === "textarea" ? (
-                            <Textarea
-                              rows="1"
-                              defaultValue={getValue(editRow.value)}
-                              {...register(editRow.key)}
-                            ></Textarea>
-                          ) : (
-                            <Input
-                              placeholder={`Enter ${editRow.label}`}
-                              height="small"
-                              className=""
-                              defaultValue={getValue(editRow.value)}
-                              {...register(editRow.key)}
-                            />
-                          )}
-                        </FormControl>
-
-                        {errors[editRow.key] && (
-                          <FormMessage className="text-red-600 dark:text-red-400">
-                            {errors[editRow.key].message}
-                          </FormMessage>
+                    <FormItem className="!mb-0">
+                      <FormControl>
+                        {editRow.fieldType === "select" ? (
+                          <DetailsViewUpdateDD
+                            optionData={editRow}
+                            control={control}
+                            data={data}
+                            objectTypeId={objectId}
+                          />
+                        ) : editRow.fieldType === "textarea" ? (
+                          <Textarea
+                            rows="1"
+                            defaultValue={getValue(editRow.value)}
+                            {...register(editRow.key)}
+                          ></Textarea>
+                        ) : (
+                          <Input
+                            placeholder={`Enter ${editRow.label}`}
+                            height="small"
+                            className=""
+                            defaultValue={getValue(editRow.value)}
+                            {...register(editRow.key)}
+                          />
                         )}
-                      </FormItem>
-                    </div>
+                      </FormControl>
+
+                      {errors[editRow.key] && (
+                        <FormMessage className="text-red-600 dark:text-red-400">
+                          {errors[editRow.key].message}
+                        </FormMessage>
+                      )}
+                    </FormItem>
                   </div>
                   <div className="flex gap-1">
-                    <Button variant="outline" size="sm" isLoading={isLoading}>
-                      Save
+                    <Button
+                      variant="hubSpot"
+                      size="hubSpot"
+                      isLoading={isLoading}>
+                      <IconTickSmall />
                     </Button>
                     <Button
-                      variant="outline"
-                      size="sm"
+                      variant="hubSpot"
+                      size="hubSpot"
                       onClick={() => setEditRow(null)}
                       disabled={isLoading}
                     >
-                      <CloseIcon width="10px" height="10px" />
+                      <CloseIcon />
                     </Button>
                   </div>
                 </div>
@@ -432,17 +433,17 @@ const DetailsViewUpdate = ({
             </Form>
           </div>
         ) : (
-          <div className="flex gap-2">
+          <div className="flex  items-center gap-2">
             <span>{renderValue}</span>
             <Button
-              variant="outline"
-              size="sm"
+              variant="hubSpot"
+              size="hubSpot"
               onClick={() => {
                 // setEditRow(value);
                 setEditRowValueFunction(value);
               }}
             >
-              <EditIcon width="10px" height="10px" />
+              <EditIcon />
             </Button>
           </div>
         )}
