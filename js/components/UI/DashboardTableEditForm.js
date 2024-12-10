@@ -255,7 +255,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 validationSchema={validationSchema}
                 serverError={serverError}
                 initialValues={initialValues}
-                className="dark:bg-dark-300 m-0"
+                className="dark:bg-dark-200 m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>

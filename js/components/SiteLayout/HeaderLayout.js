@@ -89,21 +89,21 @@ const HeaderLayout = ({ title, path, id = null }) => {
         <div>
           <div className="flex gap-4 ">
             {env.DATA_SOURCE_SET != true ? (
-              <div className="bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400">
+              <div className="bg-none border-[1px] border-sidelayoutTextColor text-sidelayoutTextColor  rounded-full dark:bg-dark-400">
                 <SyncButton />
               </div>
             ) : ('')
             }
-            <div className="bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400">
+            <div className="bg-none border-[1px] border-sidelayoutTextColor text-sidelayoutTextColor  rounded-full dark:bg-dark-400">
               <ThemeSwitcher />
             </div>
 
             <div
-              className=" bg-none border-[1px] border-sidelayoutTextColor rounded-full dark:bg-dark-400  cursor-pointer  profile-section"
+              className=" bg-none border-[1px] p-3 border-sidelayoutTextColor text-sidelayoutTextColor  rounded-full dark:bg-dark-400  cursor-pointer  profile-section"
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >
-              <NewAvater />
+              <NewAvater className='text-sidelayoutTextColor ' />
             </div>
           </div>
 

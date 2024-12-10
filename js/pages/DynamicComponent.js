@@ -7,37 +7,41 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   const [inputValue, setInputValue] = useState("");
   const [activeTab, setActiveTab] = useState("account");
   // const [param, setParam] = useState("");
-  
+
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
   // const param = mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = getQueryParamsFromCurrentUrl()
-  
+
   // useEffect(() => {
-    //   const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
-    //   console.log('queryParamsFromCurrentUrl', queryParamsFromCurrentUrl)
-    //   if (queryParamsFromCurrentUrl) {
-      //     setParam(queryParamsFromCurrentUrl)
-      //   }
-      // }, [getQueryParamsFromCurrentUrl()]);
-      
-      
+  //   const queryParamsFromCurrentUrl = getQueryParamsFromCurrentUrl()
+  //   console.log('queryParamsFromCurrentUrl', queryParamsFromCurrentUrl)
+  //   if (queryParamsFromCurrentUrl) {
+  //     setParam(queryParamsFromCurrentUrl)
+  //   }
+  // }, [getQueryParamsFromCurrentUrl()]);
+
+
   const [sidebarRightOpen, setSidebarRightOpen] = useState(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
 
-  // Automatically adjust the sidebar based on screen size
-  useEffect(() => {
-    if (!userToggled) {
-      setSidebarRightOpen(isLargeScreen);
-    }
-  }, [isLargeScreen, userToggled]);
-
-  // Function to toggle sidebar manually
+  // Sidebar show/hide logic for medium and small devices
   const toggleSidebar = () => {
     setUserToggled(true); // Mark as user-initiated
     setSidebarRightOpen((prev) => !prev);
   };
+
+  // Automatically adjust the sidebar based on screen size
+  useEffect(() => {
+    if (!userToggled) {
+      if (isLargeScreen) {
+        setSidebarRightOpen(true); // Always open on large screens
+      } else if (isMediumScreen || isSmallScreen) {
+        setSidebarRightOpen(false); // Closed by default on smaller screens
+      }
+    }
+  }, [isLargeScreen, isMediumScreen, isSmallScreen, userToggled]);
 
   // Reset user preference when screen size changes significantly
   useEffect(() => {
@@ -186,7 +190,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
             )}
 
             <div
-              className={`lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto  ${showSidebarListDataOption &&
+              className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? `h-[calc(100vh-110px)] lg:h-[calc(100vh-90px)]` : `h-[calc(100vh-140px)] lg:h-[calc(100vh-125px)]`  } hide-scrollbar overflow-y-auto 
+                ${showSidebarListDataOption &&
                 hubSpotUserDetails.sideMenu[0].tabName === title
                 ? isLargeScreen
                   ? "w-[calc(100%_-350px)]"
@@ -212,35 +217,44 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
             </div>
 
             {/* Sidebar container */}
+            {/* Sidebar container */}
             {showSidebarListDataOption &&
               hubSpotUserDetails.sideMenu[0].tabName === title && (
                 <div
-                  className={`${isLargeScreen
+                  className={`transition-transform duration-200 ease-in-out ${isLargeScreen
                     ? "relative translate-x-0"
-                    : "absolute translate-x-full md:w-[365px] w-screen md:p-3 px-2 pb-2 z-50"
-                    } inset-y-0 bg-cleanWhite dark:bg-dark-200 right-0 transform transition duration-200 ease-in-out ${sidebarRightOpen ? "translate-x-0 pt-2" : "translate-x-full"
+                    : `absolute inset-y-0 right-0 z-[55] bg-cleanWhite dark:bg-dark-200 
+              ${sidebarRightOpen ? "translate-x-0" : "translate-x-full"}`
                     }`}
                 >
-                  {!isLargeScreen && sidebarRightOpen ?
-                    <div className=" rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
-                      <button className='rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark' onClick={() => setSidebarRightOpen(false)}>
+                  {/* Close button for medium and small screens */}
+                  {!isLargeScreen && sidebarRightOpen && showSidebarListDataOption && (
+                    <div className="absolute z-[56] right-[15px] top-[16px]">
+                      <button
+                        className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200"
+                        onClick={toggleSidebar}
+                      >
                         <Arrow />
                       </button>
                     </div>
-                    : ''
-                  }
-                  <div className={`${!isSmallScreen ? 'w-[350px]  pr-3' : 'w-full'} lg:max-h-[calc(100vh-90px)]  max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
+                  )}
+
+                  {/* Sidebar content */}
+                  <div
+                    className={`${isSmallScreen ? "w-full px-2 pb-2" : "w-[350px] pr-3"
+                      } lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}
+                  >
                     <div className="flex-col flex lg:gap-6 gap-3 h-full">
                       {sidebarListDataOption.map((option, index) => {
                         const hubspotObjectTypeId = option.hubspotObjectTypeId;
                         const sidebarDataApis = {
                           tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-                          stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
+                          stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`,
                           formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
                           formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
                             }`,
                           createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-                          updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
+                          updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`,
                         };
 
                         return index === 0 ? (

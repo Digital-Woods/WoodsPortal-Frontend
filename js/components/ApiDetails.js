@@ -145,13 +145,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 rounded-tl-xl
-    lg:max-h-[calc(100vh-68px)] max-h-[calc(100vh-70px)] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 rounded-tl-xl  lg:h-[calc(100vh-68px)] h-[calc(100vh-80px)] hide-scrollbar overflow-hidden `}
     >
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
-        <div className=" flex relative bg-cleanWhite dark:bg-dark-200 ">
+        <div className=" flex relative bg-cleanWhite dark:bg-dark-200 overflow-hidden ">
 
           {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
@@ -266,7 +265,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           <div className={`${isLargeScreen
             ? " translate-x-0  w-[330px]"
             : " md:w-[350px] absolute translate-x-full w-full md:p-3 px-2 pb-2 z-50"
-            } ${sidebarDetailsOpen ? "translate-x-0 pt-2" : "translate-x-full"}
+            } ${sidebarDetailsOpen ? "translate-x-0 " : "translate-x-full"}
             rounded-md bg-cleanWhite dark:bg-dark-200  right-0 transform transition duration-200 ease-in-out
             lg:h-[calc(100vh-100px)] h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
             {associations && !isLargeScreen && sidebarDetailsOpen ?
@@ -277,7 +276,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
               </div>
               : ''
             }
-            <div className="h-full w-full">
+            <div className="h-full w-full ">
               {associations &&
                 Object.entries(associations).map(
                   ([key, association], index) => (

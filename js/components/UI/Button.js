@@ -4,7 +4,7 @@ const variantClasses = {
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline:
-    "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+    "border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
   secondary:
     "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
   ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -51,7 +51,7 @@ const Button = React.forwardRef(
         {isLoading ? (
           <div className="flex items-center">
             {" "}
-            <span className="mr-2 text-secondary dark:text-cleanWhite">
+            <span className="">
               {" "}
               <AnimatedCircles />
               {" "}

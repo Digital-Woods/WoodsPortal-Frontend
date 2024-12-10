@@ -129,7 +129,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     if (!files || files.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={5} className="text-center dark:text-white text-gray-500">
+          <TableCell colSpan={5} className="text-center dark:border-gray-600 dark:text-white text-gray-500">
             No files available
           </TableCell>
         </TableRow>
@@ -139,7 +139,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     return files.map((file, index) => (
       <React.Fragment key={file.id}>
         <TableRow
-          className={`border-t relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
+          className={`border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
           onClick={() => handleRowClick(file)} // This will still allow row clicking for folders
         >
           <TableCell className="px-4 py-2 text-xs dark:text-white">

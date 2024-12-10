@@ -184,7 +184,7 @@ const Notes = ({ fileId, path }) => {
         className="mx-auto bg-white overflow-y-auto"
       >
         <div className="flex items-center mb-3">
-          <p className="text-gray-600 text-xs">For</p>
+          <p className="text-gray-600 text-xs dark:text-white">For</p>
           <p className="border rounded-full px-2 py-1 text-xs ml-2">
             {me.firstName}
           </p>
