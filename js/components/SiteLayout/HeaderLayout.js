@@ -61,7 +61,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
 
   return (
     <nav className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
-      <div className=" flex justify-between items-center">
+      <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
           <div className="cursor-pointer" onClick={toggleDrawer}>
             <p className="text-sidelayoutTextColor font-semibold  dark:text-white">
@@ -77,14 +77,15 @@ const HeaderLayout = ({ title, path, id = null }) => {
             </p>
           </div>
         </div>
-        {isLargeScreen &&
+        {isLargeScreen ?
           (env.DATA_SOURCE_SET !== true ? (
             <Breadcrumb id={id} title={title} path={path} />
           ) : (
             <div className="text-xs capitalize dark:text-cleanWhite">
               {title}
             </div>
-          ))}
+          )) : <div>
+          </div>}
 
         <div>
           <div className="flex gap-4 ">
