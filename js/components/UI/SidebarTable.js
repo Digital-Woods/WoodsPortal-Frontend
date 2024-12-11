@@ -216,11 +216,11 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue,pipeLineId, specPi
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md px-4 pt-4 w-full max-w-md dark:bg-dark-300">
+    <div className="bg-white rounded-lg px-4 pt-4 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-primary text-base md:text-2xl dark:text-gray-300">
+          <p className="text-primary text-base md:text-xl dark:text-gray-300">
             No records found
           </p>
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
@@ -253,7 +253,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue,pipeLineId, specPi
                   key={column.value}
                   className="flex items-start space-x-1"
                 >
-                  <div className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">{column.value}:</div>
+                  <div className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white">{column.value}:</div>
                   <div className="dark:text-white text-xs">
                     {/* {console.log('item', item)} */}
                     {renderCellContent(

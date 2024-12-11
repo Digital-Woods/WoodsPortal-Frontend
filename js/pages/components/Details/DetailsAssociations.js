@@ -12,7 +12,7 @@ const DetailsAssociations = ({
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
   return (
-    <Accordion className="mb-0 rounded-sm" isActive={isActive}>
+    <Accordion className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3" isActive={isActive}>
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
           <span>
@@ -47,15 +47,15 @@ const DetailsAssociations = ({
               <div className=" rounded-md dark:text-white">
                 {association.data.map((item, index) => (
                   <div key={index} className="mb-2">
-                    <div className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500">
+                    <div className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500 overflow-hidden">
                       <table className="dark:bg-[#3e3e3e] bg-white">
                         {item &&
                           sortData(item, "associations").map((value, index) => (
                             <tr key={value.key}>
-                              <td className="pr-1 text-sm whitespace-nowrap align-top dark:text-white">
+                              <td className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[110px]  align-top dark:text-white">
                                 {value.label}:
                               </td>
-                              <td className="pl-1 text-sm text-gray-500 align-top dark:text-white">
+                              <td className="pl-1 text-xs text-gray-500 align-top dark:text-white">
                                 {value.isEditableField ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent(

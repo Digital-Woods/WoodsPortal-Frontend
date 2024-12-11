@@ -57,7 +57,7 @@ const Alert = ({ message, type, onClose, duration = 2000 }) => {
   };
 
   return (
-    <div className="fixed right-10 top-2 w-full max-w-md py-5 px-6 bg-cleanWhite text-gray-600 rounded-xl border border-gray-200 shadow-sm">
+    <div className="fixed z-[70] right-2 top-2 w-full max-w-md py-5 px-6 bg-cleanWhite text-gray-600 rounded-xl border border-gray-200 shadow-sm">
       <button
         type="button"
         className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-all duration-150"

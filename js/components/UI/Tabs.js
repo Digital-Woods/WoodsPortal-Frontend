@@ -60,7 +60,7 @@ const TabsList = ({ children, className }) => (
 
 const TabsTrigger = ({ value, isActive, onClick, children }) => (
   <li
-    className={`me-2 TabsTrigger ${isActive ? "active" : ""}`}
+    className={`TabsTrigger ${isActive ? "active" : ""}`}
     role="tab"
     aria-selected={isActive}
     onClick={() => onClick(value)}

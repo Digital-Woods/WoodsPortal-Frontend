@@ -22,7 +22,7 @@ const hubSpotUserDetails = {
     templateName: "dw_office",
     activeStatus: true,
   },
-  sideMenu: moduleText,
+  sideMenu: sidebarMenuOptions,
   sideBarOptions: sidebarCtaDetails,
 };
 

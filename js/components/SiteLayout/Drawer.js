@@ -107,60 +107,68 @@ const Drawer = ({ className }) => {
         `}
         >
           <div className="h-full flex flex-col">
-            <div className="flex justify-between items-center mb-8 h-[50px]">
+            <div className="flex relative justify-between items-center mb-8 h-[50px]">
               <div className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2`}>
 
-                {showSamllLogoOption ?
+                {showCompanyNameOption ?
                   <div className="w-[50px]">
-                    <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+                    <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
                   </div> :
-                  <div className={`mr-2 ${showCompanyNameOption === true ? 'w-[50px]' : 'w-full max-h-[70px]'}`}>
-                    <Logo />
+                  <div className={`${sidebarCollapsed ? 'w-40px' : 'w-full'}  max-h-[60px]`}>
+                    {sidebarCollapsed ?
+                      <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto`} /> :
+                      <Logo className={'max-h-[60px]'} />
+                    }
                   </div>}
 
-                {showCompanyNameOption === true ? <h1
-                  className={`text-lg font-semibold pr-4 pl-1 break-all text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"
-                    }`}
-                >
-                  {shouldShowTooltip ? (
-                    <Tooltip content={brandName} right>
-                      {brandName.slice(0, 15)}
-                      {brandName.length > 15 ? "..." : ""}
-                    </Tooltip>
-                  ) : (
-                    brandName
-                  )}
-                </h1> : ''}
+                {showCompanyNameOption === true ?
+                  <h1 className={`text-lg font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
+                    {shouldShowTooltip ? (
+                      <Tooltip content={brandName} right>
+                        {brandName.slice(0, 15)}
+                        {brandName.length > 15 ? "..." : ""}
+                      </Tooltip>
+                    ) : (
+                      brandName
+                    )}
+                  </h1> : ''}
 
               </div>
               <div
                 className="cursor-pointer  items-center max-lg:hidden flex"
                 onClick={toggleSidebar}
               >
-                {isSecondIcon ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    className="fill-sidelayoutTextColor dark:fill-white"
-                  >
-                    <path d="M383-480 200-664l56-56 240 240-240 240-56-56 183-184Zm264 0L464-664l56-56 240 240-240 240-56-56 183-184Z" />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    className="fill-sidelayoutTextColor dark:fill-white"
-                  >
-                    <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
-                  </svg>
-                )}
+                <svg
+                  className={`text-sidelayoutTextColor dark:text-white transform transition-transform duration-300 ${isSecondIcon ? "rotate-180" : "rotate-0"
+                    }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <path
+                    d="M15.8333 2.5H4.16667C3.24619 2.5 2.5 3.24619 2.5 4.16667V15.8333C2.5 16.7538 3.24619 17.5 4.16667 17.5H15.8333C16.7538 17.5 17.5 16.7538 17.5 15.8333V4.16667C17.5 3.24619 16.7538 2.5 15.8333 2.5Z"
+                    stroke="currentcolor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M7.5 2.5V17.5"
+                    stroke="currentcolor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M13.3333 12.5L10.8333 10L13.3333 7.5"
+                    stroke="currentcolor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
               <div
-                className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 lg:hidden"
+                className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-[-10px]"
                 onClick={() => setSidebarOpen(false)}
               >
                 <svg
@@ -176,13 +184,13 @@ const Drawer = ({ className }) => {
             </div>
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
-                <div>
+                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-230px)]'} overflow-y-auto hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <NavLink
                         key={path}
                         to={path}
-                        className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white p-3 rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
+                        className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
                           }`}
                         onClick={() => setActiveRoute(path)}
                       >
@@ -208,16 +216,21 @@ const Drawer = ({ className }) => {
                         </div>
                       </NavLink>
                     ))}
+                  {routes.length > 7 && (
+                    <div className="sticky bottom-0 left-0 right-0 h-20 pointer-events-none">
+                      <div className="w-full h-full bg-gradient-to-t from-sidelayoutColor dark:from-dark-300 to-transparent"></div>
+                    </div>
+                  )}
                 </div>
                 {
                   showSidebarCtaOption === true && (
                     !sidebarCollapsed && (
-                      <div>
-                        <div className="bg-custom-gradient text-detailsBannerTextColor p-10 text-md text-center font-medium rounded-md">
+                      <div className="mt-2">
+                        <div className="bg-custom-gradient text-detailsBannerTextColor text-sm p-4 border-1 border border-gray-600 text-md text-center font-medium rounded-md">
                           <p>{sideBarOptions.title}</p>
                           <a href={sideBarOptions.buttonUrl}>
                             <Button
-                              className="bg-secondary dark:bg-white hover:bg-white hover:text-secondary dark:text-secondary text-white mt-8"
+                              className="bg-secondary dark:bg-white hover:bg-white hover:text-secondary dark:text-secondary text-white mt-4"
                               size="sm"
                             >
                               {sideBarOptions.buttonText}
@@ -263,7 +276,7 @@ const Drawer = ({ className }) => {
                 </NavLink> */}
 
                   <div
-                    className="block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white  p-3 rounded-md no-underline cursor-pointer"
+                    className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white   ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'}  rounded-md no-underline cursor-pointer`}
                     onClick={() => setLogoutDialog(true)}
                   >
                     <div

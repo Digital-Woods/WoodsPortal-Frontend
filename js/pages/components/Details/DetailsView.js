@@ -48,13 +48,13 @@ const DetailsView = ({
   };
 
   return (
-    <div className="p-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
+    <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table className="dark:bg-[#2a2a2a]">
         {item.length > 0 &&
           item.map((value, index) =>
             value.key === propertyName && showIframe ? (
               <tr key={value.key}>
-                <td className="py-2 pr-1 text-sm dark:text-white whitespace-nowrap align-top">
+                <td className="py-2 pr-1 text-sm dark:text-white whitespace-wrap lg:w-[250px] w-[150px] align-top">
                   {value.label}:
                 </td>
                 <td className="py-2 pl-1 text-sm dark:text-white align-top">
@@ -74,7 +74,7 @@ const DetailsView = ({
               </tr>
             ) : (
               <tr key={value.key}>
-                <td className="py-2 pr-1 text-sm dark:text-white whitespace-nowrap align-top">
+                <td className="py-2 pr-1 text-sm dark:text-white  lg:w-[200px] w-[130px]  whitespace-wrap align-top">
                   {value.label}:
                 </td>
                 <td className="py-2 pl-1 text-sm dark:text-white align-top break-all flex gap-2">

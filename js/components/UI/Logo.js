@@ -41,9 +41,7 @@ const Logo = ({ className }) => {
     hubSpotUserDetails.hubspotPortals.portalSettings.logo;
 
   return (
-    <div>
-      <img src={logoToDisplay} alt="Logo" className={`h-auto ${className}`} />
-    </div>
+    <img src={logoToDisplay} alt="Logo" className={`${className} h-auto w-auto`} />
   );
 };
 

@@ -149,7 +149,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
                 serverError={serverError}
-                className="dark:bg-dark-300 m-0"
+                className="dark:bg-dark-200 m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>

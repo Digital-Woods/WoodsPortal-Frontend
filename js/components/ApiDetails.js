@@ -9,7 +9,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     note: false,
     ticket: false
   });
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const param = getParam("t");
   const [activeTab, setActiveTab] = useState(param || "overview");
   const [permissions, setPermissions] = useState(null);
@@ -22,6 +21,34 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [galleryDialog, setGalleryDialog] = useState(false);
 
   const { sync, setSync } = useSync();
+
+
+  const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState(false);
+  const { isLargeScreen } = useResponsive();
+  const [userToggled, setUserToggled] = useState(false); // Track user interaction
+
+  // Automatically adjust the sidebar based on screen size
+  useEffect(() => {
+    if (!userToggled) {
+      setSidebarDetailsOpen(isLargeScreen);
+    }
+  }, [isLargeScreen, userToggled]);
+
+  // Function to toggle sidebar manually
+  const toggleSidebar = () => {
+    setUserToggled(true); // Mark as user-initiated
+    setSidebarDetailsOpen((prev) => !prev);
+  };
+
+  // Reset user preference when screen size changes significantly
+  useEffect(() => {
+    const resetOnResize = () => {
+      setUserToggled(false);
+    };
+
+    window.addEventListener("resize", resetOnResize);
+    return () => window.removeEventListener("resize", resetOnResize);
+  }, []);
 
   const setActiveTabFucntion = (active) => {
     setParam("t", active);
@@ -105,13 +132,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     return path.path;
   };
 
-  const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
-
-  useEffect(() => {
-    if (isLargeScreen) setSidebarOpen(false);
-  }, [isLargeScreen]);
-
-
   if (error) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center text-white bg-lightblue text-2xl font-semibold">
@@ -125,40 +145,26 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className="dark:bg-dark-200 w-[100%] md:p-4 p-3 overflow-hidden rounded-tl-xl">
+    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 rounded-tl-xl  lg:h-[calc(100vh-68px)] h-[calc(100vh-80px)] hide-scrollbar overflow-hidden `}
+    >
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
-        <div className=" flex relative overflow-hidden bg-cleanWhite dark:bg-dark-200 ">
+        <div className=" flex relative bg-cleanWhite dark:bg-dark-200 overflow-hidden ">
 
-          {associations && !isLargeScreen &&
-            !sidebarOpen ? (
+          {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
                 className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
-                onClick={() => setSidebarOpen(true)}
+                onClick={toggleSidebar}
               >
-                <svg
-                  viewBox="0 0 64 64"
-                  fill="currentColor"
-                  height="1.5em"
-                  width="1.5em"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeMiterlimit={20}
-                    strokeWidth={3}
-                    d="M0 21h6M16 21h48M0 33h6M16 33h48M0 45h6M16 45h48"
-                  />
-                </svg>
+                <DetailsIcon />
               </button>
             </div>
-          ) : (
-            ""
           )}
 
-          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:max-h-[calc(100vh-100px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
+
+          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:max-h-[calc(100vh-100px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
             <div className={``}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
@@ -259,40 +265,35 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           <div className={`${isLargeScreen
             ? " translate-x-0  w-[330px]"
             : " md:w-[350px] absolute translate-x-full w-full md:p-3 px-2 pb-2 z-50"
-            } ${sidebarOpen ? "translate-x-0 pt-2" : "translate-x-full"}
+            } ${sidebarDetailsOpen ? "translate-x-0 " : "translate-x-full"}
             rounded-md bg-cleanWhite dark:bg-dark-200  right-0 transform transition duration-200 ease-in-out
             lg:h-[calc(100vh-100px)] h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
-            {associations && !isLargeScreen && sidebarOpen ?
+            {associations && !isLargeScreen && sidebarDetailsOpen ?
               <div className=" rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
-                <button className='rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark' onClick={() => setSidebarOpen(false)}>
-                  <svg
-                    viewBox="0 0 1024 1024"
-                    fill="currentColor"
-                    height="1em"
-                    width="1em"
-                  >
-                    <path d="M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-.7 5.2-2L869 536.2a32.07 32.07 0 000-48.4z" />
-                  </svg>
+                <button className='rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark' onClick={() => setSidebarDetailsOpen(false)}>
+                  <Arrow />
                 </button>
               </div>
               : ''
             }
-            {associations &&
-              Object.entries(associations).map(
-                ([key, association], index) => (
-                  <DetailsAssociations
-                    key={key}
-                    association={association}
-                    isActive={true}
-                    parentObjectTypeName={path}
-                    parentObjectTypeId={objectId}
-                    parentObjectRowId={id}
-                    refetch={getData}
-                    objectId={objectId}
-                    id={id}
-                  />
-                )
-              )}
+            <div className="h-full w-full ">
+              {associations &&
+                Object.entries(associations).map(
+                  ([key, association], index) => (
+                    <DetailsAssociations
+                      key={key}
+                      association={association}
+                      isActive={true}
+                      parentObjectTypeName={path}
+                      parentObjectTypeId={objectId}
+                      parentObjectRowId={id}
+                      refetch={getData}
+                      objectId={objectId}
+                      id={id}
+                    />
+                  )
+                )}
+            </div>
           </div>
 
           <Dialog

@@ -25,16 +25,16 @@ const sortedHeaders = (headers) => {
   return headers.sort((a, b) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable = ({ 
-  hubspotObjectTypeId, 
-  path, 
-  inputValue, 
-  title, 
-  apis, 
-  detailsView = true, 
-  editView = false, 
-  viewName = '', 
-  detailsUrl='',
+const DashboardTable = ({
+  hubspotObjectTypeId,
+  path,
+  inputValue,
+  title,
+  apis,
+  detailsView = true,
+  editView = false,
+  viewName = '',
+  detailsUrl = '',
   componentName,
   defPermissions = null
 }) => {
@@ -56,7 +56,7 @@ const DashboardTable = ({
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [permissions, setPermissions] = useState(defPermissions);
-  
+
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
@@ -154,7 +154,7 @@ const DashboardTable = ({
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
-        if(defPermissions === null) setPermissions(data.configurations[componentName])
+        if (defPermissions === null) setPermissions(data.configurations[componentName])
       }
     },
     onError: () => {
@@ -244,8 +244,8 @@ const DashboardTable = ({
   };
 
   return (
-    <div className="shadow-md rounded-md dark:border-gray-700 bg-cleanWhite dark:bg-dark-300">
-      {isLoading && <div className="loader-line"></div>}
+    <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden bg-white dark:bg-dark-300`}>
+      {isLoading && <div className="loader-line m-2"></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <p className="text-primary md:text-2xl text-base dark:text-gray-300">
@@ -258,100 +258,87 @@ const DashboardTable = ({
           }
         </div>
       )}
-      <div className="flex justify-between md:flex-row flex-col-reverse md:items-center md:px-6 px-0 md:py-5 py-2 dark:px-2">
-        <div className="flex items-center gap-x-2 pt-3 text-sm">
-          <p className="text-primary leading-5 text-sm dark:text-gray-300">
-            Showing
-          </p>
-          <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-            {endItem}
-          </span>
-          <span className="text-primary dark:text-gray-300">/</span>
-          <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
-          <p className="text-primary font-normal text-sm dark:text-gray-300">
-            Results
-          </p>
-        </div>
-        {hubSpotUserDetails.sideMenu[0].tabName === title
-          ? null
-          : (permissions && permissions.create) && (
-            <div className="text-end">
+      {hubSpotUserDetails.sideMenu[0].tabName === title
+        ? null
+        : (permissions && permissions.create) && (
+          <div className="text-end md:py-4 py-3 md:pr-4 pr-3">
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
               <span className="mr-2"> + </span> Create {title}
             </Button>
-            </div>
-          )}
-      </div>
+          </div>
+        )
+      }
 
-      {tableData.length > 0 && (
-        <React.Fragment>
-          <div className="overflow-x-auto">
-            <Table className="w-full">
-              <TableHeader>
-                <TableRow>
-                  {tableHeader.map((column) => (
-                    <TableHead
-                      key={column.key}
-                      className="whitespace-nowrap dark:text-primary cursor-pointer"
-                      onClick={() => handleSort(column.key)}
-                    >
-                      <div className="flex columns-center">
-                        <span className="font-semibold text-xs">
-                          {formatColumnLabel(column.value)}
-                        </span>
-                        {sortConfig === column.key && (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 -960 960 960"
-                            width="24px"
-                            className="dark:fill-white cursor-pointer"
-                          >
-                            <path d="m280-400 200-200 200 200H280Z" />
-                          </svg>
-                        )}
-                        {sortConfig === `-${column.key}` && (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 -960 960 960"
-                            width="24px"
-                            className="dark:fill-white cursor-pointer"
-                          >
-                            <path d="M480-360 280-560h400L480-360Z" />
-                          </svg>
-                        )}
-                      </div>
-                    </TableHead>
-                  ))}
-                  {env.DATA_SOURCE_SET === true &&
-                    <TableHead className="font-semibold text-xs">
-
-                    </TableHead>
-                  }
-                  {editView && (permissions && permissions.update) &&
-                    <TableHead className="font-semibold text-xs">
-                      Actions
-                    </TableHead>
-                  }
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {tableData.map((item) => (
-                  <TableRow key={item.id}>
+      {
+        tableData.length > 0 && (
+          <React.Fragment>
+            <div className="overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader>
+                  <TableRow>
                     {tableHeader.map((column) => (
-                      <TableCell
-                        key={column.value}
-                        className="whitespace-nowrap border-b"
+                      <TableHead
+                        key={column.key}
+                        className="whitespace-nowrap dark:text-primary cursor-pointer"
+                        onClick={() => handleSort(column.key)}
                       >
-                        <div className="dark:text-white">
-                          {/* {renderCellContent(
+                        <div className="flex columns-center">
+                          <span className="font-semibold text-xs">
+                            {formatColumnLabel(column.value)}
+                          </span>
+                          {sortConfig === column.key && (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 -960 960 960"
+                              width="24px"
+                              className="dark:fill-white cursor-pointer"
+                            >
+                              <path d="m280-400 200-200 200 200H280Z" />
+                            </svg>
+                          )}
+                          {sortConfig === `-${column.key}` && (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 -960 960 960"
+                              width="24px"
+                              className="dark:fill-white cursor-pointer"
+                            >
+                              <path d="M480-360 280-560h400L480-360Z" />
+                            </svg>
+                          )}
+                        </div>
+                      </TableHead>
+                    ))}
+                    {env.DATA_SOURCE_SET === true &&
+                      <TableHead className="font-semibold text-xs">
+
+                      </TableHead>
+                    }
+                    {editView && (permissions && permissions.update) &&
+                      <TableHead className="font-semibold text-xs">
+                        Actions
+                      </TableHead>
+                    }
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tableData.map((item) => (
+                    <TableRow key={item.id}>
+                      {tableHeader.map((column) => (
+                        <TableCell
+                          key={column.value}
+                          className="whitespace-nowrap dark:border-gray-600 border-b"
+                        >
+                          <div className="dark:text-white">
+                            {/* {renderCellContent(
                             column.value
                               .split(".")
                               .reduce((o, k) => (o || {})[k], item),
                             item.id,
                             path
                           )} */}
-                          {/* {console.log('item', item)} */}
-                          {/* {renderCellContent(
+                            {/* {console.log('item', item)} */}
+                            {/* {renderCellContent(
                             item[column.key],
                             column,
                             item.hs_object_id,
@@ -362,73 +349,89 @@ const DashboardTable = ({
                             detailsView
                           )} */}
 
-                          {
-                            viewName === 'ticket'
-                              ? renderCellContent(
-                                item[column.key],
-                                column,
-                                item.hs_object_id,
-                                path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
-                                path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                                'list',
-                                `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}`,
-                                detailsView
-                              )
-                              : renderCellContent(
-                                item[column.key],
-                                column,
-                                item.hs_object_id,
-                                path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
-                                path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                                'list',
-                                path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                                detailsView
-                              )
-                          }
+                            {
+                              viewName === 'ticket'
+                                ? renderCellContent(
+                                  item[column.key],
+                                  column,
+                                  item.hs_object_id,
+                                  path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                                  path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                                  'list',
+                                  `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}`,
+                                  detailsView
+                                )
+                                : renderCellContent(
+                                  item[column.key],
+                                  column,
+                                  item.hs_object_id,
+                                  path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                                  path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                                  'list',
+                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                                  detailsView
+                                )
+                            }
 
-                        </div>
-                      </TableCell>
-                    ))}
-                    {env.DATA_SOURCE_SET === true &&
-                      <TableCell>
-                        <div className="flex items-center space-x-2 gap-x-5">
-                          <Link
-                            className="text-xs px-2 py-1 border border-input dark:text-white rounded-md whitespace-nowrap "
-                            to={`${path}/${hubspotObjectTypeId}/${item.id}`}
-                          >
-                            View Details
-                          </Link>
-                        </div>
-                      </TableCell>
-                    }
-                    {editView && (permissions && permissions.update) &&
-                      <TableCell>
-                        <div className="flex items-center space-x-2 gap-x-5">
-                          <Button size="sm" className="text-white" onClick={() => {
-                            setShowEditDialog(true);
-                            setShowEditData(item);
-                          }}>
-                            Edit
-                          </Button>
-                        </div>
-                      </TableCell>
-                    }
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="flex justify-end px-4">
-            <Pagination
-              numOfPages={numOfPages}
-              currentPage={currentPage}
-              setCurrentPage={handlePageChange}
-            />
-          </div>
-        </React.Fragment>
-      )
+                          </div>
+                        </TableCell>
+                      ))}
+                      {env.DATA_SOURCE_SET === true &&
+                        <TableCell>
+                          <div className="flex items-center space-x-2 gap-x-5">
+                            <Link
+                              className="text-xs px-2 py-1 border border-input dark:text-white rounded-md whitespace-nowrap "
+                              to={`${path}/${hubspotObjectTypeId}/${item.id}`}
+                            >
+                              View Details
+                            </Link>
+                          </div>
+                        </TableCell>
+                      }
+                      {editView && (permissions && permissions.update) &&
+                        <TableCell>
+                          <div className="flex items-center space-x-2 gap-x-5">
+                            <Button size="sm" className="text-white" onClick={() => {
+                              setShowEditDialog(true);
+                              setShowEditData(item);
+                            }}>
+                              Edit
+                            </Button>
+                          </div>
+                        </TableCell>
+                      }
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="flex items-center justify-between max-md:flex-col  md:px-4 px-3 gap-x-2 pt-3 text-sm">
+              <div className="flex items-center gap-x-2 text-sm">
+                <p className="text-primary leading-5 text-sm dark:text-gray-300">
+                  Showing
+                </p>
+                <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+                  {endItem}
+                </span>
+                <span className="text-primary dark:text-gray-300">/</span>
+                <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
+                <p className="text-primary font-normal text-sm dark:text-gray-300">
+                  Results
+                </p>
+              </div>
+              <div className="flex justify-end">
+                <Pagination
+                  numOfPages={numOfPages}
+                  currentPage={currentPage}
+                  setCurrentPage={handlePageChange}
+                />
+              </div>
+            </div>
+          </React.Fragment>
+        )
       }
-      {env.DATA_SOURCE_SET === true &&
+      {
+        env.DATA_SOURCE_SET === true &&
         <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[430px]">
           <div className="rounded-md flex-col gap-6 flex">
             <h3 className="text-start text-xl font-semibold">
