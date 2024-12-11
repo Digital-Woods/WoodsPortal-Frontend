@@ -332,14 +332,14 @@
       "show_loading" : false,
       "type" : "image",
       "default" : {
-        "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
-        "alt" : "Banner-woods-portal",
+        "size_type" : "auto_custom_max",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
+        "alt" : "FEATURE BG",
         "loading" : "lazy",
-        "width" : 848,
-        "height" : 309,
-        "max_width" : 848,
-        "max_height" : 309
+        "width" : 3000,
+        "height" : 927,
+        "max_width" : 2000,
+        "max_height" : 618
       }
     } ],
     "tab" : "CONTENT",
@@ -356,14 +356,14 @@
         "type" : "EXTERNAL"
       },
       "background_image" : {
-        "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
-        "alt" : "Banner-woods-portal",
+        "size_type" : "auto_custom_max",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
+        "alt" : "FEATURE BG",
         "loading" : "lazy",
-        "width" : 848,
-        "height" : 309,
-        "max_width" : 848,
-        "max_height" : 309
+        "width" : 3000,
+        "height" : 927,
+        "max_width" : 2000,
+        "max_height" : 618
       }
     }
   }, {
@@ -608,14 +608,14 @@
         "type" : "EXTERNAL"
       },
       "background_image" : {
-        "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/Banner-woods-portal.png",
-        "alt" : "Banner-woods-portal",
+        "size_type" : "auto_custom_max",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
+        "alt" : "FEATURE BG",
         "loading" : "lazy",
-        "width" : 848,
-        "height" : 309,
-        "max_width" : 848,
-        "max_height" : 309
+        "width" : 3000,
+        "height" : 927,
+        "max_width" : 2000,
+        "max_height" : 618
       }
     },
     "add_right_sidebar" : true,

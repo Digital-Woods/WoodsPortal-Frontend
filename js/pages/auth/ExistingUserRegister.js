@@ -128,7 +128,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
           </div>
         </div>
         <p className="text-center">
-        { moduleCompanyOptions.welcomeMessage || "Welcome" }
+        { baseCompanyOptions.welcomeMessage || "Welcome" }
         </p>
         {!resend ?
           <div className="flex flex-col items-center justify-center w-full">

@@ -218,6 +218,25 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   return (
     <div className="bg-white rounded-lg px-4 pt-4 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
+      <div className="flex items-center gap-x-2 text-sm font-medium my-3">
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="20px"
+            className="dark:fill-white fill-black"
+          >
+            <path d="M140-100v-240h120v-160h200v-120H340v-240h280v240H500v120h200v160h120v240H540v-240h120v-120H300v120h120v240H140Zm240-560h200v-160H380v160ZM180-140h200v-160H180v160Zm400 0h200v-160H580v160ZM480-660ZM380-300Zm200 0Z" />
+          </svg>
+        </span>
+        <span>
+          <span className="dark:text-white">{title}</span>
+          <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+            {totalItems}
+          </span>
+        </span>
+      </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <p className="text-primary text-base md:text-xl dark:text-gray-300">
@@ -230,15 +249,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
           }
         </div>
       )}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold dark:text-white">{title} <span className="text-blue-500">{totalItems}</span></h2>
-        {/* {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.createFormButton) &&
-          <Button className="text-white" onClick={() => setShowAddDialog(true)}>
-            <span className="mr-2"> + </span> Create {title}
-          </Button>
-        } */}
-      </div>
-
       {tableData.length > 0 && (
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
@@ -251,7 +261,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
                   >
                     <div className="pr-1 text-xs whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white">{column.value}:</div>
 
-                    <div className="dark:text-white text-xs ">
+                    <div className="dark:text-white text-xs break-all">
                       {/* {console.log('item', item)} */}
                       {renderCellContent(
                         item[column.key],
