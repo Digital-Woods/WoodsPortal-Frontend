@@ -195,7 +195,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 hubSpotUserDetails.sideMenu[0].tabName === title
                 ? isLargeScreen
                   ? "w-[calc(100%_-350px)]"
-                  : "w-full"
+                  : "w-full max-sm:w-screen"
                 : "w-full lg:pr-6 pr-0"
                 }`}
             >
@@ -229,9 +229,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 >
                   {/* Close button for medium and small screens */}
                   {!isLargeScreen && sidebarRightOpen && showSidebarListDataOption && (
-                    <div className="absolute z-[56] right-[15px] top-[16px]">
+                    <div className="absolute z-[56] right-[14px] top-[8px]">
                       <button
-                        className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200"
+                        className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200  animate-pulseEffect dark:animate-pulseEffectDark"
                         onClick={toggleSidebar}
                       >
                         <Arrow />
@@ -241,7 +241,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
 
                   {/* Sidebar content */}
                   <div
-                    className={`${isSmallScreen ? "w-full px-2 pb-2" : "w-[350px] pr-3"
+                    className={`${isSmallScreen ? "max-sm:w-screen w-full px-2 pb-2" : "w-[350px] pr-3"
                       } lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}
                   >
                     <div className="flex-col flex lg:gap-6 gap-3 h-full">

@@ -218,24 +218,19 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   return (
     <div className="bg-white rounded-lg px-4 pt-4 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
-      <div className="flex items-center gap-x-2 text-sm font-medium my-3">
-        <span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            className="dark:fill-white fill-black"
-          >
-            <path d="M140-100v-240h120v-160h200v-120H340v-240h280v240H500v120h200v160h120v240H540v-240h120v-120H300v120h120v240H140Zm240-560h200v-160H380v160ZM180-140h200v-160H180v160Zm400 0h200v-160H580v160ZM480-660ZM380-300Zm200 0Z" />
-          </svg>
-        </span>
-        <span>
-          <span className="dark:text-white">{title}</span>
-          <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
-            {totalItems}
+      <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
+        <div className="flex items-center justify-between gap-x-2 ">
+          <span>
+            <AssociationIcon />
           </span>
-        </span>
+          <span>
+            <span className="dark:text-white">{title}</span>
+            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+              {totalItems}
+            </span>
+          </span>
+        </div>
+        {isExpanded ? <IconMinus className='font-semibold' /> : <IconPlus className='font-semibold' />}
       </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -254,20 +249,20 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
         {/* <h3 className="text-sm font-semibold text-gray-500">
             {activity.date} <span className="font-normal">{activity.day}</span>
           </h3> */}
-        <ul className={`mt-2 space-y-4   transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[400px] "} overflow-hidden`}>
+        <ul className={`mt-2 space-y-4   transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
           {tableData.map((item, index) => (
-            <li
+            <table
               key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-300 dark:border text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
                 }`}
             >
               {tableHeader.map((column) => (
-                <div
+                <tr
                   key={column.value}
-                  className="flex items-start space-x-1"
+                  className=""
                 >
-                  <div className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white">{column.value}:</div>
-                  <div className="dark:text-white text-xs  break-all">
+                  <td className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white !p-[3px]">{column.value}:</td>
+                  <td className="dark:text-white text-xs  break-all !p-[3px]">
                     {/* {console.log('item', item)} */}
                     {renderCellContent(
                       item[column.key],
@@ -279,19 +274,19 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                       path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                       detailsView
                     )}
-                  </div>
-                </div>
+                  </td>
+                </tr>
               ))}
-            </li>
+            </table>
           ))}
         </ul>
         {tableData.length > 0 &&
-          <div className="flex lg:flex-row flex-col justify-between mt-3 items-center">
-            <div className="text-end">
+          <div className="flex lg:flex-row flex-col justify-between items-center">
+            {/* <div className="text-end">
               {env.DATA_SOURCE_SET != true &&
                 <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
               }
-            </div>
+            </div> */}
             <Pagination
               numOfPages={numOfPages}
               currentPage={currentPage}

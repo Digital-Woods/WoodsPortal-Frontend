@@ -135,51 +135,16 @@ const Drawer = ({ className }) => {
 
               </div>
               <div
-                className="cursor-pointer  items-center max-lg:hidden flex"
+                className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center max-lg:hidden flex`}
                 onClick={toggleSidebar}
               >
-                <svg
-                  className={`text-sidelayoutTextColor dark:text-white transform transition-transform duration-300 ${isSecondIcon ? "rotate-180" : "rotate-0"
-                    }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                >
-                  <path
-                    d="M15.8333 2.5H4.16667C3.24619 2.5 2.5 3.24619 2.5 4.16667V15.8333C2.5 16.7538 3.24619 17.5 4.16667 17.5H15.8333C16.7538 17.5 17.5 16.7538 17.5 15.8333V4.16667C17.5 3.24619 16.7538 2.5 15.8333 2.5Z"
-                    stroke="currentcolor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M7.5 2.5V17.5"
-                    stroke="currentcolor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M13.3333 12.5L10.8333 10L13.3333 7.5"
-                    stroke="currentcolor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <SidebarTogglerIcon />
               </div>
               <div
-                className=" rounded-lg cursor-pointer  bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-[-10px]"
+                className=" rounded-lg cursor-pointer text-sidelayoutTextColor dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-[-10px]"
                 onClick={() => setSidebarOpen(false)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20px"
-                  viewBox="0 -960 960 960"
-                  width="20px"
-                  className="fill-sidelayoutTextColor"
-                >
-                  <path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z" />
-                </svg>
+                <CloseIcon />
               </div>
             </div>
             <nav className="space-y-1 flex-1">
@@ -283,16 +248,8 @@ const Drawer = ({ className }) => {
                       className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-start"
                         }`}
                     >
-                      <div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          height="20px"
-                          viewBox="0 -960 960 960"
-                          width="20px"
-                          className="fill-sidelayoutTextColor"
-                        >
-                          <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-                        </svg>
+                      <div className="text-sidelayoutTextColor dark:text-white" >
+                        <LogOutIcon className="fill-sidelayoutTextColor dark:fill-white" />
                       </div>
                       <p
                         className={`${sidebarCollapsed ? "hidden" : ""
