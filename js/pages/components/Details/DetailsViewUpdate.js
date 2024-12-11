@@ -364,8 +364,8 @@ const DetailsViewUpdate = ({
   };
 
   return (
-    <div  className="flex  items-center">
-      <div className="flex  items-center gap-2">
+    <div  className="">
+      <div className="gap-2">
         {editRow && !pipelineDialog ? (
           <div>
             {/* {console.log("initialValues", initialValues)} */}
@@ -377,9 +377,9 @@ const DetailsViewUpdate = ({
               className=" m-0"
             >
               {({ register, control, formState: { errors } }) => (
-                <div className="flex gap-2 items-center">
-                  <div className="text-gray-800 dark:text-gray-200">
-                    <FormItem className="!mb-0">
+                <div className="flex gap-2 w-full items-center">
+                  <div className="text-gray-800 flex-1 dark:text-gray-200">
+                    <FormItem className="!mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ? (
                           <DetailsViewUpdateDD
@@ -391,6 +391,7 @@ const DetailsViewUpdate = ({
                         ) : editRow.fieldType === "textarea" ? (
                           <Textarea
                             rows="1"
+                            className="min-h-[160px]"
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           ></Textarea>
