@@ -100,7 +100,7 @@ const ModuleDetails = ({ path, id }) => {
 
   if (!item) {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center text-white bg-lightblue text-2xl font-semibold">
+      <div className="w-full h-[calc(100vh_-110px)] flex flex-col items-center justify-center dark:text-white text-dark-300 bg-cleanWhite dark:bg-dark-200 md:text-2xl text-base font-semibold">
         Error fetching data
       </div>
     );
