@@ -3,8 +3,8 @@ function IconPlus(props) {
       <svg
         viewBox="0 0 1024 1024"
         fill="currentColor"
-        height="1.2em"
-        width="1.2em"
+        height="1rem"
+        width="1rem"
         {...props}
       >
         <defs>
