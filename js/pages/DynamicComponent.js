@@ -109,7 +109,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
             : "md:pr-6 pr-3 rounded-tr-xl"
           }
           `}></div>
-        <div className="flex justify-between items-center relative gap-6">
+        <div className="flex justify-between items-center relative z-[2] gap-6">
           <div className="flex items-start flex-col gap-2">
             {objectTypeName &&
               <div className="pr-2 cursor-pointer" onClick={() => back()}>
