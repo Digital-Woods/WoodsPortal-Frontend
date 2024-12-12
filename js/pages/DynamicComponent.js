@@ -103,7 +103,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
           : `${!sidebarRightOpen ? 'md:pr-4 pr-3  pl-3  pt-3' : 'pl-3 pt-3'} rounded-tr-xl`
         }
       relative`}>
-        <div class={`h-12 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
+        <div class={`h-8 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
                 ${isLargeScreen
             ? " "
             : "md:pr-6 pr-3 rounded-tr-xl"
@@ -134,7 +134,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
             className="rounded-md "
           >
             <TabsList>
-              <TabsTrigger value="account">
+              <TabsTrigger className="rounded-md" value="account">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="18px"
@@ -146,7 +146,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                   <path d="M280-600v-80h560v80H280Zm0 160v-80h560v80H280Zm0 160v-80h560v80H280ZM160-600q-17 0-28.5-11.5T120-640q0-17 11.5-28.5T160-680q17 0 28.5 11.5T200-640q0 17-11.5 28.5T160-600Zm0 160q-17 0-28.5-11.5T120-480q0-17 11.5-28.5T160-520q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440Zm0 160q-17 0-28.5-11.5T120-320q0-17 11.5-28.5T160-360q17 0 28.5 11.5T200-320q0 17-11.5 28.5T160-280Z" />
                 </svg>
               </TabsTrigger>
-              <TabsTrigger value="password">
+              <TabsTrigger className="rounded-md" value="password">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="18px"
@@ -195,7 +195,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 hubSpotUserDetails.sideMenu[0].tabName === title
                 ? isLargeScreen
                   ? "w-[calc(100%_-350px)]"
-                  : "w-full"
+                  : "w-full max-sm:w-screen"
                 : "w-full lg:pr-6 pr-0"
                 }`}
             >
@@ -229,9 +229,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                 >
                   {/* Close button for medium and small screens */}
                   {!isLargeScreen && sidebarRightOpen && showSidebarListDataOption && (
-                    <div className="absolute z-[56] right-[15px] top-[16px]">
+                    <div className="absolute z-[56] right-[14px] top-[8px]">
                       <button
-                        className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200"
+                        className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200  animate-pulseEffect dark:animate-pulseEffectDark"
                         onClick={toggleSidebar}
                       >
                         <Arrow />
@@ -241,7 +241,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
 
                   {/* Sidebar content */}
                   <div
-                    className={`${isSmallScreen ? "w-full px-2 pb-2" : "w-[350px] pr-3"
+                    className={`${isSmallScreen ? "max-sm:w-screen w-full px-2 pb-2" : "w-[350px] pr-3"
                       } lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}
                   >
                     <div className="flex-col flex lg:gap-6 gap-3 h-full">

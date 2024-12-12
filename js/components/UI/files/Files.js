@@ -195,7 +195,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
                 className="text-white w-28"
                 onClick={() => setIsCreateFolderOpen(true)}
               >
-                <span className="mr-2"> + </span> New Folder
+                <span className="mr-2"> <IconPlus className='!w-3 !h-3'/> </span> New Folder
               </Button>
 
               <Button
@@ -203,7 +203,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
                 className="text-white w-28"
                 onClick={() => setIsDialogOpen(true)}
               >
-                <span className="mr-2"> + </span> New File
+                <span className="mr-2"> <IconPlus className='!w-3 !h-3'/> </span> New File
               </Button>
             </div>
           )}

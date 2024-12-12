@@ -263,7 +263,7 @@ const DashboardTable = ({
         : (permissions && permissions.create) && (
           <div className="text-end md:py-4 py-3 md:pr-4 pr-3">
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
-              <span className="mr-2"> + </span> Create {title}
+              <span className="mr-2"> <IconPlus className='!w-3 !h-3'/>  </span> Create {title}
             </Button>
           </div>
         )

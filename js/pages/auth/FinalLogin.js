@@ -201,7 +201,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
           </div>
         </div>
         <p className="text-center">
-          {moduleCompanyOptions.welcomeMessage || "Welcome"}
+          {baseCompanyOptions.welcomeMessage || "Welcome"}
         </p>
         <div className="w-full">
           <Form

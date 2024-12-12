@@ -27,36 +27,20 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
       <ul className="flex items-center space-x-2">
         <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
           <li
-            className={` ${
-              currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
-            }`}
+            className={` ${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
             onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                d="M10 12L6 8L10 4"
-                stroke="#2F2F33"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Chevron />
           </li>
         </div>
         {arrOfCurrButtons.map((data, index) => (
           <li
             key={index}
-            className={`cursor-pointer text-sm px-2 py-1 rounded-md text-sm ${
-              currentPage === data
+            className={`cursor-pointer text-sm px-2 py-1 rounded-md text-sm ${currentPage === data
                 ? " bg-primary dark:bg-dark-400 text-white"
                 : ""
-            } ${data === "..." ? "cursor-default" : ""}`}
+              } ${data === "..." ? "cursor-default" : ""}`}
             onClick={() => data !== "..." && setCurrentPage(data)}
           >
             {data}
@@ -64,31 +48,15 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
         ))}
         <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
           <li
-            className={` ${
-              currentPage === numOfPages
+            className={` ${currentPage === numOfPages
                 ? "cursor-not-allowed"
                 : "cursor-pointer"
-            }`}
+              }`}
             onClick={() =>
               currentPage < numOfPages && setCurrentPage(currentPage + 1)
             }
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              transform="rotate(180)"
-            >
-              <path
-                d="M10 12L6 8L10 4"
-                stroke="#2F2F33"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Chevron transform="rotate(180)" />
           </li>
         </div>
       </ul>

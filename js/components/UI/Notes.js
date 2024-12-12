@@ -293,7 +293,7 @@ const Notes = ({ path, objectId, id, permissions }) => {
       {permissions && permissions.create && (
         <div className="flex justify-end mt-2 mb-6 items-center">
           <Button className="text-white" onClick={() => setShowDialog(true)}>
-            <span className="mr-2"> + </span> New Note
+            <span className="mr-2"> <IconPlus className='!w-3 !h-3'/>  </span> New Note
           </Button>
         </div>
       )}

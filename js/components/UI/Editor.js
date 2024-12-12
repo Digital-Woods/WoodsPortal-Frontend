@@ -125,7 +125,7 @@ const Notes = ({ fileId, path }) => {
       <div className="flex justify-between mt-2 mb-6 items-center">
         <CustomCheckbox buttonText="Sites" spanText="3" showSpan={true} />
         <Button className="text-white" onClick={() => setShowDialog(true)}>
-          <span className="mr-2"> + </span> New Note
+          <span className="mr-2"> <IconPlus className='!w-3 !h-3'/> </span> New Note
         </Button>
       </div>
       {results && results.length > 0 ? (
