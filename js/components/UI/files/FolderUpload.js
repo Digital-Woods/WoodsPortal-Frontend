@@ -88,7 +88,7 @@ const FolderUpload = ({
             type="text"
             value={newFolderName}
             onChange={(e) => setNewFolderName(e.target.value)}
-            className="border text-white border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
+            className="border text-dark-200 border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
             placeholder="Folder Name"
           />
           <div className="mt-4 flex gap-x-5 justify-end">
