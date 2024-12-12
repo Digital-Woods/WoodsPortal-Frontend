@@ -32,20 +32,20 @@ const FileDetailsModal = ({ file, onClose }) => {
   return (
     <div>
       <div className="fixed inset-0 flex items-center justify-center z-[60] bg-black bg-opacity-50">
-        <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[720px] min-h-[380px] max-h-[80vh] overflow-auto">
+        <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[720px] min-h-[292px] max-h-[80vh] overflow-auto relative">
+          <button onClick={onClose} className="text-xl font-bold absolute top-1 right-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              className="fill-black dark:fill-white"
+            >
+              <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+            </svg>
+          </button>
           <div className="flex justify-between items-center border-b pb-4">
             <h2 className="font-medium text-lg dark:text-white">{file.data.name}</h2>
-            <button onClick={onClose} className="text-xl font-bold">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                className="fill-black dark:fill-white"
-              >
-                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
-            </button>
           </div>
 
           {copyMessage && (
@@ -53,12 +53,12 @@ const FileDetailsModal = ({ file, onClose }) => {
               {copyMessage}
             </div>
           )}
-          <div className="flex md:flex-row flex-col gap-4 items-center pt-3">
+          <div className="grid grid-cols-12 gap-4 items-center pt-3">
             {file.data.url ? (
               file.data.type === "IMG" ? (
-                <div className="aspect-[16/9] flex items-center justify-center">
+                <div className="aspect-[16/9] md:col-span-8 col-span-12 flex items-center justify-center">
                   {isImageLoading && (
-                    <div role="status" class="animate-pulse h-48">
+                    <div role="status" class="animate-pulse h-48 w-full">
                       <div class="flex items-center justify-center max-w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
                         <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                           <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
@@ -70,7 +70,7 @@ const FileDetailsModal = ({ file, onClose }) => {
                   <img
                     src={file.data.url}
                     alt={file.data.name}
-                    className={`max-w-full w-auto h-full max-h-full mx-auto rounded-lg transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
+                    className={`w-full h-full object-contain transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
                       }`}
                     onLoad={() => setIsImageLoading(false)}
                   />
@@ -83,67 +83,54 @@ const FileDetailsModal = ({ file, onClose }) => {
                 //   frameBorder="0"
                 //   allowFullScreen
                 // ></iframe>
-                <div className="aspect-video flex items-center justify-center">
-                  {isImageLoading && (
-                    <div role="status" class="animate-pulse h-48">
-                      <div class="flex items-center justify-center max-w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
-                        <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
-                        </svg>
-                      </div>
-                    </div>
-                  )}
-
-                  {getIcon(file.data.type)}
-
+                <div className="spect-[16/9] md:col-span-8 col-span-12 flex items-center justify-center">
+                  {getIcon(file.data.extension, '200px', '200px')}
                 </div>
               )) : null}
 
-            <div className="w-full">
-              <div className=" w-full">
-                <table className="bg-white dark:bg-[#2a2a2a] w-full rounded-lg table-auto">
-                  <tbody>
+            <div className="md:col-span-4 col-span-12">
+              <table className="bg-white dark:bg-[#2a2a2a] w-full rounded-lg table-auto">
+                <tbody>
+                  <tr>
+                    <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
+                      Type:
+                    </td>
+                    <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.type}</td>
+                  </tr>
+                  <tr>
+                    <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
+                      Size:
+                    </td>
+                    <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.size}</td>
+                  </tr>
+                  {file.data.width ?
                     <tr>
                       <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
-                        Type:
+                        Width:
                       </td>
-                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.type}</td>
+                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.width || ''}</td>
                     </tr>
+                    : ''}
+                  {file.data.height ?
                     <tr>
                       <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
-                        Size:
+                        Height:
                       </td>
-                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.size}</td>
+                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.height || ''}</td>
                     </tr>
-                    {file.data.width &&
-                      <tr>
-                        <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
-                          Width:
-                        </td>
-                        <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.width}</td>
-                      </tr>
-                    }
-                    {file.data.height &&
-                      <tr>
-                        <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
-                          Height:
-                        </td>
-                        <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.height}</td>
-                      </tr>
-                    }
-                    {file.data.extension &&
-                      <tr>
-                        <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
-                          Extension:
-                        </td>
-                        <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.extension}</td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
+                    : ''}
+                  {file.data.extension ?
+                    <tr>
+                      <td className="pr-1 text-sm dark:text-white whitespace-nowrap align-top">
+                        Extension:
+                      </td>
+                      <td className="pl-1 text-sm text-gray-500 dark:text-white align-top" >{file.data.extension}</td>
+                    </tr>
+                    : ''}
+                </tbody>
+              </table>
 
-              <div className="flex justify-end gap-x-5 mt-6 w-full">
+              <div className="flex justify-end gap-2 mt-6 w-full">
                 <Button onClick={handleCopyLink} className="flex items-center" size="sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

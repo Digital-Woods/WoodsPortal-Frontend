@@ -35,7 +35,7 @@ const ThemeSwitcher = () => {
 
   return (
     <div
-      className="text-sidelayoutTextColor p-3 text-center cursor-pointer"
+      className="text-sidelayoutTextColor dark:text-white p-3 text-center cursor-pointer"
       onClick={()=>toggleTheme()}
     >
       <span className={theme === "dark" ? "hidden" : "block"}>
