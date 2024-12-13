@@ -219,7 +219,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
-        <div className="flex items-center justify-between gap-x-2 ">
+        <div className="flex items-center justify-between gap-x-2 pb-2">
           <span>
             <AssociationIcon />
           </span>

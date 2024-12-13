@@ -250,7 +250,7 @@ const Drawer = ({ className }) => {
       </div>
 
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-        <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
           <div className="w-[50px]">
             <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
           </div>

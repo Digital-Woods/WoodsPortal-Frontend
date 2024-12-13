@@ -103,7 +103,7 @@ const ResetPassword = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      <div className="dark:bg-gray-900 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+      <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-[50px]">
           <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
         </div>
@@ -112,7 +112,7 @@ const ResetPassword = () => {
             onSubmit={onSubmit}
             validationSchema={resetPasswordValidationSchema}
             serverError={serverError}
-            className="dark:bg-gray-900"
+            className="dark:bg-dark-200"
           >
             {({ register, formState: { errors } }) => (
               <div className="text-gray-800 dark:text-gray-200">

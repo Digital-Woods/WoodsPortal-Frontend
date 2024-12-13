@@ -187,7 +187,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         />
       )}
       <div
-        className={`dark:bg-gray-900 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${
+        className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${
           isLargeScreen && "w-[30%]"
         }  ${isMediumScreen && "w-[45%]"}  ${isSmallScreen && "w-[85%]"} `}
       >
@@ -200,7 +200,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
             />
           </div>
         </div>
-        <p className="text-center">
+        <p className="text-center dark:text-white">
           {baseCompanyOptions.welcomeMessage || "Welcome"}
         </p>
         <div className="w-full">
@@ -208,7 +208,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
             onSubmit={onSubmit}
             validationSchema={loginUserValidationSchema}
             serverError={serverError}
-            className="dark:bg-gray-900"
+            className="dark:bg-dark-200"
           >
             {({ register, formState: { errors } }) => (
               <div className="text-gray-800 dark:text-gray-200">

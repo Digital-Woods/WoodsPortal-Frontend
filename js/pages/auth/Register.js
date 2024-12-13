@@ -29,20 +29,20 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-light-100 dark:bg-dark-100 p-5">
+    <div className="bg-light-100 dark:bg-dark-200 p-5">
       <Form
         onSubmit={onSubmit}
         validationSchema={registerUserValidationSchema}
         serverError={serverError}
-        className="bg-light-100 dark:bg-dark-100"
+        className="bg-light-100 dark:bg-dark-200"
       >
         {({ register, formState: { errors } }) => (
           <div>
-            <div className="text-dark dark:text-light">
-              <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-light">
+            <div className="text-dark dark:text-white">
+              <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
                 Register
               </h2>
-              <p className="mt-1 text-sm leading-6 text-gray-600  dark:text-light">
+              <p className="mt-1 text-sm leading-6 text-gray-600  dark:text-white">
                 Use a permanent address where you can receive mail.
               </p>
 
