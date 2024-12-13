@@ -513,20 +513,6 @@
       "type" : "number",
       "default" : 15
     }, {
-      "id" : "43518b07-391d-24fa-3cdf-2da018624b6e",
-      "name" : "icon_svg_code",
-      "display_width" : null,
-      "label" : "Icon SVG Code",
-      "help_text" : "",
-      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
-      "required" : false,
-      "locked" : false,
-      "validation_regex" : "",
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
-      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
-    }, {
       "id" : "dcc8acd8-c095-e3a8-affb-48eaa7233c29",
       "name" : "show_iframe",
       "display_width" : null,
@@ -564,23 +550,21 @@
     "type" : "group",
     "default" : [ {
       "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
-      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
-      "object_type_id" : "0-5",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
       "show_iframe" : false
     }, {
       "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
-      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
-      "object_type_id" : "0-5",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
       "show_iframe" : false
     } ]
   } ],
@@ -621,23 +605,21 @@
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
       "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
-      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
-      "object_type_id" : "0-5",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
       "show_iframe" : false
     }, {
       "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
-      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
       "association_object_type_id" : 15,
-      "object_type_id" : "0-5",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
       "show_iframe" : false
     } ]
   }
