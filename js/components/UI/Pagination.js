@@ -25,9 +25,9 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   return (
     <div className="flex justify-end items-center py-6 px-2">
       <ul className="flex items-center space-x-2">
-        <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
+        <div className="dark:bg-dark-500 bg-gray-200 p-2 rounded-md">
           <li
-            className={`dark:text-dark-200 ${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+            className={`dark:text-white ${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
               }`}
             onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           >
@@ -46,9 +46,9 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
             {data}
           </li>
         ))}
-        <div className="dark:bg-flatGray bg-gray-200 p-2 rounded-md">
+        <div className="dark:bg-dark-500 bg-gray-200 p-2 rounded-md">
           <li
-            className={`dark:text-dark-200 ${currentPage === numOfPages
+            className={`dark:text-white ${currentPage === numOfPages
                 ? "cursor-not-allowed"
                 : "cursor-pointer"
               }`}

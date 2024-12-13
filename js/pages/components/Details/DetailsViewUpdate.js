@@ -390,9 +390,8 @@ const DetailsViewUpdate = ({
                           />
                         ) : editRow.fieldType === "textarea" ? (
                           <Textarea
-                            rows="1"
+                            rows="4"
                             placeholder={`Enter ${editRow.label}`}
-                            className="min-h-[160px]"
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           ></Textarea>

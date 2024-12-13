@@ -130,7 +130,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
       return (
         <TableRow>
           <TableCell colSpan={5} className="text-center dark:border-gray-600 dark:text-white text-gray-500">
-            No files available
+            <EmptyMessageCard name="file" />
           </TableCell>
         </TableRow>
       );
@@ -240,15 +240,15 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
   };
 
   return (
-    <div className="table-container w-full overflow-x-auto">
-      <Table className="w-full dark:bg-[#2a2a2a] table-auto mb-6">
-        <TableHeader className="bg-gray-100 text-left dark:bg-dark-200">
+    <div className="table-container w-full rounded-md overflow-x-auto">
+      <Table className="w-full dark:bg-[#2a2a2a] table-auto">
+        <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
           <TableRow>
-            <TableHead className="px-4 py-2 whitespace-nowrap text-xs"></TableHead>
-            <TableHead className="px-4 py-2 whitespace-nowrap text-xs">Name</TableHead>
-            <TableHead className="px-4 py-2 whitespace-nowrap text-xs text-left">File Type</TableHead>
-            <TableHead className="px-4 py-2 whitespace-nowrap text-xs text-left">Size</TableHead>
-            <TableHead className="px-4 py-2 whitespace-nowrap text-xs"></TableHead>
+            <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
+            <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs">Name</TableHead>
+            <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">File Type</TableHead>
+            <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">Size</TableHead>
+            <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>{renderFiles(files)}</TableBody>

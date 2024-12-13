@@ -57,11 +57,13 @@ tailwind.config = {
       },
       colors: {
         cleanWhite: "#FFFFFF",
-        white: "#FAF9F6",
+        white: "#fdfdfd",
         graySecondary: "#F2F2F2",
         richRed: "#FF0000",
         lightblue: "#005fad",
         defaultPrimary: "var(--primary-color)",
+        rsbackground:'#2d3e5014',
+        rscardbackhround:'#2d3e500d',
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
         flatGray: "#F6F6F6", // Flat grey

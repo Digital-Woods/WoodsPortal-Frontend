@@ -147,7 +147,7 @@ const ChangePassword = () => {
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   Current Password
                 </FormLabel>
-                <FormControl className="flex flex-col items-center w-[230px]">
+                <FormControl className="flex flex-col items-center w-full">
                   <div className="relative w-full">
                     <Input
                       type={showCurrentPassword ? "text" : "password"}
@@ -177,7 +177,7 @@ const ChangePassword = () => {
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   New Password
                 </FormLabel>
-                <FormControl className="flex flex-col items-center w-[230px]">
+                <FormControl className="flex flex-col items-center w-full">
                   <div className="relative w-full">
                     <Input
                       type={showNewPassword ? "text" : "password"}
@@ -207,7 +207,7 @@ const ChangePassword = () => {
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   Confirm New Password
                 </FormLabel>
-                <FormControl className="flex flex-col items-center w-[230px]">
+                <FormControl className="flex flex-col items-center w-full">
                   <div className="relative w-full">
                     <Input
                       type={showConfirmPassword ? "text" : "password"}

@@ -103,7 +103,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
           : `${!sidebarRightOpen ? 'md:pr-4 pr-3  pl-3  pt-3' : 'pl-3 pt-3'} rounded-tr-xl`
         }
       relative`}>
-        <div class={`h-8 bg-gradient-to-b rounded-tl-xl from-cleanWhite dark:from-dark-200 to-cleanWhite/0 absolute top-0 left-0 right-0 z-[1]
+        <div class={`h-8 bg-gradient-to-t to-cleanWhite dark:to-dark-300 from-transparent rounded-tl-xl absolute top-0 left-0 right-0 z-[1]
                 ${isLargeScreen
             ? " "
             : "md:pr-6 pr-3 rounded-tr-xl"

@@ -74,16 +74,10 @@ const FolderUpload = ({
         className="flex relative items-center justify-center"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on modal content
       >
-        <div className="bg-cleanWhite min-w-[256px] dark:bg-dark-200">
-          <h2 className="text-lg font-semibold mb-4 dark:text-white">
-            <div
-              className="absolute right-0 top-[-10px] cursor-pointer"
-              onClick={onClose} // Close only when the CloseIcon is clicked
-            >
-              <CloseIcon />
-            </div>
+        <div className="bg-cleanWhite lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start dark:bg-dark-200">
+          <h3 className="text-lg text-start font-semibold mb-4 dark:text-white">
             New Folder
-          </h2>
+          </h3>
           <input
             type="text"
             value={newFolderName}
@@ -91,7 +85,7 @@ const FolderUpload = ({
             className="border text-dark-200 border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
             placeholder="Folder Name"
           />
-          <div className="mt-4 flex gap-x-5 justify-end">
+          <div className="mt-4 flex items-center gap-3 justify-between">
             <Button
               className='dark:text-white'
               onClick={onClose}

@@ -131,7 +131,7 @@ const ProfileUpdate = () => {
                   First Name:
                 </FormLabel>
                 {isEditPersonalInfo ? (
-                  <FormControl className="flex flex-col items-center w-[230px]">
+                  <FormControl className="flex flex-col items-center w-full">
                     <Input
                       icon={FirstNameIcon}
                       type="text"
@@ -158,7 +158,7 @@ const ProfileUpdate = () => {
                   Last Name:
                 </FormLabel>
                 {isEditPersonalInfo ? (
-                  <FormControl className="flex flex-col items-center w-[230px]">
+                  <FormControl className="flex flex-col items-center w-full">
                     <Input
                       icon={SecondNameIcon}
                       type="text"

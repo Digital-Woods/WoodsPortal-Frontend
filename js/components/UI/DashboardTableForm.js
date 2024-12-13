@@ -136,9 +136,9 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px] min-w-[305px]">
+      <Dialog open={openModal} onClose={setOpenModal} className=" rounded-md lg:w-[480px] md:w-[430px] w-[calc(100vw-28px)]">
         <div className="rounded-md flex-col gap-6 flex">
-          <h3 className="text-start text-xl dark:text-white font-semibold">
+          <h3 className="text-lg text-start font-semibold dark:text-white">
             Add {title}
           </h3>
           {isLoading ?
@@ -224,7 +224,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         </div>
                       ))}
                     </div>
-                    <div className="mt-4 flex justify-end items-end gap-1">
+                    <div className="mt-4 flex items-center gap-3 justify-between">
                       <Button
                         variant="outline"
                         onClick={() => setOpenModal(false)}
