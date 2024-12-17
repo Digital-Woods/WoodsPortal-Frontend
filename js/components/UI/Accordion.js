@@ -20,7 +20,7 @@ const Accordion = ({ children, className, isActive }) => {
   return (
     <div
       className={twMerge(
-        "rounded overflow-hidden border dark:border-gray-600 bg-white dark:bg-dark-300 dark:text-white mb-4",
+        "rounded overflow-hidden border dark:border-gray-600 bg-rsbackground dark:bg-dark-300 dark:text-white mb-4",
         className
       )}
     >
@@ -37,7 +37,7 @@ const Accordion = ({ children, className, isActive }) => {
 const AccordionSummary = ({ children, active, id, handleToggle }) => {
   return (
     <div
-      className={`flex justify-between dark:border-gray-600 bg-white dark:bg-dark-300 items-start p-4 bg-white cursor-pointer transition-colors ${
+      className={`flex justify-between dark:border-gray-600 dark:bg-dark-300 items-start p-4 cursor-pointer transition-colors ${
         active != null ? "" : ""
       }`}
       onClick={() => handleToggle(id)}
@@ -79,7 +79,7 @@ const AccordionDetails = ({ children, active, id }) => {
   return (
     <div
       ref={contentEl}
-      className={`rounded-md transition-height duration-300 overflow-hidden  bg-white dark:bg-dark-300 ${
+      className={`rounded-md transition-height duration-300 overflow-hidden   dark:bg-dark-300 ${
         active != null ? "max-h-screens" : "max-h-0"
       }`}
       style={
@@ -88,7 +88,7 @@ const AccordionDetails = ({ children, active, id }) => {
           : { height: "0px" }
       }
     >
-      <div className="rounded-md px-2 bg-white dark:bg-dark-300">{children}</div>
+      <div className="rounded-md px-2">{children}</div>
     </div>
   );
 };

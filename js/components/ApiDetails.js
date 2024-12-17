@@ -301,7 +301,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             onClose={setGalleryDialog}
             className="w-[50%]"
           >
-            <div className=" bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+            <div className=" bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
               <div className="grid grid-cols-2 gap-4">
                 {images.map((url, index) => (
                   <img

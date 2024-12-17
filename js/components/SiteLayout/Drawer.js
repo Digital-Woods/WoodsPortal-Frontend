@@ -165,7 +165,7 @@ const Drawer = ({ className }) => {
                       </NavLink>
                     ))}
                   {routes.length > 7 && (
-                    <div className="sticky bottom-0 left-0 right-0 h-20 pointer-events-none">
+                    <div className="sticky -bottom-[2] left-0 right-0 h-20 pointer-events-none">
                       <div className="w-full h-full bg-gradient-to-t from-sidelayoutColor dark:from-dark-300 to-transparent"></div>
                     </div>
                   )}
@@ -250,14 +250,14 @@ const Drawer = ({ className }) => {
       </div>
 
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-        <div className="bg-cleanWhite dark:bg-dark-100 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
           <div className="w-[50px]">
             <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
           </div>
           <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
             Log out of your account?
           </div>
-          <div className="pt-3 flex sm:flex-row-reverse gap-x-3 justify-between w-full">
+          <div className="pt-3 flex gap-x-3 justify-between w-full">
             <Button
               className="dark:text-white"
               onClick={() => setLogoutDialog(false)}

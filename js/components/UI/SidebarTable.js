@@ -216,7 +216,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   };
 
   return (
-    <div className="bg-white rounded-lg px-4 pt-4 w-full max-w-md dark:bg-dark-300">
+    <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 ">
@@ -234,11 +234,9 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <p className="text-primary text-base md:text-xl dark:text-gray-300">
-            No records found
-          </p>
+          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-base md:text-2xl dark:text-gray-300">
+            <p className="text-primary text-base md:text-2xl dark:text-gray-300 mt-3">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }

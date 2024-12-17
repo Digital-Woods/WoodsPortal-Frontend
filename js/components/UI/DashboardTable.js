@@ -244,42 +244,39 @@ const DashboardTable = ({
   };
 
   return (
-    <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden bg-white dark:bg-dark-300`}>
+    <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden`}>
       {isLoading && <div className="loader-line m-2"></div>}
-      {!isLoading && tableData.length === 0 && (
-        <div className="text-center p-5">
-          <p className="text-primary md:text-2xl text-base dark:text-gray-300">
-            No records found
-          </p>
-          {(permissions && permissions.association) &&
-            <p className="text-primary text-base md:text-2xl dark:text-gray-300">
-              {permissions.associationMessage}
-            </p>
-          }
-        </div>
-      )}
       {hubSpotUserDetails.sideMenu[0].tabName === title
         ? null
         : (permissions && permissions.create) && (
           <div className="text-end md:py-4 py-3 md:pr-4 pr-3">
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
-              <span className="mr-2"> <IconPlus className='!w-3 !h-3'/>  </span> Create {title}
+              <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create {title}
             </Button>
           </div>
         )
       }
-
+      {!isLoading && tableData.length === 0 && (
+        <div className="text-center pb-4">
+          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />
+          {(permissions && permissions.association) &&
+            <p className="text-primary text-base md:text-2xl dark:text-gray-300mt-3">
+              {permissions.associationMessage}
+            </p>
+          }
+        </div>
+      )}
       {
         tableData.length > 0 && (
           <React.Fragment>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
               <Table className="w-full">
                 <TableHeader>
                   <TableRow>
                     {tableHeader.map((column) => (
                       <TableHead
                         key={column.key}
-                        className="whitespace-nowrap dark:text-primary cursor-pointer"
+                        className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"
                         onClick={() => handleSort(column.key)}
                       >
                         <div className="flex columns-center">
@@ -405,7 +402,7 @@ const DashboardTable = ({
                 </TableBody>
               </Table>
             </div>
-            <div className="flex items-center justify-between max-md:flex-col  md:px-4 px-3 gap-x-2 pt-3 text-sm">
+            <div className="flex items-center justify-between max-md:flex-col  md:px-4 px-3 gap-x-2 max-sm:mt-3 text-sm">
               <div className="flex items-center gap-x-2 text-sm">
                 <p className="text-primary leading-5 text-sm dark:text-gray-300">
                   Showing

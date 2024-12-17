@@ -140,19 +140,12 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
     <div className="fileupload-view relative">
       <div className="row justify-center m-0">
         <div className="col-md-6">
-          <div className="card mt-5">
+          <div className="card">
             <div className="card-body">
-              <div className="kb-data-box md:w-[450px] w-[280px]">
+              <div className="kb-data-box lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
-                    <div
-                      className="absolute right-0 top-[-20px] cursor-pointer"
-                      onClick={onClose}
-                    >
-                      <CloseIcon />
-                    </div>
-
-                    <h6 className=" dark:text-white">File Upload</h6>
+                    <h3 className="text-lg text-start font-semibold dark:text-white">File Upload</h3>
                   </div>
                 </div>
                 <form onSubmit={fileUploadSubmit} className="max-w-screen">
@@ -209,18 +202,26 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                       );
                     })}
                   </div>
-                  <Button
-                    type="submit"
-                    disabled={selectedFile.length === 0 || isUploading}
-                  >
-                    {isUploading ? "Uploading..." : "Upload"}
-                  </Button>
+                  <div className="flex items-center gap-3 justify-between">
+                    <Button
+                      variant='outline'
+                      onClick={onClose}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={selectedFile.length === 0 || isUploading}
+                    >
+                      {isUploading ? "Uploading..." : "Upload"}
+                    </Button>
+                  </div>
                 </form>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };

@@ -10,7 +10,7 @@ const Chevron = (props) => {
   >
     <path
       d="M10 12L6 8L10 4"
-      stroke="#2F2F33"
+      stroke="currentcolor"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"

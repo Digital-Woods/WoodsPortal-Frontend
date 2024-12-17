@@ -30,7 +30,7 @@ const DetailsAssociations = ({
       <AccordionDetails>
         <div className="flex flex-col py-2">
           {association.total === 0 ? (
-            <div className="p-2 dark:bg-[#3e3e3e] bg-white rounded-md text-xs font-semibold dark:text-white">
+            <div className="p-2 dark:bg-[#3e3e3e] bg-rscardbackhround rounded-md text-xs font-semibold dark:text-white">
               See the {association.labels.plural} associated with this record.
             </div>
           ) : (
@@ -39,15 +39,15 @@ const DetailsAssociations = ({
               <div className=" rounded-md dark:text-white">
                 {association.data.map((item, index) => (
                   <div key={index} className="mb-2">
-                    <div className="border dark:border-gray-600 p-2 rounded-md shadow-sm bg-white dark:bg-dark-500 overflow-hidden">
-                      <table className="dark:bg-[#3e3e3e] bg-white">
+                    <div className="border dark:border-gray-600 p-2 rounded-md bg-rscardbackhround dark:bg-dark-500 overflow-hidden">
+                      <table className="!bg-transparent">
                         {item &&
                           sortData(item, "associations").map((value, index) => (
                             <tr key={value.key}>
-                              <td className="pr-1 text-xs !px-[2px] whitespace-wrap md:w-[130px] w-[110px]  align-top dark:text-white">
+                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0 whitespace-wrap md:w-[90px] w-[80px]  align-center dark:text-white">
                                 {value.label}:
                               </td>
-                              <td className="pl-1 text-xs !px-[2px] text-gray-500 align-top dark:text-white">
+                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0 align-center dark:text-white">
                                 {value.isEditableField ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent(
