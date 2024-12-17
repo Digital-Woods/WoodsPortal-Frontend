@@ -1086,7 +1086,7 @@
         "type" : "color",
         "default" : {
           "color" : "#2d3e50",
-          "opacity" : 100
+          "opacity" : 10
         }
       }, {
         "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
@@ -1098,7 +1098,7 @@
         "type" : "color",
         "default" : {
           "color" : "#15803D",
-          "opacity" : 100
+          "opacity" : 10
         }
       } ],
       "tab" : "STYLE",
@@ -1108,11 +1108,11 @@
       "default" : {
         "color_1" : {
           "color" : "#2d3e50",
-          "opacity" : 100
+          "opacity" : 10
         },
         "color_2" : {
           "color" : "#15803D",
-          "opacity" : 100
+          "opacity" : 10
         }
       }
     } ],
@@ -1146,11 +1146,11 @@
       "sidebar_details_background_colors" : {
         "color_1" : {
           "color" : "#2d3e50",
-          "opacity" : 100
+          "opacity" : 10
         },
         "color_2" : {
           "color" : "#15803D",
-          "opacity" : 100
+          "opacity" : 10
         }
       }
     }
@@ -1332,6 +1332,68 @@
         "opacity" : 100
       }
     }
+  }, {
+    "id" : "75b61897-f3c1-1ee8-cf79-e1b91fafb18e",
+    "name" : "d_h_sidebar",
+    "display_width" : null,
+    "label" : "Global Right Sidebar",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "4c4fa748-9747-f7d3-6524-4a6bfec1fd52",
+      "name" : "background_color",
+      "display_width" : null,
+      "label" : "Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 14
+      }
+    }, {
+      "id" : "7bf24328-bfa3-d5e9-f8d4-f30db823d0dc",
+      "name" : "card_background_color",
+      "display_width" : null,
+      "label" : "Card Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 13
+      }
+    }, {
+      "id" : "fafd357d-6e64-69d4-f71c-1d72bd14f7d9",
+      "name" : "text_color",
+      "display_width" : null,
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "default" : {
+      "background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 14
+      },
+      "card_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 13
+      },
+      "text_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }
   } ],
   "tab" : "STYLE",
   "expanded" : false,
@@ -1364,11 +1426,11 @@
       "sidebar_details_background_colors" : {
         "color_1" : {
           "color" : "#2d3e50",
-          "opacity" : 100
+          "opacity" : 10
         },
         "color_2" : {
           "color" : "#15803D",
-          "opacity" : 100
+          "opacity" : 10
         }
       }
     },
@@ -1405,6 +1467,20 @@
       },
       "text_color" : {
         "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "d_h_sidebar" : {
+      "background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 14
+      },
+      "card_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 13
+      },
+      "text_color" : {
+        "color" : "#2d3e50",
         "opacity" : 100
       }
     }

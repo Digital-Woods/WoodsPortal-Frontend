@@ -220,17 +220,17 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 ">
-          <span>
+          <span className="text-rstextcolor">
             <AssociationIcon />
           </span>
           <span>
-            <span className="dark:text-white">{title}</span>
+            <span className="dark:text-white text-rstextcolor ">{title}</span>
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
               {totalItems}
             </span>
           </span>
         </div>
-        {isExpanded ? <IconMinus className='font-semibold' /> : <IconPlus className='font-semibold' />}
+        {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
       </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -251,7 +251,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
           {tableData.map((item, index) => (
             <table
               key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/10 text-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]`
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs text-rstextcolor  ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/${moduleStylesOptions.rightSidebarDetailsColors.color1Opacity || '10' }` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/${moduleStylesOptions.rightSidebarDetailsColors.color2Opacity || '10' }`
                 }`}
             >
               {tableHeader.map((column) => (
@@ -259,8 +259,8 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                   key={column.value}
                   className=""
                 >
-                  <td className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white !p-[3px]">{column.value}:</td>
-                  <td className="dark:text-white text-xs  break-all !p-[3px]">
+                  <td className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] text-rstextcolor  align-top dark:text-white !p-[3px]">{column.value}:</td>
+                  <td className="dark:text-white text-xs text-rstextcolor   break-all !p-[3px]">
                     {/* {console.log('item', item)} */}
                     {renderCellContent(
                       item[column.key],
