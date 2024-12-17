@@ -208,7 +208,7 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      "default" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>"
     }, {
       "id" : "776eb9b5-b357-602e-2684-84ffd276dc4d",
       "name" : "show_iframe",
@@ -251,7 +251,7 @@
       "list_object_properties" : "dealname,dealstage,amount",
       "association_object_type_id" : 0,
       "object_type_id" : "0-2",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
       "show_iframe" : false
     } ]
   }, {
@@ -579,7 +579,7 @@
       "list_object_properties" : "dealname,dealstage,amount",
       "association_object_type_id" : 0,
       "object_type_id" : "0-2",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
       "show_iframe" : false
     } ],
     "home_tab_banner_details" : {
@@ -749,7 +749,7 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      "default" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>"
     }, {
       "id" : "2f696b36-bc41-53d2-5416-533ad1867a65",
       "name" : "show_iframe",
@@ -791,7 +791,7 @@
       "list_object_properties" : "dealname,dealstage,amount",
       "association_object_type_id" : 4,
       "object_type_id" : "0-1",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
       "show_iframe" : false
     } ]
   }, {
@@ -909,7 +909,7 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "default" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      "default" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>"
     }, {
       "id" : "3f4d23a3-9049-1b8b-4e17-ebda2be3c49e",
       "name" : "show_iframe",
@@ -948,7 +948,7 @@
     "type" : "group",
     "default" : [ {
       "list_object_name" : "",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
   } ],
@@ -963,13 +963,13 @@
       "list_object_properties" : "dealname,dealstage,amount",
       "association_object_type_id" : 4,
       "object_type_id" : "0-1",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
       "show_iframe" : false
     } ],
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
       "list_object_name" : "",
-      "icon_svg_code" : "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 6H20M4 12H14M4 18H9\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
   }
