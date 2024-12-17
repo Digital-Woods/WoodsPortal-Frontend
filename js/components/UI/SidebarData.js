@@ -220,17 +220,17 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 pb-2">
-          <span>
+          <span className="text-rstextcolor">
             <AssociationIcon />
           </span>
           <span>
-            <span className="dark:text-white">{title}</span>
+            <span className="dark:text-white text-rstextcolor">{title}</span>
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
               {totalItems}
             </span>
           </span>
         </div>
-        {isExpanded ? <IconMinus className='font-semibold' /> : <IconPlus className='font-semibold' />}
+        {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
       </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
@@ -246,15 +246,15 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
             {tableData.map((item) => (
-              <table key={item.id} className="flex items-start text-primary bg-rscardbackhround dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border dark:border-gray-600 rounded-md justify-between">
+              <table key={item.id} className="flex items-start text-rstextcolor bg-rscardbackhround dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border dark:border-gray-600 rounded-md justify-between">
                 {tableHeader.map((column) => (
                   <tr
                     key={column.value}
                     className=""
                   >
-                    <td className="pr-1 text-xs whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white !p-[3px]">{column.value}: </td>
+                    <td className="pr-1 text-xs whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white text-rstextcolor !p-[3px]">{column.value}: </td>
 
-                    <td className="dark:text-white text-xs whitespace-wrap  break-all  !p-[3px]">
+                    <td className="dark:text-white text-xs whitespace-wrap  text-rstextcolor break-all  !p-[3px]">
                       {/* {console.log('item', item)} */}
                       {renderCellContent(
                         item[column.key],

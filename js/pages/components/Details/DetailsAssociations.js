@@ -12,14 +12,14 @@ const DetailsAssociations = ({
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
   return (
-    <Accordion className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3" isActive={isActive}>
+    <Accordion className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor" isActive={isActive}>
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
-          <span>
+          <span className="text-rstextcolor">
             <AssociationIcon />
           </span>
           <span>
-            <span className="dark:text-white">{association.labels.plural}</span>
+            <span className=" text-rstextcolor dark:text-white">{association.labels.plural}</span>
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
               {association.total}
             </span>
@@ -36,18 +36,18 @@ const DetailsAssociations = ({
           ) : (
             association.data &&
             association.data.length > 0 && (
-              <div className=" rounded-md dark:text-white">
+              <div className=" rounded-md  text-rstextcolor dark:text-white">
                 {association.data.map((item, index) => (
                   <div key={index} className="mb-2">
                     <div className="border dark:border-gray-600 p-2 rounded-md bg-rscardbackhround dark:bg-dark-500 overflow-hidden">
-                      <table className="!bg-transparent">
+                      <table className="!bg-transparent text-rstextcolor">
                         {item &&
                           sortData(item, "associations").map((value, index) => (
                             <tr key={value.key}>
-                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0 whitespace-wrap md:w-[90px] w-[80px]  align-center dark:text-white">
+                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-rstextcolor whitespace-wrap md:w-[90px] w-[80px]  align-center dark:text-white">
                                 {value.label}:
                               </td>
-                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0 align-center dark:text-white">
+                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-rstextcolor align-center dark:text-white">
                                 {value.isEditableField ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent(
