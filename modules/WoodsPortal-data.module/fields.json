@@ -1349,7 +1349,7 @@
       "type" : "color",
       "default" : {
         "color" : "#2d3e50",
-        "opacity" : 14
+        "opacity" : 8
       }
     }, {
       "id" : "7bf24328-bfa3-d5e9-f8d4-f30db823d0dc",
@@ -1383,7 +1383,7 @@
     "default" : {
       "background_color" : {
         "color" : "#2d3e50",
-        "opacity" : 14
+        "opacity" : 8
       },
       "card_background_color" : {
         "color" : "#2d3e50",
@@ -1473,7 +1473,7 @@
     "d_h_sidebar" : {
       "background_color" : {
         "color" : "#2d3e50",
-        "opacity" : 14
+        "opacity" : 8
       },
       "card_background_color" : {
         "color" : "#2d3e50",
