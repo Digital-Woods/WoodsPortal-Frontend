@@ -271,18 +271,6 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
                     </FormMessage>
                   )}
                 </FormItem>
-                <div className="flex justify-end items-center">
-                  <div>
-                    <NavLink
-                      to="/login"
-                      onClick={() => setActiveState("pre-login")}
-                    >
-                      <p className="text-black text-xs dark:text-gray-300">
-                        Back to enter email
-                      </p>
-                    </NavLink>
-                  </div>
-                </div>
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button className="w-full  " isLoading={isLoading}>
                     Login
