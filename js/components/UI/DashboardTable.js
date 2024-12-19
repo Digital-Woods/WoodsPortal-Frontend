@@ -56,6 +56,7 @@ const DashboardTable = ({
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [permissions, setPermissions] = useState(defPermissions);
+  const [hoverRow, setHoverRow] = useState(null);
 
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
@@ -243,6 +244,10 @@ const DashboardTable = ({
     setOpenModal(true);
   };
 
+  const handleRowHover = (row) => {
+    setHoverRow(row)
+  };
+
   return (
     <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden`}>
       {isLoading && <div className="loader-line m-2"></div>}
@@ -320,7 +325,10 @@ const DashboardTable = ({
                 </TableHeader>
                 <TableBody>
                   {tableData.map((item) => (
-                    <TableRow key={item.id}>
+                    <TableRow key={item.id} 
+                      onMouseEnter={() => handleRowHover(item)}
+                      onMouseLeave={() => handleRowHover(null)}
+                    >
                       {tableHeader.map((column) => (
                         <TableCell
                           key={column.value}
@@ -356,7 +364,8 @@ const DashboardTable = ({
                                   path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                                   'list',
                                   `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}`,
-                                  detailsView
+                                  detailsView,
+                                  hoverRow
                                 )
                                 : renderCellContent(
                                   item[column.key],
@@ -366,7 +375,8 @@ const DashboardTable = ({
                                   path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                                   'list',
                                   path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                                  detailsView
+                                  detailsView,
+                                  hoverRow
                                 )
                             }
 
