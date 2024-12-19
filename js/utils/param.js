@@ -50,7 +50,7 @@ const getParamHash = (string) => {
 }
 
 const setParamHash = (string) => {
-    const result = string.replace(/#/g, '%23');
+    const result = string ? string.replace(/#/g, '%23') : "";
     return result;
 }
 
