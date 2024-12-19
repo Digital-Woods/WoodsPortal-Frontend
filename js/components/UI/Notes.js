@@ -38,7 +38,7 @@ const NoteCard = ({
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId;
+    portalId = getPortal()?.portalId;
   }
 
   const updateNoteMutation = useMutation(
@@ -201,7 +201,7 @@ const Notes = ({ path, objectId, id, permissions }) => {
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId;
+    portalId = getPortal()?.portalId;
   }
 
   const limit = 20;
@@ -261,7 +261,7 @@ const Notes = ({ path, objectId, id, permissions }) => {
   });
 
   useEffect(() => {
-    const portalId = getPortal().portalId;
+    const portalId = getPortal()?.portalId;
     setImageUploadUrl(
       `${env.API_BASE_URL}/api/${hubId}/${portalId}/hubspot-object-notes/images/${objectId}/${id}`
     );

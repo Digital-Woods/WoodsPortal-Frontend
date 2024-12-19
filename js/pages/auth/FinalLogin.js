@@ -142,12 +142,14 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
         // getMe(); // Fetch user details
         // Use if-else to check if routes exist
-        if (routes && routes.length > 0) {
-          const firstRoute = routes[0].path;
-          window.location.hash = firstRoute;
-        } else {
-          window.location.hash = "/no-routes";
-        }
+        // if (routes && routes.length > 0) {
+        //   const firstRoute = routes[0].path;
+        //   window.location.hash = firstRoute;
+        // } else {
+        //   window.location.hash = "/no-routes";
+        // }
+        window.location.hash = "/home";
+        console.log('home', true)
       }
       setAlert({ message: data.statusMsg, type: "success" });
     },
@@ -223,7 +225,6 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
                           height="medium"
                           icon={emailIcon}
                           placeholder="Email"
-                          className=""
                           {...register("email")}
                           defaultValue={entredEmail}
                           disabled
@@ -254,7 +255,6 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
                         placeholder="Password"
                         icon={passwordIcon}
                         type={showPassword ? "text" : "password"}
-                        className=" "
                         {...register("password")}
                       />
                       <span

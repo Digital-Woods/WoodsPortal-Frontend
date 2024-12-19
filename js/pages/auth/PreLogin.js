@@ -107,7 +107,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
                         height="medium"
                         icon={emailIcon}
                         placeholder="Email"
-                        className=""
                         defaultValue={entredEmail}
                         {...register("email")}
                       />
@@ -122,7 +121,7 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
 
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
-                    className="w-full  "
+                    className="w-full"
                     isLoading={isLoading}
                   >
                     Continue

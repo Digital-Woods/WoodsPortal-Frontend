@@ -2,7 +2,7 @@ const Attachments = ({ attachments = [], objectId, id, isLoadingUoloading }) => 
 
     const [selectedFileId, setSelectedFileId] = useState(null);
 
-    const portalId = getPortal().portalId
+    const portalId = getPortal()?.portalId
     const {
         data: fileDetails,
         isLoading,

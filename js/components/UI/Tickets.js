@@ -9,7 +9,7 @@ const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, pe
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId
+    portalId = getPortal()?.portalId
   }
 
   const detailsUrl = `?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isForm=false`

@@ -6,7 +6,7 @@ const generateApiUrl = ({
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId
+    portalId = getPortal()?.portalId
   }
 
   const defaultParams = {

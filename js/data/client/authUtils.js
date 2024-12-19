@@ -41,7 +41,8 @@ const getTwoFa = () => {
 };
 
 const getPortal = () => {
-  return JSON.parse(getCookie(env.PORTAL));
+  const portal = getCookie(env.PORTAL);
+  return portal ? JSON.parse(getCookie(env.PORTAL)) : null;
 };
 
 // Reuse functions

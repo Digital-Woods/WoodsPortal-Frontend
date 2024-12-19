@@ -113,7 +113,7 @@ const DashboardTable = ({
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId
+    portalId = getPortal()?.portalId
   }
 
   const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
