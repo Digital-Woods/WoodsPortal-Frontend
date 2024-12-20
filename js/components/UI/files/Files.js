@@ -41,7 +41,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     return null;
   };
 
-  const portalId = getPortal().portalId;
+  const portalId = getPortal()?.portalId;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () =>

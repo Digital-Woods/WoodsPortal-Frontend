@@ -9,7 +9,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
 
   const { me } = useMe();
 
-  const portalId = getPortal().portalId
+  const portalId = getPortal()?.portalId
   const {
     data: fileDetails,
     isLoading,

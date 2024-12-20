@@ -60,9 +60,9 @@ function useLogout() {
   const mutation = ReactQuery.useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
+      window.location.hash = "/login";
       removeAllCookies();
       setAuthorization(null);
-      window.location.hash = "/login";
       setLogoutDialog(false);
     },
     onError: (err) => {

@@ -1,4 +1,15 @@
-const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
+const classes2 = {
+  root: "bg-cleanWhite p-4 sm:p-6 dark:bg-dark-200",
+  normal: "",
+};
+
+const Dialog = (props, ref) => {
+  const { open, onClose = null, className, ...rest } = props;
+
+  const classesName2 = classNames(classes2.root, className);
+
+  delete rest.className;
+
   const showOverlay = () => {
     if (!open) {
       return null;
@@ -12,7 +23,7 @@ const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
         aria-modal="true"
       >
         <div
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition transition-opacity"
           aria-hidden="true"
         ></div>
 
@@ -22,13 +33,10 @@ const Dialog = ({ open, onClose = null, className, ...props }, ref) => {
         >
           <div className="flex items-end justify-center text-center sm:items-center sm:p-0">
             <div
-              className={`relative transform overflow-hidden rounded-lg ${className}`}
+              className={`relative transform overflow-hidden rounded-lg`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div
-                className="bg-cleanWhite p-4  sm:p-6 dark:bg-dark-200"
-                {...props}
-              />
+              <div className={classesName2} {...rest} />
             </div>
           </div>
         </div>

@@ -81,7 +81,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal().portalId
+    portalId = getPortal()?.portalId
   }
 
   const { mutate: getData, data: tableAPiData, isLoading } = useMutation({

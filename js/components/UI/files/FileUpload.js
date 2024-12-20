@@ -59,7 +59,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
     }
   };
 
-  const portalId = getPortal().portalId
+  const portalId = getPortal()?.portalId
   const uploadFileMutation = useMutation({
     mutationFn: async (fileData) => {
       const parentFolder = folderId === fileId ? "obj-root" : folderId;

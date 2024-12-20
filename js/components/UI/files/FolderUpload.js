@@ -12,7 +12,7 @@ const FolderUpload = ({
   const { me } = useMe();
   const [newFolderName, setNewFolderName] = useState("");
 
-  const portalId = getPortal().portalId
+  const portalId = getPortal()?.portalId
 
   const createFolderMutation = useMutation({
     mutationFn: async (payload) => {

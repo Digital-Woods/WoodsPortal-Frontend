@@ -1,5 +1,11 @@
+const classes = {
+  root: "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  normal: "",
+};
+
 const variantClasses = {
-  default: "bg-secondary text-white dark:bg-dark-400 shadow hover:bg-secondary/90",
+  default:
+    "bg-secondary text-white dark:bg-dark-400 shadow hover:bg-secondary/90",
   create: `!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}] hover:!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}]/80 !text-[${moduleStylesOptions.creatButtonStyles.textColor}]`,
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
@@ -9,7 +15,8 @@ const variantClasses = {
     "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
   ghost: "hover:bg-accent hover:text-accent-foreground",
   link: "text-secondary underline-offset-4 hover:underline",
-  hubSpot: "text-secondary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
+  hubSpot:
+    "text-secondary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
 };
 
 const sizeClasses = {
@@ -21,48 +28,48 @@ const sizeClasses = {
   hubSpot: "p-1",
 };
 
-const Button = React.forwardRef(
-  (
-    {
-      className,
-      variant = "default",
-      size = "default",
-      asChild = false,
-      isLoading = false,
-      children,
-      ...props
-    },
-    ref
-  ) => {
-    const Comp = asChild ? "span" : "button";
+const Button = React.forwardRef((props, ref) => {
+  const {
+    className,
+    variant = "default",
+    size = "default",
+    asChild = false,
+    isLoading = false,
+    children,
+    ...rest
+  } = props;
 
-    return (
+  const classesName = classNames(
+    classes.root, // Base classes
+    variantClasses[variant], // Dynamic variant classes
+    sizeClasses[size], // Dynamic size classes
+    className // User-defined classes (last for priority)
+  );
+
+  delete rest.className;
+  const Comp = asChild ? "span" : "button";
+
+  return (
+    <div>
       <Comp
-        className={classNames(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-          variantClasses[variant],
-          sizeClasses[size],
-          className
-        )}
+        className={classNames(classesName)}
         ref={ref}
         disabled={isLoading || props.disabled}
-        {...props}
+        {...rest}
       >
         {isLoading ? (
           <div className="flex items-center">
             {" "}
             <span className="">
               {" "}
-              <AnimatedCircles />
-              {" "}
+              <AnimatedCircles />{" "}
             </span>
           </div>
         ) : (
           children
         )}
       </Comp>
-    );
-  }
-);
+    </div>
+  );
+});
 
-Button.displayName = "Button";

@@ -40,7 +40,7 @@ function isNull(data) {
 }
 
 function isObject(data) {
-  if(data == null) return false
+  if (data == null) return false;
   return typeof data === "object";
 }
 
@@ -119,21 +119,29 @@ const checkEquipmentsName = (value, title) => {
 
 const filterAssociationsData = (obj) => {
   const filtered = Object.fromEntries(
-    Object.entries(obj).filter(([key, value]) =>
-      value.isPrimaryDisplayProperty === true || value.isSecondaryDisplayProperty === true
+    Object.entries(obj).filter(
+      ([key, value]) =>
+        value.isPrimaryDisplayProperty === true ||
+        value.isSecondaryDisplayProperty === true
     )
   );
   return filtered;
 };
 
-const sortData = (list, type = 'list') => {
-  if (type == 'list' || type == 'details') delete list.associations
-  if (type == 'associations') list = filterAssociationsData(list)
-  let data = type != 'list' ? Object.keys(list).map(key => ({ ...list[key], key: key })) : list
+const sortData = (list, type = "list") => {
+  if (type == "list" || type == "details") delete list.associations;
+  if (type == "associations") list = filterAssociationsData(list);
+  let data =
+    type != "list"
+      ? Object.keys(list).map((key) => ({ ...list[key], key: key }))
+      : list;
 
-  data = data.filter(item => item.key !== "hs_object_id" && item.key !== "associations");
+  data = data.filter(
+    (item) => item.key !== "hs_object_id" && item.key !== "associations"
+  );
 
-  if (type == 'associations') data = data.filter(item => item.key !== "hs_pipeline_stage");
+  if (type == "associations")
+    data = data.filter((item) => item.key !== "hs_pipeline_stage");
 
   // Sorting function
   data.sort((a, b) => {
@@ -146,14 +154,25 @@ const sortData = (list, type = 'list') => {
     if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
 
     // 3. "isSecondaryDisplayProperty: true" comes next
-    if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty) return -1;
+    if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty)
+      return -1;
     if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
 
     // 4. Items where both "isPrimaryDisplayProperty" and "isSecondaryDisplayProperty" are false,
     // excluding "hs_object_id", "hs_createdate", and "hs_lastmodifieddate"
-    const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate"];
-    const aCondition = !a.isPrimaryDisplayProperty && !a.isSecondaryDisplayProperty && !excludeKeys.includes(a.key);
-    const bCondition = !b.isPrimaryDisplayProperty && !b.isSecondaryDisplayProperty && !excludeKeys.includes(b.key);
+    const excludeKeys = [
+      "hs_object_id",
+      "hs_createdate",
+      "hs_lastmodifieddate",
+    ];
+    const aCondition =
+      !a.isPrimaryDisplayProperty &&
+      !a.isSecondaryDisplayProperty &&
+      !excludeKeys.includes(a.key);
+    const bCondition =
+      !b.isPrimaryDisplayProperty &&
+      !b.isSecondaryDisplayProperty &&
+      !excludeKeys.includes(b.key);
 
     if (aCondition && !bCondition) return -1;
     if (!aCondition && bCondition) return 1;
@@ -171,7 +190,7 @@ const sortData = (list, type = 'list') => {
   });
 
   return data;
-}
+};
 
 // const sortData = (item, viewType = "list", title = "") => {
 //   if (!item || !isObject(item)) return [];
@@ -270,47 +289,101 @@ const sortData = (list, type = 'list') => {
 //   return sortedFields;
 // };
 
-const renderCellContent = (value, column, itemId = null, path = null, hubspotObjectTypeId, type = 'list', associationPath = '', detailsView = true) => {
+const renderCellContent = (
+  value,
+  column,
+  itemId = null,
+  path = null,
+  hubspotObjectTypeId,
+  type = "list",
+  associationPath = "",
+  detailsView = true,
+  hoverRow
+) => {
   if (!value) {
-    return '--';
+    return "--";
   }
-  if ((type == 'associations' || type == 'list') && column && column.isPrimaryDisplayProperty && associationPath && detailsView) {
+  if (
+    (type == "associations" || type == "list") &&
+    column &&
+    column.isPrimaryDisplayProperty &&
+    associationPath &&
+    detailsView
+  ) {
     return (
-      <Link
-        className="dark:text-white font-semibold border-input rounded-md"
-        to={associationPath}
-      >
-        {isObject(value) ? value.label : value}
-      </Link>
-    )
+      <div className="flex gap-1 justify-between">
+        <Link
+          className="dark:text-white font-semibold border-input rounded-md"
+          to={associationPath}
+        >
+          {isObject(value) ? value.label : value}
+        </Link>
+        <Link
+          className={`dark:text-white inline-flex items-center 
+      justify-center gap-1 flex-shrink-0 rounded-md 
+      outline-none transition duration-300 ease-in-out 
+      focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
+      hover:bg-transparent focus:ring-gray-200 px-2 py-0 h-6 text-xs
+      ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
+      `}
+          to={associationPath}
+        >
+          Open
+          <OpenIcon />
+        </Link>
+      </div>
+    );
   }
-  if (type == 'list' && column && column.isPrimaryDisplayProperty && detailsView) {
+  if (
+    type == "list" &&
+    column &&
+    column.isPrimaryDisplayProperty &&
+    detailsView
+  ) {
     return (
-      <Link
-        className="dark:text-white font-semibold border-input rounded-md"
-        to={`${path}/${hubspotObjectTypeId}/${itemId}`}
-      >
-        {isObject(value) ? value.label : value}
-      </Link>
-    )
+      <div className="flex gap-1 justify-between">
+        <Link
+          className="dark:text-white font-semibold border-input rounded-md"
+          to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+        >
+          {isObject(value) ? value.label : value}
+        </Link>
+        <Link
+          className={`dark:text-white inline-flex items-center 
+          justify-center gap-1 flex-shrink-0 rounded-md 
+          outline-none transition duration-300 ease-in-out 
+          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
+          hover:bg-transparent focus:ring-gray-200 px-2 py-0 h-6 text-xs
+          ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
+          `}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+        >
+          Open
+          <OpenIcon />
+        </Link>
+      </div>
+    );
   }
-  if (column && value != null && (column.key == 'hs_createdate' || column.key == 'hs_lastmodifieddate'  || column.key == 'createdate')) {
+  if (
+    column &&
+    value != null &&
+    (column.key == "hs_createdate" ||
+      column.key == "hs_lastmodifieddate" ||
+      column.key == "createdate")
+  ) {
     return formatDate(isObject(value) ? value.label : value);
   }
-  if (isObject(value)) return value.label || '--';
+  if (isObject(value)) return value.label || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
-  return type == 'list' && isTruncated ?
+  return type == "list" && isTruncated ? (
     <Tooltip right content={value}>
-      <Link
-        className="dark:text-white"
-      >
-        {truncated}
-      </Link>
+      <Link className="dark:text-white">{truncated}</Link>
     </Tooltip>
-    :
+  ) : (
     value
-}
+  );
+};
 
 // const renderCellContent = (value, itemId = null, path = null) => {
 //   switch (true) {
@@ -467,7 +540,7 @@ function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const getIcon = (filename,width='24px',height='24px') => {
+const getIcon = (filename, width = "24px", height = "24px") => {
   const extension = filename.split(".").pop().toLowerCase();
 
   switch (extension) {
@@ -661,43 +734,47 @@ const getIconType = (filename) => {
   }
 };
 
-
 const getFileDetails = async (urlArray) => {
-  const fileDetails = await Promise.all(urlArray.map(async (url) => {
-    const name = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1));
-    const type = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+  const fileDetails = await Promise.all(
+    urlArray.map(async (url) => {
+      const name = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1));
+      const type = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
 
-    // Check for known document services and handle accordingly
-    if (url.includes('docs.google.com')) {
-      return {
-        url,
-        name: 'Google Docs',
-        type: 'Google Docs',
-        size: 'N/A'
-      };
-    } else if (url.includes('drive.google.com')) {
-      return {
-        url,
-        name: 'Google Drive File',
-        type: 'Google Drive File',
-        size: 'N/A'
-      };
-    } else if (url.includes('dropbox.com')) {
-      // Dropbox share links need modification for direct download
-      const directUrl = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
-      return await fetchFileSize(directUrl, name, type);
-    } else if (url.includes('onedrive.live.com')) {
-      return {
-        url,
-        name: 'OneDrive File',
-        type: 'OneDrive File',
-        size: 'N/A'
-      };
-    }
+      // Check for known document services and handle accordingly
+      if (url.includes("docs.google.com")) {
+        return {
+          url,
+          name: "Google Docs",
+          type: "Google Docs",
+          size: "N/A",
+        };
+      } else if (url.includes("drive.google.com")) {
+        return {
+          url,
+          name: "Google Drive File",
+          type: "Google Drive File",
+          size: "N/A",
+        };
+      } else if (url.includes("dropbox.com")) {
+        // Dropbox share links need modification for direct download
+        const directUrl = url.replace(
+          "www.dropbox.com",
+          "dl.dropboxusercontent.com"
+        );
+        return await fetchFileSize(directUrl, name, type);
+      } else if (url.includes("onedrive.live.com")) {
+        return {
+          url,
+          name: "OneDrive File",
+          type: "OneDrive File",
+          size: "N/A",
+        };
+      }
 
-    // Default case: Attempt to get file size with a HEAD request
-    return await fetchFileSize(url, name, type);
-  }));
+      // Default case: Attempt to get file size with a HEAD request
+      return await fetchFileSize(url, name, type);
+    })
+  );
 
   return fileDetails;
 };
@@ -705,14 +782,14 @@ const getFileDetails = async (urlArray) => {
 // Helper function to fetch file size using HEAD request
 const fetchFileSize = async (url, name, type) => {
   try {
-    const response = await fetch(url, { method: 'HEAD' });
-    const fileSize = response.headers.get('content-length');
+    const response = await fetch(url, { method: "HEAD" });
+    const fileSize = response.headers.get("content-length");
 
     return {
       url,
       name,
       type,
-      size: fileSize ? `${(fileSize / 1024).toFixed(2)} KB` : 'Unknown size'
+      size: fileSize ? `${(fileSize / 1024).toFixed(2)} KB` : "Unknown size",
     };
   } catch (error) {
     console.error(`Error fetching file details for ${url}:`, error);
@@ -720,39 +797,43 @@ const fetchFileSize = async (url, name, type) => {
       url,
       name,
       type,
-      size: 'Error fetching file size'
+      size: "Error fetching file size",
     };
   }
 };
 
-// format path 
+// format path
 
 const formatPath = (key) => {
-  return key.replace(/\s+/g, '-').replace(/\b\w/g, (l) => l.toLowerCase());
+  return key.replace(/\s+/g, "-").replace(/\b\w/g, (l) => l.toLowerCase());
 };
 
-// format custom object name 
+// format custom object name
 
 function formatCustomObjectLabel(label) {
-  return label.replace(/^p_/, '').replace(/_$/, '').replace(/_/g, ' ');
+  return label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ");
 }
 
-// format column labels 
+// format column labels
 
 function formatColumnLabel(label) {
-  return typeof label === 'string' ? label.replace(/_/g, ' ') : '';
+  return typeof label === "string" ? label.replace(/_/g, " ") : "";
 }
 
 function sortFormData(data) {
   return data.sort((a, b) => {
     // Define priority scores for sorting
     const getPriority = (item) => {
-      if (item.customLabel.toLowerCase().includes('name')) return 1; // First
+      if (item.customLabel.toLowerCase().includes("name")) return 1; // First
       if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
-      if (item.name === 'hs_pipeline') return 3; // Third
-      if (item.name === 'hs_pipeline_stage') return 4; // Fourth
-      if ((item.secondaryProperty || item.secondaryDisplayProperty) && item.fieldType != 'textarea') return 5; // Fifth
-      if (item.fieldType === 'textarea') return 7; // Fifth
+      if (item.name === "hs_pipeline") return 3; // Third
+      if (item.name === "hs_pipeline_stage") return 4; // Fourth
+      if (
+        (item.secondaryProperty || item.secondaryDisplayProperty) &&
+        item.fieldType != "textarea"
+      )
+        return 5; // Fifth
+      if (item.fieldType === "textarea") return 7; // Fifth
       return 6; // Default to others
     };
 
