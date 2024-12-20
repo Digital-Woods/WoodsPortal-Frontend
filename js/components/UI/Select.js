@@ -1,11 +1,7 @@
 const { Controller } = ReactHookForm;
 
 const Select = ({ label, name, options, value = "", control, filled = null, onChangeSelect = null, size = "medium", className, ...props }) => {
-  // console.log('filled', filled)
-  // console.log('name', name)
-
   const getValue = (value) => {
-    // console.log('value', value)
     if (value && typeof value === "object") value.label;
     return value;
   };

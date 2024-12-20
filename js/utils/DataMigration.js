@@ -293,6 +293,26 @@ const sortData = (list, type = "list") => {
 //   return sortedFields;
 // };
 
+const replaceQuestionMarkToRegex = (text) => {
+  const replacedText = text.replace(/\?/g, "!");
+  return replacedText;
+}
+
+const replaceRegexToQuestionMark = (text) => {
+  const replacedText = text.replace(/\?/g, "!");
+  return replacedText;
+}
+
+const truncatedText = (text, maxLength = 30) => {
+  if (text) {
+    const truncatedText =
+      text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+    return <span>{truncatedText}</span>;
+  }
+  return <span>{text}</span>;
+};
+
 const renderCellContent = (
   value,
   column,
@@ -381,7 +401,7 @@ const renderCellContent = (
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}
         >
-          {isObject(value) ? value.label : value}
+          {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
           className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
@@ -420,7 +440,7 @@ const renderCellContent = (
     return `${Currency(currency)} ${value}`;
   }
 
-  if (isObject(value)) return value.label || "--";
+  if (isObject(value)) return truncatedText(value.label) || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
   return type == "list" && isTruncated ? (
@@ -428,7 +448,7 @@ const renderCellContent = (
       <Link className="dark:text-white">{truncated}</Link>
     </Tooltip>
   ) : (
-    value
+    truncatedText(value)
   );
 };
 

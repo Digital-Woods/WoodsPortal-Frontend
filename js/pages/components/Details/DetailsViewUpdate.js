@@ -1,4 +1,4 @@
-const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId }) => {
+const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChangeSelect = null }) => {
   const [options, setOptions] = useState([]);
 
   const getValue = (value, type = "label") => {
@@ -55,6 +55,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId }) => {
       options={options}
       control={control}
       filled={optionData}
+      onChangeSelect={onChangeSelect}
     />
   );
 };
@@ -154,9 +155,12 @@ const DetailsViewUpdateDialog = ({
   const validationSchemaPipeline = createValidationSchemaPipeline(data);
 
   const onSubmitPipeline = (data) => {
-    // console.log('data', data)
     saveData(data);
   };
+
+  const onChangeSelect = (filled, value) => {
+    getStags(value)
+  }
 
   return (
     <Dialog
@@ -193,6 +197,7 @@ const DetailsViewUpdateDialog = ({
                               control={control}
                               data={data}
                               objectTypeId={objectId}
+                              onChangeSelect={onChangeSelect}
                             />
                           </FormControl>
 

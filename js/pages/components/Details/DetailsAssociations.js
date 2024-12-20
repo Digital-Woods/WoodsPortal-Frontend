@@ -64,10 +64,12 @@ const DetailsAssociations = ({
                                       "associations",
                                       value.isPrimaryDisplayProperty
                                         ? `/${setParamHash(
+                                          replaceQuestionMarkToRegex(
                                             isObject(value.value) &&
                                               value.value.label
                                               ? value.value.label
                                               : value.value
+                                          )
                                           )}/${association.objectTypeId}/${
                                             item.hs_object_id.value
                                           }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
