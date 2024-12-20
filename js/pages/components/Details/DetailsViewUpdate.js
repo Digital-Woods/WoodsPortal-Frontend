@@ -262,6 +262,7 @@ const DetailsViewUpdate = ({
   value,
   item,
 }) => {
+  const { sync, setSync } = useSync();
   const [editRow, setEditRow] = useState(null);
   const [editRowValue, setEditRowValue] = useState("");
   const [alert, setAlert] = useState(null);
@@ -306,7 +307,8 @@ const DetailsViewUpdate = ({
     onSuccess: async (data) => {
       setPipelineDialog(false);
       setEditRow(null);
-      refetch();
+      // refetch();
+      setSync(true);
       setAlert({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {
@@ -345,13 +347,21 @@ const DetailsViewUpdate = ({
     setEditRow(row);
 
     const mValue = value.value;
-    setInitialValues({
-      [value.key]:
-        typeof mValue === "object" && mValue !== null && "value" in mValue
-          ? mValue.value
-          : mValue,
-    });
-    // console.log("value", value);
+    if (value.fieldType == "date") {
+      setInitialValues({
+        [value.key]:
+          typeof mValue === "object" && mValue !== null && "value" in mValue
+            ? formatDate(mValue.value, 'input')
+            : formatDate(mValue, 'input'),
+      });
+    } else {
+      setInitialValues({
+        [value.key]:
+          typeof mValue === "object" && mValue !== null && "value" in mValue
+            ? mValue.value
+            : mValue,
+      });
+    }
   };
 
   // const onSubmitPipeline = (data) => {
@@ -364,7 +374,7 @@ const DetailsViewUpdate = ({
   };
 
   return (
-    <div  className="">
+    <div className="">
       <div className="gap-2">
         {editRow && !pipelineDialog ? (
           <div>
@@ -381,7 +391,8 @@ const DetailsViewUpdate = ({
                   <div className="text-gray-800 flex-1 dark:text-gray-200">
                     <FormItem className="!mb-0 w-full">
                       <FormControl>
-                        {editRow.fieldType === "select" ? (
+                        {editRow.fieldType === "select" ||
+                        editRow.fieldType === "radio" ? (
                           <DetailsViewUpdateDD
                             optionData={editRow}
                             control={control}
@@ -395,6 +406,27 @@ const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           ></Textarea>
+                        ) : editRow.fieldType === "date" ? (
+                          <Input
+                            type="date"
+                            placeholder={`Enter ${editRow.label}`}
+                            height="small"
+                            className=""
+                            defaultValue={formatDate(
+                              getValue(editRow.value),
+                              "input"
+                            )}
+                            {...register(editRow.key)}
+                          />
+                        ) : editRow.fieldType === "number" ? (
+                          <Input
+                            type="number"
+                            placeholder={`Enter ${editRow.label}`}
+                            height="small"
+                            className=""
+                            defaultValue={getValue(editRow.value)}
+                            {...register(editRow.key)}
+                          />
                         ) : (
                           <Input
                             placeholder={`Enter ${editRow.label}`}
@@ -417,7 +449,8 @@ const DetailsViewUpdate = ({
                     <Button
                       variant="hubSpot"
                       size="hubSpot"
-                      isLoading={isLoading}>
+                      isLoading={isLoading}
+                    >
                       <IconTickSmall />
                     </Button>
                     <Button
