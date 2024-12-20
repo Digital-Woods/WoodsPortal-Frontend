@@ -162,7 +162,7 @@ const currencyLogo = {
     "ZMW": "ZK",
     "ZWL": "$"
 }
-const Currency = (deal_currency_code = 'USD') => {
-    const currencySymbol = currencyLogo[deal_currency_code] || "N/A";
-    return <div>{currencySymbol}</div>;
+const Currency = (currencyCode = 'USD') => {
+    const currencySymbol = currencyLogo[currencyCode];
+    return currencySymbol;
 }

@@ -302,7 +302,8 @@ const renderCellContent = (
   type = "list",
   associationPath = "",
   detailsView = true,
-  hoverRow
+  hoverRow,
+  item
 ) => {
   if (!value &&
     type == "list" &&
@@ -408,6 +409,15 @@ const renderCellContent = (
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }
+
+  if (
+    column.key == "amount"
+  ) {
+    const find_currency_code = item.find(item => item.key === "deal_currency_code");
+    const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value
+    return `${Currency(currency)} ${value}`;
+  }
+
   if (isObject(value)) return value.label || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
