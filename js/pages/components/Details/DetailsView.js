@@ -49,7 +49,7 @@ const DetailsView = ({
 
   return (
     <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
-      <table className="w-full dark:bg-dark-300 rounded-md">
+      <table className="w-full dark:bg-[#2a2a2a]">
         {item.length > 0 &&
           item.map((value, index) =>
             value.key === propertyName && showIframe ? (
@@ -86,7 +86,11 @@ const DetailsView = ({
                         null,
                         null,
                         null,
-                        "details"
+                        "details",
+                        null,
+                        null,
+                        null,
+                        item
                       )}
                       value={value}
                       refetch={refetch}
@@ -101,7 +105,11 @@ const DetailsView = ({
                       null,
                       null,
                       null,
-                      "details"
+                      "details",
+                      null,
+                      null,
+                      null,
+                      item
                     )
                   )}
                 </td>
