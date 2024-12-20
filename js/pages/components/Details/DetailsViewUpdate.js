@@ -159,8 +159,6 @@ const DetailsViewUpdateDialog = ({
   };
 
   const onChangeSelect = (filled, value) => {
-    console.log('filled', filled)
-    console.log('value', value)
     getStags(value)
   }
 
