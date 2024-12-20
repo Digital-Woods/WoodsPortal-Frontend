@@ -24,7 +24,7 @@ const CreateFolderDialog = ({
       <div className="lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start">
         <h3 className="text-lg text-start font-semibold mb-4 dark:text-white">New Folder</h3>
         <input
-          className="dark:text-cleanWhite"
+          className="dark:text-white"
           type="text"
           value={newFolderName}
           onChange={(e) => setNewFolderName(e.target.value)}

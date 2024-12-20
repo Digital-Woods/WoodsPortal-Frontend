@@ -1,5 +1,5 @@
 const EmptyMessageCard = ({ name = 'item', type = 'row', className = 'p-6' }) => {
-    const [RandomComponent, setRandomComponent] = useState(null);
+    const [RandomComponent, setRandomComponent] = useState(<EmptyDeal width="150" height="130"  key="deal" />,);
 
     useEffect(() => {
         const components = [

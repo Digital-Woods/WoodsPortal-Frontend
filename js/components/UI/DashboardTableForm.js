@@ -136,7 +136,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[600px] min-w-[305px]">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[600px] min-w-[305px]">
         <div>
           <h3 className="text-start text-xl dark:text-white font-semibold">
             Add {title}
