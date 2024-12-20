@@ -34,9 +34,9 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId }) => {
   useEffect(() => {
     if (
       optionData.key === "hs_pipeline_stage" ||
-      optionData.key === "hs_pipeline_stage"
+      optionData.key === "dealstage"
     ) {
-      const found = data.find((item) => item.key === "hs_pipeline");
+      const found = data.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
       if (found) getStags(getValue(found.value, "value"));
     } else {
       setOptions(optionData.options);
@@ -113,7 +113,7 @@ const DetailsViewUpdateDialog = ({
 
       const filterStage = data.find(
         (item) =>
-          item.key === "hs_pipeline_stage" || item.key === "hs_pipeline_stage"
+          item.key === "hs_pipeline_stage" || item.key === "dealstage"
       );
       setStages(filterStage);
     }
@@ -122,7 +122,7 @@ const DetailsViewUpdateDialog = ({
   useEffect(() => {
     const filterStage = data.find(
       (item) =>
-        item.key === "hs_pipeline_stage" || item.key === "hs_pipeline_stage"
+        item.key === "hs_pipeline_stage" || item.key === "dealstage"
     );
 
     let defValue = {};
@@ -141,7 +141,7 @@ const DetailsViewUpdateDialog = ({
     data.forEach((field) => {
       if (
         field.key === "hs_pipeline_stage" ||
-        field.key === "hs_pipeline_stage"
+        field.key === "dealstage"
       ) {
         schemaShape[field.key] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
@@ -335,7 +335,7 @@ const DetailsViewUpdate = ({
   // }, [value]);
 
   const setEditRowValueFunction = (row) => {
-    if (row && row.key === "hs_pipeline") {
+    if (row && (row.key === "hs_pipeline" || row.key === "pipeline")) {
       setPipelineDialog(true);
     }
     // setEditRowValue(getValue(value.value));
