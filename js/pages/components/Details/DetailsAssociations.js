@@ -12,14 +12,19 @@ const DetailsAssociations = ({
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
   return (
-    <Accordion className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor" isActive={isActive}>
+    <Accordion
+      className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"
+      isActive={isActive}
+    >
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
           <span className="text-rstextcolor">
             <AssociationIcon />
           </span>
           <span>
-            <span className=" text-rstextcolor dark:text-white">{association.labels.plural}</span>
+            <span className=" text-rstextcolor dark:text-white">
+              {association.labels.plural}
+            </span>
             <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
               {association.total}
             </span>
@@ -48,7 +53,7 @@ const DetailsAssociations = ({
                                 {value.label}:
                               </td>
                               <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-rstextcolor align-center dark:text-white">
-                                {value.isEditableField ? (
+                                {value?.isEditableField && association?.configurations?.object?.update ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent(
                                       value.value,
@@ -59,18 +64,21 @@ const DetailsAssociations = ({
                                       "associations",
                                       value.isPrimaryDisplayProperty
                                         ? `/${setParamHash(
-                                          isObject(value.value) &&
-                                            value.value.label
-                                            ? value.value.label
-                                            : value.value
-                                        )}/${association.objectTypeId}/${item.hs_object_id.value
-                                        }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId
-                                          ? mediatorObjectTypeId
-                                          : parentObjectTypeId
-                                        }&mediatorObjectRecordId=${mediatorObjectRecordId
-                                          ? mediatorObjectRecordId
-                                          : parentObjectRowId
-                                        }`
+                                            isObject(value.value) &&
+                                              value.value.label
+                                              ? value.value.label
+                                              : value.value
+                                          )}/${association.objectTypeId}/${
+                                            item.hs_object_id.value
+                                          }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
+                                            mediatorObjectTypeId
+                                              ? mediatorObjectTypeId
+                                              : parentObjectTypeId
+                                          }&mediatorObjectRecordId=${
+                                            mediatorObjectRecordId
+                                              ? mediatorObjectRecordId
+                                              : parentObjectRowId
+                                          }`
                                         : ""
                                     )}
                                     value={value}
@@ -89,18 +97,21 @@ const DetailsAssociations = ({
                                     "associations",
                                     value.isPrimaryDisplayProperty
                                       ? `/${setParamHash(
-                                        isObject(value.value) &&
-                                          value.value.label
-                                          ? value.value.label
-                                          : value.value
-                                      )}/${association.objectTypeId}/${item.hs_object_id.value
-                                      }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId
-                                        ? mediatorObjectTypeId
-                                        : parentObjectTypeId
-                                      }&mediatorObjectRecordId=${mediatorObjectRecordId
-                                        ? mediatorObjectRecordId
-                                        : parentObjectRowId
-                                      }`
+                                          isObject(value.value) &&
+                                            value.value.label
+                                            ? value.value.label
+                                            : value.value
+                                        )}/${association.objectTypeId}/${
+                                          item.hs_object_id.value
+                                        }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
+                                          mediatorObjectTypeId
+                                            ? mediatorObjectTypeId
+                                            : parentObjectTypeId
+                                        }&mediatorObjectRecordId=${
+                                          mediatorObjectRecordId
+                                            ? mediatorObjectRecordId
+                                            : parentObjectRowId
+                                        }`
                                       : ""
                                   )
                                 )}
@@ -119,13 +130,17 @@ const DetailsAssociations = ({
         <div className="text-right mb-2">
           <Link
             className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
-            to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
-              }&objectTypeId=${association.objectTypeId
-              }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
-              }&mediatorObjectRecordId=${mediatorObjectRecordId
+            to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
+              association.labels.plural
+            }&objectTypeId=${
+              association.objectTypeId
+            }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${
+              mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+            }&mediatorObjectRecordId=${
+              mediatorObjectRecordId
                 ? mediatorObjectRecordId
                 : parentObjectRowId
-              }`}
+            }`}
           >
             View associated {association.labels.plural}
           </Link>

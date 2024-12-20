@@ -23,16 +23,16 @@ const formatDateString = (date) => {
   return date.toLocaleString("en-GB", options);
 };
 
-const formatDate = (data, type = 'date') => {
+const formatDate = (data, type = "date") => {
   // if (isDate(data)) {
   const date = new Date(data);
   const formatted = formatDateString(date);
   const [datePart, timePart] = formatted.split(", ");
   const [day, month, year] = datePart.split("/");
-  if(type == 'date') {
-    return `${day}-${month}-${year}`
-  } else if(type == 'input') {
-    return `${year}-${month}-${day}`
+  if (type == "date") {
+    return `${day}-${month}-${year}`;
+  } else if (type == "input") {
+    return `${year}-${month}-${day}`;
   }
   return `${day}-${month}-${year} ${timePart.toLowerCase()}`;
   // }
@@ -134,7 +134,7 @@ const filterAssociationsData = (obj) => {
 
 const sortData = (list, type = "list") => {
   if (type == "list" || type == "details") delete list.associations;
-  if (type == "associations") list = filterAssociationsData(list);
+  // if (type == "associations") list = filterAssociationsData(list);
   let data =
     type != "list"
       ? Object.keys(list).map((key) => ({ ...list[key], key: key }))
@@ -305,7 +305,8 @@ const renderCellContent = (
   hoverRow,
   item
 ) => {
-  if (!value &&
+  if (
+    !value &&
     type == "list" &&
     column &&
     column.isPrimaryDisplayProperty &&
@@ -355,12 +356,11 @@ const renderCellContent = (
         </Link>
         <Link
           className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
-          justify-center gap-1 flex-shrink-0 rounded-md 
-          outline-none transition duration-300 ease-in-out 
-          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
-      ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
-      `}
+            justify-center gap-1 flex-shrink-0 rounded-md 
+            outline-none transition duration-300 ease-in-out 
+            focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
+            hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-primary hover:dark:text-white
+          `}
           to={associationPath}
         >
           Open
@@ -410,11 +410,13 @@ const renderCellContent = (
     return formatDate(isObject(value) ? value.label : value);
   }
 
-  if (
-    column.key == "amount"
-  ) {
-    const find_currency_code = item.find(item => item.key === "deal_currency_code");
-    const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value
+  if (column.key == "amount" && item && item.length > 0) {
+    const find_currency_code = item.find(
+      (item) => item.key === "deal_currency_code"
+    );
+    const currency = isObject(find_currency_code.value)
+      ? find_currency_code.value.value
+      : find_currency_code.value;
     return `${Currency(currency)} ${value}`;
   }
 

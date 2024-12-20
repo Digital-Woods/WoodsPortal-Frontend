@@ -162,7 +162,7 @@ const DetailsViewUpdateDialog = ({
     <Dialog
       open={pipelineDialog}
       onClose={() => setPipelineDialog(false)}
-      className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[430px]"
+      className="bg-custom-gradient rounded-md sm:min-w-[430px]"
     >
       <div className="rounded-md flex-col gap-6 flex">
         <h3 className="text-start text-xl font-semibold">Select Pipeline</h3>
