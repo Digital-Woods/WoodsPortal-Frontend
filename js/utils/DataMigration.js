@@ -23,14 +23,18 @@ const formatDateString = (date) => {
   return date.toLocaleString("en-GB", options);
 };
 
-const formatDate = (data) => {
+const formatDate = (data, type = 'date') => {
   // if (isDate(data)) {
   const date = new Date(data);
   const formatted = formatDateString(date);
   const [datePart, timePart] = formatted.split(", ");
   const [day, month, year] = datePart.split("/");
-  const formattedLocalDate = `${day}-${month}-${year} ${timePart.toLowerCase()}`;
-  return formattedLocalDate;
+  if(type == 'date') {
+    return `${day}-${month}-${year}`
+  } else if(type == 'input') {
+    return `${year}-${month}-${day}`
+  }
+  return `${day}-${month}-${year} ${timePart.toLowerCase()}`;
   // }
   // return data;
 };
@@ -369,7 +373,8 @@ const renderCellContent = (
     value != null &&
     (column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
-      column.key == "createdate")
+      column.key == "createdate" ||
+      column.fieldType == "date")
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }

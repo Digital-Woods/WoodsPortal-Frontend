@@ -136,7 +136,7 @@ const Input = React.forwardRef(
 
 const Textarea = React.forwardRef(
   (
-    { className, placeholder = "Leave a comment...", rows = 4, ...props },
+    { className, placeholder = "Leave a comment...", rows = 4, ...rest },
     ref
   ) => {
     return (
@@ -148,7 +148,7 @@ const Textarea = React.forwardRef(
         )}
         placeholder={placeholder}
         ref={ref}
-        // {...props}
+        {...rest}
       />
     );
   }

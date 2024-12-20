@@ -90,9 +90,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   const tableTitle = () => {
     return objectTypeName ? objectTypeName : title
   }
-
+  console.log('back', `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRecordId")}`)
   const back = () => {
-    window.location.hash = `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRowId")}`;
+    window.location.hash = `${getParam("parentObjectTypeName")}/${getParam("parentObjectTypeId")}/${getParam("parentObjectRecordId")}`;
   }
 
   return (
