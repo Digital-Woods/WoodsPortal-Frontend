@@ -185,7 +185,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                         >
                           <div className="file-detail flex items-center">
                             <div className="">{getIcon(filename)}</div>
-                            <div className="ml-2 text-sm font-medium">
+                            <div className="ml-2 text-sm dark:text-white font-medium">
                               {filename}
                             </div>
                             <div className="file-actions ml-auto">

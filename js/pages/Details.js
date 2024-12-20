@@ -1,15 +1,13 @@
 const Details = ({ path, objectId, id }) => {
 
   // Find the object in moduleIframeListOptions that matches the objectId
-  const matchedObject = moduleIframeListOptions.find(
-    (item) => item.hubspotObjectTypeId === objectId
-  );
-
-
+  const matchedObject = 
+  moduleIframeListOptions.find((item) => item.hubspotObjectTypeId === objectId) || '';
   // Extract propertyName and showIframe from the matched object
-  const propertyName = matchedObject.propertyName || null;
+  const propertyName = matchedObject.propertyName || '';
   const showIframe = matchedObject.showIframe || false;
   const { isLargeScreen } = useResponsive();
+
 
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">

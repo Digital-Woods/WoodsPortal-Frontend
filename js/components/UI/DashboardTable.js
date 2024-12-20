@@ -439,7 +439,7 @@ const DashboardTable = ({
       }
       {
         env.DATA_SOURCE_SET === true &&
-        <Dialog open={openModal} onClose={setOpenModal} className="bg-custom-gradient rounded-md sm:min-w-[430px]">
+        <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[430px]">
           <div className="rounded-md flex-col gap-6 flex">
             <h3 className="text-start text-xl font-semibold">
               Details

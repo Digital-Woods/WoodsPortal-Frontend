@@ -185,17 +185,17 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                     <TabsTrigger className="rounded-md" value="overview">
                       <p className="text-black dark:text-white">Overview</p>
                     </TabsTrigger>
-                    {permissions && permissions.fileManager.display && (
+                    {permissions && permissions?.fileManager?.display && (
                       <TabsTrigger className="rounded-md" value="files">
                         <p className="text-black dark:text-white">Files</p>
                       </TabsTrigger>
                     )}
-                    {permissions && permissions.note.display && (
+                    {permissions && permissions?.note?.display && (
                       <TabsTrigger className="rounded-md" value="notes">
                         <p className="text-black dark:text-white">Notes</p>
                       </TabsTrigger>
                     )}
-                    {permissions && permissions.ticket.display && (
+                    {permissions && permissions?.ticket?.display && (
                       <TabsTrigger className="rounded-md" value="tickets">
                         <p className="text-black dark:text-white">Tickets</p>
                       </TabsTrigger>
