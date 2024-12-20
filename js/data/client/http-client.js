@@ -45,7 +45,7 @@ Axios.interceptors.response.use(
   (error) => {
     if (
       (error.response && error.response.status === 401) ||
-      (error.response && error.response.status === 403) ||
+      // (error.response && error.response.status === 403) ||
       (error.response &&
         error.response.data.message === "DIGITALWOODS_ERROR.NOT_AUTHORIZED")
     ) {
