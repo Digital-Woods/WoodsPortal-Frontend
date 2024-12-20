@@ -312,12 +312,12 @@ const DashboardTable = ({
                       </TableHead>
                     ))}
                     {env.DATA_SOURCE_SET === true &&
-                      <TableHead className="font-semibold text-xs">
+                      <TableHead className="font-semibold dark:bg-dark-500  text-xs">
 
                       </TableHead>
                     }
                     {editView && (permissions && permissions.update) &&
-                      <TableHead className="font-semibold text-xs">
+                      <TableHead className="font-semibold dark:bg-dark-500  text-xs">
                         Actions
                       </TableHead>
                     }
@@ -332,7 +332,7 @@ const DashboardTable = ({
                       {tableHeader.map((column) => (
                         <TableCell
                           key={column.value}
-                          className="whitespace-nowrap dark:border-gray-600 border-b"
+                          className="whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b"
                         >
                           <div className="dark:text-white">
                             {/* {renderCellContent(
@@ -384,8 +384,8 @@ const DashboardTable = ({
                         </TableCell>
                       ))}
                       {env.DATA_SOURCE_SET === true &&
-                        <TableCell>
-                          <div className="flex items-center space-x-2 gap-x-5">
+                        <TableCell className=' dark:bg-dark-300 '>
+                          <div className="flex items-center space-x-2  gap-x-5">
                             <Link
                               className="text-xs px-2 py-1 border border-input dark:text-white rounded-md whitespace-nowrap "
                               to={`${path}/${hubspotObjectTypeId}/${item.id}`}
@@ -396,7 +396,7 @@ const DashboardTable = ({
                         </TableCell>
                       }
                       {editView && (permissions && permissions.update) &&
-                        <TableCell>
+                        <TableCell  className=' dark:bg-dark-300 '>
                           <div className="flex items-center space-x-2 gap-x-5">
                             <Button size="sm" className="text-white" onClick={() => {
                               setShowEditDialog(true);

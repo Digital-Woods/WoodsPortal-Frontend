@@ -311,19 +311,19 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 justify-between">
+      <div className="flex gap-1 min-w-[153px] justify-between">
         <Link
-          className="dark:text-white font-semibold border-input rounded-md"
+          className="dark:text-white text-secondary font-semibold border-input rounded-md"
           to={associationPath}
         >
           {isObject(value) ? value.label : value}
         </Link>
         <Link
-          className={`dark:text-white inline-flex items-center 
-      justify-center gap-1 flex-shrink-0 rounded-md 
-      outline-none transition duration-300 ease-in-out 
-      focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-      hover:bg-transparent focus:ring-gray-200 px-2 py-0 h-6 text-xs
+          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
+          justify-center gap-1 flex-shrink-0 rounded-md 
+          outline-none transition duration-300 ease-in-out 
+          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
       ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
       `}
           to={associationPath}
@@ -341,19 +341,19 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 justify-between">
+      <div className="flex gap-1 min-w-[153px] relative justify-between">
         <Link
-          className="dark:text-white font-semibold border-input rounded-md"
+          className="dark:text-white  text-secondary font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}
         >
           {isObject(value) ? value.label : value}
         </Link>
         <Link
-          className={`dark:text-white inline-flex items-center 
+          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-transparent focus:ring-gray-200 px-2 py-0 h-6 text-xs
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}
