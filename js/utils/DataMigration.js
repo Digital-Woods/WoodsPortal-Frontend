@@ -293,6 +293,16 @@ const sortData = (list, type = "list") => {
 //   return sortedFields;
 // };
 
+const replaceQuestionMarkToRegex = (text) => {
+  const replacedText = text.replace(/\?/g, "!");
+  return replacedText;
+}
+
+const replaceRegexToQuestionMark = (text) => {
+  const replacedText = text.replace(/\?/g, "!");
+  return replacedText;
+}
+
 const truncatedText = (text, maxLength = 30) => {
   if (text) {
     const truncatedText =
