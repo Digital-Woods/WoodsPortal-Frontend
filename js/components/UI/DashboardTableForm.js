@@ -138,7 +138,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       )}
       <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[600px] min-w-[305px]">
         <div>
-          <h3 className="text-start text-xl dark:text-white font-semibold">
+          <h3 className="text-start text-xl dark:text-white font-semibold mb-4">
             Add {title}
           </h3>
           {isLoading ?
@@ -149,7 +149,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
                 serverError={serverError}
-                className="dark:bg-dark-200 m-0"
+                className="dark:bg-dark-200 !m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>

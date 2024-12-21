@@ -85,7 +85,7 @@ const FolderUpload = ({
             className="border text-dark-200 dark:text-white border-gray-300 dark:bg-dark-100 p-2 w-full rounded"
             placeholder="Folder Name"
           />
-          <div className="mt-4 flex items-center gap-3 justify-between">
+          <div className="mt-4 flex items-center gap-3 justify-end">
             <Button
               className='dark:text-white'
               onClick={onClose}
