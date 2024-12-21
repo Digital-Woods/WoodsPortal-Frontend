@@ -106,7 +106,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
               className="absolute right-8 mt-2 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400 z-[53]"
             >
               <div className="flex flex-col p-4">
-                <div className="flex">
+                <div className="flex justify-between">
                   <Avatar
                     src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
                     alt="user photo"

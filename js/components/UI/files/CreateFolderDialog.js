@@ -29,7 +29,7 @@ const CreateFolderDialog = ({
           value={newFolderName}
           onChange={(e) => setNewFolderName(e.target.value)}
         />
-        <div className="flex items-center gap-3 justify-between">
+        <div className="flex items-center gap-3 justify-end">
           <Button className='dark:text-white' onClick={() => setIsCreateFolderOpen(false)}>Cancel</Button>
           <Button onClick={createFolder}>Create</Button>
         </div>

@@ -243,7 +243,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       )}
       <Dialog open={openModal} onClose={setOpenModal} className="rounded-md lg:w-[480px] md:w-[430px] w-[calc(100vw-28px)]">
         <div className="rounded-md flex-col gap-6 flex">
-          <h3 className="text-lg text-start font-semibold dark:text-white">
+          <h3 className="text-lg text-start font-semibold dark:text-white mb-4">
             Edit {title}
           </h3>
           {isLoading || stageLoadingFormData ?
@@ -255,7 +255,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 validationSchema={validationSchema}
                 serverError={serverError}
                 initialValues={initialValues}
-                className="dark:bg-dark-200 m-0"
+                className="dark:bg-dark-200 !m-0"
               >
                 {({ register, control, formState: { errors } }) => (
                   <div>
