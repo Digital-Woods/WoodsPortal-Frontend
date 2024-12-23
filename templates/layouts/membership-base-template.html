@@ -14,8 +14,54 @@
   {% endif %}
   <meta name="description" content="{{ page_meta.meta_description }}" />
   {{ standard_header_includes }}
+  <!-- Modal Styles -->
+  <style>
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;  /* Initially hidden */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
+<!-- Modal Structure -->
+<div id="errorModal" class="overlay">
+  <div class="modal">
+    <h2>Oops! Something went wrong!</h2>
+    <p id="errorMessage"></p>
+    <pre id="errorDetails" style="display: none;"></pre> <!-- To show error details for reporting -->
+    <button onclick="goBack()" class="button">Go Back</button>
+    <button onclick="refreshPage()" class="button">Refresh Page</button>
+  </div>
+</div>
+
   <div class="body-wrapper {{ builtin_body_classes }}  ">
     <main id="main-content" class="body-container-wrapper">
       {% block body %}
