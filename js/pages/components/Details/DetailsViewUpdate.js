@@ -34,9 +34,11 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   useEffect(() => {
     if (
       optionData.key === "hs_pipeline_stage" ||
+      optionData.key === "pipeline" ||
       optionData.key === "dealstage"
     ) {
-      const found = data.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
+      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+      const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
       if (found) getStags(getValue(found.value, "value"));
     } else {
       setOptions(optionData.options);
@@ -112,18 +114,20 @@ const DetailsViewUpdateDialog = ({
       setPipelines(editRow);
       getStags(getValue(editRow.value, "value"));
 
-      const filterStage = data.find(
+      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+      const filterStage = dataLoop.find(
         (item) =>
-          item.key === "hs_pipeline_stage" || item.key === "dealstage"
+          item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
       );
       setStages(filterStage);
     }
   }, [initialValues]);
 
   useEffect(() => {
-    const filterStage = data.find(
+    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+    const filterStage = dataLoop.find(
       (item) =>
-        item.key === "hs_pipeline_stage" || item.key === "dealstage"
+        item.key === "hs_pipeline_stage" ||  item.key === "pipeline" || item.key === "dealstage"
     );
 
     let defValue = {};
@@ -135,13 +139,17 @@ const DetailsViewUpdateDialog = ({
   }, []);
 
   const createValidationSchemaPipeline = (data) => {
+    console.log('isObject', isObject(data))
     const schemaShape = {};
     schemaShape[value.key] = z.string().nonempty({
       message: `${value.customLabel || value.label} is required.`,
     });
-    data.forEach((field) => {
+
+    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+    dataLoop.forEach((field) => {
       if (
         field.key === "hs_pipeline_stage" ||
+        field.key === "pipeline" ||
         field.key === "dealstage"
       ) {
         schemaShape[field.key] = z.string().nonempty({
