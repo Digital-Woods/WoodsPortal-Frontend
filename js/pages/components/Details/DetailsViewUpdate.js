@@ -33,9 +33,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
 
   useEffect(() => {
     if (
-      optionData.key === "hs_pipeline_stage" ||
-      optionData.key === "pipeline" ||
-      optionData.key === "dealstage"
+      optionData?.key === "dealstage"
     ) {
       const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
       const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
@@ -191,6 +189,7 @@ const DetailsViewUpdateDialog = ({
               {({ register, control, formState: { errors } }) => (
                 <div>
                   <div className="text-gray-800 dark:text-gray-200 text-left">
+                    {console.log('pipelines', pipelines)}
                     {pipelines && (
                       <div>
                         <FormItem className="mb-0">
@@ -226,7 +225,7 @@ const DetailsViewUpdateDialog = ({
 
                           <FormControl>
                             <DetailsViewUpdateDD
-                              label={`Select Pipeline`}
+                              label={`Select Stage`}
                               optionData={stages}
                               control={control}
                               data={data}
