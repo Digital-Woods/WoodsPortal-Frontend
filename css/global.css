@@ -565,3 +565,59 @@ tfoot td {
    transform:rotate(360deg);
  }
 }
+
+
+/* window error modal  */
+
+.window-error-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+  backdrop-filter: blur(5px); /* Blur effect */
+  display: none; /* Initially hidden */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.window-error-modal {
+  background-color: #fff;
+  border-radius: 5px;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.window-error-modal-title{
+  font-weight: 600;
+}
+.window-error-modal-title>span{
+  color:#b61515;
+}
+
+.window-error-modal-button-ct{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  width:100%;
+}
+
+.window-error-modal-button-button {
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: {{ secondary_color }};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+}
