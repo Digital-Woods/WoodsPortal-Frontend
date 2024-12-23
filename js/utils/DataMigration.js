@@ -327,7 +327,7 @@ const renderCellContent = (
 ) => {
   if (
     !value &&
-    type == "list" &&
+    (type == "associations" || type == "list") &&
     column &&
     column.isPrimaryDisplayProperty &&
     detailsView
@@ -359,6 +359,13 @@ const renderCellContent = (
   if (!value) {
     return "--";
   }
+  if (type == "details") {
+    return (
+      <div className="flex gap-1 min-w-[153px] relative  justify-between">
+        {isObject(value) ? value.label : value}
+      </div>
+    );
+  }
   if (
     (type == "associations" || type == "list") &&
     column &&
@@ -367,20 +374,20 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative  justify-between">
+      <div className="flex gap-1 min-w-[153px] relative justify-between group">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md"
           to={associationPath}
         >
-          {isObject(value) ? value.label : value}
+          {truncatedText(isObject(value) ? value.label : value, "25")}
         </Link>
         <Link
           className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
-            justify-center gap-1 flex-shrink-0 rounded-md 
-            outline-none transition duration-300 ease-in-out 
-            focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-            hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-primary hover:dark:text-white
-          `}
+      justify-center gap-1 flex-shrink-0 rounded-md 
+      outline-none transition duration-300 ease-in-out 
+      focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
+      hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-primary hover:dark:text-white
+      opacity-0 group-hover:opacity-100`}
           to={associationPath}
         >
           Open
@@ -444,7 +451,7 @@ const renderCellContent = (
 
   const { truncated, isTruncated } = truncateString(value || "");
   return type == "list" && isTruncated ? (
-    <Tooltip right content={value}>
+    <Tooltip content={value}>
       <Link className="dark:text-white">{truncated}</Link>
     </Tooltip>
   ) : (

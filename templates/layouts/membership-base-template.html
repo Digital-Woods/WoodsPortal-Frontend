@@ -14,8 +14,35 @@
   {% endif %}
   <meta name="description" content="{{ page_meta.meta_description }}" />
   {{ standard_header_includes }}
+  <!-- Import Window Error Modal JS -->
+  <script type="text/babel" src='{{get_asset_url("../../js/WindowError.js")}}'></script>
 </head>
 <body>
+<!-- Window Error Modal Structure -->
+<div id="errorModal"  style="display: none;" class="window-error-overlay dark:bg-white">
+  <div class="window-error-modal">
+    <div>
+      <svg
+      viewBox="0 0 24 24"
+      fill="#b61515"
+      height="80px"
+      width="80px"
+      stroke-width='1.5'
+    >
+      <path d="M11.953 2C6.465 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.493 2 11.953 2zM12 20c-4.411 0-8-3.589-8-8s3.567-8 7.953-8C16.391 4 20 7.589 20 12s-3.589 8-8 8z" />
+      <path d="M11 7h2v7h-2zm0 8h2v2h-2z" />
+    </svg>
+    </div>
+    <h4 class="window-error-modal-title dark:text-white" > <span>Oops!</span> Something went wrong!</h4>
+    <p id="errorMessage" class=" dark:text-white"></p>
+    <pre id="errorDetails" style="display: none;"></pre> <!-- To show error details for reporting -->
+    <div class="window-error-modal-button-ct">
+      <button onclick="goBack()" class="window-error-modal-button-button">Go Back</button>
+      <button onclick="refreshPage()" class="window-error-modal-button-button">Refresh Page</button>
+    </div>
+  </div>
+</div>
+
   <div class="body-wrapper {{ builtin_body_classes }}  ">
     <main id="main-content" class="body-container-wrapper">
       {% block body %}

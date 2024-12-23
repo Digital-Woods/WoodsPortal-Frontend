@@ -50,7 +50,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   return (
     <Select
       label={`Select`}
-      size="small"
+      size="semiMedium"
       name={optionData.key}
       options={options}
       control={control}
@@ -172,10 +172,10 @@ const DetailsViewUpdateDialog = ({
     <Dialog
       open={pipelineDialog}
       onClose={() => setPipelineDialog(false)}
-      className="bg-custom-gradient rounded-md sm:min-w-[430px]"
+      className=" rounded-md sm:min-w-[430px]"
     >
       <div className="rounded-md flex-col gap-6 flex">
-        <h3 className="text-start text-xl font-semibold">Select Pipeline</h3>
+        <h3 className="text-start text-xl dark:text-white font-semibold">Select Pipeline</h3>
 
         <div>
           {initialValues && (

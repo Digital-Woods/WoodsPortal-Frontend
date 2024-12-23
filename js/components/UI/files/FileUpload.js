@@ -202,7 +202,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                       );
                     })}
                   </div>
-                  <div className="flex items-center gap-3 justify-between">
+                  <div className="flex items-center gap-3 justify-end">
                     <Button
                       variant='outline'
                       onClick={onClose}

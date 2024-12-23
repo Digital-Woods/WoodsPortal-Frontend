@@ -340,7 +340,7 @@ const Notes = ({ path, objectId, id, permissions }) => {
           objectId={objectId}
           mainRowId={id}
         />
-        <div className="mt-4 flex justify-between gap-3">
+        <div className="mt-4 flex justify-end gap-3">
           <Button
             disabled={isPosting}
             variant='outline'
