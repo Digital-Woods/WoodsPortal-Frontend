@@ -911,3 +911,8 @@ function sortFormData(data) {
     return priorityA - priorityB; // Sort in ascending order of priority
   });
 }
+
+
+const escapeHTML = (str) => {
+  return str.replace(/'/g, "\\'");
+}

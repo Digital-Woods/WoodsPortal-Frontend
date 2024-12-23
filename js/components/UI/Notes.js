@@ -111,7 +111,7 @@ const NoteCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <CKEditor
-                initialData={note.hs_note_body}
+                initialData={escapeHTML(note.hs_note_body)}
                 attachments={note.hs_attachment_ids || []}
                 setEditorContent={setEditorContent}
                 id={`editor-${note.hs_object_id}`}
