@@ -611,6 +611,10 @@ tfoot td {
   width:100%;
 }
 
+.lay-height-container{
+  min-height: -webkit-fill-available !important; 
+}
+
 .window-error-modal-button-button {
   padding: 8px 14px;
   font-size: 14px;

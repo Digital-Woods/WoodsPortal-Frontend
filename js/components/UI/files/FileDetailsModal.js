@@ -32,7 +32,7 @@ const FileDetailsModal = ({ file, onClose }) => {
   return (
     <div>
       <div className="fixed inset-0 flex items-center justify-center z-[60] bg-black bg-opacity-50">
-        <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[720px] min-h-[292px] max-h-[80vh] overflow-auto relative">
+        <div className="bg-white dark:bg-dark-200 p-6 rounded-lg shadow-xl w-full max-w-[755px] min-h-[292px] max-h-[80vh] overflow-auto relative">
           <button onClick={onClose} className="text-xl font-bold absolute top-1 right-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
