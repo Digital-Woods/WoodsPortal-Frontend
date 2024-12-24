@@ -159,7 +159,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
 
       if (error.response && error.response.data) {
         const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.errors;
+        const errors = error.response.data.validationErrors;
         setServerError(errors);
 
         errorMessage =

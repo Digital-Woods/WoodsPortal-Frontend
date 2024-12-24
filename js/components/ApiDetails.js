@@ -132,6 +132,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     return path.path;
   };
 
+  const isModalOpen = false;
+
   if (error) {
     return (
       <div className="w-full h-[calc(100vh_-110px)] flex flex-col items-center justify-center dark:text-white text-dark-300 bg-cleanWhite dark:bg-dark-200 md:text-2xl text-base font-semibold">
@@ -145,12 +147,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 rounded-tl-xl  lg:h-[calc(100vh-68px)] h-[calc(100vh-80px)] hide-scrollbar overflow-hidden `}
+    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 md:pb-0 rounded-tl-xl hide-scrollbar max-h-[92vh] overflow-hidden `}
     >
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
-        <div className=" flex relative bg-cleanWhite dark:bg-dark-200 overflow-hidden ">
+        <div className=" flex relative bg-cleanWhite dark:bg-dark-200 overflow-hidden">
 
           {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
@@ -164,7 +166,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           )}
 
 
-          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:max-h-[calc(100vh-100px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:h-[calc(100vh-80px)] h-[88vh] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
             <div className={``}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
@@ -262,37 +264,38 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
               )}
             </div>
           </div>
-          <div className={`${isLargeScreen
-            ? " translate-x-0  w-[330px]"
-            : " md:w-[350px] absolute translate-x-full w-full md:p-3 px-2 pb-2 z-50"
-            } ${sidebarDetailsOpen ? "translate-x-0 " : "translate-x-full"}
-            rounded-md bg-cleanWhite dark:bg-dark-200  right-0 transform transition duration-200 ease-in-out
-            lg:h-[calc(100vh-100px)] h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}>
-            {associations && !isLargeScreen && sidebarDetailsOpen ?
+          <div className={`rounded-md bg-cleanWhite dark:bg-dark-200 transition duration-200 ease-in-out lg:h-[calc(100vh-80px)] h-[88vh] sticky-top hide-scrollbar overflow-visible
+          ${isLargeScreen ? "w-[330px]" : " md:w-[350px] absolute  right-0 transform  translate-x-full w-full md:p-3 px-2 pb-2 z-50"}
+           ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0 " : ""}`}>
+
+            {associations && !isLargeScreen && sidebarDetailsOpen ? (
               <div className=" rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
-                <button className='rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark' onClick={() => setSidebarDetailsOpen(false)}>
+                <button
+                  className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
+                  onClick={() => setSidebarDetailsOpen(false)}
+                >
                   <Arrow />
                 </button>
               </div>
-              : ''
-            }
-            <div className="h-full w-full ">
+            ) : (
+              ""
+            )}
+
+            <div className="h-full hide-scrollbar overflow-visible w-full ">
               {associations &&
-                Object.entries(associations).map(
-                  ([key, association], index) => (
-                    <DetailsAssociations
-                      key={key}
-                      association={association}
-                      isActive={true}
-                      parentObjectTypeName={path}
-                      parentObjectTypeId={objectId}
-                      parentObjectRowId={id}
-                      refetch={getData}
-                      objectId={objectId}
-                      id={id}
-                    />
-                  )
-                )}
+                Object.entries(associations).map(([key, association], index) => (
+                  <DetailsAssociations
+                    key={key}
+                    association={association}
+                    isActive={true}
+                    parentObjectTypeName={path}
+                    parentObjectTypeId={objectId}
+                    parentObjectRowId={id}
+                    refetch={getData}
+                    objectId={objectId}
+                    id={id}
+                  />
+                ))}
             </div>
           </div>
 

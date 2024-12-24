@@ -170,7 +170,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50" ref={dropdownRef}>
                   {file.type === "folder" ? (
                     <button
-                      className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                      className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300  rounded-lg"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleFolder(file);
@@ -182,7 +182,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
                   ) : (
                     <div>
                       <button
-                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300  rounded-lg"
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedFileId(file.id);
@@ -193,7 +193,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
                         Details
                       </button>
                       <button
-                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300"
+                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300  rounded-lg"
                         onClick={(e) => { handleDownload(file, e); setActiveDropdown(null) }}
                       >
                         Download
@@ -240,7 +240,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
   };
 
   return (
-    <div className="table-container w-full rounded-md overflow-x-auto">
+    <div className="table-container w-full rounded-md ">
       <Table className="w-full dark:bg-[#2a2a2a] table-auto">
         <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
           <TableRow>

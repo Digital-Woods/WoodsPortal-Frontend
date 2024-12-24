@@ -17,7 +17,7 @@ const Dialog = (props, ref) => {
 
     return (
       <div
-        className="relative z-[9999]"
+        className="fixed z-[101]"
         aria-labelledby="modal-title"
         role="dialog"
         aria-modal="true"
