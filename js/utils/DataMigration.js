@@ -325,6 +325,25 @@ const renderCellContent = (
   hoverRow,
   item
 ) => {
+  if (column.key == "amount" && item && item.length > 0) {
+    const find_currency_code = item.find(
+      (item) => item.key === "deal_currency_code"
+    );
+    const currency = isObject(find_currency_code.value)
+      ? find_currency_code.value.value
+      : find_currency_code.value;
+    return `${Currency(currency)} ${value}`;
+  }
+  if (
+    column &&
+    value != null &&
+    (column.key == "hs_createdate" ||
+      column.key == "hs_lastmodifieddate" ||
+      column.key == "createdate" ||
+      column.fieldType == "date")
+  ) {
+    return formatDate(isObject(value) ? value.label : value);
+  }
   if (
     !value &&
     (type == "associations" || type == "list") &&
@@ -359,6 +378,21 @@ const renderCellContent = (
   if (!value) {
     return "--";
   }
+
+  if (type === "details" && column?.fieldType === "html") {
+    return (
+      <div className="flex gap-1 min-w-[153px] relative justify-between">
+        <div className="flex gap-5 flex-col items-start">
+          {
+            isObject(value)
+              ? parseHTMLString(value.label)
+              : ReactHtmlParser.default(DOMPurify.sanitize(value))
+          }
+        </div>
+      </div>
+    );
+  }
+
   if (type == "details") {
     return (
       <div className="flex gap-1 min-w-[153px] relative  justify-between">
@@ -425,26 +459,6 @@ const renderCellContent = (
         </Link>
       </div>
     );
-  }
-  if (
-    column &&
-    value != null &&
-    (column.key == "hs_createdate" ||
-      column.key == "hs_lastmodifieddate" ||
-      column.key == "createdate" ||
-      column.fieldType == "date")
-  ) {
-    return formatDate(isObject(value) ? value.label : value);
-  }
-
-  if (column.key == "amount" && item && item.length > 0) {
-    const find_currency_code = item.find(
-      (item) => item.key === "deal_currency_code"
-    );
-    const currency = isObject(find_currency_code.value)
-      ? find_currency_code.value.value
-      : find_currency_code.value;
-    return `${Currency(currency)} ${value}`;
   }
 
   if (isObject(value)) return truncatedText(value.label) || "--";
