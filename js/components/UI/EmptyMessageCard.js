@@ -3,9 +3,9 @@ const EmptyMessageCard = ({ name = 'item', type = 'row', className = 'p-6' }) =>
 
     useEffect(() => {
         const components = [
-            <EmptyDeal width="150px" height="130px"  key="deal" />,
-            <EmptyIcon width="150px" height="130px" key="icon" className="dark:text-white text-primary" />,
-            <EmptyThree width="150px" height="130px" />
+            <EmptyDeal className="dark:text-white text-primary w-[150px]" key="deal" />,
+            <EmptyIcon key="icon" className="dark:text-white text-primary w-[150px]" />,
+            <EmptyThree className="dark:text-white text-primary w-[150px]" key='three' />
         ];
         setRandomComponent(components[Math.floor(Math.random() * components.length)]);
     }, []);
