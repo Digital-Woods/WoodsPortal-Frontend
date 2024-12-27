@@ -222,9 +222,9 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
               hubSpotUserDetails.sideMenu[0].tabName === title && (
                 <div
                 className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
-                lg:h-[calc(100vh-var(--nav-height))] h-full hide-scrollbar overflow-visible z-50 
+                lg:h-[calc(97vh-var(--nav-height))] h-[calc(97vh-var(--nav-height))] h-full hide-scrollbar overflow-visible z-50 
                 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
-                ${!isLargeScreen && sidebarRightOpen ? "translate-x-0" : ""}`}
+                ${!isLargeScreen && sidebarRightOpen ? "translate-x-0 mb-4" : ""}`}
               >
                   {/* Close button for medium and small screens */}
                   {!isLargeScreen && sidebarRightOpen && showSidebarListDataOption && (
@@ -240,7 +240,7 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
 
                   {/* Sidebar content */}
                   <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
-                    <div className="flex-col flex lg:gap-6 gap-3 h-full">
+                    <div className="flex-col flex lg:gap-6 gap-3 lg:h-full">
                       {sidebarListDataOption.map((option, index) => {
                         const hubspotObjectTypeId = option.hubspotObjectTypeId;
                         const sidebarDataApis = {
