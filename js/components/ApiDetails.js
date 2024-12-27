@@ -12,17 +12,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const param = getParam("t");
   const [activeTab, setActiveTab] = useState(param || "overview");
   const [permissions, setPermissions] = useState(null);
-
-  // const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
-  // const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
-
   const urlParam = getQueryParamsFromCurrentUrl();
-
   const [galleryDialog, setGalleryDialog] = useState(false);
-
   const { sync, setSync } = useSync();
-
-
   const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState(false);
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
@@ -85,23 +77,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       const details = data.data;
       const sortedItems = sortData(details, "details");
       setItems(sortedItems);
-
-      // console.log('data', data.configurations.object)
       setPermissions(data.configurations)
-
-
-      // if (data.data) {
-      //   const finalData = JSON.parse(
-      //     JSON.stringify(sortData(data.data, "details", path))
-      //   );
-      //   setSortItems(finalData);
-      // }
-      // if (data.data.associations) {
-      //   const finalData = data.data.associations;
-      //   setAssociations(finalData);
-      // }
-      // setItems(data.data);
-      // getImages(data.data);
     },
     onError: (error) => {
       setSync(false);
@@ -117,22 +93,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     if (sync) getData();
   }, [sync]);
 
-  const getImages = (data) => {
-    if (data && data.image) {
-      let urlArray = data.image.split(",");
-      setImages(urlArray);
-    }
-    // setImages([]);
-  };
-
   const back = () => {
     let breadcrumbItems =
       JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
     let path = breadcrumbItems[breadcrumbItems.length - 1];
     return path.path;
   };
-
-  const isModalOpen = false;
 
   if (error) {
     return (
@@ -147,12 +113,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 md:pb-0 rounded-tl-xl hide-scrollbar max-h-[92vh] overflow-hidden `}
+    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 md:pb-0 rounded-tl-xl hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
     >
       {isLoading && item && <div className="loader-line"></div>}
 
       {item.length > 0 ? (
-        <div className=" flex relative bg-cleanWhite dark:bg-dark-200 overflow-hidden">
+        <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden">
 
           {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
@@ -165,8 +131,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             </div>
           )}
 
-
-          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4' : 'w-full'} lg:h-[calc(100vh-80px)] h-[88vh] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+          {/* main content code start */}
+          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4 pb-4' : 'w-full'} lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
             <div className={``}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
@@ -264,12 +230,19 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
               )}
             </div>
           </div>
-          <div className={`rounded-md bg-cleanWhite dark:bg-dark-200 transition duration-200 ease-in-out lg:h-[calc(100vh-80px)] h-[88vh] sticky-top hide-scrollbar overflow-visible
-          ${isLargeScreen ? "w-[330px]" : " md:w-[350px] absolute  right-0 transform  translate-x-full w-full md:p-3 px-2 pb-2 z-50"}
-           ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0 " : ""}`}>
+          {/* main content code end */}
 
-            {associations && !isLargeScreen && sidebarDetailsOpen ? (
-              <div className=" rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
+          {/* sidebar code start */}
+          {/* Sidebar */}
+          <div
+            className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
+            lg:h-[calc(100vh-80px)] h-full hide-scrollbar overflow-visible z-50 
+            ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
+            ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
+          >
+            {/* Close Button for Small Devices */}
+            {!isLargeScreen && sidebarDetailsOpen && (
+              <div className="rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
                 <button
                   className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                   onClick={() => setSidebarDetailsOpen(false)}
@@ -277,13 +250,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   <Arrow />
                 </button>
               </div>
-            ) : (
-              ""
             )}
 
-            <div className="h-full hide-scrollbar overflow-visible w-full ">
+            {/* Sidebar Content */}
+            <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
               {associations &&
-                Object.entries(associations).map(([key, association], index) => (
+                Object.entries(associations).map(([key, association]) => (
                   <DetailsAssociations
                     key={key}
                     association={association}
@@ -298,6 +270,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 ))}
             </div>
           </div>
+
+          {/* sidebar code end */}
 
           <Dialog
             open={galleryDialog}

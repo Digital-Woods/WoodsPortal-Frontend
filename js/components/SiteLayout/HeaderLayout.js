@@ -1,3 +1,4 @@
+let globalNavHeight = 0;
 const HeaderLayout = ({ title, path, id = null }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -5,6 +6,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
   const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = Recoil.useRecoilState(profileState);
+  const navRef = useRef(null);
 
   const { me, getMe } = useMe();
   const loggedInDetails = useRecoilValue(userDetailsAtom);
@@ -32,6 +34,16 @@ const HeaderLayout = ({ title, path, id = null }) => {
     }
   }
 
+  useEffect(() => {
+    if (navRef.current) {
+      globalNavHeight = navRef.current.offsetHeight;
+    }
+    document.documentElement.style.setProperty(
+      "--nav-height",
+      `${globalNavHeight}px`
+    );
+  }, [globalNavHeight]);
+
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
   };
@@ -58,9 +70,9 @@ const HeaderLayout = ({ title, path, id = null }) => {
     };
   }, []);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
-
+  console.log(globalNavHeight,'globalNavHeight');
   return (
-    <nav className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
+    <nav ref={navRef} className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
       <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
           <div className="cursor-pointer" onClick={toggleDrawer}>

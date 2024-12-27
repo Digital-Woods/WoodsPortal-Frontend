@@ -23,7 +23,7 @@ const Dialog = (props, ref) => {
         aria-modal="true"
       >
         <div
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition transition-opacity"
+          className="fixed  inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition transition-opacity"
           aria-hidden="true"
         ></div>
 

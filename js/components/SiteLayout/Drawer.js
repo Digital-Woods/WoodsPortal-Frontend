@@ -76,7 +76,7 @@ const Drawer = ({ className }) => {
       {sidebarOpen && (
         <div className="relative z-[53]">
           <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity lg:hidden"
+            className="fixed inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition-opacity lg:hidden"
             aria-hidden="true"
             onClick={() => setSidebarOpen(false)}
           ></div>
@@ -140,7 +140,7 @@ const Drawer = ({ className }) => {
                         to={path}
                         className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
                           }`}
-                        onClick={() => setActiveRoute(path)}
+                        onClick={() => {setActiveRoute(path);setSidebarOpen(false);}}
                       >
                         <div
                           className={`flex items-center text-sidelayoutTextColor dark:text-white gap-x-3 gap-y-1 ${sidebarCollapsed
@@ -225,7 +225,7 @@ const Drawer = ({ className }) => {
 
                   <div
                     className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white   ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'}  rounded-md no-underline cursor-pointer`}
-                    onClick={() => setLogoutDialog(true)}
+                    onClick={() => {setLogoutDialog(true);setSidebarOpen(false);}}
                   >
                     <div
                       className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-start"
