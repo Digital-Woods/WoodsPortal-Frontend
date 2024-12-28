@@ -333,7 +333,7 @@ const renderCellContent = (
     const find_currency_code = item.find(
       (item) => item.key === "deal_currency_code"
     );
-  
+
     if (find_currency_code && find_currency_code.value) {
       const currency = isObject(find_currency_code.value)
         ? find_currency_code.value.value
@@ -387,18 +387,29 @@ const renderCellContent = (
     return "--";
   }
 
-  if (type === "details" && column?.fieldType === "html") {
+  if (type == "details" || type == "associations" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 min-w-[153px] relative justify-between">
         <div className="flex gap-5 flex-col items-start">
-          {isObject(value)
-            ? parseHTMLString(value.label)
+          {isObject(value)? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))}
         </div>
       </div>
     );
   }
-
+  
+  if (
+    (type === "details" || type === "associations") &&
+    (column?.fieldType === "checkbox" || column?.key === "multiple_checkbox_data")
+  ) {
+    if (Array.isArray(value) && value.length > 0) {
+      const labels = value.map((item) => item.label).join(", ");
+      return labels;
+    }
+    return "--";
+  }
+  
+  
   if (type == "details") {
     return (
       <div className="flex gap-1 min-w-[153px] relative  justify-between">
