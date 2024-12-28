@@ -96,8 +96,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
   }
 
   return (
-    <div className="bg-sidelayoutColor lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] dark:bg-dark-300">
-      <div className={`dark:bg-dark-200 rounded-tl-xl bg-cleanWhite dark:text-white md:pl-4 md:pt-4 
+    <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
+      <div className={`dark:bg-dark-200  h-[calc(100vh-var(--nav-height))] rounded-tl-xl bg-cleanWhite dark:text-white md:pl-4 md:pt-4 
       ${isLargeScreen
           ? " "
           : `${!sidebarRightOpen ? 'md:pr-4 pr-3  pl-3  pt-3' : 'pl-3 pt-3'} rounded-tr-xl`
@@ -221,12 +221,11 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
             {showSidebarListDataOption &&
               hubSpotUserDetails.sideMenu[0].tabName === title && (
                 <div
-                  className={`transition-transform duration-200 ease-in-out ${isLargeScreen
-                    ? "relative translate-x-0"
-                    : `absolute inset-y-0 right-0 z-[55] bg-cleanWhite dark:bg-dark-200 
-              ${sidebarRightOpen ? "translate-x-0" : "translate-x-full"}`
-                    }`}
-                >
+                className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
+                lg:h-[calc(97vh-var(--nav-height))] h-[calc(97vh-var(--nav-height))] h-full hide-scrollbar overflow-visible z-50 
+                ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
+                ${!isLargeScreen && sidebarRightOpen ? "translate-x-0 mb-4" : ""}`}
+              >
                   {/* Close button for medium and small screens */}
                   {!isLargeScreen && sidebarRightOpen && showSidebarListDataOption && (
                     <div className="absolute z-[56] right-[14px] top-[8px]">
@@ -240,11 +239,8 @@ const DynamicComponent = ({ hubspotObjectTypeId, path, title, showIframe, proper
                   )}
 
                   {/* Sidebar content */}
-                  <div
-                    className={`${isSmallScreen ? "max-sm:w-screen w-full px-2 pb-2" : "w-[350px] pr-3"
-                      } lg:max-h-[calc(100vh-90px)] max-h-[calc(100vh-110px)] hide-scrollbar overflow-y-auto`}
-                  >
-                    <div className="flex-col flex lg:gap-6 gap-3 h-full">
+                  <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
+                    <div className="flex-col flex lg:gap-6 gap-3 lg:h-full">
                       {sidebarListDataOption.map((option, index) => {
                         const hubspotObjectTypeId = option.hubspotObjectTypeId;
                         const sidebarDataApis = {
