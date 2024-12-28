@@ -50,22 +50,22 @@ const DetailsView = ({
   return (
     <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table className="w-full dark:bg-[#2a2a2a]">
-        {item.length > 0 &&
+        {item?.length > 0 &&
           item.map((value, index) =>
-            value.key === propertyName && showIframe ? (
-              <tr key={value.key}>
+            value?.key === propertyName && showIframe ? (
+              <tr key={value?.key}>
                 <td className="py-2 pr-1 text-sm dark:text-white whitespace-wrap lg:w-[250px] w-[150px] align-top">
-                  {value.label}:
+                  {value?.label}:
                 </td>
                 <td className="py-2 pl-1 text-sm dark:text-white align-top">
-                  {value.value ? (
+                  {value?.value ? (
                     <Button
                       className="bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite dark:text-primary"
                       variant="outline"
                       size="sm"
-                      onClick={() => handleViewClick(value.value)}
+                      onClick={() => handleViewClick(value?.value)}
                     >
-                      View {value.label}
+                      View {value?.label}
                     </Button>
                   ) : (
                     "--"
@@ -73,15 +73,15 @@ const DetailsView = ({
                 </td>
               </tr>
             ) : (
-              <tr key={value.key}>
+              <tr key={value?.key}>
                 <td className="py-2 pr-1 text-sm dark:text-white  lg:w-[200px] w-[130px]  whitespace-wrap align-top">
-                  {value.label}:
+                  {value?.label}:
                 </td>
                 <td className="py-2 pl-1 text-sm dark:text-white break-all gap-2">
-                  {value.isEditableField && (permissions && permissions.update) ? (
+                  {value?.isEditableField && (permissions && permissions.update) ? (
                     <DetailsViewUpdate
                       renderValue={renderCellContent(
-                        value.value,
+                        value?.value,
                         value,
                         null,
                         null,
@@ -100,7 +100,7 @@ const DetailsView = ({
                     />
                   ) : (
                     renderCellContent(
-                      value.value,
+                      value?.value,
                       value,
                       null,
                       null,

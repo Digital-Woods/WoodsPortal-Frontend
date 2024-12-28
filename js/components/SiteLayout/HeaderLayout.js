@@ -70,7 +70,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
     };
   }, []);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
-  console.log(globalNavHeight,'globalNavHeight');
+
   return (
     <nav ref={navRef} className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
       <div className="flex justify-between text-end items-center">

@@ -325,14 +325,22 @@ const renderCellContent = (
   hoverRow,
   item
 ) => {
+  if (!column || value === undefined || value === null) {
+    return "--";
+  }
+
   if (column.key == "amount" && item && item.length > 0) {
     const find_currency_code = item.find(
       (item) => item.key === "deal_currency_code"
     );
-    const currency = isObject(find_currency_code.value)
-      ? find_currency_code.value.value
-      : find_currency_code.value;
-    return `${Currency(currency)} ${value}`;
+  
+    if (find_currency_code && find_currency_code.value) {
+      const currency = isObject(find_currency_code.value)
+        ? find_currency_code.value.value
+        : find_currency_code.value;
+      return `${Currency(currency)} ${value}`;
+    }
+    return `${Currency("USD")} ${value}`;
   }
   if (
     column &&
@@ -383,11 +391,9 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 min-w-[153px] relative justify-between">
         <div className="flex gap-5 flex-col items-start">
-          {
-            isObject(value)
-              ? parseHTMLString(value.label)
-              : ReactHtmlParser.default(DOMPurify.sanitize(value))
-          }
+          {isObject(value)
+            ? parseHTMLString(value.label)
+            : ReactHtmlParser.default(DOMPurify.sanitize(value))}
         </div>
       </div>
     );
