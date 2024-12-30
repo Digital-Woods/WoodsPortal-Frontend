@@ -386,17 +386,6 @@ const renderCellContent = (
   if (!value) {
     return "--";
   }
-
-  if (type == "details" || type == "associations" && column?.fieldType === "html") {
-    return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
-        <div className="flex gap-5 flex-col items-start">
-          {isObject(value)? value.label
-            : ReactHtmlParser.default(DOMPurify.sanitize(value))}
-        </div>
-      </div>
-    );
-  }
   
   if (
     (type === "details" || type === "associations") &&
@@ -408,8 +397,18 @@ const renderCellContent = (
     }
     return "--";
   }
-  
-  
+
+  if (type == "details" || type == "associations" && column?.fieldType === "html") {
+    return (
+      <div className="flex gap-1 min-w-[153px] relative justify-between">
+        <div className="flex gap-5 flex-col items-start">
+          {isObject(value)? value.label
+            : ReactHtmlParser.default(DOMPurify.sanitize(value))}
+        </div>
+      </div>
+    );
+  }
+
   if (type == "details") {
     return (
       <div className="flex gap-1 min-w-[153px] relative  justify-between">
