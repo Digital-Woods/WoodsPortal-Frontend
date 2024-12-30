@@ -206,6 +206,10 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     }
   }, [sync]);
 
+  useEffect(() => {
+    getData();
+  }, [path]);
+
   const setDialogData = (data) => {
     setModalData(data);
     setOpenModal(true);
@@ -234,7 +238,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type = 'col' className='p-0' />
+          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
             <p className="text-primary text-base md:text-2xl dark:text-gray-300 mt-3">
               {tableAPiData.data.configurations.associationMessage}

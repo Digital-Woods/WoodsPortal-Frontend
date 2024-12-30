@@ -35,7 +35,7 @@ const Alert = ({ message, type, onClose, duration = 2000 }) => {
   };
 
   return (
-    <div className="fixed z-[110] top-2 left-1/2 transform -translate-x-1/2 w-[300px] md:max-w-md py-5 px-6 bg-cleanWhite dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter text-black dark:text-white rounded-md border border-secondary dark:border-gray-600 shadow-sm">
+    <div className="fixed z-[110] top-2 left-1/2 transform -translate-x-1/2 min-w-[300px] md:max-w-md py-5 px-6 bg-cleanWhite dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter text-black dark:text-white rounded-md border border-secondary dark:border-gray-600 shadow-sm">
       <button
         type="button"
         className="absolute top-2 right-2 text-dark-200 dark:text-white hover:text-gray-600 transition-all duration-150"
@@ -48,7 +48,7 @@ const Alert = ({ message, type, onClose, duration = 2000 }) => {
         <div className="min-w-[40px]">
           {icon}
         </div>
-        <p className="text-base font-medium leading-relaxed">{message}</p>
+        <p className="text-sm font-semibold leading-relaxed">{message}</p>
       </div>
       <div className="w-full h-1 bg-gray-200 rounded-full mt-4 overflow-hidden">
         <div

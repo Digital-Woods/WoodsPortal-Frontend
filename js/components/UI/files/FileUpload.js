@@ -150,7 +150,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                 </div>
                 <form onSubmit={fileUploadSubmit} className="max-w-screen">
                   <div className="kb-file-upload">
-                    <div className="file-upload-box">
+                    <div className="file-upload-box dark:bg-dark-300 dark:text-white">
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                       />
                       <p> Drag and drop </p>
                       <p> or </p>
-                      <p className="border-2 border-black text-black p-2 rounded-lg !mt-3 font-semibold">
+                      <p className="border-2 border-black text-black dark:border-white dark:text-white p-2 rounded-lg !mt-3 font-semibold">
                         Browse
                       </p>
                     </div>
