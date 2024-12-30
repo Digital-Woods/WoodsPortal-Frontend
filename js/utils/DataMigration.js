@@ -325,14 +325,22 @@ const renderCellContent = (
   hoverRow,
   item
 ) => {
+  if (!column || value === undefined || value === null) {
+    return "--";
+  }
+
   if (column.key == "amount" && item && item.length > 0) {
     const find_currency_code = item.find(
       (item) => item.key === "deal_currency_code"
     );
-    const currency = isObject(find_currency_code.value)
-      ? find_currency_code.value.value
-      : find_currency_code.value;
-    return `${Currency(currency)} ${value}`;
+
+    if (find_currency_code && find_currency_code.value) {
+      const currency = isObject(find_currency_code.value)
+        ? find_currency_code.value.value
+        : find_currency_code.value;
+      return `${Currency(currency)} ${value}`;
+    }
+    return `${Currency("USD")} ${value}`;
   }
   if (
     column &&
@@ -378,16 +386,24 @@ const renderCellContent = (
   if (!value) {
     return "--";
   }
+  
+  if (
+    (type === "details" || type === "associations") &&
+    (column?.fieldType === "checkbox" || column?.key === "multiple_checkbox_data")
+  ) {
+    if (Array.isArray(value) && value.length > 0) {
+      const labels = value.map((item) => item.label).join(", ");
+      return labels;
+    }
+    return "--";
+  }
 
-  if (type === "details" && column?.fieldType === "html") {
+  if (type == "details" || type == "associations" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 min-w-[153px] relative justify-between">
         <div className="flex gap-5 flex-col items-start">
-          {
-            isObject(value)
-              ? parseHTMLString(value.label)
-              : ReactHtmlParser.default(DOMPurify.sanitize(value))
-          }
+          {isObject(value)? value.label
+            : ReactHtmlParser.default(DOMPurify.sanitize(value))}
         </div>
       </div>
     );

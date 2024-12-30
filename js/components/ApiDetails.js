@@ -68,13 +68,13 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       }),
     onSuccess: (data) => {
       setSync(false);
-      const associations = data.data.associations;
+      const associations = data?.data?.associations;
       setAssociations(associations);
 
-      const mConfigurations = data.configurations;
+      const mConfigurations = data?.configurations;
       setConfigurations(mConfigurations);
 
-      const details = data.data;
+      const details = data?.data;
       const sortedItems = sortData(details, "details");
       setItems(sortedItems);
       setPermissions(data.configurations)
