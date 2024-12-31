@@ -388,8 +388,8 @@ const renderCellContent = (
   }
   
   if (
-    (type === "details" || type === "associations") &&
-    (column?.fieldType === "checkbox" || column?.key === "multiple_checkbox_data")
+    (type === "details" || type === "associations" || type === 'list') &&
+    (column?.fieldType === "checkbox" )
   ) {
     if (Array.isArray(value) && value.length > 0) {
       const labels = value.map((item) => item.label).join(", ");
