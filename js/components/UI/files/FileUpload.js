@@ -148,7 +148,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                     <h3 className="text-lg text-start font-semibold dark:text-white">File Upload</h3>
                   </div>
                 </div>
-                <form onSubmit={fileUploadSubmit} className="max-w-screen">
+                <form onSubmit={fileUploadSubmit} className="max-w-screen !mb-0">
                   <div className="kb-file-upload">
                     <div className="file-upload-box dark:bg-dark-300 dark:text-white">
                       <div>
