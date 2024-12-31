@@ -55,13 +55,11 @@ const AccordionDetails = ({ children, active, id }) => {
       contentEl.current.style.height =
         active != null ? `${contentEl.current.scrollHeight}px` : "0px";
     }
-  }, [active, id]);
+  }, [active, id, contentEl]);
   return (
     <div
       ref={contentEl}
-      className={`rounded-md transition-height duration-300 overflow-hidden   dark:bg-dark-300 ${
-        active != null ? "max-h-screens" : "max-h-0"
-      }`}
+      className={`rounded-md transition-height duration-300 overflow-y-auto hide-scrollbar dark:bg-dark-300 `}
       style={
         active != null
           ? { height: contentEl.current.scrollHeight }

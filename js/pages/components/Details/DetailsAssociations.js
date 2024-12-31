@@ -44,7 +44,7 @@ const DetailsAssociations = ({
               <div className=" rounded-md  text-rstextcolor dark:text-white">
                 {association.data.map((item, index) => (
                   <div key={index} className="mb-2">
-                    <div className="border dark:border-gray-600 p-2 rounded-md bg-rscardbackhround dark:bg-dark-500 overflow-hidden">
+                    <div className="border dark:border-gray-600 p-2 rounded-md bg-rscardbackhround dark:bg-dark-500 overflow-y-auto hide-scrollbar">
                       <table className="!bg-transparent text-rstextcolor">
                         {item &&
                           sortData(item, "associations").map((value, index) => (

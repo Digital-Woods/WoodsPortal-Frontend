@@ -1,3 +1,4 @@
+
 const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChangeSelect = null }) => {
   const [options, setOptions] = useState([]);
 
@@ -35,7 +36,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
     if (
       optionData?.key === "dealstage"
     ) {
-      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
       const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
       if (found) getStags(getValue(found.value, "value"));
     } else {
@@ -112,7 +113,7 @@ const DetailsViewUpdateDialog = ({
       setPipelines(editRow);
       getStags(getValue(editRow.value, "value"));
 
-      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
       const filterStage = dataLoop.find(
         (item) =>
           item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
@@ -122,10 +123,10 @@ const DetailsViewUpdateDialog = ({
   }, [initialValues]);
 
   useEffect(() => {
-    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
     const filterStage = dataLoop.find(
       (item) =>
-        item.key === "hs_pipeline_stage" ||  item.key === "pipeline" || item.key === "dealstage"
+        item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
     );
 
     let defValue = {};
@@ -143,7 +144,7 @@ const DetailsViewUpdateDialog = ({
       message: `${value.customLabel || value.label} is required.`,
     });
 
-    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ?  Object.keys(data) : data
+    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
     dataLoop.forEach((field) => {
       if (
         field.key === "hs_pipeline_stage" ||
@@ -283,6 +284,7 @@ const DetailsViewUpdate = ({
   const [stages, setStages] = useState(null);
   const [initialValues, setInitialValues] = useState(false);
   const { z } = Zod;
+  const [selectedValues, setSelectedValues] = useState();
 
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
@@ -297,7 +299,6 @@ const DetailsViewUpdate = ({
     });
     return z.object(schemaShape);
   };
-
   const validationSchema = createValidationSchema(data);
 
   const { mutate: saveData, isLoading } = useMutation({
@@ -356,6 +357,12 @@ const DetailsViewUpdate = ({
     //   const found = data.find((item) => item.key === "hs_pipeline");
     //   getStags(getValue(found.value, "value"));
     // }
+    if (row && row.fieldType === "checkbox") {
+      setSelectedValues(
+        Array.isArray(row.value) ? row.value.map((item) => item.value) : []
+      );
+    }
+
     setEditRow(row);
 
     const mValue = value.value;
@@ -381,8 +388,25 @@ const DetailsViewUpdate = ({
   //   saveData(data);
   // };
 
+  useEffect(() => {
+    // console.log(selectedValues, "selectedValues from component");
+  }, [selectedValues]);
+
   const onSubmit = (data) => {
-    saveData(data);
+    if (editRow.fieldType === "checkbox") {
+      const formattedData = {
+        [editRow.key]: selectedValues
+          .map(
+            (value) =>
+              editRow.options.find((option) => option.value === value)?.value
+          )
+          .join(";"),
+      };
+
+      saveData(formattedData);
+    } else {
+      saveData(data);
+    }
   };
 
   return (
@@ -398,13 +422,13 @@ const DetailsViewUpdate = ({
               // serverError={serverError}
               className=" m-0"
             >
-              {({ register, control, formState: { errors } }) => (
+              {({ register, control, setValue, formState: { errors } }) => (
                 <div className="flex gap-2 w-full items-center">
                   <div className="text-gray-800 flex-1 dark:text-gray-200">
                     <FormItem className="!mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ||
-                        editRow.fieldType === "radio" ? (
+                          editRow.fieldType === "radio" ? (
                           <DetailsViewUpdateDD
                             optionData={editRow}
                             control={control}
@@ -418,6 +442,16 @@ const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           ></Textarea>
+                        ) : editRow.fieldType === "checkbox" ? (
+                          <CheckboxField
+                            editRow={editRow}
+                            saveData={saveData}
+                            control={control}
+                            setValue={setValue}
+                            name={editRow.key}
+                            setSelectedValues={setSelectedValues}
+                            selectedValues={selectedValues || []}
+                          />
                         ) : editRow.fieldType === "date" ? (
                           <Input
                             type="date"
@@ -462,6 +496,7 @@ const DetailsViewUpdate = ({
                       variant="hubSpot"
                       size="hubSpot"
                       isLoading={isLoading}
+                      onClick={() => onSubmit()}
                     >
                       <IconTickSmall />
                     </Button>
