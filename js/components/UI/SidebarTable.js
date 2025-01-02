@@ -18,7 +18,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const numOfPages = Math.ceil(totalItems / itemsPerPage);
+  const [numOfPages,setNumOfPages] = useState(Math.ceil(31 / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
   const { me } = useMe();
@@ -123,6 +123,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
+        console.log(data.data.total, "data received data.data.total");
       }
     },
     onError: () => {
@@ -188,9 +189,6 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       ));
     }
   }, [currentTableData, currentPage, itemsPerPage]);
-  // useEffect(() => {
-  //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
-  // }, [inputValue]);
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true) {
@@ -198,17 +196,17 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
     } else {
       mapResponseData(hubSpotTableData);
     }
-  }, []);
+  }, [numOfPages]);
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true && sync === true) {
       getData();
     }
-  }, [sync]);
+  }, [sync,numOfPages]);
 
   useEffect(() => {
     getData();
-  }, [path]);
+  }, [path,numOfPages]);
 
   const setDialogData = (data) => {
     setModalData(data);

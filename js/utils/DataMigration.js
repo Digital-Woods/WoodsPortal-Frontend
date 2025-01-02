@@ -383,13 +383,10 @@ const renderCellContent = (
       </div>
     );
   }
-  if (!value) {
-    return "--";
-  }
-  
+
   if (
     (type === "details" || type === "associations" || type === 'list') &&
-    (column?.fieldType === "checkbox" )
+    (column?.fieldType === "checkbox")
   ) {
     if (Array.isArray(value) && value.length > 0) {
       const labels = value.map((item) => item.label).join(", ");
@@ -397,12 +394,15 @@ const renderCellContent = (
     }
     return "--";
   }
+  if (!value) {
+    return "--";
+  }
 
   if (type == "details" || type == "associations" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 min-w-[153px] relative justify-between">
         <div className="flex gap-5 flex-col items-start">
-          {isObject(value)? value.label
+          {isObject(value) ? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))}
         </div>
       </div>
@@ -480,13 +480,25 @@ const renderCellContent = (
   if (isObject(value)) return truncatedText(value.label) || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
-  return type == "list" && isTruncated ? (
-    <Tooltip content={value}>
-      <Link className="dark:text-white">{truncated}</Link>
-    </Tooltip>
-  ) : (
-    truncatedText(value)
-  );
+  if (type === 'list') {
+    if (column?.fieldType === "checkbox") {
+      if (Array.isArray(value) && value.length > 0) {
+        const labels = value.map((item) => item.label).join(", ");
+        return labels;
+      }
+    }
+
+    if (isTruncated) {
+      return (
+        <Tooltip content={value}>
+          <Link className="dark:text-white">{truncated}</Link>
+        </Tooltip>
+      );
+    } else {
+      return truncatedText(value);
+    }
+  }
+
 };
 
 // const renderCellContent = (value, itemId = null, path = null) => {

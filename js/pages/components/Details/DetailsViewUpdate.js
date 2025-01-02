@@ -393,7 +393,7 @@ const DetailsViewUpdate = ({
 
   const onSubmit = (data) => {
 
-    if(!data){
+    if(!data && editRow.fieldType != "checkbox"){
       return
     }
 

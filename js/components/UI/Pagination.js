@@ -22,6 +22,8 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
     setArrOfCurrButtons(tempNumberOfButtons);
   }, [currentPage, numOfPages]);
 
+  console.log(currentPage, numOfPages,'currentPage, numOfPages');
+
   return (
     <div className="flex justify-end items-center py-6 px-2">
       <ul className="flex items-center space-x-2">

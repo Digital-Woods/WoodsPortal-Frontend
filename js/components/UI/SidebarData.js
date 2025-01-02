@@ -12,18 +12,15 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("-hs_createdate");
+  const [sortConfig, setSortConfig] = useState("hs_createdate");
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  // const numOfPages = Math.ceil(totalItems / itemsPerPage);
-  const [numOfPages, setNumOfPages] = useState(0); 
+  const [numOfPages,setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
-
-
   const { me } = useMe();
 
   useEffect(() => {
@@ -49,7 +46,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       });
       setCurrentTableData(foundItem.results.rows);
       setTotalItems(foundItem.results.rows.length || 0);
-      setNumOfPages(Math.ceil(foundItem.results.rows.length || 0 / itemsPerPage));
       setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
       if (foundItem.results.rows.length > 0) {
         setTableHeader(sortData(foundItem.results.columns));
@@ -62,7 +58,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       const columns = data.data.results.columns || [];
       setTableData(results);
       setTotalItems(data.data.total || 0);
-      setNumOfPages(Math.ceil(data.data.total || 0 / itemsPerPage));
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
       // if (results.length > 0) {
@@ -128,6 +123,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
+        setNumOfPages(Math.ceil(data.data.total / itemsPerPage));
       }
     },
     onError: () => {
@@ -194,24 +190,23 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     }
   }, [currentTableData, currentPage, itemsPerPage]);
 
-
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true) {
       getData();
     } else {
       mapResponseData(hubSpotTableData);
     }
-  }, []);
+  }, [numOfPages]);
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true && sync === true) {
       getData();
     }
-  }, [sync]);
+  }, [sync,numOfPages]);
 
   useEffect(() => {
     getData();
-  }, [path]);
+  }, [path,numOfPages]);
 
   const setDialogData = (data) => {
     setModalData(data);
