@@ -47,6 +47,10 @@ function isObject(data) {
   if (data == null) return false;
   return typeof data === "object";
 }
+function isArray(data) {
+  if (!Array.isArray(data)) return false;
+  return data.every(item => typeof item === "object" && item !== null);
+}
 
 function isEmptyObject(data) {
   return Object.keys(data).length === 0;
@@ -383,7 +387,6 @@ const renderCellContent = (
       </div>
     );
   }
-
   if (
     (type === "details" || type === "associations" || type === 'list') &&
     (column?.fieldType === "checkbox")
@@ -476,19 +479,20 @@ const renderCellContent = (
       </div>
     );
   }
+  if (isArray(value) && value.length > 0) {
+    const labels = value.map((item) => item.label).join(", ");
+    return (
+      <Tooltip content={labels}>
+        <Link className="dark:text-white">{truncatedText(labels)}</Link>
+      </Tooltip>
+    );
+  }
 
   if (isObject(value)) return truncatedText(value.label) || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
-  if (type === 'list') {
-    if (column?.fieldType === "checkbox") {
-      if (Array.isArray(value) && value.length > 0) {
-        const labels = value.map((item) => item.label).join(", ");
-        return labels;
-      }
-    }
-
-    if (isTruncated) {
+  
+    if (type === 'list' && isTruncated) {
       return (
         <Tooltip content={value}>
           <Link className="dark:text-white">{truncated}</Link>
@@ -497,7 +501,6 @@ const renderCellContent = (
     } else {
       return truncatedText(value);
     }
-  }
 
 };
 
