@@ -18,7 +18,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const numOfPages = Math.ceil(totalItems / itemsPerPage);
+  // const numOfPages = Math.ceil(totalItems / itemsPerPage);
+  const [numOfPages, setNumOfPages] = useState(0); 
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -48,6 +49,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       });
       setCurrentTableData(foundItem.results.rows);
       setTotalItems(foundItem.results.rows.length || 0);
+      setNumOfPages(Math.ceil(foundItem.results.rows.length || 0 / itemsPerPage));
       setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
       if (foundItem.results.rows.length > 0) {
         setTableHeader(sortData(foundItem.results.columns));
@@ -60,6 +62,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       const columns = data.data.results.columns || [];
       setTableData(results);
       setTotalItems(data.data.total || 0);
+      setNumOfPages(Math.ceil(data.data.total || 0 / itemsPerPage));
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
 
       // if (results.length > 0) {

@@ -34,7 +34,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
 
   useEffect(() => {
     if (
-      optionData?.key === "dealstage"
+      optionData?.key === "dealstage" || optionData?.key === "hs_pipeline_stage"
     ) {
       const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
       const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
@@ -138,7 +138,7 @@ const DetailsViewUpdateDialog = ({
   }, []);
 
   const createValidationSchemaPipeline = (data) => {
-    console.log('isObject', isObject(data))
+    // console.log('isObject', isObject(data))
     const schemaShape = {};
     schemaShape[value.key] = z.string().nonempty({
       message: `${value.customLabel || value.label} is required.`,
@@ -190,7 +190,6 @@ const DetailsViewUpdateDialog = ({
               {({ register, control, formState: { errors } }) => (
                 <div>
                   <div className="text-gray-800 dark:text-gray-200 text-left">
-                    {console.log('pipelines', pipelines)}
                     {pipelines && (
                       <div>
                         <FormItem className="mb-0">
@@ -393,6 +392,11 @@ const DetailsViewUpdate = ({
   }, [selectedValues]);
 
   const onSubmit = (data) => {
+
+    if(!data){
+      return
+    }
+
     if (editRow.fieldType === "checkbox") {
       const formattedData = {
         [editRow.key]: selectedValues
