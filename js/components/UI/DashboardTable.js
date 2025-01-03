@@ -248,8 +248,6 @@ const DashboardTable = ({
     setHoverRow(row)
   };
 
-  console.log(tableData, 'tableData');
-
   return (
     <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden`}>
       {isLoading && <div className="loader-line m-2"></div>}
