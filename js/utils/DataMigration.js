@@ -47,6 +47,10 @@ function isObject(data) {
   if (data == null) return false;
   return typeof data === "object";
 }
+function isArray(data) {
+  if (!Array.isArray(data)) return false;
+  return data.every(item => typeof item === "object" && item !== null);
+}
 
 function isEmptyObject(data) {
   return Object.keys(data).length === 0;
@@ -383,13 +387,9 @@ const renderCellContent = (
       </div>
     );
   }
-  if (!value) {
-    return "--";
-  }
-  
   if (
     (type === "details" || type === "associations" || type === 'list') &&
-    (column?.fieldType === "checkbox" )
+    (column?.fieldType === "checkbox")
   ) {
     if (Array.isArray(value) && value.length > 0) {
       const labels = value.map((item) => item.label).join(", ");
@@ -397,12 +397,15 @@ const renderCellContent = (
     }
     return "--";
   }
+  if (!value) {
+    return "--";
+  }
 
   if (type == "details" || type == "associations" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 min-w-[153px] relative justify-between">
         <div className="flex gap-5 flex-col items-start">
-          {isObject(value)? value.label
+          {isObject(value) ? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))}
         </div>
       </div>
@@ -476,17 +479,29 @@ const renderCellContent = (
       </div>
     );
   }
+  if (isArray(value) && value.length > 0) {
+    const labels = value.map((item) => item.label).join(", ");
+    return (
+      <Tooltip content={labels}>
+        <Link className="dark:text-white">{truncatedText(labels)}</Link>
+      </Tooltip>
+    );
+  }
 
   if (isObject(value)) return truncatedText(value.label) || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
-  return type == "list" && isTruncated ? (
-    <Tooltip content={value}>
-      <Link className="dark:text-white">{truncated}</Link>
-    </Tooltip>
-  ) : (
-    truncatedText(value)
-  );
+  
+    if (type === 'list' && isTruncated) {
+      return (
+        <Tooltip content={value}>
+          <Link className="dark:text-white">{truncated}</Link>
+        </Tooltip>
+      );
+    } else {
+      return truncatedText(value);
+    }
+
 };
 
 // const renderCellContent = (value, itemId = null, path = null) => {
