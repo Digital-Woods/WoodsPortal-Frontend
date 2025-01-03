@@ -12,13 +12,13 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("hs_createdate");
+  const [sortConfig, setSortConfig] = useState("-hs_createdate");
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [numOfPages,setNumOfPages] = useState(Math.ceil(31 / itemsPerPage));
+  const [numOfPages,setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
   const { me } = useMe();
@@ -123,7 +123,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
-        console.log(data.data.total, "data received data.data.total");
+        setNumOfPages(Math.ceil(data.data.total / itemsPerPage));
       }
     },
     onError: () => {
