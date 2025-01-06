@@ -1,7 +1,8 @@
 class Client {
   static authentication = {
     preLogin: (data) => HttpClient.post(API_ENDPOINTS.PRE_LOGIN, data),
-    login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
+    // login: (data) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
+    login: (data, hub_id) => HttpClient.post(`${API_ENDPOINTS.USERS_LOGIN}?portal=portal_client&hubId=${hub_id}`, data),
     existingUserRegister: (data) => HttpClient.post(API_ENDPOINTS.EXISTING_USER_REGISTER, data),
     verifyEmail: (data) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL, data),
     verifyOtp: (data) => HttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),

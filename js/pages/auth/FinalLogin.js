@@ -113,7 +113,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         const response = await Client.authentication.login({
           username: entredEmail,
           password: input.password,
-        });
+        }, hubId);
         return response;
       } catch (error) {
         throw error;
@@ -171,7 +171,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
   });
 
   const onSubmit = (data) => {
-    login(data);
+    login(data, hubId);
   };
 
   const togglePasswordVisibility = () => {
