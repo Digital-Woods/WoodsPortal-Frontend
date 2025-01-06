@@ -45,7 +45,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
       setAlert({ message: data.statusMsg, type: "success" });
       setTimeout(() => {
         // setActiveState('pre-login')
-        setIsResend(true)
+        setIsResend(false);
       }, 1000);
     },
 
@@ -130,7 +130,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
         <p className="text-center dark:text-white">
         { baseCompanyOptions.welcomeMessage || "Welcome" }
         </p>
-        {!resend ?
+        {resend ?
           <div className="flex flex-col items-center justify-center w-full">
             <div className="w-full">
               <Form
