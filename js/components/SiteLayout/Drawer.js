@@ -56,20 +56,34 @@ const Drawer = ({ className }) => {
   };
   const shouldShowTooltip = brandName.length > 10;
 
-  const mutation = useMutation({
-    mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
-    onSuccess: () => {
-      setLogoutDialog(false);
-      window.location.href = "/login";
-    },
-    onError: (error) => {
-      console.error("Logout failed", error);
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
+  //   onSuccess: () => {
+  //     setLogoutDialog(false);
+  //     window.location.href = "/login";
+  //   },
+  //   onError: (error) => {
+  //     console.error("Logout failed", error);
+  //   },
+  // });
   useEffect(() => {
     setSideBarOptions(hubSpotUserDetails.sideBarOptions);
   })
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
+
+  const handleSetActiveRoute = useCallback(
+    (path) => {
+      setActiveRoute((prev) => {
+        if (prev !== path) {
+          return path;
+        }
+        return prev;
+      });
+      setSidebarOpen(false);
+      window.location.hash = path;
+    },
+    []
+  );
 
   return (
     <div>
@@ -119,7 +133,7 @@ const Drawer = ({ className }) => {
               </div>
               <div
                 className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center max-lg:hidden flex`}
-                onClick={toggleSidebar}
+                onClick={() => toggleSidebar()}
               >
                 <SidebarTogglerIcon />
               </div>
@@ -135,12 +149,12 @@ const Drawer = ({ className }) => {
                 <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-230px)]'} overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
-                      <NavLink
+                      <div
                         key={path}
                         to={path}
-                        className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
+                        className={`cursor-pointer block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
                           }`}
-                        onClick={() => {setActiveRoute(path);setSidebarOpen(false);}}
+                        onClick={() => handleSetActiveRoute(path)}
                       >
                         <div
                           className={`flex items-center text-sidelayoutTextColor dark:text-white gap-x-3 gap-y-1 ${sidebarCollapsed
@@ -162,7 +176,7 @@ const Drawer = ({ className }) => {
                             {`${title}`}
                           </p>
                         </div>
-                      </NavLink>
+                      </div>
                     ))}
                   {routes.length > 7 && (
                     <div className="sticky -bottom-[2] left-0 right-0 h-20 pointer-events-none">
@@ -294,3 +308,5 @@ const Drawer = ({ className }) => {
     </div>
   );
 };
+
+React.memo(Drawer)
