@@ -10,8 +10,7 @@
 //   </svg>
 // );
 
-const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
-  id }) => {
+const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id }) => {
   const { sync, setSync } = useSync();
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
@@ -197,10 +196,6 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
       onClose();
     }
 
-
-
-
-    console.log(formData);
     return;
     e.preventDefault();
     e.target.reset();
@@ -257,7 +252,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                 </div>
                 <form onSubmit={fileUploadSubmit} className="max-w-screen !mb-0">
                   <div className="kb-file-upload">
-                    <div className="file-upload-box dark:bg-dark-300 dark:text-white">
+                    <div className={`file-upload-box dark:bg-dark-300 dark:text-white ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
                       {/* <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +273,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                       />
                       <p> Drag and drop </p>
                       <p> or </p>
-                      <p className="border-2 border-black text-black dark:border-white dark:text-white p-2 rounded-lg !mt-3 font-semibold">
+                      <p className={`px-6 py-2 text-sm font-medium rounded-md !mt-3 ${isUploading ? `border border-gray-600 text-gray-600 dark:border-gray-600 dark:text-gray-600 cursor-not-allowed ...`:`border border-secondary text-secondary dark:border-white dark:text-white`}`}>
                         Browse
                       </p>
                     </div>
@@ -300,7 +295,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                             <div className="file-actions ml-auto">
                               <button
                                 type="button"
-                                className="file-action-btn text-red-600 mr-0"
+                                className={`file-action-btn text-red-600 mr-0 ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}
                                 onClick={() => deleteSelectFile(id)}
                                 disabled={isUploading}
                               >
@@ -314,7 +309,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                           isUploading && uploadProgress < 90 ?                         
                           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
                           <div
-                            className={`h-3 bg-[#2bc253] transition-all duration-300 w-[${uploadProgress+10}%]`}
+                            className={`h-3 bg-secondary transition-all duration-300 w-[${uploadProgress+10}%]`}
                           ></div>
                           </div> : null
                         }

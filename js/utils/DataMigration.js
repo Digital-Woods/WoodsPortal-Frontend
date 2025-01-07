@@ -298,12 +298,12 @@ const sortData = (list, type = "list") => {
 // };
 
 const replaceQuestionMarkToRegex = (text) => {
-  const replacedText = text.replace(/\?/g, "!");
+  const replacedText = text?.replace(/\?/g, "!");
   return replacedText;
 }
 
 const replaceRegexToQuestionMark = (text) => {
-  const replacedText = text.replace(/\?/g, "!");
+  const replacedText = text?.replace(/\?/g, "!");
   return replacedText;
 }
 
