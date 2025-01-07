@@ -18,12 +18,50 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
   const [isUploading, setIsUploading] = useState(false);
   const { me } = useMe();
 
+
+
+    // Added by Suman
+    const [file, setFile] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploadStatus, setUploadStatus] = useState("");
+
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   };
 
   const inputChange = (e) => {
+
+    const file = e.target.files[0];
+    setFile(file);
     let validFilesArray = [];
+    validFilesArray.push(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setSelectedFile((prevValue) => [
+        // ...prevValue,
+        {
+          id: generateUniqueId(),
+          filename: file.name,
+          filetype: file.type,
+          fileimage: reader.result,
+        },
+      ]);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
+    if (validFilesArray.length > 0) {
+      e.target.value = "";
+    }
+
+
+
+    return;
+
+    // let validFilesArray = [];
 
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i];
@@ -103,6 +141,67 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
   });
 
   const fileUploadSubmit = async (e) => {
+
+    setIsUploading(true);
+    e.preventDefault();
+
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+
+    const token = getAuthToken();
+
+    const formData = new FormData();
+    formData.append("file", file); // Append the selected file to FormData
+
+    const parentFolder = folderId === fileId ? "obj-root" : folderId;
+    const url = env.API_BASE_URL+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
+
+    try {
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted); // Update the progress
+        },
+      });
+
+      setFiles((prevValue) => [...prevValue, ...selectedFile]);
+      setSelectedFile([]);
+      setIsUploading(false);
+      setAlert({
+        message: "Files uploaded successfully!",
+        type: "success",
+        show: true,
+      });
+      // refetch();
+      setSync(true)
+      onClose();
+      // setUploadStatus("File uploaded successfully!");
+      console.log("Server Response:", response.data);
+    } catch (error) {
+      console.error("Upload Error:", error);
+      // setUploadStatus("File upload failed.");
+      setIsUploading(false);
+      setAlert({
+        message: "Error uploading files!",
+        type: "error",
+        show: true,
+      });
+      onClose();
+    }
+
+
+
+
+    console.log(formData);
+    return;
     e.preventDefault();
     e.target.reset();
 
@@ -136,6 +235,14 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
     setAlert((prev) => ({ ...prev, show: false }));
   };
 
+
+  const truncateText = (text, maxLength) =>{
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  }
+
   return (
     <div className="fileupload-view relative">
       <div className="row justify-center m-0">
@@ -151,7 +258,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                 <form onSubmit={fileUploadSubmit} className="max-w-screen !mb-0">
                   <div className="kb-file-upload">
                     <div className="file-upload-box dark:bg-dark-300 dark:text-white">
-                      <div>
+                      {/* <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           height="40px"
@@ -161,12 +268,13 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                         >
                           <path d="..." />
                         </svg>
-                      </div>
+                      </div> */}
                       <input
                         type="file"
                         id="fileupload"
                         className="file-upload-input"
                         onChange={inputChange}
+                        disabled={isUploading}
                       />
                       <p> Drag and drop </p>
                       <p> or </p>
@@ -175,37 +283,59 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId,
                       </p>
                     </div>
                   </div>
-                  <div className="kb-attach-box mb-3 max-h-[100px] overflow-y-scroll scrollbar">
+                  {/* max-h-[100px] overflow-y-scroll */}
+                  <div className="kb-attach-box mb-3  scrollbar">
                     {selectedFile.map((data) => {
                       const { id, filename } = data;
                       return (
                         <div
-                          className="file-atc-box border border-gray-300 rounded-lg shadow-md p-2 mb-2"
+                          className="file-atc-box border border-gray-300 rounded-sm shadow-md p-2 mb-2 flex-col"
                           key={id}
                         >
                           <div className="file-detail flex items-center">
                             <div className="">{getIcon(filename)}</div>
-                            <div className="ml-2 text-sm dark:text-white font-medium">
-                              {filename}
+                            <div className="mx-2 text-sm dark:text-white font-medium text-left">
+                              {truncateText(filename, 80)}
                             </div>
                             <div className="file-actions ml-auto">
                               <button
                                 type="button"
-                                className="file-action-btn text-red-600"
+                                className="file-action-btn text-red-600 mr-0"
                                 onClick={() => deleteSelectFile(id)}
+                                disabled={isUploading}
                               >
                                 Delete
                               </button>
                             </div>
                           </div>
+                        {/* Progress Bar */}
+                        <div className={`transition-all w-[100%] duration-300 ${isUploading ? "opacity-100" : "opacity-0"} overflow-hidden`}>
+                        {
+                          isUploading && uploadProgress < 90 ?                         
+                          <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
+                          <div
+                            className={`h-3 bg-[#2bc253] transition-all duration-300 w-[${uploadProgress+10}%]`}
+                          ></div>
+                          </div> : null
+                        }
+                        {
+                          isUploading && uploadProgress > 90  ? 
+                          <div class="meter">
+                            <span></span>
+                          </div> : null
+                        }
+                        </div>
+
                         </div>
                       );
                     })}
                   </div>
+
                   <div className="flex items-center gap-3 justify-end">
                     <Button
                       variant='outline'
                       onClick={onClose}
+                      disabled={isUploading}
                     >
                       Cancel
                     </Button>
