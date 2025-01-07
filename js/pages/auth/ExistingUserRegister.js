@@ -259,7 +259,6 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
             </p>
             <div className="flex justify-between space-x-4">
               <Button
-                className="w-[50%]"
                 variant="outline"
                 onClick={() => setActiveState('pre-login')}
               >
@@ -274,7 +273,6 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
                 {isLoading ? 'Sending...' : 'Resend'}
               </Button> */}
               <Button
-                className="w-[50%]"
                 isLoading={isLoadingResend}
                 onClick={() => resendEmail()}
               >
