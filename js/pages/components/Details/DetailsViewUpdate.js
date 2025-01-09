@@ -24,7 +24,9 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       }
     },
     onSuccess: async (response) => {
-      setOptions(response.data);
+      // console.log("comes here", response);
+      setOptions([])
+      setOptions((value) => response.data);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -40,6 +42,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
       if (found) getStags(getValue(found.value, "value"));
     } else {
+      // console.log("comes here in else");
       // console.log(optionData.options);
       setOptions(optionData.options);
     }
@@ -79,6 +82,9 @@ const DetailsViewUpdateDialog = ({
   const [initialValues, setInitialValues] = useState(null);
   const [pipelines, setPipelines] = useState(null);
   const [stages, setStages] = useState({options:[],key:""});
+  const [isDealEdit, setIsDealEdit] = useState(false);
+
+
 
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
@@ -113,7 +119,7 @@ const DetailsViewUpdateDialog = ({
         // "isEditableField":true,
         // "fieldType":"select",
         // "isPrimaryDisplayProperty":false,
-        "key":"hs_pipeline_stage",
+        "key":isDealEdit ?"dealstage":hs_pipeline_stage,
         "apidata":true
       });
     },
@@ -133,6 +139,9 @@ const DetailsViewUpdateDialog = ({
           (item) =>
             item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
         );
+        if(filterStage.key == "dealstage"){
+          setIsDealEdit(true);
+        }
         // console.log(filterStage);
         setStages(filterStage);
       }
@@ -196,6 +205,8 @@ const DetailsViewUpdateDialog = ({
   };
 
   const onChangeSelect = (filled, value) => {
+
+    // console.log(filled);
     getStags(value);
 
     // const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
@@ -227,8 +238,10 @@ const DetailsViewUpdateDialog = ({
               // serverError={serverError}
               className="dark:bg-dark-500 m-0"
             >
-              {({ register, control, watch,  formState: { errors } }) => (
+              {({ getValues, register, control, watch,  formState: { errors } }) => (
                 <div>
+
+                  {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>
