@@ -179,7 +179,7 @@ const DetailsViewUpdateDialog = ({
       }
     });
 
-    if(!Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")){
+    if(!Object.prototype.hasOwnProperty.call(schemaShape, "dealstage") && !Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")){
       schemaShape['hs_pipeline_stage'] = z.string().nonempty({
         message: `Stage is required.`,
       });
