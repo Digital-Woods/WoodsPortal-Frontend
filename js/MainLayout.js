@@ -100,14 +100,14 @@ const MainLayout = ({ children }) => {
   useEffect(() => {
     const sideMenu = [
       {
-        "name": "CONTACT",
-        "labels": {
-          "singular": "Contact",
-          "plural": "Contacts"
+        name: "CONTACT",
+        labels: {
+          singular: "Contact",
+          plural: "Contacts",
         },
-        "hubspotObjectId": 1,
-        "hubspotObjectTypeId": "0-1",
-        "children": hubSpotUserDetails.sideMenu,
+        hubspotObjectId: 1,
+        hubspotObjectTypeId: "0-1",
+        children: hubSpotUserDetails.sideMenu,
         // "children": [
         //   {
         //     "name": "cabins",
@@ -151,8 +151,8 @@ const MainLayout = ({ children }) => {
         //     "children": []
         //   }
         // ]
-      }
-    ]
+      },
+    ];
 
     const apiRoutes = sideMenu[0].children.map((menuItem) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
@@ -170,7 +170,6 @@ const MainLayout = ({ children }) => {
         />
       ),
     }));
-    
 
     setRoutes(apiRoutes);
     setIsLoading(false);
@@ -187,7 +186,9 @@ const MainLayout = ({ children }) => {
   if (isLoading) {
     return (
       <div className="text-center p-10 w-full h-screen flex items-center justify-center">
-        <div className="loader"><div className="loader-line"></div></div>
+        <div className="loader">
+          <div className="loader-line"></div>
+        </div>
       </div>
     );
   }
@@ -233,12 +234,14 @@ const MainLayout = ({ children }) => {
       ) : (
         <div className="dark:bg-dark-200 bg-cleanWhite lg:flex-col flex lg:h-[100vh] h-[100vh]">
           <Drawer
-            className={`duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${sidebarCollapsed ? "[75px]" : "[300px]"
-              }`}
+            className={`duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
+              sidebarCollapsed ? "[75px]" : "[300px]"
+            }`}
           />
           <div
-            className={`dark:bg-dark-200  lg:h-[100vh] h-[100vh] bg-cleanWhite duration-300 ml-auto w-full lg:w-${sidebarCollapsed ? "[calc(100%_-_75px)]" : "[calc(100%_-_300px)]"
-              }`}
+            className={`dark:bg-dark-200  lg:h-[100vh] h-[100vh] bg-cleanWhite duration-300 ml-auto w-full lg:w-${
+              sidebarCollapsed ? "[calc(100%_-_75px)]" : "[calc(100%_-_300px)]"
+            }`}
           >
             <Switch>
               {/* Default Route */}
@@ -339,7 +342,11 @@ const MainLayout = ({ children }) => {
                       title={props.match.params.path}
                       icon={``}
                     />
-                    <Details path={props.match.params.path} objectId={props.match.params.object_id} id={props.match.params.id} />
+                    <Details
+                      path={props.match.params.path}
+                      objectId={props.match.params.object_id}
+                      id={props.match.params.id}
+                    />
                   </React.Fragment>
                 )}
               />
@@ -377,13 +384,23 @@ const MainLayout = ({ children }) => {
                         title={`${title}`}
                         icon={icon}
                       />
-                      <DynamicComponent
-                        {...props}
-                        hubspotObjectTypeId={hubspotObjectTypeId}
-                        path={path}
-                        title={`${title}`}
-                        icon={icon}
-                      />
+                      {path === "/home" ? (
+                        <Home
+                          {...props}
+                          hubspotObjectTypeId={hubspotObjectTypeId}
+                          path={path}
+                          title={`${title}`}
+                          icon={icon}
+                        />
+                      ) : (
+                        <DynamicComponent
+                          {...props}
+                          hubspotObjectTypeId={hubspotObjectTypeId}
+                          path={path}
+                          title={`${title}`}
+                          icon={icon}
+                        />
+                      )}
                     </React.Fragment>
                   )}
                 />

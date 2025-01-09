@@ -190,28 +190,32 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     }
   }, [currentTableData, currentPage, itemsPerPage]);
 
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true) {
-      getData();
-    } else {
-      mapResponseData(hubSpotTableData);
-    }
-  }, [numOfPages]);
+  // useEffect(() => {
+  //   if (env.DATA_SOURCE_SET != true) {
+  //     getData();
+  //   } else {
+  //     mapResponseData(hubSpotTableData);
+  //   }
+  // }, [numOfPages]);
 
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true && sync === true) {
-      getData();
-    }
-  }, [sync,numOfPages]);
+  // useEffect(() => {
+  //   if (env.DATA_SOURCE_SET != true && sync === true) {
+  //     getData();
+  //   }
+  // }, [sync,numOfPages]);
+
+  // useEffect(() => {
+  //   getData();
+  // }, [path,numOfPages]);
 
   useEffect(() => {
     getData();
-  }, [path,numOfPages]);
+  }, []);
 
-  const setDialogData = (data) => {
-    setModalData(data);
-    setOpenModal(true);
-  };
+  // const setDialogData = (data) => {
+  //   setModalData(data);
+  //   setOpenModal(true);
+  // };
 
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
