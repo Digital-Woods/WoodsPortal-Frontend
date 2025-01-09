@@ -1,3 +1,5 @@
+const pendingRequests = new Map();
+
 const Axios = axios.create({
   baseURL: env.API_BASE_URL,
   timeout: 150000000,
@@ -32,6 +34,21 @@ Axios.interceptors.request.use(
         Authorization: `Bearer ${token}`,
       };
     }
+
+    const requestIdentifier = `${config.url}_${config.method}`;
+    // check if there is already a pending request with the same identifier
+    if (pendingRequests.has(requestIdentifier)) {
+      const cancelTokenSource = pendingRequests.get(requestIdentifier);
+      // cancel the previous request
+      cancelTokenSource.cancel("Cancelled due to new request");
+    }
+
+    // create a new CancelToken
+    const newCancelTokenSource = axios.CancelToken.source();
+    config.cancelToken = newCancelTokenSource.token;
+
+    // store the new cancel token source in the map
+    pendingRequests.set(requestIdentifier, newCancelTokenSource);
 
     return config;
   },

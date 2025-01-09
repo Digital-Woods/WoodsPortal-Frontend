@@ -190,23 +190,26 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
     }
   }, [currentTableData, currentPage, itemsPerPage]);
 
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true) {
-      getData();
-    } else {
-      mapResponseData(hubSpotTableData);
-    }
-  }, [numOfPages]);
+    // useEffect(() => {
+    //   if (env.DATA_SOURCE_SET != true) {
+    //     getData();
+    //   } else {
+    //     mapResponseData(hubSpotTableData);
+    //   }
+    // }, [numOfPages]);
 
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true && sync === true) {
-      getData();
-    }
-  }, [sync,numOfPages]);
+    // useEffect(() => {
+    //   if (env.DATA_SOURCE_SET != true && sync === true) {
+    //     getData();
+    //   }
+    // }, [sync,numOfPages]);
 
-  useEffect(() => {
-    getData();
-  }, [path,numOfPages]);
+    // useEffect(() => {
+    //   getData();
+    // }, [path,numOfPages]);
+    useEffect(() => {
+      getData();
+    }, []);
 
   const setDialogData = (data) => {
     setModalData(data);
