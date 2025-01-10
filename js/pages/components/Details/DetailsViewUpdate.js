@@ -142,9 +142,11 @@ const DetailsViewUpdateDialog = ({
         const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data;
         const filterStage = dataLoop.find(
           (item) => 
-            item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
+            // item.key === "hs_pipeline_stage" || item.key === "dealstage" || item.key === "pipeline"
+          item.key === "hs_pipeline_stage" || item.key === "dealstage"
         );
 
+        console.log(filterStage);
 
         if(filterStage?.key == "dealstage"){
           setIsDealEdit(true);
@@ -162,7 +164,8 @@ const DetailsViewUpdateDialog = ({
     const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
     const filterStage = dataLoop.find(
       (item) =>
-        item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
+        // item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
+      item.key === "hs_pipeline_stage" || item.key === "dealstage"
     );
 
     let defValue = {};
@@ -248,7 +251,7 @@ const DetailsViewUpdateDialog = ({
               {({ getValues, register, control, watch,  formState: { errors } }) => (
                 <div>
 
-                  {/* {JSON.stringify(getValues())} */}
+                  {JSON.stringify(getValues())}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>
