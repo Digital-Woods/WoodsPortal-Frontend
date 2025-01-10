@@ -2,6 +2,8 @@
 const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChangeSelect = null }) => {
   const [options, setOptions] = useState([]);
 
+  
+
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
       return type === "label" ? value.label : value.value;
@@ -11,7 +13,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   const { mutate: getStags, isLoading } = useMutation({
     mutationKey: ["getStageData1"],
     mutationFn: async (pipelineId) => {
-      console.log("im getting called");
+      // console.log("im getting called");
       try {
         const response = await Client.details.stages({
           params: {
@@ -25,7 +27,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       }
     },
     onSuccess: async (response) => {
-      // console.log("comes here", response);
+      console.log("comes here", response);
       setOptions([])
       setOptions((value) => response.data);
     },
@@ -36,6 +38,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   });
 
   useEffect(() => {
+    // console.log(data);
     if (
       !optionData.apidata && (optionData?.key === "dealstage" || optionData?.key === "hs_pipeline_stage")
     ) {
@@ -251,7 +254,7 @@ const DetailsViewUpdateDialog = ({
               {({ getValues, register, control, watch,  formState: { errors } }) => (
                 <div>
 
-                  {JSON.stringify(getValues())}
+                  {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>
@@ -356,7 +359,7 @@ const DetailsViewUpdate = ({
 
   // checking if data is object
   useEffect(() => {
-
+    console.log("item updated", item);
     // check data is object or array
     if(typeof item === "object" && !Array.isArray(item)){
       let arrayKeys = Object.keys(item);
@@ -369,7 +372,7 @@ const DetailsViewUpdate = ({
       setData(item);    
     }
     // console.log(selectedValues, "selectedValues from component");
-  }, []);
+  }, [item]);
   
 
 // Additional
@@ -405,10 +408,11 @@ const DetailsViewUpdate = ({
       }
     },
     onSuccess: async (data) => {
+      console.log(data);
       setPipelineDialog(false);
       setEditRow(null);
-      // refetch();
       setSync(true);
+      // refetch();
       setAlert({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {
