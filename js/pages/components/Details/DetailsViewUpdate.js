@@ -119,7 +119,7 @@ const DetailsViewUpdateDialog = ({
         // "isEditableField":true,
         // "fieldType":"select",
         // "isPrimaryDisplayProperty":false,
-        "key":isDealEdit ?"dealstage":hs_pipeline_stage,
+        "key":isDealEdit ?"dealstage":"hs_pipeline_stage",
         "apidata":true
       });
     },
