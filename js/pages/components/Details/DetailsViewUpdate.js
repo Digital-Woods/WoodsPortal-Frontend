@@ -251,7 +251,7 @@ const DetailsViewUpdateDialog = ({
               {({ getValues, register, control, watch,  formState: { errors } }) => (
                 <div>
 
-                  {JSON.stringify(getValues())}
+                  {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>

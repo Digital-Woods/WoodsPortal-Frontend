@@ -143,11 +143,11 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
           onClick={() => handleRowClick(file)} // This will still allow row clicking for folders
         >
           <TableCell className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
-            <div>{getIcon(file.name)}</div>
+            <div className='w-[24px]'>{getIcon(file.type == 'folder' ? '.folder': file.name)}</div>
           </TableCell>
 
           <TableCell className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
-            <div className="dark:text-white">{file.name}</div>
+            <div className="dark:text-white">{truncatedText(file.name,'100')}</div>
           </TableCell>
           <TableCell className="px-4 py-2 whitespace-nowrap text-left text-xs dark:text-white">
             <div>{file.type}</div>
@@ -240,8 +240,8 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
   };
 
   return (
-    <div className="table-container w-full rounded-md ">
-      <Table className="w-full dark:bg-[#2a2a2a] table-auto">
+    <div className="table-container  rounded-md ">
+      <Table className="w-full overflow-x-scroll overflow-y-visible whitespace-nowrap dark:bg-[#2a2a2a]">
         <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
           <TableRow>
             <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
