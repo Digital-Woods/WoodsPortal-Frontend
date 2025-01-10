@@ -252,7 +252,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
                   <FormControl>
                     <div className="relative">
                       <Input
-                      ref={passwordInputRef}
+                        autoFocus
                         placeholder="Password"
                         icon={passwordIcon}
                         type={showPassword ? "text" : "password"}

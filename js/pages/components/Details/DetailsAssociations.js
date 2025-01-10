@@ -25,7 +25,7 @@ const DetailsAssociations = ({
           </span>
 
           <Link
-            className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+            className="text-lightblue  font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
             to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
               association.labels.plural
             }&objectTypeId=${
@@ -39,7 +39,7 @@ const DetailsAssociations = ({
             }`}
           >
             <span>
-              <span className=" text-rstextcolor dark:text-white">
+              <span className=" text-rstextcolor hover:underline underline-offset-4 hover:text-lightblue  dark:text-white">
                 {association.labels.plural}
               </span>
               <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
