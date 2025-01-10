@@ -11,6 +11,8 @@ const DetailsAssociations = ({
 }) => {
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
+
+
   return (
     <Accordion
       className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"

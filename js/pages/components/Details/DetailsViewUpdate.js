@@ -11,6 +11,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   const { mutate: getStags, isLoading } = useMutation({
     mutationKey: ["getStageData1"],
     mutationFn: async (pipelineId) => {
+      console.log("im getting called");
       try {
         const response = await Client.details.stages({
           params: {
@@ -133,16 +134,22 @@ const DetailsViewUpdateDialog = ({
     if (initialValues) {
       setPipelines(editRow);
       if(editRow.value){
+
+        console.log(data);
+
+
         // getStags(getValue(editRow.value, "value"));
-        const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
+        const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data;
         const filterStage = dataLoop.find(
-          (item) =>
+          (item) => 
             item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
         );
-        if(filterStage.key == "dealstage"){
+
+
+        if(filterStage?.key == "dealstage"){
           setIsDealEdit(true);
         }
-        // console.log(filterStage);
+        console.log(filterStage);
         setStages(filterStage);
       }
 
@@ -270,6 +277,7 @@ const DetailsViewUpdateDialog = ({
                       </div>
                     )}
 
+                    {/* {JSON.stringify(stages)} */}
                     
                     {stages && (
                       <div>
@@ -336,11 +344,29 @@ const DetailsViewUpdate = ({
   const [editRowValue, setEditRowValue] = useState("");
   const [alert, setAlert] = useState(null);
   const [pipelineDialog, setPipelineDialog] = useState(false);
-  const [data, setData] = useState(item);
+  const [data, setData] = useState([]);
   const [stages, setStages] = useState(null);
   const [initialValues, setInitialValues] = useState(false);
   const { z } = Zod;
   const [selectedValues, setSelectedValues] = useState();
+
+
+  // checking if data is object
+  useEffect(() => {
+
+    // check data is object or array
+    if(typeof item === "object" && !Array.isArray(item)){
+      let arrayKeys = Object.keys(item);
+      let dataArray = [];
+      arrayKeys.forEach(element => {
+        dataArray.push({...item[element], key: element});
+      });
+      setData(dataArray);
+    }else{
+      setData(item);    
+    }
+    // console.log(selectedValues, "selectedValues from component");
+  }, []);
   
 
 // Additional
