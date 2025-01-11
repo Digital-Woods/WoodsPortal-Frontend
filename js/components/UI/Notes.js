@@ -387,7 +387,15 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
               onClick={expandToggleButton}
               className="text-white dark:text-white cursor-pointer"
             >
-              { expandDialog ? <ShrinkIcon width='22px' height='22px' /> : <ExpandIcon width='22px' height='22px' /> }
+              { expandDialog ?
+              <div title='Shrink window'>
+                <ShrinkIcon width='22px' height='22px' />
+              </div>
+                : 
+                <div title='Make window expand'>
+                  <ExpandIcon width='22px' height='22px' /> 
+                </div>
+                }
             </button>
             <button
               disabled={isPosting || isUploading}
