@@ -12,7 +12,7 @@ const NoteCard = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState(note.hs_note_body);
-  // const [permissions, setPermissions] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -34,7 +34,7 @@ const NoteCard = ({
     </svg>
   );
 
-  const openEditor = () => { };
+  const openEditor = () => {};
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -91,7 +91,13 @@ const NoteCard = ({
       >
         <div>
           <div className="flex items-center gap-2">
-            <div>{isOpen ? <Chevron transform="rotate(270)" /> : <Chevron transform="rotate(180)" />}</div>
+            <div>
+              {isOpen ? (
+                <Chevron transform="rotate(270)" />
+              ) : (
+                <Chevron transform="rotate(180)" />
+              )}
+            </div>
             <div className="flex justify-between items-center w-full">
               <p className="text-sm font-semibold  whitespace-nowrap">Note</p>
               <div>
@@ -105,12 +111,14 @@ const NoteCard = ({
               </div>
             </div>
           </div>
-          {isOpenEditor && (permissions && permissions.update) ? (
+          {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${isOpenEditor ? 'dark:text-dark-200' : 'dark:text-white'}`}
+              className={`p-4 cursor-text ${
+                isOpenEditor ? "dark:text-dark-200" : "dark:text-white"
+              }`}
               onClick={(e) => e.stopPropagation()}
             >
-              <CKEditor
+              <SummernoteEditor
                 initialData={escapeHTML(note.hs_note_body)}
                 attachments={note.hs_attachment_ids || []}
                 setEditorContent={setEditorContent}
@@ -121,11 +129,13 @@ const NoteCard = ({
                 setAttachmentId={null}
                 refetch={refetch}
                 objectId={objectId}
-                mainRowId={id}
+                setIsUploading={setIsUploading}
               />
               <div className="flex gap-x-2 mt-2">
                 <Button
-                  disabled={isLoadingUpdate || editorContent === ""}
+                  disabled={
+                    isLoadingUpdate || editorContent === "" || isUploading
+                  }
                   onClick={handleUpdateNote}
                   className="text-white"
                   size="sm"
@@ -133,6 +143,7 @@ const NoteCard = ({
                   {isLoadingUpdate ? "Updating..." : "Save"}
                 </Button>
                 <Button
+                  disabled={isLoadingUpdate || isUploading}
                   size="sm"
                   variant="outline"
                   onClick={() => {
@@ -147,10 +158,11 @@ const NoteCard = ({
           ) : (
             <div>
               <div
-                className={`py-3 pr-3 pl-6 ${!isOpen
-                  ? ""
-                  : "hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group cursor-text"
-                  }`}
+                className={`py-3 pr-3 pl-6 ${
+                  !isOpen
+                    ? ""
+                    : "hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group cursor-text"
+                }`}
                 onClick={(e) => {
                   if (isOpen) {
                     e.stopPropagation();
@@ -166,7 +178,11 @@ const NoteCard = ({
                     )}
                   </span>
 
-                  <div className={`${!isOpen ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0" : ""
+                  <div
+                    className={`${
+                      !isOpen
+                        ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
+                        : ""
                     }`}
                   ></div>
                 </div>
@@ -176,7 +192,10 @@ const NoteCard = ({
               </div>
               {isOpen && (
                 <div onClick={(e) => e.stopPropagation()}>
-                  <Attachments attachments={note.hs_attachment_ids || []} />
+                  <Attachments
+                    attachments={note.hs_attachment_ids || []}
+                    remove={false}
+                  />
                 </div>
               )}
             </div>
@@ -187,8 +206,9 @@ const NoteCard = ({
   );
 };
 
-const Notes = ({ path, objectId, id, permissions }) => {
+const Notes = ({ item, path, objectId, id, permissions }) => {
   const [showDialog, setShowDialog] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const { me } = useMe();
   const [editorContent, setEditorContent] = useState("");
   const [imageUploadUrl, setImageUploadUrl] = useState("");
@@ -274,11 +294,36 @@ const Notes = ({ path, objectId, id, permissions }) => {
     return <div className="loader-line"></div>;
   }
   if (error) {
-    return <div className="flex items-center text center p-4 h-28">Error fetching notes: {error.message}</div>;
+    return (
+      <div className="flex items-center text center p-4 h-28">
+        Error fetching notes: {error.message}
+      </div>
+    );
   }
   const results = data && data.data && data.data.results;
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
+
+  const getObjectName = () => {
+    let displayValue = "";
+
+    if (item) {
+      for (const key of Object.keys(item)) {
+        const valueObject = item[key];
+        if (
+          valueObject &&
+          valueObject.isPrimaryDisplayProperty &&
+          valueObject.value
+        ) {
+          displayValue = isObject(valueObject.value)
+            ? valueObject.value.label
+            : valueObject.value;
+        }
+      }
+    }
+    return displayValue || me.firstName;
+  };
+
   return (
     <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-[#212121]">
       {alert && (
@@ -291,7 +336,11 @@ const Notes = ({ path, objectId, id, permissions }) => {
       {permissions && permissions.create && (
         <div className="flex justify-end mt-2 mb-6 items-center">
           <Button className="text-white" onClick={() => setShowDialog(true)}>
-            <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create Note
+            <span className="mr-2">
+              {" "}
+              <IconPlus className="!w-3 !h-3" />{" "}
+            </span>{" "}
+            Create Note
           </Button>
         </div>
       )}
@@ -321,15 +370,15 @@ const Notes = ({ path, objectId, id, permissions }) => {
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className=" relative mx-auto bg-white overflow-y-auto max-h-[95vh] lg:w-[480px] md:w-[420px] w-[calc(100vw-28px)] "
+        className="relative mx-auto bg-white overflow-y-auto max-h-[95vh] lg:w-[480px] md:w-[420px] w-[calc(100vw-28px)] "
       >
         <div className="flex items-center mb-3">
           <p className="text-gray-600 dark:text-white text-xs">For</p>
           <p className="border rounded-full dark:text-white px-2 py-1 text-xs ml-2">
-            {me.firstName}
+            {getObjectName()}
           </p>
         </div>
-        <CKEditor
+        <SummernoteEditor
           attachments={[]}
           setEditorContent={setEditorContent}
           imageUploadUrl={imageUploadUrl}
@@ -338,18 +387,18 @@ const Notes = ({ path, objectId, id, permissions }) => {
           setAttachmentId={setAttachmentId}
           refetch={refetch}
           objectId={objectId}
-          mainRowId={id}
+          setIsUploading={setIsUploading}
         />
         <div className="mt-4 flex justify-end gap-3">
           <Button
-            disabled={isPosting}
-            variant='outline'
+            disabled={isPosting || isUploading}
+            variant="outline"
             onClick={() => setShowDialog(false)}
           >
             Cancel
           </Button>
           <Button
-            disabled={isPosting || editorContent.trim() === ""}
+            disabled={isPosting || editorContent.trim() === "" || isUploading}
             onClick={handleSaveNote}
           >
             {isPosting ? "Creating Note..." : "Create Note"}

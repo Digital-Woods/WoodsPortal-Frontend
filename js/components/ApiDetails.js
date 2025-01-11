@@ -208,7 +208,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
               )}
 
               {activeTab === "notes" && (
-                <Notes path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
+                <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
               )}
 
               {activeTab === "tickets" && (
