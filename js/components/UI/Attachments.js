@@ -85,19 +85,19 @@ const Attachments = ({
         ) : null}
       </div>
       <div className="flex items-start">
-        <ul class="list-none inline-block max-w-full">
+        <ul class="list-none inline-block flex flex-wrap gap-2 mt-4 max-w-full">
           {attachments.map((attachment) => (
-            <li className="p-2 bg-slate-200 border border-slate-300 rounded-sm mt-2 flex gap-1 text-sm flex items-center">
+            <li className="p-2 bg-[#f5f8fa] border border-[#eaf0f6] rounded-sm flex gap-1 text-sm flex items-center">
               <FileIcon />
-              <div class="flex gap-1">
+              <div class="flex gap-2">
                 <span
                   onClick={() => setSelectedFileId(attachment.id)}
-                  class="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  class="cursor-pointer font-semibold text-xs text-lightblue dark:text-blue-500 hover:underline"
                   target="_blank"
                 >
                   {getFileName(attachment.name)}
                 </span>
-                <span>({attachment.size})</span>
+                <span className="text-xs font-normal">({attachment.size})</span>
               </div>
               {/* {remove && (
                 <div onClick={() => removeAttachment(attachment)}>X</div>
