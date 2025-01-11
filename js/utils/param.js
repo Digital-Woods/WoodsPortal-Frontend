@@ -45,12 +45,12 @@ const getParam = (key) => {
 }
 
 const getParamHash = (string) => {
-    const result = string.replace(/%23/g, '#');
+    const result = (string && typeof string === "string") ? string.replace(/%23/g, '#') : string;
     return result;
 }
 
 const setParamHash = (string) => {
-    const result = string ? string.replace(/#/g, '%23') : "";
+    const result = (string && typeof string === "string") ? string.replace(/#/g, '%23') : string;
     return result;
 }
 
