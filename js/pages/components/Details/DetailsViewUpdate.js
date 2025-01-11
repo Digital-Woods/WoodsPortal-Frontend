@@ -2,6 +2,8 @@
 const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChangeSelect = null }) => {
   const [options, setOptions] = useState([]);
 
+  
+
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
       return type === "label" ? value.label : value.value;
@@ -11,6 +13,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   const { mutate: getStags, isLoading } = useMutation({
     mutationKey: ["getStageData1"],
     mutationFn: async (pipelineId) => {
+      // console.log("im getting called");
       try {
         const response = await Client.details.stages({
           params: {
@@ -24,7 +27,9 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       }
     },
     onSuccess: async (response) => {
-      setOptions(response.data);
+      console.log("comes here", response);
+      setOptions([])
+      setOptions((value) => response.data);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -33,22 +38,27 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   });
 
   useEffect(() => {
+    // console.log(data);
     if (
-      optionData?.key === "dealstage" || optionData?.key === "hs_pipeline_stage"
+      !optionData.apidata && (optionData?.key === "dealstage" || optionData?.key === "hs_pipeline_stage")
     ) {
       const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
       const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
       if (found) getStags(getValue(found.value, "value"));
     } else {
+      // console.log("comes here in else");
+      // console.log(optionData.options);
       setOptions(optionData.options);
     }
-  }, [data]);
+  }, [data, optionData]);
 
   if (isLoading) {
     return <div>Loading</div>;
   }
 
   return (
+    <div>
+      {/* {JSON.stringify(options)} */}
     <Select
       label={`Select`}
       size="semiMedium"
@@ -58,6 +68,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       filled={optionData}
       onChangeSelect={onChangeSelect}
     />
+    </div>
   );
 };
 
@@ -74,7 +85,10 @@ const DetailsViewUpdateDialog = ({
 }) => {
   const [initialValues, setInitialValues] = useState(null);
   const [pipelines, setPipelines] = useState(null);
-  const [stages, setStages] = useState(null);
+  const [stages, setStages] = useState({options:[],key:""});
+  const [isDealEdit, setIsDealEdit] = useState(false);
+
+
 
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
@@ -98,9 +112,20 @@ const DetailsViewUpdateDialog = ({
       }
     },
     onSuccess: async (response) => {
-      let stagesM = stages;
-      stagesM.options = response.data;
-      setStages(stagesM);
+      // console.log(response);
+      // let stagesM = stages;
+      // stagesM.options = response.data;
+      setStages({
+        options:response.data,
+        // "isSecondaryDisplayProperty":true,
+        // "label":"Ticket status",
+        "value":{"label":"New","value":"987017750"},
+        // "isEditableField":true,
+        // "fieldType":"select",
+        // "isPrimaryDisplayProperty":false,
+        "key":isDealEdit ?"dealstage":"hs_pipeline_stage",
+        "apidata":true
+      });
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -111,14 +136,30 @@ const DetailsViewUpdateDialog = ({
   useEffect(() => {
     if (initialValues) {
       setPipelines(editRow);
-      getStags(getValue(editRow.value, "value"));
+      if(editRow.value){
 
-      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
-      const filterStage = dataLoop.find(
-        (item) =>
-          item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
-      );
-      setStages(filterStage);
+        console.log(data);
+
+
+        // getStags(getValue(editRow.value, "value"));
+        const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data;
+        const filterStage = dataLoop.find(
+          (item) => 
+            // item.key === "hs_pipeline_stage" || item.key === "dealstage" || item.key === "pipeline"
+          item.key === "hs_pipeline_stage" || item.key === "dealstage"
+        );
+
+        console.log(filterStage);
+
+        if(filterStage?.key == "dealstage"){
+          setIsDealEdit(true);
+        }
+        console.log(filterStage);
+        setStages(filterStage);
+      }
+
+    }else{
+      setPipelines(editRow);
     }
   }, [initialValues]);
 
@@ -126,13 +167,16 @@ const DetailsViewUpdateDialog = ({
     const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
     const filterStage = dataLoop.find(
       (item) =>
-        item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
+        // item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
+      item.key === "hs_pipeline_stage" || item.key === "dealstage"
     );
 
     let defValue = {};
     defValue[editRow.key] = getValue(editRow.value, "value");
     if (filterStage) {
       defValue[filterStage.key] = getValue(filterStage.value, "value");
+    }else{
+      defValue['hs_pipeline_stage'] = null;
     }
     setInitialValues(defValue);
   }, []);
@@ -156,17 +200,37 @@ const DetailsViewUpdateDialog = ({
         });
       }
     });
+
+    if(!Object.prototype.hasOwnProperty.call(schemaShape, "dealstage") && !Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")){
+      schemaShape['hs_pipeline_stage'] = z.string().nonempty({
+        message: `Stage is required.`,
+      });
+    }
+    // console.log(schemaShape);
     return z.object(schemaShape);
   };
 
   const validationSchemaPipeline = createValidationSchemaPipeline(data);
 
   const onSubmitPipeline = (data) => {
+    // console.log(data);
     saveData(data);
   };
 
   const onChangeSelect = (filled, value) => {
-    getStags(value)
+
+    // console.log(filled);
+    getStags(value);
+
+    // const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
+    // const filterStage = dataLoop.find(
+    //   (item) =>
+    //     item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
+    // );
+
+    // console.log(filterStage);
+
+    // setStages(filterStage);
   }
 
   return (
@@ -177,7 +241,7 @@ const DetailsViewUpdateDialog = ({
     >
       <div className="rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]  flex-col gap-6 flex">
         <h3 className="text-start text-xl dark:text-white font-semibold">Select Pipeline</h3>
-
+        {/* {JSON.stringify(initialValues)} */}
         <div>
           {initialValues && (
             <Form
@@ -187,12 +251,14 @@ const DetailsViewUpdateDialog = ({
               // serverError={serverError}
               className="dark:bg-dark-500 m-0"
             >
-              {({ register, control, formState: { errors } }) => (
+              {({ getValues, register, control, watch,  formState: { errors } }) => (
                 <div>
+
+                  {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>
-                        <FormItem className="mb-0">
+                        <FormItem  className=''>
                           <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                             Select Pipeline
                           </FormLabel>
@@ -216,9 +282,12 @@ const DetailsViewUpdateDialog = ({
                         </FormItem>
                       </div>
                     )}
+
+                    {/* {JSON.stringify(stages)} */}
+                    
                     {stages && (
                       <div>
-                        <FormItem className="mb-0">
+                        <FormItem  className=''>
                           <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                             Select Stage
                           </FormLabel>
@@ -240,7 +309,7 @@ const DetailsViewUpdateDialog = ({
                           )}
                         </FormItem>
                       </div>
-                    )}
+                     )} 
                   </div>
                   <div className="mt-4 flex justify-end items-end gap-1">
                     <Button
@@ -266,6 +335,8 @@ const DetailsViewUpdateDialog = ({
   );
 };
 
+
+// Main Component Starts Here
 const DetailsViewUpdate = ({
   renderValue,
   objectId,
@@ -279,12 +350,32 @@ const DetailsViewUpdate = ({
   const [editRowValue, setEditRowValue] = useState("");
   const [alert, setAlert] = useState(null);
   const [pipelineDialog, setPipelineDialog] = useState(false);
-  const [data, setData] = useState(item);
+  const [data, setData] = useState([]);
   const [stages, setStages] = useState(null);
   const [initialValues, setInitialValues] = useState(false);
   const { z } = Zod;
   const [selectedValues, setSelectedValues] = useState();
 
+
+  // checking if data is object
+  useEffect(() => {
+    console.log("item updated", item);
+    // check data is object or array
+    if(typeof item === "object" && !Array.isArray(item)){
+      let arrayKeys = Object.keys(item);
+      let dataArray = [];
+      arrayKeys.forEach(element => {
+        dataArray.push({...item[element], key: element});
+      });
+      setData(dataArray);
+    }else{
+      setData(item);    
+    }
+    // console.log(selectedValues, "selectedValues from component");
+  }, [item]);
+  
+
+// Additional
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
       return type === "label" ? value.label : value.value;
@@ -317,10 +408,11 @@ const DetailsViewUpdate = ({
       }
     },
     onSuccess: async (data) => {
+      console.log(data);
       setPipelineDialog(false);
       setEditRow(null);
-      // refetch();
       setSync(true);
+      // refetch();
       setAlert({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {

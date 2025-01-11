@@ -262,7 +262,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                     <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
                         <div>
-                          <FormItem className="mb-0">
+                          <FormItem  className=''>
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>

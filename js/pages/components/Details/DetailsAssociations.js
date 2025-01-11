@@ -11,6 +11,8 @@ const DetailsAssociations = ({
 }) => {
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
+
+
   return (
     <Accordion
       className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"
@@ -21,14 +23,30 @@ const DetailsAssociations = ({
           <span className="text-rstextcolor">
             <AssociationIcon />
           </span>
-          <span>
-            <span className=" text-rstextcolor dark:text-white">
-              {association.labels.plural}
+
+          <Link
+            className="text-lightblue  font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+            to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
+              association.labels.plural
+            }&objectTypeId=${
+              association.objectTypeId
+            }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${
+              mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+            }&mediatorObjectRecordId=${
+              mediatorObjectRecordId
+                ? mediatorObjectRecordId
+                : parentObjectRowId
+            }`}
+          >
+            <span>
+              <span className=" text-rstextcolor hover:underline underline-offset-4 hover:text-lightblue  dark:text-white">
+                {association.labels.plural}
+              </span>
+              <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+                {association.total}
+              </span>
             </span>
-            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
-              {association.total}
-            </span>
-          </span>
+          </Link>
         </div>
       </AccordionSummary>
 
