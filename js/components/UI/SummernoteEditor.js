@@ -148,6 +148,7 @@ const SummernoteEditor = ({
                 "input.note-image-input"
               );
               if ($fileInput.length > 0) {
+                $fileInput.removeAttr("accept");
                 // Bind a change event listener to handle file selection
                 $fileInput.off("change").on("change", function (event) {
                   const file = event.target.files[0];
