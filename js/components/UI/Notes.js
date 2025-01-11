@@ -34,7 +34,7 @@ const NoteCard = ({
     </svg>
   );
 
-  const openEditor = () => {};
+  const openEditor = () => { };
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -113,9 +113,8 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${
-                isOpenEditor ? "dark:text-dark-200" : "dark:text-white"
-              }`}
+              className={`p-4 cursor-text ${isOpenEditor ? "dark:text-dark-200" : "dark:text-white"
+                }`}
               onClick={(e) => e.stopPropagation()}
             >
               <SummernoteEditor
@@ -158,11 +157,10 @@ const NoteCard = ({
           ) : (
             <div>
               <div
-                className={`py-3 pr-3 pl-6 ${
-                  !isOpen
-                    ? ""
-                    : "hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group cursor-text"
-                }`}
+                className={`py-3 pr-3 pl-6 ${!isOpen
+                  ? ""
+                  : "hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group cursor-text"
+                  }`}
                 onClick={(e) => {
                   if (isOpen) {
                     e.stopPropagation();
@@ -179,11 +177,10 @@ const NoteCard = ({
                   </span>
 
                   <div
-                    className={`${
-                      !isOpen
-                        ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
-                        : ""
-                    }`}
+                    className={`${!isOpen
+                      ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
+                      : ""
+                      }`}
                   ></div>
                 </div>
                 <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -217,6 +214,8 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const [alert, setAlert] = useState(null);
   const [attachmentId, setAttachmentId] = useState("");
   const { sync, setSync } = useSync();
+  const [expandDialog, setExpandDialog] = useState(false);
+
   // const [permissions, setPermissions] = useState(null);
 
   let portalId;
@@ -270,6 +269,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
         message: response.statusMsg,
         type: "success",
       });
+      setExpandDialog(false);
     },
     onError: (error) => {
       console.error("Error creating note:", error);
@@ -279,6 +279,10 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       });
     },
   });
+
+  const expandToggleButton = () => {
+    setExpandDialog(!expandDialog);
+  }
 
   useEffect(() => {
     const portalId = getPortal()?.portalId;
@@ -370,39 +374,64 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className="relative mx-auto bg-white overflow-y-auto max-h-[95vh] lg:w-[480px] md:w-[420px] w-[calc(100vw-28px)] "
+        className={`!p-0 relative mx-auto bg-white overflow-y-auto max-h-[95vh] ${expandDialog ? 'lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]' : 'lg:w-[720px] md:w-[680px] w-[calc(100vw-28px)] '} `}
       >
-        <div className="flex items-center mb-3">
-          <p className="text-gray-600 dark:text-white text-xs">For</p>
-          <p className="border rounded-full dark:text-white px-2 py-1 text-xs ml-2">
-            {getObjectName()}
-          </p>
+        <div className="flex justify-between items-center mb-4 bg-[#516f90] dark:bg-dark-300 dark:bg-dark-200 p-4">
+          <h2 className="text-lg font-semibold text-white dark:text-white">
+            Note
+          </h2>
+          <div className="flex gap-2 items-center">
+            <button
+              disabled={isPosting || isUploading}
+              variant="outline"
+              onClick={expandToggleButton}
+              className="text-white dark:text-white cursor-pointer"
+            >
+              { expandDialog ? <ShrinkIcon width='22px' height='22px' /> : <ExpandIcon width='22px' height='22px' /> }
+            </button>
+            <button
+              disabled={isPosting || isUploading}
+              variant="outline"
+              onClick={() => setShowDialog(false)}
+              className="text-white dark:text-white"
+            >
+              <CloseIcon width='24px' height='24px' />
+            </button>
+          </div>
         </div>
-        <SummernoteEditor
-          attachments={[]}
-          setEditorContent={setEditorContent}
-          imageUploadUrl={imageUploadUrl}
-          attachmentUploadUrl={attachmentUploadUrl}
-          attachmentUploadMethod={"POST"}
-          setAttachmentId={setAttachmentId}
-          refetch={refetch}
-          objectId={objectId}
-          setIsUploading={setIsUploading}
-        />
-        <div className="mt-4 flex justify-end gap-3">
-          <Button
-            disabled={isPosting || isUploading}
-            variant="outline"
-            onClick={() => setShowDialog(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            disabled={isPosting || editorContent.trim() === "" || isUploading}
-            onClick={handleSaveNote}
-          >
-            {isPosting ? "Creating Note..." : "Create Note"}
-          </Button>
+        <div className="px-4 pb-4">
+          <div className="flex items-center px-4 mb-3">
+            <p className="text-gray-600 dark:text-white text-xs">For</p>
+            <p className="border rounded-full dark:text-white px-2 py-1 text-xs ml-2">
+              {getObjectName()}
+            </p>
+          </div>
+          <SummernoteEditor
+            attachments={[]}
+            setEditorContent={setEditorContent}
+            imageUploadUrl={imageUploadUrl}
+            attachmentUploadUrl={attachmentUploadUrl}
+            attachmentUploadMethod={"POST"}
+            setAttachmentId={setAttachmentId}
+            refetch={refetch}
+            objectId={objectId}
+            setIsUploading={setIsUploading}
+          />
+          <div className="mt-4 flex justify-end gap-3">
+            <Button
+              disabled={isPosting || isUploading}
+              variant="outline"
+              onClick={() => {setShowDialog(false);setExpandDialog(false);}}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={isPosting || editorContent.trim() === "" || isUploading}
+              onClick={handleSaveNote}
+            >
+              {isPosting ? "Creating Note..." : "Create Note"}
+            </Button>
+          </div>
         </div>
       </Dialog>
     </div>
