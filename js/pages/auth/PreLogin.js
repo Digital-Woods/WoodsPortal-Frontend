@@ -86,7 +86,7 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
           </div>
         </div>
         <p className="text-center dark:text-white">
-          { baseCompanyOptions.welcomeMessage || "Welcome" }
+          {baseCompanyOptions.welcomeMessage || "Welcome"}
         </p>
         <div className="w-full">
           <Form
@@ -104,6 +104,7 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
                   <FormControl>
                     <div>
                       <Input
+                        autoFocus
                         height="medium"
                         icon={emailIcon}
                         placeholder="Email"
