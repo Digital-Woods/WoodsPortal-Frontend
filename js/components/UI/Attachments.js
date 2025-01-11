@@ -72,7 +72,7 @@ const Attachments = ({
         {isLoadingUoloading && uploadProgress < 90 ? (
           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
             <div
-              className={`h-3 bg-[#2bc253] transition-all duration-300 w-[${
+              className={`h-3 bg-secondary transition-all duration-300 w-[${
                 uploadProgress + 10
               }%]`}
             ></div>
