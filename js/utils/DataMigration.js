@@ -298,7 +298,7 @@ const sortData = (list, type = "list") => {
 // };
 
 const replaceQuestionMarkToRegex = (text) => {
-  const replacedText = text?.replace(/\?/g, "!");
+  const replacedText = (text && typeof text === "string") ? text?.replace(/\?/g, "!") : text;
   return replacedText;
 }
 
