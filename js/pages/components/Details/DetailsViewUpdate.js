@@ -2,7 +2,7 @@
 const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChangeSelect = null }) => {
   const [options, setOptions] = useState([]);
 
-  
+
 
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
@@ -59,15 +59,15 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   return (
     <div>
       {/* {JSON.stringify(options)} */}
-    <Select
-      label={`Select`}
-      size="semiMedium"
-      name={optionData.key}
-      options={options}
-      control={control}
-      filled={optionData}
-      onChangeSelect={onChangeSelect}
-    />
+      <Select
+        label={`Select`}
+        size="semiMedium"
+        name={optionData.key}
+        options={options}
+        control={control}
+        filled={optionData}
+        onChangeSelect={onChangeSelect}
+      />
     </div>
   );
 };
@@ -85,7 +85,7 @@ const DetailsViewUpdateDialog = ({
 }) => {
   const [initialValues, setInitialValues] = useState(null);
   const [pipelines, setPipelines] = useState(null);
-  const [stages, setStages] = useState({options:[],key:""});
+  const [stages, setStages] = useState({ options: [], key: "" });
   const [isDealEdit, setIsDealEdit] = useState(false);
 
 
@@ -116,15 +116,15 @@ const DetailsViewUpdateDialog = ({
       // let stagesM = stages;
       // stagesM.options = response.data;
       setStages({
-        options:response.data,
+        options: response.data,
         // "isSecondaryDisplayProperty":true,
         // "label":"Ticket status",
-        "value":{"label":"New","value":"987017750"},
+        "value": { "label": "New", "value": "987017750" },
         // "isEditableField":true,
         // "fieldType":"select",
         // "isPrimaryDisplayProperty":false,
-        "key":isDealEdit ?"dealstage":"hs_pipeline_stage",
-        "apidata":true
+        "key": isDealEdit ? "dealstage" : "hs_pipeline_stage",
+        "apidata": true
       });
     },
     onError: (error) => {
@@ -136,7 +136,7 @@ const DetailsViewUpdateDialog = ({
   useEffect(() => {
     if (initialValues) {
       setPipelines(editRow);
-      if(editRow.value){
+      if (editRow.value) {
 
         console.log(data);
 
@@ -144,21 +144,21 @@ const DetailsViewUpdateDialog = ({
         // getStags(getValue(editRow.value, "value"));
         const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data;
         const filterStage = dataLoop.find(
-          (item) => 
+          (item) =>
             // item.key === "hs_pipeline_stage" || item.key === "dealstage" || item.key === "pipeline"
-          item.key === "hs_pipeline_stage" || item.key === "dealstage"
+            item.key === "hs_pipeline_stage" || item.key === "dealstage"
         );
 
         console.log(filterStage);
 
-        if(filterStage?.key == "dealstage"){
+        if (filterStage?.key == "dealstage") {
           setIsDealEdit(true);
         }
         console.log(filterStage);
         setStages(filterStage);
       }
 
-    }else{
+    } else {
       setPipelines(editRow);
     }
   }, [initialValues]);
@@ -168,14 +168,14 @@ const DetailsViewUpdateDialog = ({
     const filterStage = dataLoop.find(
       (item) =>
         // item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
-      item.key === "hs_pipeline_stage" || item.key === "dealstage"
+        item.key === "hs_pipeline_stage" || item.key === "dealstage"
     );
 
     let defValue = {};
     defValue[editRow.key] = getValue(editRow.value, "value");
     if (filterStage) {
       defValue[filterStage.key] = getValue(filterStage.value, "value");
-    }else{
+    } else {
       defValue['hs_pipeline_stage'] = null;
     }
     setInitialValues(defValue);
@@ -201,7 +201,7 @@ const DetailsViewUpdateDialog = ({
       }
     });
 
-    if(!Object.prototype.hasOwnProperty.call(schemaShape, "dealstage") && !Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")){
+    if (!Object.prototype.hasOwnProperty.call(schemaShape, "dealstage") && !Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")) {
       schemaShape['hs_pipeline_stage'] = z.string().nonempty({
         message: `Stage is required.`,
       });
@@ -251,14 +251,14 @@ const DetailsViewUpdateDialog = ({
               // serverError={serverError}
               className="dark:bg-dark-500 m-0"
             >
-              {({ getValues, register, control, watch,  formState: { errors } }) => (
+              {({ getValues, register, control, watch, formState: { errors } }) => (
                 <div>
 
                   {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>
-                        <FormItem  className=''>
+                        <FormItem className=''>
                           <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                             Select Pipeline
                           </FormLabel>
@@ -284,10 +284,10 @@ const DetailsViewUpdateDialog = ({
                     )}
 
                     {/* {JSON.stringify(stages)} */}
-                    
+
                     {stages && (
                       <div>
-                        <FormItem  className=''>
+                        <FormItem className=''>
                           <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                             Select Stage
                           </FormLabel>
@@ -309,7 +309,7 @@ const DetailsViewUpdateDialog = ({
                           )}
                         </FormItem>
                       </div>
-                     )} 
+                    )}
                   </div>
                   <div className="mt-4 flex justify-end items-end gap-1">
                     <Button
@@ -361,21 +361,21 @@ const DetailsViewUpdate = ({
   useEffect(() => {
     console.log("item updated", item);
     // check data is object or array
-    if(typeof item === "object" && !Array.isArray(item)){
+    if (typeof item === "object" && !Array.isArray(item)) {
       let arrayKeys = Object.keys(item);
       let dataArray = [];
       arrayKeys.forEach(element => {
-        dataArray.push({...item[element], key: element});
+        dataArray.push({ ...item[element], key: element });
       });
       setData(dataArray);
-    }else{
-      setData(item);    
+    } else {
+      setData(item);
     }
     // console.log(selectedValues, "selectedValues from component");
   }, [item]);
-  
 
-// Additional
+
+  // Additional
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
       return type === "label" ? value.label : value.value;
@@ -485,7 +485,7 @@ const DetailsViewUpdate = ({
 
   const onSubmit = (data) => {
 
-    if(!data && editRow.fieldType != "checkbox"){
+    if (!data && editRow.fieldType != "checkbox") {
       return
     }
 
@@ -504,7 +504,7 @@ const DetailsViewUpdate = ({
       saveData(data);
     }
   };
-
+console.log(value,'value is this');
   return (
     <div className="">
       <div className="gap-2">
@@ -610,18 +610,20 @@ const DetailsViewUpdate = ({
             </Form>
           </div>
         ) : (
-          <div className="flex  items-center gap-2">
-            <span>{renderValue}</span>
-            <Button
-              variant="hubSpot"
-              size="hubSpot"
-              onClick={() => {
-                // setEditRow(value);
-                setEditRowValueFunction(value);
-              }}
-            >
-              <EditIcon />
-            </Button>
+          <div className="flex items-center gap-2">
+            <span>{renderValue || "No Value"}</span>
+            {value.isEditableField && (
+              value.key === "pipeline" ||
+              value.key === "hs_pipeline"
+            ) && value.options.length < 2 ? null : (
+              <Button
+                variant="hubSpot"
+                size="hubSpot"
+                onClick={() => setEditRowValueFunction(value)}
+              >
+                <EditIcon />
+              </Button>
+            )}
           </div>
         )}
       </div>

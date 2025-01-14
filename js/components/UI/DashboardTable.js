@@ -157,6 +157,7 @@ const DashboardTable = ({
         mapResponseData(data);
         if (defPermissions === null) setPermissions(data.configurations[componentName])
       }
+      setPermissions(data.configurations[componentName]);
     },
     onError: () => {
       setSync(false)
@@ -230,6 +231,7 @@ const DashboardTable = ({
       getData();
     } else {
       mapResponseData(hubSpotTableData);
+      getData();
     }
   }, []);
 
