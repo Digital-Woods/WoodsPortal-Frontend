@@ -81,12 +81,12 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
       )}
       <div className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
         <div className="">
-          <div className="w-[80px]">
-            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+          <div className="w-[200px]">
+            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo} alt="Logo" className={`h-auto `} />
           </div>
         </div>
         <p className="text-center dark:text-white">
-          {baseCompanyOptions.welcomeMessage || "Welcome"}
+          {baseCompanyOptions.welcomeMessage || ""}
         </p>
         <div className="w-full">
           <Form
