@@ -194,16 +194,16 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         }  ${isMediumScreen && "w-[45%]"}  ${isSmallScreen && "w-[85%]"} `}
       >
         <div className="">
-          <div className="w-[80px]">
+          <div className="w-[200px]">
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo}
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
               alt="Logo"
               className={`h-auto `}
             />
           </div>
         </div>
         <p className="text-center dark:text-white">
-          {baseCompanyOptions.welcomeMessage || "Welcome"}
+          {baseCompanyOptions.welcomeMessage || ""}
         </p>
         <div className="w-full">
           <Form

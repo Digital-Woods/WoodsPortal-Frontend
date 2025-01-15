@@ -46,9 +46,8 @@ const Home = ({
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
     formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
-      param ? param + "&isForm=true" : "?isForm=true"
-    }`,
+    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+      }`,
     createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   };
@@ -59,23 +58,16 @@ const Home = ({
   };
 
   return (
-    <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
+    <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
       <div
         className={`dark:bg-dark-200  h-[calc(100vh-var(--nav-height))] rounded-tl-xl bg-cleanWhite dark:text-white md:pl-4 md:pt-4 
-      ${
-        isLargeScreen
-          ? " "
-          : `${
-              !sidebarRightOpen ? "md:pr-4 pr-3  pl-3  pt-3" : "pl-3 pt-3"
+      ${isLargeScreen
+            ? " "
+            : `${!sidebarRightOpen ? "md:pr-4 pr-3  pl-3  pt-3" : "pl-3 pt-3"
             } rounded-tr-xl`
-      }
-      relative`}
+          }`}
       >
-        <div
-          class={`h-8 bg-gradient-to-t to-cleanWhite dark:to-dark-300 from-transparent rounded-tl-xl absolute top-0 left-0 right-0 z-[1]
-                ${isLargeScreen ? " " : "md:pr-6 pr-3 rounded-tr-xl"}
-          `}
-        ></div>
+
 
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
@@ -94,11 +86,10 @@ const Home = ({
 
           <div
             className={` h-[calc(100vh-110px)] lg:h-[calc(100vh-90px)] hide-scrollbar overflow-y-auto 
-                ${
-                  showSidebarListDataOption && isLargeScreen
-                    ? "w-[calc(100%_-350px)]"
-                    : "w-full max-sm:w-screen"
-                }`}
+                ${showSidebarListDataOption && isLargeScreen
+                ? "w-[calc(100%_-350px)]"
+                : "w-full max-sm:w-screen"
+              }`}
           >
             <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
 
@@ -119,13 +110,11 @@ const Home = ({
             <div
               className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
                 lg:h-[calc(97vh-var(--nav-height))] h-[calc(97vh-var(--nav-height))] h-full hide-scrollbar overflow-visible z-50 
-                ${
-                  isLargeScreen
-                    ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
-                    : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+                ${isLargeScreen
+                  ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+                  : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
                 } 
-                ${
-                  !isLargeScreen && sidebarRightOpen ? "translate-x-0 mb-4" : ""
+                ${!isLargeScreen && sidebarRightOpen ? "translate-x-0 mb-4" : ""
                 }`}
             >
               {/* Close button for medium and small screens */}
@@ -151,9 +140,8 @@ const Home = ({
                       tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
                       stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`,
                       formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
-                        param ? param + "&isForm=true" : "?isForm=true"
-                      }`,
+                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+                        }`,
                       createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
                       updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`,
                     };

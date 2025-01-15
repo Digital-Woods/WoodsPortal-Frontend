@@ -20,7 +20,7 @@
           }
         },
         "default": {
-          "color": "#FF7A59"
+          "color": "#33475b"
         }
       },
       {
@@ -39,7 +39,7 @@
           }
         },
         "default": {
-          "color": "#DFE3EB"
+          "color": "#FF7A59"
         }
       }
     ]
@@ -67,7 +67,7 @@
         },
         "default": {
           "fallback": "sans-serif",
-          "font": "Jost",
+          "font": "Lexend Deca",
           "font_set": "GOOGLE"
         }
       },
@@ -89,7 +89,7 @@
         },
         "default": {
           "fallback": "sans-serif",
-          "font": "Jost",
+          "font": "Lexend Deca",
           "font_set": "GOOGLE"
         }
       }
@@ -1732,7 +1732,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#F5F5FF"
+                    "color": "#e5e7eb"
                   },
                   "right": {
                     "width": {
@@ -1741,7 +1741,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#F5F5FF"
+                    "color": "#e5e7eb"
                   },
                   "bottom": {
                     "width": {
@@ -1750,7 +1750,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#F5F5FF"
+                    "color": "#e5e7eb"
                   },
                   "left": {
                     "width": {
@@ -1759,7 +1759,7 @@
                     },
                     "opacity": 100,
                     "style": "solid",
-                    "color": "#F5F5FF"
+                    "color": "#e5e7eb"
                   }
 
                 }
