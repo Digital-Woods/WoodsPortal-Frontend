@@ -291,7 +291,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
               }
             </div> */}
             <Pagination
-              numOfPages={numOfPages}
+              numOfPages={numOfPages || 0}
               currentPage={currentPage}
               setCurrentPage={handlePageChange}
             />

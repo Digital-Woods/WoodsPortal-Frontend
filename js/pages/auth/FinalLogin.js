@@ -149,7 +149,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         //   window.location.hash = "/no-routes";
         // }
         window.location.hash = "/home";
-        console.log('home', true)
+        // console.log('home', true)
       }
       setAlert({ message: data.statusMsg, type: "success" });
     },
@@ -189,16 +189,20 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         />
       )}
       <div
-        className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${
-          isLargeScreen && "w-[30%]"
-        }  ${isMediumScreen && "w-[45%]"}  ${isSmallScreen && "w-[85%]"} `}
+        className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && "w-[30%]"
+          }  ${isMediumScreen && "w-[45%]"}  ${isSmallScreen && "w-[85%]"} `}
       >
         <div className="">
           <div className="w-[200px]">
             <img
               src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
-              alt="Logo"
-              className={`h-auto `}
+              alt="Light Mode Logo"
+              className="h-auto dark:hidden"
+            />
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              alt="Dark Mode Logo"
+              className="h-auto hidden dark:block"
             />
           </div>
         </div>

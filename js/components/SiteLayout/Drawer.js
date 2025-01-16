@@ -27,7 +27,7 @@ const Drawer = ({ className }) => {
   const { me } = useMe();
   const { logout, isLoading, error } = useLogout();
   const { routes, setRoutes } = useRoute();
-  
+
   const [activeRoute, setActiveRoute] = useState("");
   const [sideBarOptions, setSideBarOptions] = useState({});
   const [brandName, setBrandName] = useState(hubSpotUserDetails.hubspotPortals.portalSettings.brandName);
@@ -58,7 +58,7 @@ const Drawer = ({ className }) => {
 
   useEffect(() => {
     setSideBarOptions(hubSpotUserDetails.sideBarOptions);
-  },[]);
+  }, []);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   const handleSetActiveRoute = useCallback(
@@ -88,11 +88,11 @@ const Drawer = ({ className }) => {
       )}
 
       <div className={`${className} relative`}>
-      <div onClick={() => toggleSidebar()} className=" max-lg:hidden border border-white p-1 rounded-full absolute  bg-sidelayoutColor dark:bg-dark-300 right-[-10px] top-[63px] z-[100]">
-        <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-sidelayoutTextColor dark:text-white flex`}>
-          <Chevron />
+        <div onClick={() => toggleSidebar()} className=" max-lg:hidden border border-white p-1 rounded-full absolute  bg-sidelayoutColor dark:bg-dark-300 right-[-10px] top-[63px] z-[100]">
+          <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-sidelayoutTextColor dark:text-white flex`}>
+            <Chevron />
+          </div>
         </div>
-      </div>
         <div
           className={`h-[100vh] z-[54] sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
@@ -256,7 +256,16 @@ const Drawer = ({ className }) => {
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
         <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
           <div className="w-[200px]">
-            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo} alt="Logo" className={`h-auto `} />
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              alt="Light Mode Logo"
+              className="h-auto dark:hidden"
+            />
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              alt="Dark Mode Logo"
+              className="h-auto hidden dark:block"
+            />
           </div>
           <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
             Log out of your account?

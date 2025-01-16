@@ -17,7 +17,7 @@ const Register = () => {
     mutationKey: ["registerUser"],
     mutationFn: async (input) => await Client.authentication.register(input),
     onSuccess: (data) => {
-      console.log("data", data);
+      // console.log("data", data);
     },
     onError: (error) => {
       setServerError(error.response.data);

@@ -138,7 +138,7 @@ const DetailsViewUpdateDialog = ({
       setPipelines(editRow);
       if (editRow.value) {
 
-        console.log(data);
+        // console.log(data);
 
 
         // getStags(getValue(editRow.value, "value"));
@@ -149,12 +149,12 @@ const DetailsViewUpdateDialog = ({
             item.key === "hs_pipeline_stage" || item.key === "dealstage"
         );
 
-        console.log(filterStage);
+        // console.log(filterStage);
 
         if (filterStage?.key == "dealstage") {
           setIsDealEdit(true);
         }
-        console.log(filterStage);
+        // console.log(filterStage);
         setStages(filterStage);
       }
 
@@ -359,7 +359,7 @@ const DetailsViewUpdate = ({
 
   // checking if data is object
   useEffect(() => {
-    console.log("item updated", item);
+    // console.log("item updated", item);
     // check data is object or array
     if (typeof item === "object" && !Array.isArray(item)) {
       let arrayKeys = Object.keys(item);
@@ -408,7 +408,7 @@ const DetailsViewUpdate = ({
       }
     },
     onSuccess: async (data) => {
-      console.log(data);
+      // console.log(data);
       setPipelineDialog(false);
       setEditRow(null);
       setSync(true);
@@ -504,7 +504,7 @@ const DetailsViewUpdate = ({
       saveData(data);
     }
   };
-console.log(value,'value is this');
+// console.log(value,'value is this');
   return (
     <div className="">
       <div className="gap-2">

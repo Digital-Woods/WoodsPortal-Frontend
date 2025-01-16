@@ -294,7 +294,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         </div>
       ) : (
         <div className="h-[calc(100vh_-136px)] flex flex-col justify-center text-center dark:text-white items-center">
-          <span>See the Jobs associated with this record.</span>
+          <span>Loading Details...</span>
           {/* <Link
             className="capitalize"
             to={back}

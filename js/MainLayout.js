@@ -161,12 +161,18 @@ const MainLayout = ({ children }) => {
       icon: menuItem.icon,
       isRequiredAuth: true,
       isHeader: true,
+      companyAsMediator:menuItem.companyAsMediator,
+      pipeLineId:menuItem.pipeLineId,
+      specPipeLine:menuItem.specPipeLine,
       component: (
         <DynamicComponent
           hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
           path={`/${formatPath(menuItem.tabName || menuItem.label)}`}
           title={formatCustomObjectLabel(menuItem.tabName || menuItem.label)}
           icon={menuItem.icon}
+          companyAsMediator={menuItem.companyAsMediator}
+          pipeLineId={menuItem.pipeLineId}
+          specPipeLine={menuItem.specPipeLine}
         />
       ),
     }));
@@ -307,6 +313,9 @@ const MainLayout = ({ children }) => {
                       path={routes[0].path}
                       title={routes[0].title}
                       icon={routes[0].icon}
+                      companyAsMediator={routes[0].companyAsMediator}
+                      pipeLineId={routes[0].pipeLineId}
+                      specPipeLine={routes[0].specPipeLine}
                     />
                   </React.Fragment>
                 )}
@@ -372,7 +381,7 @@ const MainLayout = ({ children }) => {
               />
 
               {/* List Routs */}
-              {routes.map(({ hubspotObjectTypeId, path, title, icon }) => (
+              {routes.map(({ hubspotObjectTypeId, path, title, icon,companyAsMediator, pipeLineId, specPipeLine }) => (
                 <PrivateRoute
                   key={path}
                   path={path}
@@ -391,6 +400,9 @@ const MainLayout = ({ children }) => {
                           path={path}
                           title={`${title}`}
                           icon={icon}
+                          companyAsMediator={companyAsMediator}
+                          pipeLineId={pipeLineId}
+                          specPipeLine={specPipeLine}
                         />
                       ) : (
                         <DynamicComponent
@@ -399,6 +411,9 @@ const MainLayout = ({ children }) => {
                           path={path}
                           title={`${title}`}
                           icon={icon}
+                          companyAsMediator={companyAsMediator}
+                          pipeLineId={pipeLineId}
+                          specPipeLine={specPipeLine}
                         />
                       )}
                     </React.Fragment>

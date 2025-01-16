@@ -43,7 +43,7 @@ function VerifyEmail() {
       setIsVerifying(false)
     },
     onError: (error) => {
-      console.log('error', error.response.data.detailedMessage)
+      // console.log('error', error.response.data.detailedMessage)
       setAlert({ message: errorMessage, type: "error" });
       setIsVerifying(false)
     },

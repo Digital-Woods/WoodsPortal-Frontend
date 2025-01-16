@@ -287,7 +287,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
                 }
               </div> */}
               <Pagination
-                numOfPages={numOfPages}
+                numOfPages={numOfPages || 0}
                 currentPage={currentPage}
                 setCurrentPage={handlePageChange}
               />
