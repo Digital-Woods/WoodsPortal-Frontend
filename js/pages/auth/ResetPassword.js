@@ -53,7 +53,7 @@ const ResetPassword = () => {
       if (!token) {
         throw new Error("Token not found");
       }
-      console.log("Token Passed to API:", token);
+      // console.log("Token Passed to API:", token);
       try {
         const response = await Client.authentication.resetPassword({
           newPassword: input.newPassword,
@@ -83,7 +83,7 @@ const ResetPassword = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log("Submitting Data:", data);
+    // console.log("Submitting Data:", data);
     resetNewPassword(data);
   };
 

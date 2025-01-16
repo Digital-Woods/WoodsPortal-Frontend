@@ -4,6 +4,9 @@ const Home = ({
   title,
   showIframe,
   propertyName,
+  companyAsMediator,
+  pipeLineId,
+  specPipeLine
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const param = getQueryParamsFromCurrentUrl();
@@ -101,6 +104,9 @@ const Home = ({
               showIframe={showIframe}
               apis={apis}
               componentName="object"
+              companyAsMediator={companyAsMediator}
+              pipeLineId={pipeLineId}
+              specPipeLine={specPipeLine}
             />
           </div>
 

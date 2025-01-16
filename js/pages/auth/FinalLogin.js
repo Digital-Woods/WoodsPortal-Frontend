@@ -149,7 +149,7 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         //   window.location.hash = "/no-routes";
         // }
         window.location.hash = "/home";
-        console.log('home', true)
+        // console.log('home', true)
       }
       setAlert({ message: data.statusMsg, type: "success" });
     },

@@ -152,6 +152,46 @@
       "display_width" : null,
       "default" : "dealname,dealstage,amount"
     }, {
+      "id" : "be9220aa-0415-2605-5e26-7d744e7eaf86",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "d6c23b41-ed48-c310-e8a2-df45f422de80",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "b405d0df-0806-e291-14a5-110a415dbeb3",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.home_tab.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
+    }, {
       "id" : "5c9ae80f-a878-73ff-5f22-6fb2dcd5fe12",
       "name" : "association_object_type_id",
       "label" : "Associated Object Type Id",
@@ -248,6 +288,9 @@
       "tab_name" : "Home",
       "list_object_name" : "company",
       "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
       "association_object_type_id" : 0,
       "object_type_id" : "0-2",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
@@ -577,6 +620,9 @@
       "tab_name" : "Home",
       "list_object_name" : "company",
       "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
       "association_object_type_id" : 0,
       "object_type_id" : "0-2",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
@@ -694,6 +740,46 @@
       "display_width" : null,
       "default" : "dealname,dealstage,amount"
     }, {
+      "id" : "ded780b2-c224-59d2-6b0d-4645d1a7ba7d",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "bf7374bc-9f20-c4a3-91e4-2344ae1d82a6",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "7f2bfef2-4934-7f00-19a9-2229afcf9b5f",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.objects.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
+    }, {
       "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
       "name" : "association_object_type_id",
       "label" : "Associated Object Type Id",
@@ -788,6 +874,9 @@
     "default" : [ {
       "list_object_name" : "Contacts",
       "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
       "association_object_type_id" : 4,
       "object_type_id" : "0-1",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
@@ -856,6 +945,46 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null
+    }, {
+      "id" : "b67a7098-f453-d711-8ea6-13a769cde282",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "0832d64c-a8dd-49ba-61bd-49273182b83a",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "af9fcd0a-9d5c-b5e3-e4bd-1e59925c84a1",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.hubspot_custom_objects.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
     }, {
       "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
       "name" : "association_object_type_id",
@@ -947,6 +1076,9 @@
     "display_width" : null,
     "default" : [ {
       "list_object_name" : "",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
@@ -961,6 +1093,9 @@
     "objects" : [ {
       "list_object_name" : "Contacts",
       "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
       "association_object_type_id" : 4,
       "object_type_id" : "0-1",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
@@ -969,6 +1104,9 @@
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
       "list_object_name" : "",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
@@ -1523,7 +1661,7 @@
     }, {
       "id" : "3a631ccb-c71e-a66a-5968-602b720e77af",
       "name" : "logo",
-      "label" : "Logo",
+      "label" : "Light Logo",
       "required" : false,
       "locked" : false,
       "responsive" : true,
@@ -1544,7 +1682,7 @@
     }, {
       "id" : "6a77e4f9-2f31-5d20-8253-e86a43321c50",
       "name" : "auth_popup_form_logo",
-      "label" : "Auth Popup Form Logo",
+      "label" : "Dark Logo",
       "required" : false,
       "locked" : false,
       "responsive" : true,

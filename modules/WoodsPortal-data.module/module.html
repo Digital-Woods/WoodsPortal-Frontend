@@ -28,8 +28,8 @@
     associateObjectName: item.association_object_name,
     hubspotObjectId: item.association_object_type_id,
     hubspotObjectTypeId: item.object_type_id,
-    companyAsMediator: item.mediator_object_type_id,
     associateObjectProperties: item.association_object_properties,
+    companyAsMediator: item.mediator_object_type_id,
     pipeLineId: item.pipeline_id,
     specPipeLine: item.add_specific_pipeline,
     objectType: "HUBSPOT_DEFINED",
@@ -59,6 +59,9 @@
       hubspotObjectId: item.association_object_type_id,
       hubspotObjectTypeId: item.object_type_id,
       associateObjectProperties: item.association_object_properties,
+      companyAsMediator: item.mediator_object_type_id,
+      pipeLineId: item.pipeline_id,
+      specPipeLine: item.add_specific_pipeline,
       objectType: "HUBSPOT_DEFINED",
       }) %}
     {% endfor %}
@@ -87,6 +90,9 @@
   hubspotObjectId: item.association_object_type_id,
   hubspotObjectTypeId: item.object_type_id,
   associateObjectProperties: item.association_object_properties,
+  companyAsMediator: item.mediator_object_type_id,
+  pipeLineId: item.pipeline_id,
+  specPipeLine: item.add_specific_pipeline,
   objectType: "HUBSPOT_DEFINED",
   }) %}
   {% endfor %}
@@ -114,6 +120,9 @@
   hubspotObjectId: item.association_object_type_id,
   hubspotObjectTypeId: item.object_type_id,
   associateObjectProperties: item.association_object_properties,
+  companyAsMediator: item.mediator_object_type_id,
+  pipeLineId: item.pipeline_id,
+  specPipeLine: item.add_specific_pipeline,
   objectType: "USER_DEFINED",
   }) %}
   {% endfor %}

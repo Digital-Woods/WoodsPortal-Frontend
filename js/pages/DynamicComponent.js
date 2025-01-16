@@ -16,6 +16,9 @@ const DynamicComponent = ({
   title,
   showIframe,
   propertyName,
+  companyAsMediator,
+  pipeLineId,
+  specPipeLine
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -79,7 +82,7 @@ const DynamicComponent = ({
 
   return (
     <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
-      <div className="dark:bg-dark-200  h-[calc(100vh-var(--nav-height))] rounded-tl-xl bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
+      <div className="dark:bg-dark-200 rounded-tl-xl h-full bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
         <div className="flex justify-between items-center relative z-[2] gap-6">
           <div className="flex items-start flex-col gap-2">
             {objectTypeName && (
@@ -128,6 +131,9 @@ const DynamicComponent = ({
               showIframe={showIframe}
               apis={apis}
               componentName="object"
+              companyAsMediator={companyAsMediator}
+              pipeLineId={pipeLineId}
+              specPipeLine={specPipeLine}
             />
           </div>
         </div>
