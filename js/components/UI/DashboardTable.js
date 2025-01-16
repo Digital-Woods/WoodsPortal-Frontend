@@ -150,7 +150,7 @@ const DashboardTable = ({
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: `${apis.tableAPI}${param}`,
+        API_ENDPOINT: `${apis.tableAPI}${componentName != "ticket" ? param : ''}`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
