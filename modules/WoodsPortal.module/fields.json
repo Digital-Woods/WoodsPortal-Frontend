@@ -1,0 +1,1934 @@
+[ {
+  "id" : "44c02d86-d5ac-515b-5959-d040308ed6b1",
+  "name" : "backend_server_url",
+  "label" : "Server URL",
+  "help_text" : "Woods Portal and paste the server URL here",
+  "inline_help_text" : "<a href=\"https://app.demo.digitalwoods.io/\" target=\"_blank\"> Click here</a> to set up Woods Portal and connect with our server.",
+  "required" : false,
+  "locked" : false,
+  "validation_regex" : "",
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "NOT_EQUAL",
+    "access" : null
+  },
+  "allow_new_line" : false,
+  "show_emoji_picker" : false,
+  "type" : "text",
+  "display_width" : null,
+  "default" : "https://app.demo.digitalwoods.io"
+}, {
+  "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
+  "name" : "page_editor_preview_",
+  "label" : "Enable Dashboard Preview",
+  "help_text" : "",
+  "inline_help_text" : "Please disable the preview before Publishing",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "display_width" : null,
+  "default" : true
+}, {
+  "id" : "bbc85b65-2e27-0ec1-10a5-21ceb79f51d1",
+  "name" : "see_documentation",
+  "label" : "View Quickstart Guide",
+  "help_text" : "",
+  "inline_help_text" : "",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "hubspot_data_source",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "display_width" : null,
+  "default" : false
+}, {
+  "id" : "492fa57e-894f-64bc-7bd5-8a25b5f7c40a",
+  "name" : "add_home_tab",
+  "label" : "Enable Home Tab",
+  "help_text" : "Toggle to show Home Tab on sidebar",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "display_width" : null,
+  "default" : true
+}, {
+  "id" : "a4270e27-ef0e-6fc3-dc25-0fb97ecff318",
+  "name" : "home",
+  "label" : "Home",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "add_home_tab",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "9a6edab5-4b55-2deb-25ae-d4296815500e",
+    "name" : "home_tab",
+    "label" : " Home Tab",
+    "required" : false,
+    "locked" : false,
+    "occurrence" : {
+      "min" : 1,
+      "max" : 1,
+      "sorting_label_field" : null,
+      "default" : 1
+    },
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "add_home_tab",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "84ad91c0-b166-29f6-5f5a-a3135cac9d3a",
+      "name" : "tab_name",
+      "label" : "Tab Name",
+      "help_text" : "Enter the name of the tab as it will appear in the sidebar menu.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Home"
+    }, {
+      "id" : "f60179ff-76c4-fee1-d35d-1b8359918f97",
+      "name" : "list_object_name",
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "company"
+    }, {
+      "id" : "e52e24d4-4784-b251-c297-fda3279eeff4",
+      "name" : "list_object_properties",
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "dealname,dealstage,amount"
+    }, {
+      "id" : "be9220aa-0415-2605-5e26-7d744e7eaf86",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "d6c23b41-ed48-c310-e8a2-df45f422de80",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "b405d0df-0806-e291-14a5-110a415dbeb3",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.home_tab.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
+    }, {
+      "id" : "5c9ae80f-a878-73ff-5f22-6fb2dcd5fe12",
+      "name" : "association_object_type_id",
+      "label" : "Associated Object Type Id",
+      "help_text" : "Provide the unique Associated  Object Type ID to link the correct data.",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "display_width" : null,
+      "default" : 0
+    }, {
+      "id" : "6eb1f720-f63d-a88e-e7fc-fe7149e98eb0",
+      "name" : "object_type_id",
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0-2"
+    }, {
+      "id" : "05fcab51-dabc-8230-b501-5dc3b00c01f6",
+      "name" : "icon_svg_code",
+      "label" : "Icon SVG Code",
+      "help_text" : "",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>"
+    }, {
+      "id" : "776eb9b5-b357-602e-2684-84ffd276dc4d",
+      "name" : "show_iframe",
+      "label" : "Enable Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "b721202e-6edf-625b-37c5-a213219c43a9",
+      "name" : "property_name",
+      "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.home_tab.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : [ {
+      "tab_name" : "Home",
+      "list_object_name" : "company",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
+      "association_object_type_id" : 0,
+      "object_type_id" : "0-2",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
+      "show_iframe" : false
+    } ]
+  }, {
+    "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
+    "name" : "home_tab_banner_details",
+    "label" : "Home Tab Banner Details",
+    "help_text" : "These details will be displayed on the home page banner.",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "add_home_tab",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
+      "name" : "title",
+      "label" : "Title",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : ""
+    }, {
+      "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
+      "name" : "description",
+      "label" : "Description",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus."
+    }, {
+      "id" : "082643eb-96a9-1535-2588-474fd68ee854",
+      "name" : "button_text",
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Book a call"
+    }, {
+      "id" : "076f638c-cc42-7d31-103b-d1d69e63c6a7",
+      "name" : "button_url",
+      "label" : "Button Url",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+      "type" : "url",
+      "display_width" : null,
+      "default" : {
+        "content_id" : null,
+        "href" : "https://digitalwoods.net/meetings/saurav4?uuid=9dd15035-7709-4952-aaa7-324932c81e5b",
+        "type" : "EXTERNAL"
+      }
+    }, {
+      "id" : "473873ea-c361-d919-71d7-b768362269cc",
+      "name" : "background_image",
+      "label" : "Background image",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : false,
+      "show_loading" : false,
+      "type" : "image",
+      "display_width" : null,
+      "default" : {
+        "size_type" : "auto_custom_max",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
+        "alt" : "FEATURE BG",
+        "loading" : "lazy",
+        "width" : 3000,
+        "height" : 927,
+        "max_width" : 2000,
+        "max_height" : 618
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "title" : "",
+      "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
+      "button_text" : "Book a call",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://digitalwoods.net/meetings/saurav4?uuid=9dd15035-7709-4952-aaa7-324932c81e5b",
+        "type" : "EXTERNAL"
+      },
+      "background_image" : {
+        "size_type" : "auto_custom_max",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
+        "alt" : "FEATURE BG",
+        "loading" : "lazy",
+        "width" : 3000,
+        "height" : 927,
+        "max_width" : 2000,
+        "max_height" : 618
+      }
+    }
+  }, {
+    "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
+    "name" : "add_right_sidebar",
+    "label" : "Add Right Sidebar",
+    "help_text" : "Toggle to display a right sidebar showing multiple data on the home tab.",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : true
+  }, {
+    "id" : "f06ac208-a6a4-bb4b-13f1-52e2d323a457",
+    "name" : "right_sidebar_object",
+    "label" : "Right Sidebar Object",
+    "required" : false,
+    "locked" : false,
+    "occurrence" : {
+      "min" : 1,
+      "max" : 2,
+      "sorting_label_field" : null,
+      "default" : 2
+    },
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "home.add_right_sidebar",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "7fc1aca2-d7ce-8931-e5f9-24120ede2a19",
+      "name" : "list_object_name",
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Ticket"
+    }, {
+      "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
+      "name" : "object_type_id",
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0-5"
+    }, {
+      "id" : "f1319d61-aa3b-088b-b243-d105de0909dc",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "92d7d9dc-97b4-2824-8ae4-d1b8f54d85d5",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "3b84072f-a9ca-0439-30ec-04cab6bb833f",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.right_sidebar_object.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
+    }, {
+      "id" : "5f21af54-2728-6f53-e016-ad5141acb3fb",
+      "name" : "list_object_properties",
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "subject,hs_pipeline_stage,hs_pipeline"
+    }, {
+      "id" : "542b99e2-50e3-5725-2b64-53ccf129e716",
+      "name" : "association_object_type_id",
+      "label" : "Associated Object Type Id",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "display_width" : null,
+      "default" : 15
+    }, {
+      "id" : "dcc8acd8-c095-e3a8-affb-48eaa7233c29",
+      "name" : "show_iframe",
+      "label" : "Enable Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "859678db-7601-5a54-66e2-605338e6c8c8",
+      "name" : "property_name",
+      "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.right_sidebar_object.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : [ {
+      "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "show_iframe" : false
+    }, {
+      "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "show_iframe" : false
+    } ]
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : {
+    "home_tab" : [ {
+      "tab_name" : "Home",
+      "list_object_name" : "company",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
+      "association_object_type_id" : 0,
+      "object_type_id" : "0-2",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
+      "show_iframe" : false
+    } ],
+    "home_tab_banner_details" : {
+      "title" : "",
+      "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
+      "button_text" : "Book a call",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://digitalwoods.net/meetings/saurav4?uuid=9dd15035-7709-4952-aaa7-324932c81e5b",
+        "type" : "EXTERNAL"
+      },
+      "background_image" : {
+        "size_type" : "auto_custom_max",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
+        "alt" : "FEATURE BG",
+        "loading" : "lazy",
+        "width" : 3000,
+        "height" : 927,
+        "max_width" : 2000,
+        "max_height" : 618
+      }
+    },
+    "add_right_sidebar" : true,
+    "right_sidebar_object" : [ {
+      "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "show_iframe" : false
+    }, {
+      "list_object_name" : "Ticket",
+      "object_type_id" : "0-5",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
+      "list_object_properties" : "subject,hs_pipeline_stage,hs_pipeline",
+      "association_object_type_id" : 15,
+      "show_iframe" : false
+    } ]
+  }
+}, {
+  "id" : "fe529cab-9191-8852-cc8a-784093415a59",
+  "name" : "menu_options",
+  "label" : "Menu Options",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
+    "name" : "hubspot_defined_object",
+    "label" : "Hubspot Defined Object",
+    "help_text" : "Toggle to display HubSpot standard objects.",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : true
+  }, {
+    "id" : "2448d2e9-dc1b-552c-2731-a00855e1c1d8",
+    "name" : "objects",
+    "label" : "Objects",
+    "required" : false,
+    "locked" : false,
+    "occurrence" : {
+      "min" : null,
+      "max" : null,
+      "sorting_label_field" : null,
+      "default" : 1
+    },
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "menu_options.hubspot_defined_object",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "421e3e26-9834-2827-daae-5af486df2cc3",
+      "name" : "list_object_name",
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Contacts"
+    }, {
+      "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
+      "name" : "list_object_properties",
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "dealname,dealstage,amount"
+    }, {
+      "id" : "ded780b2-c224-59d2-6b0d-4645d1a7ba7d",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "bf7374bc-9f20-c4a3-91e4-2344ae1d82a6",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "7f2bfef2-4934-7f00-19a9-2229afcf9b5f",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.objects.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
+    }, {
+      "id" : "47d04850-4d2c-e0a4-3551-bd4a44358812",
+      "name" : "association_object_type_id",
+      "label" : "Associated Object Type Id",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "display_width" : null,
+      "default" : 4
+    }, {
+      "id" : "2bb1f861-ddb2-df74-c8e5-eb093519fad5",
+      "name" : "object_type_id",
+      "label" : "Select Object Type ID",
+      "required" : true,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "display" : "select",
+      "choices" : [ [ "0-1", "Contacts (0-1)" ], [ "0-2", "Companies (0-2)" ], [ "0-3", "Deals (0-3)" ], [ "0-5", "Tickets (0-5)" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "0-1"
+    }, {
+      "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
+      "name" : "icon_svg_code",
+      "label" : "Icon SVG Code",
+      "help_text" : "",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>"
+    }, {
+      "id" : "2f696b36-bc41-53d2-5416-533ad1867a65",
+      "name" : "show_iframe",
+      "label" : "Enable Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "7bf9300a-0fb9-719d-782a-d516a38908de",
+      "name" : "property_name",
+      "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.objects.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : [ {
+      "list_object_name" : "Contacts",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
+      "association_object_type_id" : 4,
+      "object_type_id" : "0-1",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
+      "show_iframe" : false
+    } ]
+  }, {
+    "id" : "49155e57-6695-78de-cce9-e05e90a399c1",
+    "name" : "hubspot_custom_object",
+    "label" : "Hubspot Custom Object",
+    "help_text" : "Toggle to display HubSpot custom objects.",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : false
+  }, {
+    "id" : "4ead23fa-98bf-7348-0024-e87eb0a11ade",
+    "name" : "hubspot_custom_objects",
+    "label" : "Hubspot Custom Objects",
+    "required" : false,
+    "locked" : false,
+    "occurrence" : {
+      "min" : null,
+      "max" : null,
+      "sorting_label_field" : null,
+      "default" : 1
+    },
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "menu_options.hubspot_custom_object",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "f0467f72-bad2-c77e-c943-2b779c5862dd",
+      "name" : "list_object_name",
+      "label" : "Object Name",
+      "help_text" : "Specify the object name to display in the dashboard view.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : ""
+    }, {
+      "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
+      "name" : "list_object_properties",
+      "label" : "Object Properties",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
+    }, {
+      "id" : "b67a7098-f453-d711-8ea6-13a769cde282",
+      "name" : "mediator_object_type_id",
+      "label" : "Show Primary Company Associated Data",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "0832d64c-a8dd-49ba-61bd-49273182b83a",
+      "name" : "add_specific_pipeline",
+      "label" : "Filter By Pipeline",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "af9fcd0a-9d5c-b5e3-e4bd-1e59925c84a1",
+      "name" : "pipeline_id",
+      "label" : "Pipeline Id",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.hubspot_custom_objects.add_specific_pipeline",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0"
+    }, {
+      "id" : "1f0ba0fb-b188-12d1-8e86-bd2e7a056116",
+      "name" : "association_object_type_id",
+      "label" : "Associated Object Type Id",
+      "required" : false,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "display" : "text",
+      "step" : 1,
+      "type" : "number",
+      "display_width" : null
+    }, {
+      "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
+      "name" : "object_type_id",
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID to link the correct data.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
+    }, {
+      "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
+      "name" : "icon_svg_code",
+      "label" : "Icon SVG Code",
+      "help_text" : "",
+      "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>"
+    }, {
+      "id" : "3f4d23a3-9049-1b8b-4e17-ebda2be3c49e",
+      "name" : "show_iframe",
+      "label" : "Enable Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "92e405a9-bd74-b68f-3120-99750fe843a5",
+      "name" : "property_name",
+      "label" : "Property Name",
+      "help_text" : "To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.hubspot_custom_objects.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : [ {
+      "list_object_name" : "",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
+      "show_iframe" : false
+    } ]
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : {
+    "hubspot_defined_object" : true,
+    "objects" : [ {
+      "list_object_name" : "Contacts",
+      "list_object_properties" : "dealname,dealstage,amount",
+      "show_primary_company_associated_data" : false,
+      "add_specific_pipeline" : false,
+      "pipeline_id" : "0",
+      "association_object_type_id" : 4,
+      "object_type_id" : "0-1",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
+      "show_iframe" : false
+    } ],
+    "hubspot_custom_object" : false,
+    "hubspot_custom_objects" : [ {
+      "list_object_name" : "",
+      "show_primary_company_associated_data" : false,
+      "filter_by_pipeline" : false,
+      "pipeline_id" : "0",
+      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
+      "show_iframe" : false
+    } ]
+  }
+}, {
+  "id" : "97ed5f0f-5ac2-1cc8-2290-7fad244a1973",
+  "name" : "style",
+  "label" : "Style",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
+    "name" : "home_tab_styles",
+    "label" : "Home",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
+      "name" : "home_tab_banner_text_color",
+      "label" : "Title Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "0dfda916-6aa6-344f-546b-5d16f1ea0533",
+      "name" : "description_color",
+      "label" : "Description Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "efda18b7-39cc-4402-54b5-ea93e09bb5e9",
+      "name" : "button_styles",
+      "label" : "Button Styles",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "15f07d17-dc13-0be0-c4eb-8e091c56a4e8",
+        "name" : "background_color",
+        "label" : "Background Color",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "01e4a5d8-532a-9929-07be-aadffbb44bd4",
+        "name" : "text_color",
+        "label" : "Text Color",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      }
+    }, {
+      "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
+      "name" : "banner_overlayer_color",
+      "label" : "Banner Overlay Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#ffffff",
+        "opacity" : 0
+      }
+    }, {
+      "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
+      "name" : "sidebar_details_background_colors",
+      "label" : "Right Sidebar Cards Background Color",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "54733607-eb81-1c21-df3a-03d8068d4f16",
+        "name" : "color_1",
+        "label" : "Color 1",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        }
+      }, {
+        "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
+        "name" : "color_2",
+        "label" : "Color 2",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "home_tab_banner_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "description_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "button_styles" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      },
+      "banner_overlayer_color" : {
+        "color" : "#ffffff",
+        "opacity" : 0
+      },
+      "sidebar_details_background_colors" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
+      }
+    }
+  }, {
+    "id" : "76f40114-fea8-8230-7167-74a8f484d787",
+    "name" : "table_record_creation_button",
+    "label" : "Table Record Creation Button",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "7e66b2db-a298-305f-bb55-e10e67aeda01",
+      "name" : "background_color",
+      "label" : "Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "64f6b394-e8d0-cb77-4298-365c313df588",
+      "name" : "text_color",
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
+    "name" : "sidebar_styles",
+    "label" : "Menu",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "3fb5a5f8-3b5d-2c0b-50e9-4380dd35c9ed",
+      "name" : "sidebar_background_color",
+      "label" : "Sidebar Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
+      "name" : "text_color",
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
+    "name" : "details_page_styles",
+    "label" : "Details Page",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "e898e4ce-46ca-a2c4-3a50-bdfaa2d3981d",
+      "name" : "banner_background_options",
+      "label" : "Banner Background Options",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "54067526-66c2-7d40-26ae-5f512e3fa605",
+        "name" : "banner_color_1",
+        "label" : "Banner Color 1",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        }
+      }, {
+        "id" : "99720ee2-3c7c-3ef8-643f-733cb7a4fceb",
+        "name" : "banner_color_2",
+        "label" : "Banner Color 2",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      }
+    }, {
+      "id" : "db027850-c7ed-f436-f9ae-93787c6bce31",
+      "name" : "text_color",
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "banner_background_options" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "75b61897-f3c1-1ee8-cf79-e1b91fafb18e",
+    "name" : "d_h_sidebar",
+    "label" : "Global Right Sidebar",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "4c4fa748-9747-f7d3-6524-4a6bfec1fd52",
+      "name" : "background_color",
+      "label" : "Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 8
+      }
+    }, {
+      "id" : "7bf24328-bfa3-d5e9-f8d4-f30db823d0dc",
+      "name" : "card_background_color",
+      "label" : "Card Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 13
+      }
+    }, {
+      "id" : "fafd357d-6e64-69d4-f71c-1d72bd14f7d9",
+      "name" : "text_color",
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 8
+      },
+      "card_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 13
+      },
+      "text_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }
+  } ],
+  "tab" : "STYLE",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : {
+    "home_tab_styles" : {
+      "home_tab_banner_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "description_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "button_styles" : {
+        "background_color" : {
+          "color" : "#14bba4",
+          "opacity" : 100
+        },
+        "text_color" : {
+          "color" : "#FFFFFF",
+          "opacity" : 100
+        }
+      },
+      "banner_overlayer_color" : {
+        "color" : "#ffffff",
+        "opacity" : 0
+      },
+      "sidebar_details_background_colors" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
+      }
+    },
+    "table_record_creation_button" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "sidebar_styles" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "details_page_styles" : {
+      "banner_background_options" : {
+        "banner_color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 100
+        },
+        "banner_color_2" : {
+          "color" : "#fc5b36",
+          "opacity" : 100
+        }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "d_h_sidebar" : {
+      "background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 8
+      },
+      "card_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 13
+      },
+      "text_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    }
+  }
+}, {
+  "id" : "9b29ea6c-a0cd-4cd7-d092-8e3f356d8871",
+  "name" : "other_options",
+  "label" : "Branding",
+  "help_text" : "Here, you can customize the logos and sidebar CTA options, including headings and button URL.",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "a64db76d-d2ff-4e31-2319-8a038d3e7cc1",
+    "name" : "company_options",
+    "label" : "Company Options",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "44cde3d6-4cd9-54cd-6802-4a9c90b6697e",
+      "name" : "small_logo",
+      "label" : "Icon",
+      "help_text" : "This logo will be displayed in all modals, such as login and logout.",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "display_width" : null,
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
+        "loading" : "lazy",
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
+      }
+    }, {
+      "id" : "3a631ccb-c71e-a66a-5968-602b720e77af",
+      "name" : "logo",
+      "label" : "Light Logo",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "display_width" : null,
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
+        "loading" : "lazy",
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
+      }
+    }, {
+      "id" : "6a77e4f9-2f31-5d20-8253-e86a43321c50",
+      "name" : "auth_popup_form_logo",
+      "label" : "Dark Logo",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : true,
+      "show_loading" : false,
+      "type" : "image",
+      "display_width" : null,
+      "default" : {
+        "size_type" : "auto",
+        "src" : "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+        "alt" : "logo.fef91145",
+        "loading" : "lazy",
+        "width" : 868,
+        "height" : 129,
+        "max_width" : 868,
+        "max_height" : 129
+      }
+    }, {
+      "id" : "b675141e-9014-d0ab-3867-d7c2c4d8940a",
+      "name" : "show_company_name",
+      "label" : "Show Company Name",
+      "required" : false,
+      "locked" : false,
+      "display" : "checkbox",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : true
+    }, {
+      "id" : "6deba33a-0ad3-265a-1fb2-913295dca4f1",
+      "name" : "company_name",
+      "label" : "Company name",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "other_options.company_options.show_company_name",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "CompanyName"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "small_logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
+        "loading" : "lazy",
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
+      },
+      "logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
+        "loading" : "lazy",
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
+      },
+      "auth_popup_form_logo" : {
+        "size_type" : "auto",
+        "src" : "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+        "alt" : "logo.fef91145",
+        "loading" : "lazy",
+        "width" : 868,
+        "height" : 129,
+        "max_width" : 868,
+        "max_height" : 129
+      },
+      "show_company_name" : true,
+      "company_name" : "CompanyName"
+    }
+  }, {
+    "id" : "c077d677-6815-7789-f81e-ad337959d9d3",
+    "name" : "show_sidebar_cta",
+    "label" : "Show sidebar CTA",
+    "help_text" : "Toggle to display a CTA section in the sidebar",
+    "required" : false,
+    "locked" : false,
+    "display" : "checkbox",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : false
+  }, {
+    "id" : "809b00e0-388d-cb9b-8a22-5b931af517ca",
+    "name" : "sidebar_cta_details",
+    "label" : "Sidebar CTA Details",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "other_options.show_sidebar_cta",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "1b5b5550-38ba-b702-2c86-6507ecdfc4df",
+      "name" : "title",
+      "label" : "Title",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Get early access to our best apps, themes, and modules"
+    }, {
+      "id" : "0e035591-23c0-76b2-d948-257ecad27e28",
+      "name" : "button_text",
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "Click Me"
+    }, {
+      "id" : "61637da3-86f7-7afb-9e61-1680c08bad86",
+      "name" : "button_url",
+      "label" : "Button Url",
+      "required" : false,
+      "locked" : false,
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
+      "type" : "url",
+      "display_width" : null,
+      "default" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "title" : "Get early access to our best apps, themes, and modules",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    }
+  }, {
+    "id" : "21068a9c-1dc7-4147-35d3-dada3429372a",
+    "name" : "welcome_message",
+    "label" : "Welcome Message",
+    "required" : false,
+    "locked" : false,
+    "validation_regex" : "",
+    "allow_new_line" : false,
+    "show_emoji_picker" : false,
+    "type" : "text",
+    "display_width" : null,
+    "default" : ""
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : {
+    "company_options" : {
+      "small_logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "alt" : "logo.801dd9fb",
+        "loading" : "lazy",
+        "width" : 268,
+        "height" : 96,
+        "max_width" : 268,
+        "max_height" : 96
+      },
+      "logo" : {
+        "size_type" : "auto",
+        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "alt" : "WP WHITE",
+        "loading" : "lazy",
+        "width" : 684,
+        "height" : 63,
+        "max_width" : 684,
+        "max_height" : 63
+      },
+      "auth_popup_form_logo" : {
+        "size_type" : "auto",
+        "src" : "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+        "alt" : "logo.fef91145",
+        "loading" : "lazy",
+        "width" : 868,
+        "height" : 129,
+        "max_width" : 868,
+        "max_height" : 129
+      },
+      "show_company_name" : true,
+      "company_name" : "CompanyName"
+    },
+    "show_sidebar_cta" : false,
+    "sidebar_cta_details" : {
+      "title" : "Get early access to our best apps, themes, and modules",
+      "button_text" : "Click Me",
+      "button_url" : {
+        "content_id" : null,
+        "href" : "https://hub.digitalwoods.io",
+        "type" : "EXTERNAL"
+      }
+    },
+    "welcome_message" : ""
+  }
+}, {
+  "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",
+  "name" : "hubspot_data_source",
+  "label" : "HubSpot Data Source",
+  "required" : false,
+  "locked" : true,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "backend_server_url",
+    "controlling_value_regex" : null,
+    "property" : null,
+    "operator" : "EMPTY",
+    "access" : null
+  },
+  "display" : "toggle",
+  "type" : "boolean",
+  "display_width" : null,
+  "default" : false
+} ]
