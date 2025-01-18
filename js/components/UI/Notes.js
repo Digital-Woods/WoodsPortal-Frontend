@@ -117,7 +117,7 @@ const NoteCard = ({
                 }`}
               onClick={(e) => e.stopPropagation()}
             >
-              <SummernoteEditor
+              <ProseMirrorEditor
                 initialData={escapeHTML(note.hs_note_body)}
                 attachments={note.hs_attachment_ids || []}
                 setEditorContent={setEditorContent}
@@ -414,7 +414,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
               {getObjectName()}
             </p>
           </div>
-          <SummernoteEditor
+          <ProseMirrorEditor
             attachments={[]}
             setEditorContent={setEditorContent}
             imageUploadUrl={imageUploadUrl}
