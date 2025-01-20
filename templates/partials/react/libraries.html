@@ -13,10 +13,8 @@
 <link rel="stylesheet" href='{{ get_asset_url("../../../child/child.css") }}' />
 <!-- child css  -->
 
-<script
-  type="text/babel"
-  src=' {{get_asset_url("../../../js/tailwind.config.js")}}'>
-  </script>
+<script type="text/babel" src=' {{get_asset_url("../../../js/tailwind.config.js")}}'>
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
@@ -69,3 +67,30 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
 
 <!-- Summernote JS -->
 <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.js"></script>
+
+<!-- ProseMirror Modules -->
+<script type="module">
+  import { EditorState, Plugin as ProseMirrorPlugin } from 'https://cdn.skypack.dev/prosemirror-state';
+  import { EditorView, Decoration, DecorationSet } from 'https://cdn.skypack.dev/prosemirror-view';
+  import { Schema } from 'https://cdn.skypack.dev/prosemirror-model';
+  import { DOMParser, DOMSerializer } from 'https://cdn.skypack.dev/prosemirror-model';
+  import { keymap } from 'https://cdn.skypack.dev/prosemirror-keymap';
+  import { baseKeymap } from 'https://cdn.skypack.dev/prosemirror-commands';
+  import { history, undo, redo } from 'https://cdn.skypack.dev/prosemirror-history';
+  import { exampleSetup, buildMenuItems } from 'https://cdn.skypack.dev/prosemirror-example-setup';
+  import { MenuItem } from 'https://cdn.skypack.dev/prosemirror-menu';
+
+
+  window.ProseMirrorState = { EditorState, Plugin };
+  window.ProseMirrorPlugin = ProseMirrorPlugin;
+  window.ProseMirrorView = { EditorView };
+  window.Decoration = { Decoration };
+  window.DecorationSet = { DecorationSet };
+  window.ProseMirrorModel = { Schema, DOMParser };
+  window.DOMSerializer = { DOMSerializer };
+  window.ProseMirrorKeymap = { keymap, baseKeymap };
+  window.ProseMirrorHistory = { history, undo, redo };
+  window.ProseMirrorExampleSetup = { exampleSetup };
+  window.ProseMirrorBuildMenuItems = { buildMenuItems };
+  window.ProseMirrorMenuItem = { MenuItem };
+</script>
