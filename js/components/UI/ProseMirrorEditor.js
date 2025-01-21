@@ -27,6 +27,14 @@ const ProseMirrorEditor = ({
   const { buildMenuItems } = window.ProseMirrorBuildMenuItems;
   const { MenuItem } = window.ProseMirrorMenuItem;
 
+  const setAlignment = (state, dispatch, nodeType, align) => {
+    const { from, to } = state.selection;
+    if (dispatch) {
+      dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
+    }
+    return true;
+  };
+
   // Csustom Plugin API Call Start
   const uploadImage = async (pmView, file) => {
     setisLoadingUoloading(true);
@@ -203,17 +211,33 @@ const ProseMirrorEditor = ({
     const { exampleSetup } = window.ProseMirrorExampleSetup;
 
     // Define schema
+
+    const paragraphNode = {
+      content: "inline*",
+      group: "block",
+      attrs: {
+        align: { default: null },
+      },
+      parseDOM: [
+        {
+          tag: "p",
+          getAttrs: (dom) => ({
+            align: dom.style.textAlign || null,
+          }),
+        },
+      ],
+      toDOM(node) {
+        const { align } = node.attrs;
+        return ["p", { style: align ? `text-align: ${align};` : "" }, 0];
+      },
+    };
+
     const schema = new Schema({
       nodes: {
         doc: { content: "block+" },
-        paragraph: {
-          content: "text*",
-          group: "block",
-          toDOM() {
-            return ["p", 0];
-          },
-        },
-        text: { inline: true },
+        paragraph: paragraphNode,
+        text: { group: "inline" },
+        // text: { inline: true },
         heading: {
           content: "text*",
           group: "block",
@@ -235,6 +259,7 @@ const ProseMirrorEditor = ({
         image: imageNodeSpec,
       },
       marks: {
+        // alignment: alignmentMark,
         strong: {
           toDOM: () => ["strong", 0],
           parseDOM: [{ tag: "strong" }],
@@ -251,11 +276,66 @@ const ProseMirrorEditor = ({
     });
     setEditorSchema(schema);
 
+    const customMenuItemTextLeft = new MenuItem({
+      title: "Insert Text",
+      run: (state, dispatch, view) => {
+        setAlignment(state, dispatch, schema.nodes.paragraph, "left");
+      },
+      select: (state) => true, // Show this item always
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+    });
+    const customMenuItemTextCenter = new MenuItem({
+      title: "Insert Text",
+      run: (state, dispatch, view) => {
+        setAlignment(state, dispatch, schema.nodes.paragraph, "center");
+      },
+      select: (state) => true, // Show this item always
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+    });
+    const customMenuItemTextRight = new MenuItem({
+      title: "Insert Text",
+      run: (state, dispatch, view) => {
+        setAlignment(state, dispatch, schema.nodes.paragraph, "right");
+      },
+      select: (state) => true, // Show this item always
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+    });
+
     const customExampleSetup = (schema) => {
       // const menu = buildMenuItems(schema).fullMenu;
       // menu[1][0].content.push(customMenuItemImage);
       // menu[1][0].content.shift();
       const menuItems = buildMenuItems(schema);
+      menuItems.inlineMenu[0].push(customMenuItemTextLeft);
+      menuItems.inlineMenu[0].push(customMenuItemTextCenter);
+      menuItems.inlineMenu[0].push(customMenuItemTextRight);
       menuItems.inlineMenu[0].push(customMenuItemImage);
       menuItems.inlineMenu[0].push(customMenuItemAttachment);
       const menu = menuItems.fullMenu;
