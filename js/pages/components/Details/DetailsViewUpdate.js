@@ -554,10 +554,11 @@ const DetailsViewUpdate = ({
                             placeholder={`Enter ${editRow.label}`}
                             height="small"
                             className=""
-                            defaultValue={formatDate(
-                              getValue(editRow.value),
-                              "input"
-                            )}
+                            defaultValue={
+                              editRow.value
+                                ? formatDate(getValue(editRow.value), "input")
+                                : ""
+                            }
                             {...register(editRow.key)}
                           />
                         ) : editRow.fieldType === "number" ? (
@@ -580,9 +581,9 @@ const DetailsViewUpdate = ({
                         )}
                       </FormControl>
 
-                      {errors[editRow.key] && (
+                      {editRow.fieldType != "checkbox" && errors[editRow.key] && (
                         <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors[editRow.key].message}
+                          {errors[editRow.key]?.message}
                         </FormMessage>
                       )}
                     </FormItem>
@@ -611,7 +612,7 @@ const DetailsViewUpdate = ({
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <span>{renderValue || "No Value"}</span>
+            <span>{renderValue || "--"}</span>
             {value.isEditableField && (
               value.key === "pipeline" ||
               value.key === "hs_pipeline"
