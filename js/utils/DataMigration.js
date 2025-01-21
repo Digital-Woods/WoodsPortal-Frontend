@@ -338,11 +338,11 @@ const renderCellContent = (
   if (
     column &&
     value != null &&
-    (column.key == "hs_createdate" ||
+    ( column.fieldType == "date"||
+      column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
-      column.key == "createdate" ||
-      column.fieldType == "date" ||
-      column.key.includes("date"))
+      column.key == "createdate"
+      )
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }
