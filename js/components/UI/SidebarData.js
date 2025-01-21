@@ -210,7 +210,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [sync]);
 
   // const setDialogData = (data) => {
   //   setModalData(data);

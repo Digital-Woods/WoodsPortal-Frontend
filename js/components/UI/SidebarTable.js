@@ -209,7 +209,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
     // }, [path,numOfPages]);
     useEffect(() => {
       getData();
-    }, []);
+    }, [sync]);
 
   const setDialogData = (data) => {
     setModalData(data);

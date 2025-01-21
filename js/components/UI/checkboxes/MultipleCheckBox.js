@@ -59,7 +59,7 @@ const CheckboxField = ({ editRow, saveData, setValue, name, control, setSelected
     <div className="relative">
       {/* Selected options display */}
       <div
-        className="border relative dark:border-gray-600 rounded text-xs p-2 !pr-4 cursor-pointer flex flex-wrap gap-2 items-center"
+        className="border relative dark:border-gray-600 rounded text-xs p-2 !pr-4 cursor-pointer flex flex-wrap gap-2 items-center min-h-[43px]"
         onClick={toggleDropdown}
       >
         {selectedValues.length > 0 ? (
