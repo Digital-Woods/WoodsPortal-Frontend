@@ -136,7 +136,7 @@ const Drawer = ({ className }) => {
             </div>
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
-                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-230px)]'} overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
+                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-160px)]'} overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <div
@@ -169,7 +169,7 @@ const Drawer = ({ className }) => {
                       </div>
                     ))}
                   {routes.length > 7 && (
-                    <div className="sticky -bottom-[2] left-0 right-0 h-20 pointer-events-none">
+                    <div className="sticky -bottom-[2] left-0 right-0 h-6 pointer-events-none">
                       <div className="w-full h-full bg-gradient-to-t from-sidelayoutColor dark:from-dark-300 to-transparent"></div>
                     </div>
                   )}

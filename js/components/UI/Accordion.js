@@ -52,19 +52,14 @@ const AccordionDetails = ({ children, active, id }) => {
   const contentEl = useRef(null);
   useEffect(() => {
     if (contentEl.current) {
-      contentEl.current.style.height =
-        active != null ? `${contentEl.current.scrollHeight}px` : "0px";
+      contentEl.current.style.maxHeight =
+        active != null ? `100%` : "0px";
     }
   }, [active, id, contentEl]);
   return (
     <div
       ref={contentEl}
-      className={`rounded-md transition-height duration-300 overflow-y-auto hide-scrollbar dark:bg-dark-300 `}
-      style={
-        active != null
-          ? { height: contentEl.current.scrollHeight }
-          : { height: "0px" }
-      }
+      className={`rounded-md transition-all duration-500 overflow-y-auto hide-scrollbar dark:bg-dark-300 `}
     >
       <div className="rounded-md px-2">{children}</div>
     </div>
