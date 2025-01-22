@@ -368,7 +368,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
+      <div className="flex gap-1 relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}
@@ -407,7 +407,7 @@ const renderCellContent = (
 
   if (type == "details" || type == "associations" && column?.fieldType === "html") {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
+      <div className="flex gap-1 relative justify-between">
         <div className="flex gap-5 flex-col items-start">
           {isObject(value) ? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))}
@@ -418,7 +418,7 @@ const renderCellContent = (
 
   if (type == "details") {
     return (
-      <div className="flex gap-1 min-w-[153px] relative  justify-between">
+      <div className="flex gap-1 relative  justify-between">
         {isObject(value) ? value.label : value}
       </div>
     );
@@ -431,7 +431,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between group">
+      <div className="flex gap-1 relative justify-between group">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md"
           to={associationPath}
@@ -460,7 +460,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
+      <div className="flex gap-1 relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}
