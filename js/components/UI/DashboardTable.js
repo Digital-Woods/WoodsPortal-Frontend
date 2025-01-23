@@ -117,8 +117,8 @@ const DashboardTable = ({
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
-  ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
-  : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+    ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -150,7 +150,7 @@ const DashboardTable = ({
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: `${apis.tableAPI}${componentName != "ticket" ? param : ''}`,
+        API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association") ? param : ''}`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -163,9 +163,12 @@ const DashboardTable = ({
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
-        if (defPermissions === null) setPermissions(data.configurations[componentName])
+        if (defPermissions === null) {
+          setPermissions(data.configurations[componentName])
+        } else {
+          setPermissions(defPermissions);
+        }
       }
-      setPermissions(data.configurations[componentName]);
     },
     onError: () => {
       setSync(false)
@@ -333,7 +336,7 @@ const DashboardTable = ({
                 </TableHeader>
                 <TableBody>
                   {tableData.map((item) => (
-                    <TableRow key={item.id} 
+                    <TableRow key={item.id}
                       onMouseEnter={() => handleRowHover(item)}
                       onMouseLeave={() => handleRowHover(null)}
                     >
@@ -404,7 +407,7 @@ const DashboardTable = ({
                         </TableCell>
                       }
                       {editView && (permissions && permissions.update) &&
-                        <TableCell  className=' dark:bg-dark-300 '>
+                        <TableCell className=' dark:bg-dark-300 '>
                           <div className="flex items-center space-x-2 gap-x-5">
                             <Button size="sm" className="text-white" onClick={() => {
                               setShowEditDialog(true);
