@@ -26,7 +26,6 @@ const ProseMirrorEditor = ({
   const { DOMSerializer } = window.DOMSerializer;
   const { buildMenuItems } = window.ProseMirrorBuildMenuItems;
   const { MenuItem } = window.ProseMirrorMenuItem;
-  const { baseSchema } = window.baseSchema;
 
   const setAlignment = (state, dispatch, nodeType, align) => {
     const { from, to } = state.selection;
@@ -204,38 +203,13 @@ const ProseMirrorEditor = ({
     },
   };
 
-  // Mark
-  const underlineMark = {
-    attrs: {
-      align: { default: null },
-    },
-    parseDOM: [
-      {
-        // style: "text-align",
-        // getAttrs: (value) => {
-        //   if (value === "left" || value === "center" || value === "right") {
-        //     return { align: value };
-        //   }
-        //   return null;
-        // },
-        tag: "u"
-      },
-    ],
-    toDOM(mark) {
-      // return ["span", { style: `text-align: ${mark.attrs.align || "left"};` }];
-      return ["u", 0];
-    },
-  };
-
   useEffect(() => {
     const { EditorState } = window.ProseMirrorState;
     const { EditorView } = window.ProseMirrorView;
     const { Schema, DOMParser } = window.ProseMirrorModel;
     const { keymap, baseKeymap } = window.ProseMirrorKeymap;
     const { exampleSetup } = window.ProseMirrorExampleSetup;
-    const { addListNodes } = window.addListNodes;
-    const { Dropdown } = window.Dropdown;
-
+    const { Dropdown } = window.ProseMirrorMenuDropdown;
     // Define schema
 
     const paragraphNode = {
@@ -258,36 +232,34 @@ const ProseMirrorEditor = ({
       },
     };
 
-    const myNodes = {
-      doc: { content: "block+" },
-      paragraph: paragraphNode,
-      text: { group: "inline" },
-      // text: { inline: true },
-      heading: {
-        content: "text*",
-        group: "block",
-        toDOM: (node) => ["h" + node.attrs.level, 0],
-        parseDOM: [
-          { tag: "h1", attrs: { level: 1 } },
-          { tag: "h2", attrs: { level: 2 } },
-          { tag: "h3", attrs: { level: 3 } },
-        ],
-        attrs: { level: { default: 1 } },
-      },
-      hard_break: {
-        inline: true,
-        group: "inline",
-        selectable: false,
-        toDOM: () => ["br"],
-        parseDOM: [{ tag: "br" }],
-      },
-      image: imageNodeSpec,
-    };
-
     const schema = new Schema({
-      nodes: myNodes,
+      nodes: {
+        doc: { content: "block+" },
+        paragraph: paragraphNode,
+        text: { group: "inline" },
+        // text: { inline: true },
+        heading: {
+          content: "text*",
+          group: "block",
+          toDOM: (node) => ["h" + node.attrs.level, 0],
+          parseDOM: [
+            { tag: "h1", attrs: { level: 1 } },
+            { tag: "h2", attrs: { level: 2 } },
+            { tag: "h3", attrs: { level: 3 } },
+          ],
+          attrs: { level: { default: 1 } },
+        },
+        hard_break: {
+          inline: true,
+          group: "inline",
+          selectable: false,
+          toDOM: () => ["br"],
+          parseDOM: [{ tag: "br" }],
+        },
+        image: imageNodeSpec,
+      },
       marks: {
-        alignment: underlineMark,
+        // alignment: alignmentMark,
         strong: {
           toDOM: () => ["strong", 0],
           parseDOM: [{ tag: "strong" }],
@@ -339,7 +311,7 @@ const ProseMirrorEditor = ({
       },
     });
     const customMenuItemTextRight = new MenuItem({
-      title: "Underline Text",
+      title: "Insert Text",
       run: (state, dispatch, view) => {
         setAlignment(state, dispatch, schema.nodes.paragraph, "right");
       },
@@ -348,7 +320,7 @@ const ProseMirrorEditor = ({
         dom: (() => {
           const span = document.createElement("span");
           span.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>
     `;
           span.className = "custom-menu-icon";
           return span;
@@ -356,32 +328,6 @@ const ProseMirrorEditor = ({
       },
     });
 
-    const setAlignment = (state, dispatch, markType, align) => {
-        const { from, to } = state.selection;
-        if (dispatch) {
-          dispatch(state.tr.addMark(from, to, markType.create({ align })));
-        }
-        return true;
-    }
-    const customMenuItemTextUnderline = new MenuItem({
-      title: "Underline Text",
-      run: (state, dispatch, view) => {
-        setAlignment(state, dispatch, schema.marks.alignment, "center");
-      },
-      select: (state) => true, // Show this item always
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120v-80h560v80H200Zm280-160q-101 0-157-63t-56-167v-330h103v336q0 56 28 91t82 35q54 0 82-35t28-91v-336h103v330q0 104-56 167t-157 63Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-    });
-
-    // Front
     const alignmentDropdown = new Dropdown(
       [
         customMenuItemTextLeft, 
@@ -393,18 +339,16 @@ const ProseMirrorEditor = ({
         title: "Text Alignment Options", // Tooltip for the dropdown
       }
     );
-    
 
     const customExampleSetup = (schema) => {
       // const menu = buildMenuItems(schema).fullMenu;
       // menu[1][0].content.push(customMenuItemImage);
       // menu[1][0].content.shift();
       const menuItems = buildMenuItems(schema);
-      menuItems.inlineMenu[0].push(customMenuItemTextUnderline);
       menuItems.inlineMenu[0].push(alignmentDropdown);
-      menuItems.inlineMenu[0].push(customMenuItemTextLeft);
-      menuItems.inlineMenu[0].push(customMenuItemTextCenter);
-      menuItems.inlineMenu[0].push(customMenuItemTextRight);
+      // menuItems.inlineMenu[0].push(customMenuItemTextLeft);
+      // menuItems.inlineMenu[0].push(customMenuItemTextCenter);
+      // menuItems.inlineMenu[0].push(customMenuItemTextRight);
       menuItems.inlineMenu[0].push(customMenuItemImage);
       menuItems.inlineMenu[0].push(customMenuItemAttachment);
       const menu = menuItems.fullMenu;
