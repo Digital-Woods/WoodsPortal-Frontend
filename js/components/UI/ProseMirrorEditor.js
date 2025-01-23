@@ -234,7 +234,7 @@ const ProseMirrorEditor = ({
     const { keymap, baseKeymap } = window.ProseMirrorKeymap;
     const { exampleSetup } = window.ProseMirrorExampleSetup;
     const { addListNodes } = window.addListNodes;
-    // const { OrderedMap } = window.OrderedMap;
+    const { Dropdown } = window.Dropdown;
 
     // Define schema
 
@@ -283,12 +283,9 @@ const ProseMirrorEditor = ({
       },
       image: imageNodeSpec,
     };
-    // const nodesWithList = addListNodes(schema.spec.nodes, "paragraph block*", "block");
-    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode);
-    const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
 
     const schema = new Schema({
-      nodes: nodesWithList,
+      nodes: myNodes,
       marks: {
         alignment: underlineMark,
         strong: {
@@ -384,12 +381,27 @@ const ProseMirrorEditor = ({
       },
     });
 
+    // Front
+    const alignmentDropdown = new Dropdown(
+      [
+        customMenuItemTextLeft, 
+        customMenuItemTextCenter, 
+        customMenuItemTextRight
+      ],
+      {
+        label: "Alignment", // Dropdown label
+        title: "Text Alignment Options", // Tooltip for the dropdown
+      }
+    );
+    
+
     const customExampleSetup = (schema) => {
       // const menu = buildMenuItems(schema).fullMenu;
       // menu[1][0].content.push(customMenuItemImage);
       // menu[1][0].content.shift();
       const menuItems = buildMenuItems(schema);
       menuItems.inlineMenu[0].push(customMenuItemTextUnderline);
+      menuItems.inlineMenu[0].push(alignmentDropdown);
       menuItems.inlineMenu[0].push(customMenuItemTextLeft);
       menuItems.inlineMenu[0].push(customMenuItemTextCenter);
       menuItems.inlineMenu[0].push(customMenuItemTextRight);
