@@ -280,6 +280,38 @@ const ProseMirrorEditor = ({
           toDOM: () => ["u", 0],
           parseDOM: [{ tag: "u" }],
         },
+        fontSize: {
+          toDOM: () => ["span", 0],
+          parseDOM: [{ tag: "span" }],
+        },
+        fontFamily: {
+          attrs: { font: {} },
+          parseDOM: [
+            {
+              style: "font-family",
+              getAttrs: (value) => ({ font: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `font-family: ${mark.attrs.font}` },
+            0,
+          ],
+        },
+        fontSize: {
+          attrs: { font: {} },
+          parseDOM: [
+            {
+              style: "font-size",
+              getAttrs: (value) => ({ font: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `font-size: ${mark.attrs.font}` },
+            0,
+          ],
+        },
       },
     });
     setEditorSchema(schema);
@@ -287,7 +319,7 @@ const ProseMirrorEditor = ({
     // Underline Menu
     const toggleUnderline = (schema) => {
       return toggleMark(schema.marks.underline);
-    }
+    };
     const customMenuItemTextUnderline = new MenuItem({
       title: "Underline Text",
       run: (state, dispatch, view) => {
@@ -357,28 +389,67 @@ const ProseMirrorEditor = ({
     };
 
     // Font Menu
+    const applyFontFamily = (font) => {
+      return (state, dispatch) => {
+        const { schema, selection } = state;
+        const { from, to } = selection;
+        const markType = schema.marks.fontFamily;
+
+        if (!markType) return false;
+
+        const attrs = { font };
+        const tr = state.tr;
+
+        if (selection.empty) {
+          // Apply as stored mark if no selection
+          tr.addStoredMark(markType.create(attrs));
+        } else {
+          // Apply to the selected range
+          tr.addMark(from, to, markType.create(attrs));
+        }
+
+        if (dispatch) dispatch(tr);
+        return true;
+      };
+    };
     const fontDropdown = () => {
       const fonts = [
-        "Arial",
-        "Courier New",
-        "Georgia",
-        "Times New Roman",
-        "Verdana",
+        {
+          label: "Sans Serif",
+          key: "sans-serif",
+        },
+        {
+          label: "Serif",
+          key: "serif",
+        },
+        {
+          label: "Monospace",
+          key: "monospace",
+        },
+        {
+          label: "Georgia",
+          key: "Georgia",
+        },
+        {
+          label: "Tahoma",
+          key: "Tahoma",
+        },
+        {
+          label: "Trebuchet MS",
+          key: "Trebuchet MS",
+        },
+        {
+          label: "Verdana",
+          key: "Verdana",
+        },
       ];
       const fontItems = fonts.map(
         (font) =>
           new MenuItem({
-            title: `Set font to ${font}`,
-            label: font,
-            run: (state, dispatch) => {
-              const { tr, selection } = state;
-              const { from, to } = selection;
-
-              // if (dispatch) {
-              //   dispatch(
-              //     tr.addMark(from, to, schema.marks.font.create({ fontFamily: font }))
-              //   );
-              // }
+            title: `Set font to ${font.label}`,
+            label: font.label,
+            run: (state, dispatch, view) => {
+              applyFontFamily(font.key)(view.state, view.dispatch);
               return true;
             },
             enable: (state) => !state.selection.empty, // Enable if text is selected
@@ -389,22 +460,75 @@ const ProseMirrorEditor = ({
     };
 
     // Font Size Menu
-    const fontSizeDropdown = () => {
-      const fonts = ["8", "9", "10", "11", "12", "14", "18", "24", "36"];
-      const fontItems = fonts.map(
-        (font) =>
-          new MenuItem({
-            title: `Set font size to ${font}`,
-            label: font,
-            run: (state, dispatch) => {
-              const { tr, selection } = state;
-              const { from, to } = selection;
+    const applyFontSize = (font) => {
+      return (state, dispatch) => {
+        const { schema, selection } = state;
+        const { from, to } = selection;
+        const markType = schema.marks.fontSize;
 
-              // if (dispatch) {
-              //   dispatch(
-              //     tr.addMark(from, to, schema.marks.font.create({ fontFamily: font }))
-              //   );
-              // }
+        if (!markType) return false;
+
+        const attrs = { font };
+        const tr = state.tr;
+
+        if (selection.empty) {
+          // Apply as stored mark if no selection
+          tr.addStoredMark(markType.create(attrs));
+        } else {
+          // Apply to the selected range
+          tr.addMark(from, to, markType.create(attrs));
+        }
+
+        if (dispatch) dispatch(tr);
+        return true;
+      };
+    };
+    const fontSizeDropdown = () => {
+      const fontSizes = [
+        {
+          label: "8",
+          value: "8pt",
+        },
+        {
+          label: "9",
+          value: "9pt",
+        },
+        {
+          label: "10",
+          value: "10pt",
+        },
+        {
+          label: "11",
+          value: "11pt",
+        },
+        {
+          label: "12",
+          value: "12pt",
+        },
+        {
+          label: "14",
+          value: "14pt",
+        },
+        {
+          label: "18",
+          value: "18pt",
+        },
+        {
+          label: "24",
+          value: "24pt",
+        },
+        {
+          label: "36",
+          value: "36pt",
+        }
+      ];
+      const fontItems = fontSizes.map(
+        (fontSize) =>
+          new MenuItem({
+            title: `Set font size to ${fontSize.label}`,
+            label: fontSize.label,
+            run: (state, dispatch, view) => {
+              applyFontSize(fontSize.value)(view.state, view.dispatch);
               return true;
             },
             enable: (state) => !state.selection.empty, // Enable if text is selected
