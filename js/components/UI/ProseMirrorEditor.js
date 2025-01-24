@@ -212,6 +212,7 @@ const ProseMirrorEditor = ({
     const { Dropdown } = window.ProseMirrorMenuDropdown;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
+    const { toggleMark } = window.toggleMark;
     // Define schema
 
     const paragraphNode = {
@@ -283,79 +284,148 @@ const ProseMirrorEditor = ({
     });
     setEditorSchema(schema);
 
-    const customMenuItemTextLeft = new MenuItem({
-      title: "Insert Text",
+    // Underline Menu
+    const toggleUnderline = (schema) => {
+      return toggleMark(schema.marks.underline);
+    }
+    const customMenuItemTextUnderline = new MenuItem({
+      title: "Underline Text",
       run: (state, dispatch, view) => {
-        setAlignment(state, dispatch, schema.nodes.paragraph, "left");
+        toggleUnderline(view.state.schema)(state, dispatch);
       },
       select: (state) => true, // Show this item always
       icon: {
         dom: (() => {
           const span = document.createElement("span");
           span.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-    });
-    const customMenuItemTextCenter = new MenuItem({
-      title: "Insert Text",
-      run: (state, dispatch, view) => {
-        setAlignment(state, dispatch, schema.nodes.paragraph, "center");
-      },
-      select: (state) => true, // Show this item always
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-    });
-    const customMenuItemTextRight = new MenuItem({
-      title: "Insert Text",
-      run: (state, dispatch, view) => {
-        setAlignment(state, dispatch, schema.nodes.paragraph, "right");
-      },
-      select: (state) => true, // Show this item always
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>
-    `;
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120v-80h560v80H200Zm280-160q-101 0-157-63t-56-167v-330h103v336q0 56 28 91t82 35q54 0 82-35t28-91v-336h103v330q0 104-56 167t-157 63Z"/></svg>
+      `;
           span.className = "custom-menu-icon";
           return span;
         })(),
       },
     });
 
-    const alignmentDropdown = new Dropdown(
-      [
-        customMenuItemTextLeft,
-        customMenuItemTextCenter,
-        customMenuItemTextRight,
-      ],
-      {
-        label: "Alignment", // Dropdown label
-        title: "Text Alignment Options", // Tooltip for the dropdown
-      }
-    );
+    // Alignment Menu
+    const alignmentDropdown = () => {
+      const alignments = [
+        {
+          label: "Left",
+          key: "left",
+          icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`,
+        },
+        {
+          label: "Center",
+          key: "center",
+          icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`,
+        },
+        {
+          label: "Right",
+          key: "right",
+          icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`,
+        },
+      ];
+
+      const fontItems = alignments.map(
+        (alignment) =>
+          new MenuItem({
+            title: alignment.label,
+            run: (state, dispatch, view) => {
+              setAlignment(
+                state,
+                dispatch,
+                schema.nodes.paragraph,
+                alignment.key
+              );
+            },
+            select: (state) => true, // Show this item always
+            icon: {
+              dom: (() => {
+                const span = document.createElement("span");
+                span.innerHTML = alignment.icon;
+                span.className = "custom-menu-icon";
+                return span;
+              })(),
+            },
+          })
+      );
+
+      return new Dropdown(fontItems, {
+        label: "Alignment",
+        title: "Select Alignment",
+      });
+    };
+
+    // Font Menu
+    const fontDropdown = () => {
+      const fonts = [
+        "Arial",
+        "Courier New",
+        "Georgia",
+        "Times New Roman",
+        "Verdana",
+      ];
+      const fontItems = fonts.map(
+        (font) =>
+          new MenuItem({
+            title: `Set font to ${font}`,
+            label: font,
+            run: (state, dispatch) => {
+              const { tr, selection } = state;
+              const { from, to } = selection;
+
+              // if (dispatch) {
+              //   dispatch(
+              //     tr.addMark(from, to, schema.marks.font.create({ fontFamily: font }))
+              //   );
+              // }
+              return true;
+            },
+            enable: (state) => !state.selection.empty, // Enable if text is selected
+          })
+      );
+
+      return new Dropdown(fontItems, { label: "Fonts", title: "Select Font" });
+    };
+
+    // Font Size Menu
+    const fontSizeDropdown = () => {
+      const fonts = ["8", "9", "10", "11", "12", "14", "18", "24", "36"];
+      const fontItems = fonts.map(
+        (font) =>
+          new MenuItem({
+            title: `Set font size to ${font}`,
+            label: font,
+            run: (state, dispatch) => {
+              const { tr, selection } = state;
+              const { from, to } = selection;
+
+              // if (dispatch) {
+              //   dispatch(
+              //     tr.addMark(from, to, schema.marks.font.create({ fontFamily: font }))
+              //   );
+              // }
+              return true;
+            },
+            enable: (state) => !state.selection.empty, // Enable if text is selected
+          })
+      );
+
+      return new Dropdown(fontItems, {
+        label: "Font Size",
+        title: "Select Font Size",
+      });
+    };
 
     const customExampleSetup = (schema) => {
       // const menu = buildMenuItems(schema).fullMenu;
       // menu[1][0].content.push(customMenuItemImage);
       // menu[1][0].content.shift();
       const menuItems = buildMenuItems(schema);
-      menuItems.inlineMenu[0].push(alignmentDropdown);
-      // menuItems.inlineMenu[0].push(customMenuItemTextLeft);
-      // menuItems.inlineMenu[0].push(customMenuItemTextCenter);
-      // menuItems.inlineMenu[0].push(customMenuItemTextRight);
+      menuItems.inlineMenu[0].push(customMenuItemTextUnderline);
+      menuItems.inlineMenu[0].push(fontDropdown());
+      menuItems.inlineMenu[0].push(fontSizeDropdown());
+      menuItems.inlineMenu[0].push(alignmentDropdown());
       menuItems.inlineMenu[0].push(customMenuItemImage);
       menuItems.inlineMenu[0].push(customMenuItemAttachment);
       const menu = menuItems.fullMenu;

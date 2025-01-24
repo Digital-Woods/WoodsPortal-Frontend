@@ -81,6 +81,7 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
   import { MenuItem, Dropdown } from 'https://cdn.skypack.dev/prosemirror-menu';
   import { addListNodes } from 'https://cdn.skypack.dev/prosemirror-schema-list';
   import { schema as baseSchema } from "https://cdn.skypack.dev/prosemirror-schema-basic";
+  import { toggleMark } from "https://cdn.skypack.dev/prosemirror-commands";
 
   window.ProseMirrorState = { EditorState, Plugin };
   window.ProseMirrorPlugin = ProseMirrorPlugin;
@@ -97,4 +98,5 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
   window.addListNodes = { addListNodes };
   window.baseSchema = { baseSchema };
   window.ProseMirrorMenuDropdown = { Dropdown };
+  window.toggleMark = { toggleMark };
 </script>
