@@ -123,12 +123,21 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
       )}
       <div className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[50%]'}  ${isSmallScreen && 'w-[80%]'} `}>
         <div className="">
-          <div className="w-[80px]">
-            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+          <div className="w-[200px]">
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              alt="Light Mode Logo"
+              className="h-auto dark:hidden"
+            />
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              alt="Dark Mode Logo"
+              className="h-auto hidden dark:block"
+            />
           </div>
         </div>
         <p className="text-center dark:text-white">
-        { baseCompanyOptions.welcomeMessage || "Welcome" }
+          {baseCompanyOptions.welcomeMessage || ""}
         </p>
         {resend ?
           <div className="flex flex-col items-center justify-center w-full">

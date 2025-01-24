@@ -2,25 +2,23 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
 
   useEffect(() => {
+    if (!Number.isInteger(numOfPages) || numOfPages < 1) return;
+  
     let tempNumberOfButtons = [];
     const dots = "...";
-
+  
     if (numOfPages <= 3) {
-      // Show all pages if numOfPages is less than or equal to 3
       tempNumberOfButtons = Array.from({ length: numOfPages }, (_, i) => i + 1);
     } else if (currentPage === 1) {
-      // If currentPage is the first page
       tempNumberOfButtons = [1, dots, numOfPages];
     } else if (currentPage === numOfPages) {
-      // If currentPage is the last page
       tempNumberOfButtons = [1, dots, numOfPages];
     } else {
-      // For pages in between
       tempNumberOfButtons = [1, dots, currentPage, dots, numOfPages];
     }
-
+  
     setArrOfCurrButtons(tempNumberOfButtons);
-  }, [currentPage, numOfPages]);
+  }, [currentPage, numOfPages]);  
 
 
   return (

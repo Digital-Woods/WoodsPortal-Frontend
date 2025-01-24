@@ -13,7 +13,7 @@ function useSync() {
   const [isSyncLoading, setLoader] = Recoil.useRecoilState(syncLoadingState);
 
   const setIsSyncLoading = (status) => {
-    console.log("setIsLoading", status)
+    // console.log("setIsLoading", status)
     setLoader(status)
     setSyncStatus(status)
   }

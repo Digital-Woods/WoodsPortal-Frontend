@@ -159,7 +159,7 @@ const NoteCard = ({
               <div
                 className={`py-3 pr-3 pl-6 ${!isOpen
                   ? ""
-                  : "hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group cursor-text"
+                  : `${permissions.update ? 'cursor-text':'cursor-auto'} hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
                   }`}
                 onClick={(e) => {
                   if (isOpen) {
@@ -183,9 +183,11 @@ const NoteCard = ({
                       }`}
                   ></div>
                 </div>
-                <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <EditIcon />
-                </div>
+                {permissions.update === true ? (
+                  <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <EditIcon />
+                  </div>
+                ) : null}
               </div>
               {isOpen && (
                 <div onClick={(e) => e.stopPropagation()}>
@@ -387,15 +389,15 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
               onClick={expandToggleButton}
               className="text-white dark:text-white cursor-pointer"
             >
-              { expandDialog ?
-              <div title='Shrink window'>
-                <ShrinkIcon width='22px' height='22px' />
-              </div>
-                : 
-                <div title='Make window expand'>
-                  <ExpandIcon width='22px' height='22px' /> 
+              {expandDialog ?
+                <div title='Shrink window'>
+                  <ShrinkIcon width='22px' height='22px' />
                 </div>
-                }
+                :
+                <div title='Make window expand'>
+                  <ExpandIcon width='22px' height='22px' />
+                </div>
+              }
             </button>
             <button
               disabled={isPosting || isUploading}
@@ -429,7 +431,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             <Button
               disabled={isPosting || isUploading}
               variant="outline"
-              onClick={() => {setShowDialog(false);setExpandDialog(false);}}
+              onClick={() => { setShowDialog(false); setExpandDialog(false); }}
             >
               Cancel
             </Button>

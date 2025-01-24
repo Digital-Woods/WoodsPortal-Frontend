@@ -2,13 +2,13 @@
 const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, apis, companyAsMediator, detailsView = true, editView = false, viewName = '', detailsUrl = '' }) => {
 
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
-  const [showEditData, setShowEditData] = useState(false);
-  const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
+  // const [showEditDialog, setShowEditDialog] = useState(false);
+  // const [showEditData, setShowEditData] = useState(false);
+  // const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
@@ -16,8 +16,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   const [filterPropertyName, setFilterPropertyName] = useState(null);
   const [filterOperator, setFilterOperator] = useState(null);
   const [filterValue, setFilterValue] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalData, setModalData] = useState(null);
+  // const [openModal, setOpenModal] = useState(false);
+  // const [modalData, setModalData] = useState(null);
   const [numOfPages,setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -132,45 +132,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     },
   });
 
-
-
-  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-
-  const handleSort = (column) => {
-    let newSortConfig = column;
-    if (sortConfig === column) {
-      newSortConfig = `-${column}`; // Toggle to descending if the same column is clicked again
-    } else if (sortConfig === `-${column}`) {
-      newSortConfig = column; // Toggle back to ascending if clicked again
-    }
-    setSortConfig(newSortConfig);
-
-    if (env.DATA_SOURCE_SET === true) {
-      // Handle sorting for local data (currentTableData)
-      const sortedData = [...currentTableData].sort((a, b) => {
-        const columnValueA = getValueByPath(a, column);
-        const columnValueB = getValueByPath(b, column);
-
-        if (newSortConfig.startsWith('-')) {
-          return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
-        }
-        return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
-      });
-      setTableData(sortedData.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-      ));
-    } else {
-      getData();
-    }
-  };
-
-  // Helper function to get the value by key from nested objects
-  const getValueByPath = (obj, path) => {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  };
-
-
   const handlePageChange = async (page) => {
     if (env.DATA_SOURCE_SET === true) {
       setCurrentPage(page);
@@ -190,32 +151,9 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     }
   }, [currentTableData, currentPage, itemsPerPage]);
 
-  // useEffect(() => {
-  //   if (env.DATA_SOURCE_SET != true) {
-  //     getData();
-  //   } else {
-  //     mapResponseData(hubSpotTableData);
-  //   }
-  // }, [numOfPages]);
-
-  // useEffect(() => {
-  //   if (env.DATA_SOURCE_SET != true && sync === true) {
-  //     getData();
-  //   }
-  // }, [sync,numOfPages]);
-
-  // useEffect(() => {
-  //   getData();
-  // }, [path,numOfPages]);
-
   useEffect(() => {
     getData();
-  }, []);
-
-  // const setDialogData = (data) => {
-  //   setModalData(data);
-  //   setOpenModal(true);
-  // };
+  }, [sync]);
 
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
@@ -287,7 +225,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
                 }
               </div> */}
               <Pagination
-                numOfPages={numOfPages}
+                numOfPages={numOfPages || 0}
                 currentPage={currentPage}
                 setCurrentPage={handlePageChange}
               />

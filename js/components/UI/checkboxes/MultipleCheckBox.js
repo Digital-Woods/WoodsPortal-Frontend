@@ -59,7 +59,7 @@ const CheckboxField = ({ editRow, saveData, setValue, name, control, setSelected
     <div className="relative">
       {/* Selected options display */}
       <div
-        className="border relative dark:border-gray-600 rounded text-xs p-2 !pr-4 cursor-pointer flex flex-wrap gap-2 items-center"
+        className="border relative dark:border-gray-600 rounded text-xs p-2 !pr-4 cursor-pointer flex flex-wrap gap-2 items-center min-h-[43px]"
         onClick={toggleDropdown}
       >
         {selectedValues.length > 0 ? (
@@ -97,19 +97,19 @@ const CheckboxField = ({ editRow, saveData, setValue, name, control, setSelected
       {isDropdownOpen && (
         <div
           ref={dropdownRef}
-          className="absolute left-1/2 transform -translate-x-1/2 bg-white dark:bg-dark-200 border dark:border-gray-600 rounded shadow-md mt-2 z-10 w-full min-w-[275px] max-h-40 overflow-y-auto pb-8"
+          className="absolute left-1/2 transform -translate-x-1/2 bg-white dark:bg-dark-200 border dark:border-gray-600 rounded shadow-md mt-2 z-10 w-full min-w-[275px] max-h-40 overflow-y-auto"
         >
           {/* Search input */}
           <div className="p-2">
             <div className="relative">
-              <OpenIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <OutlineSearch className="absolute left-1 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
               <input
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full py-2 pl-10 pr-4 rounded-md border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full py-1 pl-8 pr-4 rounded-sm border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
           </div>

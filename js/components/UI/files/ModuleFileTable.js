@@ -14,7 +14,7 @@ const ModuleFileTable = ({ files }) => {
   };
 
   const handleDownload = (file, e) => {
-    console.log(file);
+    // console.log(file);
     e.stopPropagation();
     window.open(file.url, "_blank");
   };

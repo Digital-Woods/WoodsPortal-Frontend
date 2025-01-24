@@ -14,6 +14,7 @@ const hubSpotUserDetails = {
       theme: "light",
       logo: baseCompanyOptions && baseCompanyOptions.logoImg ? baseCompanyOptions.logoImg : baseCompanyOptions.smallLogo,
       smallLogo: baseCompanyOptions && baseCompanyOptions.smallLogo ? baseCompanyOptions.smallLogo : baseCompanyOptions.logoImg,
+      authPopupFormLogo: baseCompanyOptions && baseCompanyOptions.authPopupFormLogo ? baseCompanyOptions.authPopupFormLogo : baseCompanyOptions.logoImg,
       primaryColor: primarycolor,
       secondaryColor: secondarycolor,
       brandName: baseCompanyOptions && baseCompanyOptions.companyName ? baseCompanyOptions.companyName : "CompanyName",

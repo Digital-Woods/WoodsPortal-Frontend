@@ -24,19 +24,22 @@ const formatDateString = (date) => {
 };
 
 const formatDate = (data, type = "date") => {
-  // if (isDate(data)) {
+  // Handle invalid or falsy date inputs
+  if (!data || isNaN(new Date(data).getTime())) {
+    return ""; // Return an empty string for invalid dates
+  }
+
   const date = new Date(data);
   const formatted = formatDateString(date);
   const [datePart, timePart] = formatted.split(", ");
   const [day, month, year] = datePart.split("/");
-  if (type == "date") {
+
+  if (type === "date") {
     return `${day}-${month}-${year}`;
-  } else if (type == "input") {
+  } else if (type === "input") {
     return `${year}-${month}-${day}`;
   }
   return `${day}-${month}-${year} ${timePart.toLowerCase()}`;
-  // }
-  // return data;
 };
 
 function isNull(data) {
@@ -332,7 +335,17 @@ const renderCellContent = (
   if (!column || value === undefined || value === null) {
     return "--";
   }
-
+  if (
+    column &&
+    value != null &&
+    ( column.fieldType == "date"||
+      column.key == "hs_createdate" ||
+      column.key == "hs_lastmodifieddate" ||
+      column.key == "createdate"
+      )
+  ) {
+    return formatDate(isObject(value) ? value.label : value);
+  }
   if (column.key == "amount" && item && item.length > 0) {
     const find_currency_code = item.find(
       (item) => item.key === "deal_currency_code"
@@ -346,16 +359,7 @@ const renderCellContent = (
     }
     return `${Currency("USD")} ${value}`;
   }
-  if (
-    column &&
-    value != null &&
-    (column.key == "hs_createdate" ||
-      column.key == "hs_lastmodifieddate" ||
-      column.key == "createdate" ||
-      column.fieldType == "date")
-  ) {
-    return formatDate(isObject(value) ? value.label : value);
-  }
+
   if (
     !value &&
     (type == "associations" || type == "list") &&
@@ -364,7 +368,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
+      <div className="flex gap-1 relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}
@@ -403,7 +407,7 @@ const renderCellContent = (
 
   if (type == "details" || type == "associations" && column?.fieldType === "html") {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
+      <div className="flex gap-1 relative justify-between">
         <div className="flex gap-5 flex-col items-start">
           {isObject(value) ? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))}
@@ -414,7 +418,7 @@ const renderCellContent = (
 
   if (type == "details") {
     return (
-      <div className="flex gap-1 min-w-[153px] relative  justify-between">
+      <div className="flex gap-1 relative  justify-between">
         {isObject(value) ? value.label : value}
       </div>
     );
@@ -427,7 +431,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between group">
+      <div className="flex gap-1 relative justify-between group">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md"
           to={associationPath}
@@ -456,7 +460,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[153px] relative justify-between">
+      <div className="flex gap-1 relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}`}

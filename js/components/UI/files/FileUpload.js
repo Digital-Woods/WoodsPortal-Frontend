@@ -183,7 +183,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       setSync(true)
       onClose();
       // setUploadStatus("File uploaded successfully!");
-      console.log("Server Response:", response.data);
+      // console.log("Server Response:", response.data);
     } catch (error) {
       console.error("Upload Error:", error);
       // setUploadStatus("File upload failed.");

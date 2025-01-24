@@ -74,8 +74,17 @@ const ForgetPassword = () => {
         />
       )}
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
-        <div className="w-[50px]">
-          <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+        <div className="w-[200px]">
+          <img
+            src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+            alt="Light Mode Logo"
+            className="h-auto dark:hidden"
+          />
+          <img
+            src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+            alt="Dark Mode Logo"
+            className="h-auto hidden dark:block"
+          />
         </div>
 
         <div className="w-full">

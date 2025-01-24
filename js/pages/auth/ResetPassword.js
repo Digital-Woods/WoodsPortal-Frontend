@@ -53,7 +53,7 @@ const ResetPassword = () => {
       if (!token) {
         throw new Error("Token not found");
       }
-      console.log("Token Passed to API:", token);
+      // console.log("Token Passed to API:", token);
       try {
         const response = await Client.authentication.resetPassword({
           newPassword: input.newPassword,
@@ -83,7 +83,7 @@ const ResetPassword = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log("Submitting Data:", data);
+    // console.log("Submitting Data:", data);
     resetNewPassword(data);
   };
 
@@ -104,8 +104,17 @@ const ResetPassword = () => {
         />
       )}
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
-        <div className="w-[50px]">
-          <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+        <div className="w-[200px]">
+          <img
+            src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+            alt="Light Mode Logo"
+            className="h-auto dark:hidden"
+          />
+          <img
+            src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+            alt="Dark Mode Logo"
+            className="h-auto hidden dark:block"
+          />
         </div>
         <div className="w-full">
           <Form

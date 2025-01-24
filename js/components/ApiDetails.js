@@ -236,7 +236,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           {/* Sidebar */}
           <div
             className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
-            lg:h-[calc(100vh-80px)] h-full hide-scrollbar overflow-visible z-50 
+            lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
             ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
             ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
           >
@@ -294,7 +294,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         </div>
       ) : (
         <div className="h-[calc(100vh_-136px)] flex flex-col justify-center text-center dark:text-white items-center">
-          <span>See the Jobs associated with this record.</span>
+          <span>Loading Details...</span>
           {/* <Link
             className="capitalize"
             to={back}

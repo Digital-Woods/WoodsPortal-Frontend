@@ -21,18 +21,18 @@ const useDynamicPathname = () => {
 };
 
 const Drawer = ({ className }) => {
-  const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
   const { sidebarCollapsed, setSidebarCollapsed } = useCollapsible();
   const [isSecondIcon, setIsSecondIcon] = useState(false);
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const { me } = useMe();
   const { logout, isLoading, error } = useLogout();
   const { routes, setRoutes } = useRoute();
-  const customPath = useDynamicPathname();
 
   const [activeRoute, setActiveRoute] = useState("");
   const [sideBarOptions, setSideBarOptions] = useState({});
   const [brandName, setBrandName] = useState(hubSpotUserDetails.hubspotPortals.portalSettings.brandName);
+  const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
+  const customPath = useDynamicPathname();
 
   useEffect(() => setActiveRoute(customPath), [customPath]);
 
@@ -56,19 +56,9 @@ const Drawer = ({ className }) => {
   };
   const shouldShowTooltip = brandName.length > 10;
 
-  // const mutation = useMutation({
-  //   mutationFn: (data) => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, data),
-  //   onSuccess: () => {
-  //     setLogoutDialog(false);
-  //     window.location.href = "/login";
-  //   },
-  //   onError: (error) => {
-  //     console.error("Logout failed", error);
-  //   },
-  // });
   useEffect(() => {
     setSideBarOptions(hubSpotUserDetails.sideBarOptions);
-  })
+  }, []);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   const handleSetActiveRoute = useCallback(
@@ -86,7 +76,7 @@ const Drawer = ({ className }) => {
   );
 
   return (
-    <div>
+    <div className="relative">
       {sidebarOpen && (
         <div className="relative z-[53]">
           <div
@@ -96,7 +86,13 @@ const Drawer = ({ className }) => {
           ></div>
         </div>
       )}
-      <div className={className}>
+
+      <div className={`${className} relative`}>
+        <div onClick={() => toggleSidebar()} className=" max-lg:hidden border border-white p-1 rounded-full absolute  bg-sidelayoutColor dark:bg-dark-300 right-[-10px] top-[63px] z-[100]">
+          <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-sidelayoutTextColor dark:text-white flex`}>
+            <Chevron />
+          </div>
+        </div>
         <div
           className={`h-[100vh] z-[54] sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
@@ -132,12 +128,6 @@ const Drawer = ({ className }) => {
 
               </div>
               <div
-                className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center max-lg:hidden flex`}
-                onClick={() => toggleSidebar()}
-              >
-                <SidebarTogglerIcon />
-              </div>
-              <div
                 className=" rounded-lg cursor-pointer text-sidelayoutTextColor dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-[-10px]"
                 onClick={() => setSidebarOpen(false)}
               >
@@ -146,7 +136,7 @@ const Drawer = ({ className }) => {
             </div>
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
-                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-230px)]'} overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
+                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-160px)]'} overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <div
@@ -179,7 +169,7 @@ const Drawer = ({ className }) => {
                       </div>
                     ))}
                   {routes.length > 7 && (
-                    <div className="sticky -bottom-[2] left-0 right-0 h-20 pointer-events-none">
+                    <div className="sticky -bottom-[2] left-0 right-0 h-6 pointer-events-none">
                       <div className="w-full h-full bg-gradient-to-t from-sidelayoutColor dark:from-dark-300 to-transparent"></div>
                     </div>
                   )}
@@ -239,7 +229,7 @@ const Drawer = ({ className }) => {
 
                   <div
                     className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white   ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'}  rounded-md no-underline cursor-pointer`}
-                    onClick={() => {setLogoutDialog(true);setSidebarOpen(false);}}
+                    onClick={() => { setLogoutDialog(true); setSidebarOpen(false); }}
                   >
                     <div
                       className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-start"
@@ -265,8 +255,17 @@ const Drawer = ({ className }) => {
 
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
         <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-          <div className="w-[50px]">
-            <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto `} />
+          <div className="w-[200px]">
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              alt="Light Mode Logo"
+              className="h-auto dark:hidden"
+            />
+            <img
+              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              alt="Dark Mode Logo"
+              className="h-auto hidden dark:block"
+            />
           </div>
           <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
             Log out of your account?

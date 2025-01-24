@@ -101,13 +101,13 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       }
     },
     onSuccess: async (response) => {
-      console.log('stage data', data)
+      // console.log('stage data', data)
       const updatedProperties = data.map((property) =>
         property.name === "hs_pipeline_stage"
           ? { ...property, options: response.data }
           : property
       );
-      console.log('updatedProperties', updatedProperties)
+      // console.log('updatedProperties', updatedProperties)
 
       setData(updatedProperties)
     },
@@ -206,7 +206,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   //   }
   // }, [showEditData, isSata]);
   useEffect(() => {
-    console.log('initialValues', initialValues)
+    // console.log('initialValues', initialValues)
     if (initialValues) getData();
   }, [initialValues,]);
 
@@ -217,7 +217,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
 
   useEffect(() => {
     if (isSata) {
-      console.log('defaultValues', defaultValues)
+      // console.log('defaultValues', defaultValues)
       const mapData = Object.fromEntries(
         Object.entries(defaultValues).map(([key, value]) => {
           if (key === "hs_pipeline" || key === "pipeline") {

@@ -36,7 +36,10 @@ const DashboardTable = ({
   viewName = '',
   detailsUrl = '',
   componentName,
-  defPermissions = null
+  defPermissions = null,
+  companyAsMediator,
+  pipeLineId,
+  specPipeLine
 }) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -45,6 +48,7 @@ const DashboardTable = ({
   const [tableData, setTableData] = useState([]);
   const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
+  const [currentItems, setCurrentItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
@@ -95,7 +99,7 @@ const DashboardTable = ({
       setTableData(results);
       setTotalItems(data.data.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-
+      setCurrentItems(results.length)
       // if (results.length > 0) {
       //   setTableHeader(sortData(results[0], "list", title));
       // } else {
@@ -112,6 +116,10 @@ const DashboardTable = ({
   const objectTypeName = getParam("objectTypeName")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
+  const param = companyAsMediator
+    ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId
@@ -142,7 +150,7 @@ const DashboardTable = ({
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: apis.tableAPI,
+        API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association") ? param : ''}`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -155,7 +163,11 @@ const DashboardTable = ({
       setSync(false)
       if (data.statusCode === "200") {
         mapResponseData(data);
-        if (defPermissions === null) setPermissions(data.configurations[componentName])
+        if (defPermissions === null) {
+          setPermissions(data.configurations[componentName])
+        } else {
+          setPermissions(defPermissions);
+        }
       }
     },
     onError: () => {
@@ -164,9 +176,7 @@ const DashboardTable = ({
     },
   });
 
-
-
-  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+  // const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
     let newSortConfig = column;
@@ -230,6 +240,7 @@ const DashboardTable = ({
       getData();
     } else {
       mapResponseData(hubSpotTableData);
+      getData();
     }
   }, []);
 
@@ -325,7 +336,7 @@ const DashboardTable = ({
                 </TableHeader>
                 <TableBody>
                   {tableData.map((item) => (
-                    <TableRow key={item.id} 
+                    <TableRow key={item.id}
                       onMouseEnter={() => handleRowHover(item)}
                       onMouseLeave={() => handleRowHover(null)}
                     >
@@ -396,7 +407,7 @@ const DashboardTable = ({
                         </TableCell>
                       }
                       {editView && (permissions && permissions.update) &&
-                        <TableCell  className=' dark:bg-dark-300 '>
+                        <TableCell className=' dark:bg-dark-300 '>
                           <div className="flex items-center space-x-2 gap-x-5">
                             <Button size="sm" className="text-white" onClick={() => {
                               setShowEditDialog(true);
@@ -418,7 +429,7 @@ const DashboardTable = ({
                   Showing
                 </p>
                 <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-                  {endItem}
+                  {currentItems || 0}
                 </span>
                 <span className="text-primary dark:text-gray-300">/</span>
                 <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
@@ -428,7 +439,7 @@ const DashboardTable = ({
               </div>
               <div className="flex justify-end">
                 <Pagination
-                  numOfPages={numOfPages}
+                  numOfPages={numOfPages || 1}
                   currentPage={currentPage}
                   setCurrentPage={handlePageChange}
                 />

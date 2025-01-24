@@ -22,7 +22,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     {
       enabled: !!selectedFileId,
       onSuccess: (data) => {
-        console.log("File Details fetched successfully:", data);
+        // console.log("File Details fetched successfully:", data);
       },
       onError: (error) => {
         console.error("Error fetching file details:", error);
