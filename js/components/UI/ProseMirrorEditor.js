@@ -210,6 +210,8 @@ const ProseMirrorEditor = ({
     const { keymap, baseKeymap } = window.ProseMirrorKeymap;
     const { exampleSetup } = window.ProseMirrorExampleSetup;
     const { Dropdown } = window.ProseMirrorMenuDropdown;
+    const { addListNodes } = window.addListNodes;
+    const { baseSchema } = window.baseSchema;
     // Define schema
 
     const paragraphNode = {
@@ -232,32 +234,37 @@ const ProseMirrorEditor = ({
       },
     };
 
+    // const myNodes = {
+    //   doc: { content: "block+" },
+    //   paragraph: paragraphNode,
+    //   text: { group: "inline" },
+    //   // text: { inline: true },
+    //   heading: {
+    //     content: "text*",
+    //     group: "block",
+    //     toDOM: (node) => ["h" + node.attrs.level, 0],
+    //     parseDOM: [
+    //       { tag: "h1", attrs: { level: 1 } },
+    //       { tag: "h2", attrs: { level: 2 } },
+    //       { tag: "h3", attrs: { level: 3 } },
+    //     ],
+    //     attrs: { level: { default: 1 } },
+    //   },
+    //   hard_break: {
+    //     inline: true,
+    //     group: "inline",
+    //     selectable: false,
+    //     toDOM: () => ["br"],
+    //     parseDOM: [{ tag: "br" }],
+    //   },
+    //   image: imageNodeSpec,
+    // };
+
+    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode);
+    const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
+
     const schema = new Schema({
-      nodes: {
-        doc: { content: "block+" },
-        paragraph: paragraphNode,
-        text: { group: "inline" },
-        // text: { inline: true },
-        heading: {
-          content: "text*",
-          group: "block",
-          toDOM: (node) => ["h" + node.attrs.level, 0],
-          parseDOM: [
-            { tag: "h1", attrs: { level: 1 } },
-            { tag: "h2", attrs: { level: 2 } },
-            { tag: "h3", attrs: { level: 3 } },
-          ],
-          attrs: { level: { default: 1 } },
-        },
-        hard_break: {
-          inline: true,
-          group: "inline",
-          selectable: false,
-          toDOM: () => ["br"],
-          parseDOM: [{ tag: "br" }],
-        },
-        image: imageNodeSpec,
-      },
+      nodes: nodesWithList,
       marks: {
         // alignment: alignmentMark,
         strong: {
@@ -330,9 +337,9 @@ const ProseMirrorEditor = ({
 
     const alignmentDropdown = new Dropdown(
       [
-        customMenuItemTextLeft, 
-        customMenuItemTextCenter, 
-        customMenuItemTextRight
+        customMenuItemTextLeft,
+        customMenuItemTextCenter,
+        customMenuItemTextRight,
       ],
       {
         label: "Alignment", // Dropdown label
