@@ -280,9 +280,47 @@ const ProseMirrorEditor = ({
           toDOM: () => ["u", 0],
           parseDOM: [{ tag: "u" }],
         },
+        textColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `color: ${mark.attrs.color}` },
+            0,
+          ],
+        },
+        textBackgroundColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "background-color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `background-color: ${mark.attrs.color}` },
+            0,
+          ],
+        },
         fontSize: {
-          toDOM: () => ["span", 0],
-          parseDOM: [{ tag: "span" }],
+          attrs: { fontSize: {} },
+          parseDOM: [
+            {
+              style: "font-size",
+              getAttrs: (value) => ({ fontSize: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `font-size: ${mark.attrs.fontSize}` },
+            0,
+          ],
         },
         fontFamily: {
           attrs: { font: {} },
@@ -295,20 +333,6 @@ const ProseMirrorEditor = ({
           toDOM: (mark) => [
             "span",
             { style: `font-family: ${mark.attrs.font}` },
-            0,
-          ],
-        },
-        fontSize: {
-          attrs: { font: {} },
-          parseDOM: [
-            {
-              style: "font-size",
-              getAttrs: (value) => ({ font: value }),
-            },
-          ],
-          toDOM: (mark) => [
-            "span",
-            { style: `font-size: ${mark.attrs.font}` },
             0,
           ],
         },
@@ -460,7 +484,7 @@ const ProseMirrorEditor = ({
     };
 
     // Font Size Menu
-    const applyFontSize = (font) => {
+    const applyFontSize = (fontSize) => {
       return (state, dispatch) => {
         const { schema, selection } = state;
         const { from, to } = selection;
@@ -468,7 +492,7 @@ const ProseMirrorEditor = ({
 
         if (!markType) return false;
 
-        const attrs = { font };
+        const attrs = { fontSize };
         const tr = state.tr;
 
         if (selection.empty) {
@@ -541,6 +565,127 @@ const ProseMirrorEditor = ({
       });
     };
 
+    // Text Color Menu
+    const applyTextColor = (color) => {
+      return (state, dispatch) => {
+        const { schema, selection } = state;
+        const { from, to } = selection;
+        const markType = schema.marks.textColor;
+
+        console.log('markType', markType)
+
+        if (!markType) return false;
+
+        const attrs = { color };
+        const tr = state.tr;
+
+        if (selection.empty) {
+          // Apply as stored mark if no selection
+          tr.addStoredMark(markType.create(attrs));
+        } else {
+          // Apply to the selected range
+          tr.addMark(from, to, markType.create(attrs));
+        }
+
+        if (dispatch) dispatch(tr);
+        return true;
+      };
+    };
+    const textColorDropdown = () => {
+      const textColorList = [
+        {
+          label: "Green",
+          value: "#69A84F",
+        },
+        {
+          label: "Read",
+          value: "#FF0201",
+        },
+        {
+          label: "Blue",
+          value: "#0600FF",
+        }
+      ];
+      const textColors = textColorList.map(
+        (textColor) =>
+          new MenuItem({
+            title: `Set text color to ${textColor.label}`,
+            label: textColor.label,
+            run: (state, dispatch, view) => {
+              applyTextColor(textColor.value)(view.state, view.dispatch);
+              return true;
+            },
+            enable: (state) => !state.selection.empty, // Enable if text is selected
+          })
+      );
+
+      return new Dropdown(textColors, {
+        label: "Text Color",
+        title: "Select Text Color",
+      });
+    };
+
+    // Text Background Color Menu
+    const applyTextBackgroundColor = (color) => {
+      return (state, dispatch) => {
+        const { schema, selection } = state;
+        const { from, to } = selection;
+        const markType = schema.marks.textBackgroundColor;
+
+        console.log('markType', markType)
+
+        if (!markType) return false;
+
+        const attrs = { color };
+        const tr = state.tr;
+
+        if (selection.empty) {
+          // Apply as stored mark if no selection
+          tr.addStoredMark(markType.create(attrs));
+        } else {
+          // Apply to the selected range
+          tr.addMark(from, to, markType.create(attrs));
+        }
+
+        if (dispatch) dispatch(tr);
+        return true;
+      };
+    };
+    const textBackgroundColorDropdown = () => {
+      const textColorList = [
+        {
+          label: "Green",
+          value: "#69A84F",
+        },
+        {
+          label: "Read",
+          value: "#FF0201",
+        },
+        {
+          label: "Blue",
+          value: "#0600FF",
+        }
+      ];
+      const textColors = textColorList.map(
+        (textColor) =>
+          new MenuItem({
+            title: `Set text color to ${textColor.label}`,
+            label: textColor.label,
+            run: (state, dispatch, view) => {
+              applyTextBackgroundColor(textColor.value)(view.state, view.dispatch);
+              return true;
+            },
+            enable: (state) => !state.selection.empty, // Enable if text is selected
+          })
+      );
+
+      return new Dropdown(textColors, {
+        label: "Text Background Color",
+        title: "Select Text Background Color",
+      });
+    };
+
+
     const customExampleSetup = (schema) => {
       // const menu = buildMenuItems(schema).fullMenu;
       // menu[1][0].content.push(customMenuItemImage);
@@ -550,6 +695,8 @@ const ProseMirrorEditor = ({
       menuItems.inlineMenu[0].push(fontDropdown());
       menuItems.inlineMenu[0].push(fontSizeDropdown());
       menuItems.inlineMenu[0].push(alignmentDropdown());
+      menuItems.inlineMenu[0].push(textColorDropdown());
+      menuItems.inlineMenu[0].push(textBackgroundColorDropdown());
       menuItems.inlineMenu[0].push(customMenuItemImage);
       menuItems.inlineMenu[0].push(customMenuItemAttachment);
       const menu = menuItems.fullMenu;
