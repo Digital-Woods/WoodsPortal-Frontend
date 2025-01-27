@@ -74,6 +74,7 @@ const DetailsAssociations = ({
                                 {value?.isEditableField && association?.configurations?.object?.update ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent(
+                                      false,
                                       value.value,
                                       value,
                                       item.hs_object_id.value,
@@ -109,6 +110,7 @@ const DetailsAssociations = ({
                                   />
                                 ) : (
                                   renderCellContent(
+                                    false,
                                     value.value,
                                     value,
                                     item.hs_object_id.value,

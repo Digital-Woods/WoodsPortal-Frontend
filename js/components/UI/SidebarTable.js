@@ -18,7 +18,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const [filterValue, setFilterValue] = useState(null);
   // const [openModal, setOpenModal] = useState(false);
   // const [modalData, setModalData] = useState(null);
-  const [numOfPages,setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
+  const [numOfPages, setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
   const { me } = useMe();
@@ -76,8 +76,8 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
-    ? `?mediatorObjectTypeId=0-2${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
-    : `?mediatorObjectTypeId=0-1${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+    ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -178,7 +178,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       </div>
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type = 'col' className='p-0' />
+          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
             <p className="text-primary text-base md:text-2xl dark:text-gray-300 mt-3">
               {tableAPiData.data.configurations.associationMessage}
@@ -195,7 +195,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
           {tableData.map((item, index) => (
             <table
               key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs text-rstextcolor  ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/${moduleStylesOptions.rightSidebarDetailsColors.color1Opacity || '10' }` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/${moduleStylesOptions.rightSidebarDetailsColors.color2Opacity || '10' }`
+              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs text-rstextcolor  ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/${moduleStylesOptions.rightSidebarDetailsColors.color1Opacity || '10'}` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/${moduleStylesOptions.rightSidebarDetailsColors.color2Opacity || '10'}`
                 }`}
             >
               {tableHeader.map((column) => (
@@ -207,6 +207,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                   <td className="dark:text-white text-xs text-rstextcolor   break-all !p-[3px]">
                     {/* {console.log('item', item)} */}
                     {renderCellContent(
+                      companyAsMediator,
                       item[column.key],
                       column,
                       item.hs_object_id,
@@ -214,7 +215,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                       path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                       'list',
                       path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                      detailsView
+                      detailsView,
                     )}
                   </td>
                 </tr>
