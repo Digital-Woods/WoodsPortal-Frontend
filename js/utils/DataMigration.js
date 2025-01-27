@@ -321,6 +321,7 @@ const truncatedText = (text, maxLength = 30) => {
 };
 
 const renderCellContent = (
+  companyAsMediator =false,
   value,
   column,
   itemId = null,
@@ -371,7 +372,7 @@ const renderCellContent = (
       <div className="flex gap-1 relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
-          to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           --
         </Link>
@@ -383,7 +384,7 @@ const renderCellContent = (
           hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
-          to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           Open
           <OpenIcon />
@@ -463,7 +464,7 @@ const renderCellContent = (
       <div className="flex gap-1 relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md"
-          to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
@@ -475,7 +476,7 @@ const renderCellContent = (
           hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
-          to={`${path}/${hubspotObjectTypeId}/${itemId}`}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           Open
           <OpenIcon />

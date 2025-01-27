@@ -81,6 +81,7 @@ const DetailsView = ({
                   {value?.isEditableField && (permissions && permissions.update) ? (
                     <DetailsViewUpdate
                       renderValue={renderCellContent(
+                        false,
                         value?.value,
                         value,
                         null,
@@ -100,6 +101,7 @@ const DetailsView = ({
                     />
                   ) : (
                     renderCellContent(
+                      false,
                       value?.value,
                       value,
                       null,
