@@ -288,11 +288,7 @@ const ProseMirrorEditor = ({
               getAttrs: (value) => ({ color: value }),
             },
           ],
-          toDOM: (mark) => [
-            "span",
-            { style: `color: ${mark.attrs.color}` },
-            0,
-          ],
+          toDOM: (mark) => ["span", { style: `color: ${mark.attrs.color}` }, 0],
         },
         textBackgroundColor: {
           attrs: { color: {} },
@@ -544,7 +540,7 @@ const ProseMirrorEditor = ({
         {
           label: "36",
           value: "36pt",
-        }
+        },
       ];
       const fontItems = fontSizes.map(
         (fontSize) =>
@@ -572,7 +568,7 @@ const ProseMirrorEditor = ({
         const { from, to } = selection;
         const markType = schema.marks.textColor;
 
-        console.log('markType', markType)
+        console.log("markType", markType);
 
         if (!markType) return false;
 
@@ -604,7 +600,7 @@ const ProseMirrorEditor = ({
         {
           label: "Blue",
           value: "#0600FF",
-        }
+        },
       ];
       const textColors = textColorList.map(
         (textColor) =>
@@ -619,9 +615,20 @@ const ProseMirrorEditor = ({
           })
       );
 
+      const customFontIcon = {
+        dom: document.createElement("span"),
+      };
+
+      // Add your custom styling or inner SVG content
+      customFontIcon.dom.innerHTML = `
+       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>
+      `;
+      customFontIcon.dom.style.cursor = "pointer";
+
       return new Dropdown(textColors, {
-        label: "Text Color",
-        title: "Select Text Color",
+        label: customFontIcon.dom,
+        // label: "Text Color",
+        // title: "Select Text Color",
       });
     };
 
@@ -632,7 +639,7 @@ const ProseMirrorEditor = ({
         const { from, to } = selection;
         const markType = schema.marks.textBackgroundColor;
 
-        console.log('markType', markType)
+        console.log("markType", markType);
 
         if (!markType) return false;
 
@@ -664,7 +671,7 @@ const ProseMirrorEditor = ({
         {
           label: "Blue",
           value: "#0600FF",
-        }
+        },
       ];
       const textColors = textColorList.map(
         (textColor) =>
@@ -672,19 +679,31 @@ const ProseMirrorEditor = ({
             title: `Set text color to ${textColor.label}`,
             label: textColor.label,
             run: (state, dispatch, view) => {
-              applyTextBackgroundColor(textColor.value)(view.state, view.dispatch);
+              applyTextBackgroundColor(textColor.value)(
+                view.state,
+                view.dispatch
+              );
               return true;
             },
             enable: (state) => !state.selection.empty, // Enable if text is selected
           })
       );
 
+      const customFontIcon = {
+        dom: document.createElement("span"),
+      };
+
+      customFontIcon.dom.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z"/></svg>
+    `;
+      customFontIcon.dom.style.cursor = "pointer";
+
       return new Dropdown(textColors, {
-        label: "Text Background Color",
-        title: "Select Text Background Color",
+        label: customFontIcon.dom,
+        // label: "Text Background Color",
+        // title: "Select Text Background Color",
       });
     };
-
 
     const customExampleSetup = (schema) => {
       // const menu = buildMenuItems(schema).fullMenu;
