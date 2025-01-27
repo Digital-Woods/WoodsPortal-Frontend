@@ -25,7 +25,7 @@ const DetailsTable = ({ item, path }) => {
                 key={header}
                 className="px-4 py-2 text-gray-900 dark:text-gray-100"
               >
-                {renderCellContent(item[header])}
+                {renderCellContent(false,item[header])}
               </TableCell>
             ))}
             <TableCell>
