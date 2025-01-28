@@ -10,6 +10,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     ticket: false
   });
   const param = getParam("t");
+  const companyAsMediator = getParam("isPrimaryCompany");
   const [activeTab, setActiveTab] = useState(param || "overview");
   const [permissions, setPermissions] = useState(null);
   const urlParam = getQueryParamsFromCurrentUrl();
@@ -219,6 +220,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   parentObjectTypeId={objectId}
                   parentObjectRowId={id}
                   permissions={permissions ? permissions.ticket : null}
+                  companyAsMediator={companyAsMediator}
                 />
               )}
 
@@ -266,6 +268,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                     refetch={getData}
                     objectId={objectId}
                     id={id}
+                    companyAsMediator={companyAsMediator}
                   />
                 ))}
             </div>

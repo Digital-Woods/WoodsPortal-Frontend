@@ -8,11 +8,12 @@ const DetailsAssociations = ({
   refetch,
   objectId,
   id,
+  companyAsMediator
 }) => {
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
 
-
+console.log(companyAsMediator, "companyAsMediator");
   return (
     <Accordion
       className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"
@@ -36,7 +37,7 @@ const DetailsAssociations = ({
               mediatorObjectRecordId
                 ? mediatorObjectRecordId
                 : parentObjectRowId
-            }`}
+            }&isPrimaryCompany=${companyAsMediator}`}
           >
             <span>
               <span className=" text-rstextcolor hover:underline underline-offset-4 hover:text-lightblue  dark:text-white">
@@ -74,7 +75,7 @@ const DetailsAssociations = ({
                                 {value?.isEditableField && association?.configurations?.object?.update ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent(
-                                      false,
+                                      companyAsMediator,
                                       value.value,
                                       value,
                                       item.hs_object_id.value,
@@ -99,7 +100,7 @@ const DetailsAssociations = ({
                                             mediatorObjectRecordId
                                               ? mediatorObjectRecordId
                                               : parentObjectRowId
-                                          }`
+                                          }&isPrimaryCompany=${companyAsMediator}`
                                         : ""
                                     )}
                                     value={value}
@@ -110,7 +111,7 @@ const DetailsAssociations = ({
                                   />
                                 ) : (
                                   renderCellContent(
-                                    false,
+                                    companyAsMediator,
                                     value.value,
                                     value,
                                     item.hs_object_id.value,
@@ -133,7 +134,7 @@ const DetailsAssociations = ({
                                           mediatorObjectRecordId
                                             ? mediatorObjectRecordId
                                             : parentObjectRowId
-                                        }`
+                                        }&isPrimaryCompany=${companyAsMediator}`
                                       : ""
                                   )
                                 )}
@@ -162,7 +163,7 @@ const DetailsAssociations = ({
               mediatorObjectRecordId
                 ? mediatorObjectRecordId
                 : parentObjectRowId
-            }`}
+            }&isPrimaryCompany=${companyAsMediator}`}
           >
             View associated {association.labels.plural}
           </Link>
