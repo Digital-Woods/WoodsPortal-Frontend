@@ -114,6 +114,7 @@ const DashboardTable = ({
   const parentObjectTypeName = getParam("parentObjectTypeName")
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
+  const isPrimaryCompany = getParam("isPrimaryCompany")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
@@ -387,7 +388,7 @@ const DashboardTable = ({
                                   path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                                   path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                                   'list',
-                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : '',
                                   detailsView,
                                   hoverRow
                                 )
@@ -489,7 +490,7 @@ const DashboardTable = ({
           </div>
         </Dialog>
       }
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} companyAsMediator={companyAsMediator} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} companyAsMediator={companyAsMediator || isPrimaryCompany} />}
       {showEditDialog && <DashboardTableEditForm openModal={showEditDialog} setOpenModal={setShowEditDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} showEditData={showEditData} refetch={getData} />}
     </div >
   );
