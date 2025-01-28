@@ -1,3 +1,58 @@
+const DropdownColorMenu = ({icon}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownButtonRef = useRef(null);
+  const dropdownMenuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsOpen(prevState => !prevState);
+  };
+
+  const closeMenuOnClickOutside = (event) => {
+    if (
+      dropdownButtonRef.current &&
+      !dropdownButtonRef.current.contains(event.target) &&
+      dropdownMenuRef.current &&
+      !dropdownMenuRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', closeMenuOnClickOutside);
+    return () => {
+      document.removeEventListener('click', closeMenuOnClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="relative inline-block">
+      <div
+        ref={dropdownButtonRef}
+        onClick={toggleMenu}
+        className="cursor-pointer"
+        // className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-700"
+      >
+        Set Color
+      </div>
+      {isOpen && (
+        <div
+          ref={dropdownMenuRef}
+          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded w-48 z-10"
+
+        >
+          <ul className="p-2 list-none m-0">
+            <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">Option 1</li>
+            <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">Option 2</li>
+            <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">Option 3</li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ProseMirrorEditor = ({
   initialData = "",
   attachments = [],
@@ -562,75 +617,91 @@ const ProseMirrorEditor = ({
     };
 
     // Text Color Menu
-    const applyTextColor = (color) => {
-      return (state, dispatch) => {
-        const { schema, selection } = state;
-        const { from, to } = selection;
-        const markType = schema.marks.textColor;
+    // const applyTextColor = (color) => {
+    //   return (state, dispatch) => {
+    //     const { schema, selection } = state;
+    //     const { from, to } = selection;
+    //     const markType = schema.marks.textColor;
 
-        console.log("markType", markType);
+    //     console.log("markType", markType);
 
-        if (!markType) return false;
+    //     if (!markType) return false;
 
-        const attrs = { color };
-        const tr = state.tr;
+    //     const attrs = { color };
+    //     const tr = state.tr;
 
-        if (selection.empty) {
-          // Apply as stored mark if no selection
-          tr.addStoredMark(markType.create(attrs));
-        } else {
-          // Apply to the selected range
-          tr.addMark(from, to, markType.create(attrs));
-        }
+    //     if (selection.empty) {
+    //       // Apply as stored mark if no selection
+    //       tr.addStoredMark(markType.create(attrs));
+    //     } else {
+    //       // Apply to the selected range
+    //       tr.addMark(from, to, markType.create(attrs));
+    //     }
 
-        if (dispatch) dispatch(tr);
-        return true;
-      };
-    };
-    const textColorDropdown = () => {
-      const textColorList = [
-        {
-          label: "Green",
-          value: "#69A84F",
-        },
-        {
-          label: "Read",
-          value: "#FF0201",
-        },
-        {
-          label: "Blue",
-          value: "#0600FF",
-        },
-      ];
-      const textColors = textColorList.map(
-        (textColor) =>
-          new MenuItem({
-            title: `Set text color to ${textColor.label}`,
-            label: textColor.label,
-            run: (state, dispatch, view) => {
-              applyTextColor(textColor.value)(view.state, view.dispatch);
-              return true;
-            },
-            enable: (state) => !state.selection.empty, // Enable if text is selected
-          })
-      );
+    //     if (dispatch) dispatch(tr);
+    //     return true;
+    //   };
+    // };
+    // const textColorDropdown = () => {
+    //   const textColorList = [
+    //     {
+    //       label: "Green",
+    //       value: "#69A84F",
+    //     },
+    //     {
+    //       label: "Read",
+    //       value: "#FF0201",
+    //     },
+    //     {
+    //       label: "Blue",
+    //       value: "#0600FF",
+    //     },
+    //   ];
+    //   const textColors = textColorList.map(
+    //     (textColor) =>
+    //       new MenuItem({
+    //         title: `Set text color to ${textColor.label}`,
+    //         label: textColor.label,
+    //         run: (state, dispatch, view) => {
+    //           applyTextColor(textColor.value)(view.state, view.dispatch);
+    //           return true;
+    //         },
+    //         enable: (state) => !state.selection.empty, // Enable if text is selected
+    //       })
+    //   );
 
-      const customFontIcon = {
-        dom: document.createElement("span"),
-      };
+    //   const customFontIcon = {
+    //     dom: document.createElement("span"),
+    //   };
 
-      // Add your custom styling or inner SVG content
-      customFontIcon.dom.innerHTML = `
-       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>
-      `;
-      customFontIcon.dom.style.cursor = "pointer";
+    //   // Add your custom styling or inner SVG content
+    //   customFontIcon.dom.innerHTML = `
+    //    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>
+    //   `;
+    //   customFontIcon.dom.style.cursor = "pointer";
 
-      return new Dropdown(textColors, {
-        label: customFontIcon.dom,
-        // label: "Text Color",
-        // title: "Select Text Color",
-      });
-    };
+    //   return new Dropdown(textColors, {
+    //     label: customFontIcon.dom,
+    //     // label: "Text Color",
+    //     // title: "Select Text Color",
+    //   });
+    // };
+
+    const renderReactComponent = () => {
+      const container = document.createElement('div');
+      ReactDOM.render(<DropdownColorMenu icon={`<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>`}/>, container);
+      return container;
+    }
+    const textColor = new MenuItem({
+      title: `Set text color`,
+      run: () => {
+
+      },
+      select: (state) => true,
+      render: () => {
+        return renderReactComponent();
+      },
+    });
 
     // Text Background Color Menu
     const applyTextBackgroundColor = (color) => {
@@ -710,11 +781,12 @@ const ProseMirrorEditor = ({
       // menu[1][0].content.push(customMenuItemImage);
       // menu[1][0].content.shift();
       const menuItems = buildMenuItems(schema);
+      // menuItems.inlineMenu[0].push(testColor);
       menuItems.inlineMenu[0].push(customMenuItemTextUnderline);
       menuItems.inlineMenu[0].push(fontDropdown());
       menuItems.inlineMenu[0].push(fontSizeDropdown());
       menuItems.inlineMenu[0].push(alignmentDropdown());
-      menuItems.inlineMenu[0].push(textColorDropdown());
+      menuItems.inlineMenu[0].push(textColor);
       menuItems.inlineMenu[0].push(textBackgroundColorDropdown());
       menuItems.inlineMenu[0].push(customMenuItemImage);
       menuItems.inlineMenu[0].push(customMenuItemAttachment);
