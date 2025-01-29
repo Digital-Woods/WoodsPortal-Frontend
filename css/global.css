@@ -720,6 +720,10 @@ tfoot td {
 }
 
 /* ProseMirror Editor */
+.prosemirror-editor {
+  height: 300px;
+}
+
 .ProseMirror {
   position: relative;
 }
