@@ -17,7 +17,7 @@ const Home = ({
   const [userId, setUserId] = useState(); 
   const [userObjectId, setUserObjectId] = useState(); 
   const portalId = getPortal()?.portalId;
-
+  const { sync, setSync } = useSync();
 
   const userProfileMutation = useMutation({
     mutationFn: async (payload) => {
@@ -43,10 +43,10 @@ const Home = ({
     },
   });
   useEffect(() => {
-    if (portalId) {
+    if (portalId || sync) {
       userProfileMutation.mutate();
     }
-  }, [portalId]);
+  }, [portalId,sync]);
   // Sidebar show/hide logic for medium and small devices
   const toggleSidebar = () => {
     setUserToggled(true); // Mark as user-initiated
@@ -99,8 +99,6 @@ const Home = ({
             } rounded-tr-xl`
           }`}
       >
-
-
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
           {!isLargeScreen && !sidebarRightOpen ? (
@@ -142,7 +140,6 @@ const Home = ({
 
           </div>
 
-          {/* Sidebar container */}
           {/* Sidebar container */}
           {showSidebarListDataOption && (
             <div
