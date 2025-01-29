@@ -819,7 +819,7 @@
       "preset" : null,
       "type" : "choice",
       "display_width" : null,
-      "default" : "0-1"
+      "default" : "0-3"
     }, {
       "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
       "name" : "icon_svg_code",
@@ -878,7 +878,7 @@
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
-      "object_type_id" : "0-1",
+      "object_type_id" : "0-3",
       "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ]
@@ -1097,7 +1097,7 @@
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
-      "object_type_id" : "0-1",
+      "object_type_id" : "0-3",
       "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ],

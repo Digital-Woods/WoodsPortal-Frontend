@@ -11,6 +11,17 @@ const UserProfileCard = ({ userData }) => {
 
     if (!userDetails) return null;
 
+    const firstName = userDetails?.firstname?.value || "";
+    const lastName = userDetails?.lastname?.value || "";
+    const initials =
+        firstName && lastName
+            ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+            : firstName
+            ? firstName.charAt(0).toUpperCase()
+            : lastName
+            ? lastName.charAt(0).toUpperCase()
+            : "U";
+
     // Filter userDetails
     const filteredDetails = Object.entries(userDetails).filter(
         ([key]) => !["firstname", "lastname", "email", "company", "phone", "associations"].includes(key)
@@ -27,14 +38,10 @@ const UserProfileCard = ({ userData }) => {
         <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg shadow-md border dark:border-gray-600 relative overflow-hidden">
             <div className="bg-secondary opacity-10 absolute top-0 right-0 left-0 h-[90px]"></div>
 
-            {/* Profile Image */}
-            <div className="flex items-centre justify-center relative z-50">
-                <div className="rounded-full h-[80px] w-[80px] max-sm:w-[50px] max-sm:h-[50px]">
-                    <img
-                        src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-                        alt="Profile"
-                        className="w-full h-full object-cover rounded-full"
-                    />
+            {/* Profile Initials */}
+            <div className="flex items-center justify-center relative z-50">
+                <div className="rounded-full h-[80px] w-[80px] max-sm:w-[50px] max-sm:h-[50px] flex items-center justify-center bg-gray-400 text-white text-2xl font-medium">
+                    {initials}
                 </div>
             </div>
 
@@ -43,7 +50,7 @@ const UserProfileCard = ({ userData }) => {
                 <div className="flex flex-col md:flex-row gap-4 pb-4 mb-4">
                     <div className="flex-1">
                         <h2 className="text-xl font-semibold dark:text-secondary text-secondary">
-                            {userDetails?.firstname?.value || "--"} {userDetails?.lastname?.value || "--"}
+                            {firstName} {lastName}
                         </h2>
                         <p className="text-xs dark:text-white">
                             {userDetails?.email?.value || "--"} • {userDetails?.phone?.value || "--"}
