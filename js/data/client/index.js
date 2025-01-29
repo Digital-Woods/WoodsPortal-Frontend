@@ -34,6 +34,19 @@ class Client {
     me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
   };
 
+  static user = {
+    profile: async ({ portalId, ...query }) => {
+      try {
+        const url = `/api/${hubId}/${portalId}/profiles`; // Ensure hubId is defined in your scope
+        const response = await HttpClient.get(url, { ...query }); // Fetch data
+        return response; // Return the data
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        throw error; // Throw error to handle it in mutation
+      }
+    },
+  };
+
   static files = {
     all: ({objectId, id, portalId, cache, ...query}) => {
       // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;

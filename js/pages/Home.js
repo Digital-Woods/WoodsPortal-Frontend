@@ -13,11 +13,40 @@ const Home = ({
   const [sidebarRightOpen, setSidebarRightOpen] = useState(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
-  let portalId;
-  if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal()?.portalId;
-  }
+  const [userData, setUserData] = useState(); 
+  const [userId, setUserId] = useState(); 
+  const [userObjectId, setUserObjectId] = useState(); 
+  const portalId = getPortal()?.portalId;
 
+
+  const userProfileMutation = useMutation({
+    mutationFn: async (payload) => {
+      const response = await Client.user.profile({
+        portalId: portalId,
+      });
+      return response;
+    },
+    onSuccess: (data) => {
+      // Example: Actions after successful API call
+      // setAlert({
+      //   message: "Profile fetched successfully!",
+      //   type: "success",
+      //   show: true,
+      // });
+      // setSync(true);
+      setUserData(data?.data);
+      setUserId(data?.data?.response?.hs_object_id?.value);
+      setUserObjectId(data?.data?.info?.objectTypeId);
+    },
+    onError: (error) => {
+      console.error("Error fetching profile:", error);
+    },
+  });
+  useEffect(() => {
+    if (portalId) {
+      userProfileMutation.mutate();
+    }
+  }, [portalId]);
   // Sidebar show/hide logic for medium and small devices
   const toggleSidebar = () => {
     setUserToggled(true); // Mark as user-initiated
@@ -45,20 +74,20 @@ const Home = ({
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
 
-  const apis = {
-    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-    stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
-      }`,
-    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
-  };
+  // const apis = {
+  //   tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+  //   stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
+  //   formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+  //   formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+  //     }`,
+  //   createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+  //   updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
+  // };
 
   const objectTypeName = getParam("objectTypeName");
-  const tableTitle = () => {
-    return objectTypeName ? objectTypeName : title;
-  };
+  // const tableTitle = () => {
+  //   return objectTypeName ? objectTypeName : title;
+  // };
 
   return (
     <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
@@ -91,12 +120,13 @@ const Home = ({
             className={` h-[calc(100vh-110px)] lg:h-[calc(100vh-90px)] hide-scrollbar overflow-y-auto 
                 ${showSidebarListDataOption && isLargeScreen
                 ? "w-[calc(100%_-350px)]"
-                : "w-full max-sm:w-screen"
+                : "w-full max-sm:w-screen md:pr-4 pr-3"
               }`}
           >
-            <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} />
+            {/* <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} /> */}
+            <UserProfileCard userData={userData} />
 
-            <DashboardTable
+            {/* <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
               title={tableTitle() || hubSpotUserDetails.sideMenu[0].label}
@@ -107,7 +137,9 @@ const Home = ({
               companyAsMediator={companyAsMediator}
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
-            />
+            /> */}
+            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} />
+
           </div>
 
           {/* Sidebar container */}
