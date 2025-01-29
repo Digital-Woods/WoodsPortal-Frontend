@@ -22,21 +22,21 @@ const ProfileCard = () => {
     brandName = me.hubspotPortals.portalSettings.brandName;
   }
 
+  const firstName = getFirstName() || "";
+  const lastName = getLastName() || "";
+  const initials = profileInitial(firstName, lastName);
+
+
   return (
     <div className="flex justify-between dark:bg-dark-300 p-5 bg-cleanWhite rounded-md mt-8">
       <div className="flex justify-between lg:gap-x-10 gap-4">
-        <div className="md:w-[80px] w-[50px]">
-          <img
-            src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-            alt="Profile"
-            className="rounded-full"
-          />
+        <div className="rounded-full h-[80px] w-[80px] max-sm:w-[50px] max-sm:h-[50px] flex items-center justify-center bg-gray-400 text-white text-2xl font-medium">
+          {initials}
         </div>
 
         <div className="flex flex-col justify-center space-y-1">
-          <h1 className="text-2xl font-semibold dark:text-white">{`${
-            getFirstName() || "N/A"
-          } ${getLastName() || "N/A"}`}</h1>
+          <h1 className="text-2xl font-semibold dark:text-white">{`${getFirstName() || "N/A"
+            } ${getLastName() || "N/A"}`}</h1>
           <p className="text-primary dark:text-white font-medium text-sm">
             User, {brandName}
           </p>

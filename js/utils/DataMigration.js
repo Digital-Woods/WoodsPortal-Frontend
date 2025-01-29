@@ -1,3 +1,15 @@
+function profileInitial(firstName, lastName) {
+  const initials =
+    firstName && lastName
+      ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+      : firstName
+        ? firstName.charAt(0).toUpperCase()
+        : lastName
+          ? lastName.charAt(0).toUpperCase()
+          : "U";
+  return initials;
+}
+
 function isDate(dateString) {
   // Regular expression to match the expected date format
   const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
@@ -321,7 +333,7 @@ const truncatedText = (text, maxLength = 30) => {
 };
 
 const renderCellContent = (
-  companyAsMediator =false,
+  companyAsMediator = false,
   value,
   column,
   itemId = null,
@@ -339,11 +351,11 @@ const renderCellContent = (
   if (
     column &&
     value != null &&
-    ( column.fieldType == "date"||
+    (column.fieldType == "date" ||
       column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
       column.key == "createdate"
-      )
+    )
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }
@@ -496,16 +508,16 @@ const renderCellContent = (
   if (isObject(value)) return truncatedText(value.label) || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
-  
-    if (type === 'list' && isTruncated) {
-      return (
-        <Tooltip content={value}>
-          <Link className="dark:text-white">{truncated}</Link>
-        </Tooltip>
-      );
-    } else {
-      return truncatedText(value);
-    }
+
+  if (type === 'list' && isTruncated) {
+    return (
+      <Tooltip content={value}>
+        <Link className="dark:text-white">{truncated}</Link>
+      </Tooltip>
+    );
+  } else {
+    return truncatedText(value);
+  }
 
 };
 
