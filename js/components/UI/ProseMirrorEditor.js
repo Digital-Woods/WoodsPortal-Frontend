@@ -33,8 +33,6 @@ const DropdownColorMenu = ({ editorView, icon }) => {
       const { from, to } = selection;
       const markType = schema.marks.textColor;
 
-      console.log("markType", markType);
-
       if (!markType) return false;
 
       const attrs = { color };
@@ -60,12 +58,22 @@ const DropdownColorMenu = ({ editorView, icon }) => {
   return (
     <div className="relative inline-block">
       <div
+        class="ProseMirror-icon"
+        title="Text Color"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
-        className="cursor-pointer"
-        // className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-700"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>
+        <span class="custom-menu-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#e8eaed"
+          >
+            <path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z" />
+          </svg>
+        </span>
       </div>
       {isOpen && (
         <div
@@ -147,12 +155,22 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
   return (
     <div className="relative inline-block">
       <div
+        class="ProseMirror-icon"
+        title="Text BG Color"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
-        className="cursor-pointer"
-        // className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-700"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z"/></svg>
+        <span class="custom-menu-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="20px"
+            fill="#e8eaed"
+          >
+            <path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z" />
+          </svg>
+        </span>
       </div>
       {isOpen && (
         <div
@@ -386,6 +404,10 @@ const ProseMirrorEditor = ({
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
     const { toggleMark } = window.toggleMark;
+    const { wrapIn } = window.wrapIn;
+    const { menuBar } = window.menuBar;
+    const { wrapInList } = window.wrapInList;
+    const { liftListItem } = window.liftListItem;
     // Define schema
 
     const paragraphNode = {
@@ -737,13 +759,7 @@ const ProseMirrorEditor = ({
     // Text Color Menu
     const renderReactComponent = (editorView) => {
       const container = document.createElement("div");
-      ReactDOM.render(
-        <DropdownColorMenu
-          editorView={editorView}
-          icon={`<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>`}
-        />,
-        container
-      );
+      ReactDOM.render(<DropdownColorMenu editorView={editorView} />, container);
       return container;
     };
     const textColor = new MenuItem({
@@ -772,23 +788,22 @@ const ProseMirrorEditor = ({
       render: (editorView) => renderReactComponent2(editorView),
     });
 
-    const customExampleSetup = (schema) => {
-      // const menu = buildMenuItems(schema).fullMenu;
-      // menu[1][0].content.push(customMenuItemImage);
-      // menu[1][0].content.shift();
-      const menuItems = buildMenuItems(schema);
-      // menuItems.inlineMenu[0].push(testColor);
-      menuItems.inlineMenu[0].push(customMenuItemTextUnderline);
-      menuItems.inlineMenu[0].push(fontDropdown());
-      menuItems.inlineMenu[0].push(fontSizeDropdown());
-      menuItems.inlineMenu[0].push(alignmentDropdown());
-      menuItems.inlineMenu[0].push(textColor);
-      menuItems.inlineMenu[0].push(textBGColor);
-      menuItems.inlineMenu[0].push(customMenuItemImage);
-      menuItems.inlineMenu[0].push(customMenuItemAttachment);
-      const menu = menuItems.fullMenu;
-      return exampleSetup({ schema, menuContent: menu });
-    };
+    // const customExampleSetup = (schema) => {
+    //   // const menu = buildMenuItems(schema).fullMenu;
+    //   // menu[1][0].content.push(customMenuItemImage);
+    //   // menu[1][0].content.shift();
+    //   const menuItems = buildMenuItems(schema);
+    //   menuItems.inlineMenu[0].push(customMenuItemTextUnderline);
+    //   menuItems.inlineMenu[0].push(fontDropdown());
+    //   menuItems.inlineMenu[0].push(fontSizeDropdown());
+    //   menuItems.inlineMenu[0].push(alignmentDropdown());
+    //   menuItems.inlineMenu[0].push(textColor);
+    //   menuItems.inlineMenu[0].push(textBGColor);
+    //   menuItems.inlineMenu[0].push(customMenuItemImage);
+    //   menuItems.inlineMenu[0].push(customMenuItemAttachment);
+    //   const menu = menuItems.fullMenu;
+    //   return exampleSetup({ schema, menuContent: menu });
+    // };
 
     // Create an initial document with some content
     const initialContent = document.createElement("div");
@@ -796,12 +811,163 @@ const ProseMirrorEditor = ({
     initialContent.innerHTML = initialData;
     const initialDoc = DOMParser.fromSchema(schema).parse(initialContent);
 
+    // c Menu
+    const boldItem = new MenuItem({
+      title: "Toggle Bold",
+      // label: "Bold",
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M272-200v-560h221q65 0 120 40t55 111q0 51-23 78.5T602-491q25 11 55.5 41t30.5 90q0 89-65 124.5T501-200H272Zm121-112h104q48 0 58.5-24.5T566-372q0-11-10.5-35.5T494-432H393v120Zm0-228h93q33 0 48-17t15-38q0-24-17-39t-44-15h-95v109Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+      enable: (state) => toggleMark(schema.marks.strong)(state),
+      run: (state, dispatch) =>
+        toggleMark(schema.marks.strong)(state, dispatch),
+    });
+
+    const italicItem = new MenuItem({
+      title: "Toggle Italic",
+      // label: "Italic",
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+      enable: (state) => toggleMark(schema.marks.em)(state),
+      run: (state, dispatch) => toggleMark(schema.marks.em)(state, dispatch),
+    });
+
+    const blockquoteItem = new MenuItem({
+      title: "Wrap in Blockquote",
+      // label: "Blockquote",
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m228-240 92-160q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 42.5T458-480L320-240h-92Zm360 0 92-160q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 42.5T818-480L680-240h-92ZM320-500q25 0 42.5-17.5T380-560q0-25-17.5-42.5T320-620q-25 0-42.5 17.5T260-560q0 25 17.5 42.5T320-500Zm360 0q25 0 42.5-17.5T740-560q0-25-17.5-42.5T680-620q-25 0-42.5 17.5T620-560q0 25 17.5 42.5T680-500Zm0-60Zm-360 0Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+      enable: (state) => wrapIn(schema.nodes.blockquote)(state),
+      run: (state, dispatch) =>
+        wrapIn(schema.nodes.blockquote)(state, dispatch),
+    });
+
+    const underlineMenuItem = new MenuItem({
+      title: "Toggle underline",
+      // label: "U",
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120v-80h560v80H200Zm280-160q-101 0-157-63t-56-167v-330h103v336q0 56 28 91t82 35q54 0 82-35t28-91v-336h103v330q0 104-56 167t-157 63Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+      enable: (state) => toggleMark(schema.marks.underline)(state),
+      run: toggleMark(schema.marks.underline),
+    });
+
+    // Function to check if the selection is inside a specific list type
+    function isListActive(state, nodeType) {
+      let { $from } = state.selection;
+      for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type === nodeType) return true;
+      }
+      return false;
+    }
+
+    // Toggle Bullet List
+    function toggleBulletList(state, dispatch) {
+      if (isListActive(state, schema.nodes.bullet_list)) {
+        liftListItem(schema.nodes.list_item)(state, dispatch);
+      } else {
+        wrapInList(schema.nodes.bullet_list)(state, dispatch);
+      }
+    }
+
+    // Toggle Ordered List
+    function toggleOrderedList(state, dispatch) {
+      if (isListActive(state, schema.nodes.ordered_list)) {
+        liftListItem(schema.nodes.list_item)(state, dispatch);
+      } else {
+        wrapInList(schema.nodes.ordered_list)(state, dispatch);
+      }
+    }
+
+    // Toggleable Bullet List Menu Item
+    const bulletListMenuItem = new MenuItem({
+      title: "Bullet List",
+      // label: "• List",
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+      enable: (state) =>
+        wrapInList(schema.nodes.bullet_list)(state) ||
+        isListActive(state, schema.nodes.bullet_list),
+      run: toggleBulletList,
+    });
+
+    // Toggleable Ordered List Menu Item
+    const orderedListMenuItem = new MenuItem({
+      title: "Ordered List",
+      // label: "1. List",
+      icon: {
+        dom: (() => {
+          const span = document.createElement("span");
+          span.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>
+    `;
+          span.className = "custom-menu-icon";
+          return span;
+        })(),
+      },
+      enable: (state) =>
+        wrapInList(schema.nodes.ordered_list)(state) ||
+        isListActive(state, schema.nodes.ordered_list),
+      run: toggleOrderedList,
+    });
+
+    const menu = menuBar({
+      content: [
+        [boldItem, italicItem, underlineMenuItem],
+        [fontDropdown(), fontSizeDropdown()],
+        [textColor, textBGColor],
+        [blockquoteItem],
+        [alignmentDropdown()],
+        [bulletListMenuItem, orderedListMenuItem],
+        [customMenuItemImage, customMenuItemAttachment],
+      ],
+    });
+
     // Initialize the editor
     const editor = new EditorView(editorRef.current, {
       state: EditorState.create({
         doc: initialDoc,
         schema,
-        plugins: [keymap(baseKeymap), ...customExampleSetup(schema)],
+        // plugins: [keymap(baseKeymap), ...customExampleSetup(schema), menu],
+        plugins: [keymap(baseKeymap), menu],
       }),
       dispatchTransaction(transaction) {
         const newState = editor.state.apply(transaction);
@@ -827,11 +993,6 @@ const ProseMirrorEditor = ({
     tmp.appendChild(fragment);
     return tmp.innerHTML;
   };
-
-  // const handleSubmit = () => {
-  //   console.log(" editorContent", pmState.doc.content);
-  //   console.log("getContentString", getContentString());
-  // };
 
   const insertImage = (view, src) => {
     const { state, dispatch } = view;
