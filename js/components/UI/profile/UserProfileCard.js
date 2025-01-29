@@ -63,6 +63,7 @@ const UserProfileCard = ({ userData }) => {
 
                 {/* userAssociatedDetails */}
                 <div className="mt-6 pt-4 border-t dark:border-gray-600">
+                    <p className="text-xs text-gray-500">Company Name</p>
                     <h3 className="text-lg font-semibold  dark:text-white ">{userAssociatedDetails?.name?.value || 'No Company Name'}</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-xs dark:text-white  mt-2">
                         {userAssociatedDetails &&
