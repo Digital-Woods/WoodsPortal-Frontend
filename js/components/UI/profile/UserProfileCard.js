@@ -29,9 +29,9 @@ const UserProfileCard = ({ userData }) => {
 
             {/* Profile Image */}
             <div className="flex items-centre justify-center relative z-50">
-                <div className="rounded-full h-[100px] w-[100px] max-sm:w-[50px] max-sm:h-[50px]">
+                <div className="rounded-full h-[80px] w-[80px] max-sm:w-[50px] max-sm:h-[50px]">
                     <img
-                        src="https://plus.unsplash.com/premium_photo-1737392495759-2aace4708e48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D"
+                        src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
                         alt="Profile"
                         className="w-full h-full object-cover rounded-full"
                     />
