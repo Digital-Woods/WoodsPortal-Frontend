@@ -1,8 +1,8 @@
 [ {
   "id" : "44c02d86-d5ac-515b-5959-d040308ed6b1",
   "name" : "backend_server_url",
-  "label" : "Server URL",
-  "help_text" : "WoodsPortal and paste the server URL here",
+  "label" : "WoodsPortal Admin URL",
+  "help_text" : "Paste the WoodsPortal Admin URL here",
   "inline_help_text" : "<a href=\"https://app.dev.one.digitalwoods.io/\" target=\"_blank\"> Click here</a> to set up WoodsPortal and connect with our server.",
   "required" : false,
   "locked" : false,
@@ -302,7 +302,7 @@
     "label" : "Home Tab Banner Details",
     "help_text" : "These details will be displayed on the home page banner.",
     "required" : false,
-    "locked" : false,
+    "locked" : true,
     "visibility" : {
       "controlling_field" : null,
       "controlling_field_path" : "add_home_tab",
@@ -718,7 +718,7 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : "Contacts"
+      "default" : "Deals"
     }, {
       "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
       "name" : "list_object_properties",
@@ -833,7 +833,7 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>"
+      "default" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>"
     }, {
       "id" : "2f696b36-bc41-53d2-5416-533ad1867a65",
       "name" : "show_iframe",
@@ -872,14 +872,14 @@
     "type" : "group",
     "display_width" : null,
     "default" : [ {
-      "list_object_name" : "Contacts",
+      "list_object_name" : "Deals",
       "list_object_properties" : "dealname,dealstage,amount",
-      "show_primary_company_associated_data" : false,
+      "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
       "object_type_id" : "0-1",
-      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
+      "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ]
   }, {
@@ -1091,14 +1091,14 @@
   "default" : {
     "hubspot_defined_object" : true,
     "objects" : [ {
-      "list_object_name" : "Contacts",
+      "list_object_name" : "Deals",
       "list_object_properties" : "dealname,dealstage,amount",
-      "show_primary_company_associated_data" : false,
+      "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
       "object_type_id" : "0-1",
-      "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path fill=\"none\" d=\"M0 0h24v24H0z\" />      <path d=\"M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z\" />    </svg>",
+      "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ],
     "hubspot_custom_object" : false,
@@ -1122,7 +1122,7 @@
     "name" : "home_tab_styles",
     "label" : "Home",
     "required" : false,
-    "locked" : false,
+    "locked" : true,
     "children" : [ {
       "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
       "name" : "home_tab_banner_text_color",

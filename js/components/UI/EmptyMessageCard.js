@@ -18,8 +18,8 @@ const EmptyMessageCard = ({ name = 'item', type = 'row', className = 'p-6' }) =>
             </div>
             <div className="flex flex-col gap-2">
                 {/* Title */}
-                <h2 className={`md:text-xl ${type === 'row' ? 'text-start max-sm:text-center' : 'text-center'} text-lg font-semibold dark:text-white text-primary`}>
-                    No {name.toLowerCase()} created yet
+                <h2 className={`md:text-xl ${type === 'row' ? 'text-start max-sm:text-center' : 'text-center'} text-lg font-semibold dark:text-white text-primary capitalize`}>
+                    {name} not found
                 </h2>
 
                 {/* Message */}
