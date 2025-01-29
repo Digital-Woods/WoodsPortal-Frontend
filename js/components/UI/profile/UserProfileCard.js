@@ -13,14 +13,8 @@ const UserProfileCard = ({ userData }) => {
 
     const firstName = userDetails?.firstname?.value || "";
     const lastName = userDetails?.lastname?.value || "";
-    const initials =
-        firstName && lastName
-            ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-            : firstName
-            ? firstName.charAt(0).toUpperCase()
-            : lastName
-            ? lastName.charAt(0).toUpperCase()
-            : "U";
+
+    const initials = profileInitial(firstName, lastName);
 
     // Filter userDetails
     const filteredDetails = Object.entries(userDetails).filter(

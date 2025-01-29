@@ -71,6 +71,9 @@ const HeaderLayout = ({ title, path, id = null }) => {
   }, []);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
+  const lastName = getLastName() || "";
+  const initials = profileInitial(firstName, lastName);
+
   return (
     <nav ref={navRef} className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
       <div className="flex justify-between text-end items-center">
@@ -119,11 +122,9 @@ const HeaderLayout = ({ title, path, id = null }) => {
             >
               <div className="flex flex-col p-4">
                 <div className="flex justify-between">
-                  <Avatar
-                    src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
-                    alt="user photo"
-                    className="w-10 h-10 rounded-full"
-                  />
+                <div className="rounded-full h-[50px] w-[50px] flex items-center justify-center bg-gray-400 text-white text-lg font-medium">
+                    {initials}
+                </div>
                   <div className="ml-4 flex flex-col">
                     <div className="font-semibold dark:text-white break-all">
                       {firstName}
