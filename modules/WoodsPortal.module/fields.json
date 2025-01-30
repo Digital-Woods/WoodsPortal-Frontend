@@ -718,7 +718,7 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : "Deals"
+      "default" : "Tickets"
     }, {
       "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
       "name" : "list_object_properties",
@@ -819,7 +819,7 @@
       "preset" : null,
       "type" : "choice",
       "display_width" : null,
-      "default" : "0-3"
+      "default" : "0-5"
     }, {
       "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
       "name" : "icon_svg_code",
@@ -872,13 +872,13 @@
     "type" : "group",
     "display_width" : null,
     "default" : [ {
-      "list_object_name" : "Deals",
+      "list_object_name" : "Tickets",
       "list_object_properties" : "dealname,dealstage,amount",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
-      "object_type_id" : "0-3",
+      "object_type_id" : "0-5",
       "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ]
@@ -1091,13 +1091,13 @@
   "default" : {
     "hubspot_defined_object" : true,
     "objects" : [ {
-      "list_object_name" : "Deals",
+      "list_object_name" : "Tickets",
       "list_object_properties" : "dealname,dealstage,amount",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
-      "object_type_id" : "0-3",
+      "object_type_id" : "0-5",
       "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ],

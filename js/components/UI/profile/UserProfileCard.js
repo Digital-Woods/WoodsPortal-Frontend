@@ -54,7 +54,7 @@ const UserProfileCard = ({ userData }) => {
 
                 {/* User Info Grid */}
                 <div className="">
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-xs dark:text-white transition-all duration-500">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all duration-500">
                         {visibleDetails.map(([key, value]) => (
                             <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                 <span className="font-semibold">{value?.label}:</span>
@@ -95,7 +95,7 @@ const UserProfileCard = ({ userData }) => {
                     </h3>
 
                     <div className="">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">
                             {visibleAssociatedDetails.map(([key, value]) => (
                                 <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                     <span className="font-semibold">{value?.label}:</span>
