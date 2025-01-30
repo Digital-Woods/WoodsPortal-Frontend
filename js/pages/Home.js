@@ -13,14 +13,16 @@ const Home = ({
   const [sidebarRightOpen, setSidebarRightOpen] = useState(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
-  const [userData, setUserData] = useState(); 
-  const [userId, setUserId] = useState(); 
-  const [userObjectId, setUserObjectId] = useState(); 
+  const [userData, setUserData] = useState();
+  const [userId, setUserId] = useState();
+  const [userObjectId, setUserObjectId] = useState();
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
+  const [isLoading, setIsLoading] = useState(false);
 
   const userProfileMutation = useMutation({
     mutationFn: async (payload) => {
+      setIsLoading(true);
       const response = await Client.user.profile({
         portalId: portalId,
       });
@@ -37,16 +39,18 @@ const Home = ({
       setUserData(data?.data);
       setUserId(data?.data?.response?.hs_object_id?.value);
       setUserObjectId(data?.data?.info?.objectTypeId);
+      setIsLoading(false);
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
+      setIsLoading(false);
     },
   });
   useEffect(() => {
     if (portalId || sync) {
       userProfileMutation.mutate();
     }
-  }, [portalId,sync]);
+  }, [portalId, sync]);
   // Sidebar show/hide logic for medium and small devices
   const toggleSidebar = () => {
     setUserToggled(true); // Mark as user-initiated
@@ -118,11 +122,11 @@ const Home = ({
             className={` h-[calc(100vh-110px)] lg:h-[calc(100vh-90px)] hide-scrollbar overflow-y-auto 
                 ${showSidebarListDataOption && isLargeScreen
                 ? "w-[calc(100%_-350px)]"
-                : "w-full max-sm:w-screen md:pr-4 pr-3"
+                : "w-full max-sm:w-screen"
               }`}
           >
             {/* <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} /> */}
-            <UserProfileCard userData={userData} />
+            {isLoading ? <SkeletonLoader items={1} profile={true} /> : <UserProfileCard userData={userData} />}
 
             {/* <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
