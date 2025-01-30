@@ -122,7 +122,7 @@ const Home = ({
             className={` h-[calc(100vh-110px)] lg:h-[calc(100vh-90px)] hide-scrollbar overflow-y-auto 
                 ${showSidebarListDataOption && isLargeScreen
                 ? "w-[calc(100%_-350px)]"
-                : "w-full max-sm:w-screen md:pr-4 pr-3"
+                : "w-full max-sm:w-screen"
               }`}
           >
             {/* <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} /> */}

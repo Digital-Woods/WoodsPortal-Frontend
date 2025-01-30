@@ -2,7 +2,7 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
     return (
         <div className="animate-pulse space-y-4">
             {[...Array(items)].map((_, index) => (
-                <div key={index} className="bg-white shadow rounded-lg p-4">
+                <div key={index} className="bg-white shadow rounded-lg">
 
                     {/* Profile Section */}
                     {profile ? (
