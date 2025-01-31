@@ -297,7 +297,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         </div>
       ) : (
         <div className="h-[calc(100vh_-136px)]">
-          <SkeletonLoader items={4} />
+          <DetailsSkeleton />
           {/* <Link
             className="capitalize"
             to={back}
