@@ -296,8 +296,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           </Dialog>
         </div>
       ) : (
-        <div className="h-[calc(100vh_-136px)] flex flex-col justify-center text-center dark:text-white items-center">
-          <span>Loading Details...</span>
+        <div className="h-[calc(100vh_-136px)]">
+          <SkeletonLoader items={4} />
           {/* <Link
             className="capitalize"
             to={back}

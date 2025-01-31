@@ -117,9 +117,9 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
     //     );
     // }
 
-    // if (isLoading && !item) {
-    //     return <div className="loader-line"></div>;
-    // }
+    if ( !item) {
+        return <div className="loader-line"></div>;
+    }
 
     return (
         <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
@@ -227,8 +227,8 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
                     </Dialog>
                 </div>
             ) : (
-                <div className="h-[calc(100vh_-136px)] flex flex-col justify-center text-center dark:text-white items-center">
-                    <span>Loading Details...</span>
+                <div className="h-[calc(100vh_-136px)]">
+                    <SkeletonLoader items={4} />
                     {/* <Link
               className="capitalize"
               to={back}

@@ -1,3 +1,15 @@
+const sortProperties = (data) => {
+    return Object.entries(data)
+        .filter(([key, value]) => value?.label) // Exclude unwanted keys
+        .sort(([, a], [, b]) => {
+            if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
+            if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
+            if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty) return -1;
+            if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
+            return 0;
+        });
+};
+
 const UserProfileCard = ({ userData }) => {
     const [userDetails, setUserDetails] = useState({});
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
@@ -5,28 +17,33 @@ const UserProfileCard = ({ userData }) => {
     const [showMoreAssociated, setShowMoreAssociated] = useState(false);
 
     useEffect(() => {
-        setUserDetails(userData?.response || {});
-        setUserAssociatedDetails(userData?.response?.associations?.COMPANY || {});
+        if (userData?.response) {
+            setUserDetails(userData.response);
+            setUserAssociatedDetails(userData.response?.associations?.COMPANY || {});
+        }
     }, [userData]);
 
-    if (!userDetails) return null;
+    if (!userDetails || Object.keys(userDetails).length === 0) {
+        return <SkeletonLoader items={1} profile={true} />;
+    }
 
     const firstName = userDetails?.firstname?.value || "";
     const lastName = userDetails?.lastname?.value || "";
-
     const initials = profileInitial(firstName, lastName);
 
-    // Filter userDetails
+    // Filter and sort user details
     const filteredDetails = Object.entries(userDetails).filter(
-        ([key]) => !["firstname", "lastname", "email", "company", "phone", "associations"].includes(key)
+        ([key, value]) => value?.label && ![ "firstname", "lastname", "email", "company", "phone", "associations", "hs_object_id"].includes(key)
     );
-    const visibleDetails = showMoreDetails ? filteredDetails : filteredDetails.slice(0, 4);
+    const sortedDetails = sortProperties(Object.fromEntries(filteredDetails));
+    const visibleDetails = showMoreDetails ? sortedDetails : sortedDetails.slice(0, 4);
 
-    // Filter userAssociatedDetails
+    // Filter and sort associated company details
     const filteredAssociatedDetails = Object.entries(userAssociatedDetails).filter(
-        ([key]) => !["configurations", "objectTypeId", "labels", "name"].includes(key)
+        ([key, value]) => value?.label && !["configurations", "objectTypeId", "labels", "name", "hs_object_id"].includes(key)
     );
-    const visibleAssociatedDetails = showMoreAssociated ? filteredAssociatedDetails : filteredAssociatedDetails.slice(0, 4);
+    const sortedAssociatedDetails = sortProperties(Object.fromEntries(filteredAssociatedDetails));
+    const visibleAssociatedDetails = showMoreAssociated ? sortedAssociatedDetails : sortedAssociatedDetails.slice(0, 4);
 
     return (
         <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg shadow-md border dark:border-gray-600 relative overflow-hidden">
@@ -75,10 +92,10 @@ const UserProfileCard = ({ userData }) => {
                         ))}
                     </div>
 
-                    {filteredDetails.length > 4 && (
+                    {sortedDetails.length > 4 && (
                         <Button
                             variant="link"
-                            size='link'
+                            size="link"
                             onClick={() => setShowMoreDetails(!showMoreDetails)}
                             className="font-medium mt-2 text-xs"
                         >
@@ -99,27 +116,15 @@ const UserProfileCard = ({ userData }) => {
                             {visibleAssociatedDetails.map(([key, value]) => (
                                 <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                     <span className="font-semibold">{value?.label}:</span>
-                                    {renderCellContent(
-                                        false,
-                                        value?.value,
-                                        value,
-                                        null,
-                                        null,
-                                        null,
-                                        "details",
-                                        null,
-                                        null,
-                                        null,
-                                        null
-                                    )}
+                                    {renderCellContent(false, value?.value, value)}
                                 </div>
                             ))}
                         </div>
 
-                        {filteredAssociatedDetails.length > 4 && (
+                        {sortedAssociatedDetails.length > 4 && (
                             <Button
                                 variant="link"
-                                size='link'
+                                size="link"
                                 onClick={() => setShowMoreAssociated(!showMoreAssociated)}
                                 className="font-medium mt-2 text-xs"
                             >
@@ -132,4 +137,3 @@ const UserProfileCard = ({ userData }) => {
         </div>
     );
 };
-

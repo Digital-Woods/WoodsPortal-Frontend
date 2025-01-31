@@ -30,7 +30,6 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
 
                         {/* Company Section */}
                         <div className="border-t pt-3 space-y-3">
-                            <div className="h-4 bg-gray-300 rounded w-1/4"></div>
                             <div className="grid grid-cols-4 gap-4">
                                 {Array(4)
                                     .fill(0)

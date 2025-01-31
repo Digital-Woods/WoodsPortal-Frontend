@@ -164,18 +164,19 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 ">
-          <span className="text-rstextcolor">
+          <span className="text-secondary">
             <AssociationIcon />
           </span>
           <span>
-            <span className="dark:text-white text-rstextcolor ">{title}</span>
-            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+            <span className="dark:text-white text-secondary hover:underline underline-offset-4 font-bold text-xs">{title}</span>
+            <span className="ml-2 px-2 py-1 rounded-md bg-secondary text-white text-xs">
               {totalItems}
             </span>
           </span>
         </div>
         {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
       </div>
+      {isLoading && <div className="mb-4"><SkeletonLoader items={2} /></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
@@ -186,59 +187,54 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
           }
         </div>
       )}
-      {/* {activities.map((activity, index) => ( */}
-      <div>
-        {/* <h3 className="text-sm font-semibold text-gray-500">
-            {activity.date} <span className="font-normal">{activity.day}</span>
-          </h3> */}
-        <ul className={`mt-2 space-y-4   transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
-          {tableData.map((item, index) => (
-            <table
-              key={item.id}
-              className={`flex items-start p-2 flex-col gap-1 rounded-lg dark:bg-dark-500 dark:border dark:border-gray-600 text-xs text-rstextcolor  ${index % 2 === 0 ? `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color1 || '#15803D'}]/${moduleStylesOptions.rightSidebarDetailsColors.color1Opacity || '10'}` : `bg-[${moduleStylesOptions.rightSidebarDetailsColors.color2 || '#2D3E50'}]/${moduleStylesOptions.rightSidebarDetailsColors.color2Opacity || '10'}`
-                }`}
-            >
-              {tableHeader.map((column) => (
-                <tr
-                  key={column.value}
-                  className=""
-                >
-                  <td className="pr-1 text-xs  whitespace-wrap md:w-[130px] w-[100px] text-rstextcolor  align-top dark:text-white !p-[3px]">{column.value}:</td>
-                  <td className="dark:text-white text-xs text-rstextcolor   break-all !p-[3px]">
-                    {/* {console.log('item', item)} */}
-                    {renderCellContent(
-                      companyAsMediator,
-                      item[column.key],
-                      column,
-                      item.hs_object_id,
-                      path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
-                      path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                      'list',
-                      path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                      detailsView,
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </table>
-          ))}
-        </ul>
-        {tableData.length > 0 &&
-          <div className="flex lg:flex-row flex-col justify-between items-center">
-            {/* <div className="text-end">
-              {env.DATA_SOURCE_SET != true &&
-                <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
-              }
-            </div> */}
-            <Pagination
-              numOfPages={numOfPages || 0}
-              currentPage={currentPage}
-              setCurrentPage={handlePageChange}
-            />
-          </div>
-        }
-      </div>
-      {/* ))} */}
+      {!isLoading && tableData.length > 0 && (
+        <React.Fragment>
+          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
+            {tableData.map((item) => (
+              <table key={item.id} className="flex items-start text-rstextcolor bg-rscardbackhround dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
+                {tableHeader.map((column) => (
+                  <tr
+                    key={column.value}
+                    className=""
+                  >
+                    <td className="pr-1 text-xs whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white text-rstextcolor !p-[3px]">{column.value}: </td>
+
+                    <td className="dark:text-white text-xs whitespace-wrap  text-rstextcolor break-all  !p-[3px]">
+                      {/* {console.log('item', item)} */}
+                      {renderCellContent(
+                        companyAsMediator,
+                        item[column.key],
+                        column,
+                        item.hs_object_id,
+                        path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                        path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                        'list',
+                        path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                        detailsView
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </table>
+
+            ))}
+          </ul>
+          {tableData.length > 0 &&
+            <div className="flex lg:flex-row flex-col justify-between items-center">
+              {/* <div className="text-end">
+                {env.DATA_SOURCE_SET != true &&
+                  <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
+                }
+              </div> */}
+              <Pagination
+                numOfPages={numOfPages || 0}
+                currentPage={currentPage}
+                setCurrentPage={handlePageChange}
+              />
+            </div>
+          }
+        </React.Fragment>
+      )}
       {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
     </div>
   );

@@ -164,18 +164,19 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 pb-2">
-          <span className="text-rstextcolor">
+          <span className="text-secondary">
             <AssociationIcon />
           </span>
           <span>
-            <span className="dark:text-white text-rstextcolor">{title}</span>
-            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+            <span className="dark:text-white text-secondary hover:underline underline-offset-4 font-bold text-xs">{title}</span>
+            <span className="ml-2 px-2 py-1 rounded-md bg-secondary text-white text-xs">
               {totalItems}
             </span>
           </span>
         </div>
         {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
       </div>
+      {isLoading && <div className="mb-4"><SkeletonLoader items={2} /></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
@@ -186,7 +187,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
           }
         </div>
       )}
-      {tableData.length > 0 && (
+      {!isLoading && tableData.length > 0 && (
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
             {tableData.map((item) => (
@@ -233,8 +234,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
             </div>
           }
         </React.Fragment>
-      )
-      }
+    )}
       {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
     </div >
   );

@@ -13,7 +13,7 @@ const DetailsAssociations = ({
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
 
-console.log(companyAsMediator, "companyAsMediator");
+
   return (
     <Accordion
       className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"
@@ -21,12 +21,12 @@ console.log(companyAsMediator, "companyAsMediator");
     >
       <AccordionSummary>
         <div className="flex items-center gap-x-2 text-sm font-medium">
-          <span className="text-rstextcolor">
+          <span className="text-secondary">
             <AssociationIcon />
           </span>
 
           <Link
-            className="text-lightblue  font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+            className="font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
             to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
               association.labels.plural
             }&objectTypeId=${
@@ -40,10 +40,10 @@ console.log(companyAsMediator, "companyAsMediator");
             }&isPrimaryCompany=${companyAsMediator}`}
           >
             <span>
-              <span className=" text-rstextcolor hover:underline underline-offset-4 hover:text-lightblue  dark:text-white">
+              <span className="text-secondary  hover:underline underline-offset-4  dark:text-white">
                 {association.labels.plural}
               </span>
-              <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+              <span className="ml-2 px-2 py-1 rounded-md bg-secondary text-white text-xs">
                 {association.total}
               </span>
             </span>
@@ -152,7 +152,7 @@ console.log(companyAsMediator, "companyAsMediator");
         {/* {association.hasMore && */}
         <div className="text-right mb-2">
           <Link
-            className="text-lightblue font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+            className="text-secondary hover:underline font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
             to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
               association.labels.plural
             }&objectTypeId=${
