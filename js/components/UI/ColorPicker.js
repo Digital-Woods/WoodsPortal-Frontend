@@ -1,35 +1,52 @@
+const SimonColorPicker = ({ onColorChange }) => {
+  const [color, setColor] = useState("#ff0000");
+  const pickerRef = React.useRef(null);
+
+  useEffect(() => {
+    const pickr = Pickr.create({
+      el: pickerRef.current,
+      theme: "nano",
+      useAsButton: true,
+      inline: true,
+
+      default: color,
+
+      components: {
+        // Main components
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        // Input / output Options
+        interaction: {
+          hex: true,
+          rgba: true,
+          hsla: true,
+          hsva: true,
+          cmyk: true,
+          input: true
+        }
+      },
+      defaultRepresentation: "HEX",
+      showAlways: true
+    });
+
+    pickr.on("change", (color) => {
+      const selectedColor = color.toHEXA().toString();
+      setColor(selectedColor);
+      onColorChange(selectedColor);
+    });
+
+    return () => pickr.destroy();
+  }, []);
+
+  return (
+    <div ref={pickerRef}></div>
+  )
+};
+
 const ColorPicker = ({color, setColor, setIsOpen}) => {
   const [tab, setTab] = useState("tab1");
-
-  // const [color, setColor] = useState("#ff0000");
-  // const pickerRef = React.useRef(null);
-
-  // useEffect(() => {
-  //   const pickr = Pickr.create({
-  //     el: pickerRef.current,
-  //     theme: "nano",
-  //     default: color,
-  //     components: {
-  //       preview: true,
-  //       opacity: true,
-  //       hue: true,
-  //       interaction: {
-  //         input: true,
-  //         clear: true,
-  //         save: true,
-  //       },
-  //     },
-  //   });
-
-  //   pickr.on("save", (color) => {
-  //     const selectedColor = color.toHEXA().toString();
-  //     setColor(selectedColor);
-  //     onColorChange(selectedColor);
-  //     pickr.hide();
-  //   });
-
-  //   return () => pickr.destroy();
-  // }, []);
 
   const colors = [
     "#000000", "#FF0201", "#FF9902", "#FFFF04", "#00FF03", "#00FFFF", 
@@ -84,17 +101,8 @@ const ColorPicker = ({color, setColor, setIsOpen}) => {
           </div>
         </div>
       ) : (
-        <div>2</div>
+        <SimonColorPicker onColorChange={setColor} />
       )}
-      {/* <div className="picker-container">
-        <button
-          ref={pickerRef}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-        >
-          {icon}
-        </button>
-        <span className="color-box"></span>
-      </div> */}
     </div>
   );
 };
