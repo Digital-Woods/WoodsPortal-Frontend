@@ -63,7 +63,20 @@ const DropdownColorMenu = ({ editorView, icon }) => {
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
-        <span class="custom-menu-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+        >
+          <path d="M80 0v-160h800V0H80Z" fill="#e8eaed" id="text-color-svg" />
+          <path
+            d="M220-280 430-840h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"
+            fill="#e8eaed"
+          />
+        </svg>
+
+        {/* <span class="custom-menu-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -73,7 +86,7 @@ const DropdownColorMenu = ({ editorView, icon }) => {
           >
             <path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z" />
           </svg>
-        </span>
+        </span> */}
       </div>
       {isOpen && (
         <div
@@ -127,7 +140,7 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
       const { from, to } = selection;
       const markType = schema.marks.textBackgroundColor;
 
-      console.log("markType", markType);
+      // console.log("markType", markType);
 
       if (!markType) return false;
 
@@ -161,7 +174,7 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
         onClick={toggleMenu}
       >
         <span class="custom-menu-icon">
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
             viewBox="0 -960 960 960"
@@ -169,6 +182,24 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
             fill="#e8eaed"
           >
             <path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z" />
+          </svg> */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+          >
+            <path d="M80 0v-160h800V0H80Z" fill="#fff" id="text-bg-color-svg" />
+            <path
+              d="M160-320h56l312-311-29-29-28-28-311 312v56Z"
+              fill="#e8eaed"
+            />
+            <path
+              d="M80-240v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Z"
+              fill="#e8eaed"
+            />
+            <path d="M720-744l-56-56 56 56Z" fill="#e8eaed" />
+            <path d="M608-631l-29-29-28-28 57 57Z" fill="#e8eaed" />
           </svg>
         </span>
       </div>
@@ -782,7 +813,7 @@ const ProseMirrorEditor = ({
       return container;
     };
     const textBGColor = new MenuItem({
-      title: `Set text color`,
+      title: `Set text bg color`,
       run: () => {},
       select: (state) => true,
       render: (editorView) => renderReactComponent2(editorView),
@@ -870,7 +901,7 @@ const ProseMirrorEditor = ({
       // run: (state, dispatch) =>
       //   wrapIn(schema.nodes.blockquote)(state, dispatch),
       run: (state, dispatch) => {
-        wrapIn(schema.nodes.blockquote)(state, dispatch)
+        wrapIn(schema.nodes.blockquote)(state, dispatch);
         updateMenuState(editor); // Call function to update menu state
       },
     });
@@ -998,11 +1029,13 @@ const ProseMirrorEditor = ({
     const isMarkActive = (state, markType) => {
       const { from, to, empty } = state.selection;
       if (empty) {
-        return !!markType.isInSet(state.storedMarks || state.selection.$from.marks());
+        return !!markType.isInSet(
+          state.storedMarks || state.selection.$from.marks()
+        );
       } else {
         let hasMark = false;
         state.doc.nodesBetween(from, to, (node) => {
-          if (node.marks.some(mark => mark.type === markType)) {
+          if (node.marks.some((mark) => mark.type === markType)) {
             hasMark = true;
           }
         });
@@ -1010,29 +1043,82 @@ const ProseMirrorEditor = ({
       }
     };
     const updateMenuState = (view) => {
+      // console.log('view', view)
       const { state } = view;
+
+      // Filter Text color
+
+      const { from, to } = state.selection;
+      let selectedTextColor = "#fff";
+      let selectedTextBGColor = "";
+
+      // Extract text content and its associated styles
+      state.doc.nodesBetween(from, to, (node) => {
+        if (node.isText) {
+          node.marks.forEach((mark) => {
+            if (mark.type.name === "textColor") {
+              selectedTextColor = mark.attrs.color;
+            }
+            if (mark.type.name === "textBackgroundColor") {
+              selectedTextBGColor = mark.attrs.color;
+            }
+          });
+        }
+      });
+
       // Apply active class
-      document.querySelectorAll(".ProseMirror-menuitem").forEach(item => {
+      document.querySelectorAll(".ProseMirror-menuitem").forEach((item) => {
         // console.log('item.textContent.trim()', item.textContent.trim())
-        if (item.querySelector('div')?.getAttribute('title') === "Bold") {
+        if (item.querySelector("div")?.getAttribute("title") === "Bold") {
           if (isMarkActive(state, schema.marks.strong)) {
             item.style.backgroundColor = "#ddd"; // Active state color
           } else {
             item.style.backgroundColor = ""; // Default
           }
         }
-        if (item.querySelector('div')?.getAttribute('title') === "Italic") {
+        if (item.querySelector("div")?.getAttribute("title") === "Italic") {
           if (isMarkActive(state, schema.marks.em)) {
             item.style.backgroundColor = "#ddd"; // Active state color
           } else {
             item.style.backgroundColor = ""; // Default
           }
         }
-        if (item.querySelector('div')?.getAttribute('title') === "Underline") {
+        if (item.querySelector("div")?.getAttribute("title") === "Underline") {
           if (isMarkActive(state, schema.marks.underline)) {
             item.style.backgroundColor = "#ddd"; // Active state color
           } else {
             item.style.backgroundColor = ""; // Default
+          }
+        }
+
+        if (
+          item.querySelector("div")?.getAttribute("title") === "Set text color"
+        ) {
+          const colorSvg = document.querySelector("#text-color-svg");
+          if (
+            isMarkActive(state, schema.marks.textColor) &&
+            colorSvg &&
+            selectedTextColor
+          ) {
+            colorSvg.setAttribute("fill", selectedTextColor);
+          } else {
+            colorSvg.setAttribute("fill", "#000");
+          }
+        }
+
+        if (
+          item.querySelector("div")?.getAttribute("title") ===
+          "Set text bg color"
+        ) {
+          const colorBgSvg = document.querySelector("#text-bg-color-svg");
+          if (
+            isMarkActive(state, schema.marks.textBackgroundColor) &&
+            colorBgSvg &&
+            selectedTextBGColor
+          ) {
+            colorBgSvg.setAttribute("fill", selectedTextBGColor);
+          } else {
+            colorBgSvg.setAttribute("fill", "#fff");
           }
         }
       });
@@ -1050,7 +1136,7 @@ const ProseMirrorEditor = ({
       // if (italicButton) {
       //   italicButton.style.backgroundColor = isMarkActive(state, schema.marks.em) ? "#ddd" : "";
       // }
-    }
+    };
     // console.log("Editor initialized:", editor);
 
     // Cleanup on unmount
@@ -1078,7 +1164,7 @@ const ProseMirrorEditor = ({
       state.schema.nodes.image.create({ src })
     );
 
-    console.log("transaction", transaction);
+    // console.log("transaction", transaction);
 
     dispatch(transaction);
   };
@@ -1103,7 +1189,7 @@ const ProseMirrorEditor = ({
   useEffect(() => {
     if (pmState) {
       const content = getContentString();
-      console.log("content", content);
+      // console.log("content", content);
       setEditorContent(content);
     }
   }, [pmState?.doc.toJSON()]);
