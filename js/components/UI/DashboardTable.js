@@ -275,7 +275,8 @@ const DashboardTable = ({
           </div>
         )
       }
-      {isLoading && <SkeletonLoader items={3} />}
+      {isLoading && <TableSkeleton />}
+      
       {!isLoading && tableData.length === 0 && (
         <div className="text-center pb-4">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />

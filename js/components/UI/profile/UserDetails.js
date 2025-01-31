@@ -11,6 +11,7 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
         ticket: false
     });
     // const param = getParam("t");
+    const param = getQueryParamsFromCurrentUrl();
     const [activeTab, setActiveTab] = useState("files");
     const [permissions, setPermissions] = useState(userPermissions);
     const urlParam = getQueryParamsFromCurrentUrl();
@@ -116,8 +117,17 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
     //         </div>
     //     );
     // }
+    const apis = {
+        tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
+        stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
+        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields`,
+        formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+            }`,
+        createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
+        updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
+    };
 
-    if ( !item) {
+    if (!item) {
         return <div className="loader-line"></div>;
     }
 
@@ -186,14 +196,26 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
                             )}
 
                             {activeTab === "tickets" && (
-                                <Tickets
+                                // <Tickets
+                                //     path={path}
+                                //     objectId={objectId}
+                                //     id={id}
+                                //     parentObjectTypeId={objectId}
+                                //     parentObjectRowId={id}
+                                //     permissions={permissions ? permissions.ticket : null}
+                                //     companyAsMediator={false}
+                                //     profileTicket={true}
+                                // />
+
+                                <DashboardTable
+                                    hubspotObjectTypeId={'0-5'}
                                     path={path}
-                                    objectId={objectId}
-                                    id={id}
-                                    parentObjectTypeId={objectId}
-                                    parentObjectRowId={id}
-                                    permissions={permissions ? permissions.ticket : null}
-                                    companyAsMediator={false}
+                                    title={'Tickets'}
+                                    apis={apis}
+                                    componentName="object"
+                                    defPermissions={permissions ? permissions.ticket : null}
+                                    editView={true}
+
                                 />
                             )}
 
@@ -228,7 +250,9 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
                 </div>
             ) : (
                 <div className="h-[calc(100vh_-136px)]">
-                    <SkeletonLoader items={4} />
+                    <div className="mt-4">
+                        <DetailsSkeleton profileDetails={true} />
+                    </div>
                     {/* <Link
               className="capitalize"
               to={back}

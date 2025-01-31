@@ -2,15 +2,15 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
     return (
         <div className="animate-pulse space-y-4">
             {[...Array(items)].map((_, index) => (
-                <div key={index} className="bg-white shadow rounded-lg">
+                <div key={index} className="bg-white dark:bg-dark-500 shadow">
 
                     {/* Profile Section */}
                     {profile ? (
                         <div className="flex items-center space-x-4 p-4 bg-red-50 rounded-t-lg">
-                            <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                            <div className="w-12 h-12 bg-gray-300 dark:bg-dark-500 dark:bg-opacity-20 rounded-full"></div>
                             <div className="flex-1 space-y-2">
-                                <div className="h-4 bg-gray-300 rounded w-1/3"></div>
-                                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                                <div className="h-4 bg-gray-300 dark:bg-dark-500 dark:bg-opacity-20 rounded w-1/3"></div>
+                                <div className="h-3 bg-gray-200 dark:bg-dark-500 dark:bg-opacity-20 rounded w-1/2"></div>
                             </div>
                         </div>
                     ) : null}
@@ -22,7 +22,7 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
                                 .fill(0)
                                 .map((_, i) => (
                                     <div key={i}>
-                                        <div className="h-3 bg-gray-300 rounded w-2/3 mb-1"></div>
+                                        <div className="h-3 bg-gray-300 dark:bg-dark-white rounded w-2/3 mb-1"></div>
                                         <div className="h-3 bg-gray-200 rounded w-full"></div>
                                     </div>
                                 ))}
@@ -35,7 +35,7 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
                                     .fill(0)
                                     .map((_, i) => (
                                         <div key={i}>
-                                            <div className="h-3 bg-gray-300 rounded w-2/3 mb-1"></div>
+                                            <div className="h-3 bg-gray-300 dark:bg-dark-white rounded w-2/3 mb-1"></div>
                                             <div className="h-3 bg-gray-200 rounded w-full"></div>
                                         </div>
                                     ))}
