@@ -1,4 +1,4 @@
-const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
+ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
       <ul className="flex items-center space-x-2">
         <div className="dark:bg-dark-500 bg-gray-200 p-2 rounded-md">
           <li
-            className={`dark:text-white ${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+            className={`dark:text-white text-secondary ${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
               }`}
             onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           >
@@ -37,7 +37,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
           <li
             key={index}
             className={`cursor-pointer text-sm px-2 py-1 rounded-md text-sm ${currentPage === data
-                ? " bg-primary dark:bg-dark-400 text-white"
+                ? " bg-secondary dark:bg-dark-400 text-white"
                 : ""
               } ${data === "..." ? "cursor-default" : ""}`}
             onClick={() => data !== "..." && setCurrentPage(data)}
@@ -47,7 +47,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage }) => {
         ))}
         <div className="dark:bg-dark-500 bg-gray-200 p-2 rounded-md">
           <li
-            className={`dark:text-white ${currentPage === numOfPages
+            className={`dark:text-white text-secondary ${currentPage === numOfPages
                 ? "cursor-not-allowed"
                 : "cursor-pointer"
               }`}

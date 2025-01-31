@@ -115,6 +115,8 @@ const DashboardTable = ({
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
   const isPrimaryCompany = getParam("isPrimaryCompany")
+  const parentObjectTypeId = getParam("parentObjectTypeId")
+  const parentObjectRecordId = getParam("parentObjectRecordId")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
@@ -273,6 +275,7 @@ const DashboardTable = ({
           </div>
         )
       }
+      {isLoading && <SkeletonLoader items={3} />}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center pb-4">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />
@@ -284,7 +287,7 @@ const DashboardTable = ({
         </div>
       )}
       {
-        tableData.length > 0 && (
+       !isLoading && tableData.length > 0 && (
           <React.Fragment>
             <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
               <Table className="w-full">
@@ -388,7 +391,7 @@ const DashboardTable = ({
                                   path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                                   path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                                   'list',
-                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : '',
+                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : '',
                                   detailsView,
                                   hoverRow
                                 )

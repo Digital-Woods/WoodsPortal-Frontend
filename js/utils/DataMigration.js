@@ -151,7 +151,7 @@ const filterAssociationsData = (obj) => {
   return filtered;
 };
 
-const sortData = (list, type = "list") => {
+const sortData = (list, type = "list", removeKeys='hs_object_id') => {
   if (type == "list" || type == "details") delete list.associations;
   // if (type == "associations") list = filterAssociationsData(list);
   let data =
@@ -383,7 +383,7 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 relative justify-between">
         <Link
-          className="dark:text-white  text-secondary font-semibold border-input rounded-md"
+          className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           --
@@ -446,7 +446,7 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 relative justify-between group">
         <Link
-          className="dark:text-white text-secondary font-semibold border-input rounded-md"
+          className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={associationPath}
         >
           {truncatedText(isObject(value) ? value.label : value, "25")}
@@ -475,7 +475,7 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 relative justify-between">
         <Link
-          className="dark:text-white  text-secondary font-semibold border-input rounded-md"
+          className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           {truncatedText(isObject(value) ? value.label : value)}

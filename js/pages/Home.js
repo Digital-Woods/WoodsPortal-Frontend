@@ -18,46 +18,45 @@ const Home = ({
   const [userObjectId, setUserObjectId] = useState();
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const userProfileMutation = useMutation({
-    mutationFn: async (payload) => {
-      setIsLoading(true);
-      const response = await Client.user.profile({
-        portalId: portalId,
-      });
-      return response;
-    },
+  
+ const fetchUserProfile = async (portalId) => {
+    if (!portalId) return null;
+    const response = await Client.user.profile({ portalId });
+    return response?.data;
+  };
+  
+  const { data: userNewData, error, isLoading,refetch  } = useQuery({
+    queryKey: ['userProfile', portalId],
+    queryFn: () => fetchUserProfile(portalId),
+    enabled: !!portalId,
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
     onSuccess: (data) => {
-      // Example: Actions after successful API call
-      // setAlert({
-      //   message: "Profile fetched successfully!",
-      //   type: "success",
-      //   show: true,
-      // });
-      // setSync(true);
-      setUserData(data?.data);
-      setUserId(data?.data?.response?.hs_object_id?.value);
-      setUserObjectId(data?.data?.info?.objectTypeId);
-      setIsLoading(false);
+      if (data) {
+        sessionStorage.setItem('userProfile', JSON.stringify(data));
+        setUserData(data);
+        setUserId(data?.response?.hs_object_id?.value);
+        setUserObjectId(data?.info?.objectTypeId);
+      }
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
-      setIsLoading(false);
-    },
-  });
-  useEffect(() => {
-    if (portalId || sync) {
-      userProfileMutation.mutate();
     }
-  }, [portalId, sync]);
-  // Sidebar show/hide logic for medium and small devices
+  });
+  
+  useEffect(() => {
+    if (userNewData) {
+      setUserData(userNewData);
+      setUserId(userNewData?.response?.hs_object_id?.value);
+      setUserObjectId(userNewData?.info?.objectTypeId);
+    }
+  }, [portalId,sync]);
+
   const toggleSidebar = () => {
-    setUserToggled(true); // Mark as user-initiated
+    setUserToggled(true);
     setSidebarRightOpen((prev) => !prev);
   };
 
-  // Automatically adjust the sidebar based on screen size
   useEffect(() => {
     if (!userToggled) {
       if (isLargeScreen) {
@@ -126,7 +125,7 @@ const Home = ({
               }`}
           >
             {/* <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} /> */}
-            {isLoading ? <SkeletonLoader items={1} profile={true} /> : <UserProfileCard userData={userData} />}
+            <UserProfileCard userData={userData} />
 
             {/* <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
@@ -172,7 +171,7 @@ const Home = ({
 
               {/* Sidebar content */}
               <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
-                <div className="flex-col flex lg:gap-6 gap-3 lg:h-full">
+                <div className="flex-col flex lg:gap-6 gap-3 h-full">
                   {sidebarListDataOption.map((option, index) => {
                     const hubspotObjectTypeId = option.hubspotObjectTypeId;
                     const sidebarDataApis = {
