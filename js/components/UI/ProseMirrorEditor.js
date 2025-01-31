@@ -532,26 +532,26 @@ const ProseMirrorEditor = ({
     setEditorSchema(schema);
 
     // Underline Menu
-    const toggleUnderline = (schema) => {
-      return toggleMark(schema.marks.underline);
-    };
-    const customMenuItemTextUnderline = new MenuItem({
-      title: "Underline Text",
-      run: (state, dispatch, view) => {
-        toggleUnderline(view.state.schema)(state, dispatch);
-      },
-      select: (state) => true, // Show this item always
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120v-80h560v80H200Zm280-160q-101 0-157-63t-56-167v-330h103v336q0 56 28 91t82 35q54 0 82-35t28-91v-336h103v330q0 104-56 167t-157 63Z"/></svg>
-      `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-    });
+    // const toggleUnderline = (schema) => {
+    //   return toggleMark(schema.marks.underline);
+    // };
+    // const customMenuItemTextUnderline = new MenuItem({
+    //   title: "Underline Text",
+    //   run: (state, dispatch, view) => {
+    //     toggleUnderline(view.state.schema)(state, dispatch);
+    //   },
+    //   select: (state) => true, // Show this item always
+    //   icon: {
+    //     dom: (() => {
+    //       const span = document.createElement("span");
+    //       span.innerHTML = `
+    //         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120v-80h560v80H200Zm280-160q-101 0-157-63t-56-167v-330h103v336q0 56 28 91t82 35q54 0 82-35t28-91v-336h103v330q0 104-56 167t-157 63Z"/></svg>
+    //   `;
+    //       span.className = "custom-menu-icon";
+    //       return span;
+    //     })(),
+    //   },
+    // });
 
     // Alignment Menu
     const alignmentDropdown = () => {
@@ -813,7 +813,7 @@ const ProseMirrorEditor = ({
 
     // c Menu
     const boldItem = new MenuItem({
-      title: "Toggle Bold",
+      title: "Bold",
       // label: "Bold",
       icon: {
         dom: (() => {
@@ -826,12 +826,14 @@ const ProseMirrorEditor = ({
         })(),
       },
       enable: (state) => toggleMark(schema.marks.strong)(state),
-      run: (state, dispatch) =>
-        toggleMark(schema.marks.strong)(state, dispatch),
+      run: (state, dispatch) => {
+        toggleMark(schema.marks.strong)(state, dispatch);
+        updateMenuState(editor); // Call function to update menu state
+      },
     });
 
     const italicItem = new MenuItem({
-      title: "Toggle Italic",
+      title: "Italic",
       // label: "Italic",
       icon: {
         dom: (() => {
@@ -844,7 +846,11 @@ const ProseMirrorEditor = ({
         })(),
       },
       enable: (state) => toggleMark(schema.marks.em)(state),
-      run: (state, dispatch) => toggleMark(schema.marks.em)(state, dispatch),
+      // run: (state, dispatch) => toggleMark(schema.marks.em)(state, dispatch),
+      run: (state, dispatch) => {
+        toggleMark(schema.marks.em)(state, dispatch);
+        updateMenuState(editor); // Call function to update menu state
+      },
     });
 
     const blockquoteItem = new MenuItem({
@@ -861,12 +867,16 @@ const ProseMirrorEditor = ({
         })(),
       },
       enable: (state) => wrapIn(schema.nodes.blockquote)(state),
-      run: (state, dispatch) =>
-        wrapIn(schema.nodes.blockquote)(state, dispatch),
+      // run: (state, dispatch) =>
+      //   wrapIn(schema.nodes.blockquote)(state, dispatch),
+      run: (state, dispatch) => {
+        wrapIn(schema.nodes.blockquote)(state, dispatch)
+        updateMenuState(editor); // Call function to update menu state
+      },
     });
 
     const underlineMenuItem = new MenuItem({
-      title: "Toggle underline",
+      title: "Underline",
       // label: "U",
       icon: {
         dom: (() => {
@@ -879,7 +889,12 @@ const ProseMirrorEditor = ({
         })(),
       },
       enable: (state) => toggleMark(schema.marks.underline)(state),
-      run: toggleMark(schema.marks.underline),
+      // run: toggleMark(schema.marks.underline),
+      run: (state, dispatch) => {
+        // toggleMark(schema.marks.underline),
+        toggleMark(schema.marks.underline)(state, dispatch);
+        updateMenuState(editor); // Call function to update menu state
+      },
     });
 
     // Function to check if the selection is inside a specific list type
@@ -976,7 +991,66 @@ const ProseMirrorEditor = ({
         setPmState(newState);
       },
     });
+    editor.dom.addEventListener("mouseup", () => updateMenuState(editor));
+    editor.dom.addEventListener("keyup", () => updateMenuState(editor));
     setPmView(editor);
+
+    const isMarkActive = (state, markType) => {
+      const { from, to, empty } = state.selection;
+      if (empty) {
+        return !!markType.isInSet(state.storedMarks || state.selection.$from.marks());
+      } else {
+        let hasMark = false;
+        state.doc.nodesBetween(from, to, (node) => {
+          if (node.marks.some(mark => mark.type === markType)) {
+            hasMark = true;
+          }
+        });
+        return hasMark;
+      }
+    };
+    const updateMenuState = (view) => {
+      const { state } = view;
+      // Apply active class
+      document.querySelectorAll(".ProseMirror-menuitem").forEach(item => {
+        // console.log('item.textContent.trim()', item.textContent.trim())
+        if (item.querySelector('div')?.getAttribute('title') === "Bold") {
+          if (isMarkActive(state, schema.marks.strong)) {
+            item.style.backgroundColor = "#ddd"; // Active state color
+          } else {
+            item.style.backgroundColor = ""; // Default
+          }
+        }
+        if (item.querySelector('div')?.getAttribute('title') === "Italic") {
+          if (isMarkActive(state, schema.marks.em)) {
+            item.style.backgroundColor = "#ddd"; // Active state color
+          } else {
+            item.style.backgroundColor = ""; // Default
+          }
+        }
+        if (item.querySelector('div')?.getAttribute('title') === "Underline") {
+          if (isMarkActive(state, schema.marks.underline)) {
+            item.style.backgroundColor = "#ddd"; // Active state color
+          } else {
+            item.style.backgroundColor = ""; // Default
+          }
+        }
+      });
+
+      // // Find Bold and Italic buttons using their title attributes
+      // const boldButton = document.querySelector('.ProseMirror-menuitem div[title="Bold"]');
+      // const italicButton = document.querySelector('.ProseMirror-menuitem div[title="Italic"]');
+
+      // // Set active background color if bold is applied
+      // if (boldButton) {
+      //   boldButton.style.backgroundColor = isMarkActive(state, schema.marks.strong) ? "#ddd" : "";
+      // }
+
+      // // Set active background color if italic is applied
+      // if (italicButton) {
+      //   italicButton.style.backgroundColor = isMarkActive(state, schema.marks.em) ? "#ddd" : "";
+      // }
+    }
     // console.log("Editor initialized:", editor);
 
     // Cleanup on unmount
