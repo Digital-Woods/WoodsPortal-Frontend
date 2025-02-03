@@ -18,7 +18,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   const [filterValue, setFilterValue] = useState(null);
   // const [openModal, setOpenModal] = useState(false);
   // const [modalData, setModalData] = useState(null);
-  const [numOfPages,setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
+  const [numOfPages, setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
   const { me } = useMe();
@@ -76,8 +76,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
-  ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
-  : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+    ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -161,7 +161,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
 
   return (
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
-      {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 pb-2">
           <span className="text-secondary">
@@ -176,7 +175,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
         </div>
         {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
       </div>
-      {isLoading && <div className="mb-4"><SkeletonLoader items={2} /></div>}
+      {isLoading && <div className={``}><HomeSidebarSkeleton /></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
@@ -234,7 +233,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
             </div>
           }
         </React.Fragment>
-    )}
+      )}
       {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
     </div >
   );

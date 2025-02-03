@@ -125,6 +125,8 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     };
   }, []);
 
+
+
   const renderFiles = (files) => {
     if (!files || files.length === 0) {
       return (
@@ -240,7 +242,9 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
       </React.Fragment>
     ));
   };
-
+  if (isLoading && !files) {
+    return <FilesSkeleton />;
+  }
   return (
     <div className="table-container  overflow-x-scroll  rounded-md ">
       <Table className="w-full dark:bg-[#2a2a2a]">

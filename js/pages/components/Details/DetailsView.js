@@ -6,6 +6,7 @@ const DetailsView = ({
   id,
   refetch,
   permissions,
+  isLoading,
 }) => {
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
@@ -46,6 +47,12 @@ const DetailsView = ({
       prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
   };
+
+  if (isLoading && !item) {
+    return (
+      <OverviewSkeleton />
+    );
+  }
 
   return (
     <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">

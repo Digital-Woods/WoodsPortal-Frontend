@@ -127,15 +127,13 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
         updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
     };
 
-    if (!item) {
-        return <div className="loader-line"></div>;
-    }
+    // if (!item) {
+    //     return <div className="loader-line"></div>;
+    // }
 
     return (
         <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
         >
-            {/* {isLoading && item && <div className="loader-line"></div>} */}
-
             {permissions && objectId && id ? (
                 <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
 
@@ -251,14 +249,8 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
             ) : (
                 <div className="h-[calc(100vh_-136px)]">
                     <div className="mt-4">
-                        <DetailsSkeleton profileDetails={true} />
+                        <DetailsSkeleton header={false} tabs={3} active={'file'} />
                     </div>
-                    {/* <Link
-              className="capitalize"
-              to={back}
-            >
-              Back
-            </Link> */}
                 </div>
             )}
         </div>

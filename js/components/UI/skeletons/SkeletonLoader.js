@@ -1,49 +1,90 @@
 const SkeletonLoader = ({ items = 1, profile = false }) => {
     return (
-        <div className="animate-pulse space-y-4">
-            {[...Array(items)].map((_, index) => (
-                <div key={index} className="bg-white dark:bg-dark-500 shadow">
+        <div className="animate-pulse flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg shadow-md border dark:border-none dark:bg-dark-300 relative overflow-hidden">
+            <div className="bg-secondary opacity-10 absolute top-0 right-0 left-0 h-[90px]"></div>
 
-                    {/* Profile Section */}
-                    {profile ? (
-                        <div className="flex items-center space-x-4 p-4 bg-red-50 rounded-t-lg">
-                            <div className="w-12 h-12 bg-gray-300 dark:bg-dark-500 dark:bg-opacity-20 rounded-full"></div>
-                            <div className="flex-1 space-y-2">
-                                <div className="h-4 bg-gray-300 dark:bg-dark-500 dark:bg-opacity-20 rounded w-1/3"></div>
-                                <div className="h-3 bg-gray-200 dark:bg-dark-500 dark:bg-opacity-20 rounded w-1/2"></div>
-                            </div>
-                        </div>
-                    ) : null}
+            {/* Profile Initials */}
+            <div className="flex items-center justify-center relative z-50">
+                <div className="rounded-full h-[80px] w-[80px] max-sm:w-[50px] max-sm:h-[50px] flex items-center justify-center bg-gray-400 text-white text-2xl font-medium">
+                    U
+                </div>
+            </div>
 
-                    {/* Data Rows */}
-                    <div className="p-4 space-y-3">
-                        <div className="grid grid-cols-4 gap-4">
-                            {Array(4)
-                                .fill(0)
-                                .map((_, i) => (
-                                    <div key={i}>
-                                        <div className="h-3 bg-gray-300 dark:bg-dark-white rounded w-2/3 mb-1"></div>
-                                        <div className="h-3 bg-gray-200 rounded w-full"></div>
-                                    </div>
-                                ))}
-                        </div>
-
-                        {/* Company Section */}
-                        <div className="border-t pt-3 space-y-3">
-                            <div className="grid grid-cols-4 gap-4">
-                                {Array(4)
-                                    .fill(0)
-                                    .map((_, i) => (
-                                        <div key={i}>
-                                            <div className="h-3 bg-gray-300 dark:bg-dark-white rounded w-2/3 mb-1"></div>
-                                            <div className="h-3 bg-gray-200 rounded w-full"></div>
-                                        </div>
-                                    ))}
-                            </div>
-                        </div>
+            {/* User Details */}
+            <div className="relative w-full z-50 mt-2">
+                <div className="flex flex-col md:flex-row gap-4 pb-4 mb-4">
+                    <div className="flex-1">
+                        <h2 className=" flex items-center flex-wrap gap-2 text-xl font-semibold dark:text-secondary text-secondary mb-2">
+                            {/* {firstName} {lastName} */}
+                            <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[150px] inline-block "></span>
+                        </h2>
+                        <p className="text-xs flex items-center flex-wrap gap-1 dark:text-white">
+                            <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
+                            •
+                            <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block "></span>
+                        </p>
                     </div>
                 </div>
-            ))}
+
+                {/* User Info Grid */}
+                <div className="">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all duration-500">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="flex flex-col items-start gap-1 text-xs">
+                                <span className="font-semibold">
+                                    <sapn className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[120px] inline-block"></sapn>
+                                </span>
+                                <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* {sortedDetails.length > 4 && (
+                        <Button
+                            variant="link"
+                            size="link"
+                            onClick={() => setShowMoreDetails(!showMoreDetails)}
+                            className="font-medium mt-2 text-xs"
+                        >
+                            {showMoreDetails ? "Show Less" : "Show More"}
+                        </Button>
+                    )} */}
+                </div>
+
+                {/* Associated Company Details */}
+                <div className="mt-6 pt-4 border-t dark:border-gray-600">
+                    <p className="text-xs text-gray-500 mb-2">
+                        <span className="h-2 bg-gray-300 dark:bg-dark-white rounded-sm w-[70px] inline-block"></span>
+                    </p>
+                    <h3 className="text-lg font-semibold dark:text-white mb-4">
+                        <span className="h-6 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
+                    </h3>
+
+                    <div className="">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <div key={i} className="flex flex-col items-start gap-1 text-xs">
+                                    <span className="font-semibold">
+                                        <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[120px] inline-block"></span>
+                                    </span>
+                                    <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* {sortedAssociatedDetails.length > 4 && (
+                            <Button
+                                variant="link"
+                                size="link"
+                                onClick={() => setShowMoreAssociated(!showMoreAssociated)}
+                                className="font-medium mt-2 text-xs"
+                            >
+                                {showMoreAssociated ? "Show Less" : "Show More"}
+                            </Button>
+                        )} */}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

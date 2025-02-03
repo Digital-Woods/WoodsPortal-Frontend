@@ -99,7 +99,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   // console.log('folderStack', folderStack)
 
   if (isLoading) {
-    return <div className="loader-line"></div>;
+    return <FilesSkeleton />;
   }
 
   if (error) {
@@ -172,7 +172,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
 
   return (
     <div onClick={closeContextMenu}>
-      <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-dark-300 md:p-4 p-2">
+      <div className="rounded-lg mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0">
         <div className="flex justify-between mb-6 items-center mt-2">
           <Input
             placeholder="Search..."
@@ -180,6 +180,23 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          {permissions && permissions.create && (
+            <div className="flex justify-end space-x-2">
+              <Button
+                variant="create"
+                onClick={() => setIsCreateFolderOpen(true)}
+              >
+                <span className="mr-2"> <IconPlus className='!w-3 !h-3' /> </span> New Folder
+              </Button>
+
+              <Button
+                variant="create"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                <span className="mr-2"> <IconPlus className='!w-3 !h-3' /> </span> New File
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="flex md:flex-row flex-col-reverse justify-between gap-2 md:items-center ">
@@ -188,25 +205,6 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
             folderStack={folderStack}
             onClick={handleBreadcrumbClick}
           />
-          {permissions && permissions.create && (
-            <div className="flex justify-end space-x-2">
-              <Button
-                size="sm"
-                className="text-white w-28"
-                onClick={() => setIsCreateFolderOpen(true)}
-              >
-                <span className="mr-2"> <IconPlus className='!w-3 !h-3'/> </span> New Folder
-              </Button>
-
-              <Button
-                size="sm"
-                className="text-white w-28"
-                onClick={() => setIsDialogOpen(true)}
-              >
-                <span className="mr-2"> <IconPlus className='!w-3 !h-3'/> </span> New File
-              </Button>
-            </div>
-          )}
         </div>
 
         <h1 className="text-xl font-semibold mb-4 dark:text-white">

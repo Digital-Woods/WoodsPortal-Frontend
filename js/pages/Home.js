@@ -29,7 +29,7 @@ const Home = ({
     queryKey: ['userProfile', portalId],
     queryFn: () => fetchUserProfile(portalId),
     enabled: !!portalId,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
     cacheTime: 1000 * 60 * 10,
     onSuccess: (data) => {
       if (data) {
