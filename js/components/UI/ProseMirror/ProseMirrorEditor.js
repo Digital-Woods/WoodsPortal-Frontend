@@ -903,86 +903,6 @@ const ProseMirrorEditor = ({
     // };
 
     // // Font Size Menu
-    // const applyFontSize = (fontSize) => {
-    //   return (state, dispatch) => {
-    //     const { schema, selection } = state;
-    //     const { from, to } = selection;
-    //     const markType = schema.marks.fontSize;
-
-    //     if (!markType) return false;
-
-    //     const attrs = { fontSize };
-    //     const tr = state.tr;
-
-    //     if (selection.empty) {
-    //       // Apply as stored mark if no selection
-    //       tr.addStoredMark(markType.create(attrs));
-    //     } else {
-    //       // Apply to the selected range
-    //       tr.addMark(from, to, markType.create(attrs));
-    //     }
-
-    //     if (dispatch) dispatch(tr);
-    //     return true;
-    //   };
-    // };
-    // const fontSizeDropdown = () => {
-    //   const fontSizes = [
-    //     {
-    //       label: "8",
-    //       value: "8pt",
-    //     },
-    //     {
-    //       label: "9",
-    //       value: "9pt",
-    //     },
-    //     {
-    //       label: "10",
-    //       value: "10pt",
-    //     },
-    //     {
-    //       label: "11",
-    //       value: "11pt",
-    //     },
-    //     {
-    //       label: "12",
-    //       value: "12pt",
-    //     },
-    //     {
-    //       label: "14",
-    //       value: "14pt",
-    //     },
-    //     {
-    //       label: "18",
-    //       value: "18pt",
-    //     },
-    //     {
-    //       label: "24",
-    //       value: "24pt",
-    //     },
-    //     {
-    //       label: "36",
-    //       value: "36pt",
-    //     },
-    //   ];
-    //   const fontItems = fontSizes.map(
-    //     (fontSize) =>
-    //       new MenuItem({
-    //         title: `Set font size to ${fontSize.label}`,
-    //         label: fontSize.label,
-    //         run: (state, dispatch, view) => {
-    //           applyFontSize(fontSize.value)(view.state, view.dispatch);
-    //           return true;
-    //         },
-    //         enable: (state) => !state.selection.empty, // Enable if text is selected
-    //       })
-    //   );
-
-    //   return new Dropdown(fontItems, {
-    //     label: "Font Size",
-    //     title: "Select Font Size",
-    //   });
-    // };
 
     // Text Color Menu
     const renderReactComponent = (editorView) => {
@@ -1229,7 +1149,7 @@ const ProseMirrorEditor = ({
       content: [
         [boldItem, italicItem, underlineMenuItem],
         // [fontMenuItem, fontSizeDropdown()],
-        [fontMenuItem],
+        [fontMenuItem, fontSizeMenuItem],
         [textColor, textBGColor],
         [blockquoteItem],
         [alignmentDropdown],
@@ -1244,7 +1164,7 @@ const ProseMirrorEditor = ({
         doc: initialDoc,
         schema,
         // plugins: [keymap(baseKeymap), ...customExampleSetup(schema), menu],
-        plugins: [keymap(baseKeymap), menu, fontSelectionPlugin],
+        plugins: [keymap(baseKeymap), menu, fontSelectionPlugin, fontSizeSelectionPlugin],
       }),
       dispatchTransaction(transaction) {
         const newState = editor.state.apply(transaction);
