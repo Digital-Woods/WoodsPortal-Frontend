@@ -140,7 +140,7 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
                     {/* main content code start */}
                     <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                         <div className={``}>
-                            <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
+                            <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit my-4">
                                 <Tabs
                                     activeTab={activeTab}
                                     setActiveTab={setActiveTabFucntion}

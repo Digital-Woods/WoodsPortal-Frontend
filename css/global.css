@@ -536,8 +536,8 @@ html {
 }
 
 body {
+  color: #33475b !important;
   {{ body_font.style }};
-  color: {{ body_font.color }};
   font-size: {{ body_font.size ~ body_font.size_unit }};
 }
 
@@ -554,21 +554,18 @@ p {
 /* Table */
 
 table {
-  {{ table_border }}
   background-color: {{ table_bg_color }};
 }
 
 /* Table cells */
 
 td {
-  {{ table_border }}
+  color: #33475b;
   {{ table_cell_spacing }}
-  color: {{ table_font_color }};
 }
 th {
-  {{ table_border }};
   padding:8px 24px 8px 24px;
-  color: {{ table_font_color }};
+  color: #33475b;
 }
 
 /* Table header */

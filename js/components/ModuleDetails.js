@@ -113,7 +113,7 @@ const ModuleDetails = ({ path, id }) => {
       {item && (
         <div className=" flex flex-col gap-4">
           <div>
-            <button onClick={goBack} className="text-primary dark:text-white flex items-center gap-2">
+            <button onClick={goBack} className="text-secondary dark:text-white flex items-center gap-2">
               <svg
                 viewBox="0 0 1024 1024"
                 fill="currentColor"

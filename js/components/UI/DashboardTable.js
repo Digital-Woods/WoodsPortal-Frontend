@@ -267,7 +267,7 @@ const DashboardTable = ({
       {hubSpotUserDetails.sideMenu[0].tabName === title
         ? null
         : (permissions && permissions.create) && (
-          <div className={`text-end ${componentName === "ticket" ? `mb-6`:` md:py-4 py-3 ` }`} >
+          <div className={`text-end ${componentName === "ticket" ? `mb-6`:` md:pb-4 pb-3 ` }`} >
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
               <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create {title}
             </Button>
@@ -281,7 +281,7 @@ const DashboardTable = ({
     <div className="text-center pb-4">
       <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />
       {(permissions && permissions.association) &&
-        <p className="text-primary text-base md:text-2xl dark:text-gray-300mt-3">
+        <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
           {permissions.associationMessage}
         </p>
       }
@@ -433,15 +433,15 @@ const DashboardTable = ({
       </div>
       <div className="flex items-center justify-between max-md:flex-col  md:px-4 px-3 gap-x-2 max-sm:mt-3 text-sm">
         <div className="flex items-center gap-x-2 text-sm">
-          <p className="text-primary leading-5 text-sm dark:text-gray-300">
+          <p className="text-secondary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
-          <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+          <span className="border border-2 border-secondary dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {currentItems || 0}
           </span>
-          <span className="text-primary dark:text-gray-300">/</span>
+          <span className="text-secondary dark:text-gray-300">/</span>
           <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
-          <p className="text-primary font-normal text-sm dark:text-gray-300">
+          <p className="text-secondary font-normal text-sm dark:text-gray-300">
             Results
           </p>
         </div>

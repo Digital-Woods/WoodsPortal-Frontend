@@ -67,7 +67,7 @@ const FormItem = ({ children, className }) => (
 
 const FormLabel = ({ children, className }) => (
   <label
-    className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${className}`}
+    className={`block mb-2 text-sm font-medium dark:text-white ${className}`}
   >
     {children}
   </label>
@@ -102,7 +102,7 @@ const Input = React.forwardRef(
     };
 
     const classes = {
-      root: 'w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400',
+      root: 'w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-3 py-2',
       normal: '',
     };
 
@@ -144,7 +144,7 @@ const Textarea = React.forwardRef(
       <textarea
         rows={rows}
         className={classNames(
-          "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+          "block p-2.5 w-full text-xs text-gray-900 focus:ring-blue-500 focus:border-blue-500 rounded-md bg-cleanWhite  border border-2 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
           className
         )}
         placeholder={placeholder}

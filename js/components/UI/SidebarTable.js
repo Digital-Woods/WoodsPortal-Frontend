@@ -168,7 +168,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
           </span>
           <span>
             <span className="dark:text-white text-secondary hover:underline underline-offset-4 font-bold text-xs">{title}</span>
-            <span className="ml-2 px-2 py-1 rounded-md bg-secondary text-white text-xs">
+            <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
               {totalItems}
             </span>
           </span>
@@ -180,7 +180,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
         <div className="text-center p-5">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-base md:text-2xl dark:text-gray-300 mt-3">
+            <p className="text-secondary text-base md:text-2xl dark:text-gray-300 mt-3">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }

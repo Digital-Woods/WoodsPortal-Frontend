@@ -151,7 +151,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
 
           {/* main content code start */}
           <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4 pb-4' : 'w-full'} lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
-            <div className={``}>
+            <div className={` md:pb-4 pb-3 `}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
                 date="17/01/2024"
@@ -161,7 +161,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 item={item}
               />
               <IframeViewDialog />
-              <div className="border rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
+              <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
                 <Tabs
                   activeTab={activeTab}
                   setActiveTab={setActiveTabFucntion}

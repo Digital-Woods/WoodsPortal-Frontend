@@ -47,7 +47,7 @@ const UserProfileCard = ({ userData }) => {
 
     return (
         <div>
-            <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg shadow-md border dark:border-none dark:bg-dark-300 relative overflow-hidden">
+            <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
                 <div className="bg-secondary opacity-10 absolute top-0 right-0 left-0 h-[90px]"></div>
 
                 {/* Profile Initials */}

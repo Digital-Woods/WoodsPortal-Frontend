@@ -113,8 +113,8 @@ const HeaderLayout = ({ title, path, id = null }) => {
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >
-              <Tooltip content={`My profile.`}>
-                <NewAvater className='text-sidelayoutTextColor dark:text-white ' />
+              <Tooltip position='left' content={`My profile.`}>
+                <NewAvater className='text-sidelayoutTextColor dark:text-white' />
               </Tooltip>
             </div>
           </div>
@@ -133,7 +133,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
                     <div className="font-semibold dark:text-white break-all">
                       {firstName}
                     </div>
-                    <p className="text-xs text-primary dark:text-gray-400 break-all">
+                    <p className="text-xs text-secondary dark:text-gray-400 break-all">
                       {email}
                     </p>
                   </div>

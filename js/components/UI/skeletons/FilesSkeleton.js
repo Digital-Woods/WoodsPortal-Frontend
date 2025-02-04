@@ -27,7 +27,7 @@ const FilesSkeleton = () => {
                     Home
                 </h1>
                 <div className="w-full">
-                    <div className="table-container  overflow-x-scroll  rounded-md ">
+                    <div className="table-container  overflow-auto  rounded-md ">
                         <Table className="w-full dark:bg-[#2a2a2a]">
                             <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
                                 <TableRow>
