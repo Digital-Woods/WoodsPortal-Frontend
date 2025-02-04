@@ -1,329 +1,3 @@
-
-
-
-
-const listTypes = [
-  {
-    label: "Bullet",
-    key: "bullet",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>`,
-  },
-  {
-    label: "Ordered",
-    key: "ordered",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>`,
-  },
-];
-
-const DropdownListMenu = ({ editorView }) => {
-  const { wrapInList } = window.wrapInList;
-  const { liftListItem } = window.liftListItem;
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [textAlign, setTextAlign] = useState(listTypes[0]);
-
-  const dropdownButtonRef = useRef(null);
-  const dropdownMenuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const isListActive = (state, nodeType) => {
-    let { $from } = state.selection;
-    for (let d = $from.depth; d > 0; d--) {
-      if ($from.node(d).type === nodeType) return true;
-    }
-    return false;
-  };
-
-  // Toggle Bullet List
-  function toggleBulletList(state, dispatch) {
-    const { schema, selection } = state;
-
-    if (isListActive(state, schema.nodes.bullet_list)) {
-      liftListItem(schema.nodes.list_item)(state, dispatch);
-    } else {
-      wrapInList(schema.nodes.bullet_list)(state, dispatch);
-    }
-  }
-
-  // Toggle Ordered List
-  function toggleOrderedList(state, dispatch) {
-    const { schema, selection } = state;
-
-    if (isListActive(state, schema.nodes.ordered_list)) {
-      liftListItem(schema.nodes.list_item)(state, dispatch);
-    } else {
-      wrapInList(schema.nodes.ordered_list)(state, dispatch);
-    }
-  }
-
-  useEffect(() => {
-    if (textAlign && textAlign.key === "bullet")
-      toggleBulletList(editorView.state, editorView.dispatch);
-    if (textAlign && textAlign.key === "ordered")
-      toggleOrderedList(editorView.state, editorView.dispatch);
-  }, [textAlign]);
-
-  return (
-    <div className="relative inline-block">
-      <div
-        class="ProseMirror-icon"
-        title="Select Text Alignment"
-        ref={dropdownButtonRef}
-        onClick={toggleMenu}
-      >
-        <div id="textListIcon">
-          <SvgRenderer svgContent={textAlign.icon} />
-        </div>
-      </div>
-      {isOpen && (
-        <div
-          ref={dropdownMenuRef}
-          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
-        >
-          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
-            {listTypes.map((listType) => (
-              <li
-                key={listType.key}
-                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
-                onClick={() => setTextAlign(listType)}
-              >
-                <SvgRenderer svgContent={listType.icon} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
-
-
-const DropdownColorMenu = ({ editorView, icon }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [color, setColor] = useState("");
-
-  const dropdownButtonRef = useRef(null);
-  const dropdownMenuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const closeMenuOnClickOutside = (event) => {
-    if (
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target) &&
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", closeMenuOnClickOutside);
-    return () => {
-      document.removeEventListener("click", closeMenuOnClickOutside);
-    };
-  }, []);
-
-  const applyTextColor = (color) => {
-    return (state, dispatch) => {
-      const { schema, selection } = state;
-      const { from, to } = selection;
-      const markType = schema.marks.textColor;
-
-      if (!markType) return false;
-
-      const attrs = { color };
-      const tr = state.tr;
-
-      if (selection.empty) {
-        // Apply as stored mark if no selection
-        tr.addStoredMark(markType.create(attrs));
-      } else {
-        // Apply to the selected range
-        tr.addMark(from, to, markType.create(attrs));
-      }
-
-      if (dispatch) dispatch(tr);
-      return true;
-    };
-  };
-
-  useEffect(() => {
-    if (color) applyTextColor(color)(editorView.state, editorView.dispatch);
-  }, [color]);
-
-  return (
-    <div className="relative inline-block">
-      <div
-        class="ProseMirror-icon"
-        title="Text Color"
-        ref={dropdownButtonRef}
-        onClick={toggleMenu}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 -960 960 960"
-          width="24px"
-        >
-          <path d="M80 0v-160h800V0H80Z" fill="#e8eaed" id="text-color-svg" />
-          <path
-            d="M220-280 430-840h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"
-            fill="#e8eaed"
-          />
-        </svg>
-
-        {/* <span class="custom-menu-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#e8eaed"
-          >
-            <path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z" />
-          </svg>
-        </span> */}
-      </div>
-      {isOpen && (
-        <div
-          ref={dropdownMenuRef}
-          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded w-60 z-10"
-        >
-          <ColorPicker
-            color={color}
-            setColor={setColor}
-            setIsOpen={setIsOpen}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-
-const DropdownColorMenu2 = ({ editorView, icon }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [color, setColor] = useState("");
-
-  const dropdownButtonRef = useRef(null);
-  const dropdownMenuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const closeMenuOnClickOutside = (event) => {
-    if (
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target) &&
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", closeMenuOnClickOutside);
-    return () => {
-      document.removeEventListener("click", closeMenuOnClickOutside);
-    };
-  }, []);
-
-  const applyTextBackgroundColor = (color) => {
-    return (state, dispatch) => {
-      const { schema, selection } = state;
-      const { from, to } = selection;
-      const markType = schema.marks.textBackgroundColor;
-
-      // console.log("markType", markType);
-
-      if (!markType) return false;
-
-      const attrs = { color };
-      const tr = state.tr;
-
-      if (selection.empty) {
-        // Apply as stored mark if no selection
-        tr.addStoredMark(markType.create(attrs));
-      } else {
-        // Apply to the selected range
-        tr.addMark(from, to, markType.create(attrs));
-      }
-
-      if (dispatch) dispatch(tr);
-      return true;
-    };
-  };
-
-  useEffect(() => {
-    if (color)
-      applyTextBackgroundColor(color)(editorView.state, editorView.dispatch);
-  }, [color]);
-
-  return (
-    <div className="relative inline-block">
-      <div
-        class="ProseMirror-icon"
-        title="Text BG Color"
-        ref={dropdownButtonRef}
-        onClick={toggleMenu}
-      >
-        <span class="custom-menu-icon">
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            fill="#e8eaed"
-          >
-            <path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z" />
-          </svg> */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-          >
-            <path d="M80 0v-160h800V0H80Z" fill="#fff" id="text-bg-color-svg" />
-            <path
-              d="M160-320h56l312-311-29-29-28-28-311 312v56Z"
-              fill="#e8eaed"
-            />
-            <path
-              d="M80-240v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Z"
-              fill="#e8eaed"
-            />
-            <path d="M720-744l-56-56 56 56Z" fill="#e8eaed" />
-            <path d="M608-631l-29-29-28-28 57 57Z" fill="#e8eaed" />
-          </svg>
-        </span>
-      </div>
-      {isOpen && (
-        <div
-          ref={dropdownMenuRef}
-          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded w-60 z-10"
-        >
-          <ColorPicker
-            color={color}
-            setColor={setColor}
-            setIsOpen={setIsOpen}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-
 const ProseMirrorEditor = ({
   initialData = "",
   attachments = [],
@@ -364,145 +38,13 @@ const ProseMirrorEditor = ({
   // };
 
   // Csustom Plugin API Call Start
-  const uploadImage = async (pmView, file) => {
-    setisLoadingUoloading(true);
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", file); // Append the selected file to FormData
 
-    try {
-      const response = await axios({
-        method: "POST",
-        url: imageUploadUrl,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(percentCompleted); // Update the progress
-        },
-      });
 
-      const imageUrl = response.data.data.url;
-      const imageName = response.data.data.name;
-
-      insertImage(pmView, imageUrl);
-
-      setUploadProgress(0);
-      setisLoadingUoloading(false);
-      setIsUploading(false);
-      if (refetch) refetch();
-    } catch (error) {
-      setisLoadingUoloading(false);
-      setIsUploading(false);
-    }
-  };
-  const attachmentUpload = async (file) => {
-    setisLoadingUoloading(true);
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", file); // Append the selected file to FormData
-
-    try {
-      const response = await axios({
-        method: attachmentUploadMethod,
-        url: attachmentUploadUrl,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(percentCompleted); // Update the progress
-        },
-      });
-
-      setUploadedAttachments((prevAttachments) => [
-        ...prevAttachments,
-        response.data.data,
-      ]);
-      setUploadProgress(0);
-      setisLoadingUoloading(false);
-      setIsUploading(false);
-      if (refetch) refetch();
-    } catch (error) {
-      setisLoadingUoloading(false);
-      setIsUploading(false);
-    }
-  };
   // Csustom Plugin API Call End
 
   // Csustom Plugin Start
-  const customMenuItemImage = new MenuItem({
-    title: "Insert Image",
-    run: (state, dispatch, view) => {
-      // fileInputRef.current.click();
-      //  Create a hidden file input element
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = "image/*"; // Accept only images (modify as needed)
 
-      // Trigger the file selection dialog
-      fileInput.click();
 
-      // Handle the file selection
-      fileInput.addEventListener("change", async () => {
-        const file = fileInput.files[0];
-        if (file) {
-          uploadImage(view, file);
-        }
-      });
-    },
-    select: (state) => true, // Show this item always
-    icon: {
-      dom: (() => {
-        const span = document.createElement("span");
-        span.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M360-400h400L622-580l-92 120-62-80-108 140Zm-40 160q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z"/></svg>
-  `;
-        span.className = "custom-menu-icon";
-        return span;
-      })(),
-    },
-  });
-
-  const customMenuItemAttachment = new MenuItem({
-    title: "Add Attachment",
-    run: (state, dispatch, view) => {
-      // Create a hidden file input element
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-
-      // Trigger the file selection dialog
-      fileInput.click();
-
-      // Handle the file selection
-      fileInput.addEventListener("change", async () => {
-        const file = fileInput.files[0];
-        if (file) {
-          attachmentUpload(file);
-        }
-      });
-    },
-    select: (state) => true, // Show this item always
-    icon: {
-      dom: (() => {
-        const span = document.createElement("span");
-        span.innerHTML = `
-         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-370h80v370q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-390h80v390Z"/></svg>
-        `;
-        span.className = "custom-menu-icon";
-        return span;
-      })(),
-    },
-  });
   // Csustom Plugin End
 
   const imageNodeSpec = {
@@ -740,20 +282,7 @@ const ProseMirrorEditor = ({
     //   });
     // };
 
-    const renderReactAlignComponent = (editorView) => {
-      const container = document.createElement("div");
-      ReactDOM.render(
-        <DropdownAlightMenu editorView={editorView} />,
-        container
-      );
-      return container;
-    };
-    const alignmentDropdown = new MenuItem({
-      title: `Select Alignment`,
-      run: () => {},
-      select: (state) => true,
-      render: (editorView) => renderReactAlignComponent(editorView),
-    });
+ 
 
     // // Font Menu
     // const applyFontFamily = (font) => {
@@ -829,37 +358,9 @@ const ProseMirrorEditor = ({
     // // Font Size Menu
 
     // Text Color Menu
-    const renderReactComponent = (editorView) => {
-      const container = document.createElement("div");
-      ReactDOM.render(<DropdownColorMenu editorView={editorView} />, container);
-      return container;
-    };
-    const textColor = new MenuItem({
-      title: `Set text color`,
-      run: () => {},
-      select: (state) => true,
-      render: (editorView) => renderReactComponent(editorView),
-    });
-
+    
     // Text Background Color Menu
-    const renderReactComponent2 = (editorView) => {
-      const container = document.createElement("div");
-      ReactDOM.render(
-        <DropdownColorMenu2
-          editorView={editorView}
-          icon={`<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>`}
-        />,
-        container
-      );
-      return container;
-    };
-    const textBGColor = new MenuItem({
-      title: `Set text bg color`,
-      run: () => {},
-      select: (state) => true,
-      render: (editorView) => renderReactComponent2(editorView),
-    });
-
+ 
     // const customExampleSetup = (schema) => {
     //   // const menu = buildMenuItems(schema).fullMenu;
     //   // menu[1][0].content.push(customMenuItemImage);
@@ -1037,17 +538,17 @@ const ProseMirrorEditor = ({
     // });
 
     // List
-    const renderReactListComponent = (editorView) => {
-      const container = document.createElement("div");
-      ReactDOM.render(<DropdownListMenu editorView={editorView} />, container);
-      return container;
-    };
-    const listMenuItem = new MenuItem({
-      title: `Select List`,
-      run: () => {},
-      select: (state) => true,
-      render: (editorView) => renderReactListComponent(editorView),
-    });
+    // const renderReactListComponent = (editorView) => {
+    //   const container = document.createElement("div");
+    //   ReactDOM.render(<DropdownListMenu editorView={editorView} />, container);
+    //   return container;
+    // };
+    // const listMenuItem = new MenuItem({
+    //   title: `Select List`,
+    //   run: () => {},
+    //   select: (state) => true,
+    //   render: (editorView) => renderReactListComponent(editorView),
+    // });
 
     // List
     const getFontFamilyFromSelection = (state) => {
@@ -1291,20 +792,7 @@ const ProseMirrorEditor = ({
     return tmp.innerHTML;
   };
 
-  const insertImage = (view, src) => {
-    const { state, dispatch } = view;
-    const { selection } = state;
-    const position = selection.$cursor ? selection.$cursor.pos : selection.from;
 
-    const transaction = state.tr.insert(
-      position,
-      state.schema.nodes.image.create({ src })
-    );
-
-    // console.log("transaction", transaction);
-
-    dispatch(transaction);
-  };
 
   // const onInputChange = useCallback(
   //   (e) => {

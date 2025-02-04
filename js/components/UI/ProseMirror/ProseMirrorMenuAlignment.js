@@ -234,3 +234,21 @@ const DropdownAlightMenu = ({ editorView }) => {
     </div>
   );
 };
+
+const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
+
+
+const renderReactAlignComponent = (editorView) => {
+  const container = document.createElement("div");
+  ReactDOM.render(
+    <DropdownAlightMenu editorView={editorView} />,
+    container
+  );
+  return container;
+};
+const alignmentDropdown = new MenuItem2({
+  title: `Select Alignment`,
+  run: () => {},
+  select: (state) => true,
+  render: (editorView) => renderReactAlignComponent(editorView),
+});
