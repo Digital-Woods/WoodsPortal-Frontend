@@ -1,3 +1,374 @@
+// Helper: Traverses the selection to find the first fontFamily mark.
+const getFontFamilyFromSelection = (state) => {
+  const { from, to } = state.selection;
+  const markType = state.schema.marks.fontFamily;
+  let fontFamily = null;
+
+  state.doc.nodesBetween(from, to, (node) => {
+    if (node.marks && node.marks.length) {
+      const mark = node.marks.find((m) => m.type === markType);
+      if (mark) {
+        fontFamily = mark.attrs.font;
+        // Stop traversing early if a font is found.
+        return false;
+      }
+    }
+  });
+  return fontFamily;
+};
+
+const ProseMirrorPlugin2= window.ProseMirrorPlugin;
+const ProseMirrorPluginKey2 = window.ProseMirrorPluginKey;
+
+
+// Create a plugin key for later access.
+const fontSelectionPluginKey = new ProseMirrorPluginKey2("fontSelection");
+
+// Create the plugin.
+const fontSelectionPlugin = new ProseMirrorPlugin2({
+  key: fontSelectionPluginKey,
+  state: {
+    init(_config, state) {
+      // Calculate the initial font value from the selection (if any).
+      return getFontFamilyFromSelection(state) || null;
+    },
+    apply(tr, value, oldState, newState) {
+      // When the document changes or selection is updated, recalc the font.
+      if (tr.docChanged || tr.selectionSet) {
+        return getFontFamilyFromSelection(newState) || null;
+      }
+      return value;
+    },
+  },
+});
+
+
+const alignments = [
+  {
+    label: "Left",
+    key: "left",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`,
+  },
+  {
+    label: "Center",
+    key: "center",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`,
+  },
+  {
+    label: "Right",
+    key: "right",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`,
+  },
+];
+
+const DropdownAlightMenu = ({ editorView }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [textAlign, setTextAlign] = useState(alignments[0]);
+
+  const dropdownButtonRef = useRef(null);
+  const dropdownMenuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
+  const applyAlignment = (state, dispatch, align) => {
+    const { schema, selection } = state;
+    const nodeType = schema.nodes.paragraph;
+    const { from, to } = selection;
+
+    if (dispatch) {
+      dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    if (textAlign)
+      applyAlignment(editorView.state, editorView.dispatch, textAlign.key);
+  }, [textAlign]);
+
+  return (
+    <div className="relative inline-block">
+      <div
+        class="ProseMirror-icon"
+        title="Select Text Alignment"
+        ref={dropdownButtonRef}
+        onClick={toggleMenu}
+      >
+        <div id="textAlignIcon">
+          <SvgRenderer svgContent={textAlign.icon} />
+        </div>
+      </div>
+      {isOpen && (
+        <div
+          ref={dropdownMenuRef}
+          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
+        >
+          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+            {alignments.map((alignment) => (
+              <li
+                key={alignment.key}
+                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                onClick={() => setTextAlign(alignment)}
+              >
+                <SvgRenderer svgContent={alignment.icon} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const listTypes = [
+  {
+    label: "Bullet",
+    key: "bullet",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>`,
+  },
+  {
+    label: "Ordered",
+    key: "ordered",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>`,
+  },
+];
+
+const DropdownListMenu = ({ editorView }) => {
+  const { wrapInList } = window.wrapInList;
+  const { liftListItem } = window.liftListItem;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [textAlign, setTextAlign] = useState(listTypes[0]);
+
+  const dropdownButtonRef = useRef(null);
+  const dropdownMenuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
+  const isListActive = (state, nodeType) => {
+    let { $from } = state.selection;
+    for (let d = $from.depth; d > 0; d--) {
+      if ($from.node(d).type === nodeType) return true;
+    }
+    return false;
+  };
+
+  // Toggle Bullet List
+  function toggleBulletList(state, dispatch) {
+    const { schema, selection } = state;
+
+    if (isListActive(state, schema.nodes.bullet_list)) {
+      liftListItem(schema.nodes.list_item)(state, dispatch);
+    } else {
+      wrapInList(schema.nodes.bullet_list)(state, dispatch);
+    }
+  }
+
+  // Toggle Ordered List
+  function toggleOrderedList(state, dispatch) {
+    const { schema, selection } = state;
+
+    if (isListActive(state, schema.nodes.ordered_list)) {
+      liftListItem(schema.nodes.list_item)(state, dispatch);
+    } else {
+      wrapInList(schema.nodes.ordered_list)(state, dispatch);
+    }
+  }
+
+  useEffect(() => {
+    if (textAlign && textAlign.key === "bullet")
+      toggleBulletList(editorView.state, editorView.dispatch);
+    if (textAlign && textAlign.key === "ordered")
+      toggleOrderedList(editorView.state, editorView.dispatch);
+  }, [textAlign]);
+
+  return (
+    <div className="relative inline-block">
+      <div
+        class="ProseMirror-icon"
+        title="Select Text Alignment"
+        ref={dropdownButtonRef}
+        onClick={toggleMenu}
+      >
+        <div id="textListIcon">
+          <SvgRenderer svgContent={textAlign.icon} />
+        </div>
+      </div>
+      {isOpen && (
+        <div
+          ref={dropdownMenuRef}
+          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
+        >
+          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+            {listTypes.map((listType) => (
+              <li
+                key={listType.key}
+                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                onClick={() => setTextAlign(listType)}
+              >
+                <SvgRenderer svgContent={listType.icon} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const textFonts = [
+  {
+    label: "Sans Serif",
+    key: "sans-serif",
+  },
+  {
+    label: "Serif",
+    key: "serif",
+  },
+  {
+    label: "Monospace",
+    key: "monospace",
+  },
+  {
+    label: "Georgia",
+    key: "Georgia",
+  },
+  {
+    label: "Tahoma",
+    key: "Tahoma",
+  },
+  {
+    label: "Trebuchet MS",
+    key: "Trebuchet MS",
+  },
+  {
+    label: "Verdana",
+    key: "Verdana",
+  },
+];
+
+const isMarkActive = (state, markType) => {
+  const { from, to, empty } = state.selection;
+  if (empty) {
+    return !!markType.isInSet(
+      state.storedMarks || state.selection.$from.marks()
+    );
+  } else {
+    let hasMark = false;
+    state.doc.nodesBetween(from, to, (node) => {
+      if (node.marks.some((mark) => mark.type === markType)) {
+        hasMark = true;
+      }
+    });
+    return hasMark;
+  }
+};
+
+let mEditorFont = ""
+
+const DropdownFontMenu = ({ editorView, activeFont2 }) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [font, setFont] = useState(textFonts[0]);
+  // const [activeFont, setActiveFont] = useState(
+  //   () => fontSelectionPluginKey.getState(editorView.state)
+  // );
+
+  const dropdownButtonRef = useRef(null);
+  const dropdownMenuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
+  const { schema } = editorView.state;
+
+  console.log('isMarkActive', isMarkActive(editorView.state, schema.marks.fontFamily))
+
+  
+  const applyFontFamily = (font) => {
+    return (state, dispatch) => {
+      const { schema, selection } = state;
+      const { from, to } = selection;
+      const markType = schema.marks.fontFamily;
+
+      if (!markType) return false;
+
+      const attrs = { font };
+      const tr = state.tr;
+
+      if (selection.empty) {
+        // Apply as stored mark if no selection
+        tr.addStoredMark(markType.create(attrs));
+      } else {
+        // Apply to the selected range
+        tr.addMark(from, to, markType.create(attrs));
+      }
+
+      if (dispatch) dispatch(tr);
+      return true;
+    };
+  };
+
+
+  // useEffect(() => {
+  //   if (font)
+  //     applyFontFamily(font.key)(editorView.state, editorView.dispatch);
+  //     // setActiveFont(font.key);
+  // }, [font]);
+
+  useEffect(() => {
+    console.log('mEditorFont', mEditorFont)
+    if(mEditorFont) setFont(mEditorFont)
+  }, [mEditorFont]);
+
+  return (
+    <div className="relative inline-block">
+      <div
+        class="ProseMirror-icon"
+        title="Select Text Alignment"
+        ref={dropdownButtonRef}
+        onClick={toggleMenu}
+      >
+        <div id="textFontIcon">
+          {mEditorFont?mEditorFont:font.label}
+          {/* {activeFont} */}
+        </div>
+      </div>
+      {isOpen && (
+        <div
+          ref={dropdownMenuRef}
+          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
+        >
+          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+            {textFonts.map((textFont) => (
+              <li
+                key={textFont.key}
+                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                onClick={() => {
+                  setFont(textFont)
+                  mEditorFont = textFont.label
+                   applyFontFamily(textFont.key)(editorView.state, editorView.dispatch);
+                }}
+              >
+                {textFont.label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
 const DropdownColorMenu = ({ editorView, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [color, setColor] = useState("");
@@ -249,13 +620,15 @@ const ProseMirrorEditor = ({
   const { buildMenuItems } = window.ProseMirrorBuildMenuItems;
   const { MenuItem } = window.ProseMirrorMenuItem;
 
-  const setAlignment = (state, dispatch, nodeType, align) => {
-    const { from, to } = state.selection;
-    if (dispatch) {
-      dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
-    }
-    return true;
-  };
+  const { font, setFont } = useEditor();
+
+  // const setAlignment = (state, dispatch, nodeType, align) => {
+  //   const { from, to } = state.selection;
+  //   if (dispatch) {
+  //     dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
+  //   }
+  //   return true;
+  // };
 
   // Csustom Plugin API Call Start
   const uploadImage = async (pmView, file) => {
@@ -585,207 +958,222 @@ const ProseMirrorEditor = ({
     // });
 
     // Alignment Menu
-    const alignmentDropdown = () => {
-      const alignments = [
-        {
-          label: "Left",
-          key: "left",
-          icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`,
-        },
-        {
-          label: "Center",
-          key: "center",
-          icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`,
-        },
-        {
-          label: "Right",
-          key: "right",
-          icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`,
-        },
-      ];
+    // const alignmentDropdown = () => {
+    //   const alignments = [
+    //     {
+    //       label: "Left",
+    //       key: "left",
+    //       icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`,
+    //     },
+    //     {
+    //       label: "Center",
+    //       key: "center",
+    //       icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`,
+    //     },
+    //     {
+    //       label: "Right",
+    //       key: "right",
+    //       icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`,
+    //     },
+    //   ];
 
-      const fontItems = alignments.map(
-        (alignment) =>
-          new MenuItem({
-            title: alignment.label,
-            run: (state, dispatch, view) => {
-              setAlignment(
-                state,
-                dispatch,
-                schema.nodes.paragraph,
-                alignment.key
-              );
-            },
-            select: (state) => true, // Show this item always
-            icon: {
-              dom: (() => {
-                const span = document.createElement("span");
-                span.innerHTML = alignment.icon;
-                span.className = "custom-menu-icon";
-                return span;
-              })(),
-            },
-          })
+    //   const fontItems = alignments.map(
+    //     (alignment) =>
+    //       new MenuItem({
+    //         title: alignment.label,
+    //         run: (state, dispatch, view) => {
+    //           setAlignment(
+    //             state,
+    //             dispatch,
+    //             schema.nodes.paragraph,
+    //             alignment.key
+    //           );
+    //         },
+    //         select: (state) => true, // Show this item always
+    //         icon: {
+    //           dom: (() => {
+    //             const span = document.createElement("span");
+    //             span.innerHTML = alignment.icon;
+    //             span.className = "custom-menu-icon";
+    //             return span;
+    //           })(),
+    //         },
+    //       })
+    //   );
+
+    //   return new Dropdown(fontItems, {
+    //     label: "Alignment",
+    //     title: "Select Alignment",
+    //   });
+    // };
+
+    const renderReactAlignComponent = (editorView) => {
+      const container = document.createElement("div");
+      ReactDOM.render(
+        <DropdownAlightMenu editorView={editorView} />,
+        container
       );
-
-      return new Dropdown(fontItems, {
-        label: "Alignment",
-        title: "Select Alignment",
-      });
+      return container;
     };
+    const alignmentDropdown = new MenuItem({
+      title: `Select Alignment`,
+      run: () => {},
+      select: (state) => true,
+      render: (editorView) => renderReactAlignComponent(editorView),
+    });
 
-    // Font Menu
-    const applyFontFamily = (font) => {
-      return (state, dispatch) => {
-        const { schema, selection } = state;
-        const { from, to } = selection;
-        const markType = schema.marks.fontFamily;
+    // // Font Menu
+    // const applyFontFamily = (font) => {
+    //   return (state, dispatch) => {
+    //     const { schema, selection } = state;
+    //     const { from, to } = selection;
+    //     const markType = schema.marks.fontFamily;
 
-        if (!markType) return false;
+    //     if (!markType) return false;
 
-        const attrs = { font };
-        const tr = state.tr;
+    //     const attrs = { font };
+    //     const tr = state.tr;
 
-        if (selection.empty) {
-          // Apply as stored mark if no selection
-          tr.addStoredMark(markType.create(attrs));
-        } else {
-          // Apply to the selected range
-          tr.addMark(from, to, markType.create(attrs));
-        }
+    //     if (selection.empty) {
+    //       // Apply as stored mark if no selection
+    //       tr.addStoredMark(markType.create(attrs));
+    //     } else {
+    //       // Apply to the selected range
+    //       tr.addMark(from, to, markType.create(attrs));
+    //     }
 
-        if (dispatch) dispatch(tr);
-        return true;
-      };
-    };
-    const fontDropdown = () => {
-      const fonts = [
-        {
-          label: "Sans Serif",
-          key: "sans-serif",
-        },
-        {
-          label: "Serif",
-          key: "serif",
-        },
-        {
-          label: "Monospace",
-          key: "monospace",
-        },
-        {
-          label: "Georgia",
-          key: "Georgia",
-        },
-        {
-          label: "Tahoma",
-          key: "Tahoma",
-        },
-        {
-          label: "Trebuchet MS",
-          key: "Trebuchet MS",
-        },
-        {
-          label: "Verdana",
-          key: "Verdana",
-        },
-      ];
-      const fontItems = fonts.map(
-        (font) =>
-          new MenuItem({
-            title: `Set font to ${font.label}`,
-            label: font.label,
-            run: (state, dispatch, view) => {
-              applyFontFamily(font.key)(view.state, view.dispatch);
-              return true;
-            },
-            enable: (state) => !state.selection.empty, // Enable if text is selected
-          })
-      );
+    //     if (dispatch) dispatch(tr);
+    //     return true;
+    //   };
+    // };
+    // const fontDropdown = () => {
+    //   const fonts = [
+    //     {
+    //       label: "Sans Serif",
+    //       key: "sans-serif",
+    //     },
+    //     {
+    //       label: "Serif",
+    //       key: "serif",
+    //     },
+    //     {
+    //       label: "Monospace",
+    //       key: "monospace",
+    //     },
+    //     {
+    //       label: "Georgia",
+    //       key: "Georgia",
+    //     },
+    //     {
+    //       label: "Tahoma",
+    //       key: "Tahoma",
+    //     },
+    //     {
+    //       label: "Trebuchet MS",
+    //       key: "Trebuchet MS",
+    //     },
+    //     {
+    //       label: "Verdana",
+    //       key: "Verdana",
+    //     },
+    //   ];
+    //   const fontItems = fonts.map(
+    //     (font) =>
+    //       new MenuItem({
+    //         title: `Set font to ${font.label}`,
+    //         label: font.label,
+    //         run: (state, dispatch, view) => {
+    //           applyFontFamily(font.key)(view.state, view.dispatch);
+    //           return true;
+    //         },
+    //         enable: (state) => !state.selection.empty, // Enable if text is selected
+    //       })
+    //   );
 
-      return new Dropdown(fontItems, { label: "Fonts", title: "Select Font" });
-    };
+    //   return new Dropdown(fontItems, { label: "Fonts", title: "Select Font" });
+    // };
 
-    // Font Size Menu
-    const applyFontSize = (fontSize) => {
-      return (state, dispatch) => {
-        const { schema, selection } = state;
-        const { from, to } = selection;
-        const markType = schema.marks.fontSize;
+    // // Font Size Menu
+    // const applyFontSize = (fontSize) => {
+    //   return (state, dispatch) => {
+    //     const { schema, selection } = state;
+    //     const { from, to } = selection;
+    //     const markType = schema.marks.fontSize;
 
-        if (!markType) return false;
+    //     if (!markType) return false;
 
-        const attrs = { fontSize };
-        const tr = state.tr;
+    //     const attrs = { fontSize };
+    //     const tr = state.tr;
 
-        if (selection.empty) {
-          // Apply as stored mark if no selection
-          tr.addStoredMark(markType.create(attrs));
-        } else {
-          // Apply to the selected range
-          tr.addMark(from, to, markType.create(attrs));
-        }
+    //     if (selection.empty) {
+    //       // Apply as stored mark if no selection
+    //       tr.addStoredMark(markType.create(attrs));
+    //     } else {
+    //       // Apply to the selected range
+    //       tr.addMark(from, to, markType.create(attrs));
+    //     }
 
-        if (dispatch) dispatch(tr);
-        return true;
-      };
-    };
-    const fontSizeDropdown = () => {
-      const fontSizes = [
-        {
-          label: "8",
-          value: "8pt",
-        },
-        {
-          label: "9",
-          value: "9pt",
-        },
-        {
-          label: "10",
-          value: "10pt",
-        },
-        {
-          label: "11",
-          value: "11pt",
-        },
-        {
-          label: "12",
-          value: "12pt",
-        },
-        {
-          label: "14",
-          value: "14pt",
-        },
-        {
-          label: "18",
-          value: "18pt",
-        },
-        {
-          label: "24",
-          value: "24pt",
-        },
-        {
-          label: "36",
-          value: "36pt",
-        },
-      ];
-      const fontItems = fontSizes.map(
-        (fontSize) =>
-          new MenuItem({
-            title: `Set font size to ${fontSize.label}`,
-            label: fontSize.label,
-            run: (state, dispatch, view) => {
-              applyFontSize(fontSize.value)(view.state, view.dispatch);
-              return true;
-            },
-            enable: (state) => !state.selection.empty, // Enable if text is selected
-          })
-      );
+    //     if (dispatch) dispatch(tr);
+    //     return true;
+    //   };
+    // };
+    // const fontSizeDropdown = () => {
+    //   const fontSizes = [
+    //     {
+    //       label: "8",
+    //       value: "8pt",
+    //     },
+    //     {
+    //       label: "9",
+    //       value: "9pt",
+    //     },
+    //     {
+    //       label: "10",
+    //       value: "10pt",
+    //     },
+    //     {
+    //       label: "11",
+    //       value: "11pt",
+    //     },
+    //     {
+    //       label: "12",
+    //       value: "12pt",
+    //     },
+    //     {
+    //       label: "14",
+    //       value: "14pt",
+    //     },
+    //     {
+    //       label: "18",
+    //       value: "18pt",
+    //     },
+    //     {
+    //       label: "24",
+    //       value: "24pt",
+    //     },
+    //     {
+    //       label: "36",
+    //       value: "36pt",
+    //     },
+    //   ];
+    //   const fontItems = fontSizes.map(
+    //     (fontSize) =>
+    //       new MenuItem({
+    //         title: `Set font size to ${fontSize.label}`,
+    //         label: fontSize.label,
+    //         run: (state, dispatch, view) => {
+    //           applyFontSize(fontSize.value)(view.state, view.dispatch);
+    //           return true;
+    //         },
+    //         enable: (state) => !state.selection.empty, // Enable if text is selected
+    //       })
+    //   );
 
-      return new Dropdown(fontItems, {
-        label: "Font Size",
-        title: "Select Font Size",
-      });
-    };
+    //   return new Dropdown(fontItems, {
+    //     label: "Font Size",
+    //     title: "Select Font Size",
+    //   });
+    // };
 
     // Text Color Menu
     const renderReactComponent = (editorView) => {
@@ -937,72 +1325,167 @@ const ProseMirrorEditor = ({
       return false;
     }
 
-    // Toggle Bullet List
-    function toggleBulletList(state, dispatch) {
-      if (isListActive(state, schema.nodes.bullet_list)) {
-        liftListItem(schema.nodes.list_item)(state, dispatch);
-      } else {
-        wrapInList(schema.nodes.bullet_list)(state, dispatch);
-      }
-    }
+    // // Toggle Bullet List
+    // function toggleBulletList(state, dispatch) {
+    //   if (isListActive(state, schema.nodes.bullet_list)) {
+    //     liftListItem(schema.nodes.list_item)(state, dispatch);
+    //   } else {
+    //     wrapInList(schema.nodes.bullet_list)(state, dispatch);
+    //   }
+    // }
 
-    // Toggle Ordered List
-    function toggleOrderedList(state, dispatch) {
-      if (isListActive(state, schema.nodes.ordered_list)) {
-        liftListItem(schema.nodes.list_item)(state, dispatch);
-      } else {
-        wrapInList(schema.nodes.ordered_list)(state, dispatch);
-      }
-    }
+    // // Toggle Ordered List
+    // function toggleOrderedList(state, dispatch) {
+    //   if (isListActive(state, schema.nodes.ordered_list)) {
+    //     liftListItem(schema.nodes.list_item)(state, dispatch);
+    //   } else {
+    //     wrapInList(schema.nodes.ordered_list)(state, dispatch);
+    //   }
+    // }
 
-    // Toggleable Bullet List Menu Item
-    const bulletListMenuItem = new MenuItem({
-      title: "Bullet List",
-      // label: "• List",
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-      enable: (state) =>
-        wrapInList(schema.nodes.bullet_list)(state) ||
-        isListActive(state, schema.nodes.bullet_list),
-      run: toggleBulletList,
+    // // Toggleable Bullet List Menu Item
+    // const bulletListMenuItem = new MenuItem({
+    //   title: "Bullet List",
+    //   // label: "• List",
+    //   icon: {
+    //     dom: (() => {
+    //       const span = document.createElement("span");
+    //       span.innerHTML = `
+    //       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>
+    // `;
+    //       span.className = "custom-menu-icon";
+    //       return span;
+    //     })(),
+    //   },
+    //   enable: (state) =>
+    //     wrapInList(schema.nodes.bullet_list)(state) ||
+    //     isListActive(state, schema.nodes.bullet_list),
+    //   run: toggleBulletList,
+    // });
+
+    // // Toggleable Ordered List Menu Item
+    // const orderedListMenuItem = new MenuItem({
+    //   title: "Ordered List",
+    //   // label: "1. List",
+    //   icon: {
+    //     dom: (() => {
+    //       const span = document.createElement("span");
+    //       span.innerHTML = `
+    //       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>
+    // `;
+    //       span.className = "custom-menu-icon";
+    //       return span;
+    //     })(),
+    //   },
+    //   enable: (state) =>
+    //     wrapInList(schema.nodes.ordered_list)(state) ||
+    //     isListActive(state, schema.nodes.ordered_list),
+    //   run: toggleOrderedList,
+    // });
+
+    // List
+    const renderReactListComponent = (editorView) => {
+      const container = document.createElement("div");
+      ReactDOM.render(<DropdownListMenu editorView={editorView} />, container);
+      return container;
+    };
+    const listMenuItem = new MenuItem({
+      title: `Select List`,
+      run: () => {},
+      select: (state) => true,
+      render: (editorView) => renderReactListComponent(editorView),
     });
 
-    // Toggleable Ordered List Menu Item
-    const orderedListMenuItem = new MenuItem({
-      title: "Ordered List",
-      // label: "1. List",
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
+    // List
+    const getFontFamilyFromSelection = (state) => {
+      const { from, to } = state.selection;
+      const fontFamilyMark = state.schema.marks.fontFamily;
+    
+      let font = null;
+    
+      state.doc.nodesBetween(from, to, (node) => {
+        if (node.marks) {
+          const mark = node.marks.find((m) => m.type === fontFamilyMark);
+          if (mark) {
+            font = mark.attrs.font;
+          }
+        }
+      });
+    
+      return font;
+    };
+    const renderReactFontComponent = (editorView) => {
+      const activeFont = fontSelectionPluginKey.getState(editorView.state); // Get the current font from the plugin's state
+
+      const container = document.createElement("div");
+      ReactDOM.render(<DropdownFontMenu editorView={editorView} activeFont2={activeFont} font={font} setFont={setFont} />, container);
+      return container;
+    };
+    const fontMenuItem = new MenuItem({
+      title: `Select Font`,
+      // run: (state, dispatch, view) => {
+      //   // For demonstration, set the active font to "Arial".
+      //   const newFont = "Arial";
+      //   console.log('newFont',newFont)
+      //   const tr = state.tr;
+      //   // Set a meta for the plugin key to update its state.
+      //   tr.setMeta(fontSelectionPluginKey, newFont);
+      //   dispatch(tr);
+      //   return true;
+      // },
+      run: (state, dispatch, editorView) => {
+        const newFont = fontSelectionPluginKey.getState(state) ; // Example selected font
+        const tr = state.tr;
+        console.log('newFont',newFont)
+        // Set the font selection in the plugin state
+        tr.setMeta(fontSelectionPluginKey, newFont);
+    
+        // Dispatch the transaction to update the plugin state
+        dispatch(tr);
+    
+        // Update the editor state so the plugin state is re-read and the component can re-render
+        editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
       },
-      enable: (state) =>
-        wrapInList(schema.nodes.ordered_list)(state) ||
-        isListActive(state, schema.nodes.ordered_list),
-      run: toggleOrderedList,
+      select: (state) => {
+        // Use plugin state for enabling/disabling this item
+        const activeFont = fontSelectionPluginKey.getState(state) || true;
+        // const activeFont = getFontFamilyFromSelection(state);
+        console.log('activeFont', activeFont)
+        // setFont(activeFont)
+        mEditorFont = fontSelectionPluginKey.getState(state)
+
+        const div = document.getElementById("textFontIcon");
+        console.log('div', div)
+      if (div && mEditorFont) {
+        div.textContent = mEditorFont; // Change text content
+      }
+      
+        return activeFont !== null;
+      },
+      // render: (editorView) => renderReactFontComponent(editorView),
+      render: (editorView) => {
+        // Get the current font selection from the plugin state
+        const selectedFont = fontSelectionPluginKey.getState(editorView.state);
+        console.log('selectedFont', selectedFont)
+        
+        // Pass selectedFont to React component
+        return renderReactFontComponent(editorView);
+      },
+      active: (state) => {
+        const selectedFont = fontSelectionPluginKey.getState(state);
+        return selectedFont ? true : false
+      }
     });
 
     const menu = menuBar({
       content: [
         [boldItem, italicItem, underlineMenuItem],
-        [fontDropdown(), fontSizeDropdown()],
+        // [fontMenuItem, fontSizeDropdown()],
+        [fontMenuItem],
         [textColor, textBGColor],
         [blockquoteItem],
-        [alignmentDropdown()],
-        [bulletListMenuItem, orderedListMenuItem],
+        [alignmentDropdown],
+        [listMenuItem],
         [customMenuItemImage, customMenuItemAttachment],
       ],
     });
@@ -1013,7 +1496,7 @@ const ProseMirrorEditor = ({
         doc: initialDoc,
         schema,
         // plugins: [keymap(baseKeymap), ...customExampleSetup(schema), menu],
-        plugins: [keymap(baseKeymap), menu],
+        plugins: [keymap(baseKeymap), menu, fontSelectionPlugin],
       }),
       dispatchTransaction(transaction) {
         const newState = editor.state.apply(transaction);
@@ -1051,9 +1534,16 @@ const ProseMirrorEditor = ({
       const { from, to } = state.selection;
       let selectedTextColor = "#fff";
       let selectedTextBGColor = "";
+      let isBulletList = false;
+      let isFont = false;
 
       // Extract text content and its associated styles
       state.doc.nodesBetween(from, to, (node) => {
+        // console.log('node', node.type.schema.schema)
+       
+        if (node.type.name === "bullet_list") {
+          isBulletList = true;
+        }
         if (node.isText) {
           node.marks.forEach((mark) => {
             if (mark.type.name === "textColor") {
@@ -1061,6 +1551,9 @@ const ProseMirrorEditor = ({
             }
             if (mark.type.name === "textBackgroundColor") {
               selectedTextBGColor = mark.attrs.color;
+            }
+            if (mark.type.name === "fontFamily") {
+              isFont = true;
             }
           });
         }
@@ -1121,6 +1614,58 @@ const ProseMirrorEditor = ({
             colorBgSvg.setAttribute("fill", "#fff");
           }
         }
+
+        if (
+          item.querySelector("div")?.getAttribute("title") === "Select List"
+        ) {
+          const bulletListButton = document.querySelector(
+            '.ProseMirror-menuitem div[title="Select List"]'
+          );
+
+          if (
+            isListActive(state, schema.nodes.bullet_list) &&
+            bulletListButton &&
+            isBulletList
+          ) {
+            const newSvg = listTypes[0];
+
+            const iconContainer =
+              bulletListButton.querySelector("#textAlignIcon");
+
+            if (iconContainer) {
+              iconContainer.innerHTML = newSvg;
+            }
+            item.style.backgroundColor = "#ddd";
+          } else {
+            item.style.backgroundColor = "#fff";
+          }
+        }
+
+        // if (
+        //   item.querySelector("div")?.getAttribute("title") === "Select Font"
+        // ) {
+        //   const bulletListButton = document.querySelector(
+        //     '.ProseMirror-menuitem div[title="Select Font"]'
+        //   );
+
+        //   if (
+        //     isListActive(state, schema.nodes.bullet_list) &&
+        //     bulletListButton &&
+        //     isBulletList
+        //   ) {
+        //     const newSvg = listTypes[0];
+
+        //     const iconContainer =
+        //       bulletListButton.querySelector("#textAlignIcon");
+
+        //     if (iconContainer) {
+        //       iconContainer.innerHTML = newSvg;
+        //     }
+        //     item.style.backgroundColor = "#ddd";
+        //   } else {
+        //     item.style.backgroundColor = "#fff";
+        //   }
+        // }
       });
 
       // // Find Bold and Italic buttons using their title attributes

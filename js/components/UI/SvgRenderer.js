@@ -47,5 +47,5 @@ const SvgRenderer = ({ svgContent }) => {
     );
   };
 
-  return <div>{renderSvg()}</div>;
+  return renderSvg();
 };
