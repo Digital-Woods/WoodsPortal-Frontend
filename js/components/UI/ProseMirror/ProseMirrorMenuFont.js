@@ -105,6 +105,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
       }
 
       if (dispatch) dispatch(tr);
+      setIsOpen(false);
       return true;
     };
   };
