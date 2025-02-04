@@ -60,7 +60,9 @@ const ProseMirrorPlugin2 = window.ProseMirrorPlugin;
 const ProseMirrorPluginKey2 = window.ProseMirrorPluginKey;
 
 // Create a plugin key for later access.
-const fontSizeSelectionPluginKey = new ProseMirrorPluginKey2("fontSizeSelection");
+const fontSizeSelectionPluginKey = new ProseMirrorPluginKey2(
+  "fontSizeSelection"
+);
 
 // Create the plugin.
 const fontSizeSelectionPlugin = new ProseMirrorPlugin2({
@@ -129,9 +131,23 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
-        <div id="textFontSize">
-          {mEditorFontSize ? mEditorFontSize : font.label}
-          {/* {activeFont} */}
+        <div
+          className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
+            mEditorFontSize ? "bg-gray-200" : ""
+          }`}
+        >
+          <span id="textFontSize">
+            {mEditorFontSize ? mEditorFontSize : font.label}
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#e8eaed"
+          >
+            <path d="M480-360 280-560h400L480-360Z" />
+          </svg>
         </div>
       </div>
       {isOpen && (
@@ -144,7 +160,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
-                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${mEditorFontSize === textFont.value ? 'bg-gray-100' : ''}`}
                 onClick={() => {
                   setFont(textFont);
                   mEditorFontSize = textFont.label;
@@ -196,8 +212,8 @@ const fontSizeMenuItem = new MenuItem2({
     return activeFont !== null;
   },
   render: (editorView) => renderReactFontSizeComponent(editorView),
-  active: (state) => {
-    const selectedFontSize = fontSizeSelectionPluginKey.getState(state);
-    return selectedFontSize ? true : false;
-  },
+  // active: (state) => {
+  //   const selectedFontSize = fontSizeSelectionPluginKey.getState(state);
+  //   return selectedFontSize ? true : false;
+  // },
 });

@@ -121,9 +121,23 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
-        <div id="textFontIcon">
-          {mEditorFont ? mEditorFont : font.label}
-          {/* {activeFont} */}
+        <div
+          className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
+            mEditorFont ? "bg-gray-200" : ""
+          }`}
+        >
+          <span id="textFontIcon">
+            {mEditorFont ? mEditorFont : font.label}
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#e8eaed"
+          >
+            <path d="M480-360 280-560h400L480-360Z" />
+          </svg>
         </div>
       </div>
       {isOpen && (
@@ -136,7 +150,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${mEditorFont === textFont.key ? 'bg-gray-100' : ''}`}
                 onClick={() => {
                   setFont(textFont);
                   mEditorFont = textFont.label;
@@ -188,8 +202,8 @@ const fontMenuItem = new MenuItem2({
     return activeFont !== null;
   },
   render: (editorView) => renderReactFontComponent(editorView),
-  active: (state) => {
-    const selectedFont = fontSelectionPluginKey.getState(state);
-    return selectedFont ? true : false;
-  },
+  // active: (state) => {
+  //   const selectedFont = fontSelectionPluginKey.getState(state);
+  //   return selectedFont ? true : false;
+  // },
 });
