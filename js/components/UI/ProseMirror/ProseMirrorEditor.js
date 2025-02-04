@@ -385,90 +385,13 @@ const ProseMirrorEditor = ({
     const initialDoc = DOMParser.fromSchema(schema).parse(initialContent);
 
     // c Menu
-    const boldItem = new MenuItem({
-      title: "Bold",
-      // label: "Bold",
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M272-200v-560h221q65 0 120 40t55 111q0 51-23 78.5T602-491q25 11 55.5 41t30.5 90q0 89-65 124.5T501-200H272Zm121-112h104q48 0 58.5-24.5T566-372q0-11-10.5-35.5T494-432H393v120Zm0-228h93q33 0 48-17t15-38q0-24-17-39t-44-15h-95v109Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-      enable: (state) => toggleMark(schema.marks.strong)(state),
-      run: (state, dispatch) => {
-        toggleMark(schema.marks.strong)(state, dispatch);
-        updateMenuState(editor); // Call function to update menu state
-      },
-    });
+   
 
-    const italicItem = new MenuItem({
-      title: "Italic",
-      // label: "Italic",
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-      enable: (state) => toggleMark(schema.marks.em)(state),
-      // run: (state, dispatch) => toggleMark(schema.marks.em)(state, dispatch),
-      run: (state, dispatch) => {
-        toggleMark(schema.marks.em)(state, dispatch);
-        updateMenuState(editor); // Call function to update menu state
-      },
-    });
+    
 
-    const blockquoteItem = new MenuItem({
-      title: "Wrap in Blockquote",
-      // label: "Blockquote",
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m228-240 92-160q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 42.5T458-480L320-240h-92Zm360 0 92-160q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 23-5.5 42.5T818-480L680-240h-92ZM320-500q25 0 42.5-17.5T380-560q0-25-17.5-42.5T320-620q-25 0-42.5 17.5T260-560q0 25 17.5 42.5T320-500Zm360 0q25 0 42.5-17.5T740-560q0-25-17.5-42.5T680-620q-25 0-42.5 17.5T620-560q0 25 17.5 42.5T680-500Zm0-60Zm-360 0Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-      enable: (state) => wrapIn(schema.nodes.blockquote)(state),
-      // run: (state, dispatch) =>
-      //   wrapIn(schema.nodes.blockquote)(state, dispatch),
-      run: (state, dispatch) => {
-        wrapIn(schema.nodes.blockquote)(state, dispatch);
-        updateMenuState(editor); // Call function to update menu state
-      },
-    });
+    
 
-    const underlineMenuItem = new MenuItem({
-      title: "Underline",
-      // label: "U",
-      icon: {
-        dom: (() => {
-          const span = document.createElement("span");
-          span.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-120v-80h560v80H200Zm280-160q-101 0-157-63t-56-167v-330h103v336q0 56 28 91t82 35q54 0 82-35t28-91v-336h103v330q0 104-56 167t-157 63Z"/></svg>
-    `;
-          span.className = "custom-menu-icon";
-          return span;
-        })(),
-      },
-      enable: (state) => toggleMark(schema.marks.underline)(state),
-      // run: toggleMark(schema.marks.underline),
-      run: (state, dispatch) => {
-        // toggleMark(schema.marks.underline),
-        toggleMark(schema.marks.underline)(state, dispatch);
-        updateMenuState(editor); // Call function to update menu state
-      },
-    });
+    
 
     // Function to check if the selection is inside a specific list type
     function isListActive(state, nodeType) {
@@ -655,27 +578,27 @@ const ProseMirrorEditor = ({
       // Apply active class
       document.querySelectorAll(".ProseMirror-menuitem").forEach((item) => {
         // console.log('item.textContent.trim()', item.textContent.trim())
-        if (item.querySelector("div")?.getAttribute("title") === "Bold") {
-          if (isMarkActive(state, schema.marks.strong)) {
-            item.style.backgroundColor = "#ddd"; // Active state color
-          } else {
-            item.style.backgroundColor = ""; // Default
-          }
-        }
-        if (item.querySelector("div")?.getAttribute("title") === "Italic") {
-          if (isMarkActive(state, schema.marks.em)) {
-            item.style.backgroundColor = "#ddd"; // Active state color
-          } else {
-            item.style.backgroundColor = ""; // Default
-          }
-        }
-        if (item.querySelector("div")?.getAttribute("title") === "Underline") {
-          if (isMarkActive(state, schema.marks.underline)) {
-            item.style.backgroundColor = "#ddd"; // Active state color
-          } else {
-            item.style.backgroundColor = ""; // Default
-          }
-        }
+        // if (item.querySelector("div")?.getAttribute("title") === "Bold") {
+        //   if (isMarkActive(state, schema.marks.strong)) {
+        //     item.style.backgroundColor = "#ddd"; // Active state color
+        //   } else {
+        //     item.style.backgroundColor = ""; // Default
+        //   }
+        // }
+        // if (item.querySelector("div")?.getAttribute("title") === "Italic") {
+        //   if (isMarkActive(state, schema.marks.em)) {
+        //     item.style.backgroundColor = "#ddd"; // Active state color
+        //   } else {
+        //     item.style.backgroundColor = ""; // Default
+        //   }
+        // }
+        // if (item.querySelector("div")?.getAttribute("title") === "Underline") {
+        //   if (isMarkActive(state, schema.marks.underline)) {
+        //     item.style.backgroundColor = "#ddd"; // Active state color
+        //   } else {
+        //     item.style.backgroundColor = ""; // Default
+        //   }
+        // }
 
         if (
           item.querySelector("div")?.getAttribute("title") === "Set text color"
