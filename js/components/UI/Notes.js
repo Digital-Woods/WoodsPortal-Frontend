@@ -159,7 +159,7 @@ const NoteCard = ({
               <div
                 className={`py-3 pr-3 pl-6 ${!isOpen
                   ? ""
-                  : `${permissions.update ? 'cursor-text':'cursor-auto'} hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
+                  : `${permissions.update ? 'cursor-text' : 'cursor-auto'} hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
                   }`}
                 onClick={(e) => {
                   if (isOpen) {
@@ -184,7 +184,7 @@ const NoteCard = ({
                   ></div>
                 </div>
                 {permissions.update === true ? (
-                  <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 text-secondary transition-opacity">
                     <EditIcon />
                   </div>
                 ) : null}
@@ -297,7 +297,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   }, []);
 
   if (isLoading) {
-    return <div className="loader-line"></div>;
+    return <NoteSkeleton />;
   }
   if (error) {
     return (
@@ -341,7 +341,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       )}
       {permissions && permissions.create && (
         <div className="flex justify-end mt-2 mb-6 items-center">
-          <Button className="text-white" onClick={() => setShowDialog(true)}>
+          <Button variant="create" onClick={() => setShowDialog(true)}>
             <span className="mr-2">
               {" "}
               <IconPlus className="!w-3 !h-3" />{" "}

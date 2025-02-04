@@ -43,7 +43,7 @@ const DetailsAssociations = ({
               <span className="text-secondary  hover:underline underline-offset-4  dark:text-white">
                 {association.labels.plural}
               </span>
-              <span className="ml-2 px-2 py-1 rounded-md bg-secondary text-white text-xs">
+              <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
                 {association.total}
               </span>
             </span>

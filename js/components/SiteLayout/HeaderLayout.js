@@ -98,7 +98,9 @@ const HeaderLayout = ({ title, path, id = null }) => {
           <div className="flex gap-4 ">
             {env.DATA_SOURCE_SET != true ? (
               <div className="bg-none border-[1px] border-sidelayoutTextColor text-sidelayoutTextColor  dark:border-white dark:text-white rounded-full dark:bg-dark-400">
-                <SyncButton />
+                <Tooltip content={`Clear cache`}>
+                  <SyncButton />
+                </Tooltip>
               </div>
             ) : ('')
             }
@@ -111,7 +113,9 @@ const HeaderLayout = ({ title, path, id = null }) => {
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >
-              <NewAvater className='text-sidelayoutTextColor dark:text-white ' />
+              <Tooltip position='left' content={`My profile.`}>
+                <NewAvater className='text-sidelayoutTextColor dark:text-white' />
+              </Tooltip>
             </div>
           </div>
 
@@ -122,14 +126,14 @@ const HeaderLayout = ({ title, path, id = null }) => {
             >
               <div className="flex flex-col p-4">
                 <div className="flex justify-between">
-                <div className="rounded-full h-[50px] w-[50px] flex items-center justify-center bg-gray-400 text-white text-lg font-medium">
+                  <div className="rounded-full h-[50px] w-[50px] flex items-center justify-center bg-gray-400 text-white text-lg font-medium">
                     {initials}
-                </div>
+                  </div>
                   <div className="ml-4 flex flex-col">
                     <div className="font-semibold dark:text-white break-all">
                       {firstName}
                     </div>
-                    <p className="text-xs text-primary dark:text-gray-400 break-all">
+                    <p className="text-xs text-secondary dark:text-gray-400 break-all">
                       {email}
                     </p>
                   </div>
@@ -145,7 +149,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
                   >
                     <div className="flex items-center gap-x-4">
                       <div className="dark:text-white text-black">
-                        <NewAvater/>
+                        <NewAvater />
                       </div>
                       <p
                         className={`
@@ -163,8 +167,8 @@ const HeaderLayout = ({ title, path, id = null }) => {
                   onClick={() => setLogoutDialog(true)}
                 >
                   <div className="flex items-center gap-x-4">
-                    <div  className="dark:text-white text-black" >
-                      <LogOutIcon/>
+                    <div className="dark:text-white text-black" >
+                      <LogOutIcon />
                     </div>
                     <p
                       className={`

@@ -95,7 +95,7 @@ const DynamicComponent = ({
                 <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
                   {tableTitle()}
                 </span>
-                <p className="text-primary  dark:text-white leading-5 text-sm">
+                <p className="dark:text-white leading-5 text-sm">
                   {env.DATA_SOURCE_SET !== true ? viewText : viewText + "s"}
                 </p>
               </span>

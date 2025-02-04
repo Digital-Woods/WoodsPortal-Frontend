@@ -3,9 +3,9 @@ const EmptyMessageCard = ({ name = 'item', type = 'row', className = 'p-6' }) =>
 
     useEffect(() => {
         const components = [
-            <EmptyDeal className="dark:text-white text-primary w-[150px]" key="deal" />,
-            <EmptyIcon key="icon" className="dark:text-white text-primary w-[150px]" />,
-            <EmptyThree className="dark:text-white text-primary w-[150px]" key='three' />
+            <EmptyDeal className="dark:text-white w-[150px]" key="deal" />,
+            <EmptyIcon key="icon" className="dark:text-white w-[150px]" />,
+            <EmptyThree className="dark:text-white w-[150px]" key='three' />
         ];
         setRandomComponent(components[Math.floor(Math.random() * components.length)]);
     }, []);
@@ -18,12 +18,12 @@ const EmptyMessageCard = ({ name = 'item', type = 'row', className = 'p-6' }) =>
             </div>
             <div className="flex flex-col gap-2">
                 {/* Title */}
-                <h2 className={`md:text-xl ${type === 'row' ? 'text-start max-sm:text-center' : 'text-center'} text-lg font-semibold dark:text-white text-primary capitalize`}>
+                <h2 className={`md:text-xl ${type === 'row' ? 'text-start max-sm:text-center' : 'text-center'} text-lg font-semibold dark:text-white capitalize`}>
                     {name} not found
                 </h2>
 
                 {/* Message */}
-                <p className={`md:text-xs ${type === 'row' ? 'text-start max-sm:text-center' : 'text-center'} text-xs text-primary dark:text-white font-thin`}>
+                <p className={`md:text-xs ${type === 'row' ? 'text-start max-sm:text-center' : 'text-center'} text-xs dark:text-white font-thin`}>
                     It looks like you haven’t created any {name.toLowerCase()} yet. Please create one to proceed. <br /> If you need assistance with setting up or understanding {name.toLowerCase()}, refer to our documentation or contact support.
                 </p>
             </div>

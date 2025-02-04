@@ -5,18 +5,18 @@ const classes = {
 
 const variantClasses = {
   default:
-    "bg-secondary text-white dark:bg-dark-400 shadow hover:bg-secondary/90",
+    "bg-primary text-white dark:bg-dark-400 shadow hover:bg-primary/90",
   create: `!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}] hover:!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}]/80 !text-[${moduleStylesOptions.creatButtonStyles.textColor}]`,
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline:
     "border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
   secondary:
-    "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+    "bg-primary text-primary-foreground shadow-sm hover:bg-primary/80",
   ghost: "hover:bg-accent hover:text-accent-foreground",
-  link: "text-secondary underline-offset-4 hover:underline",
+  link: "text-primary underline-offset-4 hover:underline",
   hubSpot:
-    "text-secondary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
+    "text-primary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
 };
 
 const sizeClasses = {

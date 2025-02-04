@@ -504,7 +504,7 @@ const DetailsViewUpdate = ({
       saveData(data);
     }
   };
-// console.log(value,'value is this');
+  // console.log(value,'value is this');
   return (
     <div className="">
       <div className="gap-2">
@@ -595,7 +595,9 @@ const DetailsViewUpdate = ({
                       isLoading={isLoading}
                       onClick={() => onSubmit()}
                     >
-                      <IconTickSmall />
+                      <span className="text-secondary dark:text-white">
+                        <IconTickSmall />
+                      </span>
                     </Button>
                     <Button
                       variant="hubSpot"
@@ -603,7 +605,9 @@ const DetailsViewUpdate = ({
                       onClick={() => setEditRow(null)}
                       disabled={isLoading}
                     >
-                      <CloseIcon />
+                      <span className="text-secondary dark:text-white">
+                        <CloseIcon />
+                      </span>
                     </Button>
                   </div>
                 </div>
@@ -622,7 +626,9 @@ const DetailsViewUpdate = ({
                 size="hubSpot"
                 onClick={() => setEditRowValueFunction(value)}
               >
-                <EditIcon />
+                <span className="text-secondary dark:text-white">
+                  <EditIcon />
+                </span>
               </Button>
             )}
           </div>

@@ -6,6 +6,7 @@ const DetailsView = ({
   id,
   refetch,
   permissions,
+  isLoading,
 }) => {
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
@@ -47,6 +48,12 @@ const DetailsView = ({
     );
   };
 
+  if (isLoading && !item) {
+    return (
+      <OverviewSkeleton />
+    );
+  }
+
   return (
     <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table className="w-full dark:bg-[#2a2a2a]">
@@ -60,7 +67,7 @@ const DetailsView = ({
                 <td className="py-2 pl-1 text-sm dark:text-white align-top">
                   {value?.value ? (
                     <Button
-                      className="bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite dark:text-primary"
+                      className="bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite dark:text-secondary"
                       variant="outline"
                       size="sm"
                       onClick={() => handleViewClick(value?.value)}

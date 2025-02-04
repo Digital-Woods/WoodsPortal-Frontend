@@ -32,12 +32,12 @@ const Select = ({ label, name='', options, value = "", control, filled = null, o
           }}
           value={getValue(field.value)}
           className={classNames(
-            "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+            "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-3",
             heightClasses[size],
             className
           )}
         >
-          <option value="" selected="selected" disabled hidden>
+          <option value="" className="dark:placeholder-gray-400  dark:text-gray-200" selected="selected" disabled hidden>
             {label}
           </option>
           {options.map((option) => (
@@ -80,7 +80,7 @@ const SelectSection = ({
 }) => {
   return (
     <SelectButton
-      className="border border-2 dark:border-gray-600 text-sm font-medium dark:bg-dark-300 dark:text-white bg-cleanWhite rounded-md text-black px-4 py-2 flex items-center gap-x-3"
+      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-3"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >

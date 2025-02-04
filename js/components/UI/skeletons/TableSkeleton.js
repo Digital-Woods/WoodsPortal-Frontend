@@ -1,22 +1,31 @@
 
-const TableSkeleton = () => {
+const TableSkeleton = ({ row = 10, col = 5 }) => {
     return (
-        <div className="">
-            {/* Table Header Skeleton */}
-            <div className="grid grid-cols-5 gap-4 p-3 bg-gray-100 dark:bg-dark-500 rounded-md">
-                {[...Array(5)].map((index) => (
-                    <div key={index} className="h-4 w-full bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div>
-                ))}
+        <div className="w-full">
+            <div className="table-container rounded-md ">
+                <Table className="w-full animate-pulse dark:bg-[#2a2a2a]">
+                    <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
+                        <TableRow>
+                            {[...Array(col)].map((_, j) => (
+                                <TableHead key={j} className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs">
+                                    <div className="h-4 w-full bg-gray-200 dark:bg-dark-white dark:bg-opacity-20 rounded-md"></div>
+                                </TableHead>
+                            ))}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {[...Array(row)].map((_, i) => (
+                            <TableRow className={`animate-pulse border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}>
+                                {[...Array(col)].map((_, j) => (
+                                    <TableCell key={j} className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
+                                        <div className="h-4 w-full bg-gray-200 dark:bg-dark-white dark:bg-opacity-20 rounded-md"></div>
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
-
-            {/* Table Rows Skeleton */}
-            {[...Array(10)].map((_, i) => (
-                <div key={i} className="grid grid-cols-5 gap-4 p-3 border-b animate-pulse">
-                    {[...Array(5)].map((_, j) => (
-                        <div key={j} className="h-4 w-full bg-gray-200 dark:bg-dark-white dark:bg-opacity-20 rounded-md"></div>
-                    ))}
-                </div>
-            ))}
             {/* Pagination & Results Skeleton */}
             <div className="flex items-center justify-between p-3">
                 {/* Showing Results Text */}

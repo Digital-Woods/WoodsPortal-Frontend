@@ -393,7 +393,7 @@ const renderCellContent = (
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -456,7 +456,7 @@ const renderCellContent = (
       justify-center gap-1 flex-shrink-0 rounded-md 
       outline-none transition duration-300 ease-in-out 
       focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-      hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-primary hover:dark:text-white
+      hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-secondary hover:dark:text-white
       opacity-0 group-hover:opacity-100`}
           to={associationPath}
         >
@@ -485,7 +485,7 @@ const renderCellContent = (
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
