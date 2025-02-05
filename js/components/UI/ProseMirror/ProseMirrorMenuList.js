@@ -13,6 +13,16 @@ const listTypes = [
   },
 ];
 
+let selectedEditorList = "";
+
+const isListActive = (state, nodeType) => {
+  let { $from } = state.selection;
+  for (let d = $from.depth; d > 0; d--) {
+    if ($from.node(d).type === nodeType) return true;
+  }
+  return false;
+};
+
 const DropdownListMenu = ({ editorView }) => {
   const { wrapInList } = window.wrapInList;
   const { liftListItem } = window.liftListItem;
@@ -25,14 +35,6 @@ const DropdownListMenu = ({ editorView }) => {
 
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
-  };
-
-  const isListActive = (state, nodeType) => {
-    let { $from } = state.selection;
-    for (let d = $from.depth; d > 0; d--) {
-      if ($from.node(d).type === nodeType) return true;
-    }
-    return false;
   };
 
   // Toggle Bullet List
@@ -58,11 +60,11 @@ const DropdownListMenu = ({ editorView }) => {
   }
 
   useEffect(() => {
-    if (textAlign && textAlign.key === "bullet")
+    if (selectedEditorList && textAlign && textAlign?.key === "bullet")
       toggleBulletList(editorView.state, editorView.dispatch);
-    if (textAlign && textAlign.key === "ordered")
+    if (selectedEditorList && textAlign && textAlign?.key === "ordered")
       toggleOrderedList(editorView.state, editorView.dispatch);
-  }, [textAlign]);
+  }, [selectedEditorList, textAlign]);
 
   return (
     <div className="relative inline-block">
@@ -72,8 +74,23 @@ const DropdownListMenu = ({ editorView }) => {
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
-        <div id="textListIcon">
-          <SvgRenderer svgContent={textAlign.icon} />
+        <div
+          className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
+            selectedEditorList ? "bg-gray-200" : ""
+          }`}
+        >
+          <div id="textListIcon">
+            <SvgRenderer svgContent={textAlign?.icon} />
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#e8eaed"
+          >
+            <path d="M480-360 280-560h400L480-360Z" />
+          </svg>
         </div>
       </div>
       {isOpen && (
@@ -87,7 +104,10 @@ const DropdownListMenu = ({ editorView }) => {
               <li
                 key={listType.key}
                 className="cursor-pointer hover:bg-gray-200 px-4 py-1"
-                onClick={() => setTextAlign(listType)}
+                onClick={() => {
+                  setTextAlign(listType);
+                  selectedEditorList = listType.icon;
+                }}
               >
                 <SvgRenderer svgContent={listType.icon} />
               </li>
@@ -104,9 +124,40 @@ const renderReactListComponent = (editorView) => {
   ReactDOM.render(<DropdownListMenu editorView={editorView} />, container);
   return container;
 };
+
+// const isListActive = (state, nodeType) => {
+//   let { $from } = state.selection;
+//   for (let d = $from.depth; d > 0; d--) {
+//     if ($from.node(d).type === nodeType) return true;
+//   }
+//   return false;
+// }
+
+// const listMenuItem = new MenuItem2({
+//   title: `Select List`,
+//   run: () => {},
+//   select: (state) => {
+//     console.log('satet', isListActive())
+//     return true
+//   },
+//   render: (editorView) => renderReactListComponent(editorView),
+// });
+
 const listMenuItem = new MenuItem2({
   title: `Select List`,
   run: () => {},
-  select: (state) => true,
+  select: (state) => {
+    const { schema, selection } = state;
+    const isBulletList = isListActive(state, schema.nodes.bullet_list);
+    const isOrderedList = isListActive(state, schema.nodes.ordered_list);
+    const editorListButton = document.querySelector("#textListIcon");
+    if (isBulletList) {
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>`;
+    }
+    if (isOrderedList) {
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>`;
+    }
+    return true;
+  },
   render: (editorView) => renderReactListComponent(editorView),
 });

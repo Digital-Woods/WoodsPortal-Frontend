@@ -1,3 +1,48 @@
+// Helper: Traverses the selection to find the first fontFamily mark.
+const getTextColorFromSelection = (state) => {
+  const { from, to } = state.selection;
+  const markType = state.schema.marks.textColor;
+  let textColor = null;
+
+  state.doc.nodesBetween(from, to, (node) => {
+    if (node.marks && node.marks.length) {
+      const mark = node.marks.find((m) => m.type === markType);
+      if (mark) {
+        textColor = mark.attrs.color;
+        // Stop traversing early if a font is found.
+        return false;
+      }
+    }
+  });
+  return textColor;
+};
+
+const ProseMirrorPlugin2 = window.ProseMirrorPlugin;
+const ProseMirrorPluginKey2 = window.ProseMirrorPluginKey;
+
+// Create a plugin key for later access.
+const textColorPluginKey = new ProseMirrorPluginKey2("textColor");
+
+// Create the plugin.
+const textColorPlugin = new ProseMirrorPlugin2({
+  key: textColorPluginKey,
+  state: {
+    init(_config, state) {
+      // Calculate the initial font value from the selection (if any).
+      return getTextColorFromSelection(state) || null;
+    },
+    apply(tr, value, oldState, newState) {
+      // When the document changes or selection is updated, recalc the font.
+      if (tr.docChanged || tr.selectionSet) {
+        return getTextColorFromSelection(newState) || null;
+      }
+      return value;
+    },
+  },
+});
+
+let selectedTextColor = "";
+
 const DropdownColorMenu = ({ editorView, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [color, setColor] = useState("");
@@ -69,10 +114,10 @@ const DropdownColorMenu = ({ editorView, icon }) => {
           viewBox="0 -960 960 960"
           width="24px"
         >
-          <path d="M80 0v-160h800V0H80Z" fill="#e8eaed" id="text-color-svg" />
+          <path d="M80 0v-160h800V0H80Z" fill="#e5e7eb" id="text-color-svg" />
           <path
             d="M220-280 430-840h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"
-            fill="#e8eaed"
+            fill="#e5e7eb"
           />
         </svg>
 
@@ -115,7 +160,28 @@ const renderReactComponent = (editorView) => {
 };
 const textColor = new MenuItem2({
   title: `Set text color`,
-  run: () => {},
-  select: (state) => true,
+  run: (state, dispatch, editorView) => {
+    const newFont = textColorPluginKey.getState(state); // Example selected font
+    const tr = state.tr;
+    // Set the font selection in the plugin state
+    tr.setMeta(textColorPluginKey, newFont);
+    // Dispatch the transaction to update the plugin state
+    dispatch(tr);
+    // Update the editor state so the plugin state is re-read and the component can re-render
+    editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
+  },
+  select: (state) => {
+    // Use plugin state for enabling/disabling this item
+    const activeFont = textColorPluginKey.getState(state) || true;
+    selectedTextColor = textColorPluginKey.getState(state);
+    const div = document.getElementById("text-color-svg");
+    if (div && selectedTextColor) {
+      div.setAttribute("fill", selectedTextColor);
+    }
+    if (div && !selectedTextColor) {
+      div.setAttribute("fill", "#000");
+    }
+    return activeFont !== null;
+  },
   render: (editorView) => renderReactComponent(editorView),
 });

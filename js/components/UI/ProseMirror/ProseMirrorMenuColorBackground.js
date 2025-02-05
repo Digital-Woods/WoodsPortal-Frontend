@@ -1,3 +1,47 @@
+// Helper: Traverses the selection to find the first fontFamily mark.
+const getTextBGColorFromSelection = (state) => {
+  const { from, to } = state.selection;
+  const markType = state.schema.marks.textBackgroundColor;
+  let textBackgroundColor = null;
+
+  state.doc.nodesBetween(from, to, (node) => {
+    if (node.marks && node.marks.length) {
+      const mark = node.marks.find((m) => m.type === markType);
+      if (mark) {
+        textBackgroundColor = mark.attrs.color;
+        // Stop traversing early if a font is found.
+        return false;
+      }
+    }
+  });
+  return textBackgroundColor;
+};
+
+const ProseMirrorPlugin2 = window.ProseMirrorPlugin;
+const ProseMirrorPluginKey2 = window.ProseMirrorPluginKey;
+
+// Create a plugin key for later access.
+const textBGColorPluginKey = new ProseMirrorPluginKey2("textColor");
+
+// Create the plugin.
+const textBGColorPlugin = new ProseMirrorPlugin2({
+  key: textBGColorPluginKey,
+  state: {
+    init(_config, state) {
+      // Calculate the initial font value from the selection (if any).
+      return getTextBGColorFromSelection(state) || null;
+    },
+    apply(tr, value, oldState, newState) {
+      // When the document changes or selection is updated, recalc the font.
+      if (tr.docChanged || tr.selectionSet) {
+        return getTextBGColorFromSelection(newState) || null;
+      }
+      return value;
+    },
+  },
+});
+
+let selectedTextColor = "";
 
 const DropdownColorMenu2 = ({ editorView, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -130,7 +174,28 @@ const renderReactComponent2 = (editorView) => {
 };
 const textBGColor = new MenuItem2({
   title: `Set text bg color`,
-  run: () => {},
-  select: (state) => true,
+  run: (state, dispatch, editorView) => {
+    const newFont = textBGColorPluginKey.getState(state); // Example selected font
+    const tr = state.tr;
+    // Set the font selection in the plugin state
+    tr.setMeta(textBGColorPluginKey, newFont);
+    // Dispatch the transaction to update the plugin state
+    dispatch(tr);
+    // Update the editor state so the plugin state is re-read and the component can re-render
+    editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
+  },
+  select: (state) => {
+    // Use plugin state for enabling/disabling this item
+    const activeFont = textBGColorPluginKey.getState(state) || true;
+    selectedTextColor = textBGColorPluginKey.getState(state);
+    const div = document.getElementById("text-bg-color-svg");
+    if (div && selectedTextColor) {
+      div.setAttribute("fill", selectedTextColor);
+    }
+    if (div && !selectedTextColor) {
+      div.setAttribute("fill", "#fff");
+    }
+    return activeFont !== null;
+  },
   render: (editorView) => renderReactComponent2(editorView),
 });

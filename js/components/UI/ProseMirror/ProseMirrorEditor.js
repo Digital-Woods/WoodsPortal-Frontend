@@ -39,11 +39,9 @@ const ProseMirrorEditor = ({
 
   // Csustom Plugin API Call Start
 
-
   // Csustom Plugin API Call End
 
   // Csustom Plugin Start
-
 
   // Csustom Plugin End
 
@@ -109,31 +107,31 @@ const ProseMirrorEditor = ({
       },
     };
 
-    // const myNodes = {
-    //   doc: { content: "block+" },
-    //   paragraph: paragraphNode,
-    //   text: { group: "inline" },
-    //   // text: { inline: true },
-    //   heading: {
-    //     content: "text*",
-    //     group: "block",
-    //     toDOM: (node) => ["h" + node.attrs.level, 0],
-    //     parseDOM: [
-    //       { tag: "h1", attrs: { level: 1 } },
-    //       { tag: "h2", attrs: { level: 2 } },
-    //       { tag: "h3", attrs: { level: 3 } },
-    //     ],
-    //     attrs: { level: { default: 1 } },
-    //   },
-    //   hard_break: {
-    //     inline: true,
-    //     group: "inline",
-    //     selectable: false,
-    //     toDOM: () => ["br"],
-    //     parseDOM: [{ tag: "br" }],
-    //   },
-    //   image: imageNodeSpec,
-    // };
+    const myNodes = {
+      doc: { content: "block+" },
+      paragraph: paragraphNode,
+      text: { group: "inline" },
+      // text: { inline: true },
+      heading: {
+        content: "text*",
+        group: "block",
+        toDOM: (node) => ["h" + node.attrs.level, 0],
+        parseDOM: [
+          { tag: "h1", attrs: { level: 1 } },
+          { tag: "h2", attrs: { level: 2 } },
+          { tag: "h3", attrs: { level: 3 } },
+        ],
+        attrs: { level: { default: 1 } },
+      },
+      hard_break: {
+        inline: true,
+        group: "inline",
+        selectable: false,
+        toDOM: () => ["br"],
+        parseDOM: [{ tag: "br" }],
+      },
+      image: imageNodeSpec,
+    };
 
     const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode);
     const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
@@ -282,8 +280,6 @@ const ProseMirrorEditor = ({
     //   });
     // };
 
- 
-
     // // Font Menu
     // const applyFontFamily = (font) => {
     //   return (state, dispatch) => {
@@ -358,9 +354,9 @@ const ProseMirrorEditor = ({
     // // Font Size Menu
 
     // Text Color Menu
-    
+
     // Text Background Color Menu
- 
+
     // const customExampleSetup = (schema) => {
     //   // const menu = buildMenuItems(schema).fullMenu;
     //   // menu[1][0].content.push(customMenuItemImage);
@@ -385,16 +381,10 @@ const ProseMirrorEditor = ({
     const initialDoc = DOMParser.fromSchema(schema).parse(initialContent);
 
     // c Menu
-   
-
-    
-
-    
-
-    
 
     // Function to check if the selection is inside a specific list type
     function isListActive(state, nodeType) {
+      console.log('nodeType', nodeType)
       let { $from } = state.selection;
       for (let d = $from.depth; d > 0; d--) {
         if ($from.node(d).type === nodeType) return true;
@@ -474,24 +464,24 @@ const ProseMirrorEditor = ({
     // });
 
     // List
-    const getFontFamilyFromSelection = (state) => {
-      const { from, to } = state.selection;
-      const fontFamilyMark = state.schema.marks.fontFamily;
-    
-      let font = null;
-    
-      state.doc.nodesBetween(from, to, (node) => {
-        if (node.marks) {
-          const mark = node.marks.find((m) => m.type === fontFamilyMark);
-          if (mark) {
-            font = mark.attrs.font;
-          }
-        }
-      });
-    
-      return font;
-    };
+    // const getFontFamilyFromSelection = (state) => {
+    //   const { from, to } = state.selection;
+    //   const fontFamilyMark = state.schema.marks.fontFamily;
 
+    //   let font = null;
+
+    //   state.doc.nodesBetween(from, to, (node) => {
+    //     if (node.marks) {
+    //       const mark = node.marks.find((m) => m.type === fontFamilyMark);
+    //       if (mark) {
+    //         font = mark.attrs.font;
+    //       }
+    //     }
+    //   });
+
+    //   return font;
+    // };
+    
 
     const menu = menuBar({
       content: [
@@ -512,7 +502,14 @@ const ProseMirrorEditor = ({
         doc: initialDoc,
         schema,
         // plugins: [keymap(baseKeymap), ...customExampleSetup(schema), menu],
-        plugins: [keymap(baseKeymap), menu, fontSelectionPlugin, fontSizeSelectionPlugin],
+        plugins: [
+          keymap(baseKeymap),
+          menu,
+          fontSelectionPlugin,
+          fontSizeSelectionPlugin,
+          textColorPlugin,
+          textBGColorPlugin
+        ],
       }),
       dispatchTransaction(transaction) {
         const newState = editor.state.apply(transaction);
@@ -556,7 +553,7 @@ const ProseMirrorEditor = ({
       // Extract text content and its associated styles
       state.doc.nodesBetween(from, to, (node) => {
         // console.log('node', node.type.schema.schema)
-       
+
         if (node.type.name === "bullet_list") {
           isBulletList = true;
         }
@@ -600,62 +597,62 @@ const ProseMirrorEditor = ({
         //   }
         // }
 
-        if (
-          item.querySelector("div")?.getAttribute("title") === "Set text color"
-        ) {
-          const colorSvg = document.querySelector("#text-color-svg");
-          if (
-            isMarkActive(state, schema.marks.textColor) &&
-            colorSvg &&
-            selectedTextColor
-          ) {
-            colorSvg.setAttribute("fill", selectedTextColor);
-          } else {
-            colorSvg.setAttribute("fill", "#000");
-          }
-        }
+        // if (
+        //   item.querySelector("div")?.getAttribute("title") === "Set text color"
+        // ) {
+        //   const colorSvg = document.querySelector("#text-color-svg");
+        //   if (
+        //     isMarkActive(state, schema.marks.textColor) &&
+        //     colorSvg &&
+        //     selectedTextColor
+        //   ) {
+        //     colorSvg.setAttribute("fill", selectedTextColor);
+        //   } else {
+        //     colorSvg.setAttribute("fill", "#000");
+        //   }
+        // }
 
-        if (
-          item.querySelector("div")?.getAttribute("title") ===
-          "Set text bg color"
-        ) {
-          const colorBgSvg = document.querySelector("#text-bg-color-svg");
-          if (
-            isMarkActive(state, schema.marks.textBackgroundColor) &&
-            colorBgSvg &&
-            selectedTextBGColor
-          ) {
-            colorBgSvg.setAttribute("fill", selectedTextBGColor);
-          } else {
-            colorBgSvg.setAttribute("fill", "#fff");
-          }
-        }
+        // if (
+        //   item.querySelector("div")?.getAttribute("title") ===
+        //   "Set text bg color"
+        // ) {
+        //   const colorBgSvg = document.querySelector("#text-bg-color-svg");
+        //   if (
+        //     isMarkActive(state, schema.marks.textBackgroundColor) &&
+        //     colorBgSvg &&
+        //     selectedTextBGColor
+        //   ) {
+        //     colorBgSvg.setAttribute("fill", selectedTextBGColor);
+        //   } else {
+        //     colorBgSvg.setAttribute("fill", "#fff");
+        //   }
+        // }
 
-        if (
-          item.querySelector("div")?.getAttribute("title") === "Select List"
-        ) {
-          const bulletListButton = document.querySelector(
-            '.ProseMirror-menuitem div[title="Select List"]'
-          );
+        // if (
+        //   item.querySelector("div")?.getAttribute("title") === "Select List"
+        // ) {
+        //   const bulletListButton = document.querySelector(
+        //     '.ProseMirror-menuitem div[title="Select List"]'
+        //   );
 
-          if (
-            isListActive(state, schema.nodes.bullet_list) &&
-            bulletListButton &&
-            isBulletList
-          ) {
-            const newSvg = listTypes[0];
+        //   if (
+        //     isListActive(state, schema.nodes.bullet_list) &&
+        //     bulletListButton &&
+        //     isBulletList
+        //   ) {
+        //     const newSvg = listTypes[0];
 
-            const iconContainer =
-              bulletListButton.querySelector("#textAlignIcon");
+        //     const iconContainer =
+        //       bulletListButton.querySelector("#textAlignIcon");
 
-            if (iconContainer) {
-              iconContainer.innerHTML = newSvg;
-            }
-            item.style.backgroundColor = "#ddd";
-          } else {
-            item.style.backgroundColor = "#fff";
-          }
-        }
+        //     if (iconContainer) {
+        //       iconContainer.innerHTML = newSvg;
+        //     }
+        //     item.style.backgroundColor = "#ddd";
+        //   } else {
+        //     item.style.backgroundColor = "#fff";
+        //   }
+        // }
 
         // if (
         //   item.querySelector("div")?.getAttribute("title") === "Select Font"
@@ -714,8 +711,6 @@ const ProseMirrorEditor = ({
     tmp.appendChild(fragment);
     return tmp.innerHTML;
   };
-
-
 
   // const onInputChange = useCallback(
   //   (e) => {
