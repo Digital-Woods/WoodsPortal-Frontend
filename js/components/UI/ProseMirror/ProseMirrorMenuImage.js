@@ -85,12 +85,12 @@ const insertImage = (view, src) => {
 //   },
 // });
 
-const EditorImageUploadMenu = ({ editorView }) => {
+const EditorImageUploadMenu = ({ editorView, imageUploadUrl, setisLoadingUoloading, setUploadProgress}) => {
   const token = getAuthToken();
   const boldIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M360-400h400L622-580l-92 120-62-80-108 140Zm-40 160q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z"/></svg>`;
+  // const { isLoadingUoloading, setisLoadingUoloading, uploadProgress, setUploadProgress } = useSync();
   const boldButtonRef = useRef(null);
   const fileInputRef = useRef(null);
-  const imageUploadUrl = "/";
   const uploadImage = () => {
     fileInputRef.current?.click();
   };
@@ -103,35 +103,12 @@ const EditorImageUploadMenu = ({ editorView }) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    uploadImageToAPI(editorView, formData);
+    await uploadImageToAPI(editorView, formData);
 
-    // try {
-    //   const response = await fetch("https://your-api.com/upload", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Upload failed");
-    //   }
-
-    //   const data = await response.json();
-    //   console.log("Image uploaded successfully:", data);
-
-    //   // Here, you can insert the uploaded image into the editor
-    //   // Example: editorView.dispatch(insertImage(data.imageUrl));
-    // } catch (error) {
-    //   console.error("Error uploading image:", error);
-    // }
   };
 
   const uploadImageToAPI = async (pmView, formData) => {
-    // setisLoadingUoloading(true);
-    // setIsUploading(true);
-    // const formData = new FormData();
-    // formData.append("file", file); // Append the selected file to FormData
-    console.log("uploadImage", formData);
-
+    setisLoadingUoloading(true)
     try {
       const response = await axios({
         method: "POST",
@@ -141,12 +118,12 @@ const EditorImageUploadMenu = ({ editorView }) => {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
-        // onUploadProgress: (progressEvent) => {
-        //   const percentCompleted = Math.round(
-        //     (progressEvent.loaded * 100) / progressEvent.total
-        //   );
-        //   setUploadProgress(percentCompleted); // Update the progress
-        // },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percentCompleted); // Update the progress
+        },
       });
 
       const imageUrl = response.data.data.url;
@@ -154,12 +131,12 @@ const EditorImageUploadMenu = ({ editorView }) => {
 
       insertImage(pmView, imageUrl);
 
-      // setUploadProgress(0);
-      // setisLoadingUoloading(false);
+      setUploadProgress(0);
+      setisLoadingUoloading(false);
       // setIsUploading(false);
       if (refetch) refetch();
     } catch (error) {
-      // setisLoadingUoloading(false);
+      setisLoadingUoloading(false);
       // setIsUploading(false);
     }
   };
@@ -185,17 +162,17 @@ const EditorImageUploadMenu = ({ editorView }) => {
   );
 };
 
-const renderReactImageUploadComponent = (editorView) => {
+const renderReactImageUploadComponent = (editorView, imageUploadUrl, setisLoadingUoloading, setUploadProgress) => {
   const container = document.createElement("div");
-  ReactDOM.render(<EditorImageUploadMenu editorView={editorView} />, container);
+  ReactDOM.render(<EditorImageUploadMenu editorView={editorView} imageUploadUrl={imageUploadUrl} setisLoadingUoloading={setisLoadingUoloading} setUploadProgress={setUploadProgress} />, container);
   return container;
 };
 
-const customMenuItemImage = new MenuItem2({
-  title: `Bold`,
+const customMenuItemImage = (imageUploadUrl, setisLoadingUoloading, setUploadProgress) => new MenuItem2({
+  title: `Image Upload`,
   run: () => {},
   select: (state) => {
     return true;
   },
-  render: (editorView) => renderReactImageUploadComponent(editorView),
+  render: (editorView) => renderReactImageUploadComponent(editorView, imageUploadUrl, setisLoadingUoloading, setUploadProgress),
 });
