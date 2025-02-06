@@ -62,7 +62,7 @@ const Tooltip = ({ children, content, right }) => {
       {isVisible && (
         <div
           ref={tooltipRef}
-          className="absolute z-[99999] p-2 text-xs text-white bg-black rounded-md shadow-lg whitespace-nowrap"
+          className="absolute z-[999] p-2 text-xs text-white bg-black rounded-md shadow-lg whitespace-nowrap"
           style={tooltipStyle}
         >
           {content}

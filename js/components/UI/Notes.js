@@ -331,7 +331,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   };
 
   return (
-    <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-[#212121]">
+    <div className="border dark:border-none dark:bg-dark-300 md:p-4 p-2 rounded-lg bg-cleanWhite ">
       {alert && (
         <Alert
           message={alert.message}
@@ -340,7 +340,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
         />
       )}
       {permissions && permissions.create && (
-        <div className="flex justify-end mt-2 mb-6 items-center">
+        <div className="flex justify-end mb-6 items-center">
           <Button variant="create" onClick={() => setShowDialog(true)}>
             <span className="mr-2">
               {" "}

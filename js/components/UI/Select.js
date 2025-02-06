@@ -14,7 +14,7 @@ const Select = ({ label, name='', options, value = "", control, filled = null, o
   const heightClasses = {
     small: "p-1.5 text-xs",
     semiMedium: "py-2",
-    medium: "p-2.5 text-sm",
+    medium: "p-2 text-sm",
     large: "py-5",
   };
 
@@ -32,7 +32,7 @@ const Select = ({ label, name='', options, value = "", control, filled = null, o
           }}
           value={getValue(field.value)}
           className={classNames(
-            "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-3",
+            "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2",
             heightClasses[size],
             className
           )}
@@ -80,7 +80,7 @@ const SelectSection = ({
 }) => {
   return (
     <SelectButton
-      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-3"
+      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
       setIsOpen={setIsOpen}
       isOpen={isOpen}
     >

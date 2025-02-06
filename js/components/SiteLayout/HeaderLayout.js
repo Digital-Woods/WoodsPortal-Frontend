@@ -7,6 +7,8 @@ const HeaderLayout = ({ title, path, id = null }) => {
   const { sidebarOpen, setSidebarOpen } = useCollapsible();
   const [personalInfo, setPersonalInfo] = Recoil.useRecoilState(profileState);
   const navRef = useRef(null);
+  const { sidebarCollapsed } = useCollapsible();
+
 
   const { me, getMe } = useMe();
   const loggedInDetails = useRecoilValue(userDetailsAtom);
@@ -75,7 +77,8 @@ const HeaderLayout = ({ title, path, id = null }) => {
   const initials = profileInitial(firstName, lastName);
 
   return (
-    <nav ref={navRef} className="bg-sidelayoutColor dark:bg-dark-300 md:px-6 px-3 flex gap-1 flex-col py-2 dark:bg-dark-200">
+    <nav ref={navRef} className={`before:bg-sidelayoutColor before:dark:bg-dark-300 after:bg-sidelayoutColor after:dark:bg-dark-300 after:hidden max-lg:after:block bg-sidelayoutColor dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 dark:bg-dark-200 z-[49] duration-300 fixed top-0 right-0 w-full nav-rounded lg:w-${sidebarCollapsed ? "[calc(100%_-_75px)]" : "[calc(100%_-_250px)]"
+      }`}>
       <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
           <div className="cursor-pointer" onClick={toggleDrawer}>
@@ -84,52 +87,56 @@ const HeaderLayout = ({ title, path, id = null }) => {
             </p>
           </div>
         </div>
-        {isLargeScreen ?
-          (env.DATA_SOURCE_SET !== true ? (
-            <Breadcrumb id={id} title={title} path={path} />
-          ) : (
-            <div className="text-xs capitalize dark:text-cleanWhite">
-              {title}
-            </div>
-          )) : <div>
-          </div>}
-
+        <div className="max-lg:hidden">
+          <Breadcrumb id={id} title={title} path={path} />
+        </div>
         <div>
-          <div className="flex gap-4 ">
-            {env.DATA_SOURCE_SET != true ? (
-              <div className="bg-none border-[1px] border-sidelayoutTextColor text-sidelayoutTextColor  dark:border-white dark:text-white rounded-full dark:bg-dark-400">
-                <Tooltip content={`Clear cache`}>
-                  <SyncButton />
-                </Tooltip>
-              </div>
-            ) : ('')
-            }
-            <div className="bg-none border-[1px] border-sidelayoutTextColor text-sidelayoutTextColor  dark:border-white dark:text-white  rounded-full dark:bg-dark-400">
+          <div className="flex gap-2 items-center">
+
+            <div className="text-sidelayoutTextColor  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
+              <Tooltip content={`Clear cache`}>
+                <SyncButton />
+              </Tooltip>
+            </div>
+
+            <div className="text-sidelayoutTextColor  dark:border-white dark:text-white  rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
               <ThemeSwitcher />
             </div>
 
+            <div className="w-px h-6 bg-gray-600 dark:bg-dark-400"></div>
+
             <div
-              className=" bg-none border-[1px] p-3 border-sidelayoutTextColor text-sidelayoutTextColor  dark:border-white dark:text-white rounded-full dark:bg-dark-400  cursor-pointer  profile-section"
+              className=" px-3 py-1 text-sidelayoutTextColor  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section mr-1"
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >
-              <Tooltip position='left' content={`My profile.`}>
-                <NewAvater className='text-sidelayoutTextColor dark:text-white' />
+              <Tooltip position='left' content={`My profile`}>
+                <div className="flex gap-2 items-center">
+                  <div className="rounded-full h-[30px] w-[30px] flex items-center justify-center bg-gray-400 text-white text-xs font-medium">
+                    {initials}
+                  </div>
+                  <div className="flex items-start flex-col">
+                    <div className="font-medium text-xs dark:text-white break-all">
+                      {firstName ? firstName : ""} {lastName ? lastName : ""}
+                    </div>
+                  </div>
+                </div>
               </Tooltip>
             </div>
+
           </div>
 
           {dropdownOpen && (
             <div
               ref={dropdownRef}
-              className="absolute right-8 mt-2 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400 z-[53]"
+              className="absolute right-8 border dark:border-gray-600 w-[280px] bg-cleanWhite rounded-md shadow-lg z-50 dark:bg-dark-400 z-[53]"
             >
               <div className="flex flex-col p-4">
-                <div className="flex justify-between">
+                <div className="flex gap-2 items-center">
                   <div className="rounded-full h-[50px] w-[50px] flex items-center justify-center bg-gray-400 text-white text-lg font-medium">
                     {initials}
                   </div>
-                  <div className="ml-4 flex flex-col">
+                  <div className=" flex items-start flex-col">
                     <div className="font-semibold dark:text-white break-all">
                       {firstName}
                     </div>
@@ -183,14 +190,9 @@ const HeaderLayout = ({ title, path, id = null }) => {
           )}
         </div>
       </div>
-      {!isLargeScreen &&
-        (env.DATA_SOURCE_SET !== true ? (
-          <Breadcrumb id={id} title={title} path={path} />
-        ) : (
-          <div className="text-xs capitalize dark:text-cleanWhite">
-            {title}
-          </div>
-        ))}
+      <div className="lg:hidden">
+        <Breadcrumb id={id} title={title} path={path} />
+      </div>
     </nav>
   );
 };

@@ -48,7 +48,7 @@ const UserProfileCard = ({ userData }) => {
     return (
         <div>
             <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
-                <div className="bg-secondary opacity-10 absolute top-0 right-0 left-0 h-[90px]"></div>
+                <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'}  dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[90px]`}></div>
 
                 {/* Profile Initials */}
                 <div className="flex items-center justify-center relative z-50">
@@ -61,7 +61,7 @@ const UserProfileCard = ({ userData }) => {
                 <div className="relative w-full z-50">
                     <div className="flex flex-col md:flex-row gap-4 pb-4 mb-4">
                         <div className="flex-1">
-                            <h2 className="text-xl font-semibold dark:text-secondary text-secondary">
+                            <h2 className="text-xl font-semibold  dark:text-white dark:opacity-70 text-secondary">
                                 {firstName} {lastName}
                             </h2>
                             <p className="text-xs dark:text-white">
@@ -98,7 +98,7 @@ const UserProfileCard = ({ userData }) => {
                                 variant="link"
                                 size="link"
                                 onClick={() => setShowMoreDetails(!showMoreDetails)}
-                                className="font-medium mt-2 text-xs"
+                                className="font-medium mt-2 text-xs dark:text-white"
                             >
                                 {showMoreDetails ? "Show Less" : "Show More"}
                             </Button>
@@ -108,8 +108,8 @@ const UserProfileCard = ({ userData }) => {
                     {/* Associated Company Details */}
                     {visibleAssociatedDetails && (
                         <div className="mt-6 pt-4 border-t dark:border-gray-600">
-                            <p className="text-xs text-gray-500">Company Name</p>
-                            <h3 className="text-lg font-semibold dark:text-white">
+                            <p className="text-xs text-gray-500 dark:text-white">Company Name</p>
+                            <h3 className="text-lg font-semibold  dark:text-white dark:opacity-70">
                                 {userAssociatedDetails?.name?.value || "No Company Name"}
                             </h3>
 
@@ -128,7 +128,7 @@ const UserProfileCard = ({ userData }) => {
                                         variant="link"
                                         size="link"
                                         onClick={() => setShowMoreAssociated(!showMoreAssociated)}
-                                        className="font-medium mt-2 text-xs"
+                                        className="font-medium mt-2 text-xs dark-text-white"
                                     >
                                         {showMoreAssociated ? "Show Less" : "Show More"}
                                     </Button>

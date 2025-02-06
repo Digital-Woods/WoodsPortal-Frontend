@@ -240,13 +240,13 @@ const MainLayout = ({ children }) => {
       ) : (
         <div className="dark:bg-dark-200 bg-cleanWhite lg:flex-col flex lg:h-[100vh] h-[100vh]">
           <Drawer
-            className={`duration-300 relative lg:fixed min-h-screen w-full inset-0 lg:w-${
-              sidebarCollapsed ? "[75px]" : "[300px]"
+            className={`relative lg:fixed min-h-screen w-full inset-0 lg:w-${
+              sidebarCollapsed ? "[75px]" : "[250px]"
             }`}
           />
           <div
-            className={`dark:bg-dark-200  lg:h-[100vh] h-[100vh] bg-cleanWhite duration-300 ml-auto w-full lg:w-${
-              sidebarCollapsed ? "[calc(100%_-_75px)]" : "[calc(100%_-_300px)]"
+            className={`dark:bg-dark-200  lg:h-[100vh] h-[100vh] bg-cleanWhite ml-auto w-full lg:w-${
+              sidebarCollapsed ? "[calc(100%_-_75px)]" : "[calc(100%_-_250px)]"
             }`}
           >
             <Switch>

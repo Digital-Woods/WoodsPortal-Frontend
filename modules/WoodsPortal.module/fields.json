@@ -299,10 +299,10 @@
   }, {
     "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
     "name" : "home_tab_banner_details",
-    "label" : "Home Tab Banner Details",
+    "label" : "User Card",
     "help_text" : "These details will be displayed on the home page banner.",
     "required" : false,
-    "locked" : true,
+    "locked" : false,
     "visibility" : {
       "controlling_field" : null,
       "controlling_field_path" : "add_home_tab",
@@ -334,54 +334,7 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus."
-    }, {
-      "id" : "082643eb-96a9-1535-2588-474fd68ee854",
-      "name" : "button_text",
-      "label" : "Button text",
-      "required" : false,
-      "locked" : false,
-      "validation_regex" : "",
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
-      "display_width" : null,
-      "default" : "Book a call"
-    }, {
-      "id" : "076f638c-cc42-7d31-103b-d1d69e63c6a7",
-      "name" : "button_url",
-      "label" : "Button Url",
-      "required" : false,
-      "locked" : false,
-      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
-      "type" : "url",
-      "display_width" : null,
-      "default" : {
-        "content_id" : null,
-        "href" : "https://digitalwoods.net/meetings/saurav4?uuid=9dd15035-7709-4952-aaa7-324932c81e5b",
-        "type" : "EXTERNAL"
-      }
-    }, {
-      "id" : "473873ea-c361-d919-71d7-b768362269cc",
-      "name" : "background_image",
-      "label" : "Background image",
-      "required" : false,
-      "locked" : false,
-      "responsive" : true,
-      "resizable" : false,
-      "show_loading" : false,
-      "type" : "image",
-      "display_width" : null,
-      "default" : {
-        "size_type" : "auto_custom_max",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
-        "alt" : "FEATURE BG",
-        "loading" : "lazy",
-        "width" : 3000,
-        "height" : 927,
-        "max_width" : 2000,
-        "max_height" : 618
-      }
+      "default" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -390,23 +343,87 @@
     "display_width" : null,
     "default" : {
       "title" : "",
-      "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
-      "button_text" : "Book a call",
-      "button_url" : {
-        "content_id" : null,
-        "href" : "https://digitalwoods.net/meetings/saurav4?uuid=9dd15035-7709-4952-aaa7-324932c81e5b",
-        "type" : "EXTERNAL"
+      "description" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+    }
+  }, {
+    "id" : "c36e2852-c866-3ae4-1f2f-9c3c3587981b",
+    "name" : "add_company_card",
+    "label" : "Add Company Card",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : true
+  }, {
+    "id" : "fb5d2e9a-ceda-b1fc-0d8f-74ece3a74371",
+    "name" : "home_company_card",
+    "label" : "Company Card",
+    "help_text" : "These details will be displayed on the home page banner.",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "home.add_company_card",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "29333503-3f64-167b-c9a9-14c77aa32a95",
+      "name" : "properties",
+      "label" : "Enter Properties to Show on Card",
+      "required" : false,
+      "locked" : false,
+      "occurrence" : {
+        "min" : null,
+        "max" : 4,
+        "sorting_label_field" : null,
+        "default" : 1
       },
-      "background_image" : {
-        "size_type" : "auto_custom_max",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
-        "alt" : "FEATURE BG",
-        "loading" : "lazy",
-        "width" : 3000,
-        "height" : 927,
-        "max_width" : 2000,
-        "max_height" : 618
-      }
+      "children" : [ {
+        "id" : "18dce98c-c7ba-e99f-bc7b-22a81a781268",
+        "name" : "properties_value",
+        "label" : "Property Internal Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "industry"
+      } ],
+      "tab" : "CONTENT",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : [ {
+        "properties_value" : "industry"
+      } ]
+    }, {
+      "id" : "acb67d3e-503a-3126-3b36-b1e966d2b8d8",
+      "name" : "add_details_modal",
+      "label" : "Add Details Modal",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : true
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "properties" : [ {
+        "properties_value" : "industry"
+      } ],
+      "add_details_modal" : true
     }
   }, {
     "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
@@ -630,23 +647,14 @@
     } ],
     "home_tab_banner_details" : {
       "title" : "",
-      "description" : "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.",
-      "button_text" : "Book a call",
-      "button_url" : {
-        "content_id" : null,
-        "href" : "https://digitalwoods.net/meetings/saurav4?uuid=9dd15035-7709-4952-aaa7-324932c81e5b",
-        "type" : "EXTERNAL"
-      },
-      "background_image" : {
-        "size_type" : "auto_custom_max",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/FEATURE%20BG.png",
-        "alt" : "FEATURE BG",
-        "loading" : "lazy",
-        "width" : 3000,
-        "height" : 927,
-        "max_width" : 2000,
-        "max_height" : 618
-      }
+      "description" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+    },
+    "add_company_card" : true,
+    "home_company_card" : {
+      "properties" : [ {
+        "properties_value" : "industry"
+      } ],
+      "add_details_modal" : true
     },
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
@@ -1122,7 +1130,7 @@
     "name" : "home_tab_styles",
     "label" : "Home",
     "required" : false,
-    "locked" : true,
+    "locked" : false,
     "children" : [ {
       "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
       "name" : "home_tab_banner_text_color",
@@ -1148,62 +1156,28 @@
         "opacity" : 100
       }
     }, {
-      "id" : "efda18b7-39cc-4402-54b5-ea93e09bb5e9",
-      "name" : "button_styles",
-      "label" : "Button Styles",
-      "required" : false,
-      "locked" : false,
-      "children" : [ {
-        "id" : "15f07d17-dc13-0be0-c4eb-8e091c56a4e8",
-        "name" : "background_color",
-        "label" : "Background Color",
-        "required" : false,
-        "locked" : false,
-        "type" : "color",
-        "display_width" : null,
-        "default" : {
-          "color" : "#14bba4",
-          "opacity" : 100
-        }
-      }, {
-        "id" : "01e4a5d8-532a-9929-07be-aadffbb44bd4",
-        "name" : "text_color",
-        "label" : "Text Color",
-        "required" : false,
-        "locked" : false,
-        "type" : "color",
-        "display_width" : null,
-        "default" : {
-          "color" : "#FFFFFF",
-          "opacity" : 100
-        }
-      } ],
-      "tab" : "STYLE",
-      "expanded" : false,
-      "group_occurrence_meta" : null,
-      "type" : "group",
-      "display_width" : null,
-      "default" : {
-        "background_color" : {
-          "color" : "#14bba4",
-          "opacity" : 100
-        },
-        "text_color" : {
-          "color" : "#FFFFFF",
-          "opacity" : 100
-        }
-      }
-    }, {
       "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
       "name" : "banner_overlayer_color",
-      "label" : "Banner Overlay Color",
+      "label" : "User and Company Card Background Color",
       "required" : false,
       "locked" : false,
       "type" : "color",
       "display_width" : null,
       "default" : {
-        "color" : "#ffffff",
-        "opacity" : 0
+        "color" : "#E5F5F8",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "5251af8a-70d6-ed54-c621-1665f3a9c630",
+      "name" : "user_card_svg_color",
+      "label" : "User Card  SVG Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#0091ae",
+        "opacity" : 100
       }
     }, {
       "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
@@ -1266,19 +1240,13 @@
         "color" : "#2a2a2a",
         "opacity" : 100
       },
-      "button_styles" : {
-        "background_color" : {
-          "color" : "#14bba4",
-          "opacity" : 100
-        },
-        "text_color" : {
-          "color" : "#FFFFFF",
-          "opacity" : 100
-        }
-      },
       "banner_overlayer_color" : {
-        "color" : "#ffffff",
-        "opacity" : 0
+        "color" : "#E5F5F8",
+        "opacity" : 100
+      },
+      "user_card_svg_color" : {
+        "color" : "#0091ae",
+        "opacity" : 100
       },
       "sidebar_details_background_colors" : {
         "color_1" : {
@@ -1547,19 +1515,13 @@
         "color" : "#2a2a2a",
         "opacity" : 100
       },
-      "button_styles" : {
-        "background_color" : {
-          "color" : "#14bba4",
-          "opacity" : 100
-        },
-        "text_color" : {
-          "color" : "#FFFFFF",
-          "opacity" : 100
-        }
-      },
       "banner_overlayer_color" : {
-        "color" : "#ffffff",
-        "opacity" : 0
+        "color" : "#E5F5F8",
+        "opacity" : 100
+      },
+      "user_card_svg_color" : {
+        "color" : "#0091ae",
+        "opacity" : 100
       },
       "sidebar_details_background_colors" : {
         "color_1" : {

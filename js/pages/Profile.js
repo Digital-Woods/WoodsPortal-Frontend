@@ -45,6 +45,7 @@ const Profile = ({ title, path }) => {
       setUserData(userNewData);
       setUserId(userNewData?.response?.hs_object_id?.value);
       setUserObjectId(userNewData?.info?.objectTypeId);
+      setSync(false);
     }
   }, [portalId, sync]);
   const setActiveTabFucntion = (active) => {
@@ -52,24 +53,14 @@ const Profile = ({ title, path }) => {
     setActiveTab(active);
   };
   return (
-    <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
+    <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
       <div
-        className={`dark:bg-dark-200  h-[calc(100vh-var(--nav-height))] rounded-tl-xl bg-cleanWhite dark:text-white md:px-4 md:pt-4 
-       `}
-      >
+        className={`dark:bg-dark-200 hide-scrollbar overflow-y-auto  h-[calc(100vh-var(--nav-height))] bg-cleanWhite dark:text-white md:px-4 px-3 `} >
         <div
-          className={` h-[calc(100vh-110px)] lg:h-[calc(100vh-90px)] hide-scrollbar overflow-y-auto`}
+          className={` md:pt-4 pt-3`}
         >
-          <div className="mb-4">
-            <h1 className="text-xl font-semibold dark:text-white mb-2">
-              My Profile
-            </h1>
-            <p className="leading-5 text-sm dark:text-white">
-              Manage and update your profile settings
-            </p>
-          </div>
           <UserProfileCard userData={userData} />
-          <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+          <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden md:mb-4 mb-3`}>
             <div className={``}>
               <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit  my-4">
                 <Tabs
