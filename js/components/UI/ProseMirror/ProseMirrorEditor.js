@@ -117,7 +117,7 @@ const ProseMirrorEditor = ({
     const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
 
     const schema = new Schema({
-      nodes: baseSchema.spec.nodes,
+      nodes: nodesWithList,
       marks: {
         // alignment: alignmentMark,
         strong: {

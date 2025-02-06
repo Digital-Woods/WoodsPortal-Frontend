@@ -37,6 +37,7 @@ const DropdownAlightMenu = ({ editorView }) => {
     if (dispatch) {
       dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
     }
+    setIsOpen(false)
     return true;
   };
 

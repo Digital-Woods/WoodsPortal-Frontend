@@ -13,8 +13,6 @@ const listTypes = [
   },
 ];
 
-let selectedEditorList = "";
-
 const isListActive = (state, nodeType) => {
   let { $from } = state.selection;
   for (let d = $from.depth; d > 0; d--) {
@@ -29,6 +27,7 @@ const DropdownListMenu = ({ editorView }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [textAlign, setTextAlign] = useState(listTypes[0]);
+  const [selectedEditorList, setSelectedEditorList] = useState("");
 
   const dropdownButtonRef = useRef(null);
   const dropdownMenuRef = useRef(null);
@@ -41,25 +40,33 @@ const DropdownListMenu = ({ editorView }) => {
   function toggleBulletList(state, dispatch) {
     const { schema, selection } = state;
 
+    console.log('bullet_list', isListActive(state, schema.nodes.bullet_list))
+
     if (isListActive(state, schema.nodes.bullet_list)) {
       liftListItem(schema.nodes.list_item)(state, dispatch);
     } else {
       wrapInList(schema.nodes.bullet_list)(state, dispatch);
     }
+    toggleMenu()
   }
 
   // Toggle Ordered List
   function toggleOrderedList(state, dispatch) {
     const { schema, selection } = state;
 
+    console.log('ordered_list', isListActive(state, schema.nodes.ordered_list))
+
+
     if (isListActive(state, schema.nodes.ordered_list)) {
       liftListItem(schema.nodes.list_item)(state, dispatch);
     } else {
       wrapInList(schema.nodes.ordered_list)(state, dispatch);
     }
+    toggleMenu()
   }
 
   useEffect(() => {
+    console.log('textAlign', textAlign)
     if (selectedEditorList && textAlign && textAlign?.key === "bullet")
       toggleBulletList(editorView.state, editorView.dispatch);
     if (selectedEditorList && textAlign && textAlign?.key === "ordered")
@@ -106,7 +113,7 @@ const DropdownListMenu = ({ editorView }) => {
                 className="cursor-pointer hover:bg-gray-200 px-4 py-1"
                 onClick={() => {
                   setTextAlign(listType);
-                  selectedEditorList = listType.icon;
+                  setSelectedEditorList(listType.icon);
                 }}
               >
                 <SvgRenderer svgContent={listType.icon} />
