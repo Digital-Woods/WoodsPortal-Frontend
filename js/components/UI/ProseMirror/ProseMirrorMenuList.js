@@ -36,42 +36,64 @@ const DropdownListMenu = ({ editorView }) => {
     setIsOpen((prevState) => !prevState);
   };
 
-  // Toggle Bullet List
-  function toggleBulletList(state, dispatch) {
-    const { schema, selection } = state;
+  // // Toggle Bullet List
+  // function toggleBulletList(state, dispatch) {
+  //   const { schema, selection } = state;
 
-    console.log('bullet_list', isListActive(state, schema.nodes.bullet_list))
+  //   console.log("bullet_list", isListActive(state, schema.nodes.bullet_list));
 
-    if (isListActive(state, schema.nodes.bullet_list)) {
-      liftListItem(schema.nodes.list_item)(state, dispatch);
-    } else {
-      wrapInList(schema.nodes.bullet_list)(state, dispatch);
+  //   if (isListActive(state, schema.nodes.bullet_list)) {
+  //     liftListItem(schema.nodes.list_item)(state, dispatch);
+  //   } else {
+  //     liftListItem(schema.nodes.list_item)(state, dispatch);
+  //     wrapInList(schema.nodes.bullet_list)(state, dispatch);
+  //   }
+  //   toggleMenu();
+  // }
+
+  // // Toggle Ordered List
+  // function toggleOrderedList(state, dispatch) {
+  //   const { schema, selection } = state;
+
+  //   console.log("ordered_list", isListActive(state, schema.nodes.ordered_list));
+
+  //   if (isListActive(state, schema.nodes.ordered_list)) {
+  //     liftListItem(schema.nodes.list_item)(state, dispatch);
+  //   } else {
+  //     liftListItem(schema.nodes.list_item)(state, dispatch);
+  //     wrapInList(schema.nodes.ordered_list)(state, dispatch);
+  //   }
+  //   toggleMenu();
+  // }
+
+  // useEffect(() => {
+  //   console.log("textAlign", textAlign);
+  //   if (selectedEditorList && textAlign && textAlign?.key === "bullet")
+  //     toggleBulletList(editorView.state, editorView.dispatch);
+  //   if (selectedEditorList && textAlign && textAlign?.key === "ordered")
+  //     toggleOrderedList(editorView.state, editorView.dispatch);
+  // }, [selectedEditorList, textAlign]);
+
+  const toggleListMenu = (listType) => {
+    const {state, dispatch} = editorView
+    const { schema } = state;
+    if (listType.key === "bullet") {
+      if (isListActive(state, schema.nodes.bullet_list)) {
+        liftListItem(schema.nodes.list_item)(state, dispatch);
+      } else {
+        liftListItem(schema.nodes.list_item)(state, dispatch);
+        wrapInList(schema.nodes.bullet_list)(state, dispatch);
+      }
     }
-    toggleMenu()
-  }
-
-  // Toggle Ordered List
-  function toggleOrderedList(state, dispatch) {
-    const { schema, selection } = state;
-
-    console.log('ordered_list', isListActive(state, schema.nodes.ordered_list))
-
-
-    if (isListActive(state, schema.nodes.ordered_list)) {
-      liftListItem(schema.nodes.list_item)(state, dispatch);
-    } else {
-      wrapInList(schema.nodes.ordered_list)(state, dispatch);
+    if (listType.key === "ordered") {
+      if (isListActive(state, schema.nodes.ordered_list)) {
+        liftListItem(schema.nodes.list_item)(state, dispatch);
+      } else {
+        liftListItem(schema.nodes.list_item)(state, dispatch);
+        wrapInList(schema.nodes.ordered_list)(state, dispatch);
+      }
     }
-    toggleMenu()
-  }
-
-  useEffect(() => {
-    console.log('textAlign', textAlign)
-    if (selectedEditorList && textAlign && textAlign?.key === "bullet")
-      toggleBulletList(editorView.state, editorView.dispatch);
-    if (selectedEditorList && textAlign && textAlign?.key === "ordered")
-      toggleOrderedList(editorView.state, editorView.dispatch);
-  }, [selectedEditorList, textAlign]);
+  };
 
   return (
     <div className="relative inline-block">
@@ -113,6 +135,7 @@ const DropdownListMenu = ({ editorView }) => {
                 className="cursor-pointer hover:bg-gray-200 px-4 py-1"
                 onClick={() => {
                   setTextAlign(listType);
+                  toggleListMenu(listType);
                   setSelectedEditorList(listType.icon);
                 }}
               >
