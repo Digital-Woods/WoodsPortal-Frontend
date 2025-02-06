@@ -186,6 +186,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                         <p className="text-black dark:text-white">Tickets</p>
                       </TabsTrigger>
                     )}
+
+                    <TabsTrigger className="rounded-md" value="trello">
+                      <p className="text-black dark:text-white">Trello</p>
+                    </TabsTrigger>
+
                     {/* <TabsTrigger className="rounded-md" value="photos">
                     <p className="text-black dark:text-white">Photos</p>
                   </TabsTrigger> */}
@@ -194,9 +199,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   <TabsContent value="overview"></TabsContent>
                   <TabsContent value="files"></TabsContent>
                   <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
+                  <TabsContent value="trello">{/* <Notes /> */}</TabsContent>
                   {/* <TabsContent value="photos"></TabsContent> */}
                 </Tabs>
               </div>
+
+              {activeTab}
 
               {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
 
@@ -242,12 +250,30 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 />
               )}
 
+              {activeTab === "trello" && (
+                <TrelloCards
+                  path={path}
+                  objectId={objectId}
+                  id={id}
+                  parentObjectTypeId={objectId}
+                  parentObjectRowId={id}
+                  permissions={permissions ? permissions.ticket : null}
+                  companyAsMediator={companyAsMediator}
+                />
+              )}
+
+
+
+
               {images.length > 0 && activeTab === "photos" && (
                 <DetailsGallery
                   images={images}
                   setGalleryDialog={setGalleryDialog}
                 />
               )}
+              
+
+
             </div>
           </div>
           {/* main content code end */}
