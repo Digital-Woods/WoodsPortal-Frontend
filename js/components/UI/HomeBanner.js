@@ -40,12 +40,14 @@ const HomeBanner = ({ moduleBannerDetailsOption, userData }) => {
     }
   }, [userData]);
 
-  const description = moduleBannerDetailsOption.description;
+  const description = moduleBannerDetailsOption?.description;
+  const header = moduleBannerDetailsOption?.title;
   // Filter and sort user details
   const filteredDetails = Object.entries(userDetails).filter(
     ([key, value]) => value?.label && !["hs_object_id"].includes(key)
   );
   const updatedDescription = replacePlaceholders(description, filteredDetails);
+  const updatedHeader = replacePlaceholders(header, filteredDetails);
 
   let email = "no-email@example.com";
   let brandName = hubSpotUserDetails.hubspotPortals.portalSettings.brandName;
@@ -88,7 +90,7 @@ const HomeBanner = ({ moduleBannerDetailsOption, userData }) => {
           <div className="mb-6">
             <h2 className={`text-xl md:text-2xl font-bold text-[${moduleStylesOptions.homeTabStyles.headingColor || '#2a2a2a'}] dark:text-white mb-1`}>
               {moduleBannerDetailsOption && moduleBannerDetailsOption.title ? (
-                moduleBannerDetailsOption.title
+                updatedHeader
               ) : (
                 <span>
                   {getGreeting()}, <span className="text-primary dark:text-white dark:opacity-70">{getFirstName() || ''} {getLastName() || ''}</span>
