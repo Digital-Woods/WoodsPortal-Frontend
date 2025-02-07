@@ -79,6 +79,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       const sortedItems = sortData(details, "details");
       setItems(sortedItems);
       setPermissions(data.configurations)
+      console.log(data.configurations,'data.configurations');
     },
     onError: (error) => {
       setSync(false);

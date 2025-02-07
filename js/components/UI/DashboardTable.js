@@ -60,7 +60,7 @@ const DashboardTable = ({
   const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [permissions, setPermissions] = useState(defPermissions);
+  const [permissions, setPermissions] = useState(null);
   const [hoverRow, setHoverRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
@@ -158,7 +158,7 @@ const DashboardTable = ({
         // param: param,
         API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
           ? `${param}${searchTerm ? (param.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
-          : `${searchTerm ? `?search=${searchTerm}` : ""}`
+          : `${searchTerm ? (apis.tableAPI.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
           }`,
         sort: sortConfig,
         filterPropertyName,
@@ -175,16 +175,23 @@ const DashboardTable = ({
         if (defPermissions === null) {
           setPermissions(data.configurations[componentName])
         } else {
-          setPermissions(defPermissions);
+          setPermissions(data.configurations['object']);
+          console.log(data.configurations);
         }
+      }else{
+        setPermissions(null);
       }
     },
     onError: () => {
       setSync(false)
       setTableData([]);
+      setPermissions(null);
     },
   });
 
+  console.log(defPermissions,'defPermissions');
+  console.log(permissions,'permissions');
+  console.log(componentName,'componentName');
   // const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
@@ -307,16 +314,19 @@ const DashboardTable = ({
           )}
         </Tooltip>
 
-        {hubSpotUserDetails.sideMenu[0].tabName === title
-          ? null
-          : (permissions && permissions.create) && (
-            <div className={`text-end`} >
-              <Button variant="create" onClick={() => setShowAddDialog(true)}>
-                <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create {title}
-              </Button>
-            </div>
-          )
-        }
+        {hubSpotUserDetails.sideMenu[0].tabName !== title &&
+          ((componentName === "ticket"
+            ? permissions?.create && defPermissions?.create
+            : permissions?.create) && (
+              <div className="text-end">
+                <Button variant="create" onClick={() => setShowAddDialog(true)}>
+                  <span className="mr-2">
+                    <IconPlus className="!w-3 !h-3" />
+                  </span>
+                  Create {title}
+                </Button>
+              </div>
+            ))}
       </div>
       {isLoading && <TableSkeleton />}
 
