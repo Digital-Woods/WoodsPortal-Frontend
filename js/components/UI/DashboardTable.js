@@ -44,9 +44,10 @@ const DashboardTable = ({
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
-  const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
+  // const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
-  const [currentTableData, setCurrentTableData] = useState([]);
+  const [numOfPages, setNumOfPages] = useState();
+  // const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [currentItems, setCurrentItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -63,10 +64,11 @@ const DashboardTable = ({
   const [hoverRow, setHoverRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
-  const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
   const { me } = useMe();
+
+  useEffect(() => { setNumOfPages(Math.ceil(totalItems / itemsPerPage)) }, [totalItems, itemsPerPage, searchTerm]);
 
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
@@ -79,35 +81,35 @@ const DashboardTable = ({
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    if (env.DATA_SOURCE_SET === true) {
-      const results = data.data.results || [];
+    // if (env.DATA_SOURCE_SET === true) {
+    //   const results = data.data.results || [];
 
-      const foundItem = results.find((item) => {
-        return item.name === path.replace("/", "");
-      });
-      setCurrentTableData(foundItem.results.rows);
-      setTotalItems(foundItem.results.rows.length || 0);
-      setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
-      if (foundItem.results.rows.length > 0) {
-        setTableHeader(sortData(foundItem.results.columns));
-      } else {
-        setTableHeader([]);
-      }
+    //   const foundItem = results.find((item) => {
+    //     return item.name === path.replace("/", "");
+    //   });
+    //   setCurrentTableData(foundItem.results.rows);
+    //   setTotalItems(foundItem.results.rows.length || 0);
+    //   setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
+    //   if (foundItem.results.rows.length > 0) {
+    //     setTableHeader(sortData(foundItem.results.columns));
+    //   } else {
+    //     setTableHeader([]);
+    //   }
 
-    } else {
-      const results = data.data.results.rows || [];
-      const columns = data.data.results.columns || [];
-      setTableData(results);
-      setTotalItems(data.data.total || 0);
-      setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-      setCurrentItems(results.length)
-      // if (results.length > 0) {
-      //   setTableHeader(sortData(results[0], "list", title));
-      // } else {
-      //   setTableHeader([]);
-      // }
-      setTableHeader(sortData(columns));
-    }
+    // } else {
+    const results = data.data.results.rows || [];
+    const columns = data.data.results.columns || [];
+    setTableData(results);
+    setTotalItems(data.data.total || 0);
+    setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
+    setCurrentItems(results.length)
+    // if (results.length > 0) {
+    //   setTableHeader(sortData(results[0], "list", title));
+    // } else {
+    //   setTableHeader([]);
+    // }
+    setTableHeader(sortData(columns));
+    // }
   };
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
@@ -154,7 +156,10 @@ const DashboardTable = ({
         // portalId,
         // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
         // param: param,
-        API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association") ? param : ''}`,
+        API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
+          ? `${param}${searchTerm ? (param.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
+          : `${searchTerm ? `?search=${searchTerm}` : ""}`
+          }`,
         sort: sortConfig,
         filterPropertyName,
         filterOperator,
@@ -191,62 +196,62 @@ const DashboardTable = ({
     }
     setSortConfig(newSortConfig);
 
-    if (env.DATA_SOURCE_SET === true) {
-      // Handle sorting for local data (currentTableData)
-      const sortedData = [...currentTableData].sort((a, b) => {
-        const columnValueA = getValueByPath(a, column);
-        const columnValueB = getValueByPath(b, column);
+    // if (env.DATA_SOURCE_SET === true) {
+    //   // Handle sorting for local data (currentTableData)
+    //   const sortedData = [...currentTableData].sort((a, b) => {
+    //     const columnValueA = getValueByPath(a, column);
+    //     const columnValueB = getValueByPath(b, column);
 
-        if (newSortConfig.startsWith('-')) {
-          return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
-        }
-        return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
-      });
-      setTableData(sortedData.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-      ));
-    } else {
-      getData();
-    }
+    //     if (newSortConfig.startsWith('-')) {
+    //       return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
+    //     }
+    //     return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
+    //   });
+    //   setTableData(sortedData.slice(
+    //     (currentPage - 1) * itemsPerPage,
+    //     currentPage * itemsPerPage
+    //   ));
+    // } else {
+    getData();
+    // }
   };
 
   // Helper function to get the value by key from nested objects
-  const getValueByPath = (obj, path) => {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  };
+  // const getValueByPath = (obj, path) => {
+  //   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  // };
 
 
   const handlePageChange = async (page) => {
-    if (env.DATA_SOURCE_SET === true) {
-      setCurrentPage(page);
-    } else {
-      setCurrentPage(page);
-      setAfter((page - 1) * itemsPerPage);
-      await wait(100);
-      getData();
-    }
+    // if (env.DATA_SOURCE_SET === true) {
+    //   setCurrentPage(page);
+    // } else {
+    setCurrentPage(page);
+    setAfter((page - 1) * itemsPerPage);
+    await wait(100);
+    getData();
+    // }
   };
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET === true) {
-      setTableData(currentTableData.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-      ));
-    }
-  }, [currentTableData, currentPage, itemsPerPage]);
+  // useEffect(() => {
+  //   if (env.DATA_SOURCE_SET === true) {
+  //     setTableData(currentTableData.slice(
+  //       (currentPage - 1) * itemsPerPage,
+  //       currentPage * itemsPerPage
+  //     ));
+  //   }
+  // }, [currentTableData, currentPage, itemsPerPage]);
   // useEffect(() => {
   //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
   // }, [inputValue]);
 
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true) {
-      getData();
-    } else {
-      mapResponseData(hubSpotTableData);
-      getData();
-    }
-  }, []);
+  // useEffect(() => {
+  // if (env.DATA_SOURCE_SET != true) {
+  // getData();
+  // } else {
+  //   mapResponseData(hubSpotTableData);
+  //   getData();
+  // }
+  // }, []);
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true && sync === true) {
@@ -263,21 +268,45 @@ const DashboardTable = ({
     setHoverRow(row)
   };
 
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    getData();
+  };
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      getData();
+      setItemsPerPage(10);
+    }
+  }, [searchTerm]);
+
   return (
     <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}>
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
-        <div className="relative">
+        <Tooltip content='Press enter to search ' className="relative">
           <Input
             placeholder="Search..."
             height="semiMedium"
             icon={SearchIcon}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch(); // Trigger search when Enter is pressed
+              }
+            }}
+            className="pr-12"
           />
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <EnterIcon />
-          </div>
-        </div>
+          {searchTerm && (
+            <div
+              className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+              onClick={handleSearch} // Trigger search on button click
+            >
+              <EnterIcon />
+            </div>
+          )}
+        </Tooltip>
+
         {hubSpotUserDetails.sideMenu[0].tabName === title
           ? null
           : (permissions && permissions.create) && (

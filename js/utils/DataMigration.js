@@ -381,7 +381,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 relative justify-between">
+      <div className="flex gap-1 min-w-[155px] relative justify-between">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -444,7 +444,7 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 relative justify-between group">
+      <div className="flex gap-1 min-w-[180px] relative justify-between group">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={associationPath}
@@ -473,7 +473,37 @@ const renderCellContent = (
     detailsView
   ) {
     return (
-      <div className="flex gap-1 relative justify-between">
+      <div className="flex gap-1 min-w-[250px] relative justify-between">
+        <Link
+          className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
+          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+        >
+          {truncatedText(isObject(value) ? value.label : value)}
+        </Link>
+        <Link
+          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
+          justify-center gap-1 flex-shrink-0 rounded-md 
+          outline-none transition duration-300 ease-in-out 
+          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
+          ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
+          `}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+        >
+          Open
+          <OpenIcon />
+        </Link>
+      </div>
+    );
+  }
+  if (
+    type == "homeList" &&
+    column &&
+    column.isPrimaryDisplayProperty &&
+    detailsView
+  ) {
+    return (
+      <div className="flex gap-1 min-w-[155px] relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}

@@ -19,7 +19,7 @@
   "show_emoji_picker" : false,
   "type" : "text",
   "display_width" : null,
-  "default" : "https://app.dev.one.digitalwoods.io"
+  "default" : "https://app.demo.digitalwoods.io"
 }, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
