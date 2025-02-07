@@ -334,7 +334,7 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+      "default" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -343,7 +343,7 @@
     "display_width" : null,
     "default" : {
       "title" : "",
-      "description" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
     }
   }, {
     "id" : "c36e2852-c866-3ae4-1f2f-9c3c3587981b",
@@ -647,7 +647,7 @@
     } ],
     "home_tab_banner_details" : {
       "title" : "",
-      "description" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
     },
     "add_company_card" : true,
     "home_company_card" : {
