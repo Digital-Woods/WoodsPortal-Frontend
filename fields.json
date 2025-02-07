@@ -20,7 +20,7 @@
           }
         },
         "default": {
-          "color": "#33475b"
+          "color": "#FF7A59"
         }
       },
       {
@@ -39,7 +39,7 @@
           }
         },
         "default": {
-          "color": "#FF7A59"
+          "color": "#0091ae"
         }
       }
     ]
@@ -84,7 +84,7 @@
         },
         "inherited_value": {
           "property_value_paths": {
-            "color": "theme.global_colors.primary.color"
+            "color": "theme.global_colors.secondary.color"
           }
         },
         "default": {
@@ -422,7 +422,7 @@
               }
             },
             "default": {
-              "color": "#525259",
+              "color": "#0091ae",
               "styles": {
                 "text-decoration": "underline"
               }

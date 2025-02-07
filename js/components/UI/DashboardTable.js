@@ -61,6 +61,7 @@ const DashboardTable = ({
   const [modalData, setModalData] = useState(null);
   const [permissions, setPermissions] = useState(defPermissions);
   const [hoverRow, setHoverRow] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
@@ -115,6 +116,8 @@ const DashboardTable = ({
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
   const isPrimaryCompany = getParam("isPrimaryCompany")
+  const parentObjectTypeId = getParam("parentObjectTypeId")
+  const parentObjectRecordId = getParam("parentObjectRecordId")
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
@@ -261,30 +264,47 @@ const DashboardTable = ({
   };
 
   return (
-    <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden`}>
-      {isLoading && <div className="loader-line m-2"></div>}
-      {hubSpotUserDetails.sideMenu[0].tabName === title
-        ? null
-        : (permissions && permissions.create) && (
-          <div className="text-end md:py-4 py-3 md:pr-4 pr-3">
-            <Button variant="create" onClick={() => setShowAddDialog(true)}>
-              <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create {title}
-            </Button>
+    <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}>
+      <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
+        <div className="relative">
+          <Input
+            placeholder="Search..."
+            height="semiMedium"
+            icon={SearchIcon}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <EnterIcon />
+          </div>
+        </div>
+        {hubSpotUserDetails.sideMenu[0].tabName === title
+          ? null
+          : (permissions && permissions.create) && (
+            <div className={`text-end`} >
+              <Button variant="create" onClick={() => setShowAddDialog(true)}>
+                <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create {title}
+              </Button>
+            </div>
+          )
+        }
+      </div>
+      {isLoading && <TableSkeleton />}
+
+      {
+        !isLoading && tableData.length === 0 && (
+          <div className="text-center pb-4">
+            <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />
+            {(permissions && permissions.association) &&
+              <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
+                {permissions.associationMessage}
+              </p>
+            }
           </div>
         )
       }
-      {!isLoading && tableData.length === 0 && (
-        <div className="text-center pb-4">
-          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} />
-          {(permissions && permissions.association) &&
-            <p className="text-primary text-base md:text-2xl dark:text-gray-300mt-3">
-              {permissions.associationMessage}
-            </p>
-          }
-        </div>
-      )}
       {
-        tableData.length > 0 && (
+        !isLoading && tableData.length > 0 && (
           <React.Fragment>
             <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
               <Table className="w-full">
@@ -388,7 +408,7 @@ const DashboardTable = ({
                                   path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                                   path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                                   'list',
-                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : '',
+                                  path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : '',
                                   detailsView,
                                   hoverRow
                                 )
@@ -428,15 +448,15 @@ const DashboardTable = ({
             </div>
             <div className="flex items-center justify-between max-md:flex-col  md:px-4 px-3 gap-x-2 max-sm:mt-3 text-sm">
               <div className="flex items-center gap-x-2 text-sm">
-                <p className="text-primary leading-5 text-sm dark:text-gray-300">
+                <p className="text-secondary leading-5 text-sm dark:text-gray-300">
                   Showing
                 </p>
-                <span className="border border-2 border-black dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+                <span className="border border-2 border-secondary dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
                   {currentItems || 0}
                 </span>
-                <span className="text-primary dark:text-gray-300">/</span>
+                <span className="text-secondary dark:text-gray-300">/</span>
                 <span className="rounded-md font-medium dark:text-gray-300">{totalItems}</span>
-                <p className="text-primary font-normal text-sm dark:text-gray-300">
+                <p className="text-secondary font-normal text-sm dark:text-gray-300">
                   Results
                 </p>
               </div>

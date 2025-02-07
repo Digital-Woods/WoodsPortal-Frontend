@@ -536,8 +536,8 @@ html {
 }
 
 body {
+  color: #33475b !important;
   {{ body_font.style }};
-  color: {{ body_font.color }};
   font-size: {{ body_font.size ~ body_font.size_unit }};
 }
 
@@ -554,21 +554,18 @@ p {
 /* Table */
 
 table {
-  {{ table_border }}
   background-color: {{ table_bg_color }};
 }
 
 /* Table cells */
 
 td {
-  {{ table_border }}
+  color: #33475b;
   {{ table_cell_spacing }}
-  color: {{ table_font_color }};
 }
 th {
-  {{ table_border }};
   padding:8px 24px 8px 24px;
-  color: {{ table_font_color }};
+  color: #33475b;
 }
 
 /* Table header */
@@ -597,6 +594,32 @@ tfoot td {
  to{
    transform:rotate(360deg);
  }
+}
+
+
+.nav-rounded::before {
+  clip-path: path("M9 0H0V9V10H0.0546875C0.0185547 9.67188 0 9.33789 0 9C0 4.0293 4.0293 0 9 0ZM10 0.0546875C9.67188 0.0185547 9.33789 0 9 0H10V0.0546875Z");
+  bottom: 0;
+  content: "";
+  height: 14px;
+  left: 0px;
+  position: absolute;
+  width: 14px;
+  z-index: 50;
+  top: 100%;
+}
+
+.nav-rounded::after {
+  clip-path: path("M9 0H0V9V10H0.0546875C0.0185547 9.67188 0 9.33789 0 9C0 4.0293 4.0293 0 9 0ZM10 0.0546875C9.67188 0.0185547 9.33789 0 9 0H10V0.0546875Z");
+  bottom: 0;
+  content: "";
+  height: 14px;
+  right: 0px;
+  position: absolute;
+  width: 14px;
+  z-index: 50;
+  top: 100%;
+  transform: scaleX(-1);
 }
 
 

@@ -82,7 +82,7 @@ const DynamicComponent = ({
 
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
-      <div className="dark:bg-dark-200 rounded-tl-xl  h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
+      <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
         <div className="flex justify-between items-center relative z-[2] gap-6">
           <div className="flex items-start flex-col gap-2">
             {objectTypeName && (
@@ -95,7 +95,7 @@ const DynamicComponent = ({
                 <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
                   {tableTitle()}
                 </span>
-                <p className="text-primary  dark:text-white leading-5 text-sm">
+                <p className="dark:text-white leading-5 text-sm">
                   {env.DATA_SOURCE_SET !== true ? viewText : viewText + "s"}
                 </p>
               </span>
@@ -122,7 +122,7 @@ const DynamicComponent = ({
             ""
           )}
 
-          <div className="w-full max-sm:w-screen">
+          <div className="w-full">
             <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}

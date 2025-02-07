@@ -88,21 +88,15 @@ const Drawer = ({ className }) => {
       )}
 
       <div className={`${className} relative`}>
-        <div onClick={() => toggleSidebar()} className=" max-lg:hidden border border-white p-1 rounded-full absolute  bg-sidelayoutColor dark:bg-dark-300 right-[-10px] top-[63px] z-[100]">
-          <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-sidelayoutTextColor dark:text-white flex`}>
-            <Chevron />
-          </div>
-        </div>
         <div
-          className={`h-[100vh] z-[54] sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          className={`h-[100vh] z-[55] sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
         ${sidebarCollapsed ? "p-3" : "p-4"}
         `}
         >
           <div className="h-full flex flex-col">
-            <div className="flex relative justify-between items-center mb-8 h-[50px]">
-              <div className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2`}>
-
+            <div className="flex relative justify-between items-center mb-8">
+              <div onClick={() => handleSetActiveRoute(formatPath(hubSpotUserDetails.sideMenu[0].tabName))} className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2 cursor-pointer`}>
                 {showCompanyNameOption ?
                   <div className="w-[50px]">
                     <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
@@ -115,20 +109,19 @@ const Drawer = ({ className }) => {
                   </div>}
 
                 {showCompanyNameOption === true ?
-                  <h1 className={`text-lg font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
+                  <h1 className={`text-sm font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
                     {shouldShowTooltip ? (
-                      <Tooltip content={brandName} right>
+                      <div>
                         {brandName.slice(0, 15)}
                         {brandName.length > 15 ? "..." : ""}
-                      </Tooltip>
+                      </div>
                     ) : (
                       brandName
                     )}
                   </h1> : ''}
-
               </div>
               <div
-                className=" rounded-lg cursor-pointer text-sidelayoutTextColor dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-[-10px]"
+                className=" rounded-lg cursor-pointer text-sidelayoutTextColor dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-0"
                 onClick={() => setSidebarOpen(false)}
               >
                 <CloseIcon />
@@ -136,13 +129,13 @@ const Drawer = ({ className }) => {
             </div>
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
-                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-160px)]'} overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
+                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-160px)]'} flex flex-col gap-2 overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <div
                         key={path}
                         to={path}
-                        className={`cursor-pointer block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
+                        className={`cursor-pointer block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'px-3 py-[0.55rem]'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
                           }`}
                         onClick={() => handleSetActiveRoute(path)}
                       >
@@ -228,22 +221,14 @@ const Drawer = ({ className }) => {
                 </NavLink> */}
 
                   <div
-                    className={`block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white   ${sidebarCollapsed ? 'py-3 px-0' : 'p-3'}  rounded-md no-underline cursor-pointer`}
-                    onClick={() => { setLogoutDialog(true); setSidebarOpen(false); }}
+                    className={`block dark:hover:text-white `}
                   >
-                    <div
-                      className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-start"
-                        }`}
-                    >
-                      <div className="text-sidelayoutTextColor dark:text-white" >
-                        <LogOutIcon className="fill-sidelayoutTextColor dark:fill-white" />
+                    <div className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-end"}`}>
+                      <div onClick={() => toggleSidebar()} className={`flex items-center justify-center hover:bg-activeState dark:hover:bg-activeState ${sidebarCollapsed ? 'py-3 px-0 w-full' : 'px-3 py-[0.55rem]'} rounded-md no-underline cursor-pointer`}>
+                        <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-sidelayoutTextColor dark:text-white flex`}>
+                          <SidebarTogglerIcon />
+                        </div>
                       </div>
-                      <p
-                        className={`${sidebarCollapsed ? "hidden" : ""
-                          } text-sidelayoutTextColor dark:text-white text-sm font-medium `}
-                      >
-                        Logout
-                      </p>
                     </div>
                   </div>
                 </div>

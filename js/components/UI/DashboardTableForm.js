@@ -62,7 +62,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationFn: async (input) => {
       try {
         const response = await Client.form.create({
-          API: `${apis.createAPI}${companyAsMediator ? `?isPrimaryCompany=${companyAsMediator}` : ''}`,
+          API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           data: input
         });
         return response;
@@ -206,7 +206,6 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                                     />
                                   ) : (
                                     <Input
-                                      height="medium"
                                       placeholder={filled.customLabel}
                                       className=""
                                       {...register(filled.name)}

@@ -1,3 +1,15 @@
+function profileInitial(firstName, lastName) {
+  const initials =
+    firstName && lastName
+      ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+      : firstName
+        ? firstName.charAt(0).toUpperCase()
+        : lastName
+          ? lastName.charAt(0).toUpperCase()
+          : "U";
+  return initials;
+}
+
 function isDate(dateString) {
   // Regular expression to match the expected date format
   const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
@@ -139,7 +151,7 @@ const filterAssociationsData = (obj) => {
   return filtered;
 };
 
-const sortData = (list, type = "list") => {
+const sortData = (list, type = "list", removeKeys='hs_object_id') => {
   if (type == "list" || type == "details") delete list.associations;
   // if (type == "associations") list = filterAssociationsData(list);
   let data =
@@ -321,7 +333,7 @@ const truncatedText = (text, maxLength = 30) => {
 };
 
 const renderCellContent = (
-  companyAsMediator =false,
+  companyAsMediator = false,
   value,
   column,
   itemId = null,
@@ -339,11 +351,11 @@ const renderCellContent = (
   if (
     column &&
     value != null &&
-    ( column.fieldType == "date"||
+    (column.fieldType == "date" ||
       column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
       column.key == "createdate"
-      )
+    )
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }
@@ -371,7 +383,7 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 relative justify-between">
         <Link
-          className="dark:text-white  text-secondary font-semibold border-input rounded-md"
+          className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           --
@@ -381,7 +393,7 @@ const renderCellContent = (
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -434,7 +446,7 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 relative justify-between group">
         <Link
-          className="dark:text-white text-secondary font-semibold border-input rounded-md"
+          className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={associationPath}
         >
           {truncatedText(isObject(value) ? value.label : value, "25")}
@@ -444,7 +456,7 @@ const renderCellContent = (
       justify-center gap-1 flex-shrink-0 rounded-md 
       outline-none transition duration-300 ease-in-out 
       focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-      hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-primary hover:dark:text-white
+      hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-secondary hover:dark:text-white
       opacity-0 group-hover:opacity-100`}
           to={associationPath}
         >
@@ -463,7 +475,7 @@ const renderCellContent = (
     return (
       <div className="flex gap-1 relative justify-between">
         <Link
-          className="dark:text-white  text-secondary font-semibold border-input rounded-md"
+          className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           {truncatedText(isObject(value) ? value.label : value)}
@@ -473,7 +485,7 @@ const renderCellContent = (
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-primary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -496,16 +508,16 @@ const renderCellContent = (
   if (isObject(value)) return truncatedText(value.label) || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
-  
-    if (type === 'list' && isTruncated) {
-      return (
-        <Tooltip content={value}>
-          <Link className="dark:text-white">{truncated}</Link>
-        </Tooltip>
-      );
-    } else {
-      return truncatedText(value);
-    }
+
+  if (type === 'list' && isTruncated) {
+    return (
+      <Tooltip content={value}>
+        <Link className="dark:text-white">{truncated}</Link>
+      </Tooltip>
+    );
+  } else {
+    return truncatedText(value);
+  }
 
 };
 

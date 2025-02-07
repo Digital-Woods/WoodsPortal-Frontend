@@ -18,7 +18,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   const [filterValue, setFilterValue] = useState(null);
   // const [openModal, setOpenModal] = useState(false);
   // const [modalData, setModalData] = useState(null);
-  const [numOfPages,setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
+  const [numOfPages, setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
   const { me } = useMe();
@@ -76,8 +76,8 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
 
   // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   const param = companyAsMediator
-  ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
-  : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
+    ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
+    : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -161,32 +161,32 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
 
   return (
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
-      {isLoading && <div className="loader-line"></div>}
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
         <div className="flex items-center justify-between gap-x-2 pb-2">
-          <span className="text-rstextcolor">
+          <span className="text-secondary">
             <AssociationIcon />
           </span>
           <span>
-            <span className="dark:text-white text-rstextcolor">{title}</span>
-            <span className="ml-2 px-2 py-1 rounded-md bg-lightblue text-white text-xs">
+            <span className="dark:text-white text-secondary hover:underline underline-offset-4 font-bold text-xs">{title}</span>
+            <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
               {totalItems}
             </span>
           </span>
         </div>
         {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
       </div>
+      {isLoading && <div className={``}><HomeSidebarSkeleton /></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
           <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
-            <p className="text-primary text-base md:text-2xl dark:text-gray-300 mt-3">
+            <p className="text-secondary text-base md:text-2xl dark:text-gray-300 mt-3">
               {tableAPiData.data.configurations.associationMessage}
             </p>
           }
         </div>
       )}
-      {tableData.length > 0 && (
+      {!isLoading && tableData.length > 0 && (
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
             {tableData.map((item) => (
@@ -233,8 +233,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
             </div>
           }
         </React.Fragment>
-      )
-      }
+      )}
       {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
     </div >
   );
