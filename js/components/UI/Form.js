@@ -111,7 +111,7 @@ const Input = React.forwardRef(
       {
         [classes.normal]: variant === 'normal',
       },
-      Icon && "pl-10",
+      Icon && "pl-8",
       heightClasses[height],
       className
     );
@@ -119,7 +119,7 @@ const Input = React.forwardRef(
     return (
       <div className="relative dark:bg-dark-300 flex items-center rounded-md max-sm:w-full">
         {Icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2">
+          <div className="absolute left-2 top-1/2 -translate-y-1/2">
             <Icon className="h-6 w-6 text-gray-500" />
           </div>
         )}
