@@ -158,7 +158,7 @@ const DashboardTable = ({
         // param: param,
         API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
           ? `${param}${searchTerm ? (param.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
-          : `?${searchTerm ? `search=${searchTerm}` : ""}`
+          : `${searchTerm ? `?search=${searchTerm}` : ""}`
           }`,
         sort: sortConfig,
         filterPropertyName,
@@ -283,7 +283,7 @@ const DashboardTable = ({
   return (
     <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}>
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
-        <Tooltip content='To search press enter' className="relative">
+        <Tooltip content='Press enter to search ' className="relative">
           <Input
             placeholder="Search..."
             height="semiMedium"
@@ -295,11 +295,11 @@ const DashboardTable = ({
                 handleSearch(); // Trigger search when Enter is pressed
               }
             }}
-            className="pr-8"
+            className="pr-12"
           />
           {searchTerm && (
             <div
-              className="text-gray-400 dark:text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+              className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
               onClick={handleSearch} // Trigger search on button click
             >
               <EnterIcon />

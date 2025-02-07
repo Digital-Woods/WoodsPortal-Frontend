@@ -10,7 +10,7 @@ const sortProperties = (data) => {
         });
 };
 
-const UserProfileCard = ({ userData }) => {
+const UserProfileCard = ({ userData, isLoading }) => {
     const [userDetails, setUserDetails] = useState({});
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [showMoreDetails, setShowMoreDetails] = useState(false);
@@ -23,7 +23,7 @@ const UserProfileCard = ({ userData }) => {
         }
     }, [userData]);
 
-    if (!userDetails || Object.keys(userDetails).length === 0) {
+    if (isLoading || !userDetails || Object.keys(userDetails).length === 0) {
         return <SkeletonLoader items={1} profile={true} />;
     }
 
