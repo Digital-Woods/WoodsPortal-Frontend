@@ -206,7 +206,6 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                                     />
                                   ) : (
                                     <Input
-                                      height="medium"
                                       placeholder={filled.customLabel}
                                       className=""
                                       {...register(filled.name)}

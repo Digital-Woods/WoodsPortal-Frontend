@@ -1,7 +1,7 @@
 const NoteSkeleton = () => {
     return (
-        <div className="rounded-lg mt-2 bg-cleanWhite dark:bg-[#212121]">
-            <div className="flex justify-end mt-2 mb-6 items-center">
+        <div className="rounded-lg mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 ">
+            <div className="flex justify-end mb-6 items-center">
                 <Button  variant="create" className="text-white">
                     <span className="mr-2">
                         {" "}

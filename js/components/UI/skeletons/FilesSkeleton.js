@@ -2,11 +2,12 @@ const FilesSkeleton = () => {
     return (
         <div className="w-full">
             <div className="rounded-lg mt-2 border dark:border-none  bg-cleanWhite dark:bg-dark-300 md:p-4 p-2 !pb-0">
-                <div className="flex justify-between mb-6 items-center mt-2">
+                <div className="flex justify-between mb-6 items-center">
                     <Input
                         placeholder="Search..."
                         height="semiMedium"
                         value={''}
+                        icon={SearchIcon} 
                     />
                     <div className="flex justify-end space-x-2">
                         <Button  variant="create">
@@ -31,18 +32,18 @@ const FilesSkeleton = () => {
                         <Table className="w-full dark:bg-[#2a2a2a]">
                             <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
                                 <TableRow>
-                                    <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
-                                    <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs">Name</TableHead>
-                                    <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">File Type</TableHead>
-                                    <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">Size</TableHead>
-                                    <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
+                                    <TableHead className="px-4 py-2 dark:border-gray-600 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
+                                    <TableHead className="px-4 py-2 dark:border-gray-600 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs">Name</TableHead>
+                                    <TableHead className="px-4 py-2 dark:border-gray-600 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">File Type</TableHead>
+                                    <TableHead className="px-4 py-2 dark:border-gray-600 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">Size</TableHead>
+                                    <TableHead className="px-4 py-2 dark:border-gray-600 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {[...Array(10)].map((_, i) => (
                                     <TableRow className={`animate-pulse border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}>
                                         {[...Array(5)].map((_, j) => (
-                                            <TableCell key={j} className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
+                                            <TableCell key={j} className="px-4 py-2 dark:border-gray-600 whitespace-nowrap text-xs dark:text-white">
                                                 <div className="h-4 w-full bg-gray-200 dark:bg-dark-white dark:bg-opacity-20 rounded-md"></div>
                                             </TableCell>
                                         ))}

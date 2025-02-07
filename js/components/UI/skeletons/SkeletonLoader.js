@@ -1,7 +1,7 @@
 const SkeletonLoader = ({ items = 1, profile = false }) => {
     return (
         <div className="animate-pulse flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg shadow-md border dark:border-none dark:bg-dark-300 relative overflow-hidden">
-            <div className="bg-secondary opacity-10 absolute top-0 right-0 left-0 h-[90px]"></div>
+            <div className={`bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[90px]`}></div>
 
             {/* Profile Initials */}
             <div className="flex items-center justify-center relative z-50">
