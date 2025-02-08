@@ -387,7 +387,7 @@ const renderCellContent = (
 
   if (
     !value &&
-    (type == "associations" || type == "list") &&
+    (type == "associations" || type == "list" || type==='homeList') &&
     column &&
     column.isPrimaryDisplayProperty &&
     detailsView
@@ -417,7 +417,7 @@ const renderCellContent = (
     );
   }
 
-  if ((type === "list" || type === "associations") && column?.fieldType === "html") {
+  if ((type === "list" || type === "associations" || type==='homeList') && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
         {truncatedText(decodeAndStripHtml(value || ""))}
@@ -436,7 +436,7 @@ const renderCellContent = (
   }
 
   if (
-    (type === "details" || type === "associations" || type === 'list') &&
+    (type === "details" || type === "associations" || type === 'list' || type==='homeList') &&
     (column?.fieldType === "checkbox")
   ) {
     if (Array.isArray(value) && value.length > 0) {
@@ -560,7 +560,7 @@ const renderCellContent = (
 
   const { truncated, isTruncated } = truncateString(value || "");
 
-  if (type === 'list' && isTruncated) {
+  if (type === 'list' || type==='homeList' && isTruncated) {
     return (
       <Tooltip content={value}>
         <Link className="dark:text-white">{truncated}</Link>

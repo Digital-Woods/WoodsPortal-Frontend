@@ -114,12 +114,16 @@ const UserProfileCard = ({ userData, isLoading }) => {
 
                             <div className="">
                                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">
-                                    {visibleAssociatedDetails.map(([key, value]) => (
-                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                            <span className="font-semibold">{value?.label}:</span>
-                                            {renderCellContent(false, value?.value, value)}
-                                        </div>
-                                    ))}
+                                    {visibleAssociatedDetails.length > 0 ? (
+                                        visibleAssociatedDetails.map(([key, value]) => (
+                                            <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                                <span className="font-semibold">{value?.label}</span>
+                                                {renderCellContent(false, value?.value, value)}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="text-xs dark:text-white">No primary company is currently associated with this contact.</div>
+                                    )}
                                 </div>
 
                                 {sortedAssociatedDetails.length > 4 && (
