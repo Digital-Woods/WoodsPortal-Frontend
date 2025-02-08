@@ -288,14 +288,14 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
                           key={id}
                         >
                           <div className="file-detail flex items-center">
-                            <div className="">{getIcon(filename)}</div>
+                            <div className="dark:text-white">{getIcon(filename)}</div>
                             <div className="mx-2 text-sm dark:text-white font-medium text-left">
                               {truncateText(filename, 80)}
                             </div>
                             <div className="file-actions ml-auto">
                               <button
                                 type="button"
-                                className={`file-action-btn text-red-600 mr-0 ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}
+                                className={`file-action-btn dark:text-white text-red-600 mr-0 ${isUploading ? 'hidden':''}`}
                                 onClick={() => deleteSelectFile(id)}
                                 disabled={isUploading}
                               >
@@ -309,7 +309,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
                           isUploading && uploadProgress < 90 ?                         
                           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
                           <div
-                            className={`h-3 bg-secondary transition-all duration-300 w-[${uploadProgress+10}%]`}
+                            className={`h-3 bg-secondary dark:bg-dark-400 transition-all duration-300 w-[${uploadProgress+10}%]`}
                           ></div>
                           </div> : null
                         }

@@ -53,9 +53,6 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
 
                 {/* Associated Company Details */}
                 <div className="mt-6 pt-4 border-t dark:border-gray-600">
-                    <p className="text-xs text-gray-500 mb-2">
-                        <span className="h-2 bg-gray-300 dark:bg-dark-white rounded-sm w-[70px] inline-block"></span>
-                    </p>
                     <h3 className="text-lg font-semibold dark:text-white mb-4">
                         <span className="h-6 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
                     </h3>

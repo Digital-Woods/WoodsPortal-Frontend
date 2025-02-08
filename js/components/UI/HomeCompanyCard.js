@@ -1,4 +1,4 @@
-const HomeCompanyCard = ({ userData }) => {
+const HomeCompanyCard = ({ userData,isLoading }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -11,7 +11,7 @@ const HomeCompanyCard = ({ userData }) => {
         }
     }, [userData]);
 
-    if (!userAssociatedDetails || Object.keys(userAssociatedDetails).length === 0) {
+    if (isLoading) {
         return <HomeCompanyCardSkeleton />;
     }
 
@@ -42,16 +42,15 @@ const HomeCompanyCard = ({ userData }) => {
                         <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 bottom-0`}></div>
                         <div className="relative z-2 ">
                             {companyDetailsModal == 'true' ? (
-                                <button onClick={() => setOpenModal(true)} className="absolute right-4 top-1/2 z-[4] -translate-y-1/2 p-3 rounded-full overflow-hidden">
+                                <button onClick={() => setOpenModal(true)} className="absolute right-0 top-1/2 z-[4] -translate-y-1/2 p-3 rounded-full overflow-hidden">
                                     <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
                                     <span className="text-secondary dark:text-white inline-block -rotate-45">
                                         <Arrow />
                                     </span>
                                 </button>
                             ) : null}
-                            <p className="text-xs text-gray-500 dark:text-white">Company Name</p>
                             <h3 className="text-lg font-semibold text-secondary dark:text-white dark:opacity-70">
-                                {userAssociatedDetails?.name?.value || "No Company Name"}
+                                {userAssociatedDetails?.name?.value || "--"}
                             </h3>
                         </div>
                     </div>

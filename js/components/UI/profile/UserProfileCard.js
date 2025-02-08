@@ -23,7 +23,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
         }
     }, [userData]);
 
-    if (isLoading || !userDetails || Object.keys(userDetails).length === 0) {
+    if (isLoading) {
         return <SkeletonLoader items={1} profile={true} />;
     }
 
@@ -51,14 +51,14 @@ const UserProfileCard = ({ userData, isLoading }) => {
                 <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'}  dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[90px]`}></div>
 
                 {/* Profile Initials */}
-                <div className="flex items-center justify-center relative z-50">
+                <div className="flex items-center justify-center relative z-2">
                     <div className="rounded-full h-[80px] w-[80px] max-sm:w-[50px] max-sm:h-[50px] flex items-center justify-center bg-gray-400 text-white text-2xl font-medium">
                         {initials}
                     </div>
                 </div>
 
                 {/* User Details */}
-                <div className="relative w-full z-50">
+                <div className="relative w-full z-2">
                     <div className="flex flex-col md:flex-row gap-4 pb-4 mb-4">
                         <div className="flex-1">
                             <h2 className="text-xl font-semibold  dark:text-white dark:opacity-70 text-secondary">
@@ -108,9 +108,8 @@ const UserProfileCard = ({ userData, isLoading }) => {
                     {/* Associated Company Details */}
                     {visibleAssociatedDetails && (
                         <div className="mt-6 pt-4 border-t dark:border-gray-600">
-                            <p className="text-xs text-gray-500 dark:text-white">Company Name</p>
                             <h3 className="text-lg font-semibold  dark:text-white dark:opacity-70">
-                                {userAssociatedDetails?.name?.value || "No Company Name"}
+                                {userAssociatedDetails?.name?.value || "--"}
                             </h3>
 
                             <div className="">
