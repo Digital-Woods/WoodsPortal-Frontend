@@ -6,15 +6,12 @@ const HomeCompanyCardSkeleton = () => {
                 <div className="relative md:py-4 py-3 md:px-4 px-3 ">
                     <div className={`bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 bottom-0`}></div>
                     <div className="relative z-2 ">
-                        <button className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full overflow-hidden">
+                        <button className="absolute right-0 top-1/2 -translate-y-1/2 p-3 rounded-full overflow-hidden">
                             <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
                             <span className="text-secondary dark:text-white inline-block -rotate-45">
                                 <Arrow />
                             </span>
                         </button>
-                        <p className="text-xs text-gray-500 mb-2">
-                            <span className="h-2 bg-gray-300 dark:bg-dark-white rounded-sm w-[70px] inline-block"></span>
-                        </p>
                         <h3 className="text-lg font-semibold dark:text-white">
                             <span className="h-6 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
                         </h3>

@@ -151,7 +151,7 @@ const filterAssociationsData = (obj) => {
   return filtered;
 };
 
-const sortData = (list, type = "list", removeKeys='hs_object_id') => {
+const sortData = (list, type = "list", removeKeys = 'hs_object_id') => {
   if (type == "list" || type == "details") delete list.associations;
   // if (type == "associations") list = filterAssociationsData(list);
   let data =
@@ -332,6 +332,18 @@ const truncatedText = (text, maxLength = 30) => {
   return <span>{text}</span>;
 };
 
+function decodeAndStripHtml(html) {
+  // Create a temporary element to decode HTML entities
+  const tempElement = document.createElement("div");
+  tempElement.innerHTML = html; // Decodes &lt; and &gt; into < and >
+
+  // Use DOMParser to strip out HTML tags
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(tempElement.textContent, "text/html");
+
+  return doc.body.textContent.trim(); // Return only plain text
+}
+
 const renderCellContent = (
   companyAsMediator = false,
   value,
@@ -389,11 +401,11 @@ const renderCellContent = (
           --
         </Link>
         <Link
-          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
+          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white   dark:bg-dark-300  inline-flex items-center 
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -404,6 +416,25 @@ const renderCellContent = (
       </div>
     );
   }
+
+  if ((type === "list" || type === "associations") && column?.fieldType === "html") {
+    return (
+      <div className="flex gap-1 relative justify-between">
+        {truncatedText(decodeAndStripHtml(value || ""))}
+      </div>
+    );
+  }
+
+  if (type === "details" && column?.fieldType === "html") {
+    return (
+      <div className="flex gap-1 relative justify-between">
+        {/* {isObject(value) ? value.label
+            : ReactHtmlParser.default(DOMPurify.sanitize(value))} */}
+        {decodeAndStripHtml(value || "")}
+      </div>
+    );
+  }
+
   if (
     (type === "details" || type === "associations" || type === 'list') &&
     (column?.fieldType === "checkbox")
@@ -418,16 +449,6 @@ const renderCellContent = (
     return "--";
   }
 
-  if (type == "details" || type == "associations" && column?.fieldType === "html") {
-    return (
-      <div className="flex gap-1 relative justify-between">
-        <div className="flex gap-5 flex-col items-start">
-          {isObject(value) ? value.label
-            : ReactHtmlParser.default(DOMPurify.sanitize(value))}
-        </div>
-      </div>
-    );
-  }
 
   if (type == "details") {
     return (
@@ -452,11 +473,11 @@ const renderCellContent = (
           {truncatedText(isObject(value) ? value.label : value, "25")}
         </Link>
         <Link
-          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
+          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white   dark:bg-dark-300  inline-flex items-center 
       justify-center gap-1 flex-shrink-0 rounded-md 
       outline-none transition duration-300 ease-in-out 
       focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-      hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-5 text-xs dark:text-secondary hover:dark:text-white
+      hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-5 text-xs hover:dark:text-white
       opacity-0 group-hover:opacity-100`}
           to={associationPath}
         >
@@ -481,11 +502,11 @@ const renderCellContent = (
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
-          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
+          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white  dark:bg-dark-300  inline-flex items-center 
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -511,11 +532,11 @@ const renderCellContent = (
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
-          className={`absolute z-[4] right-0 dark:text-white inline-flex items-center 
+          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white dark:bg-dark-300 inline-flex items-center 
           justify-center gap-1 flex-shrink-0 rounded-md 
           outline-none transition duration-300 ease-in-out 
           focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-300 focus:ring-gray-200 px-2 py-0 h-6 text-xs dark:text-secondary hover:dark:text-white
+          hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}

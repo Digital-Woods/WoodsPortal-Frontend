@@ -710,6 +710,10 @@ tfoot td {
   overflow: hidden;
   width:100%;
 }
+.dark .meter > span {
+  background-color: #2a2a2a;
+  background-image: linear-gradient(center bottom,#2a2a2a 37%,#2a2a2a 69%);
+}
 .meter > span:after,
 .animate > span > span {
   content: "";

@@ -296,9 +296,6 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
     );
   }, []);
 
-  if (isLoading) {
-    return <NoteSkeleton />;
-  }
   if (error) {
     return (
       <div className="flex items-center text center p-4 h-28">
@@ -309,6 +306,10 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const results = data && data.data && data.data.results;
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
+  
+  if (isLoading && !results) {
+    return <NoteSkeleton />;
+  }
 
   const getObjectName = () => {
     let displayValue = "";

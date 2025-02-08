@@ -54,7 +54,7 @@ const Profile = ({ title, path }) => {
     // setParam("t", active);
     setActiveTab(active);
   };
-  console.log(isLoading, 'isLoading');
+
   return (
     <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
       <div
