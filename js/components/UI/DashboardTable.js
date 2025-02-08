@@ -62,6 +62,9 @@ const DashboardTable = ({
   const [permissions, setPermissions] = useState(defPermissions);
   const [hoverRow, setHoverRow] = useState(null);
 
+  // added for card view
+  const [activeCard, setActiveCard] = useState(false);
+
   const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
@@ -267,7 +270,18 @@ const DashboardTable = ({
       {hubSpotUserDetails.sideMenu[0].tabName === title
         ? null
         : (permissions && permissions.create) && (
-          <div className={`text-end ${componentName === "ticket" ? `mb-6`:` md:pb-4 pb-3 ` }`} >
+          <div className={`flex justify-between text-end ${componentName === "ticket" ? `mb-6`:` md:pb-4 pb-3 ` }`} >
+              <div class="inline-flex rounded shadow-sm">
+                <button type="button" onClick={()=> setActiveCard(prev => !prev)} class="py-1 px-3 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                  <svg fill="#000000" width="23px" height="23px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                   <title>list</title>
+                    <path d="M8 8v4h16v-4h-16zM8 18h16v-4h-16v4zM8 24h16v-4h-16v4z"></path>
+                  </svg>
+                </button>
+                <button type="button" onClick={()=> setActiveCard(prev => !prev)} class="py-1 px-3 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                <svg width="15px" height="15px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 1H1V5H7V1Z" fill="#000000"></path> <path d="M7 7H1V15H7V7Z" fill="#000000"></path> <path d="M9 1H15V9H9V1Z" fill="#000000"></path> <path d="M15 11H9V15H15V11Z" fill="#000000"></path> </g></svg>
+                </button>
+              </div>
             <Button variant="create" onClick={() => setShowAddDialog(true)}>
               <span className="mr-2"> <IconPlus className='!w-3 !h-3' />  </span> Create {title}
             </Button>
@@ -288,8 +302,24 @@ const DashboardTable = ({
     </div>
   )
 }
+
 {
-  !isLoading && tableData.length > 0 && (
+  activeCard && (
+    <TrelloCards
+    // path={path}
+    // objectId={objectId}
+    // id={id}
+    // parentObjectTypeId={objectId}
+    // parentObjectRowId={id}
+    // permissions={permissions ? permissions.ticket : null}
+    // companyAsMediator={companyAsMediator}
+  />  
+  )
+}
+
+
+{
+  !isLoading && !activeCard &&  tableData.length > 0 && (
     <React.Fragment>
       <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
         <Table className="w-full">

@@ -190,4 +190,60 @@ class Client {
       return HttpClient.get(apiUrl)
     },
   };
+
+
+  static Deals = {
+    pipelines: ({API_ENDPOINT}) => {
+      // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      // const url = `/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}`;
+      return HttpClient.get(API_ENDPOINT,
+        // {
+        //   cache: !!cache,
+        //   ...query,
+        // }
+      );
+    },
+    pipelineDeals: ({API_ENDPOINT}) => {
+      // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      // const url = `/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}`;
+      return HttpClient.get(API_ENDPOINT,
+        // {
+        //   cache: !!cache,
+        //   ...query,
+        // }
+      );
+    },
+
+    updatePipelineDeal: ({API_ENDPOINT, data}) => {
+      console.log(data);
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      // const url = `/api/${hubId}/${portalId}/hubspot-object-forms/${objectId}/${id}/${note_id}`;
+      return HttpClient.put(API_ENDPOINT, data);
+    },
+
+
+    
+
+    // uploadFile: ({objectId, id, portalId, fileData}) => {
+    //   // const url = `${API_ENDPOINTS.FILE_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    //   const url = `/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}`;
+    //   return HttpClient.post(url, fileData);
+    // },
+    // getDetails: ({objectId, id, portalId, rowId}) => {
+    //   // const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+    //   const url = `/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}/${rowId}`;
+    //   return HttpClient.get(url);
+    // },
+    // deleteafile: (me, path, fileId, postId) => {
+    //   const url = `${API_ENDPOINTS.ONE_FILE}/${me.hubspotPortals.templateName}${path}/${postId}/${fileId}`;
+    //   return HttpClient.delete(url);
+    // },
+    // createAfolder: ({objectId, id, portalId, fileData}) => {
+    //   // const url = `${API_ENDPOINTS.FOLDER_UPLOAD}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+    //   const url = `/api/${hubId}/${portalId}/hubspot-object-folders/${objectId}/${id}`;
+    //   return HttpClient.post(url, fileData);
+    // },
+  };
+
+
 }

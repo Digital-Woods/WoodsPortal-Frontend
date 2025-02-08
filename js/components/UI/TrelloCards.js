@@ -109,8 +109,7 @@ function Drag({ draggable = true, handleDrop, children }) {
         
         let Component = as || "div";
         return ( 
-        <Component onDragEnter={(e) => dragItem && dropType === dragType && setDrop(dropId)} onDragOver={handleDragOver} onDrop={onDrop} {...props}
-        className="relative">
+        <Component onDragEnter={(e) => dragItem && dropType === dragType && setDrop(dropId)} onDragOver={handleDragOver} onDrop={onDrop} {...props}>
             { children }
             { drop === dropId && <div className="absolute inset-[0px]" onDragLeave={handleLeave}></div> }
         </Component>
@@ -124,9 +123,9 @@ function Drag({ draggable = true, handleDrop, children }) {
         <div className="relative" {...props}>
             { children }
             { dragType === dropType && isDragging &&
-            <div className="absolute inset-[0px] flex flex-row">
-                <Drag.DropZone className="h-full w-full" dropId={prevId}  dropType={dropType} remember={remember} />
-                <Drag.DropZone className="h-full w-full" dropId={nextId}  dropType={dropType} remember={remember} />
+            <div className={`absolute inset-[0px] flex ${split === 'x' ? 'flex-row' : 'flex-column'}`}>
+                <Drag.DropZone dropId={prevId} className="" dropType={dropType} remember={remember} />
+                <Drag.DropZone dropId={nextId} className="" dropType={dropType} remember={remember} />
             </div>
             }
         </div>
@@ -149,50 +148,176 @@ function Drag({ draggable = true, handleDrop, children }) {
   
     // Trello Cards Starts Here 
     const dummyData = [
-        { id: 1, name: "List 1", cards: [ 
-          { id: 1, title: "Card 1" },
-          { id: 2, title: "Card 2" },
-          { id: 3, title: "Card 3" },
-          { id: 4, title: "Card 4" },
-          { id: 5, title: "Card 5" },
+        { id: 1, name: "Appointment Scheduled", cards: [ 
+          { id: 1, title: "Test Deal A", date: '09/30/2024', description: 'No activity for 5 months' },
+          { id: 2, title: "Test Deal B", date: '09/30/2024', description: 'Updated 3 days ago' },
+          { id: 3, title: "Test Deal C", date: '09/30/2024', description: 'No activity for 2 months' },
+        //   { id: 4, title: "Card 4" },
+        //   { id: 5, title: "Card 5" },
         ] },
-        { id: 2, name: "List 2", cards: [ 
-          { id: 6, title: "Card 6" },
-          { id: 7, title: "Card 7" },
-          { id: 8, title: "Card 8" },
-        ] }
+        { id: 2, name: "Qualified To Buy", cards: [ 
+            { id: 4, title: "Buy Car A", date: '09/15/2024', description: 'No activity for 1 months' },
+            { id: 5, title: "Buy Car B", date: '09/10/2024', description: 'Updated 27 days ago' },
+            { id: 6, title: "Buy Car C", date: '09/18/2024', description: 'No activity for 12 months' },
+        ] },
+        { id: 3, name: "Presentation Scheduled", cards: [ 
+            // { id: 9, title: "Card 6" },
+            // { id: 10, title: "Card 7" },
+            // { id: 11, title: "Card 8" },
+          ] }
       ];
 
-      function Card({ title, description = "Drag and drop me!", dragItem }) {
+      function Card({ title, description = "Drag and drop me!", date= "",  dragItem }) {
         return (
-          <div className={`rounded-lg bg-white border border-gray-300 shadow-sm p-5 m-2${ dragItem ? " rotate-6" : ""}`}>
-            <h3 className="font-bold text-lg my-1">{ title }</h3>
-            <p>{ description }</p>
+          <div className={`rounded-md bg-white border border-gray-300 shadow-sm p-3 m-2${ dragItem ? " rotate-6" : ""}`}>
+            <h4 className="font-bold text-xs my-1">{ title }</h4>
+            <p className="text-xs mb-2">Close Date: { date }</p>
+            <p className="text-xs">{ description }</p>
           </div>
         );
       };
       
       function List({ name, dragItem, children }) {
         return (
-          <div className={`rounded-xl bg-gray-100 p-2 mx-2 my-5 w-80 shrink-0 grow-0 shadow${ dragItem ? " rotate-6" : ""}`}>
-            <div className="px-6 py-1">
-              <h2 className="font-bold text-xl my-1">{ name }</h2>
+          <div className={`rounded-xs bg-gray-200 p-1 mx-0 my-0 w-64 shrink-0 grow-0 shadow${ dragItem ? " rotate-6" : ""}`}>
+            <div className="px-2 py-1">
+              <h2 className="font-medium text-xs my-1 uppercase text-gray-700">{ name }</h2>
             </div>
             { children }
           </div>
         );
       };
 
+/* =============================================================
+
+Main Component Starts Here
+
+=================================================================*/
+    const [data, setData] = React.useState(dummyData);
+    const [pipelines, setPipelines] = useState([]);
+    const [activePipeline, setActivePipeline] = useState();
+
+    let portalId;
+    if (env.DATA_SOURCE_SET != true) {
+        portalId = getPortal()?.portalId;
+    }
+
+    
 
 
-      const [data, setData] = React.useState(dummyData);
+    // https://app.dev.one.digitalwoods.io/api/
+
+    // https://app.dev.one.digitalwoods.io/api/48745110/335/hubspot-object-pipelines/0-5
+
+    const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
+        mutationKey: [
+          "PipelineData",
+        ],
+        mutationFn: async () => {
+          return await Client.Deals.pipelines({     
+            API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/0-3`
+          });
+        },
+    
+        onSuccess: (data) => {
+            setPipelines(data.data);
+        },
+        onError: () => {
+            setPipelines([]);
+        },
+      });
+
+
+      const { mutate: getDealsByPipeline } = useMutation({
+        mutationKey: [
+          "DealsDataByPipeline",
+        ],
+        mutationFn: async ({pipelineId}) => {
+          return await Client.Deals.pipelineDeals({     
+            API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-data/0-3?mediatorObjectTypeId=0-1&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
+          });
+        },
+    
+        onSuccess: (resp) => {
+            // setPipelines(data.data);
+            // let dealsByStage = [];
+            // resp.data.results.rows.forEach(element => {
+            //     console.log(element);
+            //     console.log(data);
+            // });
+            // console.log(resp);
+            addDeals(resp.data.results.rows);
+        },
+        onError: () => {
+            // setPipelines([]);
+        },
+      });
+
+      const { mutate: updateDealsByPipeline } = useMutation({
+        mutationKey: [
+          "updateDealsDataByPipeline",
+        ],
+        mutationFn: async ({recordId,stageId}) => {
+          return await Client.Deals.updatePipelineDeal({     
+            API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/0-3/properties/${recordId}`,
+            data: {pipeline: activePipeline, dealstage: stageId}
+            // hs_pipeline: pipelineId,
+            // hs_pipeline_stage: stageId, 
+          });
+        },
+        onSuccess: (resp) => {
+            console.log(resp);
+        },
+        onError: () => {
+            // setPipelines([]);
+        },
+      });
+
+    
+      const addDeals = (deals) => {
+        setData((prevStages) =>
+          prevStages.map(stage => {
+            // Find deals that match the current stage ID
+            const matchingDeals = deals.filter(deal => deal.dealstage.value === stage.id);
+            
+            // If there are matching deals, add them to the `cards` array
+            if (matchingDeals.length > 0) {
+              return {
+                ...stage,
+                cards: [...stage.cards, ...matchingDeals.map(deal => ({
+                  dealName: deal.dealname,
+                  hsObjectId: deal.hs_object_id,
+                  id: deal.hs_object_id,
+                  title: deal.dealname,                  
+                }))]
+              };
+            }
+    
+            return stage; // Return unchanged stage if no deals match
+          })
+        );
+      };
+
+
+
+      useEffect(() => {
+        getData();
+      }, []);
+
+
 
 
        // handle a dropped item
-        function handleDrop({ dragItem, dragType, drop }) {
+        function handleDrop({ dragItem, dragType, drop }) {            
             if (dragType === "card") {
+                
+
                 // get the drop position as numbers
                 let [newListPosition, newCardPosition] = drop.split("-").map((string) => parseInt(string));
+                let stageId = data[newListPosition].id;
+                let recordId= dragItem;
+
+
                 // create a copy for the new data
                 let newData = structuredClone(data); // deep clone
                 // find the current positions
@@ -213,7 +338,12 @@ function Drag({ draggable = true, handleDrop, children }) {
                 newData[newListPosition].cards.splice(newCardPosition, 0, card);
                 // update the state
                 setData(newData);
-              } else if (dragType === "list") {
+                // Calling Update API 
+                console.log(stageId);
+                updateDealsByPipeline({recordId, stageId});
+            } 
+            /*
+              else if (dragType === "list") {
                 let newListPosition = drop;
                 let oldListPosition = data.findIndex((list) => list.id === dragItem);
                 // create a copy for the new data
@@ -231,13 +361,45 @@ function Drag({ draggable = true, handleDrop, children }) {
                 // update the state
                 setData(newData);
               }
+            */
+
+            //   updateDealsByPipeline(dragItem,activePipeline)
+        }
+
+        function mapData( pipeLineId ) {
+            const pipelineSingle = pipelines.find(pipeline => pipeline.pipelineId === pipeLineId);
+            let pipelineData = [];
+            pipelineSingle.stages.forEach((element, index) => {         
+                pipelineData.push({ id: index+1, name: element.label,...element,  cards: []})
+            });            
+            setData(pipelineData);
+            getDealsByPipeline({pipelineId: pipelineSingle.pipelineId});
+            setActivePipeline(pipelineSingle.pipelineId);
         }
 
 
+
+
       return (
-        <div className="p-10 flex flex-col h-screen">
-          <h1 className="font-semibold text-3xl py-2">Trello-Style Drag & Drop</h1>
-          <p>Let's drag some cards around!</p>
+        <div className="p-4 flex flex-col h-screen relative border">
+          {/* <h1 className="font-semibold text-3xl py-2">Trello-Style Drag & Drop</h1> */}
+          {/* <p>Let's drag some cards around!</p> */}
+
+          {/* Select Pipeline Goes Here */}
+          <div className="w-[180px] mb-4">
+          <select
+            className="w-[180px] text-sm border border-gray-300 rounded px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={activePipeline}
+            onChange={(e) => mapData(e.target.value)}>   
+                <option value="">Select an Pipeline</option>
+                {pipelines.map((item)=>(
+                    // <p onClick={()=> {setActivePipeline(item); mapData(item);}}>{item.label}</p>
+                    <option value={item.pipelineId}>{item.label}</option>
+                ))}
+            </select>
+           </div>
+
+
           <Drag handleDrop={handleDrop}>
             {({ activeItem, activeType, isDragging }) => (
               <Drag.DropZone className="flex -mx-2 overflow-x-scroll h-full">
@@ -255,7 +417,7 @@ function Drag({ draggable = true, handleDrop, children }) {
                                 <Drag.DropZones key={card.id} prevId={`${listPosition}-${cardPosition}`} nextId={`${listPosition}-${cardPosition+1}`} dropType="card" remember={true}>
                                   <Drag.DropGuide dropId={`${listPosition}-${cardPosition}`} className="rounded-lg bg-gray-200 h-24 m-2" dropType="card" />
                                   <Drag.DragItem dragId={card.id} className={`cursor-pointer ${activeItem === card.id && activeType === "card" && isDragging ? "hidden" : "translate-x-0"}`} dragType="card">
-                                    <Card title={card.title} dragItem={activeItem === card.id && activeType === "card"} />
+                                    <Card title={card.title} description={card.description} date={card.date} dragItem={activeItem === card.id && activeType === "card"} />
                                   </Drag.DragItem>
                                 </Drag.DropZones>
                               );

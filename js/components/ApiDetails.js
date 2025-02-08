@@ -204,7 +204,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 </Tabs>
               </div>
 
-              {activeTab}
+              
 
               {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
 
