@@ -110,7 +110,7 @@
       "name" : "tab_name",
       "label" : "Tab Name",
       "help_text" : "Enter the name of the tab as it will appear in the sidebar menu.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -123,7 +123,7 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -175,7 +175,7 @@
       "id" : "b405d0df-0806-e291-14a5-110a415dbeb3",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -217,7 +217,7 @@
       "label" : "Object Type ID",
       "help_text" : "Provide the unique Object Type ID to link the correct data.",
       "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -461,7 +461,7 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -475,7 +475,7 @@
       "label" : "Object Type ID",
       "help_text" : "Provide the unique Object Type ID to link the correct data.",
       "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -515,7 +515,7 @@
       "id" : "3b84072f-a9ca-0439-30ec-04cab6bb833f",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -719,7 +719,7 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -771,7 +771,7 @@
       "id" : "7f2bfef2-4934-7f00-19a9-2229afcf9b5f",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -926,14 +926,14 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : ""
+      "default" : "Customers"
     }, {
       "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
       "name" : "list_object_properties",
@@ -977,7 +977,7 @@
       "id" : "af9fcd0a-9d5c-b5e3-e4bd-1e59925c84a1",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -1016,7 +1016,7 @@
       "name" : "object_type_id",
       "label" : "Object Type ID",
       "help_text" : "Provide the unique Object Type ID to link the correct data.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -1030,7 +1030,8 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "display_width" : null
+      "display_width" : null,
+      "default" : "0-0"
     }, {
       "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
       "name" : "icon_svg_code",
@@ -1083,10 +1084,11 @@
     "type" : "group",
     "display_width" : null,
     "default" : [ {
-      "list_object_name" : "",
-      "show_primary_company_associated_data" : false,
-      "filter_by_pipeline" : false,
+      "list_object_name" : "Customers",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
       "pipeline_id" : "0",
+      "object_type_id" : "0-0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
@@ -1111,10 +1113,11 @@
     } ],
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
-      "list_object_name" : "",
-      "show_primary_company_associated_data" : false,
-      "filter_by_pipeline" : false,
+      "list_object_name" : "Customers",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
       "pipeline_id" : "0",
+      "object_type_id" : "0-0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
