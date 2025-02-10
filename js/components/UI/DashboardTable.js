@@ -64,6 +64,11 @@ const DashboardTable = ({
   const [hoverRow, setHoverRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
+
+  // added for card view
+  const [activeCard, setActiveCard] = useState(false);
+
+  const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
   const { me } = useMe();
@@ -354,6 +359,7 @@ const DashboardTable = ({
                         key={column.key}
                         className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"
                         onClick={() => handleSort(column.key)}
+
                       >
                         <div className="flex columns-center">
                           <span className="font-semibold text-xs">
