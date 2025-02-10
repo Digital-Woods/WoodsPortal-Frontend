@@ -515,6 +515,8 @@ Main Component Starts Here
         </select>
       </div>
 
+      {isLoading && <div className="loader-line"></div>}
+
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
           <Drag.DropZone className="flex mx-2 overflow-x-scroll min-h-[80%]">
