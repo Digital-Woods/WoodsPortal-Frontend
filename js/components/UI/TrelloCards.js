@@ -221,12 +221,7 @@ const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
     //   ] }
   ];
 
-  function Card({
-    title,
-    description = "Drag and drop me!",
-    date = "",
-    dragItem,
-  }) {
+  function Card({ title, description, date, dragItem }) {
     return (
       <div
         className={`rounded-md bg-white border border-gray-300 shadow-sm p-3 m-2${
@@ -234,8 +229,8 @@ const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
         }`}
       >
         <h4 className="font-bold text-xs my-1">{title}</h4>
-        <p className="text-xs mb-2">Close Date: {date}</p>
-        <p className="text-xs">{description}</p>
+        {date && <p className="text-xs mb-2">Close Date: {date}</p>}
+        {description && <p className="text-xs line-clamp-2">{description}</p>}
       </div>
     );
   }
@@ -303,6 +298,7 @@ Main Component Starts Here
           cards: [],
         });
       });
+      setData([])
       setData(pipelineData);
       getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
       setActivePipeline(pipelineSingle.pipelineId);
@@ -349,8 +345,7 @@ Main Component Starts Here
             : { hs_pipeline: activePipeline, hs_pipeline_stage: stageId },
       });
     },
-    onSuccess: (resp) => {
-    },
+    onSuccess: (resp) => {},
     onError: () => {
       // setPipelines([]);
     },
@@ -376,6 +371,8 @@ Main Component Starts Here
                 hsObjectId: deal.hs_object_id,
                 id: deal.hs_object_id,
                 title: deal.dealname,
+                closedate: deal?.closedate ? formatDate(deal.closedate) : "",
+                description: deal.description || "",
               })),
             ],
           };
@@ -404,6 +401,10 @@ Main Component Starts Here
                 hsObjectId: ticket.hs_object_id,
                 id: ticket.hs_object_id,
                 title: ticket.subject,
+                closedate: ticket?.closed_date
+                  ? formatDate(ticket.closed_date)
+                  : "",
+                description: ticket?.content || "",
               })),
             ],
           };
@@ -414,8 +415,12 @@ Main Component Starts Here
   };
 
   useEffect(() => {
-    getData();
+    if(sync) getData();
   }, [sync]);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   // handle a dropped item
   function handleDrop({ dragItem, dragType, drop }) {
@@ -587,8 +592,8 @@ Main Component Starts Here
                               >
                                 <Card
                                   title={card.title}
-                                  description={card.description}
-                                  date={card.date}
+                                  description={card?.description}
+                                  date={card?.closedate}
                                   dragItem={
                                     activeItem === card.id &&
                                     activeType === "card"
