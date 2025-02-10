@@ -597,6 +597,32 @@ tfoot td {
 }
 
 
+.nav-rounded::before {
+  clip-path: path("M9 0H0V9V10H0.0546875C0.0185547 9.67188 0 9.33789 0 9C0 4.0293 4.0293 0 9 0ZM10 0.0546875C9.67188 0.0185547 9.33789 0 9 0H10V0.0546875Z");
+  bottom: 0;
+  content: "";
+  height: 14px;
+  left: 0px;
+  position: absolute;
+  width: 14px;
+  z-index: 50;
+  top: 100%;
+}
+
+.nav-rounded::after {
+  clip-path: path("M9 0H0V9V10H0.0546875C0.0185547 9.67188 0 9.33789 0 9C0 4.0293 4.0293 0 9 0ZM10 0.0546875C9.67188 0.0185547 9.33789 0 9 0H10V0.0546875Z");
+  bottom: 0;
+  content: "";
+  height: 14px;
+  right: 0px;
+  position: absolute;
+  width: 14px;
+  z-index: 50;
+  top: 100%;
+  transform: scaleX(-1);
+}
+
+
 /* window error modal  */
 
 .window-error-overlay {
@@ -683,6 +709,10 @@ tfoot td {
   position: relative;
   overflow: hidden;
   width:100%;
+}
+.dark .meter > span {
+  background-color: #2a2a2a;
+  background-image: linear-gradient(center bottom,#2a2a2a 37%,#2a2a2a 69%);
 }
 .meter > span:after,
 .animate > span > span {

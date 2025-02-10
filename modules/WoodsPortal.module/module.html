@@ -2,6 +2,7 @@
   {% set iframeList = [] %} {# For Iframe Showing Logic #}
   {% set dynamicSidebarList = [] %} {# For Home tab right sidebar Logic #}
   {% set dynamicRouteList = [] %} {# Main Sidebar Routing List #}
+  {% set companyPropertiesList = [] %} {# Homepage company Properties List #}
   {# ======================Home Tab logic Goes Here ==================== #}
   {% if module.add_home_tab %}
     {# Home tab Right Sidebar  Add logic #}
@@ -67,6 +68,13 @@
     {% endfor %}
   {# Main sidebar home tab logic #}
   {% endif %}
+  {# home tab Company card #}
+   {% for item in module.home.home_company_card.properties %}
+    {% do companyPropertiesList.append({
+    value:item.properties_value
+    })%}
+   {% endfor %}
+  {# home tab Company card end #}
   {# ======================Home Tab logic Ends Here ==================== #}
   {# ======================Logic for hubspot defined object =============== #}
   {% if module.menu_options.hubspot_defined_object %}
@@ -127,6 +135,7 @@
   }) %}
   {% endfor %}
   {% endif %}
+  
   {# ================== End Logic for Custom defined object ===========================#}
   <script>
   {# Declaring Global Variables to accessible in App #}
@@ -142,6 +151,10 @@
   const moduleIframeListOptions = {{ iframeList | tojson | safe }}; {# Setting Iframe logic data #}
   const sidebarListDataOption = {{ dynamicSidebarList | tojson | safe }}; {# Setting home tab right sidebar list data #}
   const showSidebarListDataOption = {{ module.home.add_right_sidebar }}; {# Boolean for home tab right sidebar list data  #}
+  const companyPropertiesList = {{ companyPropertiesList | tojson | safe }}; {# Company properties list data #}
+  const companyDetailsCard = "{{ module.home.add_company_card }}"; {# Company card show hide boolean #}
+  const companyDetailsModal = "{{ module.home.home_company_card.add_details_modal }}"; {# Company modal show hide boolean #}
+
   {# Sidebar Cta data #}
       const sidebarCtaDetails = {
       title: "{{ module.other_options.sidebar_cta_details.title }}",
@@ -162,11 +175,9 @@
     const moduleBannerDetailsOption = {
       title: "{{ module.home.home_tab_banner_details.title }}",
       description: "{{ module.home.home_tab_banner_details.description }}",
-      buttonText: "{{ module.home.home_tab_banner_details.button_text }}",
-      buttonUrl: "{{ module.home.home_tab_banner_details.button_url.href|escape_url }}",
-      backgroundImage: "{{ module.home.home_tab_banner_details.background_image.src|escape_url }}",
     };
   {# End Home banner data #}
+
     {# Module Custom Styles #}
     const moduleStylesOptions = {
       homeTabStyles: {
@@ -179,6 +190,10 @@
         overlayer: {
           color: "{{ module.style.home_tab_styles.banner_overlayer_color.color }}",
           opacity: "{{ module.style.home_tab_styles.banner_overlayer_color.opacity }}",
+        },
+       svgColor: {
+          color: "{{ module.style.home_tab_styles.user_card_svg_color.color }}",
+          opacity: "{{ module.style.home_tab_styles.user_card_svg_color.opacity }}",
         }
       },
       sidebarStyles: {

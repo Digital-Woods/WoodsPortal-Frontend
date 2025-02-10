@@ -1,7 +1,7 @@
 const SkeletonLoader = ({ items = 1, profile = false }) => {
     return (
         <div className="animate-pulse flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg shadow-md border dark:border-none dark:bg-dark-300 relative overflow-hidden">
-            <div className="bg-secondary opacity-10 absolute top-0 right-0 left-0 h-[90px]"></div>
+            <div className={`bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[90px]`}></div>
 
             {/* Profile Initials */}
             <div className="flex items-center justify-center relative z-50">
@@ -53,9 +53,6 @@ const SkeletonLoader = ({ items = 1, profile = false }) => {
 
                 {/* Associated Company Details */}
                 <div className="mt-6 pt-4 border-t dark:border-gray-600">
-                    <p className="text-xs text-gray-500 mb-2">
-                        <span className="h-2 bg-gray-300 dark:bg-dark-white rounded-sm w-[70px] inline-block"></span>
-                    </p>
                     <h3 className="text-lg font-semibold dark:text-white mb-4">
                         <span className="h-6 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
                     </h3>

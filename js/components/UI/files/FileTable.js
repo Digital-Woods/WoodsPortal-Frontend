@@ -144,22 +144,22 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
           className={`border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
           onClick={() => handleRowClick(file)} // This will still allow row clicking for folders
         >
-          <TableCell className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
+          <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-xs dark:text-white">
             <div className='w-[24px]'>{getIcon(file.type == 'folder' ? '.folder' : file.name)}</div>
           </TableCell>
 
-          <TableCell className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
+          <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-xs dark:text-white">
             <Tooltip content={file.name}>
               <div className="dark:text-white">{truncatedText(file.name, '100')}</div>
             </Tooltip>
           </TableCell>
-          <TableCell className="px-4 py-2 whitespace-nowrap text-left text-xs dark:text-white">
+          <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
             <div>{file.type}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 whitespace-nowrap text-left text-xs dark:text-white">
+          <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
             <div>{file.size}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 whitespace-nowrap text-right relative">
+          <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
             <div className="relative">
               <button
                 className="border border-gray-300 dark:text-white text-xs px-3 py-1 rounded"

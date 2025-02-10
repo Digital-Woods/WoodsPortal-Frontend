@@ -1,5 +1,5 @@
 
-const UserDetails = ({ path, objectId, id, userPermissions }) => {
+const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
     const [item, setItems] = useState([]);
     const [images, setImages] = useState([]);
     const [sortItems, setSortItems] = useState([]);
@@ -130,11 +130,11 @@ const UserDetails = ({ path, objectId, id, userPermissions }) => {
     // if (!item) {
     //     return <div className="loader-line"></div>;
     // }
-
+console.log(isLoading,'isLoading');
     return (
         <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
         >
-            {permissions && objectId && id ? (
+            {!isLoading ? (
                 <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
 
                     {/* main content code start */}

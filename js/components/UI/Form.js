@@ -50,9 +50,9 @@ const Form = ({
   }, [resetFields, methods]);
 
   return (
-    <form 
-    noValidate 
-      onSubmit={methods.handleSubmit(onSubmit)} 
+    <form
+      noValidate
+      onSubmit={methods.handleSubmit(onSubmit)}
       // {...formProps}
       className="m-0"
     >
@@ -97,12 +97,12 @@ const Input = React.forwardRef(
     const heightClasses = {
       small: "py-1",
       semiMedium: "py-2",
-      medium: "py-3",
+      medium: "py-2",
       large: "py-5",
     };
 
     const classes = {
-      root: 'w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-3 py-2',
+      root: 'w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2',
       normal: '',
     };
 
@@ -111,18 +111,18 @@ const Input = React.forwardRef(
       {
         [classes.normal]: variant === 'normal',
       },
-      Icon && "pl-10",
+      Icon && "pl-8",
       heightClasses[height],
       className
     );
     delete rest.className;
     return (
-      <div className="relative dark:bg-dark-300 flex items-center rounded-md">
-        {Icon &&
-          <div className="absolute left-3 top-3 h-4 w-4 text-gray-500 top-2">
-            <Icon />
+      <div className="relative dark:bg-dark-300 flex items-center rounded-md max-sm:w-full">
+        {Icon && (
+          <div className="absolute left-2 top-1/2 -translate-y-1/2">
+            <Icon className="h-6 w-6 text-gray-500" />
           </div>
-        }
+        )}
         <input
           type={type}
           placeholder={placeholder}
