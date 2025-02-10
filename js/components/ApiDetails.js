@@ -187,9 +187,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                       </TabsTrigger>
                     )}
 
-                    <TabsTrigger className="rounded-md" value="trello">
+                    {/* <TabsTrigger className="rounded-md" value="trello">
                       <p className="text-black dark:text-white">Trello</p>
-                    </TabsTrigger>
+                    </TabsTrigger> */}
 
                     {/* <TabsTrigger className="rounded-md" value="photos">
                     <p className="text-black dark:text-white">Photos</p>
@@ -199,7 +199,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   <TabsContent value="overview"></TabsContent>
                   <TabsContent value="files"></TabsContent>
                   <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
-                  <TabsContent value="trello">{/* <Notes /> */}</TabsContent>
+                  {/* <TabsContent value="trello"></TabsContent> */}
                   {/* <TabsContent value="photos"></TabsContent> */}
                 </Tabs>
               </div>
@@ -250,7 +250,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 />
               )}
 
-              {activeTab === "trello" && (
+              {/* {activeTab === "trello" && (
                 <TrelloCards
                   path={path}
                   objectId={objectId}
@@ -260,7 +260,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   permissions={permissions ? permissions.ticket : null}
                   companyAsMediator={companyAsMediator}
                 />
-              )}
+              )} */}
 
 
 
