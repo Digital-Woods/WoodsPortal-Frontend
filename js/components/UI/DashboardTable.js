@@ -369,6 +369,11 @@ const DashboardTable = ({
       {activeCard && (hubspotObjectTypeId === '0-3' || hubspotObjectTypeId === '0-5') && (
           <TrelloCards
             hubspotObjectTypeId={hubspotObjectTypeId}
+            API_ENDPOINT={`${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
+              ? `${param}${searchTerm ? (param.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
+              : `${searchTerm ? (apis.tableAPI.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
+              }`
+            }
           // path={path}
           // objectId={objectId}
           // id={id}

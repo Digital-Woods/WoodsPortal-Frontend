@@ -1,4 +1,4 @@
-const TrelloCards = ({ hubspotObjectTypeId, path, objectId, id, parentObjectTypeId, parentObjectRowId, permissions, companyAsMediator }) => {
+const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
     // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
     //const title = "Ticket"
   
@@ -250,7 +250,8 @@ Main Component Starts Here
         ],
         mutationFn: async ({pipelineId}) => {
           return await Client.Deals.pipelineDeals({     
-            API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}?mediatorObjectTypeId=0-1&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
+            // API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}?mediatorObjectTypeId=0-1&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
+            API_ENDPOINT: `${API_ENDPOINT}&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
           });
         },    
         onSuccess: (resp) => {
@@ -276,7 +277,7 @@ Main Component Starts Here
         mutationFn: async ({recordId,stageId}) => {
           return await Client.Deals.updatePipelineDeal({     
             API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}`,
-            data: hubspotObjectTypeId == 3 ?{pipeline: activePipeline, dealstage: stageId}: {hs_pipeline: activePipeline, hs_pipeline_stage: stageId}
+            data: hubspotObjectTypeId == '0-3' ?{pipeline: activePipeline, dealstage: stageId}: {hs_pipeline: activePipeline, hs_pipeline_stage: stageId}
           });
         },
         onSuccess: (resp) => {
@@ -296,7 +297,7 @@ Main Component Starts Here
         setData((prevStages) =>
           prevStages.map(stage => {
             // Find deals that match the current stage ID
-            const matchingDeals = deals.filter(deal => deal.dealstage.value === stage.id);
+            const matchingDeals = deals.filter(deal => deal.dealstage?.value === stage.id);
             
             // If there are matching deals, add them to the `cards` array
             if (matchingDeals.length > 0) {
@@ -321,7 +322,7 @@ Main Component Starts Here
         setData((prevStages) =>
           prevStages.map(stage => {
             // Find deals that match the current stage ID
-            const matchingDeals = tickets.filter(deal => deal.hs_pipeline_stage.value === stage.id);            
+            const matchingDeals = tickets.filter(deal => deal.hs_pipeline_stage?.value === stage.id);            
             // If there are matching deals, add them to the `cards` array
             if (matchingDeals.length > 0) {
               return {
@@ -429,7 +430,7 @@ Main Component Starts Here
           <select
             className="w-[180px] text-sm border border-gray-300 rounded px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={activePipeline}
-            onChange={(e) => mapData(e.target.value)}>   
+            onChange={(e) => mapData(e.target?.value)}>   
                 <option value="">Select an Pipeline</option>
                 {pipelines.map((item)=>(
                     // <p onClick={()=> {setActivePipeline(item); mapData(item);}}>{item.label}</p>
