@@ -1,4 +1,4 @@
-const HomeCompanyCard = ({ userData }) => {
+const HomeCompanyCard = ({ userData, isLoading }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -11,7 +11,7 @@ const HomeCompanyCard = ({ userData }) => {
         }
     }, [userData]);
 
-    if (!userAssociatedDetails || Object.keys(userAssociatedDetails).length === 0) {
+    if (isLoading) {
         return <HomeCompanyCardSkeleton />;
     }
 
@@ -36,33 +36,39 @@ const HomeCompanyCard = ({ userData }) => {
     return (
         <div className="rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
             {/* Associated Company Details */}
-            {visibleAssociatedDetails && (
+            {visibleAssociatedDetailsModal && (
                 <div className="w-full dark:border-gray-600">
                     <div className="relative md:py-4 py-3 md:px-4 px-3 ">
                         <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 bottom-0`}></div>
                         <div className="relative z-2 ">
-                            {companyDetailsModal == 'true' ? (
-                                <button onClick={() => setOpenModal(true)} className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full overflow-hidden">
+                            {companyDetailsModal == 'true' && visibleAssociatedDetailsModal.length > 0 ? (
+                                <button onClick={() => setOpenModal(true)} className="absolute right-0 top-1/2 z-[4] -translate-y-1/2 p-3 rounded-full overflow-hidden">
                                     <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
                                     <span className="text-secondary dark:text-white inline-block -rotate-45">
                                         <Arrow />
                                     </span>
                                 </button>
                             ) : null}
-                            <p className="text-xs text-gray-500 dark:text-white">Company Name</p>
                             <h3 className="text-lg font-semibold text-secondary dark:text-white dark:opacity-70">
-                                {userAssociatedDetails?.name?.value || "No Company Name"}
+                                {userAssociatedDetails?.name?.value || "--"}
                             </h3>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs dark:text-white transition-all mt-2 duration-500 md:px-4 px-3 md:pb-4 pb-3 ">
-                        {visibleAssociatedDetails.map(([key, value]) => (
-                            <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                <span className="font-semibold">{value?.label}</span>
-                                {renderCellContent(false, value?.value, value)}
-                            </div>
-                        ))}
+                        {visibleAssociatedDetailsModal.length > 0 ? (
+                            visibleAssociatedDetails.length > 0 ? (
+                                visibleAssociatedDetails.map(([key, value]) => (
+                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                        <span className="font-semibold">{value?.label}</span>
+                                        {renderCellContent(false, value?.value, value)}
+                                    </div>
+                                ))) : (
+                                <div className="text-xs dark:text-white">Please enable visibility in the admin panel for the property you entered.</div>
+                            )
+                        ) : (
+                            <div className="text-xs dark:text-white">No primary company is currently associated with this contact.</div>
+                        )}
                     </div>
                 </div>
             )}

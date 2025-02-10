@@ -21,7 +21,7 @@ const Home = ({
 
   const fetchUserProfile = async (portalId) => {
     if (!portalId) return null;
-    const response = await Client.user.profile({ portalId });
+    const response = await Client.user.profile({ portalId, cache:false });
     return response?.data;
   };
 
@@ -129,7 +129,7 @@ const Home = ({
             <div className={`${companyDetailsCard == 'true' ? 'grid grid-cols-2 max-sm:grid-cols-1' : ' '}  md:gap-4 gap-3`}>
               <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
               {companyDetailsCard == 'true' ? (
-              <HomeCompanyCard userData={userData} />
+              <HomeCompanyCard userData={userData} isLoading={isLoading}/>
               ) : null}
             </div>
 
@@ -145,7 +145,7 @@ const Home = ({
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} />
+            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} />
 
           </div>
 

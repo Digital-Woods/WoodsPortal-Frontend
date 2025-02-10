@@ -8,7 +8,7 @@ const DetailsAssociations = ({
   refetch,
   objectId,
   id,
-  companyAsMediator
+  companyAsMediator = false,
 }) => {
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");

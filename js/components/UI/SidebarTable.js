@@ -21,6 +21,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const [numOfPages, setNumOfPages] = useState(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync } = useSync();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hoverRow, setHoverRow] = useState(null);
   const { me } = useMe();
 
   useEffect(() => {
@@ -159,6 +160,10 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
     setIsExpanded((prev) => !prev);
   };
 
+  const handleRowHover = (row) => {
+    setHoverRow(row)
+  };
+
   return (
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
@@ -195,8 +200,10 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                   <tr
                     key={column.value}
                     className=""
+                    onMouseEnter={() => handleRowHover(item)}
+                    onMouseLeave={() => handleRowHover(null)}
                   >
-                    <td className="pr-1 text-xs whitespace-wrap md:w-[130px] w-[100px] align-top dark:text-white text-rstextcolor !p-[3px]">{column.value}: </td>
+                    <td className="pr-1 text-xs whitespace-wrap md:w-[120px] w-[100px] align-top dark:text-white text-rstextcolor !p-[3px]">{column.value}: </td>
 
                     <td className="dark:text-white text-xs whitespace-wrap  text-rstextcolor break-all  !p-[3px]">
                       {/* {console.log('item', item)} */}
@@ -207,9 +214,10 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                         item.hs_object_id,
                         path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
                         path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                        'list',
+                        'homeList',
                         path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                        detailsView
+                        detailsView,
+                        hoverRow
                       )}
                     </td>
                   </tr>

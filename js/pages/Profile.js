@@ -17,7 +17,7 @@ const Profile = ({ title, path }) => {
 
   const fetchUserProfile = async (portalId) => {
     if (!portalId) return null;
-    const response = await Client.user.profile({ portalId });
+    const response = await Client.user.profile({ portalId, cache:false });
     return response?.data;
   };
 
@@ -25,18 +25,18 @@ const Profile = ({ title, path }) => {
     queryKey: ['userProfile', portalId],
     queryFn: () => fetchUserProfile(portalId),
     enabled: !!portalId,
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
     onSuccess: (data) => {
       if (data) {
         sessionStorage.setItem('userProfile', JSON.stringify(data));
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
+        setSync(false)
       }
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
+      setSync(false)
     }
   });
 
@@ -45,13 +45,16 @@ const Profile = ({ title, path }) => {
       setUserData(userNewData);
       setUserId(userNewData?.response?.hs_object_id?.value);
       setUserObjectId(userNewData?.info?.objectTypeId);
-      setSync(false);
     }
+    refetch();
+    queryClient.invalidateQueries(['userProfile', portalId]);
   }, [portalId, sync]);
+  
   const setActiveTabFucntion = (active) => {
     // setParam("t", active);
     setActiveTab(active);
   };
+
   return (
     <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
       <div
@@ -59,7 +62,7 @@ const Profile = ({ title, path }) => {
         <div
           className={` md:pt-4 pt-3`}
         >
-          <UserProfileCard userData={userData} />
+          <UserProfileCard userData={userData} isLoading={isLoading} />
           <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden md:mb-4 mb-3`}>
             <div className={``}>
               <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit  my-4">

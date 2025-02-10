@@ -19,7 +19,7 @@
   "show_emoji_picker" : false,
   "type" : "text",
   "display_width" : null,
-  "default" : "https://app.dev.one.digitalwoods.io"
+  "default" : "https://app.demo.digitalwoods.io"
 }, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
@@ -110,7 +110,7 @@
       "name" : "tab_name",
       "label" : "Tab Name",
       "help_text" : "Enter the name of the tab as it will appear in the sidebar menu.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -123,7 +123,7 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -175,7 +175,7 @@
       "id" : "b405d0df-0806-e291-14a5-110a415dbeb3",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -217,7 +217,7 @@
       "label" : "Object Type ID",
       "help_text" : "Provide the unique Object Type ID to link the correct data.",
       "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -299,8 +299,8 @@
   }, {
     "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
     "name" : "home_tab_banner_details",
-    "label" : "User Card",
-    "help_text" : "These details will be displayed on the home page banner.",
+    "label" : "Greeting Card",
+    "help_text" : "These details will be displayed on the home page greeting card.",
     "required" : false,
     "locked" : false,
     "visibility" : {
@@ -315,6 +315,8 @@
       "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
       "name" : "title",
       "label" : "Title",
+      "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
+      "inline_help_text" : "",
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
@@ -327,6 +329,7 @@
       "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
       "name" : "description",
       "label" : "Description",
+      "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
       "required" : false,
       "locked" : false,
       "validation_regex" : "",
@@ -334,7 +337,7 @@
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+      "default" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -343,12 +346,13 @@
     "display_width" : null,
     "default" : {
       "title" : "",
-      "description" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
     }
   }, {
     "id" : "c36e2852-c866-3ae4-1f2f-9c3c3587981b",
     "name" : "add_company_card",
     "label" : "Add Company Card",
+    "help_text" : "This will enable the company card view next to the Greeting Card on the home page.",
     "required" : false,
     "locked" : false,
     "display" : "toggle",
@@ -374,6 +378,8 @@
       "id" : "29333503-3f64-167b-c9a9-14c77aa32a95",
       "name" : "properties",
       "label" : "Enter Properties to Show on Card",
+      "help_text" : "If not displayed, please enable visibility in the admin panel for the property you entered.",
+      "inline_help_text" : "These properties will be displayed on the Home Company card.",
       "required" : false,
       "locked" : false,
       "occurrence" : {
@@ -461,7 +467,7 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -475,7 +481,7 @@
       "label" : "Object Type ID",
       "help_text" : "Provide the unique Object Type ID to link the correct data.",
       "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -515,7 +521,7 @@
       "id" : "3b84072f-a9ca-0439-30ec-04cab6bb833f",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -647,7 +653,7 @@
     } ],
     "home_tab_banner_details" : {
       "title" : "",
-      "description" : "Hello, **firstname** You have completed 38% of your annual target and have 2 projects pending."
+      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
     },
     "add_company_card" : true,
     "home_company_card" : {
@@ -719,7 +725,7 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
@@ -771,7 +777,7 @@
       "id" : "7f2bfef2-4934-7f00-19a9-2229afcf9b5f",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -926,14 +932,14 @@
       "name" : "list_object_name",
       "label" : "Object Name",
       "help_text" : "Specify the object name to display in the dashboard view.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
-      "default" : ""
+      "default" : "Customers"
     }, {
       "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
       "name" : "list_object_properties",
@@ -977,7 +983,7 @@
       "id" : "af9fcd0a-9d5c-b5e3-e4bd-1e59925c84a1",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -1016,7 +1022,7 @@
       "name" : "object_type_id",
       "label" : "Object Type ID",
       "help_text" : "Provide the unique Object Type ID to link the correct data.",
-      "required" : false,
+      "required" : true,
       "locked" : false,
       "validation_regex" : "",
       "visibility" : {
@@ -1030,7 +1036,8 @@
       "allow_new_line" : false,
       "show_emoji_picker" : false,
       "type" : "text",
-      "display_width" : null
+      "display_width" : null,
+      "default" : "0-0"
     }, {
       "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
       "name" : "icon_svg_code",
@@ -1083,10 +1090,11 @@
     "type" : "group",
     "display_width" : null,
     "default" : [ {
-      "list_object_name" : "",
-      "show_primary_company_associated_data" : false,
-      "filter_by_pipeline" : false,
+      "list_object_name" : "Customers",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
       "pipeline_id" : "0",
+      "object_type_id" : "0-0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
@@ -1111,10 +1119,11 @@
     } ],
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
-      "list_object_name" : "",
-      "show_primary_company_associated_data" : false,
-      "filter_by_pipeline" : false,
+      "list_object_name" : "Customers",
+      "mediator_object_type_id" : false,
+      "add_specific_pipeline" : false,
       "pipeline_id" : "0",
+      "object_type_id" : "0-0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
@@ -1158,7 +1167,7 @@
     }, {
       "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
       "name" : "banner_overlayer_color",
-      "label" : "User and Company Card Background Color",
+      "label" : "Greeting and Company Card Background Color",
       "required" : false,
       "locked" : false,
       "type" : "color",
@@ -1171,6 +1180,7 @@
       "id" : "5251af8a-70d6-ed54-c621-1665f3a9c630",
       "name" : "user_card_svg_color",
       "label" : "User Card  SVG Color",
+      "help_text" : "This is used for the background pattern color.",
       "required" : false,
       "locked" : false,
       "type" : "color",
