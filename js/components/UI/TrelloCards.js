@@ -298,6 +298,7 @@ Main Component Starts Here
           cards: [],
         });
       });
+      setData([])
       setData(pipelineData);
       getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
       setActivePipeline(pipelineSingle.pipelineId);
@@ -414,8 +415,12 @@ Main Component Starts Here
   };
 
   useEffect(() => {
-    getData();
+    if(sync) getData();
   }, [sync]);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   // handle a dropped item
   function handleDrop({ dragItem, dragType, drop }) {
