@@ -120,7 +120,7 @@ function Drag({ draggable = true, handleDrop, children }) {
     Drag.DropZones = function({ dropType, prevId, nextId, split = "y", remember, children, ...props }) {
         const { dragType, isDragging } = useContext(DragContext);
         return (
-        <div className="relative" {...props}>
+        <div {...props}>
             { children }
             { dragType === dropType && isDragging &&
             <div className={`absolute inset-[0px] flex ${split === 'x' ? 'flex-row' : 'flex-column'}`}>
@@ -449,12 +449,12 @@ Main Component Starts Here
                       <Drag.DropZone dropId={listPosition} dropType="list" remember={true}>
                         <Drag.DropGuide dropId={listPosition} dropType="list" className="rounded-xl bg-gray-200 h-96 mx-2 my-5 w-64 shrink-0 grow-0" />
                       </Drag.DropZone>
-                      <Drag.DropZones className="flex flex-col h-full border" prevId={listPosition} nextId={listPosition+1} dropType="list" split="x" remember={true}>
+                      <Drag.DropZones className="relative flex flex-col h-full border" prevId={listPosition} nextId={listPosition+1} dropType="list" split="x" remember={true}>
                         <Drag.DragItem dragId={list.id} className={`cursor-pointer ${activeItem === list.id && activeType === "list" && isDragging ? "hidden" : "translate-x-0"}`} dragType="list">
                           <List name={list.name} dragItem={activeItem === list.id && activeType === "list"}>
                             {data[listPosition].cards.map((card, cardPosition) => {
                               return (
-                                <Drag.DropZones key={card.id} prevId={`${listPosition}-${cardPosition}`} nextId={`${listPosition}-${cardPosition+1}`} dropType="card" remember={true}>
+                                <Drag.DropZones className="relative" key={card.id} prevId={`${listPosition}-${cardPosition}`} nextId={`${listPosition}-${cardPosition+1}`} dropType="card" remember={true}>
                                   <Drag.DropGuide dropId={`${listPosition}-${cardPosition}`} className="rounded-lg bg-gray-200 h-24 m-2" dropType="card" />
                                   <Drag.DragItem dragId={card.id} className={`cursor-pointer ${activeItem === card.id && activeType === "card" && isDragging ? "hidden" : "translate-x-0"}`} dragType="card">
                                     <Card title={card.title} description={card.description} date={card.date} dragItem={activeItem === card.id && activeType === "card"} />
