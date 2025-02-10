@@ -130,7 +130,6 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
     // if (!item) {
     //     return <div className="loader-line"></div>;
     // }
-console.log(isLoading,'isLoading');
     return (
         <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
         >

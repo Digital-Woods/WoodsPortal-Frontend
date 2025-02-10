@@ -430,7 +430,6 @@ const MainLayout = ({ children }) => {
                       path={`/${props.match.params.path}`}
                       title={getRouteDetails(props.match.params.path).title}
                     />
-                    {console.log('props', props.match.params.path)}
                     <DynamicComponent
                       {...props}
                       hubspotObjectTypeId={getRouteDetails(props.match.params.path).hubspotObjectTypeId}
