@@ -155,7 +155,6 @@
       "id" : "be9220aa-0415-2605-5e26-7d744e7eaf86",
       "name" : "mediator_object_type_id",
       "label" : "Show Primary Company Associated Data",
-      "help_text" : "Enabling this, table will display only the objects which are associated with the primary company.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -166,7 +165,6 @@
       "id" : "d6c23b41-ed48-c310-e8a2-df45f422de80",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Enabling this allows you to filter table data by a specific pipeline.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -365,7 +363,7 @@
     "id" : "fb5d2e9a-ceda-b1fc-0d8f-74ece3a74371",
     "name" : "home_company_card",
     "label" : "Company Card",
-    "help_text" : "These details will be displayed on the home page company card.",
+    "help_text" : "These details will be displayed on the home page banner.",
     "required" : false,
     "locked" : false,
     "visibility" : {
@@ -415,7 +413,6 @@
       "id" : "acb67d3e-503a-3126-3b36-b1e966d2b8d8",
       "name" : "add_details_modal",
       "label" : "Add Details Modal",
-      "help_text" : "Enabling this toggle will add a button to the company card, allowing users to view all company properties that are set to display in the admin properties table.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -504,7 +501,6 @@
       "id" : "f1319d61-aa3b-088b-b243-d105de0909dc",
       "name" : "mediator_object_type_id",
       "label" : "Show Primary Company Associated Data",
-      "help_text" : "Enabling this, table will display only the objects which are associated with the primary company.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -515,7 +511,6 @@
       "id" : "92d7d9dc-97b4-2824-8ae4-d1b8f54d85d5",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Enabling this allows you to filter table data by a specific pipeline.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -526,7 +521,6 @@
       "id" : "3b84072f-a9ca-0439-30ec-04cab6bb833f",
       "name" : "pipeline_id",
       "label" : "Pipeline Id",
-      "help_text" : "",
       "required" : true,
       "locked" : false,
       "validation_regex" : "",
@@ -763,7 +757,6 @@
       "id" : "ded780b2-c224-59d2-6b0d-4645d1a7ba7d",
       "name" : "mediator_object_type_id",
       "label" : "Show Primary Company Associated Data",
-      "help_text" : "Enabling this, table will display only the objects which are associated with the primary company.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -774,7 +767,6 @@
       "id" : "bf7374bc-9f20-c4a3-91e4-2344ae1d82a6",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Enabling this allows you to filter table data by a specific pipeline.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -971,7 +963,6 @@
       "id" : "b67a7098-f453-d711-8ea6-13a769cde282",
       "name" : "mediator_object_type_id",
       "label" : "Show Primary Company Associated Data",
-      "help_text" : "Enabling this, table will display only the objects which are associated with the primary company.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -982,7 +973,6 @@
       "id" : "0832d64c-a8dd-49ba-61bd-49273182b83a",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Enabling this allows you to filter table data by a specific pipeline.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -1154,7 +1144,6 @@
       "id" : "0e5b4588-0693-6c42-fcc6-cd88aa69b0f1",
       "name" : "home_tab_banner_text_color",
       "label" : "Title Color",
-      "help_text" : "Greeting card title color.",
       "required" : false,
       "locked" : false,
       "type" : "color",
@@ -1167,7 +1156,6 @@
       "id" : "0dfda916-6aa6-344f-546b-5d16f1ea0533",
       "name" : "description_color",
       "label" : "Description Color",
-      "help_text" : "Greeting card description color.",
       "required" : false,
       "locked" : false,
       "type" : "color",
@@ -1191,8 +1179,8 @@
     }, {
       "id" : "5251af8a-70d6-ed54-c621-1665f3a9c630",
       "name" : "user_card_svg_color",
-      "label" : "Greeting Card  SVG Color",
-      "help_text" : "This is used for the background pattern color of greeting card.",
+      "label" : "User Card  SVG Color",
+      "help_text" : "This is used for the background pattern color.",
       "required" : false,
       "locked" : false,
       "type" : "color",
@@ -1200,6 +1188,52 @@
       "default" : {
         "color" : "#0091ae",
         "opacity" : 100
+      }
+    }, {
+      "id" : "19c35a06-dcc3-e817-ea60-44ff3ae743de",
+      "name" : "sidebar_details_background_colors",
+      "label" : "Right Sidebar Cards Background Color",
+      "required" : false,
+      "locked" : false,
+      "children" : [ {
+        "id" : "54733607-eb81-1c21-df3a-03d8068d4f16",
+        "name" : "color_1",
+        "label" : "Color 1",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        }
+      }, {
+        "id" : "70ae3e3c-75d6-874c-8c7c-639c18a5ec1a",
+        "name" : "color_2",
+        "label" : "Color 2",
+        "required" : false,
+        "locked" : false,
+        "type" : "color",
+        "display_width" : null,
+        "default" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
+      } ],
+      "tab" : "STYLE",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
       }
     } ],
     "tab" : "STYLE",
@@ -1223,6 +1257,16 @@
       "user_card_svg_color" : {
         "color" : "#0091ae",
         "opacity" : 100
+      },
+      "sidebar_details_background_colors" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
       }
     }
   }, {
@@ -1232,18 +1276,6 @@
     "required" : false,
     "locked" : false,
     "children" : [ {
-      "id" : "64f6b394-e8d0-cb77-4298-365c313df588",
-      "name" : "text_color",
-      "label" : "Text Color",
-      "required" : false,
-      "locked" : false,
-      "type" : "color",
-      "display_width" : null,
-      "default" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      }
-    }, {
       "id" : "7e66b2db-a298-305f-bb55-e10e67aeda01",
       "name" : "background_color",
       "label" : "Background Color",
@@ -1255,30 +1287,8 @@
         "color" : "#14bba4",
         "opacity" : 100
       }
-    } ],
-    "tab" : "STYLE",
-    "expanded" : false,
-    "group_occurrence_meta" : null,
-    "type" : "group",
-    "display_width" : null,
-    "default" : {
-      "text_color" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      },
-      "background_color" : {
-        "color" : "#14bba4",
-        "opacity" : 100
-      }
-    }
-  }, {
-    "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
-    "name" : "sidebar_styles",
-    "label" : "Menu",
-    "required" : false,
-    "locked" : false,
-    "children" : [ {
-      "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
+    }, {
+      "id" : "64f6b394-e8d0-cb77-4298-365c313df588",
       "name" : "text_color",
       "label" : "Text Color",
       "required" : false,
@@ -1289,7 +1299,29 @@
         "color" : "#FFFFFF",
         "opacity" : 100
       }
-    }, {
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "background_color" : {
+        "color" : "#14bba4",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "15db7373-8196-4132-ee79-8d7033dd89c3",
+    "name" : "sidebar_styles",
+    "label" : "Menu",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
       "id" : "3fb5a5f8-3b5d-2c0b-50e9-4380dd35c9ed",
       "name" : "sidebar_background_color",
       "label" : "Sidebar Background Color",
@@ -1301,30 +1333,8 @@
         "color" : "#2d3e50",
         "opacity" : 100
       }
-    } ],
-    "tab" : "STYLE",
-    "expanded" : false,
-    "group_occurrence_meta" : null,
-    "type" : "group",
-    "display_width" : null,
-    "default" : {
-      "text_color" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      },
-      "sidebar_background_color" : {
-        "color" : "#2d3e50",
-        "opacity" : 100
-      }
-    }
-  }, {
-    "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
-    "name" : "details_page_styles",
-    "label" : "Details Page",
-    "required" : false,
-    "locked" : false,
-    "children" : [ {
-      "id" : "db027850-c7ed-f436-f9ae-93787c6bce31",
+    }, {
+      "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
       "name" : "text_color",
       "label" : "Text Color",
       "required" : false,
@@ -1335,7 +1345,29 @@
         "color" : "#FFFFFF",
         "opacity" : 100
       }
-    }, {
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "sidebar_background_color" : {
+        "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
+    "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
+    "name" : "details_page_styles",
+    "label" : "Details Page",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
       "id" : "e898e4ce-46ca-a2c4-3a50-bdfaa2d3981d",
       "name" : "banner_background_options",
       "label" : "Banner Background Options",
@@ -1381,6 +1413,18 @@
           "opacity" : 100
         }
       }
+    }, {
+      "id" : "db027850-c7ed-f436-f9ae-93787c6bce31",
+      "name" : "text_color",
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
     } ],
     "tab" : "STYLE",
     "expanded" : false,
@@ -1388,10 +1432,6 @@
     "type" : "group",
     "display_width" : null,
     "default" : {
-      "text_color" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      },
       "banner_background_options" : {
         "banner_color_1" : {
           "color" : "#2d3e50",
@@ -1401,6 +1441,10 @@
           "color" : "#fc5b36",
           "opacity" : 100
         }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
       }
     }
   }, {
@@ -1410,16 +1454,16 @@
     "required" : false,
     "locked" : false,
     "children" : [ {
-      "id" : "fafd357d-6e64-69d4-f71c-1d72bd14f7d9",
-      "name" : "text_color",
-      "label" : "Text Color",
+      "id" : "4c4fa748-9747-f7d3-6524-4a6bfec1fd52",
+      "name" : "background_color",
+      "label" : "Background Color",
       "required" : false,
       "locked" : false,
       "type" : "color",
       "display_width" : null,
       "default" : {
         "color" : "#2d3e50",
-        "opacity" : 100
+        "opacity" : 8
       }
     }, {
       "id" : "7bf24328-bfa3-d5e9-f8d4-f30db823d0dc",
@@ -1434,16 +1478,16 @@
         "opacity" : 13
       }
     }, {
-      "id" : "4c4fa748-9747-f7d3-6524-4a6bfec1fd52",
-      "name" : "background_color",
-      "label" : "Background Color",
+      "id" : "fafd357d-6e64-69d4-f71c-1d72bd14f7d9",
+      "name" : "text_color",
+      "label" : "Text Color",
       "required" : false,
       "locked" : false,
       "type" : "color",
       "display_width" : null,
       "default" : {
         "color" : "#2d3e50",
-        "opacity" : 8
+        "opacity" : 100
       }
     } ],
     "tab" : "STYLE",
@@ -1452,17 +1496,17 @@
     "type" : "group",
     "display_width" : null,
     "default" : {
-      "text_color" : {
+      "background_color" : {
         "color" : "#2d3e50",
-        "opacity" : 100
+        "opacity" : 8
       },
       "card_background_color" : {
         "color" : "#2d3e50",
         "opacity" : 13
       },
-      "background_color" : {
+      "text_color" : {
         "color" : "#2d3e50",
-        "opacity" : 8
+        "opacity" : 100
       }
     }
   } ],
@@ -1488,33 +1532,39 @@
       "user_card_svg_color" : {
         "color" : "#0091ae",
         "opacity" : 100
+      },
+      "sidebar_details_background_colors" : {
+        "color_1" : {
+          "color" : "#2d3e50",
+          "opacity" : 10
+        },
+        "color_2" : {
+          "color" : "#15803D",
+          "opacity" : 10
+        }
       }
     },
     "table_record_creation_button" : {
-      "text_color" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      },
       "background_color" : {
         "color" : "#14bba4",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
         "opacity" : 100
       }
     },
     "sidebar_styles" : {
-      "text_color" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      },
       "sidebar_background_color" : {
         "color" : "#2d3e50",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
         "opacity" : 100
       }
     },
     "details_page_styles" : {
-      "text_color" : {
-        "color" : "#FFFFFF",
-        "opacity" : 100
-      },
       "banner_background_options" : {
         "banner_color_1" : {
           "color" : "#2d3e50",
@@ -1524,20 +1574,24 @@
           "color" : "#fc5b36",
           "opacity" : 100
         }
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
       }
     },
     "d_h_sidebar" : {
-      "text_color" : {
+      "background_color" : {
         "color" : "#2d3e50",
-        "opacity" : 100
+        "opacity" : 8
       },
       "card_background_color" : {
         "color" : "#2d3e50",
         "opacity" : 13
       },
-      "background_color" : {
+      "text_color" : {
         "color" : "#2d3e50",
-        "opacity" : 8
+        "opacity" : 100
       }
     }
   }
