@@ -68,7 +68,7 @@ const DashboardTable = ({
   // added for card view
   const [activeCard, setActiveCard] = useState(false);
 
-  const numOfPages = Math.ceil(totalItems / itemsPerPage);
+  // const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
 
   const { me } = useMe();
@@ -295,6 +295,21 @@ const DashboardTable = ({
   return (
     <div className={` ${hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? 'mt-0' : 'md:mt-4 mt-3'} rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}>
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
+      <div className="flex justify-between">
+      {(hubspotObjectTypeId === '0-3' || hubspotObjectTypeId === '0-5') && 
+                            <div class="inline-flex  rounded shadow-sm mr-3">
+                            <button type="button" onClick={()=> setActiveCard(prev => false)} class="py-1 px-3 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                              <svg fill="#000000" width="23px" height="23px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                               <title>list</title>
+                                <path d="M8 8v4h16v-4h-16zM8 18h16v-4h-16v4zM8 24h16v-4h-16v4z"></path>
+                              </svg>
+                            </button>
+                            <button type="button" onClick={()=> setActiveCard(prev => true)} class="py-1 px-3 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                            <svg width="15px" height="15px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 1H1V5H7V1Z" fill="#000000"></path> <path d="M7 7H1V15H7V7Z" fill="#000000"></path> <path d="M9 1H15V9H9V1Z" fill="#000000"></path> <path d="M15 11H9V15H15V11Z" fill="#000000"></path> </g></svg>
+                            </button>
+                          </div>
+            }
+
         <Tooltip content='Press enter to search ' className="relative">
           <Input
             placeholder="Search..."
@@ -318,6 +333,9 @@ const DashboardTable = ({
             </div>
           )}
         </Tooltip>
+        </div>
+
+
 
         {hubSpotUserDetails.sideMenu[0].tabName !== title &&
           ((componentName === "ticket"
@@ -347,8 +365,23 @@ const DashboardTable = ({
           </div>
         )
       }
+
+      {activeCard && (hubspotObjectTypeId === '0-3' || hubspotObjectTypeId === '0-5') && (
+          <TrelloCards
+            hubspotObjectTypeId={hubspotObjectTypeId}
+          // path={path}
+          // objectId={objectId}
+          // id={id}
+          // parentObjectTypeId={objectId}
+          // parentObjectRowId={id}
+          // permissions={permissions ? permissions.ticket : null}
+          // companyAsMediator={companyAsMediator}
+        />  
+        )
+      }
+
       {
-        !isLoading && tableData.length > 0 && (
+        !isLoading && !activeCard && tableData.length > 0 && (
           <React.Fragment>
             <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
               <Table className="w-full">
