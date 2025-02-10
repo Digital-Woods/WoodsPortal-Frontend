@@ -215,7 +215,6 @@ class Client {
     },
 
     updatePipelineDeal: ({API_ENDPOINT, data}) => {
-      console.log(data);
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       // const url = `/api/${hubId}/${portalId}/hubspot-object-forms/${objectId}/${id}/${note_id}`;
       return HttpClient.put(API_ENDPOINT, data);

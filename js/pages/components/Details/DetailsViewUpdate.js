@@ -27,7 +27,6 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       }
     },
     onSuccess: async (response) => {
-      console.log("comes here", response);
       setOptions([])
       setOptions((value) => response.data);
     },

@@ -181,7 +181,6 @@ const DashboardTable = ({
           setPermissions(data.configurations[componentName])
         } else {
           setPermissions(data.configurations['object']);
-          console.log(data.configurations);
         }
       }else{
         setPermissions(null);
@@ -193,11 +192,6 @@ const DashboardTable = ({
       setPermissions(null);
     },
   });
-
-  console.log(defPermissions,'defPermissions');
-  console.log(permissions,'permissions');
-  console.log(componentName,'componentName');
-  // const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const handleSort = (column) => {
     let newSortConfig = column;
@@ -374,6 +368,7 @@ const DashboardTable = ({
               : `${searchTerm ? (apis.tableAPI.includes("?") ? `&search=${searchTerm}` : `?search=${searchTerm}`) : ""}`
               }`
             }
+            cache={sync ? false : true}
           // path={path}
           // objectId={objectId}
           // id={id}
@@ -457,7 +452,6 @@ const DashboardTable = ({
                             item.id,
                             path
                           )} */}
-                            {/* {console.log('item', item)} */}
                             {/* {renderCellContent(
                             item[column.key],
                             column,
