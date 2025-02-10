@@ -230,7 +230,7 @@ const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
       >
         <h4 className="font-bold text-xs my-1">{title}</h4>
         {date && <p className="text-xs mb-2">Close Date: {date}</p>}
-        {description && <p className="text-xs">{description}</p>}
+        {description && <p className="text-xs line-clamp-2">{description}</p>}
       </div>
     );
   }
