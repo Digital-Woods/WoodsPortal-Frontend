@@ -30,7 +30,6 @@ const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, pe
       path={path}
       title={title}
       apis={apis}
-      editView={true}
       viewName='ticket'
       detailsUrl={detailsUrl}
       componentName="ticket"
