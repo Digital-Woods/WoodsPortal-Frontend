@@ -367,6 +367,8 @@ Main Component Starts Here
           addTickets(activeCardData?.data?.results?.rows);
         }
       }
+    } else {
+      removeTicketsDeals();
     }
   }, [activeCardData]);
 
@@ -413,8 +415,10 @@ Main Component Starts Here
             ],
           };
         }
-
-        return stage; // Return unchanged stage if no deals match
+        return {
+          ...stage,
+          cards: []
+        };
       })
     );
   };
@@ -445,6 +449,17 @@ Main Component Starts Here
             ],
           };
         }
+        return {
+          ...stage,
+          cards: []
+        };
+      })
+    );
+  };
+
+  const removeTicketsDeals = () => {
+    setData((prevStages) =>
+      prevStages.map((stage) => {
         return {
           ...stage,
           cards: []
