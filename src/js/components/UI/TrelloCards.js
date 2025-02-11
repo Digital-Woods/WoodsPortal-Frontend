@@ -224,13 +224,13 @@ const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
   function Card({ title, description, date, dragItem }) {
     return (
       <div
-        className={`rounded-md bg-white border border-gray-300 shadow-sm p-3 m-2${
+        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 m-2 dark:bg-dark-300 dark:text-white ${
           dragItem ? " rotate-6" : ""
         }`}
       >
-        <h4 className="font-bold text-xs my-1">{title}</h4>
-        {date && <p className="text-xs mb-2">Close Date: {date}</p>}
-        {description && <p className="text-xs line-clamp-2">{description}</p>}
+        <h4 className="font-bold text-xs my-1 dark:text-white">{title}</h4>
+        {date && <p className="text-xs mb-2 dark:text-white">Close Date: {date}</p>}
+        {description && <p className="text-xs line-clamp-2 dark:text-white">{description}</p>}
       </div>
     );
   }
@@ -238,12 +238,12 @@ const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
   function List({ name, dragItem, children }) {
     return (
       <div
-        className={`rounded-xs bg-gray-200 p-1 mx-0 my-0 w-64 shrink-0 grow-0 shadow${
+        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 p-1 mx-0 my-0 w-64 shrink-0 grow-0 ${
           dragItem ? " rotate-6" : ""
         }`}
       >
         <div className="px-2 py-1">
-          <h2 className="font-medium text-xs my-1 uppercase text-gray-700">
+          <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white ">
             {name}
           </h2>
         </div>
@@ -524,7 +524,7 @@ Main Component Starts Here
 
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
-          <Drag.DropZone className="flex overflow-x-scroll flex-1">
+          <Drag.DropZone className="flex overflow-x-auto rounded-tl-md rounded-tr-md flex-1">
             {data.map((list, listPosition) => {
               return (
                 <React.Fragment key={list.id}>
@@ -536,11 +536,11 @@ Main Component Starts Here
                     <Drag.DropGuide
                       dropId={listPosition}
                       dropType="list"
-                      className="rounded-xl bg-gray-200 h-96 mx-2 my-5 w-64 shrink-0 grow-0"
+                      className="rounded-md bg-gray-200 dark:bg-dark-300 h-96 mx-2 my-5 w-64 shrink-0 grow-0"
                     />
                   </Drag.DropZone>
                   <Drag.DropZones
-                    className="relative flex flex-col h-full border"
+                    className="relative flex flex-col h-full"
                     prevId={listPosition}
                     nextId={listPosition + 1}
                     dropType="list"
@@ -576,7 +576,7 @@ Main Component Starts Here
                             >
                               <Drag.DropGuide
                                 dropId={`${listPosition}-${cardPosition}`}
-                                className="rounded-lg bg-gray-200 h-24 m-2"
+                                className="rounded-md bg-gray-200 dark:bg-dark-300 h-24 m-2"
                                 dropType="card"
                               />
                               <Drag.DragItem
@@ -610,7 +610,7 @@ Main Component Starts Here
                         >
                           <Drag.DropGuide
                             dropId={`${listPosition}-${data[listPosition].cards.length}`}
-                            className="rounded-lg bg-gray-200 h-24 m-2"
+                            className="rounded-md bg-gray-200 dark:bg-dark-300 h-24 m-2"
                             dropType="card"
                           />
                         </Drag.DropZone>
@@ -630,7 +630,7 @@ Main Component Starts Here
               <Drag.DropGuide
                 dropId={data.length}
                 dropType="list"
-                className="rounded-xl bg-gray-200 h-96 mx-2 my-5 w-64 shrink-0 grow-0"
+                className="rounded-md bg-gray-200 dark:bg-dark-300 h-96 mx-2 my-5 w-64 shrink-0 grow-0"
               />
             </Drag.DropZone>
           </Drag.DropZone>
