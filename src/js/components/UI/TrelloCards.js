@@ -8,10 +8,10 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   // const param =  mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
   // const param =  `?parentObjectTypeId=${objectId}&parentObjectRecordId=${id}&isPrimaryCompany=${companyAsMediator}`
 
-  // let portalId;
-  // if (env.DATA_SOURCE_SET != true) {
-  //   portalId = getPortal()?.portalId
-  // }
+  let portalId;
+  if (env.DATA_SOURCE_SET != true) {
+    portalId = getPortal()?.portalId
+  }
 
   // const detailsUrl = `?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isForm=false&isPrimaryCompany=${companyAsMediator}`
 
