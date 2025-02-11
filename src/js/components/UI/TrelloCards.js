@@ -1,5 +1,5 @@
-const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData }) => {
-  const { sync, setSync } = useSync();
+const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines }) => {
+  // const { sync, setSync } = useSync();
   // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   //const title = "Ticket"
 
@@ -257,37 +257,62 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData }
 Main Component Starts Here
 
 =================================================================*/
-  const [data, setData] = React.useState(dummyData);
-  const [pipelines, setPipelines] = useState([]);
-  const [activePipeline, setActivePipeline] = useState();
+  const [data, setData] = React.useState([]);
+  // const [pipelines, setPipelines] = useState([]);
+  // const [activePipeline, setActivePipeline] = useState();
 
-  let portalId;
-  if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal()?.portalId;
-  }
+  // let portalId;
+  // if (env.DATA_SOURCE_SET != true) {
+  //   portalId = getPortal()?.portalId;
+  // }
 
   // https://app.dev.one.digitalwoods.io/api/
 
   // https://app.dev.one.digitalwoods.io/api/48745110/335/hubspot-object-pipelines/0-5
 
-  const {
-    mutate: getData,
-    data: tableAPiData,
-    isLoading,
-  } = useMutation({
-    mutationKey: ["PipelineData"],
-    mutationFn: async () => {
-      return await Client.Deals.pipelines({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
-      });
-    },
+  // const {
+  //   mutate: getData,
+  //   data: tableAPiData,
+  //   isLoading,
+  // } = useMutation({
+  //   mutationKey: ["PipelineData"],
+  //   mutationFn: async () => {
+  //     return await Client.Deals.pipelines({
+  //       API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
+  //     });
+  //   },
 
-    onSuccess: (data) => {
-      setPipelines(data.data);
+  //   onSuccess: (data) => {
+  //     setPipelines(data.data);
 
-      // Hey Get HERE //
-      const pipelineSingle = data.data.find(
-        (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
+  //     // Hey Get HERE //
+  //     const pipelineSingle = data.data.find(
+  //       (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
+  //     );
+  //     let pipelineData = [];
+  //     pipelineSingle.stages.forEach((element, index) => {
+  //       pipelineData.push({
+  //         id: index + 1,
+  //         name: element.label,
+  //         ...element,
+  //         cards: [],
+  //       });
+  //     });
+  //     setData([])
+  //     setData(pipelineData);
+  //     // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
+  //     getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
+  //     setActivePipeline(pipelineSingle.pipelineId);
+  //   },
+  //   onError: () => {
+  //     setPipelines([]);
+  //   },
+  // });
+
+  useEffect(() => {
+    if(activePipeline) {
+      const pipelineSingle = pipelines.find(
+        (pipeline) => pipeline.pipelineId === activePipeline
       );
       let pipelineData = [];
       pipelineSingle.stages.forEach((element, index) => {
@@ -298,42 +323,37 @@ Main Component Starts Here
           cards: [],
         });
       });
-      setData([])
       setData(pipelineData);
-      // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
-      getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-      setActivePipeline(pipelineSingle.pipelineId);
-    },
-    onError: () => {
-      setPipelines([]);
-    },
-  });
+      // setActivePipeline(pipelineSingle.pipelineId);
+    }
+  }, [activePipeline]);
 
-  const { mutate: getDealsByPipeline } = useMutation({
-    mutationKey: ["DealsDataByPipeline"],
-    mutationFn: async ({ pipelineId }) => {
-      return await Client.Deals.pipelineDeals({
-        // API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}?mediatorObjectTypeId=0-1&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
-        API_ENDPOINT: `${API_ENDPOINT}&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=${
-          sync ? false : true
-        }`,
-      });
-    },
-    onSuccess: (resp) => {
-      if (hubspotObjectTypeId == "0-3") {
-        if (resp?.data?.results?.rows.length > 0) {
-          addDeals(resp?.data?.results?.rows);
-        }
-      } else {
-        if (resp?.data?.results?.rows.length > 0) {
-          addTickets(resp?.data?.results?.rows);
-        }
-      }
-    },
-    onError: () => {
-      // setPipelines([]);
-    },
-  });
+
+  // const { mutate: getDealsByPipeline } = useMutation({
+  //   mutationKey: ["DealsDataByPipeline"],
+  //   mutationFn: async ({ pipelineId }) => {
+  //     return await Client.Deals.pipelineDeals({
+  //       // API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}?mediatorObjectTypeId=0-1&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
+  //       API_ENDPOINT: `${API_ENDPOINT}&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=${
+  //         sync ? false : true
+  //       }`,
+  //     });
+  //   },
+  //   onSuccess: (resp) => {
+  //     if (hubspotObjectTypeId == "0-3") {
+  //       if (resp?.data?.results?.rows.length > 0) {
+  //         addDeals(resp?.data?.results?.rows);
+  //       }
+  //     } else {
+  //       if (resp?.data?.results?.rows.length > 0) {
+  //         addTickets(resp?.data?.results?.rows);
+  //       }
+  //     }
+  //   },
+  //   onError: () => {
+  //     // setPipelines([]);
+  //   },
+  // });
   
   useEffect(() => {
     activeCardData
@@ -430,13 +450,13 @@ Main Component Starts Here
     );
   };
 
-  useEffect(() => {
-    if(sync) getData();
-  }, [sync]);
+  // useEffect(() => {
+  //   if(sync) getData();
+  // }, [sync]);
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   // handle a dropped item
   function handleDrop({ dragItem, dragType, drop }) {
@@ -498,24 +518,24 @@ Main Component Starts Here
     //   updateDealsByPipeline(dragItem,activePipeline)
   }
 
-  function mapData(pipeLineId) {
-    const pipelineSingle = pipelines.find(
-      (pipeline) => pipeline.pipelineId === pipeLineId
-    );
-    let pipelineData = [];
-    pipelineSingle.stages.forEach((element, index) => {
-      pipelineData.push({
-        id: index + 1,
-        name: element.label,
-        ...element,
-        cards: [],
-      });
-    });
-    setData(pipelineData);
-    // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
-    getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-    setActivePipeline(pipelineSingle.pipelineId);
-  }
+  // function mapData(pipeLineId) {
+  //   const pipelineSingle = pipelines.find(
+  //     (pipeline) => pipeline.pipelineId === pipeLineId
+  //   );
+  //   let pipelineData = [];
+  //   pipelineSingle.stages.forEach((element, index) => {
+  //     pipelineData.push({
+  //       id: index + 1,
+  //       name: element.label,
+  //       ...element,
+  //       cards: [],
+  //     });
+  //   });
+  //   setData(pipelineData);
+  //   // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
+  //   // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
+  //   setActivePipeline(pipelineSingle.pipelineId);
+  // }
 
   return (
     <div className="md:mb-4 mb-3 flex flex-col h-[70vh] relative">
@@ -523,7 +543,7 @@ Main Component Starts Here
       {/* <p>Let's drag some cards around!</p> */}
 
       {/* Select Pipeline Goes Here */}
-      <div className="w-[180px] mb-4">
+      {/* <div className="w-[180px] mb-4">
         <select
           className="w-[180px] text-sm border border-gray-300 rounded px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={activePipeline}
@@ -535,9 +555,9 @@ Main Component Starts Here
             <option value={item.pipelineId}>{item.label}</option>
           ))}
         </select>
-      </div>
+      </div> */}
 
-      {isLoading && <div className="loader-line"></div>}
+      {isLoadingPipelines && <div className="loader-line"></div>}
 
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (

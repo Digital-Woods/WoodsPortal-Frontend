@@ -64,6 +64,9 @@ const DashboardTable = ({
   const [hoverRow, setHoverRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
+  const [pipelines, setPipelines] = useState([]);
+  const [activePipeline, setActivePipeline] = useState();
+
   // added for card view
   const [activeCard, setActiveCard] = useState(false);
   const [activeCardData, setActiveCardData] = useState(null);
@@ -198,9 +201,9 @@ const DashboardTable = ({
               }`
         }`,
         sort: sortConfig,
-        filterPropertyName: props ? props.filterPropertyName : filterPropertyName,
-        filterOperator: props ? props.filterOperator : filterOperator,
-        filterValue: props ? props.filterValue : filterValue,
+        filterPropertyName,
+        filterOperator,
+        filterValue,
         cache: sync ? false : true,
       });
     },
@@ -230,6 +233,9 @@ const DashboardTable = ({
   });
 
   const getTrelloCardsData = (cardProps) => { 
+    // setFilterPropertyName('hs_pipeline')
+    // setFilterOperator('hs_pipeline')
+    // setFilterValue('eq')
     getData({
       filterPropertyName: 'hs_pipeline',
       filterOperator: 'eq',
@@ -329,8 +335,65 @@ const DashboardTable = ({
     }
   }, [searchTerm]);
 
+  // useEffect(() => {
+  //   if(!activeCard) getData();
+  // }, [activeCard]);
+
+  const {
+    mutate: getPipelines,
+    isLoadingPipelines,
+  } = useMutation({
+    mutationKey: ["PipelineData"],
+    mutationFn: async () => {
+      return await Client.Deals.pipelines({
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
+      });
+    },
+
+    onSuccess: (data) => {
+      setPipelines(data.data);
+      // // Hey Get HERE //
+      const pipelineSingle = data.data.find(
+        (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
+      );
+
+      if(activeCard || activePipeline) {
+        setActivePipeline(pipelineSingle.pipelineId);
+        // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
+        setFilterPropertyName('hs_pipeline')
+        setFilterOperator('eq')
+        setFilterValue(pipelineSingle.pipelineId)
+      }
+      getData();
+    },
+    onError: () => {
+      setPipelines([]);
+    },
+  });
+
+  function mapDataPipeline(pipeLineId) {
+    console.log('pipeLineId', pipeLineId)
+    if(pipeLineId) {
+      const pipelineSingle = pipelines.find(
+        (pipeline) => pipeline.pipelineId === pipeLineId
+      );
+      // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
+      setFilterPropertyName('hs_pipeline')
+      setFilterOperator('eq')
+      setFilterValue(pipelineSingle.pipelineId)
+      setActivePipeline(pipelineSingle.pipelineId);
+    } else {
+      setFilterPropertyName(null)
+      setFilterOperator(null)
+      setFilterValue(null)
+      setActivePipeline(null);
+    }
+
+    getData()
+  }
+
   useEffect(() => {
-    if(!activeCard) getData();
+    getPipelines();
   }, [activeCard]);
 
   return (
@@ -345,14 +408,14 @@ const DashboardTable = ({
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
         <div className="flex justify-between">
           {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-            <div class="inline-flex  rounded shadow-sm mr-3">
+            <div class="inline-flex rounded shadow-sm dark:bg-gray-700 dark:text-400">
               <button
                 type="button"
                 onClick={() => setActiveCard((prev) => false)}
-                class={`py-1 px-3 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${activeCard ? '' : 'bg-gray-200'}`}
+                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm hover:bg-gray-200 ${activeCard ? '' : 'bg-gray-200 dark: dark:bg-gray-600'}`}
               >
                 <svg
-                  fill="#000000"
+                  fill="currentcolor"
                   width="23px"
                   height="23px"
                   viewBox="0 0 32 32"
@@ -366,7 +429,7 @@ const DashboardTable = ({
               <button
                 type="button"
                 onClick={() => setActiveCard((prev) => true)}
-                class={`py-1 px-3 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10 border border-gray-200 text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 ${activeCard ? 'bg-gray-200' : ''}`}
+                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm hover:bg-gray-200 ${activeCard ? 'bg-gray-200 dark: dark:bg-gray-600' : ''}`}
               >
                 <svg
                   width="15px"
@@ -383,41 +446,52 @@ const DashboardTable = ({
                   ></g>
                   <g id="SVGRepo_iconCarrier">
                     {" "}
-                    <path d="M7 1H1V5H7V1Z" fill="#000000"></path>{" "}
-                    <path d="M7 7H1V15H7V7Z" fill="#000000"></path>{" "}
-                    <path d="M9 1H15V9H9V1Z" fill="#000000"></path>{" "}
-                    <path d="M15 11H9V15H15V11Z" fill="#000000"></path>{" "}
+                    <path d="M7 1H1V5H7V1Z" fill="currentcolor"></path>{" "}
+                    <path d="M7 7H1V15H7V7Z" fill="currentcolor"></path>{" "}
+                    <path d="M9 1H15V9H9V1Z" fill="currentcolor"></path>{" "}
+                    <path d="M15 11H9V15H15V11Z" fill="currentcolor"></path>{" "}
                   </g>
                 </svg>
               </button>
             </div>
           )}
 
-          {!activeCard && (
-            <Tooltip content="Press enter to search " className="relative">
-              <Input
-                placeholder="Search..."
-                height="semiMedium"
-                icon={SearchIcon}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch(); // Trigger search when Enter is pressed
-                  }
-                }}
-                className="pr-12"
-              />
-              {searchTerm && (
-                <div
-                  className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-                  onClick={handleSearch} // Trigger search on button click
-                >
-                  <EnterIcon />
-                </div>
-              )}
-            </Tooltip>
-          )}
+          <div className="w-[180px]">
+            <select
+              className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2 py-2"
+              value={activePipeline}
+              onChange={(e) => mapDataPipeline(e.target?.value)}
+            >
+              <option value="" disabled={activeCard} >All Pipelines</option>
+              {pipelines.map((item) => (
+                <option value={item.pipelineId}>{item.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <Tooltip content="Press enter to search " className="relative">
+            <Input
+              placeholder="Search..."
+              height="semiMedium"
+              icon={SearchIcon}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(); // Trigger search when Enter is pressed
+                }
+              }}
+              className="pr-12"
+            />
+            {searchTerm && (
+              <div
+                className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={handleSearch} // Trigger search on button click
+              >
+                <EnterIcon />
+              </div>
+            )}
+          </Tooltip>
         </div>
 
         {hubSpotUserDetails.sideMenu[0].tabName !== title &&
@@ -457,37 +531,9 @@ const DashboardTable = ({
             hubspotObjectTypeId={hubspotObjectTypeId}
             getTrelloCardsData={getTrelloCardsData}
             activeCardData={activeCardData}
-            API_DETAILS={
-              {
-                path,
-                limit: itemsPerPage || 10,
-                page: currentPage,
-                ...(after && after.length > 0 && { after }),
-                me,
-                API_ENDPOINT: `${apis.tableAPI}${
-                  !(componentName === "ticket" || path === "/association")
-                    ? `${param}${
-                        searchTerm
-                          ? param.includes("?")
-                            ? `&search=${searchTerm}`
-                            : `?search=${searchTerm}`
-                          : ""
-                      }`
-                    : `${
-                        searchTerm
-                          ? apis.tableAPI.includes("?")
-                            ? `&search=${searchTerm}`
-                            : `?search=${searchTerm}`
-                          : ""
-                      }`
-                }`,
-                sort: sortConfig,
-                filterPropertyName: "hs_pipeline",
-                filterOperator:"eq",
-                filterValue:"",
-                cache: sync ? false : true,
-              }
-            }
+            pipelines={pipelines}
+            activePipeline={activePipeline}
+            isLoadingPipelines={isLoadingPipelines}
           />
         )}
 
