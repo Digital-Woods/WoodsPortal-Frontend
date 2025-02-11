@@ -445,7 +445,10 @@ Main Component Starts Here
             ],
           };
         }
-        return stage; // Return unchanged stage if no deals match
+        return {
+          ...stage,
+          cards: []
+        };
       })
     );
   };
