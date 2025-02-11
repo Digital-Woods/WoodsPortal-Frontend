@@ -470,7 +470,7 @@ const DashboardTable = ({
             </div>
           )}
 
-          <div className=" flex items-center gap-1">
+          <div className=" flex items-center gap-2">
             <Tooltip content="Press enter to search " className="relative">
               <Input
                 placeholder="Search..."
