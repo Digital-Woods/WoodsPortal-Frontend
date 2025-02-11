@@ -301,7 +301,7 @@ const DashboardTable = ({
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true && sync === true) {
-      getData();
+      getPipelines();
     }
   }, [sync]);
 
@@ -348,8 +348,12 @@ const DashboardTable = ({
         (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
-      if (activeCard || activePipeline) {
+      if(!activePipeline) {
         setActivePipeline(pipelineSingle.pipelineId);
+      }
+
+      if(activeCard || activePipeline) {
+        // setActivePipeline(pipelineSingle.pipelineId);
         // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
         setFilterPropertyName('hs_pipeline')
         setFilterOperator('eq')

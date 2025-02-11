@@ -401,7 +401,7 @@ Main Component Starts Here
           return {
             ...stage,
             cards: [
-              ...stage.cards,
+              // ...stage.cards,
               ...matchingDeals.map((deal) => ({
                 dealName: deal.dealname,
                 hsObjectId: deal.hs_object_id,
@@ -431,7 +431,7 @@ Main Component Starts Here
           return {
             ...stage,
             cards: [
-              ...stage.cards,
+              // ...stage.cards,
               ...matchingDeals.map((ticket) => ({
                 dealName: ticket.subject,
                 hsObjectId: ticket.hs_object_id,
