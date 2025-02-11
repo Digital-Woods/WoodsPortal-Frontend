@@ -501,7 +501,7 @@ Main Component Starts Here
   }
 
   return (
-    <div className="p-4 flex flex-col h-screen relative border">
+    <div className="flex flex-col min-h-[70vh] md:pb-4 pb-3 relative">
       {/* <h1 className="font-semibold text-3xl py-2">Trello-Style Drag & Drop</h1> */}
       {/* <p>Let's drag some cards around!</p> */}
 
@@ -524,7 +524,7 @@ Main Component Starts Here
 
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
-          <Drag.DropZone className="flex mx-2 overflow-x-scroll min-h-[80%]">
+          <Drag.DropZone className="flex overflow-x-scroll flex-1">
             {data.map((list, listPosition) => {
               return (
                 <React.Fragment key={list.id}>
