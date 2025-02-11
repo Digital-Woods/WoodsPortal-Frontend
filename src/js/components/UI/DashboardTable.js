@@ -411,7 +411,7 @@ const DashboardTable = ({
               <button
                 type="button"
                 onClick={() => setActiveTab(false)}
-                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-800 ${activeCard ? '' : 'bg-gray-200 dark: dark:bg-gray-600'}`}
+                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm ${activeCard ? ' bg-graySecondary dark:bg-dark-300' : ''}`}
               >
                 <svg
                   fill="currentcolor"
@@ -428,7 +428,7 @@ const DashboardTable = ({
               <button
                 type="button"
                 onClick={() => setActiveTab(true)}
-                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-800 ${activeCard ? 'bg-gray-200 dark: dark:bg-gray-600' : ''}`}
+                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm ${activeCard ? 'bg-white dark:bg-gray-600' : ' bg-graySecondary dark:bg-dark-300'}`}
               >
                 <svg
                   width="15px"
