@@ -548,14 +548,14 @@ Main Component Starts Here
                     remember={true}
                   >
                     <Drag.DragItem
-                      dragId={list.id}
-                      className={`cursor-pointer ${
-                        activeItem === list.id &&
-                        activeType === "list" &&
-                        isDragging
-                          ? "hidden"
-                          : "translate-x-0"
-                      }`}
+                      // dragId={list.id}
+                      // className={`cursor-pointer ${
+                      //   activeItem === list.id &&
+                      //   activeType === "list" &&
+                      //   isDragging
+                      //     ? "hidden"
+                      //     : "translate-x-0"
+                      // }`}
                       dragType="list"
                     >
                       <List
