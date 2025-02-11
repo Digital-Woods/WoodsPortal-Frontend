@@ -68,7 +68,7 @@ const DashboardTable = ({
   const [activePipeline, setActivePipeline] = useState();
 
   // added for card view
-  const [activeCard, setActiveCard] = useState(false);
+  const [activeCard, setActiveCard] = useState(getParam('t') || false);
   const [activeCardData, setActiveCardData] = useState(null);
 
   // const numOfPages = Math.ceil(totalItems / itemsPerPage);
@@ -301,7 +301,7 @@ const DashboardTable = ({
 
   useEffect(() => {
     if (env.DATA_SOURCE_SET != true && sync === true) {
-      getData();
+      getPipelines();
     }
   }, [sync]);
 
@@ -348,8 +348,12 @@ const DashboardTable = ({
         (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
-      if (activeCard || activePipeline) {
+      if(!activePipeline) {
         setActivePipeline(pipelineSingle.pipelineId);
+      }
+
+      if(activeCard || activePipeline) {
+        // setActivePipeline(pipelineSingle.pipelineId);
         // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
         setFilterPropertyName('hs_pipeline')
         setFilterOperator('eq')
@@ -387,6 +391,11 @@ const DashboardTable = ({
     getPipelines();
   }, [activeCard]);
 
+  const setActiveTab = (status) => {
+    setParam('t', status)
+    setActiveCard(status)
+  }
+
   return (
     <div
       className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
@@ -401,7 +410,7 @@ const DashboardTable = ({
             <div class="inline-flex rounded shadow-sm dark:bg-gray-700 dark:text-400">
               <button
                 type="button"
-                onClick={() => setActiveCard((prev) => false)}
+                onClick={() => setActiveTab(false)}
                 class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-800 ${activeCard ? '' : 'bg-gray-200 dark: dark:bg-gray-600'}`}
               >
                 <svg
@@ -418,7 +427,7 @@ const DashboardTable = ({
               </button>
               <button
                 type="button"
-                onClick={() => setActiveCard((prev) => true)}
+                onClick={() => setActiveTab(true)}
                 class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:rounded-s first:ms-0 last:rounded-e text-sm font-medium focus:z-10 border dark:border-gray-600 text-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-800 ${activeCard ? 'bg-gray-200 dark: dark:bg-gray-600' : ''}`}
               >
                 <svg
