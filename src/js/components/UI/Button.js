@@ -14,7 +14,7 @@ const variantClasses = {
   secondary:
     "bg-primary text-primary-foreground shadow-sm hover:bg-primary/80",
   ghost: "hover:bg-accent hover:text-accent-foreground",
-  link: "text-primary underline-offset-4 hover:underline dark:text-white",
+  link: "text-secondary underline-offset-4 hover:underline dark:text-white",
   hubSpot:
     "text-primary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
 };

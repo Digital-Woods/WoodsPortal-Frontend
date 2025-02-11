@@ -178,18 +178,18 @@ const DashboardTable = ({
         ...(after && after.length > 0 && { after }),
         me,
         API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
-            ? `${param}${searchTerm
-              ? param.includes("?")
-                ? `&search=${searchTerm}`
-                : `?search=${searchTerm}`
-              : ""
-            }`
-            : `${searchTerm
-              ? apis.tableAPI.includes("?")
-                ? `&search=${searchTerm}`
-                : `?search=${searchTerm}`
-              : ""
-            }`
+          ? `${param}${searchTerm
+            ? param.includes("?")
+              ? `&search=${searchTerm}`
+              : `?search=${searchTerm}`
+            : ""
+          }`
+          : `${searchTerm
+            ? apis.tableAPI.includes("?")
+              ? `&search=${searchTerm}`
+              : `?search=${searchTerm}`
+            : ""
+          }`
           }`,
         sort: sortConfig,
         filterPropertyName,
@@ -348,11 +348,11 @@ const DashboardTable = ({
         (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
-      if(!activePipeline) {
+      if (!activePipeline) {
         setActivePipeline(pipelineSingle.pipelineId);
       }
 
-      if(activeCard || activePipeline) {
+      if (activeCard || activePipeline) {
         // setActivePipeline(pipelineSingle.pipelineId);
         // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
         setFilterPropertyName('hs_pipeline')
@@ -399,9 +399,9 @@ const DashboardTable = ({
   return (
     <div
       className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
-          componentName === "ticket"
-          ? "mt-0"
-          : "md:mt-4 mt-3"
+        componentName === "ticket"
+        ? "mt-0"
+        : "md:mt-4 mt-3"
         } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
@@ -456,43 +456,48 @@ const DashboardTable = ({
           )}
 
           {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-              <div className="w-[180px]">
-                <select
-                  className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2 py-2"
-                  value={activePipeline}
-                  onChange={(e) => mapDataPipeline(e.target?.value)}
-                >
-                  <option value="" disabled={activeCard} selected >All Pipelines</option>
-                  {pipelines.map((item) => (
-                    <option value={item.pipelineId}>{item.label}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-          <Tooltip content="Press enter to search " className="relative">
-            <Input
-              placeholder="Search..."
-              height="semiMedium"
-              icon={SearchIcon}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearch(); // Trigger search when Enter is pressed
-                }
-              }}
-              className="pr-12"
-            />
-            {searchTerm && (
-              <div
-                className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={handleSearch} // Trigger search on button click
+            <div className="w-[180px]">
+              <select
+                className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2 py-2"
+                value={activePipeline}
+                onChange={(e) => mapDataPipeline(e.target?.value)}
               >
-                <EnterIcon />
-              </div>
+                <option value="" disabled={activeCard} selected >All Pipelines</option>
+                {pipelines.map((item) => (
+                  <option value={item.pipelineId}>{item.label}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className=" flex items-center gap-1">
+            <Tooltip content="Press enter to search " className="relative">
+              <Input
+                placeholder="Search..."
+                height="semiMedium"
+                icon={SearchIcon}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch(); // Trigger search when Enter is pressed
+                  }
+                }}
+                className="pr-12"
+              />
+              {searchTerm && (
+                <div
+                  className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={handleSearch} // Trigger search on button click
+                >
+                  <EnterIcon />
+                </div>
+              )}
+            </Tooltip>
+            {searchTerm && (
+              <Button onClick={() => setSearchTerm('')} variant='link' size='link'>Clear All</Button>
             )}
-          </Tooltip>
+          </div>
         </div>
 
         {hubSpotUserDetails.sideMenu[0].tabName !== title &&
@@ -655,7 +660,7 @@ const DashboardTable = ({
                         </div>
                       </TableCell>
                     ))}
-                    {env.DATA_SOURCE_SET === true && (
+                    {/* {env.DATA_SOURCE_SET === true && (
                       <TableCell className=" whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b">
                         <div className="flex items-center space-x-2  gap-x-5">
                           <Link
@@ -682,7 +687,7 @@ const DashboardTable = ({
                           </Button>
                         </div>
                       </TableCell>
-                    )}
+                    )} */}
                   </TableRow>
                 ))}
               </TableBody>
