@@ -1,4 +1,4 @@
-const TrelloCards = ({ hubspotObjectTypeId, API_ENDPOINT }) => {
+const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData }) => {
   const { sync, setSync } = useSync();
   // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   //const title = "Ticket"
@@ -300,7 +300,8 @@ Main Component Starts Here
       });
       setData([])
       setData(pipelineData);
-      getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
+      // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
+      getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
       setActivePipeline(pipelineSingle.pipelineId);
     },
     onError: () => {
@@ -333,6 +334,21 @@ Main Component Starts Here
       // setPipelines([]);
     },
   });
+  
+  useEffect(() => {
+    activeCardData
+    if(activeCardData?.data?.total > 0) {
+      if (hubspotObjectTypeId == "0-3") {
+        if (activeCardData?.data?.results?.rows.length > 0) {
+          addDeals(activeCardData?.data?.results?.rows);
+        }
+      } else {
+        if (activeCardData?.data?.results?.rows.length > 0) {
+          addTickets(activeCardData?.data?.results?.rows);
+        }
+      }
+    }
+  }, [activeCardData]);
 
   const { mutate: updateDealsByPipeline } = useMutation({
     mutationKey: ["updateDealsDataByPipeline"],
@@ -496,7 +512,8 @@ Main Component Starts Here
       });
     });
     setData(pipelineData);
-    getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
+    // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
+    getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
     setActivePipeline(pipelineSingle.pipelineId);
   }
 

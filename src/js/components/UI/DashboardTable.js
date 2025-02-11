@@ -66,6 +66,7 @@ const DashboardTable = ({
 
   // added for card view
   const [activeCard, setActiveCard] = useState(false);
+  const [activeCardData, setActiveCardData] = useState(null);
 
   // const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
@@ -172,16 +173,13 @@ const DashboardTable = ({
       filterOperator,
       filterValue,
     ],
-    mutationFn: async () => {
+    mutationFn: async (props) => {
       return await Client.objects.all({
         path,
         limit: itemsPerPage || 10,
         page: currentPage,
         ...(after && after.length > 0 && { after }),
         me,
-        // portalId,
-        // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-        // param: param,
         API_ENDPOINT: `${apis.tableAPI}${
           !(componentName === "ticket" || path === "/association")
             ? `${param}${
@@ -200,9 +198,9 @@ const DashboardTable = ({
               }`
         }`,
         sort: sortConfig,
-        filterPropertyName,
-        filterOperator,
-        filterValue,
+        filterPropertyName: props ? props.filterPropertyName : filterPropertyName,
+        filterOperator: props ? props.filterOperator : filterOperator,
+        filterValue: props ? props.filterValue : filterValue,
         cache: sync ? false : true,
       });
     },
@@ -210,11 +208,15 @@ const DashboardTable = ({
     onSuccess: (data) => {
       setSync(false);
       if (data.statusCode === "200") {
-        mapResponseData(data);
-        if (defPermissions === null) {
-          setPermissions(data.configurations[componentName]);
+        if(activeCard){
+          setActiveCardData(data)
         } else {
-          setPermissions(data.configurations["object"]);
+          mapResponseData(data);
+          if (defPermissions === null) {
+            setPermissions(data.configurations[componentName]);
+          } else {
+            setPermissions(data.configurations["object"]);
+          }
         }
       } else {
         setPermissions(null);
@@ -226,6 +228,14 @@ const DashboardTable = ({
       setPermissions(null);
     },
   });
+
+  const getTrelloCardsData = (cardProps) => { 
+    getData({
+      filterPropertyName: 'hs_pipeline',
+      filterOperator: 'eq',
+      filterValue: cardProps.filterValue
+    })
+  }
 
   const handleSort = (column) => {
     let newSortConfig = column;
@@ -318,6 +328,10 @@ const DashboardTable = ({
       setItemsPerPage(10);
     }
   }, [searchTerm]);
+
+  useEffect(() => {
+    if(!activeCard) getData();
+  }, [activeCard]);
 
   return (
     <div
@@ -422,7 +436,7 @@ const DashboardTable = ({
       </div>
       {isLoading && <TableSkeleton />}
 
-      {!isLoading && tableData.length === 0 && (
+      {!isLoading && (!activeCard && tableData.length === 0 ) && (
         <div className="text-center pb-4">
           <EmptyMessageCard
             name={
@@ -441,31 +455,39 @@ const DashboardTable = ({
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
           <TrelloCards
             hubspotObjectTypeId={hubspotObjectTypeId}
-            API_ENDPOINT={`${apis.tableAPI}${
-              !(componentName === "ticket" || path === "/association")
-                ? `${param}${
-                    searchTerm
-                      ? param.includes("?")
-                        ? `&search=${searchTerm}`
-                        : `?search=${searchTerm}`
-                      : ""
-                  }`
-                : `${
-                    searchTerm
-                      ? apis.tableAPI.includes("?")
-                        ? `&search=${searchTerm}`
-                        : `?search=${searchTerm}`
-                      : ""
-                  }`
-            }`}
-            cache={sync ? false : true}
-            // path={path}
-            // objectId={objectId}
-            // id={id}
-            // parentObjectTypeId={objectId}
-            // parentObjectRowId={id}
-            // permissions={permissions ? permissions.ticket : null}
-            // companyAsMediator={companyAsMediator}
+            getTrelloCardsData={getTrelloCardsData}
+            activeCardData={activeCardData}
+            API_DETAILS={
+              {
+                path,
+                limit: itemsPerPage || 10,
+                page: currentPage,
+                ...(after && after.length > 0 && { after }),
+                me,
+                API_ENDPOINT: `${apis.tableAPI}${
+                  !(componentName === "ticket" || path === "/association")
+                    ? `${param}${
+                        searchTerm
+                          ? param.includes("?")
+                            ? `&search=${searchTerm}`
+                            : `?search=${searchTerm}`
+                          : ""
+                      }`
+                    : `${
+                        searchTerm
+                          ? apis.tableAPI.includes("?")
+                            ? `&search=${searchTerm}`
+                            : `?search=${searchTerm}`
+                          : ""
+                      }`
+                }`,
+                sort: sortConfig,
+                filterPropertyName: "hs_pipeline",
+                filterOperator:"eq",
+                filterValue:"",
+                cache: sync ? false : true,
+              }
+            }
           />
         )}
 
