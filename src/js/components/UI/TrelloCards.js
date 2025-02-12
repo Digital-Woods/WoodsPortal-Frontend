@@ -169,9 +169,8 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
         {children}
         {dragType === dropType && isDragging && (
           <div
-            className={`absolute inset-[0px] flex ${
-              split === "x" ? "flex-row" : "flex-column"
-            }`}
+            className={`absolute inset-[0px] flex ${split === "x" ? "flex-row" : "flex-column"
+              }`}
           >
             <Drag.DropZone
               dropId={prevId}
@@ -224,9 +223,8 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   function Card({ title, description, date, dragItem }) {
     return (
       <div
-        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 m-2 dark:bg-dark-300 dark:text-white ${
-          dragItem ? " rotate-6" : ""
-        }`}
+        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
+          }`}
       >
         <h4 className="font-bold text-xs my-1 dark:text-white">{title}</h4>
         {date && <p className="text-xs mb-2 dark:text-white">Close Date: {date}</p>}
@@ -238,11 +236,10 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   function List({ name, dragItem, children }) {
     return (
       <div
-        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 p-1 mx-0 my-0 w-64 shrink-0 grow-0 ${
-          dragItem ? " rotate-6" : ""
-        }`}
+        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
+          }`}
       >
-        <div className="px-2 py-1">
+        <div className="px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
             {name}
           </h2>
@@ -310,7 +307,7 @@ Main Component Starts Here
   // });
 
   useEffect(() => {
-    if(activePipeline) {
+    if (activePipeline) {
       const pipelineSingle = pipelines.find(
         (pipeline) => pipeline.pipelineId === activePipeline
       );
@@ -354,10 +351,10 @@ Main Component Starts Here
   //     // setPipelines([]);
   //   },
   // });
-  
+
   useEffect(() => {
     activeCardData
-    if(activeCardData?.data?.total > 0) {
+    if (activeCardData?.data?.total > 0) {
       if (hubspotObjectTypeId == "0-3") {
         if (activeCardData?.data?.results?.rows.length > 0) {
           addDeals(activeCardData?.data?.results?.rows);
@@ -383,7 +380,7 @@ Main Component Starts Here
             : { hs_pipeline: activePipeline, hs_pipeline_stage: stageId },
       });
     },
-    onSuccess: (resp) => {},
+    onSuccess: (resp) => { },
     onError: () => {
       // setPipelines([]);
     },
@@ -556,7 +553,7 @@ Main Component Starts Here
   // }
 
   return (
-    <div className="md:mb-4 mb-3 flex flex-col h-[70vh] relative">
+    <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
       {/* <h1 className="font-semibold text-3xl py-2">Trello-Style Drag & Drop</h1> */}
       {/* <p>Let's drag some cards around!</p> */}
 
@@ -579,7 +576,7 @@ Main Component Starts Here
 
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
-          <Drag.DropZone className="flex overflow-x-auto rounded-tl-md rounded-tr-md flex-1">
+          <Drag.DropZone className="flex overflow-auto flex-1">
             {data.map((list, listPosition) => {
               return (
                 <React.Fragment key={list.id}>
@@ -595,7 +592,9 @@ Main Component Starts Here
                     />
                   </Drag.DropZone>
                   <Drag.DropZones
-                    className="relative flex flex-col h-full"
+                    className={`relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
+                    ${listPosition === 0 ? 'rounded-s-md border-r-1  border-l-1' : 'border-l-0'} 
+                    ${listPosition === data.length - 1 ? 'rounded-e-md' : ''}`}
                     prevId={listPosition}
                     nextId={listPosition + 1}
                     dropType="list"
@@ -636,13 +635,12 @@ Main Component Starts Here
                               />
                               <Drag.DragItem
                                 dragId={card.id}
-                                className={`cursor-pointer ${
-                                  activeItem === card.id &&
+                                className={`cursor-pointer ${activeItem === card.id &&
                                   activeType === "card" &&
                                   isDragging
-                                    ? "hidden"
-                                    : "translate-x-0"
-                                }`}
+                                  ? "hidden"
+                                  : "translate-x-0"
+                                  }`}
                                 dragType="card"
                               >
                                 <Card
