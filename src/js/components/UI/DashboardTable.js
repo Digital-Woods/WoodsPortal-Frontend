@@ -405,15 +405,15 @@ const DashboardTable = ({
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
         <div className="flex gap-2 justify-between">
           {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-            <div class="inline-flex">
+            <div class="inline-flex p-1 bg-graySecondary dark:bg-dark-200 rounded-md">
               <button
                 type="button"
                 onClick={() => setActiveTab(false)}
-                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md last:rounded-e-md text-sm font-medium focus:z-10 border dark:border-none text-gray-800 shadow-sm ${activeCard ? ' bg-graySecondary dark:bg-dark-200' : 'bg-white dark:bg-dark-400'}`}
+                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800 ${activeCard ? ' bg-graySecondary dark:bg-dark-200' : 'bg-white dark:bg-dark-400'}`}
               >
                 <svg
                   fill="currentcolor"
-                  width="23px"
+                  width="20px"
                   height="23px"
                   viewBox="0 0 32 32"
                   version="1.1"
@@ -426,7 +426,7 @@ const DashboardTable = ({
               <button
                 type="button"
                 onClick={() => setActiveTab(true)}
-                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md last:rounded-e-md text-sm font-medium focus:z-10 border dark:border-none text-gray-800 shadow-sm ${activeCard ? 'bg-white dark:bg-dark-400' : ' bg-graySecondary dark:bg-dark-200'}`}
+                class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800 ${activeCard ? 'bg-white dark:bg-dark-400' : ' bg-graySecondary dark:bg-dark-200'}`}
               >
                 <svg
                   width="15px"
