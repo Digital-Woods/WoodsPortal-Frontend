@@ -41,6 +41,7 @@ const DashboardTable = ({
   pipeLineId,
   specPipeLine,
 }) => {
+  const [urlParam, setUrlParam] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
@@ -158,6 +159,7 @@ const DashboardTable = ({
         mediatorObjectTypeId: companyAsMediator ? '0-2' : '0',
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       }
+      setUrlParam(param)
       return await Client.objects.all({
         API_ENDPOINT: `${apis.tableAPI}`,
         param
@@ -536,6 +538,7 @@ const DashboardTable = ({
             pipelines={pipelines}
             activePipeline={activePipeline}
             isLoadingPipelines={isLoadingPipelines}
+            urlParam={urlParam}
           />
         )}
 
@@ -762,6 +765,7 @@ const DashboardTable = ({
           apis={apis}
           refetch={getData}
           companyAsMediator={companyAsMediator || isPrimaryCompany}
+          urlParam={urlParam}
         />
       )}
       {showEditDialog && (
@@ -775,6 +779,7 @@ const DashboardTable = ({
           apis={apis}
           showEditData={showEditData}
           refetch={getData}
+          urlParam={urlParam}
         />
       )}
     </div>
