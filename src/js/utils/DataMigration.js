@@ -371,8 +371,8 @@ const renderCellContent = (
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }
-  if (column.key == "amount" && item && item.length > 0) {
-    const find_currency_code = item.find(
+  if (column.key == "amount") {
+    const find_currency_code = item?.find(
       (item) => item.key === "deal_currency_code"
     );
 
@@ -551,7 +551,7 @@ const renderCellContent = (
     const labels = value.map((item) => item.label).join(", ");
     return (
       <Tooltip content={labels}>
-        <Link className="dark:text-white">{truncatedText(labels)}</Link>
+        <span className="dark:text-white">{truncatedText(labels)}</span>
       </Tooltip>
     );
   }
@@ -563,7 +563,7 @@ const renderCellContent = (
   if (type === 'list' || type==='homeList' && isTruncated) {
     return (
       <Tooltip content={value}>
-        <Link className="dark:text-white">{truncated}</Link>
+        <span className="dark:text-white">{truncated}</span>
       </Tooltip>
     );
   } else {
