@@ -108,33 +108,26 @@ class Client {
 
   static objects = {
     all: ({
-      path,
-      limit = 10,
-      after,
-      sort = "updatedAt",
-      inputValue,
-      page,
-      me,
-      // portalId,
-      // hubspotObjectTypeId,
+      // limit = 10,
+      // after,
+      // sort = "updatedAt",
+      // inputValue,
+      // page,
+      // me,
+      // // portalId,
+      // // hubspotObjectTypeId,
+      // API_ENDPOINT,
+      // cache,
+      // // param,
+      // ...query
       API_ENDPOINT,
-      cache,
-      // param,
-      ...query
+      param
     }) =>
       HttpClient.get(
         // `/api/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
         API_ENDPOINT,
         // `${API_ENDPOINTS.OBJECTS}/${me.hubspotPortals.templateName}${path}`,
-        {
-          limit,
-          sort,
-          after,
-          page: page,
-          search: inputValue,
-          cache: !!cache,
-          ...query,
-        }
+        param
       ),
 
     byObjectId: ({ path, objectId, id, urlParam, portalId,hubId, cache, ...query }) =>
