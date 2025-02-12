@@ -131,21 +131,6 @@ const DashboardTable = ({
   const parentObjectTypeId = getParam("parentObjectTypeId");
   const parentObjectRecordId = getParam("parentObjectRecordId");
 
-  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  // const param = companyAsMediator
-  //   ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ""
-  //   }${specPipeLine
-  //     ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || "0"
-  //     }`
-  //     : ""
-  //   }`
-  //   : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ""
-  //   }${specPipeLine
-  //     ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || "0"
-  //     }`
-  //     : ""
-  //   }`;
-
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
@@ -158,17 +143,6 @@ const DashboardTable = ({
   } = useMutation({
     mutationKey: [
       "TableData",
-      // path,
-      // itemsPerPage,
-      // after,
-      // sortConfig,
-      // me,
-      // // portalId,
-      // // hubspotObjectTypeId,
-      // apis.tableAPI,
-      // filterPropertyName,
-      // filterOperator,
-      // filterValue,
     ],
     mutationFn: async (props) => {
       const param = {
@@ -185,22 +159,6 @@ const DashboardTable = ({
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       }
       return await Client.objects.all({
-        // path,
-        // me,
-        // API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
-        //     ? `${param}${searchTerm
-        //       ? param.includes("?")
-        //         ? `&search=${searchTerm}`
-        //         : `?search=${searchTerm}`
-        //       : ""
-        //     }`
-        //     : `${searchTerm
-        //       ? apis.tableAPI.includes("?")
-        //         ? `&search=${searchTerm}`
-        //         : `?search=${searchTerm}`
-        //       : ""
-        //     }`
-        //   }`,
         API_ENDPOINT: `${apis.tableAPI}`,
         param
       });
