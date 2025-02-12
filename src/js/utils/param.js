@@ -129,3 +129,20 @@ const toQueryString = (params) => {
 
     return searchParams.toString() ? `?${searchParams.toString()}` : "";
 };
+
+
+
+function mergeParamsWithObject(url, obj) {
+    const urlObj = new URL(url, window.location.origin); // Ensure URL parsing works
+    const urlParams = new URLSearchParams(urlObj.search);
+
+    // Create a new merged object (copy original object)
+    const mergedObj = { ...obj };
+
+    // Iterate over URL params and update/add them to the object
+    urlParams.forEach((value, key) => {
+        mergedObj[key] = value === "true" ? true : value === "false" ? false : value;
+    });
+
+    return mergedObj;
+}
