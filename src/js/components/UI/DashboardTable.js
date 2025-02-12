@@ -156,9 +156,9 @@ const DashboardTable = ({
         filterOperator: props?.filterOperator || filterOperator,
         filterValue: props?.filterValue || (specPipeLine ? pipeLineId : ''),
         cache: sync ? false : true,
-        mediatorObjectTypeId: companyAsMediator ? '0-2' : '0',
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       }
+      if(companyAsMediator) param.mediatorObjectTypeId = '0-2'
       setUrlParam(param)
       return await Client.objects.all({
         API_ENDPOINT: `${apis.tableAPI}`,
