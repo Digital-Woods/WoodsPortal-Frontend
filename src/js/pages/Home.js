@@ -106,7 +106,7 @@ const Home = ({
       >
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
-          {!isLargeScreen && !sidebarRightOpen ? (
+          {showSidebarListDataOption && !isLargeScreen && !sidebarRightOpen ? (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
                 className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
@@ -124,7 +124,7 @@ const Home = ({
                 ${showSidebarListDataOption && isLargeScreen
                 ? "w-[calc(100%_-350px)]"
                 : "w-full"
-              }`}
+              } ${!showSidebarListDataOption  && isLargeScreen ? 'md:pr-4 pr-3 ' : '' }`}
           >
             <div className={`${companyDetailsCard == 'true' ? 'grid grid-cols-2 max-sm:grid-cols-1' : ' '}  md:gap-4 gap-3`}>
               <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
