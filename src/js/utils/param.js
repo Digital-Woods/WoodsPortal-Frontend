@@ -103,6 +103,7 @@ const getQueryParamsFromCurrentUrl = () => {
     });
 
     // Remove unwanted keys
+    delete paramsObject.t;
     delete paramsObject.b;
     delete paramsObject.objectTypeName;
     delete paramsObject.objectTypeId;
