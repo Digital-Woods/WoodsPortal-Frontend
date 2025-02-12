@@ -154,7 +154,7 @@ const DashboardTable = ({
         search: searchTerm,
         filterPropertyName: props?.filterPropertyName || filterPropertyName,
         filterOperator: props?.filterOperator || filterOperator,
-        filterValue: props?.filterValue || (specPipeLine ? pipeLineId : 0),
+        filterValue: props?.filterValue || (specPipeLine ? pipeLineId : ''),
         cache: sync ? false : true,
         mediatorObjectTypeId: companyAsMediator ? '0-2' : '0',
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
