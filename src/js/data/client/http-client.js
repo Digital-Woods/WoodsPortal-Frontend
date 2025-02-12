@@ -67,7 +67,6 @@ Axios.interceptors.response.use(
         error.response.data.message === "DIGITALWOODS_ERROR.NOT_AUTHORIZED")
     ) {
       removeAllCookies();
-      setAuthorization(null);
       window.location.hash = "/login";
     }
     return Promise.reject(error);
