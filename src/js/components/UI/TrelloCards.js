@@ -220,7 +220,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
     //   ] }
   ];
 
-  function Card({ title, description, date, dragItem, cardData }) {
+  function Card({ title, amount, date, dragItem, cardData }) {
     return (
       <div
         className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
@@ -232,8 +232,8 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
         >
           <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4">{title}</h4>
         </Link>
-        {date && <p className="text-xs mb-2 dark:text-white">Close Date: {date}</p>}
-        {description && <p className="text-xs line-clamp-2 dark:text-white">{description}</p>}
+        {amount && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>${amount}</p>}
+        {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
       </div>
     );
   }
@@ -412,7 +412,7 @@ Main Component Starts Here
                 id: deal.hs_object_id,
                 title: deal.dealname,
                 closedate: deal?.closedate ? formatDate(deal.closedate) : "",
-                description: deal.description || "",
+                amount: deal.amount || "",
                 hubspotObjectTypeId: '0-3'
               })),
             ],
@@ -448,7 +448,7 @@ Main Component Starts Here
                 closedate: ticket?.closed_date
                   ? formatDate(ticket.closed_date)
                   : "",
-                description: ticket?.content || "",
+                amount: "",
                 hubspotObjectTypeId: '0-5'
               })),
             ],
@@ -653,7 +653,7 @@ Main Component Starts Here
                               >
                                 <Card
                                   title={card.title}
-                                  description={card?.description}
+                                  amount={card?.amount}
                                   date={card?.closedate}
                                   dragItem={
                                     activeItem === card.id &&
