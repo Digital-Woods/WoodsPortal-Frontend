@@ -1,4 +1,4 @@
-const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch,companyAsMediator, urlParam }) => {
+const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch, companyAsMediator, urlParam }) => {
 
   const { sync, setSync } = useSync();
   const [data, setData] = useState([]);
@@ -12,8 +12,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        // return setData(sortFormData(response.data.properties))
-        return setData(response.data.properties)
+        return setData(sortFormData(response.data.properties))
+        // return setData(response.data.properties)
       }
     },
     onError: () => {
@@ -158,7 +158,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                     <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
                         <div>
-                          <FormItem  className=''>
+                          <FormItem className=''>
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>
@@ -202,7 +202,16 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                                     <Textarea
                                       height="medium"
                                       placeholder={filled.customLabel}
+                                      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
+                                      {...register(filled.name)}
+                                    />
+                                  ) : filled.fieldType === 'date' ? (
+                                    <Input
+                                      type="date"
+                                      placeholder={`Enter ${filled.customLabel}`}
+                                      height="small"
                                       className=""
+                                      defaultValue={''}
                                       {...register(filled.name)}
                                     />
                                   ) : (

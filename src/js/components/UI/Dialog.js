@@ -31,7 +31,7 @@ const Dialog = (props, ref) => {
           className="fixed inset-0 z-10 w-screen flex items-center justify-center overflow-y-auto"
           // onClick={() => onClose && onClose(false)}
         >
-          <div className="sm:p-0">
+          <div className="sm:p-0 max-h-[90vh] overflow-x-auto">
             <div
               className={`relative transform overflow-hidden rounded-lg`}
               onClick={(e) => e.stopPropagation()}
