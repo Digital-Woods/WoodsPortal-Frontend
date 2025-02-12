@@ -1,4 +1,4 @@
-const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines }) => {
+const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam }) => {
   // const { sync, setSync } = useSync();
   // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   //const title = "Ticket"
@@ -373,7 +373,7 @@ Main Component Starts Here
     mutationKey: ["updateDealsDataByPipeline"],
     mutationFn: async ({ recordId, stageId }) => {
       return await Client.Deals.updatePipelineDeal({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}`,
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}${toQueryString(urlParam)}`,
         data:
           hubspotObjectTypeId == "0-3"
             ? { pipeline: activePipeline, dealstage: stageId }

@@ -1,4 +1,4 @@
-const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, showEditData, refetch }) => {
+const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, showEditData, refetch, urlParam }) => {
   const { sync, setSync } = useSync();
   const [isSata, setisData] = useState(false);
   const [is1st, setis1st] = useState(false);
@@ -16,7 +16,8 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationFn: async () => {
       return await Client.form.formData(
         {
-          API: apis.formDataAPI,
+          // API: apis.formDataAPI,
+          API: `${apis.formDataAPI}${toQueryString(urlParam)}`,
           params: {
             objectId: showEditData.hs_object_id
           }

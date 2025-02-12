@@ -41,6 +41,7 @@ const DashboardTable = ({
   pipeLineId,
   specPipeLine,
 }) => {
+  const [urlParam, setUrlParam] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
@@ -131,21 +132,6 @@ const DashboardTable = ({
   const parentObjectTypeId = getParam("parentObjectTypeId");
   const parentObjectRecordId = getParam("parentObjectRecordId");
 
-  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  // const param = companyAsMediator
-  //   ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ""
-  //   }${specPipeLine
-  //     ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || "0"
-  //     }`
-  //     : ""
-  //   }`
-  //   : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ""
-  //   }${specPipeLine
-  //     ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || "0"
-  //     }`
-  //     : ""
-  //   }`;
-
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
@@ -158,17 +144,6 @@ const DashboardTable = ({
   } = useMutation({
     mutationKey: [
       "TableData",
-      // path,
-      // itemsPerPage,
-      // after,
-      // sortConfig,
-      // me,
-      // // portalId,
-      // // hubspotObjectTypeId,
-      // apis.tableAPI,
-      // filterPropertyName,
-      // filterOperator,
-      // filterValue,
     ],
     mutationFn: async (props) => {
       const param = {
@@ -179,28 +154,13 @@ const DashboardTable = ({
         search: searchTerm,
         filterPropertyName: props?.filterPropertyName || filterPropertyName,
         filterOperator: props?.filterOperator || filterOperator,
-        filterValue: props?.filterValue || (specPipeLine ? pipeLineId : 0),
+        filterValue: props?.filterValue || (specPipeLine ? pipeLineId : ''),
         cache: sync ? false : true,
         mediatorObjectTypeId: companyAsMediator ? '0-2' : '0',
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       }
+      setUrlParam(param)
       return await Client.objects.all({
-        // path,
-        // me,
-        // API_ENDPOINT: `${apis.tableAPI}${!(componentName === "ticket" || path === "/association")
-        //     ? `${param}${searchTerm
-        //       ? param.includes("?")
-        //         ? `&search=${searchTerm}`
-        //         : `?search=${searchTerm}`
-        //       : ""
-        //     }`
-        //     : `${searchTerm
-        //       ? apis.tableAPI.includes("?")
-        //         ? `&search=${searchTerm}`
-        //         : `?search=${searchTerm}`
-        //       : ""
-        //     }`
-        //   }`,
         API_ENDPOINT: `${apis.tableAPI}`,
         param
       });
@@ -578,6 +538,7 @@ const DashboardTable = ({
             pipelines={pipelines}
             activePipeline={activePipeline}
             isLoadingPipelines={isLoadingPipelines}
+            urlParam={urlParam}
           />
         )}
 
@@ -804,6 +765,7 @@ const DashboardTable = ({
           apis={apis}
           refetch={getData}
           companyAsMediator={companyAsMediator || isPrimaryCompany}
+          urlParam={urlParam}
         />
       )}
       {showEditDialog && (
@@ -817,6 +779,7 @@ const DashboardTable = ({
           apis={apis}
           showEditData={showEditData}
           refetch={getData}
+          urlParam={urlParam}
         />
       )}
     </div>

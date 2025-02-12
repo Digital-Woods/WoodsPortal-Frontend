@@ -1,4 +1,4 @@
-const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch,companyAsMediator }) => {
+const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch,companyAsMediator, urlParam }) => {
 
   const { sync, setSync } = useSync();
   const [data, setData] = useState([]);
@@ -62,7 +62,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationFn: async (input) => {
       try {
         const response = await Client.form.create({
-          API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
+          // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
+          API: `${apis.createAPI}${toQueryString(urlParam)}`,
           data: input
         });
         return response;
