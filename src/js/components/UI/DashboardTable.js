@@ -512,7 +512,7 @@ const DashboardTable = ({
             </div>
           )}
       </div>
-      {isLoading && <TableSkeleton />}
+      {isLoading && (activeCard ?  <BoardViewSkeleton /> : <TableSkeleton /> )}
 
       {!isLoading && (!activeCard && tableData.length === 0) && (
         <div className="text-center pb-4">
@@ -539,6 +539,7 @@ const DashboardTable = ({
             activePipeline={activePipeline}
             isLoadingPipelines={isLoadingPipelines}
             urlParam={urlParam}
+            companyAsMediator={companyAsMediator}
           />
         )}
 

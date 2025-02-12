@@ -1,4 +1,4 @@
-const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam }) => {
+const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam, companyAsMediator }) => {
   // const { sync, setSync } = useSync();
   // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   //const title = "Ticket"
@@ -220,13 +220,18 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
     //   ] }
   ];
 
-  function Card({ title, description, date, dragItem }) {
+  function Card({ title, description, date, dragItem, cardData }) {
     return (
       <div
         className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
           }`}
       >
-        <h4 className="font-bold text-xs my-1 dark:text-white">{title}</h4>
+        <Link
+          className="my-1"
+          to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}`}
+        >
+          <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4">{title}</h4>
+        </Link>
         {date && <p className="text-xs mb-2 dark:text-white">Close Date: {date}</p>}
         {description && <p className="text-xs line-clamp-2 dark:text-white">{description}</p>}
       </div>
@@ -408,6 +413,7 @@ Main Component Starts Here
                 title: deal.dealname,
                 closedate: deal?.closedate ? formatDate(deal.closedate) : "",
                 description: deal.description || "",
+                hubspotObjectTypeId: '0-3'
               })),
             ],
           };
@@ -421,6 +427,7 @@ Main Component Starts Here
   };
 
   const addTickets = (tickets) => {
+    console.log(tickets, 'tickets');
     setData((prevStages) =>
       prevStages.map((stage) => {
         // Find deals that match the current stage ID
@@ -442,6 +449,7 @@ Main Component Starts Here
                   ? formatDate(ticket.closed_date)
                   : "",
                 description: ticket?.content || "",
+                hubspotObjectTypeId: '0-5'
               })),
             ],
           };
@@ -576,7 +584,7 @@ Main Component Starts Here
 
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
-          <Drag.DropZone className="flex overflow-auto flex-1">
+          <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">
             {data.map((list, listPosition) => {
               return (
                 <React.Fragment key={list.id}>
@@ -651,6 +659,7 @@ Main Component Starts Here
                                     activeItem === card.id &&
                                     activeType === "card"
                                   }
+                                  cardData={card}
                                 />
                               </Drag.DragItem>
                             </Drag.DropZones>
