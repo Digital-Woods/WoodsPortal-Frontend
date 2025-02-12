@@ -227,10 +227,10 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
           }`}
       >
         <Link
-          className="my-1"
+          className="my-1 inline-block"
           to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
-          <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4">{title}</h4>
+          <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title}</h4>
         </Link>
         {amount && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>${amount}</p>}
         {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
