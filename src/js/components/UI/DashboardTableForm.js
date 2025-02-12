@@ -61,9 +61,11 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationKey: ["addData"],
     mutationFn: async (input) => {
       try {
+        // console.log('companyAsMediator', companyAsMediator)
+        console.log('urlParam', urlParam)
         const response = await Client.form.create({
-          // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
-          API: `${apis.createAPI}${toQueryString(urlParam)}`,
+          API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
+          // API: `${apis.createAPI}${toQueryString(urlParam)}`,
           data: input
         });
         return response;

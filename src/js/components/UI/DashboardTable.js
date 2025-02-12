@@ -159,6 +159,7 @@ const DashboardTable = ({
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       }
       if(companyAsMediator) param.mediatorObjectTypeId = '0-2'
+      // const updatedParam = mergeParamsWithObject(apis.tableAPI, param);
       setUrlParam(param)
       return await Client.objects.all({
         API_ENDPOINT: `${apis.tableAPI}`,
