@@ -310,6 +310,9 @@ const DashboardTable = ({
     mutationFn: async () => {
       return await Client.Deals.pipelines({
         API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
+        param: {
+          cache: sync ? false : true,
+        }
       });
     },
 
