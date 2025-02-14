@@ -17,7 +17,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       return await Client.form.formData(
         {
           // API: apis.formDataAPI,
-          API: `${apis.formDataAPI}${toQueryString(urlParam)}`,
+          API: `${apis.formDataAPI}`,
           params: {
             objectId: showEditData.hs_object_id
           }
@@ -147,8 +147,14 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationKey: ["editData"],
     mutationFn: async (input) => {
       try {
+        const mUrlParam = updateParamsFromUrl(apis.createAPI, urlParam)
+        mUrlParam.formId = showEditData.hs_object_id
+        const API_ENDPOINT = removeAllParams(apis.createAPI)
+        const API = addParam(API_ENDPOINT, mUrlParam)
+
         const response = await Client.form.update({
-          API: apis.updateAPI.replace(":formId", showEditData.hs_object_id),
+          // API: apis.updateAPI.replace(":formId", showEditData.hs_object_id),
+          API: API,
           data: input
         });
         return response;

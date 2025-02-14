@@ -186,10 +186,10 @@ class Client {
 
 
   static Deals = {
-    pipelines: ({API_ENDPOINT}) => {
+    pipelines: ({API_ENDPOINT, param}) => {
       // const url = `${API_ENDPOINTS.ALL_FILES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
       // const url = `/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}`;
-      return HttpClient.get(API_ENDPOINT,
+      return HttpClient.get(API_ENDPOINT, param
         // {
         //   cache: !!cache,
         //   ...query,
