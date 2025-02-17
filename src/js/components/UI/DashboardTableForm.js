@@ -218,13 +218,22 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                                       defaultValue={''}
                                       {...register(filled.name)}
                                     />
-                                  ) : (
-                                    <Input
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
                                   )
+                                    : filled.fieldType === 'number' ? (
+                                      <Input
+                                        type="number"
+                                        placeholder={filled.customLabel}
+                                        className=""
+                                        {...register(filled.name)}
+                                      />
+                                    ) : (
+                                      <Input
+                                        // type={filled.fieldType}
+                                        placeholder={filled.customLabel}
+                                        className=""
+                                        {...register(filled.name)}
+                                      />
+                                    )
                                 }
                               </div>
                             </FormControl>
