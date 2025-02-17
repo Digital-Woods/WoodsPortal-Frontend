@@ -54,7 +54,7 @@ const FileDetailsModal = ({ file, onClose }) => {
             </div>
           )}
           <div className="grid grid-cols-12 gap-4 items-center pt-3">
-            {file.data.url ? (
+            {/* {file.data.url ? (
               file.data.type === "IMG" ? (
                 <div className="aspect-[16/9] md:col-span-8 col-span-12 flex items-center justify-center">
                   {isImageLoading && (
@@ -86,9 +86,15 @@ const FileDetailsModal = ({ file, onClose }) => {
                 <div className="spect-[16/9] md:col-span-8 col-span-12 flex items-center justify-center">
                   {getIcon(file.data.extension, '200px', '200px')}
                 </div>
-              )) : null}
+              )) : null} */}
 
-            <div className="md:col-span-4 col-span-12">
+            {file ? (
+              <FileViewer
+                file={file}
+              />) : null
+            }
+
+            {/* <div className="md:col-span-4 col-span-12">
               <table className="bg-white dark:bg-[#2a2a2a] w-full rounded-lg table-auto">
                 <tbody>
                   <tr>
@@ -156,7 +162,7 @@ const FileDetailsModal = ({ file, onClose }) => {
                   Download
                 </Button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
