@@ -242,9 +242,11 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                       <Button
                         variant="outline"
                         onClick={() => setOpenModal(false)}
+                        disabled={submitLoading}
                       >
                         Cancel
                       </Button>
+
                       <Button
                         className=" "
                         isLoading={submitLoading}

@@ -59,12 +59,9 @@ const Button = React.forwardRef((props, ref) => {
         {...rest}
       >
         {isLoading ? (
-          <div className="flex items-center">
-            {" "}
-            <span className="">
-              {" "}
-              <AnimatedCircles />{" "}
-            </span>
+          <div className="flex items-center gap-2">
+            <AnimatedCircles />
+            {children}
           </div>
         ) : (
           children

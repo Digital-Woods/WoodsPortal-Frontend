@@ -1,0 +1,28 @@
+defaultPortal: AmitDevTest
+portals:
+  - name: CMSLabs
+    portalId: 140615827
+    env: prod
+    authType: personalaccesskey
+    auth:
+      tokenInfo:
+        accessToken: >-
+          CMbO3qLQMhIRAA0AQAAA4G0DQAJYAgEAAPgYk8GGQyDz0IAZKO7pDDIUHeaEQNSgp0BqooijrCp1UYgGm1U6TAAABEEAAAB4AAAAAAAAAAAAgAAAAAAABAAAwAcAjvAxPGBQBgBEAGBA_BgGABAgAwAAAAAAPP4DAAAAAAAAAAwEAAAAAAAAAAAAABBCFDQrrMaD7tNF_lGQDoF_gXobFOvaSgNldTFSAFoAYAA
+        expiresAt: '2025-02-14T12:03:28.233Z'
+    accountType: DEVELOPER_TEST
+    personalAccessKey: >-
+      CiRldTEtMzY0NC03YWJjLTQ1OTItODgyYy1lZjFmODBmMDgzYTgQk8GGQxjz0IAZKhkABeaRgkObf6yG_2Djfheg8gSjlDghpzlzSgNldTE
+    parentAccountId: 25334244
+  - name: AmitDevTest
+    portalId: 49286492
+    env: prod
+    authType: personalaccesskey
+    auth:
+      tokenInfo:
+        accessToken: >-
+          CPvtwZXRMhIaAA0AQAAA4G0DQAJYAgEAAPgAAAAAAAAAAAYY3JrAFyDz0IAZKO7pDDIUzaQNvXeIAXoREm_n8G42WzPb3bw6TwAABEEAAAB4AAAAAAAAAAAAgAAAAAAABAAAwAcAjvAxPGBQBgBEAGBA_BgGABAgAwAAAAAAPP4DAAAAAAAAAAwEAAAAAAAAAAAAABAAAMBCFNqvERL8mnsX5T2JyRMIRSG4qcg6SgNuYTFSAFoAYAA
+        expiresAt: '2025-02-17T06:55:09.603Z'
+    accountType: DEVELOPER_TEST
+    personalAccessKey: >-
+      CiRuYTEtZmRlMi1lNTg0LTRiYzgtOTNlZS02N2E5MGZiZTZiNjAQ3JrAFxjz0IAZKhkABeaRgs-1mbRUV3n12bAytB2lKpx3Bw8bSgNuYTE
+    parentAccountId: 45986199
