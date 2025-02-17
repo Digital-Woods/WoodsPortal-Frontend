@@ -106,6 +106,7 @@ const ModuleDetails = ({ path, id }) => {
     );
   }
 
+
   return (
     <div className="h-full dark:bg-dark-200 w-[100%] p-6">
       {isLoading && !item && <div className="loader-line"></div>}

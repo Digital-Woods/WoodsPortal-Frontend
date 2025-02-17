@@ -109,6 +109,34 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     );
   }
 
+
+  // error card 
+
+  // if (error) {
+  //   return (
+  //     <div className="w-full h-[calc(100vh_-110px)] flex items-center justify-center bg-lightblue-50 dark:bg-black-900">
+  //       <div className="max-w-md w-full mx-4 p-6 text-sky-600 dark:text-white-900 border rounded-lg shadow-md flex flex-col items-center text-center">
+  //         <svg xmlns="http://www.w3.org/2000/svg" width="80px" height="80px" viewBox="0 0 24 24" fill="none">
+  //           <path d="M2.20164 18.4695L10.1643 4.00506C10.9021 2.66498 13.0979 2.66498 13.8357 4.00506L21.7984 18.4695C22.4443 19.6428 21.4598 21 19.9627 21H4.0373C2.54022 21 1.55571 19.6428 2.20164 18.4695Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  //           <path d="M12 9V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  //           <path d="M12 17.0195V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  //         </svg>
+  //         <span className="md:text-2xl text-base font-semibold mt-4">Error Found</span>
+  //         <p className="text-sm md:text-lg mt-2">
+  //           Something went wrong. Please try again later.
+  //         </p>
+  //         <ul className="text-left list-disc list-inside mt-3 text-sm md:text-base">
+  //           <li>Check your internet connection</li>
+  //           <li>Check Associations</li>
+  //           <li>Refresh the page</li>
+  //           <li>Try again after some time</li>
+  //           <li>Contact support if the issue persists</li>
+  //         </ul>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  
   if (isLoading && !item) {
     return (
       <div>
