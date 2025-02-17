@@ -65,8 +65,8 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
     aria-selected={isActive}
     onClick={() => onClick(value)}
   >
-    <button
-      className={`inline-block px-4 py-2  rounded-md cursor-pointer rounded-md ${
+    {/* <button
+      className={`inline-block px-4 py-2  rounded-md cursor-pointer hover:bg-gray-50 rounded-md ${
         isActive
           ? "bg-cleanWhite dark:bg-dark-400 text-white"
           : "dark:bg-dark-300"
@@ -74,7 +74,20 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
       aria-current="page"
     >
       {children}
-    </button>
+    </button> */}
+
+    {/* hover color added to the buttons */}
+    <button
+  className={`inline-block px-4 py-2 rounded-md cursor-pointer 
+    ${isActive
+       ? "bg-cleanWhite dark:bg-dark-400 text-white" 
+       : "hover:bg-gray-50 dark:hover:bg-dark-500 dark:bg-dark-300"}
+  `}
+  aria-current="page"
+>
+  {children}
+</button>
+
   </li>
 );
 

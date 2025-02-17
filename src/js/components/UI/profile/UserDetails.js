@@ -139,11 +139,11 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
                     {/* main content code start */}
                     <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                         <div className={``}>
-                            <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit my-4">
+                            <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit my-4">
                                 <Tabs
                                     activeTab={activeTab}
                                     setActiveTab={setActiveTabFucntion}
-                                    className="rounded-md "
+                                    className="rounded-md"
                                 >
                                     <TabsList>
                                         {permissions && permissions?.fileManager?.display && (
