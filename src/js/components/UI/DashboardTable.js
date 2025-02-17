@@ -154,11 +154,11 @@ const DashboardTable = ({
         search: searchTerm,
         filterPropertyName: props?.filterPropertyName || filterPropertyName,
         filterOperator: props?.filterOperator || filterOperator,
-        filterValue: props?.filterValue || (specPipeLine ? pipeLineId : ''),
+        filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ''),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       }
-      if(companyAsMediator) param.mediatorObjectTypeId = '0-2'
+      if (companyAsMediator) param.mediatorObjectTypeId = '0-2'
 
       const API_ENDPOINT = removeAllParams(apis.tableAPI)
 
@@ -519,7 +519,7 @@ const DashboardTable = ({
             </div>
           )}
       </div>
-      {isLoading && (activeCard ?  <BoardViewSkeleton /> : <TableSkeleton /> )}
+      {isLoading && (activeCard ? <BoardViewSkeleton /> : <TableSkeleton />)}
 
       {!isLoading && (!activeCard && tableData.length === 0) && (
         <div className="text-center pb-4">
