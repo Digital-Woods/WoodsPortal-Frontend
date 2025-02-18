@@ -255,6 +255,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   refetch={getData}
                   permissions={permissions ? permissions.object : null}
                   isLoading={isLoading}
+                  urlParam={urlParam}
                 />
               )}
 

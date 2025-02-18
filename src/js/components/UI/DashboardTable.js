@@ -70,7 +70,10 @@ const DashboardTable = ({
 
   // added for card view
   const [activeCard, setActiveCard] = useState(false);
-  const [activeCardData, setActiveCardData] = useState(null);
+  const [activeCardPrevData, setActivePrevCardData] = useState(null);
+  const [activeCardData, setActiveCardData] = useState([]);
+  const [view, setView] = useState('list');
+  const [hasMoreData, setHasMoreData] = useState(true);
 
   // const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
@@ -157,6 +160,7 @@ const DashboardTable = ({
         filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ''),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+        view: view,
       }
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2'
 
@@ -174,7 +178,7 @@ const DashboardTable = ({
       setSync(false);
       if (data.statusCode === "200") {
         if (activeCard) {
-          setActiveCardData(data)
+          setActivePrevCardData(data?.data?.results?.rows)
         } else {
           mapResponseData(data);
           if (defPermissions === null) {
@@ -240,15 +244,48 @@ const DashboardTable = ({
   // };
 
   const handlePageChange = async (page) => {
-    // if (env.DATA_SOURCE_SET === true) {
-    //   setCurrentPage(page);
-    // } else {
     setCurrentPage(page);
     setAfter((page - 1) * itemsPerPage);
     await wait(100);
     getData();
-    // }
   };
+
+
+  const handleCardData = async (page) => {
+    setCurrentPage(page);
+    await wait(100);
+    getData();
+  };
+
+  // useEffect(() => {
+  //   setActiveCardData((prevData) => [...(prevData || []), ...(activeCardPrevData || [])]);
+  // }, [activeCardPrevData,currentPage]);
+
+  useEffect(() => {
+    if (activeCardPrevData) {
+      setActiveCardData((prevData) => {
+        if (!prevData) return activeCardPrevData; // If no previous data, set directly
+  
+        // Create a Set of unique identifiers (hs_object_id + hs_pipeline_stage.value)
+        const existingKeys = new Set(
+          prevData.map(item => `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
+        );
+  
+        // Filter out duplicates from activeCardPrevData
+        const newData = activeCardPrevData.filter(
+          item => !existingKeys.has(`${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
+        );
+
+        setHasMoreData(newData.length > 0);
+  
+        // Append only new unique data
+        return [...prevData, ...newData];
+      });
+    }
+  }, [activeCardPrevData]);
+  
+  
+  
   // useEffect(() => {
   //   if (env.DATA_SOURCE_SET === true) {
   //     setTableData(currentTableData.slice(
@@ -287,7 +324,11 @@ const DashboardTable = ({
 
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
-    getData();
+    getData({
+      filterPropertyName: 'hs_pipeline',
+      filterOperator: 'eq',
+      filterValue: filterValue
+    });
   };
 
   useEffect(() => {
@@ -300,6 +341,7 @@ const DashboardTable = ({
   useEffect(() => {
     const getTab = getParam('t')
     if (getTab) setActiveCard(getTab === 'true' ? true : false)
+    if (getTab) setView(getTab === 'true' ? 'card' : 'list')
   }, [getParam('t')]);
 
   const {
@@ -394,6 +436,9 @@ const DashboardTable = ({
 
   useEffect(() => {
     getPipelines();
+    setCurrentPage(1);
+    setActiveCardData([]);
+    getData();
   }, [activeCard]);
 
   const setActiveTab = (status) => {
@@ -418,7 +463,7 @@ const DashboardTable = ({
                 onClick={() => setActiveTab(false)}
                 class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md hover:bg-gray-50 last:rounded-e-md text-sm font-medium text-gray-800 ${activeCard ? ' bg-graySecondary dark:bg-dark-200' : 'bg-white dark:bg-dark-400'}`}
               >
-          
+
                 <svg
                   fill="currentcolor"
                   width="20px"
@@ -436,7 +481,7 @@ const DashboardTable = ({
                 onClick={() => setActiveTab(true)}
                 class={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 hover:bg-gray-50 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800 ${activeCard ? 'bg-white dark:bg-dark-400' : ' bg-graySecondary dark:bg-dark-200'}`}
               >
-          
+
                 <svg
                   width="15px"
                   height="15px"
@@ -549,6 +594,9 @@ const DashboardTable = ({
             isLoadingPipelines={isLoadingPipelines}
             urlParam={urlParam}
             companyAsMediator={companyAsMediator}
+            handleCardData={handleCardData}
+            currentPage={currentPage}
+            hasMoreData={hasMoreData}
           />
         )}
 
@@ -646,7 +694,9 @@ const DashboardTable = ({
                               `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets
                               }/${item.hs_object_id}${detailsUrl}`,
                               detailsView,
-                              hoverRow
+                              hoverRow,
+                              null,
+                              toQueryString(urlParam)
                             )
                             : renderCellContent(
                               companyAsMediator,
@@ -664,7 +714,9 @@ const DashboardTable = ({
                                 ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}`
                                 : "",
                               detailsView,
-                              hoverRow
+                              hoverRow,
+                              null,
+                              toQueryString(urlParam)
                             )}
                         </div>
                       </TableCell>

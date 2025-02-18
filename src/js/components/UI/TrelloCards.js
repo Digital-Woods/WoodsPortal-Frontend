@@ -1,4 +1,4 @@
-const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam, companyAsMediator }) => {
+const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam, companyAsMediator, handleCardData, currentPage, hasMoreData }) => {
   // const { sync, setSync } = useSync();
   // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   //const title = "Ticket"
@@ -260,6 +260,7 @@ Main Component Starts Here
 
 =================================================================*/
   const [data, setData] = React.useState([]);
+  const [dardData, setCardData] = React.useState();
   // const [pipelines, setPipelines] = useState([]);
   // const [activePipeline, setActivePipeline] = useState();
 
@@ -311,6 +312,16 @@ Main Component Starts Here
   //   },
   // });
 
+  // useEffect(()=>{
+  //   setCardData(activeCardData)
+  //   console.log(activeCardData,'activeCardData');
+  // },[activeCardData])
+
+  // useEffect(()=>{
+  //   setCardData(activeCardData)
+  //   console.log(activeCardData,'activeCardData');
+  // },[currentPage])
+
   useEffect(() => {
     if (activePipeline) {
       const pipelineSingle = pipelines.find(
@@ -330,7 +341,21 @@ Main Component Starts Here
     }
   }, [activePipeline]);
 
-
+  const loadMore = () => {
+    // Trigger loading of more cards by calling the parent function
+    handleCardData(currentPage + 1);
+    // setItemsPerPage(itemsPerPage * 2);
+    // Append data to existing cards
+    //   if (hubspotObjectTypeId == "0-3") {
+    //     if (activeCardData?.data?.results?.rows.length > 0) {
+    //       addDeals(activeCardData?.data?.results?.rows);
+    //     }
+    //   } else {
+    //     if (activeCardData?.data?.results?.rows.length > 0) {
+    //       addTickets(activeCardData?.data?.results?.rows);
+    //     }
+    //   }
+  };
   // const { mutate: getDealsByPipeline } = useMutation({
   //   mutationKey: ["DealsDataByPipeline"],
   //   mutationFn: async ({ pipelineId }) => {
@@ -359,14 +384,14 @@ Main Component Starts Here
 
   useEffect(() => {
     activeCardData
-    if (activeCardData?.data?.total > 0) {
+    if (activeCardData?.length > 0) {
       if (hubspotObjectTypeId == "0-3") {
-        if (activeCardData?.data?.results?.rows.length > 0) {
-          addDeals(activeCardData?.data?.results?.rows);
+        if (activeCardData?.length > 0) {
+          addDeals(activeCardData);
         }
       } else {
-        if (activeCardData?.data?.results?.rows.length > 0) {
-          addTickets(activeCardData?.data?.results?.rows);
+        if (activeCardData?.length > 0) {
+          addTickets(activeCardData);
         }
       }
     } else {
@@ -427,7 +452,6 @@ Main Component Starts Here
   };
 
   const addTickets = (tickets) => {
-    console.log(tickets, 'tickets');
     setData((prevStages) =>
       prevStages.map((stage) => {
         // Find deals that match the current stage ID
@@ -676,6 +700,12 @@ Main Component Starts Here
                             dropType="card"
                           />
                         </Drag.DropZone>
+                        {hasMoreData && data[listPosition].cards.length > 10 ?
+                          <div className="mb-2 flex items-center px-2">
+                            <Button onClick={loadMore} variant="link" size="link" >Load More</Button>
+                          </div>
+                          : null}
+
                       </List>
                     </Drag.DragItem>
                     <Drag.DropZone
