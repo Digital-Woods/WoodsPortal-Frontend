@@ -35,17 +35,20 @@ class Client {
   };
 
   static user = {
-    profile: async ({ portalId,cache, ...query }) => {
+    profile: async ({ portalId, cache = false, ...query }) => {
       try {
-        const url = `/api/${hubId}/${portalId}/profiles`; // Ensure hubId is defined in your scope
-        const response = await HttpClient.get(url, { cache:!!cache, ...query }); // Fetch data
-        return response; // Return the data
+        const url = `/api/${hubId}/${portalId}/profiles`;
+        console.log("API Request -> URL:", url, "Cache:", cache, "Query Params:", query);
+  
+        const response = await HttpClient.get(url, { cache, ...query }); 
+        return response; 
       } catch (error) {
         console.error("Error fetching profile:", error);
-        throw error; // Throw error to handle it in mutation
+        throw error;
       }
     },
   };
+  
 
   static files = {
     all: ({objectId, id, portalId, cache, ...query}) => {

@@ -162,7 +162,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
         <div onClick={toggleContent} className="flex items-center justify-between gap-x-2 cursor-pointer ">
-          <span className="text-secondary">
+          <span className="text-secondary dark:text-white">
             {isExpanded ? (
               <Chevron transform="rotate(270)" />
             ) : (
