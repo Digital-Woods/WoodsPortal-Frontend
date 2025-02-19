@@ -297,11 +297,6 @@ const DashboardTable = ({
     }
   }, [searchTerm]);
 
-  useEffect(() => {
-    const getTab = getParam('t')
-    if (getTab) setActiveCard(getTab === 'true' ? true : false)
-  }, [getParam('t')]);
-
   const {
     mutate: getPipelines,
     isLoadingPipelines,
@@ -325,12 +320,27 @@ const DashboardTable = ({
 
       let filterValue = "";
 
-      if (activeCard && !activePipeline) {
-        filterValue = pipelineSingle.pipelineId;
-        setActivePipeline(pipelineSingle.pipelineId);
+      let routeMenuConfigs = getRouteMenuConfig();
+      
+      if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) && routeMenuConfigs[hubspotObjectTypeId].activePipeline) {
+        setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
       } else {
-        filterValue = activePipeline;
 
+        if (activeCard && !activePipeline) {
+          filterValue = pipelineSingle.pipelineId;
+          setActivePipeline(pipelineSingle.pipelineId);
+
+          const routeMenuConfig = {
+            [hubspotObjectTypeId] : {
+              activePipeline: pipelineSingle.pipelineId,
+            }
+          }
+          setSelectRouteMenuConfig(routeMenuConfig)
+          
+        } else {
+          filterValue = activePipeline;
+
+        }
       }
 
       if (activeCard || activePipeline) {
@@ -363,11 +373,26 @@ const DashboardTable = ({
       setFilterValue(pipelineSingle.pipelineId)
       setActivePipeline(pipelineSingle.pipelineId);
       filterValue = pipelineSingle.pipelineId
+
+      const routeMenuConfig = {
+        [hubspotObjectTypeId] : {
+          activePipeline: pipelineSingle.pipelineId,
+        }
+      }
+      setSelectRouteMenuConfig(routeMenuConfig)
+
     } else {
       setFilterPropertyName(null)
       setFilterOperator(null)
       setFilterValue(null)
       setActivePipeline(null);
+
+      const routeMenuConfig = {
+        [hubspotObjectTypeId] : {
+          activePipeline: null,
+        }
+      }
+      setSelectRouteMenuConfig(routeMenuConfig)
     }
 
     // if(!activePipeline) {
@@ -396,10 +421,46 @@ const DashboardTable = ({
     getPipelines();
   }, [activeCard]);
 
-  const setActiveTab = (status) => {
-    setParam('t', status)
-    setActiveCard(status)
+  const setSelectRouteMenuConfig = (routeMenuConfig) => {
+    let routeMenuConfigs = getRouteMenuConfig();
+
+    Object.keys(routeMenuConfig).forEach((key) => {
+      if(!routeMenuConfigs) routeMenuConfigs = {}; 
+      if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
+        routeMenuConfigs[key] = routeMenuConfig[key];
+      } else {
+        if(routeMenuConfig[key]?.activeTab) routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
+        if(routeMenuConfig[key]?.activePipeline) routeMenuConfigs[key].activePipeline = routeMenuConfig[key].activePipeline;
+      }
+    });
+
+    setRouteMenuConfig(routeMenuConfigs)
   }
+
+  const setActiveTab = (status) => {
+    // setParam('t', status)
+    setActiveCard(status)
+
+    const routeMenuConfig = {
+      [hubspotObjectTypeId] : {
+        activeTab: status ? 'grid' : 'list',
+      }
+    }
+
+    setSelectRouteMenuConfig(routeMenuConfig)
+  }
+
+  useEffect(() => {
+    let routeMenuConfigs = getRouteMenuConfig();
+   
+    if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)) {
+      const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab
+      setActiveCard(activeTab === 'grid' ? true : false)
+    } else {
+      setActiveCard(false)
+    }
+
+  }, []);
 
   return (
     <div
