@@ -17,7 +17,7 @@ const Profile = ({ title, path }) => {
 
   const fetchUserProfile = async (portalId) => {
     if (!portalId) return null;
-    const response = await Client.user.profile({ portalId, cache:false });
+    const response = await Client.user.profile({ portalId, cache: sync ? false : true, });
     return response?.data;
   };
 

@@ -355,7 +355,8 @@ const renderCellContent = (
   associationPath = "",
   detailsView = true,
   hoverRow,
-  item
+  item,
+  urlParam=null
 ) => {
   if (!column || value === undefined || value === null) {
     return "--";
@@ -497,7 +498,7 @@ const renderCellContent = (
       <div className="flex gap-1 min-w-[250px] relative justify-between">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
@@ -509,7 +510,7 @@ const renderCellContent = (
           hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
           ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
           `}
-          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           Open
           <OpenIcon />
