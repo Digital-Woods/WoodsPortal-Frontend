@@ -16,21 +16,20 @@ const Home = ({
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
   const [userObjectId, setUserObjectId] = useState();
+  const [cacheEnabled, setCacheEnabled] = useState(true); 
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
 
-  const fetchUserProfile = async (portalId) => {
+  const fetchUserProfile = async ({ portalId, cache = true }) => {
     if (!portalId) return null;
-    const response = await Client.user.profile({ portalId, cache: sync ? false : true, });
+    
+    const response = await Client.user.profile({ portalId, cache });
     return response?.data;
   };
-
+  
   const { data: userNewData, error, isLoading, refetch } = useQuery({
-    queryKey: ['userProfile', portalId],
-    queryFn: () => fetchUserProfile(portalId),
-    enabled: !!portalId,
-    staleTime: 1000 * 60 * 2,
-    cacheTime: 1000 * 60 * 10,
+    queryKey: ['userProfile', portalId, cacheEnabled], 
+    queryFn: () => fetchUserProfile({ portalId, cache: cacheEnabled }), 
     onSuccess: (data) => {
       if (data) {
         sessionStorage.setItem('userProfile', JSON.stringify(data));
@@ -43,16 +42,13 @@ const Home = ({
       console.error("Error fetching profile:", error);
     }
   });
-
+  
   useEffect(() => {
-    if (userNewData) {
-      setUserData(userNewData);
-      setUserId(userNewData?.response?.hs_object_id?.value);
-      setUserObjectId(userNewData?.info?.objectTypeId);
+    if (sync) {
+      setCacheEnabled(false);
+      queryClient.invalidateQueries(['userProfile', portalId]);
     }
-    refetch();
-    // queryClient.invalidateQueries(['userProfile', portalId]);
-  }, [portalId, sync]);
+  }, [sync, portalId]);
 
   const toggleSidebar = () => {
     setUserToggled(true);
@@ -124,12 +120,12 @@ const Home = ({
                 ${showSidebarListDataOption && isLargeScreen
                 ? "w-[calc(100%_-350px)]"
                 : "w-full"
-              } ${!showSidebarListDataOption  && isLargeScreen ? 'md:pr-4 pr-3 ' : '' }`}
+              } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}
           >
             <div className={`${companyDetailsCard == 'true' ? 'grid grid-cols-2 max-sm:grid-cols-1' : ' '}  md:gap-4 gap-3`}>
               <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
               {companyDetailsCard == 'true' ? (
-              <HomeCompanyCard userData={userData} isLoading={isLoading}/>
+                <HomeCompanyCard userData={userData} isLoading={isLoading} />
               ) : null}
             </div>
 
@@ -183,9 +179,8 @@ const Home = ({
                       tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
                       stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
                       formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
-                        param ? param + "&isForm=true" : "?isForm=true"
-                      }`,
+                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+                        }`,
                       createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
                       updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
                     };
