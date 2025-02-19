@@ -21,7 +21,7 @@ const Home = ({
 
   const fetchUserProfile = async (portalId) => {
     if (!portalId) return null;
-    const response = await Client.user.profile({ portalId, cache:false });
+    const response = await Client.user.profile({ portalId, cache: sync ? false : true, });
     return response?.data;
   };
 
@@ -51,7 +51,7 @@ const Home = ({
       setUserObjectId(userNewData?.info?.objectTypeId);
     }
     refetch();
-    queryClient.invalidateQueries(['userProfile', portalId]);
+    // queryClient.invalidateQueries(['userProfile', portalId]);
   }, [portalId, sync]);
 
   const toggleSidebar = () => {
@@ -181,12 +181,13 @@ const Home = ({
                     const hubspotObjectTypeId = option.hubspotObjectTypeId;
                     const sidebarDataApis = {
                       tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-                      stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`,
+                      stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
                       formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
-                        }`,
+                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
+                        param ? param + "&isForm=true" : "?isForm=true"
+                      }`,
                       createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`,
+                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
                     };
 
                     return index === 0 ? (

@@ -457,7 +457,7 @@ const DashboardTable = ({
       <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
         <div className="flex gap-2 justify-between">
           {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-            <div class="inline-flex p-1 bg-graySecondary dark:bg-dark-200 rounded-md">
+            <div class="inline-flex p-1 bg-graySecondary dark:bg-dark-200 rounded-md gap-x-2">
               <button
                 type="button"
                 onClick={() => setActiveTab(false)}

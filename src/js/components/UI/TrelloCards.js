@@ -238,7 +238,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
     );
   }
 
-  function List({ name, dragItem, children }) {
+  function List({ name, dragItem, children, count }) {
     return (
       <div
         className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
@@ -248,6 +248,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
             {name}
           </h2>
+          {count}
         </div>
         {children}
       </div>
@@ -645,6 +646,7 @@ Main Component Starts Here
                       dragType="list"
                     >
                       <List
+                        count={data[listPosition].cards.length || 0}
                         name={list.name}
                         dragItem={
                           activeItem === list.id && activeType === "list"
@@ -700,7 +702,7 @@ Main Component Starts Here
                             dropType="card"
                           />
                         </Drag.DropZone>
-                        {hasMoreData && data[listPosition].cards.length > 10 ?
+                        {hasMoreData ?
                           <div className="mb-2 flex items-center px-2">
                             <Button onClick={loadMore} variant="link" size="link" >Load More</Button>
                           </div>

@@ -38,7 +38,7 @@ class Client {
     profile: async ({ portalId,cache, ...query }) => {
       try {
         const url = `/api/${hubId}/${portalId}/profiles`; // Ensure hubId is defined in your scope
-        const response = await HttpClient.get(url, { ...query }); // Fetch data
+        const response = await HttpClient.get(url, { cache:!!cache, ...query }); // Fetch data
         return response; // Return the data
       } catch (error) {
         console.error("Error fetching profile:", error);

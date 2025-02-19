@@ -23,6 +23,13 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const [isExpanded, setIsExpanded] = useState(false);
   const [hoverRow, setHoverRow] = useState(null);
   const { me } = useMe();
+  const [permissions, setPermissions] = useState(null);
+  const [urlParam, setUrlParam] = useState(null);
+
+
+  useEffect(() => {
+    setNumOfPages(Math.ceil(totalItems / itemsPerPage));
+  }, [totalItems, itemsPerPage]);
 
   useEffect(() => {
     const hash = location.hash; // Get the hash fragment
@@ -60,12 +67,6 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       setTableData(results);
       setTotalItems(data.data.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-
-      // if (results.length > 0) {
-      //   setTableHeader(sortData(results[0], "list", title));
-      // } else {
-      //   setTableHeader([]);
-      // }
       setTableHeader(sortData(columns));
     }
   };
@@ -75,74 +76,65 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
 
-  // const param = path === '/association' ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  const param = companyAsMediator
-    ? `?mediatorObjectTypeId=0-2${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`
-    : `?mediatorObjectTypeId=0-1${companyAsMediator ? `&isPrimaryCompany=${companyAsMediator}` : ''}${specPipeLine ? `&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipeLineId || '0'}` : ''}`;
-
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId
   }
+  console.log('entered');
 
   const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
-    mutationKey: [
-      "TableData",
-      path,
-      itemsPerPage,
-      after,
-      sortConfig,
-      me,
-      // portalId,
-      // hubspotObjectTypeId,
-      apis.tableAPI,
-      filterPropertyName,
-      filterOperator,
-      filterValue,
-    ],
-    mutationFn: async () => {
-      return await Client.objects.all({
-        path,
+    mutationKey: ["TableData"],
+    mutationFn: async (props) => {
+      const param = {
         limit: itemsPerPage || 10,
         page: currentPage,
         ...(after && after.length > 0 && { after }),
-        me,
-        // portalId,
-        // hubspotObjectTypeId: path === '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-        // param: param,
-        API_ENDPOINT: `${apis.tableAPI}${param}`,
-        // API_ENDPOINT: `${apis.tableAPI}?parentObjectTypeId=${hubspotObjectTypeId}&mediatorObjectTypeId=${mediatorObjectTypeId}`,
         sort: sortConfig,
-        filterPropertyName,
-        filterOperator,
-        filterValue,
-        cache: sync ? false : true
+        filterPropertyName:'hs_pipeline',
+        filterOperator:'eq',
+        filterValue:specPipeLine ? pipeLineId : '',
+        cache: sync ? false : true,
+        isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+      };
+      setUrlParam(param);
+      if (companyAsMediator) param.mediatorObjectTypeId = '0-2';
+  
+      // Log the final API call to check if URL is correct
+      console.log("API Params:", param);
+
+      return await Client.objects.all({
+        API_ENDPOINT: apis.tableAPI,
+        param: updateParamsFromUrl(apis.tableAPI, param)
       });
     },
-
+  
     onSuccess: (data) => {
-      setSync(false)
+      console.log("API Response:", data); // Check API response
+  
+      setSync(false); // Ensure sync state resets after fetching data
       if (data.statusCode === "200") {
         mapResponseData(data);
+        setPermissions(data.configurations["object"]);
         setNumOfPages(Math.ceil(data.data.total / itemsPerPage));
       }
     },
-    onError: () => {
-      setSync(false)
+  
+    onError: (error) => {
+      console.error("API Error:", error); // Log errors if API call fails
+      setSync(false);
       setTableData([]);
+      setPermissions(null);
     },
   });
+  
 
   const handlePageChange = async (page) => {
-    if (env.DATA_SOURCE_SET === true) {
-      setCurrentPage(page);
-    } else {
-      setCurrentPage(page);
-      setAfter((page - 1) * itemsPerPage);
-      await wait(100);
-      getData();
-    }
+    setCurrentPage(page);
+    setAfter((page - 1) * itemsPerPage);// Adjust 'after' calculation
+    await wait(100);
+    getData();
   };
+
   useEffect(() => {
     if (env.DATA_SOURCE_SET === true) {
       setTableData(currentTableData.slice(
@@ -153,23 +145,29 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   }, [currentTableData, currentPage, itemsPerPage]);
 
   useEffect(() => {
-    getData();
+    if (sync) getData();
   }, [sync]);
 
+  useEffect(() => {
+    getData();
+  }, []);
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
   };
-
   const handleRowHover = (row) => {
     setHoverRow(row)
   };
 
   return (
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
-      <div onClick={toggleContent} className="cursor-pointer flex items-center justify-between gap-x-2 text-sm font-medium py-3">
-        <div className="flex items-center justify-between gap-x-2 ">
+      <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
+        <div onClick={toggleContent} className="flex items-center justify-between gap-x-2 cursor-pointer ">
           <span className="text-secondary">
-            <AssociationIcon />
+            {isExpanded ? (
+              <Chevron transform="rotate(270)" />
+            ) : (
+              <Chevron transform="rotate(180)" />
+            )}
           </span>
           <span>
             <span className="dark:text-white text-secondary hover:underline underline-offset-4 font-bold text-xs">{title}</span>
@@ -178,7 +176,17 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
             </span>
           </span>
         </div>
-        {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />}
+        {/* {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />} */}
+        {(permissions?.create) && (
+          <div className="text-end cursor-pointer ">
+            <Button className='font-semibold text-xs' variant="link" size='link' onClick={() => setShowAddDialog(true)}>
+              <span className="mr-1">
+                <IconPlus className="!w-3 !h-3" />
+              </span>
+              Add
+            </Button>
+          </div>
+        )}
       </div>
       {isLoading && <div className={``}><HomeSidebarSkeleton /></div>}
       {!isLoading && tableData.length === 0 && (
@@ -242,7 +250,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
           }
         </React.Fragment>
       )}
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} urlParam={urlParam} />}
     </div>
   );
 };

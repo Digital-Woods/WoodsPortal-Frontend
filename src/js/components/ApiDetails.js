@@ -136,7 +136,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   //     </div>
   //   );
   // }
-  
+
   if (isLoading && !item) {
     return (
       <div>
@@ -232,7 +232,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 </Tabs>
               </div>
 
-              
+
 
               {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
 
@@ -300,7 +300,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   setGalleryDialog={setGalleryDialog}
                 />
               )}
-              
+
 
 
             </div>
@@ -342,6 +342,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                     objectId={objectId}
                     id={id}
                     companyAsMediator={companyAsMediator}
+                    urlParam={urlParam}
                   />
                 ))}
             </div>
