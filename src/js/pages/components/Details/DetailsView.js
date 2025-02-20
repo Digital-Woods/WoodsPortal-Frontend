@@ -7,6 +7,7 @@ const DetailsView = ({
   refetch,
   permissions,
   isLoading,
+  urlParam
 }) => {
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
@@ -105,6 +106,7 @@ const DetailsView = ({
                       id={id}
                       objectId={objectId}
                       item={item}
+                      urlParam={urlParam}
                     />
                   ) : (
                     renderCellContent(

@@ -78,7 +78,7 @@ const TabsTrigger = ({ value, isActive, onClick, children }) => (
 
     {/* hover color added to the buttons */}
     <button
-  className={`inline-block px-4 py-2 rounded-md cursor-pointer 
+  className={`inline-block px-4 py-2 rounded-md cursor-pointer mx-1 
     ${isActive
        ? "bg-cleanWhite dark:bg-dark-400 text-white" 
        : "hover:bg-gray-50 dark:hover:bg-dark-500 dark:bg-dark-300"}

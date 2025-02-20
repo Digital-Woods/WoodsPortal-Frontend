@@ -5,6 +5,7 @@ const Profile = ({ title, path }) => {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
   const [userObjectId, setUserObjectId] = useState();
+  const [cacheEnabled, setCacheEnabled] = useState(true); 
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
 
@@ -15,40 +16,35 @@ const Profile = ({ title, path }) => {
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
   };
 
-  const fetchUserProfile = async (portalId) => {
+  const fetchUserProfile = async ({ portalId, cache = true }) => {
     if (!portalId) return null;
-    const response = await Client.user.profile({ portalId, cache:false });
+    
+    const response = await Client.user.profile({ portalId, cache });
     return response?.data;
   };
-
+  
   const { data: userNewData, error, isLoading, refetch } = useQuery({
-    queryKey: ['userProfile', portalId],
-    queryFn: () => fetchUserProfile(portalId),
-    enabled: !!portalId,
+    queryKey: ['userProfile', portalId, cacheEnabled], 
+    queryFn: () => fetchUserProfile({ portalId, cache: cacheEnabled }), 
     onSuccess: (data) => {
       if (data) {
         sessionStorage.setItem('userProfile', JSON.stringify(data));
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
-        setSync(false)
       }
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
-      setSync(false)
     }
   });
-
+  
   useEffect(() => {
-    if (userNewData) {
-      setUserData(userNewData);
-      setUserId(userNewData?.response?.hs_object_id?.value);
-      setUserObjectId(userNewData?.info?.objectTypeId);
+    if (sync) {
+      setCacheEnabled(false);
+      queryClient.invalidateQueries(['userProfile', portalId]);
     }
-    refetch();
-    queryClient.invalidateQueries(['userProfile', portalId]);
-  }, [portalId, sync]);
+  }, [sync, portalId]);
   
   const setActiveTabFucntion = (active) => {
     // setParam("t", active);
