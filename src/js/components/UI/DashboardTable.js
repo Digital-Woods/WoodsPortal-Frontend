@@ -95,35 +95,13 @@ const DashboardTable = ({
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    // if (env.DATA_SOURCE_SET === true) {
-    //   const results = data.data.results || [];
-
-    //   const foundItem = results.find((item) => {
-    //     return item.name === path.replace("/", "");
-    //   });
-    //   setCurrentTableData(foundItem.results.rows);
-    //   setTotalItems(foundItem.results.rows.length || 0);
-    //   setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
-    //   if (foundItem.results.rows.length > 0) {
-    //     setTableHeader(sortData(foundItem.results.columns));
-    //   } else {
-    //     setTableHeader([]);
-    //   }
-
-    // } else {
     const results = data.data.results.rows || [];
     const columns = data.data.results.columns || [];
     setTableData(results);
     setTotalItems(data.data.total || 0);
     setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
     setCurrentItems(results.length);
-    // if (results.length > 0) {
-    //   setTableHeader(sortData(results[0], "list", title));
-    // } else {
-    //   setTableHeader([]);
-    // }
     setTableHeader(sortData(columns));
-    // }
   };
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
@@ -140,210 +118,7 @@ const DashboardTable = ({
     portalId = getPortal()?.portalId;
   }
 
-  const {
-    mutate: getData,
-    data: tableAPiData,
-    isLoading,
-  } = useMutation({
-    mutationKey: [
-      "TableData",
-    ],
-    mutationFn: async (props) => {
-      const param = {
-        limit: itemsPerPage || 10,
-        page: currentPage,
-        ...(after && after.length > 0 && { after }),
-        sort: sortConfig,
-        search: searchTerm,
-        filterPropertyName: props?.filterPropertyName || filterPropertyName,
-        filterOperator: props?.filterOperator || filterOperator,
-        filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ''),
-        cache: sync ? false : true,
-        isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-        view: activeCard ? 'card' : 'list',
-      }
-      if (companyAsMediator) param.mediatorObjectTypeId = '0-2'
-
-      const API_ENDPOINT = removeAllParams(apis.tableAPI)
-
-      // const updatedParam = mergeParamsWithObject(apis.tableAPI, param);
-      setUrlParam(param)
-      return await Client.objects.all({
-        API_ENDPOINT: API_ENDPOINT,
-        param: updateParamsFromUrl(apis.tableAPI, param)
-      });
-    },
-
-    onSuccess: (data) => {
-      setSync(false);
-      if (data.statusCode === "200") {
-        if (activeCard) {
-          setActivePrevCardData(data?.data?.results?.rows)
-        } else {
-          mapResponseData(data);
-          if (defPermissions === null) {
-            setPermissions(data.configurations[componentName]);
-          } else {
-            setPermissions(data.configurations["object"]);
-          }
-        }
-      } else {
-        setPermissions(null);
-      }
-    },
-    onError: () => {
-      setSync(false);
-      setTableData([]);
-      setPermissions(null);
-    },
-  });
-
-  const getTrelloCardsData = (cardProps) => {
-    // setFilterPropertyName('hs_pipeline')
-    // setFilterOperator('hs_pipeline')
-    // setFilterValue('eq')
-    getData({
-      filterPropertyName: 'hs_pipeline',
-      filterOperator: 'eq',
-      filterValue: cardProps.filterValue
-    })
-  }
-
-  const handleSort = (column) => {
-    let newSortConfig = column;
-    if (sortConfig === column) {
-      newSortConfig = `-${column}`; // Toggle to descending if the same column is clicked again
-    } else if (sortConfig === `-${column}`) {
-      newSortConfig = column; // Toggle back to ascending if clicked again
-    }
-    setSortConfig(newSortConfig);
-
-    // if (env.DATA_SOURCE_SET === true) {
-    //   // Handle sorting for local data (currentTableData)
-    //   const sortedData = [...currentTableData].sort((a, b) => {
-    //     const columnValueA = getValueByPath(a, column);
-    //     const columnValueB = getValueByPath(b, column);
-
-    //     if (newSortConfig.startsWith('-')) {
-    //       return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
-    //     }
-    //     return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
-    //   });
-    //   setTableData(sortedData.slice(
-    //     (currentPage - 1) * itemsPerPage,
-    //     currentPage * itemsPerPage
-    //   ));
-    // } else {
-    getData();
-    // }
-  };
-
-  // Helper function to get the value by key from nested objects
-  // const getValueByPath = (obj, path) => {
-  //   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  // };
-
-  const handlePageChange = async (page) => {
-    setCurrentPage(page);
-    setAfter((page - 1) * itemsPerPage);
-    await wait(100);
-    getData();
-  };
-
-
-  const handleCardData = async (page) => {
-    setCurrentPage(page);
-    await wait(100);
-    getData();
-  };
-
-  // useEffect(() => {
-  //   setActiveCardData((prevData) => [...(prevData || []), ...(activeCardPrevData || [])]);
-  // }, [activeCardPrevData,currentPage]);
-
-  useEffect(() => {
-    if (activeCardPrevData) {
-      setActiveCardData((prevData) => {
-        if (!prevData) return activeCardPrevData; // If no previous data, set directly
-  
-        // Create a Set of unique identifiers (hs_object_id + hs_pipeline_stage.value)
-        const existingKeys = new Set(
-          prevData.map(item => `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
-        );
-  
-        // Filter out duplicates from activeCardPrevData
-        const newData = activeCardPrevData.filter(
-          item => !existingKeys.has(`${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
-        );
-
-        setHasMoreData(newData.length > 0);
-  
-        // Append only new unique data
-        return [...prevData, ...newData];
-      });
-    }
-  }, [activeCardPrevData]);
-  
-  
-  
-  // useEffect(() => {
-  //   if (env.DATA_SOURCE_SET === true) {
-  //     setTableData(currentTableData.slice(
-  //       (currentPage - 1) * itemsPerPage,
-  //       currentPage * itemsPerPage
-  //     ));
-  //   }
-  // }, [currentTableData, currentPage, itemsPerPage]);
-  // useEffect(() => {
-  //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
-  // }, [inputValue]);
-
-  // useEffect(() => {
-  // if (env.DATA_SOURCE_SET != true) {
-  // getData();
-  // } else {
-  //   mapResponseData(hubSpotTableData);
-  //   getData();
-  // }
-  // }, []);
-
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true && sync === true) {
-      getPipelines();
-    }
-  }, [sync]);
-
-  const setDialogData = (data) => {
-    setModalData(data);
-    setOpenModal(true);
-  };
-
-  const handleRowHover = (row) => {
-    setHoverRow(row);
-  };
-
-  const handleSearch = () => {
-    if (!searchTerm.trim()) return;
-    getData({
-      filterPropertyName: 'hs_pipeline',
-      filterOperator: 'eq',
-      filterValue: filterValue
-    });
-  };
-
-  useEffect(() => {
-    if (searchTerm === "") {
-      getData();
-      setItemsPerPage(10);
-    }
-  }, [searchTerm]);
-
-  // useEffect(() => {
-  //   const getTab = getParam('t')
-  //   if (getTab) setActiveCard(getTab === 'true' ? true : false)
-  //   if (getTab) setView(getTab === 'true' ? 'card' : 'list')
-  // }, [getParam('t')]);
-
+  // Get Pipelines
   const {
     mutate: getPipelines,
     isLoadingPipelines,
@@ -391,8 +166,6 @@ const DashboardTable = ({
       }
 
       if (activeCard || activePipeline) {
-        // setActivePipeline(pipelineSingle.pipelineId);
-        // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
         setFilterPropertyName('hs_pipeline')
         setFilterOperator('eq')
         setFilterValue(pipelineSingle.pipelineId)
@@ -408,13 +181,184 @@ const DashboardTable = ({
     },
   });
 
-  function mapDataPipeline(pipeLineId) {
+  // Get List And Card Data
+  const {
+    mutate: getData,
+    isLoading,
+  } = useMutation({
+    mutationKey: [
+      "TableData",
+    ],
+    mutationFn: async (props) => {
+      const param = {
+        limit: itemsPerPage || 10,
+        page: currentPage,
+        ...(after && after.length > 0 && { after }),
+        sort: sortConfig,
+        search: searchTerm,
+        filterPropertyName: props?.filterPropertyName || filterPropertyName,
+        filterOperator: props?.filterOperator || filterOperator,
+        filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ''),
+        cache: sync ? false : true,
+        isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+        view: activeCard ? 'card' : 'list',
+      }
+      if (companyAsMediator) param.mediatorObjectTypeId = '0-2'
+
+      const API_ENDPOINT = removeAllParams(apis.tableAPI)
+
+      setUrlParam(param)
+      return await Client.objects.all({
+        API_ENDPOINT: API_ENDPOINT,
+        param: updateParamsFromUrl(apis.tableAPI, param)
+      });
+    },
+
+    onSuccess: (data) => {
+      setSync(false);
+      if (data.statusCode === "200") {
+        if (activeCard) {
+          setActivePrevCardData(data?.data?.results?.rows)
+        } else {
+          mapResponseData(data);
+          if (defPermissions === null) {
+            setPermissions(data.configurations[componentName]);
+          } else {
+            setPermissions(data.configurations["object"]);
+          }
+        }
+      } else {
+        setPermissions(null);
+      }
+    },
+    onError: () => {
+      setSync(false);
+      setTableData([]);
+      setPermissions(null);
+    },
+  });
+
+  // Handle Filter Start
+  const handleSort = (column) => {
+    let newSortConfig = column;
+    if (sortConfig === column) {
+      newSortConfig = `-${column}`; // Toggle to descending if the same column is clicked again
+    } else if (sortConfig === `-${column}`) {
+      newSortConfig = column; // Toggle back to ascending if clicked again
+    }
+    setSortConfig(newSortConfig);
+    getData();
+  };
+
+  const handlePageChange = async (page) => {
+    setCurrentPage(page);
+    setAfter((page - 1) * itemsPerPage);
+    await wait(100);
+    getData();
+  };
+
+  const handleCardPageChange = async (page) => {
+    setCurrentPage(page);
+    await wait(100);
+    getData();
+  };
+  // Handle Filter End
+
+  useEffect(() => {
+    if (activeCardPrevData) {
+      setActiveCardData((prevData) => {
+        if (!prevData) return activeCardPrevData; // If no previous data, set directly
+  
+        // Create a Set of unique identifiers (hs_object_id + hs_pipeline_stage.value)
+        const existingKeys = new Set(
+          prevData.map(item => `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
+        );
+  
+        // Filter out duplicates from activeCardPrevData
+        const newData = activeCardPrevData.filter(
+          item => !existingKeys.has(`${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
+        );
+
+        setHasMoreData(newData.length > 0);
+  
+        // Append only new unique data
+        return [...prevData, ...newData];
+      });
+    }
+  }, [activeCardPrevData]);
+  
+  // const setDialogData = (data) => {
+  //   setModalData(data);
+  //   setOpenModal(true);
+  // };
+
+  const handleRowHover = (row) => {
+    setHoverRow(row);
+  };
+
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    getData({
+      filterPropertyName: 'hs_pipeline',
+      filterOperator: 'eq',
+      filterValue: filterValue
+    });
+  };
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      getData();
+      setItemsPerPage(10);
+    }
+  }, [searchTerm]);
+
+  // Start Cookie RouteMenuConfig
+  const setSelectRouteMenuConfig = (routeMenuConfig) => {
+    let routeMenuConfigs = getRouteMenuConfig();
+
+    Object.keys(routeMenuConfig).forEach((key) => {
+      if(!routeMenuConfigs) routeMenuConfigs = {}; 
+      if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
+        routeMenuConfigs[key] = routeMenuConfig[key];
+      } else {
+        if(routeMenuConfig[key]?.activeTab) routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
+        if(routeMenuConfig[key]?.activePipeline) routeMenuConfigs[key].activePipeline = routeMenuConfig[key].activePipeline;
+      }
+    });
+
+    setRouteMenuConfig(routeMenuConfigs)
+  }
+
+  const setActiveTab = (status) => {
+    setActiveCard(status)
+    const routeMenuConfig = {
+      [hubspotObjectTypeId] : {
+        activeTab: status ? 'grid' : 'list',
+      }
+    }
+    setSelectRouteMenuConfig(routeMenuConfig)
+  }
+
+  useEffect(() => {
+    let routeMenuConfigs = getRouteMenuConfig();
+   
+    if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)) {
+      const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab
+      setActiveCard(activeTab === 'grid' ? true : false)
+    } else {
+      setActiveCard(false)
+    }
+
+  }, []);
+  // End Cookie RouteMenuConfig
+
+  // CHange Pipeline
+  const handelChangePipeline = (pipeLineId) => {
     let filterValue = "";
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
         (pipeline) => pipeline.pipelineId === pipeLineId
       );
-      // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
       setFilterPropertyName('hs_pipeline')
       setFilterOperator('eq')
       setFilterValue(pipelineSingle.pipelineId)
@@ -441,22 +385,7 @@ const DashboardTable = ({
       }
       setSelectRouteMenuConfig(routeMenuConfig)
     }
-
-    // if(!activePipeline) {
-    //   filterValue = pipelineSingle.pipelineId;
-    //   setActivePipeline(pipelineSingle.pipelineId);
-    // } else {
-    //   filterValue = activePipeline;
-
-    // }
-
-    // if(activeCard || activePipeline) {
-    //   // setActivePipeline(pipelineSingle.pipelineId);
-    //   // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-    //   setFilterPropertyName('hs_pipeline')
-    //   setFilterOperator('eq')
-    //   setFilterValue(pipelineSingle.pipelineId)
-    // }
+ 
     getData({
       filterPropertyName: 'hs_pipeline',
       filterOperator: 'eq',
@@ -464,53 +393,18 @@ const DashboardTable = ({
     });
   }
 
+  // Initial Call Pipeline
   useEffect(() => {
     getPipelines();
-    // setCurrentPage(1);
-    // setActiveCardData([]);
-    // getData();
   }, [activeCard]);
 
-  const setSelectRouteMenuConfig = (routeMenuConfig) => {
-    let routeMenuConfigs = getRouteMenuConfig();
-
-    Object.keys(routeMenuConfig).forEach((key) => {
-      if(!routeMenuConfigs) routeMenuConfigs = {}; 
-      if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
-        routeMenuConfigs[key] = routeMenuConfig[key];
-      } else {
-        if(routeMenuConfig[key]?.activeTab) routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
-        if(routeMenuConfig[key]?.activePipeline) routeMenuConfigs[key].activePipeline = routeMenuConfig[key].activePipeline;
-      }
-    });
-
-    setRouteMenuConfig(routeMenuConfigs)
-  }
-
-  const setActiveTab = (status) => {
-    // setParam('t', status)
-    setActiveCard(status)
-
-    const routeMenuConfig = {
-      [hubspotObjectTypeId] : {
-        activeTab: status ? 'grid' : 'list',
-      }
-    }
-
-    setSelectRouteMenuConfig(routeMenuConfig)
-  }
-
+  // If click sync button
   useEffect(() => {
-    let routeMenuConfigs = getRouteMenuConfig();
-   
-    if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)) {
-      const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab
-      setActiveCard(activeTab === 'grid' ? true : false)
-    } else {
-      setActiveCard(false)
+    if (env.DATA_SOURCE_SET != true && sync === true) {
+      getPipelines();
     }
+  }, [sync]);
 
-  }, []);
 
   return (
     <div
@@ -578,7 +472,7 @@ const DashboardTable = ({
               <select
                 className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2 py-2"
                 value={activePipeline}
-                onChange={(e) => mapDataPipeline(e.target?.value)}
+                onChange={(e) => handelChangePipeline(e.target?.value)}
               >
                 <option value="" disabled={activeCard} selected >All Pipelines</option>
                 {pipelines.map((item) => (
@@ -653,14 +547,14 @@ const DashboardTable = ({
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
           <TrelloCards
             hubspotObjectTypeId={hubspotObjectTypeId}
-            getTrelloCardsData={getTrelloCardsData}
+            // getTrelloCardsData={getTrelloCardsData}
             activeCardData={activeCardData}
             pipelines={pipelines}
             activePipeline={activePipeline}
             isLoadingPipelines={isLoadingPipelines}
             urlParam={urlParam}
             companyAsMediator={companyAsMediator}
-            handleCardData={handleCardData}
+            handleCardData={handleCardPageChange}
             currentPage={currentPage}
             hasMoreData={hasMoreData}
           />
