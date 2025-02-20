@@ -58,6 +58,7 @@ const DropdownAlightMenu = ({ editorView }) => {
           <SvgRenderer svgContent={textAlign.icon} />
         </div> */}
         <div
+          id="selectedEditorAlignment"
           className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
             selectedEditorAlignment ? "bg-gray-200" : ""
           }`}
@@ -130,15 +131,22 @@ const alignmentDropdown = new MenuItem2({
     const isAlignmentLeft = isAlignmentActive(state, "left");
     const isAlignmentCenter = isAlignmentActive(state, "center");
     const isAlignmentRight = isAlignmentActive(state, "right");
-    const editorListButton = document.querySelector("#textListIcon");
+    const editorListButton = document.querySelector("#textAlignIcon");
     if (isAlignmentLeft) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      document.getElementById("selectedEditorAlignment")?.classList.add("bg-gray-200");
     }
     if (isAlignmentCenter) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
+      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
+      document.getElementById("selectedEditorAlignment")?.classList.add("bg-gray-200");
     }
     if (isAlignmentRight) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
+      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
+      document.getElementById("selectedEditorAlignment")?.classList.add("bg-gray-200");
+    }
+    if(!isAlignmentLeft && !isAlignmentCenter && !isAlignmentRight) {
+      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      document.getElementById("selectedEditorAlignment")?.classList.remove("bg-gray-200");
     }
     return true;
   },
