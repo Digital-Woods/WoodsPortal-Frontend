@@ -123,6 +123,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
         onClick={toggleMenu}
       >
         <div
+          id="mEditorFont"
           className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
             mEditorFont ? "bg-gray-200" : ""
           }`}
@@ -199,6 +200,11 @@ const fontMenuItem = new MenuItem2({
     const div = document.getElementById("textFontIcon");
     if (div && mEditorFont) {
       div.textContent = mEditorFont; // Change text content
+      document.getElementById("mEditorFont")?.classList.add("bg-gray-200");
+    }
+    if (div && !mEditorFont) {
+      div.textContent = "Sans Serif"; // Change text content
+      document.getElementById("mEditorFont")?.classList.remove("bg-gray-200");
     }
     return activeFont !== null;
   },

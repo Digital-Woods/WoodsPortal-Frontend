@@ -133,6 +133,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
         onClick={toggleMenu}
       >
         <div
+          id="mEditorFontSize"
           className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
             mEditorFontSize ? "bg-gray-200" : ""
           }`}
@@ -209,6 +210,11 @@ const fontSizeMenuItem = new MenuItem2({
     const div = document.getElementById("textFontSize");
     if (div && mEditorFontSize) {
       div.textContent = mEditorFontSize; // Change text content
+      document.getElementById("mEditorFontSize")?.classList.add("bg-gray-200");
+    }
+    if (div && !mEditorFontSize) {
+      div.textContent = "8"; // Change text content
+      document.getElementById("mEditorFontSize")?.classList.remove("bg-gray-200");
     }
     return activeFont !== null;
   },
