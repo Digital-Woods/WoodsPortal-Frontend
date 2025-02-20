@@ -41,17 +41,16 @@ const DashboardTable = ({
   pipeLineId,
   specPipeLine,
 }) => {
+  const pageLimit = env.TABLE_PAGE_LIMIT;
   const [urlParam, setUrlParam] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
-  // const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
-  // const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [currentItems, setCurrentItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(pageLimit);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
@@ -64,7 +63,6 @@ const DashboardTable = ({
   const [permissions, setPermissions] = useState(null);
   const [hoverRow, setHoverRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
-
   const [pipelines, setPipelines] = useState([]);
   const [activePipeline, setActivePipeline] = useState();
 
@@ -72,13 +70,9 @@ const DashboardTable = ({
   const [activeCard, setActiveCard] = useState(false);
   const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
-  const [view, setView] = useState('list');
   const [hasMoreData, setHasMoreData] = useState(true);
 
-  // const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
-
-  const { me } = useMe();
 
   useEffect(() => {
     setNumOfPages(Math.ceil(totalItems / itemsPerPage));
@@ -95,40 +89,17 @@ const DashboardTable = ({
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    // if (env.DATA_SOURCE_SET === true) {
-    //   const results = data.data.results || [];
-
-    //   const foundItem = results.find((item) => {
-    //     return item.name === path.replace("/", "");
-    //   });
-    //   setCurrentTableData(foundItem.results.rows);
-    //   setTotalItems(foundItem.results.rows.length || 0);
-    //   setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
-    //   if (foundItem.results.rows.length > 0) {
-    //     setTableHeader(sortData(foundItem.results.columns));
-    //   } else {
-    //     setTableHeader([]);
-    //   }
-
-    // } else {
     const results = data.data.results.rows || [];
     const columns = data.data.results.columns || [];
     setTableData(results);
     setTotalItems(data.data.total || 0);
     setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
     setCurrentItems(results.length);
-    // if (results.length > 0) {
-    //   setTableHeader(sortData(results[0], "list", title));
-    // } else {
-    //   setTableHeader([]);
-    // }
     setTableHeader(sortData(columns));
-    // }
   };
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
-  const parentObjectTypeName = getParam("parentObjectTypeName");
   const objectTypeId = getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
   const isPrimaryCompany = getParam("isPrimaryCompany");
@@ -140,9 +111,70 @@ const DashboardTable = ({
     portalId = getPortal()?.portalId;
   }
 
+  // Get Pipelines
+  const {
+    mutate: getPipelines,
+    isLoadingPipelines,
+  } = useMutation({
+    mutationKey: ["PipelineData"],
+    mutationFn: async () => {
+      return await Client.Deals.pipelines({
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
+        param: {
+          cache: sync ? false : true,
+        }
+      });
+    },
+
+    onSuccess: (data) => {
+      setPipelines(data.data);
+      // // Hey Get HERE //
+      const pipelineSingle = data.data.find(
+        (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
+      );
+
+      let filterValue = "";
+
+      let routeMenuConfigs = getRouteMenuConfig();
+      
+      if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) && routeMenuConfigs[hubspotObjectTypeId].activePipeline) {
+        filterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline
+        setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
+      } else {
+        if (activeCard && !activePipeline) {
+          filterValue = pipelineSingle.pipelineId;
+          setActivePipeline(pipelineSingle.pipelineId);
+
+          const routeMenuConfig = {
+            [hubspotObjectTypeId] : {
+              activePipeline: pipelineSingle.pipelineId,
+            }
+          }
+          setSelectRouteMenuConfig(routeMenuConfig)
+        } else {
+          filterValue = activePipeline;
+        }
+      }
+
+      if (activeCard || activePipeline) {
+        setFilterPropertyName('hs_pipeline')
+        setFilterOperator('eq')
+        setFilterValue(pipelineSingle.pipelineId)
+      }
+      getData({
+        filterPropertyName: 'hs_pipeline',
+        filterOperator: 'eq',
+        filterValue: filterValue
+      });
+    },
+    onError: () => {
+      setPipelines([]);
+    },
+  });
+
+  // Get List And Card Data
   const {
     mutate: getData,
-    data: tableAPiData,
     isLoading,
   } = useMutation({
     mutationKey: [
@@ -150,7 +182,7 @@ const DashboardTable = ({
     ],
     mutationFn: async (props) => {
       const param = {
-        limit: itemsPerPage || 10,
+        limit: itemsPerPage || pageLimit,
         page: currentPage,
         ...(after && after.length > 0 && { after }),
         sort: sortConfig,
@@ -160,13 +192,12 @@ const DashboardTable = ({
         filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ''),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-        view: view,
+        view: activeCard ? 'card' : 'list',
       }
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2'
 
       const API_ENDPOINT = removeAllParams(apis.tableAPI)
 
-      // const updatedParam = mergeParamsWithObject(apis.tableAPI, param);
       setUrlParam(param)
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -198,17 +229,7 @@ const DashboardTable = ({
     },
   });
 
-  const getTrelloCardsData = (cardProps) => {
-    // setFilterPropertyName('hs_pipeline')
-    // setFilterOperator('hs_pipeline')
-    // setFilterValue('eq')
-    getData({
-      filterPropertyName: 'hs_pipeline',
-      filterOperator: 'eq',
-      filterValue: cardProps.filterValue
-    })
-  }
-
+  // Handle Filter Start
   const handleSort = (column) => {
     let newSortConfig = column;
     if (sortConfig === column) {
@@ -217,49 +238,19 @@ const DashboardTable = ({
       newSortConfig = column; // Toggle back to ascending if clicked again
     }
     setSortConfig(newSortConfig);
-
-    // if (env.DATA_SOURCE_SET === true) {
-    //   // Handle sorting for local data (currentTableData)
-    //   const sortedData = [...currentTableData].sort((a, b) => {
-    //     const columnValueA = getValueByPath(a, column);
-    //     const columnValueB = getValueByPath(b, column);
-
-    //     if (newSortConfig.startsWith('-')) {
-    //       return columnValueA > columnValueB ? -1 : columnValueA < columnValueB ? 1 : 0;
-    //     }
-    //     return columnValueA < columnValueB ? -1 : columnValueA > columnValueB ? 1 : 0;
-    //   });
-    //   setTableData(sortedData.slice(
-    //     (currentPage - 1) * itemsPerPage,
-    //     currentPage * itemsPerPage
-    //   ));
-    // } else {
     getData();
-    // }
   };
-
-  // Helper function to get the value by key from nested objects
-  // const getValueByPath = (obj, path) => {
-  //   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  // };
 
   const handlePageChange = async (page) => {
-    setCurrentPage(page);
-    setAfter((page - 1) * itemsPerPage);
-    await wait(100);
+    await setCurrentPage(page);
+    await setAfter((page - 1) * itemsPerPage);
     getData();
   };
 
-
-  const handleCardData = async (page) => {
-    setCurrentPage(page);
-    await wait(100);
+  const handleCardPageChange = async (page) => {
+    await setCurrentPage(page);
     getData();
   };
-
-  // useEffect(() => {
-  //   setActiveCardData((prevData) => [...(prevData || []), ...(activeCardPrevData || [])]);
-  // }, [activeCardPrevData,currentPage]);
 
   useEffect(() => {
     if (activeCardPrevData) {
@@ -284,39 +275,10 @@ const DashboardTable = ({
     }
   }, [activeCardPrevData]);
   
-  
-  
-  // useEffect(() => {
-  //   if (env.DATA_SOURCE_SET === true) {
-  //     setTableData(currentTableData.slice(
-  //       (currentPage - 1) * itemsPerPage,
-  //       currentPage * itemsPerPage
-  //     ));
-  //   }
-  // }, [currentTableData, currentPage, itemsPerPage]);
-  // useEffect(() => {
-  //   if (!isLivePreview() && env.DATA_SOURCE_SET !== true) getData();
-  // }, [inputValue]);
-
-  // useEffect(() => {
-  // if (env.DATA_SOURCE_SET != true) {
-  // getData();
-  // } else {
-  //   mapResponseData(hubSpotTableData);
-  //   getData();
-  // }
-  // }, []);
-
-  useEffect(() => {
-    if (env.DATA_SOURCE_SET != true && sync === true) {
-      getPipelines();
-    }
-  }, [sync]);
-
-  const setDialogData = (data) => {
-    setModalData(data);
-    setOpenModal(true);
-  };
+  // const setDialogData = (data) => {
+  //   setModalData(data);
+  //   setOpenModal(true);
+  // };
 
   const handleRowHover = (row) => {
     setHoverRow(row);
@@ -330,103 +292,82 @@ const DashboardTable = ({
       filterValue: filterValue
     });
   };
+  // Handle Filter End
 
-  useEffect(() => {
-    if (searchTerm === "") {
-      getData();
-      setItemsPerPage(10);
-    }
-  }, [searchTerm]);
+  // Start Cookie RouteMenuConfig
+  const setSelectRouteMenuConfig = (routeMenuConfig) => {
+    let routeMenuConfigs = getRouteMenuConfig();
 
-  useEffect(() => {
-    const getTab = getParam('t')
-    if (getTab) setActiveCard(getTab === 'true' ? true : false)
-    if (getTab) setView(getTab === 'true' ? 'card' : 'list')
-  }, [getParam('t')]);
-
-  const {
-    mutate: getPipelines,
-    isLoadingPipelines,
-  } = useMutation({
-    mutationKey: ["PipelineData"],
-    mutationFn: async () => {
-      return await Client.Deals.pipelines({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
-        param: {
-          cache: sync ? false : true,
-        }
-      });
-    },
-
-    onSuccess: (data) => {
-      setPipelines(data.data);
-      // // Hey Get HERE //
-      const pipelineSingle = data.data.find(
-        (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
-      );
-
-      let filterValue = "";
-
-      if (activeCard && !activePipeline) {
-        filterValue = pipelineSingle.pipelineId;
-        setActivePipeline(pipelineSingle.pipelineId);
+    Object.keys(routeMenuConfig).forEach((key) => {
+      if(!routeMenuConfigs) routeMenuConfigs = {}; 
+      if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
+        routeMenuConfigs[key] = routeMenuConfig[key];
       } else {
-        filterValue = activePipeline;
-
+        if(routeMenuConfig[key]?.activeTab) routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
+        if(routeMenuConfig[key]?.activePipeline) routeMenuConfigs[key].activePipeline = routeMenuConfig[key].activePipeline;
       }
+    });
 
-      if (activeCard || activePipeline) {
-        // setActivePipeline(pipelineSingle.pipelineId);
-        // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-        setFilterPropertyName('hs_pipeline')
-        setFilterOperator('eq')
-        setFilterValue(pipelineSingle.pipelineId)
+    setRouteMenuConfig(routeMenuConfigs)
+  }
+
+  const setActiveTab = (status) => {
+    setActiveCard(status)
+    const routeMenuConfig = {
+      [hubspotObjectTypeId] : {
+        activeTab: status ? 'grid' : 'list',
       }
-      getData({
-        filterPropertyName: 'hs_pipeline',
-        filterOperator: 'eq',
-        filterValue: filterValue
-      });
-    },
-    onError: () => {
-      setPipelines([]);
-    },
-  });
+    }
+    setSelectRouteMenuConfig(routeMenuConfig)
+  }
 
-  function mapDataPipeline(pipeLineId) {
+  useEffect(() => {
+    let routeMenuConfigs = getRouteMenuConfig();
+   
+    if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)) {
+      const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab
+      setActiveCard(activeTab === 'grid' ? true : false)
+    } else {
+      setActiveCard(false)
+    }
+
+  }, []);
+  // End Cookie RouteMenuConfig
+
+  // CHange Pipeline
+  const handelChangePipeline = (pipeLineId) => {
     let filterValue = "";
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
         (pipeline) => pipeline.pipelineId === pipeLineId
       );
-      // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
       setFilterPropertyName('hs_pipeline')
       setFilterOperator('eq')
       setFilterValue(pipelineSingle.pipelineId)
       setActivePipeline(pipelineSingle.pipelineId);
       filterValue = pipelineSingle.pipelineId
+
+      const routeMenuConfig = {
+        [hubspotObjectTypeId] : {
+          activePipeline: pipelineSingle.pipelineId,
+        }
+      }
+      setSelectRouteMenuConfig(routeMenuConfig)
+
     } else {
       setFilterPropertyName(null)
       setFilterOperator(null)
       setFilterValue(null)
       setActivePipeline(null);
+
+      const routeMenuConfig = {
+        [hubspotObjectTypeId] : {
+          activePipeline: null,
+        }
+      }
+      setSelectRouteMenuConfig(routeMenuConfig)
     }
-
-    // if(!activePipeline) {
-    //   filterValue = pipelineSingle.pipelineId;
-    //   setActivePipeline(pipelineSingle.pipelineId);
-    // } else {
-    //   filterValue = activePipeline;
-
-    // }
-
-    // if(activeCard || activePipeline) {
-    //   // setActivePipeline(pipelineSingle.pipelineId);
-    //   // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-    //   setFilterPropertyName('hs_pipeline')
-    //   setFilterOperator('eq')
-    //   setFilterValue(pipelineSingle.pipelineId)
-    // }
+ 
     getData({
       filterPropertyName: 'hs_pipeline',
       filterOperator: 'eq',
@@ -434,17 +375,18 @@ const DashboardTable = ({
     });
   }
 
+  // Initial Call Pipeline
   useEffect(() => {
     getPipelines();
-    setCurrentPage(1);
-    setActiveCardData([]);
-    getData();
   }, [activeCard]);
 
-  const setActiveTab = (status) => {
-    setParam('t', status)
-    setActiveCard(status)
-  }
+  // If click sync button
+  useEffect(() => {
+    if (env.DATA_SOURCE_SET != true && sync === true) {
+      getPipelines();
+    }
+  }, [sync]);
+
 
   return (
     <div
@@ -512,7 +454,7 @@ const DashboardTable = ({
               <select
                 className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2 py-2"
                 value={activePipeline}
-                onChange={(e) => mapDataPipeline(e.target?.value)}
+                onChange={(e) => handelChangePipeline(e.target?.value)}
               >
                 <option value="" disabled={activeCard} selected >All Pipelines</option>
                 {pipelines.map((item) => (
@@ -529,9 +471,14 @@ const DashboardTable = ({
                 height="semiMedium"
                 icon={SearchIcon}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => {
+                onChange={async (e) => {
+                  await setSearchTerm(e.target.value)
+                  if(e.target.value === '') handleSearch()
+                }}
+                onKeyDown={async (e) => {
                   if (e.key === "Enter") {
+                    await setCurrentPage(1)
+                    await setItemsPerPage(pageLimit)
                     handleSearch(); // Trigger search when Enter is pressed
                   }
                 }}
@@ -547,7 +494,14 @@ const DashboardTable = ({
               )}
             </Tooltip>
             {searchTerm && (
-              <Button onClick={() => setSearchTerm('')} variant='link' size='link'>Clear All</Button>
+              <Button 
+              onClick={async () => {
+                await setSearchTerm('');
+                await setCurrentPage(1)
+                await setItemsPerPage(pageLimit);
+                handleSearch();
+              }}
+              variant='link' size='link'>Clear All</Button>
             )}
           </div>
         </div>
@@ -587,14 +541,14 @@ const DashboardTable = ({
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
           <TrelloCards
             hubspotObjectTypeId={hubspotObjectTypeId}
-            getTrelloCardsData={getTrelloCardsData}
+            // getTrelloCardsData={getTrelloCardsData}
             activeCardData={activeCardData}
             pipelines={pipelines}
             activePipeline={activePipeline}
             isLoadingPipelines={isLoadingPipelines}
             urlParam={urlParam}
             companyAsMediator={companyAsMediator}
-            handleCardData={handleCardData}
+            handleCardData={handleCardPageChange}
             currentPage={currentPage}
             hasMoreData={hasMoreData}
           />
