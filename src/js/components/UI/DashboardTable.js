@@ -41,6 +41,7 @@ const DashboardTable = ({
   pipeLineId,
   specPipeLine,
 }) => {
+  const pageLimit = env.TABLE_PAGE_LIMIT;
   const [urlParam, setUrlParam] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -49,7 +50,7 @@ const DashboardTable = ({
   const [numOfPages, setNumOfPages] = useState();
   const [totalItems, setTotalItems] = useState(0);
   const [currentItems, setCurrentItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(pageLimit);
   const [currentPage, setCurrentPage] = useState(1);
   const [tableHeader, setTableHeader] = useState([]);
   const [after, setAfter] = useState("");
@@ -183,7 +184,7 @@ const DashboardTable = ({
     ],
     mutationFn: async (props) => {
       const param = {
-        limit: itemsPerPage || 10,
+        limit: itemsPerPage || pageLimit,
         page: currentPage,
         ...(after && after.length > 0 && { after }),
         sort: sortConfig,
@@ -243,18 +244,15 @@ const DashboardTable = ({
   };
 
   const handlePageChange = async (page) => {
-    setCurrentPage(page);
-    setAfter((page - 1) * itemsPerPage);
-    await wait(100);
+    await setCurrentPage(page);
+    await setAfter((page - 1) * itemsPerPage);
     getData();
   };
 
   const handleCardPageChange = async (page) => {
-    setCurrentPage(page);
-    await wait(100);
+    await setCurrentPage(page);
     getData();
   };
-  // Handle Filter End
 
   useEffect(() => {
     if (activeCardPrevData) {
@@ -296,13 +294,7 @@ const DashboardTable = ({
       filterValue: filterValue
     });
   };
-
-  useEffect(() => {
-    if (searchTerm === "") {
-      getData();
-      setItemsPerPage(10);
-    }
-  }, [searchTerm]);
+  // Handle Filter End
 
   // Start Cookie RouteMenuConfig
   const setSelectRouteMenuConfig = (routeMenuConfig) => {
@@ -481,9 +473,14 @@ const DashboardTable = ({
                 height="semiMedium"
                 icon={SearchIcon}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => {
+                onChange={async (e) => {
+                  await setSearchTerm(e.target.value)
+                  if(e.target.value === '') handleSearch()
+                }}
+                onKeyDown={async (e) => {
                   if (e.key === "Enter") {
+                    await setCurrentPage(1)
+                    await setItemsPerPage(pageLimit)
                     handleSearch(); // Trigger search when Enter is pressed
                   }
                 }}
@@ -499,7 +496,14 @@ const DashboardTable = ({
               )}
             </Tooltip>
             {searchTerm && (
-              <Button onClick={() => setSearchTerm('')} variant='link' size='link'>Clear All</Button>
+              <Button 
+              onClick={async () => {
+                await setSearchTerm('');
+                await setCurrentPage(1)
+                await setItemsPerPage(pageLimit);
+                handleSearch();
+              }}
+              variant='link' size='link'>Clear All</Button>
             )}
           </div>
         </div>
