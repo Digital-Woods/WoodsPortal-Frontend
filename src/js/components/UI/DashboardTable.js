@@ -45,10 +45,8 @@ const DashboardTable = ({
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
-  // const { BrowserRouter, Route, Switch, withRouter } = window.ReactRouterDOM;
   const [tableData, setTableData] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
-  // const [currentTableData, setCurrentTableData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [currentItems, setCurrentItems] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -64,7 +62,6 @@ const DashboardTable = ({
   const [permissions, setPermissions] = useState(null);
   const [hoverRow, setHoverRow] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
-
   const [pipelines, setPipelines] = useState([]);
   const [activePipeline, setActivePipeline] = useState();
 
@@ -72,13 +69,9 @@ const DashboardTable = ({
   const [activeCard, setActiveCard] = useState(false);
   const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
-  const [view, setView] = useState('list');
   const [hasMoreData, setHasMoreData] = useState(true);
 
-  // const numOfPages = Math.ceil(totalItems / itemsPerPage);
   const { sync, setSync } = useSync();
-
-  const { me } = useMe();
 
   useEffect(() => {
     setNumOfPages(Math.ceil(totalItems / itemsPerPage));
@@ -106,7 +99,6 @@ const DashboardTable = ({
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
-  const parentObjectTypeName = getParam("parentObjectTypeName");
   const objectTypeId = getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
   const isPrimaryCompany = getParam("isPrimaryCompany");
