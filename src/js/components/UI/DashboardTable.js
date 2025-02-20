@@ -138,9 +138,9 @@ const DashboardTable = ({
       let routeMenuConfigs = getRouteMenuConfig();
       
       if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) && routeMenuConfigs[hubspotObjectTypeId].activePipeline) {
+        filterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline
         setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
       } else {
-
         if (activeCard && !activePipeline) {
           filterValue = pipelineSingle.pipelineId;
           setActivePipeline(pipelineSingle.pipelineId);
@@ -151,10 +151,8 @@ const DashboardTable = ({
             }
           }
           setSelectRouteMenuConfig(routeMenuConfig)
-          
         } else {
           filterValue = activePipeline;
-
         }
       }
 
