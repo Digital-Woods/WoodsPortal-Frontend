@@ -72,21 +72,60 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr"></script>
 
+<script src='https://prosemirror.net/examples/prosemirror.js'></script>
+
 <!-- ProseMirror Modules -->
 <script type="module">
-  import { EditorState, Plugin as ProseMirrorPlugin, PluginKey as ProseMirrorPluginKey } from 'https://cdn.skypack.dev/prosemirror-state';
-  import { EditorView, Decoration, DecorationSet } from 'https://cdn.skypack.dev/prosemirror-view';
-  import { Schema, DOMParser, DOMSerializer } from 'https://cdn.skypack.dev/prosemirror-model';
-  import { keymap } from 'https://cdn.skypack.dev/prosemirror-keymap';
-  import { baseKeymap } from 'https://cdn.skypack.dev/prosemirror-commands';
-  import { history, undo, redo } from 'https://cdn.skypack.dev/prosemirror-history';
-  import { exampleSetup, buildMenuItems } from 'https://cdn.skypack.dev/prosemirror-example-setup';
-  import { MenuItem, Dropdown, menuBar } from 'https://cdn.skypack.dev/prosemirror-menu';
-  import { addListNodes, wrapInList, liftListItem } from 'https://cdn.skypack.dev/prosemirror-schema-list';
-  import { schema as baseSchema } from "https://cdn.skypack.dev/prosemirror-schema-basic";
-  import { toggleMark, wrapIn } from "https://cdn.skypack.dev/prosemirror-commands";
+  // import { EditorState, Plugin as ProseMirrorPlugin, PluginKey as ProseMirrorPluginKey } from 'https://cdn.skypack.dev/prosemirror-state';
+  // import { EditorView, Decoration, DecorationSet } from 'https://cdn.skypack.dev/prosemirror-view';
+  // import { Schema, DOMParser, DOMSerializer } from 'https://cdn.skypack.dev/prosemirror-model';
+  // import { keymap } from 'https://cdn.skypack.dev/prosemirror-keymap';
+  // import { baseKeymap } from 'https://cdn.skypack.dev/prosemirror-commands';
+  // import { history, undo, redo } from 'https://cdn.skypack.dev/prosemirror-history';
+  // import { exampleSetup, buildMenuItems } from 'https://cdn.skypack.dev/prosemirror-example-setup';
+  // import { MenuItem, Dropdown, menuBar } from 'https://cdn.skypack.dev/prosemirror-menu';
+  // import { addListNodes, wrapInList, liftListItem } from 'https://cdn.skypack.dev/prosemirror-schema-list';
+  // import { schema as baseSchema } from "https://cdn.skypack.dev/prosemirror-schema-basic";
+  // import { toggleMark, wrapIn } from "https://cdn.skypack.dev/prosemirror-commands";
 
-  window.ProseMirrorState = { EditorState, Plugin };
+  // window.ProseMirrorState = { EditorState, Plugin };
+  // window.ProseMirrorPlugin = ProseMirrorPlugin;
+  // window.ProseMirrorPluginKey = ProseMirrorPluginKey;
+  // window.ProseMirrorView = { EditorView };
+  // window.Decoration = { Decoration };
+  // window.DecorationSet = { DecorationSet };
+  // window.ProseMirrorModel = { Schema, DOMParser };
+  // window.DOMSerializer = { DOMSerializer };
+  // window.ProseMirrorKeymap = { keymap, baseKeymap };
+  // window.ProseMirrorHistory = { history, undo, redo };
+  // window.ProseMirrorExampleSetup = { exampleSetup };
+  // window.ProseMirrorBuildMenuItems = { buildMenuItems };
+  // window.ProseMirrorMenuItem = { MenuItem };
+  // window.addListNodes = { addListNodes };
+  // window.wrapInList = { wrapInList };
+  // window.liftListItem = { liftListItem };
+  // window.baseSchema = { baseSchema };
+  // window.ProseMirrorMenuDropdown = { Dropdown };
+  // window.toggleMark = { toggleMark };
+  // window.wrapIn = { wrapIn };
+  // window.menuBar = { menuBar };
+
+  const { EditorState, Plugin, PluginKey } = PM.state;
+  const { EditorView, Decoration, DecorationSet } = PM.view;
+  const { Schema, DOMParser, DOMSerializer } = PM.model;
+  const { keymap } = PM.keymap;
+  const { history, undo, redo } = PM.history;
+  const { exampleSetup, buildMenuItems } = PM.example_setup;
+  const { MenuItem, Dropdown, menuBar } = PM.menu;
+  const { addListNodes, wrapInList, liftListItem } = PM.schema_list;
+  const { schema } = PM.schema_basic;
+  const { toggleMark, wrapIn, baseKeymap } = PM.commands;
+
+  const ProseMirrorPluginKey = PluginKey
+  const ProseMirrorPlugin = Plugin
+  const baseSchema = schema
+
+  window.ProseMirrorState = { EditorState };
   window.ProseMirrorPlugin = ProseMirrorPlugin;
   window.ProseMirrorPluginKey = ProseMirrorPluginKey;
   window.ProseMirrorView = { EditorView };
@@ -107,4 +146,5 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
   window.toggleMark = { toggleMark };
   window.wrapIn = { wrapIn };
   window.menuBar = { menuBar };
+  
 </script>

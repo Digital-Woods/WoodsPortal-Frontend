@@ -40,11 +40,11 @@ const UserProfileCard = ({ userData, isLoading }) => {
 
     // Filter and sort associated company details
     const filteredAssociatedDetails = Object.entries(userAssociatedDetails).filter(
-        ([key, value]) => value?.label && !["configurations", "objectTypeId", "labels", "name", "hs_object_id"].includes(key)
+        ([key, value]) => value?.label && !["configurations", "objectTypeId", "labels", 'name', "hs_object_id"].includes(key)
     );
     const sortedAssociatedDetails = sortProperties(Object.fromEntries(filteredAssociatedDetails));
     const visibleAssociatedDetails = showMoreAssociated ? sortedAssociatedDetails : sortedAssociatedDetails.slice(0, 4);
-
+console.log(userDetails,'userData.response?.associations');
     return (
         <div>
             <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
@@ -114,15 +114,23 @@ const UserProfileCard = ({ userData, isLoading }) => {
 
                             <div className="">
                                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">
-                                    {visibleAssociatedDetails.length > 0 ? (
-                                        visibleAssociatedDetails.map(([key, value]) => (
-                                            <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                                <span className="font-semibold">{value?.label}</span>
-                                                {renderCellContent(false, value?.value, value)}
+                                    {(userDetails?.associations?.COMPANY?.name) ? (
+                                        (visibleAssociatedDetails?.length ?? 0) > 0 ? (
+                                            visibleAssociatedDetails.map(([key, value]) => (
+                                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                                        <span className="font-semibold">{value?.label}</span>
+                                                        {renderCellContent(false, value?.value, value)}
+                                                    </div>
+                                                ))
+                                        ) : (
+                                            <div className="text-xs dark:text-white">
+                                                Please enable visibility in the admin panel for the property.
                                             </div>
-                                        ))
+                                        )
                                     ) : (
-                                        <div className="text-xs dark:text-white">No primary company is currently associated with this contact.</div>
+                                        <div className="text-xs dark:text-white">
+                                            No primary company is currently associated with this contact.
+                                        </div>
                                     )}
                                 </div>
 

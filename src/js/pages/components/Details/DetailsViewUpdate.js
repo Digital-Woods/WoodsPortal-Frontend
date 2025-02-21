@@ -343,6 +343,7 @@ const DetailsViewUpdate = ({
   refetch,
   value,
   item,
+  urlParam,
 }) => {
   const { sync, setSync } = useSync();
   const [editRow, setEditRow] = useState(null);
@@ -354,7 +355,6 @@ const DetailsViewUpdate = ({
   const [initialValues, setInitialValues] = useState(false);
   const { z } = Zod;
   const [selectedValues, setSelectedValues] = useState();
-
 
   // checking if data is object
   useEffect(() => {
@@ -400,6 +400,7 @@ const DetailsViewUpdate = ({
             objectTypeId: objectId,
             recordId: id,
           },
+          queryParams:urlParam
         });
         return response;
       } catch (error) {

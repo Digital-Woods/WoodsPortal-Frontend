@@ -27,6 +27,13 @@ const setPortal = async (data, days = env.COOKIE_EXPIRE) => {
   });
 };
 
+const setRouteMenuConfig = async (data, days = env.COOKIE_EXPIRE) => {
+  return new Promise((resolve) => {
+    setCookie(env.ROUTE_MENU_CONFIG_KEY, JSON.stringify(data), days);
+    resolve();
+  });
+};
+
 // Get
 const getAuthCredentials = () => {
   return JSON.parse(getCookie(env.AUTH_TOKEN_KEY));
@@ -55,6 +62,7 @@ function setCookie(name, value, days) {
   }
   document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
+
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -106,4 +114,9 @@ const isLivePreview = () => {
   if (livePreview) {
   }
   return livePreview;
+};
+
+const getRouteMenuConfig = () => {
+  const routeMenuConfig = getCookie(env.ROUTE_MENU_CONFIG_KEY)
+  return routeMenuConfig ? JSON.parse(routeMenuConfig) : null;
 };
