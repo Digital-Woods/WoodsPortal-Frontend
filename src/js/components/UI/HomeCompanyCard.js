@@ -19,6 +19,7 @@ const HomeCompanyCard = ({ userData, isLoading }) => {
     const filteredAssociatedDetailsModal = Object.entries(userAssociatedDetailsModal).filter(
         ([key, value]) => value?.label && !["configurations", "objectTypeId", "labels", "name", "hs_object_id"].includes(key)
     );
+
     const visibleAssociatedDetailsModal = sortProperties(Object.fromEntries(filteredAssociatedDetailsModal));
 
     const filterKeys = companyPropertiesList?.map(item => item.value);
@@ -56,14 +57,14 @@ const HomeCompanyCard = ({ userData, isLoading }) => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs dark:text-white transition-all mt-2 duration-500 md:px-4 px-3 md:pb-4 pb-3 ">
-                        {visibleAssociatedDetailsModal.length > 0 ? (
+                        {userAssociatedDetails?.name ? (
                             visibleAssociatedDetails.length > 0 ? (
                                 visibleAssociatedDetails.map(([key, value]) => (
-                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                        <span className="font-semibold">{value?.label}</span>
-                                        {renderCellContent(false, value?.value, value)}
-                                    </div>
-                                ))) : (
+                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                            <span className="font-semibold">{value?.label}</span>
+                                            {renderCellContent(false, value?.value, value)}
+                                        </div>
+                                    ))) : (
                                 <div className="text-xs dark:text-white">Please enable visibility in the admin panel for the property you entered.</div>
                             )
                         ) : (
