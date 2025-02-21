@@ -31,7 +31,10 @@ class Client {
   };
 
   static users = {
-    me: () => HttpClient.get(API_ENDPOINTS.GET_PROFILE_DETAILS),
+    me: (hub_id) => {
+      const GET_PROFILE_DETAILS = `${API_ENDPOINTS.GET_PROFILE_DETAILS}?portal=portal_client&hubId=${hub_id}`
+      HttpClient.get(GET_PROFILE_DETAILS)
+    },
   };
 
   static user = {
