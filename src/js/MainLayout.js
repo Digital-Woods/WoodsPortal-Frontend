@@ -275,6 +275,7 @@ const MainLayout = ({ children }) => {
                     <PublicRoute
                       key={path}
                       path={path}
+                      routes={routes}
                       component={(props) => (
                         <React.Fragment>
                           {isHeader && (
