@@ -21,7 +21,7 @@ function useMe() {
 
     const { data, isLoading, error, refetch } = ReactQuery.useQuery({
       queryKey: ["me_data"],
-      queryFn: Client.users.me(hubId),
+      queryFn: () => Client.users.me(hubId),
       staleTime: 10000,
       // queryFn: async () => Client.users.me,
       // enabled: isAuthorized

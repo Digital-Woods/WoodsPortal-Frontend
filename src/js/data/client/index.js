@@ -33,7 +33,7 @@ class Client {
   static users = {
     me: (hub_id) => {
       const GET_PROFILE_DETAILS = `${API_ENDPOINTS.GET_PROFILE_DETAILS}?portal=portal_client&hubId=${hub_id}`
-      HttpClient.get(GET_PROFILE_DETAILS)
+      return HttpClient.get(GET_PROFILE_DETAILS)
     },
   };
 
