@@ -19,7 +19,6 @@ const DetailsAssociations = ({
   const param = `parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId || parentObjectTypeId
   }&mediatorObjectRecordId=${mediatorObjectRecordId || parentObjectRowId}&${urlParam.replace(/^\?/, "")}`;
   const portalId = getPortal()?.portalId
-  console.log(urlParam, 'urlParam');
 
   const associationApis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -31,7 +30,6 @@ const DetailsAssociations = ({
   };
 
   // setPermissions(data.configurations["object"]);
-  console.log(associationApis.createAPI, 'associationApis.createAPI');
   return (
     <React.Fragment>
       <Accordion

@@ -72,7 +72,7 @@ const fontSelectionPlugin = new ProseMirrorPlugin2({
   },
 });
 
-let mEditorFont = "";
+let defaultEditorFont = null;
 
 const DropdownFontMenu = ({ editorView, activeFont2 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -111,8 +111,8 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
   };
 
   useEffect(() => {
-    if (mEditorFont) setFont(mEditorFont);
-  }, [mEditorFont]);
+    if (defaultEditorFont) setFont(defaultEditorFont);
+  }, [defaultEditorFont]);
 
   return (
     <div className="relative inline-block">
@@ -123,13 +123,13 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
         onClick={toggleMenu}
       >
         <div
-          id="mEditorFont"
+          id="defaultEditorFont"
           className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
-            mEditorFont ? "bg-gray-200" : ""
+            defaultEditorFont ? "bg-gray-200" : ""
           }`}
         >
           <span id="textFontIcon">
-            {mEditorFont ? mEditorFont : font.label}
+            {defaultEditorFont ? defaultEditorFont?.label : font.label}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -152,10 +152,10 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${mEditorFont === textFont.key ? 'bg-gray-100' : ''}`}
+                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${defaultEditorFont?.key === textFont.key ? 'bg-gray-100' : 'bg-none'}`}
                 onClick={() => {
                   setFont(textFont);
-                  mEditorFont = textFont.label;
+                  defaultEditorFont = textFont;
                   applyFontFamily(textFont.key)(
                     editorView.state,
                     editorView.dispatch
@@ -196,15 +196,17 @@ const fontMenuItem = new MenuItem2({
   select: (state) => {
     // Use plugin state for enabling/disabling this item
     const activeFont = fontSelectionPluginKey.getState(state) || true;
-    mEditorFont = fontSelectionPluginKey.getState(state);
+    const selectedEditorFont = fontSelectionPluginKey.getState(state);
+    const font = textFonts.find((font) => font.key === selectedEditorFont);
+
     const div = document.getElementById("textFontIcon");
-    if (div && mEditorFont) {
-      div.textContent = mEditorFont; // Change text content
-      document.getElementById("mEditorFont")?.classList.add("bg-gray-200");
+    if (div && selectedEditorFont) {
+      div.textContent = font.label; // Change text content
+      document.getElementById("defaultEditorFont")?.classList.add("bg-gray-200");
     }
-    if (div && !mEditorFont) {
+    if (div && !selectedEditorFont) {
       div.textContent = "Sans Serif"; // Change text content
-      document.getElementById("mEditorFont")?.classList.remove("bg-gray-200");
+      document.getElementById("defaultEditorFont")?.classList.remove("bg-gray-200");
     }
     return activeFont !== null;
   },

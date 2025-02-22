@@ -82,7 +82,7 @@ const fontSizeSelectionPlugin = new ProseMirrorPlugin2({
   },
 });
 
-let mEditorFontSize = "";
+let defaultEditorFontSize = null;
 
 const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -121,8 +121,8 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
   };
 
   useEffect(() => {
-    if (mEditorFontSize) setFont(mEditorFontSize);
-  }, [mEditorFontSize]);
+    if (defaultEditorFontSize) setFont(defaultEditorFontSize);
+  }, [defaultEditorFontSize]);
 
   return (
     <div className="relative inline-block">
@@ -133,13 +133,13 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
         onClick={toggleMenu}
       >
         <div
-          id="mEditorFontSize"
+          id="defaultEditorFontSize"
           className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
-            mEditorFontSize ? "bg-gray-200" : ""
+            defaultEditorFontSize ? "bg-gray-200" : ""
           }`}
         >
           <span id="textFontSize">
-            {mEditorFontSize ? mEditorFontSize : font.label}
+            {defaultEditorFontSize ? defaultEditorFontSize?.label : font.label}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -162,10 +162,10 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
-                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${mEditorFontSize === textFont.value ? 'bg-gray-100' : ''}`}
+                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${defaultEditorFontSize?.value === textFont.value ? 'bg-gray-100' : ''}`}
                 onClick={() => {
                   setFont(textFont);
-                  mEditorFontSize = textFont.label;
+                  defaultEditorFontSize = textFont;
                   applyFontSize(textFont.value)(
                     editorView.state,
                     editorView.dispatch
@@ -206,15 +206,17 @@ const fontSizeMenuItem = new MenuItem2({
   select: (state) => {
     // Use plugin state for enabling/disabling this item
     const activeFont = fontSizeSelectionPluginKey.getState(state) || true;
-    mEditorFontSize = fontSizeSelectionPluginKey.getState(state);
+    const selectedEditorFontSize = fontSizeSelectionPluginKey.getState(state);
+    const fontSize = textFontSizes.find((font) => font.value === selectedEditorFontSize);
+
     const div = document.getElementById("textFontSize");
-    if (div && mEditorFontSize) {
-      div.textContent = mEditorFontSize; // Change text content
-      document.getElementById("mEditorFontSize")?.classList.add("bg-gray-200");
+    if (div && selectedEditorFontSize) {
+      div.textContent = fontSize?.label; // Change text content
+      document.getElementById("defaultEditorFontSize")?.classList.add("bg-gray-200");
     }
-    if (div && !mEditorFontSize) {
+    if (div && !selectedEditorFontSize) {
       div.textContent = "8"; // Change text content
-      document.getElementById("mEditorFontSize")?.classList.remove("bg-gray-200");
+      document.getElementById("defaultEditorFontSize")?.classList.remove("bg-gray-200");
     }
     return activeFont !== null;
   },
