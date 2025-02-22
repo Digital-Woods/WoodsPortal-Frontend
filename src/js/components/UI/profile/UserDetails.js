@@ -158,7 +158,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
                                         )}
                                         {permissions && permissions?.ticket?.display && (
                                             <TabsTrigger className="rounded-md" value="tickets">
-                                                <p className="text-black dark:text-white">Tickets</p>
+                                                <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}</p>
                                             </TabsTrigger>
                                         )}
                                         {/* <TabsTrigger className="rounded-md" value="photos">
