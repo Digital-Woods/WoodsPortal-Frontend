@@ -95,6 +95,7 @@ const DropdownListMenu = ({ editorView }) => {
         wrapInList(schema.nodes.ordered_list)(state, dispatch);
       }
     }
+    setIsOpen(false)
   };
 
   useEffect(() => {
