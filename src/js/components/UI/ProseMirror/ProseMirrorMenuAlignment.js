@@ -16,7 +16,7 @@ const alignments = [
   },
 ];
 
-let selectedEditorAlignment = "";
+let defaultEditorAlignment = null;
 
 const DropdownAlightMenu = ({ editorView }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,9 +42,9 @@ const DropdownAlightMenu = ({ editorView }) => {
   };
 
   useEffect(() => {
-    if (selectedEditorAlignment && textAlign)
+    if (defaultEditorAlignment && textAlign)
       applyAlignment(editorView.state, editorView.dispatch, textAlign.value);
-  }, [selectedEditorAlignment, textAlign]);
+  }, [defaultEditorAlignment, textAlign]);
 
   return (
     <div className="relative inline-block">
@@ -58,9 +58,9 @@ const DropdownAlightMenu = ({ editorView }) => {
           <SvgRenderer svgContent={textAlign.icon} />
         </div> */}
         <div
-          id="selectedEditorAlignment"
+          id="defaultEditorAlignment"
           className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
-            selectedEditorAlignment ? "bg-gray-200" : ""
+            defaultEditorAlignment ? "bg-gray-200" : ""
           }`}
         >
           <div id="textAlignIcon">
@@ -83,14 +83,16 @@ const DropdownAlightMenu = ({ editorView }) => {
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
           className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
         >
+          {console.log('defaultEditorAlignment', defaultEditorAlignment)}
           <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
             {alignments.map((alignment) => (
               <li
-                key={alignment.key}
-                className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                key={alignment.value}
+                // className="cursor-pointer hover:bg-gray-200 px-4 py-1"
+                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${defaultEditorAlignment?.value === alignment.value ? 'bg-gray-100' : 'bg-none'}`}
                 onClick={() => {
                   setTextAlign(alignment);
-                  selectedEditorAlignment = alignment.icon;
+                  defaultEditorAlignment = alignment;
                 }}
               >
                 <SvgRenderer svgContent={alignment.icon} />
@@ -132,21 +134,22 @@ const alignmentDropdown = new MenuItem2({
     const isAlignmentCenter = isAlignmentActive(state, "center");
     const isAlignmentRight = isAlignmentActive(state, "right");
     const editorListButton = document.querySelector("#textAlignIcon");
+
     if (isAlignmentLeft) {
-      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
-      document.getElementById("selectedEditorAlignment")?.classList.add("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.add("bg-gray-200");
     }
     if (isAlignmentCenter) {
-      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
-      document.getElementById("selectedEditorAlignment")?.classList.add("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.add("bg-gray-200");
     }
     if (isAlignmentRight) {
-      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
-      document.getElementById("selectedEditorAlignment")?.classList.add("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.add("bg-gray-200");
     }
-    if(!isAlignmentLeft && !isAlignmentCenter && !isAlignmentRight) {
-      // editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
-      document.getElementById("selectedEditorAlignment")?.classList.remove("bg-gray-200");
+    if(!isAlignmentLeft && !isAlignmentCenter && !isAlignmentRight && editorListButton) {
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.remove("bg-gray-200");
     }
     return true;
   },
