@@ -80,8 +80,7 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId
   }
-  console.log('entered');
-
+  
   const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
@@ -98,10 +97,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
       };
       setUrlParam(param);
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2';
-  
-      // Log the final API call to check if URL is correct
-      console.log("API Params:", param);
-
       return await Client.objects.all({
         API_ENDPOINT: apis.tableAPI,
         param: updateParamsFromUrl(apis.tableAPI, param)
@@ -109,8 +104,6 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
     },
   
     onSuccess: (data) => {
-      console.log("API Response:", data); // Check API response
-  
       setSync(false); // Ensure sync state resets after fetching data
       if (data.statusCode === "200") {
         mapResponseData(data);

@@ -230,7 +230,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
           className="my-1 inline-block"
           to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
-          <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title}</h4>
+          <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
         </Link>
         {amount && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>${amount}</p>}
         {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
@@ -244,11 +244,13 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
         className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
           }`}
       >
-        <div className="px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
+        <div className="flex items-center justify-between px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
             {name}
           </h2>
-          {count}
+          <span className="text-sm">
+            {count}
+          </span>
         </div>
         {children}
       </div>
@@ -702,12 +704,6 @@ Main Component Starts Here
                             dropType="card"
                           />
                         </Drag.DropZone>
-                        {hasMoreData ?
-                          <div className="mb-2 flex items-center px-2">
-                            <Button onClick={loadMore} variant="link" size="link" >Load More</Button>
-                          </div>
-                          : null}
-
                       </List>
                     </Drag.DragItem>
                     <Drag.DropZone
@@ -716,6 +712,11 @@ Main Component Starts Here
                       dropType="card"
                       remember={true}
                     />
+                    {hasMoreData ?
+                      <div className="pb-3 flex items-center justify-center px-2 mt-2 sticky bottom-0">
+                        <Button onClick={loadMore} size='sm' >Show more</Button>
+                      </div>
+                      : null}
                   </Drag.DropZones>
                 </React.Fragment>
               );

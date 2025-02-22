@@ -136,7 +136,7 @@ const DashboardTable = ({
       let filterValue = "";
 
       let routeMenuConfigs = getRouteMenuConfig();
-      
+
       if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) && routeMenuConfigs[hubspotObjectTypeId].activePipeline) {
         filterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline
         setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
@@ -146,7 +146,7 @@ const DashboardTable = ({
           setActivePipeline(pipelineSingle.pipelineId);
 
           const routeMenuConfig = {
-            [hubspotObjectTypeId] : {
+            [hubspotObjectTypeId]: {
               activePipeline: pipelineSingle.pipelineId,
             }
           }
@@ -209,14 +209,15 @@ const DashboardTable = ({
       setSync(false);
       if (data.statusCode === "200") {
         if (activeCard) {
-          setActivePrevCardData(data?.data?.results?.rows)
+          setActivePrevCardData(data?.data?.results?.rows);
         } else {
           mapResponseData(data);
-          if (defPermissions === null) {
-            setPermissions(data.configurations[componentName]);
-          } else {
-            setPermissions(data.configurations["object"]);
-          }
+        }
+        if (defPermissions === null) {
+          setPermissions(data.configurations[componentName]);
+
+        } else {
+          setPermissions(data.configurations["object"]);
         }
       } else {
         setPermissions(null);
@@ -256,25 +257,25 @@ const DashboardTable = ({
     if (activeCardPrevData) {
       setActiveCardData((prevData) => {
         if (!prevData) return activeCardPrevData; // If no previous data, set directly
-  
+
         // Create a Set of unique identifiers (hs_object_id + hs_pipeline_stage.value)
         const existingKeys = new Set(
           prevData.map(item => `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
         );
-  
+
         // Filter out duplicates from activeCardPrevData
         const newData = activeCardPrevData.filter(
           item => !existingKeys.has(`${item.hs_object_id}-${item.hs_pipeline_stage?.value}`)
         );
 
         setHasMoreData(newData.length > 0);
-  
+
         // Append only new unique data
         return [...prevData, ...newData];
       });
     }
   }, [activeCardPrevData]);
-  
+
   // const setDialogData = (data) => {
   //   setModalData(data);
   //   setOpenModal(true);
@@ -299,12 +300,12 @@ const DashboardTable = ({
     let routeMenuConfigs = getRouteMenuConfig();
 
     Object.keys(routeMenuConfig).forEach((key) => {
-      if(!routeMenuConfigs) routeMenuConfigs = {}; 
+      if (!routeMenuConfigs) routeMenuConfigs = {};
       if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
         routeMenuConfigs[key] = routeMenuConfig[key];
       } else {
-        if(routeMenuConfig[key]?.activeTab) routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
-        if(routeMenuConfig[key]?.activePipeline) routeMenuConfigs[key].activePipeline = routeMenuConfig[key].activePipeline;
+        if (routeMenuConfig[key]?.activeTab) routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
+        if (routeMenuConfig[key]?.activePipeline) routeMenuConfigs[key].activePipeline = routeMenuConfig[key].activePipeline;
       }
     });
 
@@ -314,7 +315,7 @@ const DashboardTable = ({
   const setActiveTab = (status) => {
     setActiveCard(status)
     const routeMenuConfig = {
-      [hubspotObjectTypeId] : {
+      [hubspotObjectTypeId]: {
         activeTab: status ? 'grid' : 'list',
       }
     }
@@ -323,7 +324,7 @@ const DashboardTable = ({
 
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();
-   
+
     if (routeMenuConfigs && routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)) {
       const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab
       setActiveCard(activeTab === 'grid' ? true : false)
@@ -348,7 +349,7 @@ const DashboardTable = ({
       filterValue = pipelineSingle.pipelineId
 
       const routeMenuConfig = {
-        [hubspotObjectTypeId] : {
+        [hubspotObjectTypeId]: {
           activePipeline: pipelineSingle.pipelineId,
         }
       }
@@ -361,13 +362,13 @@ const DashboardTable = ({
       setActivePipeline(null);
 
       const routeMenuConfig = {
-        [hubspotObjectTypeId] : {
+        [hubspotObjectTypeId]: {
           activePipeline: null,
         }
       }
       setSelectRouteMenuConfig(routeMenuConfig)
     }
- 
+
     getData({
       filterPropertyName: 'hs_pipeline',
       filterOperator: 'eq',
@@ -378,6 +379,7 @@ const DashboardTable = ({
   // Initial Call Pipeline
   useEffect(() => {
     getPipelines();
+    setCurrentPage(1);
   }, [activeCard]);
 
   // If click sync button
@@ -473,7 +475,7 @@ const DashboardTable = ({
                 value={searchTerm}
                 onChange={async (e) => {
                   await setSearchTerm(e.target.value)
-                  if(e.target.value === '') handleSearch()
+                  if (e.target.value === '') handleSearch()
                 }}
                 onKeyDown={async (e) => {
                   if (e.key === "Enter") {
@@ -494,14 +496,14 @@ const DashboardTable = ({
               )}
             </Tooltip>
             {searchTerm && (
-              <Button 
-              onClick={async () => {
-                await setSearchTerm('');
-                await setCurrentPage(1)
-                await setItemsPerPage(pageLimit);
-                handleSearch();
-              }}
-              variant='link' size='link'>Clear All</Button>
+              <Button
+                onClick={async () => {
+                  await setSearchTerm('');
+                  await setCurrentPage(1)
+                  await setItemsPerPage(pageLimit);
+                  handleSearch();
+                }}
+                variant='link' size='link'>Clear All</Button>
             )}
           </div>
         </div>
