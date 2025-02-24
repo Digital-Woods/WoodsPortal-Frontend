@@ -41,6 +41,7 @@ const textColorPlugin = new ProseMirrorPlugin2({
   },
 });
 
+const defaultTextColor = "#000";
 let selectedTextColor = "";
 
 const DropdownColorMenu = ({ editorView, icon }) => {
@@ -114,7 +115,7 @@ const DropdownColorMenu = ({ editorView, icon }) => {
           viewBox="0 -960 960 960"
           width="24px"
         >
-          <path d="M80 0v-160h800V0H80Z" fill="#e5e7eb" id="text-color-svg" />
+          <path d="M80 0v-160h800V0H80Z" fill={defaultTextColor} id="text-color-svg" />
           <path
             d="M220-280 430-840h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"
             fill="#e5e7eb"
@@ -179,7 +180,7 @@ const textColor = new MenuItem2({
       div.setAttribute("fill", selectedTextColor);
     }
     if (div && !selectedTextColor) {
-      div.setAttribute("fill", "#000");
+      div.setAttribute("fill", defaultTextColor);
     }
     return activeFont !== null;
   },
