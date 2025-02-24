@@ -102,7 +102,7 @@ const DropdownColorMenu = ({ editorView, icon }) => {
   }, [color]);
 
   return (
-    <div className="relative inline-block">
+    <div className="note-menuitem">
       <div
         class="ProseMirror-icon"
         title="Text Color"
@@ -111,23 +111,23 @@ const DropdownColorMenu = ({ editorView, icon }) => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="24px"
+          height="20px"
           viewBox="0 -960 960 960"
-          width="24px"
+          width="20px"
         >
           <path d="M80 0v-160h800V0H80Z" fill={defaultTextColor} id="text-color-svg" />
           <path
             d="M220-280 430-840h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"
-            fill="#e5e7eb"
+            fill={defaultTextColor}
           />
         </svg>
 
         {/* <span class="custom-menu-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
+            height="20px"
             viewBox="0 -960 960 960"
-            width="24px"
+            width="20px"
             fill="#e8eaed"
           >
             <path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z" />
@@ -160,7 +160,7 @@ const renderReactComponent = (editorView) => {
   return container;
 };
 const textColor = new MenuItem2({
-  title: `Set text color`,
+  title: `Text color`,
   run: (state, dispatch, editorView) => {
     const newFont = textColorPluginKey.getState(state); // Example selected font
     const tr = state.tr;

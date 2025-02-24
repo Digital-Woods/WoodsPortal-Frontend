@@ -713,7 +713,7 @@ Main Component Starts Here
                       remember={true}
                     />
                     {hasMoreData ?
-                      <div className="pb-3 flex items-center justify-center px-2 mt-2 sticky bottom-0">
+                      <div className="bg-[#f5f8fa] dark:bg-dark-500 flex items-center justify-center p-2 sticky bottom-0">
                         <Button onClick={loadMore} size='sm' >Show more</Button>
                       </div>
                       : null}
@@ -725,7 +725,7 @@ Main Component Starts Here
               <Drag.DropGuide
                 dropId={data.length}
                 dropType="list"
-                className="rounded-md bg-gray-200 dark:bg-dark-300 h-96 mx-2 my-5 w-64 shrink-0 grow-0"
+                className="rounded-md bg-gray-200 dark:bg-dark-300 h-96 mx-2 my-5 w-64 shrink-0 grow-0 bg-"
               />
             </Drag.DropZone>
           </Drag.DropZone>

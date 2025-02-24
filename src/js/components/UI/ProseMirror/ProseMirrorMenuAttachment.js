@@ -130,10 +130,10 @@ const EditorAttachmentUploadMenu = ({
   };
 
   return (
-    <div className="relative inline-block">
+    <div className="note-menuitem">
       <div
         className="ProseMirror-icon"
-        title="Select Text Bold"
+        title="Insert Attatchment"
         ref={boldButtonRef}
         onClick={uploadImage}
       >
@@ -181,7 +181,7 @@ const customMenuItemAttachment = (
   setUploadProgress
 ) =>
   new MenuItem2({
-    title: `Attachment Upload`,
+    title: `Insert Attatchment`,
     run: () => {},
     select: (state) => {
       return true;
