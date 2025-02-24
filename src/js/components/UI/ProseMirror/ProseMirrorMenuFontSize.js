@@ -128,14 +128,14 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
     <div className="relative inline-block">
       <div
         class="ProseMirror-icon"
-        title="Select Text Alignment"
+        title="Font size"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
         <div
           id="defaultEditorFontSize"
-          className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
-            defaultEditorFontSize ? "bg-gray-200" : ""
+          className={`note-font-dropdown-menu ${
+            defaultEditorFontSize ? "note-active-state" : ""
           }`}
         >
           <span id="textFontSize">
@@ -143,7 +143,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
+            height="20px"
             viewBox="0 -960 960 960"
             width="24px"
             fill="#e8eaed"
@@ -158,11 +158,11 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
           className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
         >
-          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+          <ul class="space-y-2 note-dd-Select-menu text-gray-500 list-none list-inside dark:text-gray-400">
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
-                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${defaultEditorFontSize?.value === textFont.value ? 'bg-gray-100' : ''}`}
+                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFontSize?.value === textFont.value ? 'bg-gray-100' : ''}`}
                 onClick={() => {
                   setFont(textFont);
                   defaultEditorFontSize = textFont;
@@ -191,7 +191,7 @@ const renderReactFontSizeComponent = (editorView) => {
 const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 
 const fontSizeMenuItem = new MenuItem2({
-  title: `Select Font Size`,
+  title: `Font Size`,
   run: (state, dispatch, editorView) => {
     const newFont = fontSizeSelectionPluginKey.getState(state); // Example selected font
     const tr = state.tr;
@@ -212,11 +212,11 @@ const fontSizeMenuItem = new MenuItem2({
     const div = document.getElementById("textFontSize");
     if (div && selectedEditorFontSize) {
       div.textContent = fontSize?.label; // Change text content
-      document.getElementById("defaultEditorFontSize")?.classList.add("bg-gray-200");
+      document.getElementById("defaultEditorFontSize")?.classList.add("note-active-state");
     }
     if (div && !selectedEditorFontSize) {
       div.textContent = "8"; // Change text content
-      document.getElementById("defaultEditorFontSize")?.classList.remove("bg-gray-200");
+      document.getElementById("defaultEditorFontSize")?.classList.remove("note-active-state");
     }
     return activeFont !== null;
   },

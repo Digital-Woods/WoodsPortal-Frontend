@@ -8,7 +8,7 @@
 //     dom: (() => {
 //       const span = document.createElement("span");
 //       span.innerHTML = `
-// <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>
+// <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>
 // `;
 //       span.className = "custom-menu-icon";
 //       return span;
@@ -43,7 +43,7 @@ const isMarkActive = (state, markType) => {
 };
 
 const EditorItalicMenu = ({ editorView }) => {
-  const boldIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>`;
+  const boldIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>`;
   const boldButtonRef = useRef(null);
   const [selectedEditorItalic, setSelectedEditorItalic] = useState(false);
 
@@ -57,13 +57,13 @@ const EditorItalicMenu = ({ editorView }) => {
     <div className="relative inline-block">
       <div
         className="ProseMirror-icon"
-        title="Select Text Bold"
+        title="Italic"
         ref={boldButtonRef}
         onClick={toggleMenu}
       >
         <div
           id="selectedEditorItalic"
-          className={` ${selectedEditorItalic ? "bg-gray-200" : ""}`}
+          className={`note-menuitem ${selectedEditorItalic ? "note-active-state" : ""}`}
         >
           <SvgRenderer svgContent={boldIcon} />
         </div>
@@ -84,10 +84,10 @@ const italicItem = new MenuItem2({
   select: (state) => {
     const editorListButton = document.querySelector("#selectedEditorItalic");
     if (editorListButton && isMarkActive(state, state.schema.marks.em)) {
-      editorListButton.classList.add("bg-gray-200");
+      editorListButton.classList.add("note-active-state");
     } 
     if (editorListButton && !isMarkActive(state, state.schema.marks.em)) {
-      editorListButton.classList.remove("bg-gray-200");
+      editorListButton.classList.remove("note-active-state");
     }
     return true;
   },

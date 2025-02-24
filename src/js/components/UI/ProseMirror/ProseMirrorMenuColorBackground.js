@@ -104,10 +104,10 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
   }, [color]);
 
   return (
-    <div className="relative inline-block">
+    <div className="note-menuitem">
       <div
         class="ProseMirror-icon"
-        title="Text BG Color"
+        title="Text highlight"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
@@ -117,27 +117,27 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
             height="20px"
             viewBox="0 -960 960 960"
             width="20px"
-            fill="#e8eaed"
+            fill="#666666"
           >
             <path d="M80 0v-160h800V0H80Zm160-320h56l312-311-29-29-28-28-311 312v56Zm-80 80v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Zm560-504-56-56 56 56ZM608-631l-29-29-28-28 57 57Z" />
           </svg> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
+            height="20px"
             viewBox="0 -960 960 960"
-            width="24px"
+            width="20px"
           >
             <path d="M80 0v-160h800V0H80Z" fill="#fff" id="text-bg-color-svg" />
             <path
               d="M160-320h56l312-311-29-29-28-28-311 312v56Z"
-              fill="#e8eaed"
+              fill="#666666"
             />
             <path
               d="M80-240v-170l448-447q11-11 25.5-17t30.5-6q16 0 31 6t27 18l55 56q12 11 17.5 26t5.5 31q0 15-5.5 29.5T777-687L330-240H160Z"
-              fill="#e8eaed"
+              fill="#666666"
             />
-            <path d="M720-744l-56-56 56 56Z" fill="#e8eaed" />
-            <path d="M608-631l-29-29-28-28 57 57Z" fill="#e8eaed" />
+            <path d="M720-744l-56-56 56 56Z" fill="#666666" />
+            <path d="M608-631l-29-29-28-28 57 57Z" fill="#666666" />
           </svg>
         </span>
       </div>
@@ -166,14 +166,14 @@ const renderReactComponent2 = (editorView) => {
   ReactDOM.render(
     <DropdownColorMenu2
       editorView={editorView}
-      icon={`<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>`}
+      icon={`<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#666666"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>`}
     />,
     container
   );
   return container;
 };
 const textBGColor = new MenuItem2({
-  title: `Set text bg color`,
+  title: `Text highlight`,
   run: (state, dispatch, editorView) => {
     const newFont = textBGColorPluginKey.getState(state); // Example selected font
     const tr = state.tr;
