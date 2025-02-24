@@ -2,6 +2,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
   const { sync, setSync } = useSync();
   const [data, setData] = useState([]);
+  const [addAnother, setAddAnother] = useState(false);
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: [
       "TableFormData"
@@ -28,6 +29,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
   const [serverError, setServerError] = useState(null);
   const [alert, setAlert] = useState(null);
   const { z } = Zod;
+  const resetRef = useRef(null);
 
   const createValidationSchema = (data) => {
     const schemaShape = {};
@@ -59,26 +61,29 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
   const { mutate: addData, isLoading: submitLoading } = useMutation({
     mutationKey: ["addData"],
-    mutationFn: async (input) => {
+    mutationFn: async ({ formData, addAnother }) => {
       try {
-        const mUrlParam = updateParamsFromUrl(apis.createAPI, urlParam)
+        const mUrlParam = updateParamsFromUrl(apis.createAPI, { ...urlParam, addAnother: addAnother ? "true" : "false" })
         const API_ENDPOINT = removeAllParams(apis.createAPI)
-
         const API = addParam(API_ENDPOINT, mUrlParam)
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
-          data: input
+          data: formData
         });
         return response;
       } catch (error) {
         throw error;
       }
     },
-    onSuccess: async (response) => {
+    onSuccess: async (response, variables) => {
       setAlert({ message: response.statusMsg, type: "success" });
       setSync(true)
-      setOpenModal(false)
+      if (!variables.addAnother) {
+        setOpenModal(false);
+      } else {
+        resetRef.current?.(); // Reset form after successful submission
+      }
     },
 
     onError: (error) => {
@@ -123,8 +128,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
   });
 
-  const onSubmit = (data) => {
-    addData(data);
+  const onSubmit = (formData) => {
+    addData({ formData, addAnother });
   };
 
   const onChangeSelect = (filled, selectedValue) => {
@@ -157,16 +162,18 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 serverError={serverError}
                 className="dark:bg-dark-200 !m-0"
               >
-                {({ register, control, formState: { errors } }) => (
-                  <div>
-                    <div className="text-gray-800 dark:text-gray-200">
-                      {data.map((filled) => (
-                        <div>
-                          <FormItem className=''>
-                            <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                              {filled.customLabel}
-                            </FormLabel>
-                            {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
+                {({ register, control, formState: { errors }, reset }) => {
+                  resetRef.current = reset;
+                  return (
+                    <div>
+                      <div className="text-gray-800 dark:text-gray-200">
+                        {data.map((filled) => (
+                          <div>
+                            <FormItem className=''>
+                              <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                {filled.customLabel}
+                              </FormLabel>
+                              {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
                               <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>
@@ -190,81 +197,90 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                               </FormControl>
                             } */}
 
-                            <FormControl>
-                              <div>
-                                {
-                                  filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
-                                    <Select
-                                      label={`Select ${filled.customLabel}`}
-                                      name={filled.name}
-                                      options={filled.options}
-                                      control={control}
-                                      filled={filled}
-                                      onChangeSelect={onChangeSelect}
-                                    />
-                                  ) : filled.fieldType === 'textarea' ? (
-                                    <Textarea
-                                      height="medium"
-                                      placeholder={filled.customLabel}
-                                      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                                      {...register(filled.name)}
-                                    />
-                                  ) : filled.fieldType === 'date' ? (
-                                    <Input
-                                      type="date"
-                                      placeholder={`Enter ${filled.customLabel}`}
-                                      height="small"
-                                      className=""
-                                      defaultValue={''}
-                                      {...register(filled.name)}
-                                    />
-                                  )
-                                    : filled.fieldType === 'number' ? (
-                                      <Input
-                                        type="number"
+                              <FormControl>
+                                <div>
+                                  {
+                                    filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                      <Select
+                                        label={`Select ${filled.customLabel}`}
+                                        name={filled.name}
+                                        options={filled.options}
+                                        control={control}
+                                        filled={filled}
+                                        onChangeSelect={onChangeSelect}
+                                      />
+                                    ) : filled.fieldType === 'textarea' ? (
+                                      <Textarea
+                                        height="medium"
                                         placeholder={filled.customLabel}
-                                        className=""
+                                        className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
                                         {...register(filled.name)}
                                       />
-                                    ) : (
+                                    ) : filled.fieldType === 'date' ? (
                                       <Input
-                                        // type={filled.fieldType}
-                                        placeholder={filled.customLabel}
+                                        type="date"
+                                        placeholder={`Enter ${filled.customLabel}`}
+                                        height="small"
                                         className=""
+                                        defaultValue={''}
                                         {...register(filled.name)}
                                       />
                                     )
-                                }
-                              </div>
-                            </FormControl>
+                                      : filled.fieldType === 'number' ? (
+                                        <Input
+                                          type="number"
+                                          placeholder={filled.customLabel}
+                                          className=""
+                                          {...register(filled.name)}
+                                        />
+                                      ) : (
+                                        <Input
+                                          // type={filled.fieldType}
+                                          placeholder={filled.customLabel}
+                                          className=""
+                                          {...register(filled.name)}
+                                        />
+                                      )
+                                  }
+                                </div>
+                              </FormControl>
 
-                            {errors[filled.name] && (
-                              <FormMessage className="text-red-600 dark:text-red-400">
-                                {errors[filled.name].message}
-                              </FormMessage>
-                            )}
-                          </FormItem>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-4 flex justify-end items-end gap-1">
-                      <Button
-                        variant="outline"
-                        onClick={() => setOpenModal(false)}
-                        disabled={submitLoading}
-                      >
-                        Cancel
-                      </Button>
+                              {errors[filled.name] && (
+                                <FormMessage className="text-red-600 dark:text-red-400">
+                                  {errors[filled.name].message}
+                                </FormMessage>
+                              )}
+                            </FormItem>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-4 flex justify-end items-end gap-1">
+                        <Button
+                          variant="outline"
+                          onClick={() => setOpenModal(false)}
+                          disabled={submitLoading}
+                        >
+                          Cancel
+                        </Button>
 
-                      <Button
-                        className=" "
-                        isLoading={submitLoading}
-                      >
-                        Create {title}
-                      </Button>
+                        <Button
+                          className=" "
+                          isLoading={submitLoading && !addAnother}
+                          onClick={() => setAddAnother(false)}
+                        >
+                          Create
+                        </Button>
+
+                        <Button
+                          className=" "
+                          isLoading={submitLoading && addAnother}
+                          onClick={() => setAddAnother(true)} >
+                          Create and add another
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )
+                }}
               </Form>
             </div>
           }

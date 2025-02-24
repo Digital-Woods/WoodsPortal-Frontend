@@ -33,9 +33,11 @@ const Profile = ({ title, path }) => {
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
       }
+      setSync(false);
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
+      setSync(false);
     }
   });
   

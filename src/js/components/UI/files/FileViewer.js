@@ -1,94 +1,148 @@
-const FileViewer = ({
-    file,
-}) => {
-    const encodedFileUrl = encodeURIComponent(file?.data?.url);
-    const officeViewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodedFileUrl}`;
+const FileViewer = ({ file }) => {
+  const [loading, setLoading] = useState(true);
+  const officeViewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+    file?.data?.url
+  )}`;
 
-    // const handleCopyLink = () => {
-    //     navigator.clipboard
-    //         .writeText(file.data.url)
-    //         .then(() => {
-    //             setCopyMessage("URL copied!");
-    //             setTimeout(() => setCopyMessage(""), 2000);
-    //         })
-    //         .catch((err) => {
-    //             console.error("Failed to copy: ", err);
-    //         });
-    // };
+  if (!file) return null;
 
-    // const handleDownload = () => {
-    //     window.open(file.data.url, "_blank");
-    // };
+  const fileExtension = file?.data?.extension;
+
+  const handleLoad = () => setLoading(false);
+
+  const LoadingIcon = () => (
+    <div className="absolute inset-0 flex items-center justify-center z-50">
+      <div
+        className="w-14 h-14 rounded-full animate-spin
+              border-y-4 border-solid dark:border-white border-t-transparent 
+              "
+      ></div>
+    </div>
+  );
+
+  if (
+    fileExtension === "mp3" ||
+    fileExtension === "wav" ||
+    fileExtension === "aac" ||
+    fileExtension === "aiff" ||
+    fileExtension === "flac" ||
+    fileExtension === "ogg"
+  ) {
     return (
-        <div className="bg-white shadow-lg rounded-lg p-6 flex">
-            {file?.data?.extension === "mp3" ||
-                file?.data?.extension === "wav" ||
-                file?.data?.extension === "aac" ||
-                file?.data?.extension === "aiff" ||
-                file?.data?.extension === "flac" ||
-                file?.data?.extension === "ogg" ? (
-                <audio controls className="w-full">
-                    <source src={file?.data?.url} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                </audio>
-            ) : file?.data?.extension === "mp4" ||
-                file?.data?.extension === "mov" ||
-                file?.data?.extension === "wmv" ||
-                file?.data?.extension === "mkv" ||
-                file?.data?.extension === "avi" ? (
-                <video controls className="w-full h-[500px]">
-                    <source src={file?.data?.url} type="video/mp4" />
-                    Your browser does not support the video element.
-                </video>
-            ) : file?.data?.extension === "doc" ||
-                file?.data?.extension === "docx" ||
-                file?.data?.extension === "ppt" ||
-                file?.data?.extension === "pptx" ||
-                file?.data?.extension === "xls" ||
-                file?.data?.extension === "xlsx"
-                // ||
-                // file?.data?.extension === "csv" ||
-                // file?.data?.extension === "txt" 
-                ? (
-                    <iframe src={officeViewerUrl} className="h-[500px] w-[1600px]"></iframe>
-                ) : file?.data?.extension === "jpg" ||
-                    file?.data?.extension === "jpeg" ||
-                    file?.data?.extension === "png" ||
-                    file?.data?.extension === "gif" ||
-                    file?.data?.extension === "webp" ||
-                    file?.data?.extension === "bmp" ||
-                    file?.data?.extension === "tiff" ||
-                    file?.data?.extension === "pdf" ? (
-                    <iframe src={file?.data?.url} className="h-[500px] w-[1600px]"></iframe>
-                ) : (
-                    <p className="text-red-500 font-semibold">Unsupported file type</p>
-                )}
-
-            <div className="w-1/2 p-4">
-                <div className="text-blue-600 font-semibold text-lg mb-2">{file?.data?.name}</div>
-                <div className="text-gray-600 text-sm mb-2">
-                    <strong>Type:</strong> {file?.data?.type}
-                </div>
-                <div className="text-gray-600 text-sm mb-2">
-                    <strong>Size:</strong> {file?.data?.size}
-                </div>
-                <div className="text-gray-600 text-sm mb-4">
-                    <strong>Extension:</strong> {file?.data?.extension}
-                </div>
-                <div className="flex space-x-2">
-                    <button
-                        // onClick={handleCopyLink()}
-                        className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-orange-600">
-                        Copy Link
-                    </button>
-                    <button
-                        // onClick={handleDownload()}
-                        className="flex-1 bg-orange-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-orange-600">
-                        Download
-                    </button>
-                </div>
-            </div>
-        </div>
+      <div className="w-full  flex justify-center align-center relative">
+        {loading && <LoadingIcon />}
+        <audio controls className="w-full relative" onLoadedData={handleLoad}>
+          <source src={file?.data?.url} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
     );
+  }
 
-}
+  if (
+    fileExtension === "mp4" ||
+    fileExtension === "mov" ||
+    fileExtension === "wmv" ||
+    fileExtension === "mkv" ||
+    fileExtension === "avi"
+  ) {
+    return (
+      <div className="w-full flex justify-center ">
+        {loading && <LoadingIcon />}
+        <video controls className="w-auto relative" onLoadedData={handleLoad}>
+          <source src={file?.data?.url} type="video/mp4" />
+          Your browser does not support the video element.
+        </video>
+      </div>
+    );
+  }
+
+  if (
+    fileExtension === "doc" ||
+    fileExtension === "docx" ||
+    fileExtension === "ppt" ||
+    fileExtension === "pptx" ||
+    fileExtension === "xls" ||
+    fileExtension === "xlsx"
+  ) {
+    return (
+      <div className="w-full flex justify-center relative">
+        {loading && <LoadingIcon />}
+        <iframe
+          src={officeViewerUrl}
+          className="w-full"
+          onLoad={handleLoad}
+          allowFullScreen
+        />
+      </div>
+    );
+  }
+
+  if (
+    fileExtension === "jpg" ||
+    fileExtension === "jpeg" ||
+    fileExtension === "png" ||
+    fileExtension === "gif" ||
+    fileExtension === "webp" ||
+    fileExtension === "bmp" ||
+    fileExtension === "tiff"
+  ) {
+    return (
+      <div className="w-full flex relative justify-center ">
+        {loading && <LoadingIcon />}
+        <img
+          src={file?.data?.url}
+          alt={file?.data?.name}
+          className="h-full w-auto object-contain"
+          onLoad={handleLoad}
+        />
+      </div>
+    );
+  }
+
+  if (fileExtension === "pdf") {
+    return (
+      <div className="w-full flex justify-center relative ">
+        {loading && <LoadingIcon />}
+        <iframe
+          src={file?.data?.url}
+          className="w-full"
+          onLoad={handleLoad}
+          allowFullScreen
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center text-red-500 font-semibold space-y-4">
+      <div className="flex items-center justify-center w-24 h-24 dark:bg-dark-300 bg-red-100 rounded-full">
+        <svg
+          height="60px"
+          width="60px"
+          version="1.1"
+          id="Capa_1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 38.762 38.762"
+          xmlSpace="preserve"
+          fill="currentColor"
+          className="text-red-500"
+        >
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <g>
+              <path d="M32.724,0H6.038C5.174,0,4.472,0.703,4.472,1.565v35.633c-0.001,0.861,0.701,1.564,1.566,1.564 h17.268c0.545,0,1.152-0.26,1.587-0.641c0.097-0.075,0.196-0.168,0.294-0.297l8.472-11.228c0.365-0.483,0.632-1.272,0.632-1.88 V1.565C34.291,0.703,33.587,0,32.724,0z M30.563,28.1l-5.69,7.544v-9.359h7.062L30.563,28.1z M32.723,24.719h-7.851 c-0.865,0-1.566,0.702-1.566,1.565v10.912H6.038V1.565h26.685C32.722,1.565,32.722,24.719,32.723,24.719z"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p className="text-lg">Unsupported file type</p>
+    </div>
+  );
+};

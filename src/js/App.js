@@ -1,12 +1,25 @@
-const { BrowserRouter, Route, Link, HashRouter, NavLink, Switch, Redirect, useParams } = ReactRouterDOM;
+const {
+  BrowserRouter,
+  Route,
+  Link,
+  HashRouter,
+  NavLink,
+  Switch,
+  Redirect,
+  useParams,
+} = ReactRouterDOM;
 
-const { ChangeEvent,
+const {
+  ChangeEvent,
   useCallback,
   useEffect,
   useMemo,
   useState,
-  useRef, createContext, useContext } = React;
-  
+  useRef,
+  createContext,
+  useContext,
+} = React;
+
 const queryClient = new ReactQuery.QueryClient({
   defaultOptions: {
     queries: {
