@@ -35,12 +35,19 @@ Axios.interceptors.request.use(
       };
     }
 
-    const requestIdentifier = `${config.url}_${config.method}`;
+    // Parse and sort query parameters to ensure uniqueness
+    const url = new URL(config.url, config.baseURL);
+    const params = new URLSearchParams(config.params || url.search);
+    const sortedParams = new URLSearchParams([...params.entries()].sort()).toString();
+    const fullUrl = `${url.pathname}?${sortedParams}`;
+
+    // const requestIdentifier = `${config.url}_${config.method}`;
+    const requestIdentifier = `${fullUrl}_${config.method}`;
     // check if there is already a pending request with the same identifier
     if (pendingRequests.has(requestIdentifier)) {
       const cancelTokenSource = pendingRequests.get(requestIdentifier);
       // cancel the previous request
-      cancelTokenSource.cancel("Cancelled due to new request");
+      cancelTokenSource.cancel("Cancelled due to new request with the same parameters");
     }
 
     // create a new CancelToken

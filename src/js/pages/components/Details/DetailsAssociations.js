@@ -98,30 +98,36 @@ const DetailsAssociations = ({
                                   {value?.isEditableField && association?.configurations?.object?.update ? (
                                     <DetailsViewUpdate
                                       renderValue={renderCellContent(
-                                        companyAsMediator,
-                                        value.value,
-                                        value,
-                                        item.hs_object_id.value,
-                                        `/${association.labels.plural}`,
-                                        association.objectTypeId,
-                                        "associations",
-                                        value.isPrimaryDisplayProperty
-                                          ? `/${setParamHash(
-                                            replaceQuestionMarkToRegex(
-                                              isObject(value.value) &&
-                                                value.value.label
-                                                ? value.value.label
-                                                : value.value
-                                            )
-                                          )}/${association.objectTypeId}/${item.hs_object_id.value
-                                          }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId
-                                            ? mediatorObjectTypeId
-                                            : parentObjectTypeId
-                                          }&mediatorObjectRecordId=${mediatorObjectRecordId
-                                            ? mediatorObjectRecordId
-                                            : parentObjectRowId
-                                          }&isPrimaryCompany=${companyAsMediator}`
-                                          : ""
+                                        {
+                                          companyAsMediator: companyAsMediator,
+                                          value: value.value,
+                                          column: value,
+                                          itemId: item.hs_object_id.value,
+                                          path: `/${association.labels.plural}`,
+                                          hubspotObjectTypeId: association.objectTypeId,
+                                          type: "associations",
+                                          associationPath: value.isPrimaryDisplayProperty
+                                            ? `/${setParamHash(
+                                              replaceQuestionMarkToRegex(
+                                                isObject(value.value) &&
+                                                  value.value.label
+                                                  ? value.value.label
+                                                  : value.value
+                                              )
+                                            )}/${association.objectTypeId}/${item.hs_object_id.value
+                                            }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId
+                                              ? mediatorObjectTypeId
+                                              : parentObjectTypeId
+                                            }&mediatorObjectRecordId=${mediatorObjectRecordId
+                                              ? mediatorObjectRecordId
+                                              : parentObjectRowId
+                                            }&isPrimaryCompany=${companyAsMediator}`
+                                            : "",
+                                          detailsView: null,
+                                          hoverRow: null,
+                                          item: null,
+                                          urlParam: null,
+                                        }
                                       )}
                                       value={value}
                                       refetch={refetch}
@@ -131,28 +137,34 @@ const DetailsAssociations = ({
                                     />
                                   ) : (
                                     renderCellContent(
-                                      companyAsMediator,
-                                      value.value,
-                                      value,
-                                      item.hs_object_id.value,
-                                      `/${association.labels.plural}`,
-                                      association.objectTypeId,
-                                      "associations",
-                                      value.isPrimaryDisplayProperty
-                                        ? `/${setParamHash(
-                                          isObject(value.value) &&
-                                            value.value.label
-                                            ? value.value.label
-                                            : value.value
-                                        )}/${association.objectTypeId}/${item.hs_object_id.value
-                                        }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId
-                                          ? mediatorObjectTypeId
-                                          : parentObjectTypeId
-                                        }&mediatorObjectRecordId=${mediatorObjectRecordId
-                                          ? mediatorObjectRecordId
-                                          : parentObjectRowId
-                                        }&isPrimaryCompany=${companyAsMediator}`
-                                        : ""
+                                      {
+                                        companyAsMediator: companyAsMediator,
+                                        value: value.value,
+                                        column: value,
+                                        itemId: item.hs_object_id.value,
+                                        path: `/${association.labels.plural}`,
+                                        hubspotObjectTypeId: association.objectTypeId,
+                                        type: "associations",
+                                        associationPath: value.isPrimaryDisplayProperty
+                                          ? `/${setParamHash(
+                                            isObject(value.value) &&
+                                              value.value.label
+                                              ? value.value.label
+                                              : value.value
+                                          )}/${association.objectTypeId}/${item.hs_object_id.value
+                                          }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId
+                                            ? mediatorObjectTypeId
+                                            : parentObjectTypeId
+                                          }&mediatorObjectRecordId=${mediatorObjectRecordId
+                                            ? mediatorObjectRecordId
+                                            : parentObjectRowId
+                                          }&isPrimaryCompany=${companyAsMediator}`
+                                          : "",
+                                        detailsView: null,
+                                        hoverRow: null,
+                                        item: null,
+                                        urlParam: null,
+                                      }
                                     )
                                   )}
                                 </td>

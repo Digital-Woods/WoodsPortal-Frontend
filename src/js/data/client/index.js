@@ -41,8 +41,6 @@ class Client {
     profile: async ({ portalId, cache = false, ...query }) => {
       try {
         const url = `/api/${hubId}/${portalId}/profiles`;
-        console.log("API Request -> URL:", url, "Cache:", cache, "Query Params:", query);
-  
         const response = await HttpClient.get(url, { cache, ...query }); 
         return response; 
       } catch (error) {

@@ -209,16 +209,30 @@ const SidebarData = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPi
                     <td className="dark:text-white text-xs whitespace-wrap  text-rstextcolor break-all  !p-[3px]">
                       {/* {console.log('item', item)} */}
                       {renderCellContent(
-                        companyAsMediator,
-                        item[column.key],
-                        column,
-                        item.hs_object_id,
-                        path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
-                        path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                        'homeList',
-                        path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                        detailsView,
-                        hoverRow
+                        // companyAsMediator,
+                        // item[column.key],
+                        // column,
+                        // item.hs_object_id,
+                        // path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                        // path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                        // 'homeList',
+                        // path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                        // detailsView,
+                        // hoverRow
+                        {
+                          companyAsMediator: companyAsMediator,
+                          value: item[column.key],
+                          column: column,
+                          itemId: item.hs_object_id,
+                          path: path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                          hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                          type: "homeList",
+                          associationPath: path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                          detailsView: detailsView,
+                          hoverRow: hoverRow,
+                          item: null,
+                          urlParam: null,
+                        }
                       )}
                     </td>
                   </tr>
