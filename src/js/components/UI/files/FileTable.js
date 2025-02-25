@@ -170,15 +170,11 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
               >
                 Actions
               </button>
-
               {activeDropdown === index && (
-                <div
-                  className="absolute right-0 top-full mt-2 min-w-[150px] bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50"
-                  ref={dropdownRef}
-                >
+                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50" ref={dropdownRef}>
                   {file.type === "folder" ? (
                     <button
-                      className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300 rounded-lg"
+                      className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300  rounded-lg"
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleFolder(file);
@@ -190,7 +186,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
                   ) : (
                     <div>
                       <button
-                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300 rounded-lg"
+                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300  rounded-lg"
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedFileId(file.id);
@@ -201,16 +197,43 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
                         Details
                       </button>
                       <button
-                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300 rounded-lg"
-                        onClick={(e) => {
-                          handleDownload(file, e);
-                          setActiveDropdown(null);
-                        }}
+                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300  rounded-lg"
+                        onClick={(e) => { handleDownload(file, e); setActiveDropdown(null) }}
                       >
                         Download
                       </button>
                     </div>
                   )}
+                  {/* <button
+                    className="block w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-gray-100 dark:hover:bg-dark-300"
+                    onClick={(e) => handleTrash(file, e)}
+                    disabled={loadingFileId === file.id}
+                  >
+                    {loadingFileId === file.id ? (
+                      <svg
+                        className="animate-spin h-5 w-5 text-red-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291l-1.664 1.664A10 10 0 012.341 9H0v5.291h6zm10-5.291V0h2v10h-2zm4 2v-2h2v2h-2zm0-6v2h-2V4h2zm-6 4h4v-2h-4v2zm-2 0h2v-2h-2v2z"
+                        ></path>
+                      </svg>
+                    ) : (
+                      "Delete"
+                    )}
+                  </button> */}
                 </div>
               )}
             </div>
@@ -223,7 +246,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     return <FilesSkeleton />;
   }
   return (
-    <div className="table-container  overflow-x-auto overflow-y-visible rounded-md ">
+    <div className="table-container  overflow-auto rounded-md ">
       <Table className="w-full dark:bg-[#2a2a2a]">
         <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
           <TableRow>

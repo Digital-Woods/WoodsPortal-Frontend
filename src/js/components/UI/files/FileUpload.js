@@ -337,9 +337,8 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
                     <Button
                       type="submit"
                       disabled={selectedFile.length === 0 || isUploading}
-                      isLoading={isUploading}
                     >
-                      Upload
+                      {isUploading ? "Uploading..." : "Upload"}
                     </Button>
                   </div>
                 </form>
