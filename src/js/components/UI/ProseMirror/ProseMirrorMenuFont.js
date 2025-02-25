@@ -85,29 +85,6 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
     setIsOpen((prevState) => !prevState);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target) &&
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
-
   const applyFontFamily = (font) => {
     return (state, dispatch) => {
       const { schema, selection } = state;
@@ -147,7 +124,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
       >
         <div
           id="defaultEditorFont"
-          className={`min-w-[130px] note-font-dropdown-menu ${
+          className={`note-font-dropdown-menu ${
             defaultEditorFont ? "note-active-state" : ""
           }`}
         >
@@ -175,7 +152,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className={`cursor-pointer min-w-[130px] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFont?.key === textFont.key ? 'bg-gray-100' : 'bg-none'}`}
+                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFont?.key === textFont.key ? 'bg-gray-100' : 'bg-none'}`}
                 onClick={() => {
                   setFont(textFont);
                   defaultEditorFont = textFont;
