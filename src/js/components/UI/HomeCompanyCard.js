@@ -62,7 +62,14 @@ const HomeCompanyCard = ({ userData, isLoading }) => {
                                 visibleAssociatedDetails.map(([key, value]) => (
                                         <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                             <span className="font-semibold">{value?.label}</span>
-                                            {renderCellContent(false, value?.value, value)}
+                                            {renderCellContent(
+                                                // false, value?.value, value
+                                                {
+                                                    companyAsMediator: false,
+                                                    value: value?.value,
+                                                    column: value,
+                                                }
+                                            )}
                                         </div>
                                     ))) : (
                                 <div className="text-xs dark:text-white">Please enable visibility in the admin panel for the property you entered.</div>
@@ -111,7 +118,14 @@ const HomeCompanyCard = ({ userData, isLoading }) => {
                             {visibleAssociatedDetailsModal.map(([key, value]) => (
                                 <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                     <span className="font-semibold">{value?.label}</span>
-                                    {renderCellContent(false, value?.value, value)}
+                                    {renderCellContent(
+                                        // false, value?.value, value
+                                        {
+                                            companyAsMediator: false,
+                                            value: value?.value,
+                                            column: value,
+                                        }
+                                    )}
                                 </div>
                             ))}
                         </div>

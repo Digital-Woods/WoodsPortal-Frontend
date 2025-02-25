@@ -77,17 +77,20 @@ console.log(userDetails,'userData.response?.associations');
                                 <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                     <span className="font-semibold">{value?.label}:</span>
                                     {renderCellContent(
-                                        false,
-                                        value?.value,
-                                        value,
-                                        null,
-                                        null,
-                                        null,
-                                        "details",
-                                        null,
-                                        null,
-                                        null,
-                                        null
+                                        {
+                                            companyAsMediator: false,
+                                            value: value?.value,
+                                            column: value,
+                                            itemId: null,
+                                            path: null,
+                                            hubspotObjectTypeId: null,
+                                            type: "details",
+                                            associationPath: null,
+                                            detailsView: null,
+                                            hoverRow: null,
+                                            item: null,
+                                            urlParam: null
+                                        }
                                     )}
                                 </div>
                             ))}
@@ -119,7 +122,14 @@ console.log(userDetails,'userData.response?.associations');
                                             visibleAssociatedDetails.map(([key, value]) => (
                                                     <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                                         <span className="font-semibold">{value?.label}</span>
-                                                        {renderCellContent(false, value?.value, value)}
+                                                        {renderCellContent(
+                                                            // false, value?.value, value
+                                                            {
+                                                                companyAsMediator: false,
+                                                                value: value?.value,
+                                                                column: value,
+                                                            }
+                                                        )}
                                                     </div>
                                                 ))
                                         ) : (
