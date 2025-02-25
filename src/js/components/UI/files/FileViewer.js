@@ -14,7 +14,7 @@ const FileViewer = ({ file }) => {
     <div className="absolute inset-0 flex items-center justify-center z-50">
       <div
         className="w-14 h-14 rounded-full animate-spin
-              border-y-4 border-solid dark:border-white border-t-transparent 
+              border-y-4 border-solid border-t-transparent 
               "
       ></div>
     </div>
@@ -116,7 +116,7 @@ const FileViewer = ({ file }) => {
 
   return (
     <div className="flex flex-col items-center justify-center text-red-500 font-semibold space-y-4">
-      <div className="flex items-center justify-center w-24 h-24 dark:bg-dark-300 bg-red-100 rounded-full">
+      <div className="flex items-center justify-center w-24 h-24  bg-red-100 rounded-full">
         <svg
           height="60px"
           width="60px"

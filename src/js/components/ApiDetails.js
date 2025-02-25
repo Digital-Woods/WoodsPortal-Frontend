@@ -7,7 +7,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [configurations, setConfigurations] = useState({
     fileManager: false,
     note: false,
-    ticket: false
+    ticket: false,
   });
   const param = getParam("t");
   const companyAsMediator = getParam("isPrimaryCompany");
@@ -78,7 +78,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       const details = data?.data;
       const sortedItems = sortData(details, "details");
       setItems(sortedItems);
-      setPermissions(data.configurations)
+      setPermissions(data.configurations);
     },
     onError: (error) => {
       setSync(false);
@@ -109,46 +109,25 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     );
   }
 
-
-  // error card 
-
-  // if (error) {
-  //   return (
-  //     <div className="w-full h-[calc(100vh_-110px)] flex items-center justify-center bg-lightblue-50 dark:bg-black-900">
-  //       <div className="max-w-md w-full mx-4 p-6 text-sky-600 dark:text-white-900 border rounded-lg shadow-md flex flex-col items-center text-center">
-  //         <svg xmlns="http://www.w3.org/2000/svg" width="80px" height="80px" viewBox="0 0 24 24" fill="none">
-  //           <path d="M2.20164 18.4695L10.1643 4.00506C10.9021 2.66498 13.0979 2.66498 13.8357 4.00506L21.7984 18.4695C22.4443 19.6428 21.4598 21 19.9627 21H4.0373C2.54022 21 1.55571 19.6428 2.20164 18.4695Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M12 9V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //           <path d="M12 17.0195V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  //         </svg>
-  //         <span className="md:text-2xl text-base font-semibold mt-4">Error Found</span>
-  //         <p className="text-sm md:text-lg mt-2">
-  //           Something went wrong. Please try again later.
-  //         </p>
-  //         <ul className="text-left list-disc list-inside mt-3 text-sm md:text-base">
-  //           <li>Check your internet connection</li>
-  //           <li>Check Associations</li>
-  //           <li>Refresh the page</li>
-  //           <li>Try again after some time</li>
-  //           <li>Contact support if the issue persists</li>
-  //         </ul>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   if (isLoading && !item) {
     return (
       <div>
         <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:pt-4 pt-3">
-
-          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4 pb-4' : 'w-full'} lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+          <div
+            className={`${
+              isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+            } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+          >
             <DetailsSkeleton />
           </div>
           <div
             className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
         lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
-        ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
+        ${
+          isLargeScreen
+            ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+            : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+        } 
         ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
           >
             <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
@@ -161,11 +140,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   }
 
   return (
-    <div className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
+    <div
+      className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
     >
       {item.length > 0 ? (
         <div className=" flex relative bg-cleanWhite  h-full dark:bg-dark-200 overflow-hidden">
-
           {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
@@ -178,7 +157,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           )}
 
           {/* main content code start */}
-          <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4 pb-4' : 'w-full'} lg:h-full hide-scrollbar overflow-y-auto overflow-x-hidden md:pt-4 pt-3`}>
+          <div
+            className={`${
+              isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+            } lg:h-full hide-scrollbar overflow-y-auto overflow-x-hidden md:pt-4 pt-3`}
+          >
             <div className={``}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
@@ -211,7 +194,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                     )}
                     {permissions && permissions?.ticket?.display && (
                       <TabsTrigger className="rounded-md" value="tickets">
-                        <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}</p>
+                        <p className="text-black dark:text-white">
+                          {permissions?.ticket?.display_label
+                            ? permissions?.ticket?.display_label
+                            : "Tickets"}
+                        </p>
                       </TabsTrigger>
                     )}
 
@@ -231,8 +218,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   {/* <TabsContent value="photos"></TabsContent> */}
                 </Tabs>
               </div>
-
-
 
               {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
 
@@ -260,11 +245,23 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
               )}
 
               {activeTab === "files" && (
-                <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
+                <Files
+                  fileId={id}
+                  path={path}
+                  objectId={objectId}
+                  id={id}
+                  permissions={permissions ? permissions.fileManager : null}
+                />
               )}
 
               {activeTab === "notes" && (
-                <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
+                <Notes
+                  item={item}
+                  path={path}
+                  objectId={objectId}
+                  id={id}
+                  permissions={permissions ? permissions.note : null}
+                />
               )}
 
               {activeTab === "tickets" && (
@@ -291,18 +288,12 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 />
               )} */}
 
-
-
-
               {images.length > 0 && activeTab === "photos" && (
                 <DetailsGallery
                   images={images}
                   setGalleryDialog={setGalleryDialog}
                 />
               )}
-
-
-
             </div>
           </div>
           {/* main content code end */}
@@ -312,7 +303,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           <div
             className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
             lg:h-[calc(100vh-var(--nav-height))] h-full hide-scrollbar overflow-visible max-lg:z-[52] lg:mt-[1px]
-            ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
+            ${
+              isLargeScreen
+                ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+                : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+            } 
             ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
           >
             {/* Close Button for Small Devices */}
@@ -372,14 +367,21 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       ) : (
         <div>
           <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden md:pt-4 pt-3">
-
-            <div className={`${isLargeScreen ? 'w-[calc(100%_-330px)]  pr-4 pb-4' : 'w-full'} lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+            <div
+              className={`${
+                isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+              } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+            >
               <DetailsSkeleton />
             </div>
             <div
               className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
             lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
-            ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"} 
+            ${
+              isLargeScreen
+                ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+                : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+            } 
             ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
             >
               <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">

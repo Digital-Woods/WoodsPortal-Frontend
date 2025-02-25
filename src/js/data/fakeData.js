@@ -1,8 +1,9 @@
 const fakeUserDetails = {
-  userId: (userData && userData.id) ? userData.id : 1,
-  firstName: userData && userData.firstname ? userData.firstname : 'No firstname',
-  lastName: userData && userData.lastname ? userData.lastname : 'No lastname',
-  email: userData && userData.email ? userData.email : 'No email',
+  userId: userData && userData.id ? userData.id : 1,
+  firstName:
+    userData && userData.firstname ? userData.firstname : "No firstname",
+  lastName: userData && userData.lastname ? userData.lastname : "No lastname",
+  email: userData && userData.email ? userData.email : "No email",
   roles: [],
   authorities: [],
   hubspotPortals: {
@@ -12,10 +13,16 @@ const fakeUserDetails = {
     hubspotSelectedDomain: "",
     portalSettings: {
       theme: "light",
-      logo: baseCompanyOptions && baseCompanyOptions.logoImg ? baseCompanyOptions.logoImg : "",
+      logo:
+        baseCompanyOptions && baseCompanyOptions.logoImg
+          ? baseCompanyOptions.logoImg
+          : "",
       primaryColor: primarycolor,
       secondaryColor: secondarycolor,
-      brandName: baseCompanyOptions && baseCompanyOptions.companyName ? baseCompanyOptions.companyName : "CompanyName",
+      brandName:
+        baseCompanyOptions && baseCompanyOptions.companyName
+          ? baseCompanyOptions.companyName
+          : "CompanyName",
     },
     onboardStatus: true,
     templateName: "dw_office",
@@ -29,7 +36,13 @@ const fakeTableData = {
   statusCode: "200",
   data: {
     results: objectList,
-    total: '10',
+    total: "10",
   },
   statusMsg: "Record(s) has been successfully retrieved.",
 };
+
+const bulletPointData = [
+  "Ensure you have the correct permissions.",
+  "Refer to the setup guide in the documentation.",
+  "Reach out to support for further help.",
+];
