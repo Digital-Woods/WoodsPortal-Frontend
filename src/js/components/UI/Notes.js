@@ -113,7 +113,7 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${isOpenEditor ? "dark:text-dark-200" : "dark:text-white"
+              className={`p-4 cursor-text ${isOpenEditor ? "" : "dark:text-white"
                 }`}
               onClick={(e) => e.stopPropagation()}
             >
@@ -138,8 +138,9 @@ const NoteCard = ({
                   onClick={handleUpdateNote}
                   className="text-white"
                   size="sm"
+                  isLoading={isLoadingUpdate}
                 >
-                  {isLoadingUpdate ? "Updating..." : "Save"}
+                  Save
                 </Button>
                 <Button
                   disabled={isLoadingUpdate || isUploading}
@@ -440,8 +441,9 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             <Button
               disabled={isPosting || editorContent.trim() === "" || isUploading}
               onClick={handleSaveNote}
+              isLoading={isPosting}
             >
-              {isPosting ? "Creating Note..." : "Create Note"}
+              Create Note
             </Button>
           </div>
         </div>
