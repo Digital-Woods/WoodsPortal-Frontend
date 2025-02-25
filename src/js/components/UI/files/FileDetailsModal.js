@@ -23,13 +23,13 @@ const FileDetailsModal = ({ file, onClose }) => {
     <Dialog
       open={file !== null}
       onClose={onClose}
-      className={`!p-0 relative mx-auto bg-white overflow-y-auto transition-all  duration-500 ease-in-out ${
+      className={`!p-0 relative mx-auto !bg-white overflow-y-auto transition-all  duration-500 ease-in-out ${
         expandDialog
           ? "lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] max-h-[85vh] h-[85vh]"
           : "lg:w-[780px]  md:w-[680px] w-[calc(100vw-28px)] h-auto"
       }`}
     >
-      <div className="flex justify-between items-center bg-[#516f90] dark:bg-dark-300 dark:bg-dark-200 p-4">
+      <div className="flex justify-between items-center bg-[#516f90]  p-4">
         <h2 className="text-white font-medium text-lg">{file?.data.name}</h2>
         <div className="flex gap-2 items-center">
           <button
@@ -59,7 +59,7 @@ const FileDetailsModal = ({ file, onClose }) => {
         <div
           className={`rounded-lg ${
             expandDialog ? "p-4" : "p-0"
-          } flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6`}
+          } bg-white flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6`}
         >
           {/* Left Section: File Preview */}
           <div
@@ -74,7 +74,7 @@ const FileDetailsModal = ({ file, onClose }) => {
           <div
             className={`w-full ${expandDialog ? "md:w-1/5" : "md:w-1/2"}   p-4`}
           >
-            <div className="dark:text-white text-secondary font-semibold text-lg mb-2">
+            <div className=" text-secondary font-semibold text-lg mb-2">
               {file?.data?.name}
             </div>
             <div className="text-gray-600 text-sm mb-2">
