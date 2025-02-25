@@ -151,166 +151,86 @@ const filterAssociationsData = (obj) => {
   return filtered;
 };
 
-const sortData = (list, type = "list", removeKeys = 'hs_object_id') => {
-  if (type == "list" || type == "details") delete list.associations;
-  // if (type == "associations") list = filterAssociationsData(list);
-  let data =
-    type != "list"
-      ? Object.keys(list).map((key) => ({ ...list[key], key: key }))
-      : list;
+// const sortData = (list, type = "list", removeKeys = 'hs_object_id') => {
+//   if (type == "list" || type == "details") delete list.associations;
+//   let data =
+//     type != "list"
+//       ? Object.keys(list).map((key) => ({ ...list[key], key: key }))
+//       : list;
 
-  data = data.filter(
-    (item) => item.key !== "hs_object_id" && item.key !== "associations"
-  );
+//   data = data.filter(
+//     (item) => item.key !== "hs_object_id" && item.key !== "associations"
+//   );
 
-  // if (type == "associations")
-  //   data = data.filter((item) => item.key !== "hs_pipeline_stage");
+//   // Sorting function
+//   data.sort((a, b) => {
+//     // 1. Key "hs_object_id" comes first
+//     if (a.key === "hs_object_id") return -1;
+//     if (b.key === "hs_object_id") return 1;
 
-  // Sorting function
-  data.sort((a, b) => {
-    // 1. Key "hs_object_id" comes first
-    if (a.key === "hs_object_id") return -1;
-    if (b.key === "hs_object_id") return 1;
+//     // 2. "isPrimaryDisplayProperty: true" comes next
+//     if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
+//     if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
 
-    // 2. "isPrimaryDisplayProperty: true" comes next
-    if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
-    if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
+//     // 3. "isSecondaryDisplayProperty: true" comes next
+//     if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty)
+//       return -1;
+//     if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
 
-    // 3. "isSecondaryDisplayProperty: true" comes next
-    if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty)
-      return -1;
-    if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
+//     // 4. Items where both "isPrimaryDisplayProperty" and "isSecondaryDisplayProperty" are false,
+//     // excluding "hs_object_id", "hs_createdate", and "hs_lastmodifieddate"
+//     const excludeKeys = [
+//       "hs_object_id",
+//       "hs_createdate",
+//       "hs_lastmodifieddate",
+//     ];
+//     const aCondition =
+//       !a.isPrimaryDisplayProperty &&
+//       !a.isSecondaryDisplayProperty &&
+//       !excludeKeys.includes(a.key);
+//     const bCondition =
+//       !b.isPrimaryDisplayProperty &&
+//       !b.isSecondaryDisplayProperty &&
+//       !excludeKeys.includes(b.key);
 
-    // 4. Items where both "isPrimaryDisplayProperty" and "isSecondaryDisplayProperty" are false,
-    // excluding "hs_object_id", "hs_createdate", and "hs_lastmodifieddate"
-    const excludeKeys = [
-      "hs_object_id",
-      "hs_createdate",
-      "hs_lastmodifieddate",
-    ];
-    const aCondition =
-      !a.isPrimaryDisplayProperty &&
-      !a.isSecondaryDisplayProperty &&
-      !excludeKeys.includes(a.key);
-    const bCondition =
-      !b.isPrimaryDisplayProperty &&
-      !b.isSecondaryDisplayProperty &&
-      !excludeKeys.includes(b.key);
+//     if (aCondition && !bCondition) return -1;
+//     if (!aCondition && bCondition) return 1;
 
-    if (aCondition && !bCondition) return -1;
-    if (!aCondition && bCondition) return 1;
+//     // 5. "key: hs_createdate" should come next
+//     if (a.key === "hs_createdate") return -1;
+//     if (b.key === "hs_createdate") return 1;
 
-    // 5. "key: hs_createdate" should come next
-    if (a.key === "hs_createdate") return -1;
-    if (b.key === "hs_createdate") return 1;
+//     // 6. "key: hs_lastmodifieddate" should come last
+//     if (a.key === "hs_lastmodifieddate") return -1;
+//     if (b.key === "hs_lastmodifieddate") return 1;
 
-    // 6. "key: hs_lastmodifieddate" should come last
-    if (a.key === "hs_lastmodifieddate") return -1;
-    if (b.key === "hs_lastmodifieddate") return 1;
-
-    // Maintain original order if no conditions matched
-    return 0;
-  });
-
-  return data;
-};
-
-// const sortData = (item, viewType = "list", title = "") => {
-//   if (!item || !isObject(item)) return [];
-
-//   const fields = Object.keys(item);
-
-//   const imageFields = [];
-//   const simpleFields = [];
-//   const objectFields = [];
-//   const hsFields = [];
-//   const nameFields = [];
-
-//   fields.forEach((key) => {
-//     switch (viewType) {
-//       case "details":
-//         if (keysToSkipDetails(key)) return;
-//         break;
-//       case "associations":
-//         if (keysToSkipAssociations(key)) return;
-//         break;
-//       default:
-//         if (keysToSkipList(key)) return;
-//     }
-
-//     const value = item[key];
-
-//     if (
-//       isObject(value) &&
-//       value.associateWith &&
-//       value.detailPageHidden == (viewType == "details")
-//     ) {
-//       return;
-//     }
-
-//     if (typeof value === "string" &&  (value, key)) {
-//       imageFields.push({
-//         name: key,
-//         label: checkEquipments(
-//           key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-//           title
-//         ),
-//         value: value,
-//       });
-//     } else if (key.startsWith("hs_")) {
-//       hsFields.push({
-//         name: key,
-//         label: key
-//           .replace(/^hs_/, "Hs ")
-//           .replace(/_/g, " ")
-//           .replace(/\b\w/g, (char) => char.toUpperCase()),
-//         value: value,
-//       });
-//     } else if (isObject(value) && value.associateWith) {
-//       objectFields.push({
-//         name: key,
-//         label: checkEquipments(value.headerLabel, title),
-//         value: value.headerLabel,
-//       });
-//     } else if (isObject(value)) {
-//       // Check if it's a field with a 'name' property and push accordingly
-//       if (value.key) {
-//         nameFields.push({
-//           name: key,
-//           label: checkEquipments(
-//             value.key
-//               .replace(/_/g, " ")
-//               .replace(/\b\w/g, (char) => char.toUpperCase()),
-//             title
-//           ),
-//           value: value.value,
-//         });
-//       } else {
-//         // Skip objects that don't have a 'name' or similar property
-//       }
-//     } else {
-//       simpleFields.push({
-//         name: key,
-//         label: checkEquipments(
-//           key.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase()),
-//           title
-//         ),
-//         value: value,
-//       });
-//     }
+//     // Maintain original order if no conditions matched
+//     return 0;
 //   });
 
-//   // Sort and concatenate
-//   const sortedFields = [
-//     ...imageFields,
-//     ...nameFields,
-//     ...simpleFields,
-//     ...objectFields,
-//     ...hsFields,
-//   ];
-
-//   return sortedFields;
+//   return data;
 // };
+
+
+const sortData = (list, type = "list") => {
+  if (type == "list" || type == "details") delete list.associations;
+  const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate", "associations"];
+  let data = list
+
+  if(type === "list") {
+    data =  data.filter(item => !excludeKeys.includes(item.key));
+    return data.sort((a, b) => a.tableDisplayOrder - b.tableDisplayOrder);
+  }
+
+  data =  Object.entries(list)
+  .filter(([key]) => !excludeKeys.includes(key))
+  .map(([key, value]) => ({
+      ...value,
+      key
+  }));
+
+  return data.sort((a, b) => a.overviewDisplayOrder - b.overviewDisplayOrder);
+}
 
 const replaceQuestionMarkToRegex = (text) => {
   const replacedText = (text && typeof text === "string") ? text?.replace(/\?/g, "!") : text;
@@ -344,7 +264,7 @@ function decodeAndStripHtml(html) {
   return doc.body.textContent.trim(); // Return only plain text
 }
 
-const renderCellContent = (
+const renderCellContent = ({
   companyAsMediator = false,
   value,
   column,
@@ -357,11 +277,13 @@ const renderCellContent = (
   hoverRow,
   item,
   urlParam=null
-) => {
-  if (!column || value === undefined || value === null) {
+}) => {
+  
+  if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
     return "--";
   }
-  if (
+
+  if ( // if date then conver into date format
     column &&
     value != null &&
     (column.fieldType == "date" ||
@@ -372,23 +294,15 @@ const renderCellContent = (
   ) {
     return formatDate(isObject(value) ? value.label : value);
   }
-  if (column.key == "amount") {
-    const find_currency_code = item?.find(
-      (item) => item.key === "deal_currency_code"
-    );
 
-    if (find_currency_code && find_currency_code.value) {
-      const currency = isObject(find_currency_code.value)
-        ? find_currency_code.value.value
-        : find_currency_code.value;
-      return `${Currency(currency)} ${value}`;
-    }
-    return `${Currency("USD")} ${value}`;
+  if (column.showCurrencySymbol) { // if value is a currency symbol
+    const myCurrency = getUserDetails()?.companyCurrency
+    return `${Currency(myCurrency)} ${value}`;
   }
 
-  if (
+  if ( // if primary display property then add open button
     !value &&
-    (type == "associations" || type == "list" || type==='homeList') &&
+    (type == "associations" || type == "list" || type ==='homeList') &&
     column &&
     column.isPrimaryDisplayProperty &&
     detailsView
@@ -446,10 +360,6 @@ const renderCellContent = (
     }
     return "--";
   }
-  if (!value) {
-    return "--";
-  }
-
 
   if (type == "details") {
     return (
@@ -458,6 +368,7 @@ const renderCellContent = (
       </div>
     );
   }
+
   if (
     (type == "associations" || type == "list") &&
     column &&
@@ -572,131 +483,6 @@ const renderCellContent = (
   }
 
 };
-
-// const renderCellContent = (value, itemId = null, path = null) => {
-//   switch (true) {
-//     case (isObject(value) && isEmptyObject(value)) || isNull(value):
-//       return "-";
-
-//     case isObject(value) && value.type === "link": {
-//       const label = value.labels ? value.labels : value.featureName;
-//       const { truncated, isTruncated } = truncateString(label.plural || "");
-
-//       return isTruncated ? (
-//         <Tooltip right content={label.plural}>
-//           <Link
-//             className="text-secondary font-bold border-input rounded-md"
-//             to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-//           >
-//             {truncated}
-//           </Link>
-//         </Tooltip>
-//       ) : (
-//         <Link
-//           className="text-secondary font-bold border-input rounded-md"
-//           to={`/${value.featureName}?filterPropertyName=associations.${value.associateWith}&filterOperator=EQ&filterValue=${itemId}`}
-//         >
-//           {label.plural}
-//         </Link>
-//       );
-//     }
-
-//     case isObject(value) && value.type === "primaryDisplayProperty": {
-//       const { truncated, isTruncated } = truncateString(value.value || "");
-
-//       return isTruncated ? (
-//         <Tooltip content={value.value}>
-//           <Link
-//             className="text-secondary font-bold border-input rounded-md"
-//             to={`${path}/${itemId}`}
-//           >
-//             {truncated}
-//           </Link>
-//         </Tooltip>
-//       ) : (
-//         <Link
-//           className="text-secondary font-bold border-input rounded-md"
-//           to={`${path}/${itemId}`}
-//         >
-//           {value.value}
-//         </Link>
-//       );
-//     }
-
-//     case isImage(value): {
-//       let urlArray = typeof value === "string" ? value.split(",") : [];
-//       return urlArray.length > 0 ? (
-//         <img
-//           src={urlArray[0]}
-//           alt={urlArray[0]}
-//           className="w-10 h-10 rounded"
-//         />
-//       ) : null;
-//     }
-
-//     case isDate(value):
-//       return formatDate(value);
-
-//     default: {
-//       const cellContent = isObject(value)
-//         ? JSON.stringify(value)
-//         : String(value);
-//       const { truncated, isTruncated } = truncateString(cellContent);
-
-//       return isTruncated ? (
-//         <Tooltip content={cellContent}>{truncated}</Tooltip>
-//       ) : (
-//         truncated
-//       );
-//     }
-//   }
-// };
-
-// function setColorsFromMe() {
-//   // Default colors
-//   const defaultPrimaryColor = "#0000FF"; // Blue
-//   const defaultSecondaryColor = "#000000"; // Black
-
-//   // Retrieve user data using useMe hook
-//   const { me } = useMe(); // Ensure this is called in a functional component or an appropriate hook
-
-//   // Initialize colors with default values
-//   let primaryColor = defaultPrimaryColor;
-//   let secondaryColor = defaultSecondaryColor;
-
-//   if (me && me.hubspotPortals && me.hubspotPortals.portalSettings) {
-//     const portalSettings = me.hubspotPortals.portalSettings;
-
-//     // Update colors if available in the portalSettings
-//     if (portalSettings.primaryColor) {
-//       primaryColor = portalSettings.primaryColor;
-//     }
-//     if (portalSettings.secondaryColor) {
-//       secondaryColor = portalSettings.secondaryColor;
-//     }
-//   }
-
-//   // Retrieve color parameters from URL
-//   const urlParams = new URLSearchParams(window.location.search);
-//   const urlPrimaryColor = urlParams.get("primaryColor");
-//   const urlSecondaryColor = urlParams.get("secondaryColor");
-
-//   // Override defaults with URL parameters if they are present and valid
-//   const finalPrimaryColor = urlPrimaryColor ? urlPrimaryColor : primaryColor;
-//   const finalSecondaryColor = urlSecondaryColor
-//     ? urlSecondaryColor
-//     : secondaryColor;
-
-//   // Apply the colors as CSS custom properties
-//   document.documentElement.style.setProperty(
-//     "--primary-color",
-//     finalPrimaryColor
-//   );
-//   document.documentElement.style.setProperty(
-//     "--secondary-color",
-//     finalSecondaryColor
-//   );
-// }
 
 function getFirstName() {
   const { me, getMe } = useMe();

@@ -139,6 +139,9 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
         setTwoFa({ twoFa: data.data.loggedInDetails.hubspot.twoFa });
         window.location.hash = "/login/tow-fa";
       } else {
+        // setLoggedInDetails(data.data);
+        // setAuthCredentials(data.data.tokenData.token);
+        await setItemAsync(env.AUTH_USER_KEY, JSON.stringify(data.data));
         await setItemAsync(env.AUTH_TOKEN_KEY, data.data.tokenData.token);
         // getMe(); // Fetch user details
         // Use if-else to check if routes exist

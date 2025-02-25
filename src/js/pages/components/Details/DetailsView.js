@@ -54,7 +54,7 @@ const DetailsView = ({
       <OverviewSkeleton />
     );
   }
-
+ 
   return (
     <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table className="w-full dark:bg-[#2a2a2a]">
@@ -89,17 +89,31 @@ const DetailsView = ({
                   {value?.isEditableField && (permissions && permissions.update) ? (
                     <DetailsViewUpdate
                       renderValue={renderCellContent(
-                        false,
-                        value?.value,
-                        value,
-                        null,
-                        null,
-                        null,
-                        "details",
-                        null,
-                        null,
-                        null,
-                        item
+                        // false,
+                        // value?.value,
+                        // value,
+                        // null,
+                        // null,
+                        // null,
+                        // "details",
+                        // null,
+                        // null,
+                        // null,
+                        // item
+                        {
+                          companyAsMediator: false,
+                          value: value?.value,
+                          column: value,
+                          itemId: null,
+                          path: null,
+                          hubspotObjectTypeId: null,
+                          type: "details",
+                          associationPath: null,
+                          detailsView: null,
+                          hoverRow: null,
+                          item: null,
+                          urlParam: item,
+                        }
                       )}
                       value={value}
                       refetch={refetch}
@@ -110,17 +124,31 @@ const DetailsView = ({
                     />
                   ) : (
                     renderCellContent(
-                      false,
-                      value?.value,
-                      value,
-                      null,
-                      null,
-                      null,
-                      "details",
-                      null,
-                      null,
-                      null,
-                      item
+                      // false,
+                      // value?.value,
+                      // value,
+                      // null,
+                      // null,
+                      // null,
+                      // "details",
+                      // null,
+                      // null,
+                      // null,
+                      // item
+                      {
+                        companyAsMediator: false,
+                        value: value?.value,
+                        column: value,
+                        itemId: null,
+                        path: null,
+                        hubspotObjectTypeId: null,
+                        type: "details",
+                        associationPath: null,
+                        detailsView: null,
+                        hoverRow: null,
+                        item: item,
+                        urlParam: null,
+                      }
                     )
                   )}
                 </td>

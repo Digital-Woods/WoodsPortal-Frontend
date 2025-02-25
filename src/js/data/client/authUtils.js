@@ -43,6 +43,10 @@ const getLoggedInDetails = () => {
   return JSON.parse(getCookie(env.LOGIN_DETAILS));
 };
 
+const getUserDetails = () => {
+  return JSON.parse(getCookie(env.AUTH_USER_KEY));
+};
+
 const getTwoFa = () => {
   return JSON.parse(getCookie(env.TWO_FA));
 };
