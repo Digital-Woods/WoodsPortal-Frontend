@@ -99,8 +99,9 @@ const FolderUpload = ({
               disabled={
                 createFolderMutation.isLoading || newFolderName.trim() === ""
               }
+              isLoading={createFolderMutation.isLoading}
             >
-              {createFolderMutation.isLoading ? "Creating..." : "Create"}
+              Create
             </Button>
           </div>
         </div>

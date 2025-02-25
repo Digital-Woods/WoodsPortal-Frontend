@@ -267,6 +267,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                           className=" "
                           isLoading={submitLoading && !addAnother}
                           onClick={() => setAddAnother(false)}
+                          disabled={submitLoading}
                         >
                           Create
                         </Button>
@@ -274,7 +275,9 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         <Button
                           className=" "
                           isLoading={submitLoading && addAnother}
-                          onClick={() => setAddAnother(true)} >
+                          onClick={() => setAddAnother(true)}
+                          disabled={submitLoading}
+                        >
                           Create and add another
                         </Button>
                       </div>
