@@ -67,7 +67,7 @@ const ColorPicker = ({color, setColor, setIsOpen}) => {
       <div class="flex">
         <div class="w-1/2">
           <button
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-tl-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-tl-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-dark-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3"
             onClick={() => setTab("tab1")}
           >
             Simple
@@ -75,7 +75,7 @@ const ColorPicker = ({color, setColor, setIsOpen}) => {
         </div>
         <div class="w-1/2">
           <button
-            className="inline-flex items-center justify-center whitespace-tr-nowrap rounded-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3"
+            className="inline-flex items-center justify-center whitespace-tr-nowrap rounded-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-dark-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3"
             onClick={() => setTab("tab2")}
           >
             Advance

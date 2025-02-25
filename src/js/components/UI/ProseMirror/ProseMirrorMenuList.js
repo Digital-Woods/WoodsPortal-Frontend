@@ -38,6 +38,29 @@ const DropdownListMenu = ({ editorView }) => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const handleClickOutside = (event) => {
+    if (
+      dropdownMenuRef.current &&
+      !dropdownMenuRef.current.contains(event.target) &&
+      dropdownButtonRef.current &&
+      !dropdownButtonRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   // // Toggle Bullet List
   // function toggleBulletList(state, dispatch) {
   //   const { schema, selection } = state;

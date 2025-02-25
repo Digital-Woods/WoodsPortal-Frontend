@@ -55,23 +55,28 @@ const DropdownColorMenu = ({ editorView, icon }) => {
     setIsOpen((prevState) => !prevState);
   };
 
-  const closeMenuOnClickOutside = (event) => {
+  const handleClickOutside = (event) => {
     if (
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target) &&
       dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target)
+      !dropdownMenuRef.current.contains(event.target) &&
+      dropdownButtonRef.current &&
+      !dropdownButtonRef.current.contains(event.target)
     ) {
       setIsOpen(false);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("click", closeMenuOnClickOutside);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
-      document.removeEventListener("click", closeMenuOnClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen]);
 
   const applyTextColor = (color) => {
     return (state, dispatch) => {
