@@ -4,16 +4,8 @@ const textFontSizes = [
     value: "8pt",
   },
   {
-    label: "9",
-    value: "9pt",
-  },
-  {
     label: "10",
     value: "10pt",
-  },
-  {
-    label: "11",
-    value: "11pt",
   },
   {
     label: "12",
@@ -24,16 +16,28 @@ const textFontSizes = [
     value: "14pt",
   },
   {
+    label: "16",
+    value: "16pt",
+  },
+  {
     label: "18",
     value: "18pt",
+  },
+  {
+    label: "20",
+    value: "20pt",
+  },
+  {
+    label: "22",
+    value: "22pt",
   },
   {
     label: "24",
     value: "24pt",
   },
   {
-    label: "36",
-    value: "36pt",
+    label: "26",
+    value: "26pt",
   },
 ];
 
@@ -95,6 +99,29 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const handleClickOutside = (event) => {
+    if (
+      dropdownMenuRef.current &&
+      !dropdownMenuRef.current.contains(event.target) &&
+      dropdownButtonRef.current &&
+      !dropdownButtonRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   const applyFontSize = (fontSize) => {
     return (state, dispatch) => {
       const { schema, selection } = state;
@@ -134,7 +161,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
       >
         <div
           id="defaultEditorFontSize"
-          className={`note-font-dropdown-menu ${
+          className={`note-font-dropdown-menu min-w-[52px] ${
             defaultEditorFontSize ? "note-active-state" : ""
           }`}
         >
@@ -162,7 +189,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
-                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFontSize?.value === textFont.value ? 'bg-gray-100' : ''}`}
+                className={`cursor-pointer note-dd-Select-menu-options min-w-[52px] hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFontSize?.value === textFont.value ? 'bg-gray-100' : ''}`}
                 onClick={() => {
                   setFont(textFont);
                   defaultEditorFontSize = textFont;
