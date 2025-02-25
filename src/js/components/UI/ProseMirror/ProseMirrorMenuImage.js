@@ -142,10 +142,10 @@ const EditorImageUploadMenu = ({ editorView, imageUploadUrl, setisLoadingUoloadi
   };
 
   return (
-    <div className="relative inline-block">
+    <div className="note-menuitem">
       <div
         className="ProseMirror-icon"
-        title="Select Text Bold"
+        title="Insert image"
         ref={boldButtonRef}
         onClick={uploadImage}
       >
@@ -169,7 +169,7 @@ const renderReactImageUploadComponent = (editorView, imageUploadUrl, setisLoadin
 };
 
 const customMenuItemImage = (imageUploadUrl, setisLoadingUoloading, setUploadProgress) => new MenuItem2({
-  title: `Image Upload`,
+  title: `Insert image`,
   run: () => {},
   select: (state) => {
     return true;

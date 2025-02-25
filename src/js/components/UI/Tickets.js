@@ -1,6 +1,6 @@
 const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, permissions, companyAsMediator }) => {
-  const hubspotObjectTypeId = objectId || getParam("objectTypeId")
-  const title = "Ticket"
+  const hubspotObjectTypeId = '0-5'; 
+  const title = "Ticket";
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId")

@@ -266,7 +266,7 @@ const ProseMirrorEditor = ({
       <div
         ref={editorRef}
         id="prosemirror-editor"
-        className="prosemirror-editor"
+        className="text-[#000] prosemirror-editor dark:bg-white pt-3 rounded"
       ></div>
 
       <Attachments

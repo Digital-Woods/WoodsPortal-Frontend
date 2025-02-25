@@ -113,7 +113,7 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${isOpenEditor ? "dark:text-dark-200" : "dark:text-white"
+              className={`p-4 cursor-text ${isOpenEditor ? "" : "dark:text-white"
                 }`}
               onClick={(e) => e.stopPropagation()}
             >
@@ -138,8 +138,9 @@ const NoteCard = ({
                   onClick={handleUpdateNote}
                   className="text-white"
                   size="sm"
+                  isLoading={isLoadingUpdate}
                 >
-                  {isLoadingUpdate ? "Updating..." : "Save"}
+                  Save
                 </Button>
                 <Button
                   disabled={isLoadingUpdate || isUploading}
@@ -377,9 +378,9 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className={`!p-0 relative mx-auto bg-white overflow-y-auto max-h-[95vh] ${expandDialog ? 'lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]' : 'lg:w-[720px] md:w-[680px] w-[calc(100vw-28px)] '} `}
+        className={`!p-0 relative mx-auto bg-white dark:bg-white overflow-y-auto max-h-[95vh] ${expandDialog ? 'lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]' : 'lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] '} `}
       >
-        <div className="flex justify-between items-center mb-4 bg-[#516f90] dark:bg-dark-300 dark:bg-dark-200 p-4">
+        <div className="flex justify-between items-center mb-4 bg-[#516f90] p-4">
           <h2 className="text-lg font-semibold text-white dark:text-white">
             Note
           </h2>
@@ -411,9 +412,9 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
           </div>
         </div>
         <div className="px-4 pb-4">
-          <div className="flex items-center px-4 mb-3">
-            <p className="text-gray-600 dark:text-white text-xs">For</p>
-            <p className="border rounded-full dark:text-white px-2 py-1 text-xs ml-2">
+          <div className="flex items-center px-4">
+            <p className="text-gray-600 dark:!text-gray-600 text-xs">For</p>
+            <p className="border rounded-full px-2 py-1 text-xs ml-2 dark:!text-gray-600">
               {getObjectName()}
             </p>
           </div>
@@ -428,19 +429,21 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             objectId={objectId}
             setIsUploading={setIsUploading}
           />
-          <div className="mt-4 flex justify-end gap-3">
+          <div className="mt-4 flex justify-end gap-3 darkbg-[#516f90] ">
             <Button
               disabled={isPosting || isUploading}
               variant="outline"
               onClick={() => { setShowDialog(false); setExpandDialog(false); }}
+              className={`dark:!text-dark-200`}
             >
               Cancel
             </Button>
             <Button
               disabled={isPosting || editorContent.trim() === "" || isUploading}
               onClick={handleSaveNote}
+              isLoading={isPosting}
             >
-              {isPosting ? "Creating Note..." : "Create Note"}
+              Create Note
             </Button>
           </div>
         </div>

@@ -85,6 +85,29 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const handleClickOutside = (event) => {
+    if (
+      dropdownMenuRef.current &&
+      !dropdownMenuRef.current.contains(event.target) &&
+      dropdownButtonRef.current &&
+      !dropdownButtonRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   const applyFontFamily = (font) => {
     return (state, dispatch) => {
       const { schema, selection } = state;
@@ -118,14 +141,14 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
     <div className="relative inline-block">
       <div
         class="ProseMirror-icon"
-        title="Select Text Alignment"
+        title="Fonts"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
         <div
           id="defaultEditorFont"
-          className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
-            defaultEditorFont ? "bg-gray-200" : ""
+          className={`min-w-[130px] note-font-dropdown-menu ${
+            defaultEditorFont ? "note-active-state" : ""
           }`}
         >
           <span id="textFontIcon">
@@ -133,9 +156,9 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
+            height="20px"
             viewBox="0 -960 960 960"
-            width="24px"
+            width="20px"
             fill="#e8eaed"
           >
             <path d="M480-360 280-560h400L480-360Z" />
@@ -148,11 +171,11 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
           className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
         >
-          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+          <ul class="space-y-2 note-dd-Select-menu list-none min-w-[105px] list-inside dark:text-gray-400">
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${defaultEditorFont?.key === textFont.key ? 'bg-gray-100' : 'bg-none'}`}
+                className={`cursor-pointer min-w-[130px] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFont?.key === textFont.key ? 'bg-gray-100' : 'bg-none'}`}
                 onClick={() => {
                   setFont(textFont);
                   defaultEditorFont = textFont;
@@ -181,7 +204,7 @@ const renderReactFontComponent = (editorView) => {
 const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 
 const fontMenuItem = new MenuItem2({
-  title: `Select Font`,
+  title: `Fonts`,
   run: (state, dispatch, editorView) => {
     const newFont = fontSelectionPluginKey.getState(state); // Example selected font
     const tr = state.tr;
@@ -202,11 +225,11 @@ const fontMenuItem = new MenuItem2({
     const div = document.getElementById("textFontIcon");
     if (div && selectedEditorFont) {
       div.textContent = font.label; // Change text content
-      document.getElementById("defaultEditorFont")?.classList.add("bg-gray-200");
+      document.getElementById("defaultEditorFont")?.classList.add("note-active-state");
     }
     if (div && !selectedEditorFont) {
       div.textContent = "Sans Serif"; // Change text content
-      document.getElementById("defaultEditorFont")?.classList.remove("bg-gray-200");
+      document.getElementById("defaultEditorFont")?.classList.remove("note-active-state");
     }
     return activeFont !== null;
   },

@@ -2,17 +2,17 @@ const alignments = [
   {
     label: "Left",
     value: "left",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`,
   },
   {
     label: "Center",
     value: "center",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`,
   },
   {
     label: "Right",
     value: "right",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`,
   },
 ];
 
@@ -28,6 +28,29 @@ const DropdownAlightMenu = ({ editorView }) => {
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
+
+  const handleClickOutside = (event) => {
+    if (
+      dropdownMenuRef.current &&
+      !dropdownMenuRef.current.contains(event.target) &&
+      dropdownButtonRef.current &&
+      !dropdownButtonRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const applyAlignment = (state, dispatch, align) => {
     const { schema, selection } = state;
@@ -50,7 +73,7 @@ const DropdownAlightMenu = ({ editorView }) => {
     <div className="relative inline-block">
       <div
         class="ProseMirror-icon"
-        title="Select Text Alignment"
+        title="Text Alignment"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
       >
@@ -59,8 +82,8 @@ const DropdownAlightMenu = ({ editorView }) => {
         </div> */}
         <div
           id="defaultEditorAlignment"
-          className={`border border-gray-400 rounded-md p-2 flex justify-between items-center justify ${
-            defaultEditorAlignment ? "bg-gray-200" : ""
+          className={`note-menuitem ${
+            defaultEditorAlignment ? "note-active-state" : ""
           }`}
         >
           <div id="textAlignIcon">
@@ -68,9 +91,9 @@ const DropdownAlightMenu = ({ editorView }) => {
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
+            height="20px"
             viewBox="0 -960 960 960"
-            width="24px"
+            width="20px"
             fill="#e8eaed"
           >
             <path d="M480-360 280-560h400L480-360Z" />
@@ -81,15 +104,14 @@ const DropdownAlightMenu = ({ editorView }) => {
         <div
           ref={dropdownMenuRef}
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm z-10"
         >
-          {console.log('defaultEditorAlignment', defaultEditorAlignment)}
-          <ul class="space-y-2 text-gray-500 list-none list-inside dark:text-gray-400">
+          <ul class="space-y-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
             {alignments.map((alignment) => (
               <li
                 key={alignment.value}
-                // className="cursor-pointer hover:bg-gray-200 px-4 py-1"
-                className={`cursor-pointer hover:bg-gray-100 px-4 py-1 ${defaultEditorAlignment?.value === alignment.value ? 'bg-gray-100' : 'bg-none'}`}
+                // className="cursor-pointer hover:note-active-state px-4 py-1"
+                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8]  py-1 ${defaultEditorAlignment?.value === alignment.value ? 'bg-gray-100' : 'bg-none'}`}
                 onClick={() => {
                   setTextAlign(alignment);
                   defaultEditorAlignment = alignment;
@@ -136,20 +158,20 @@ const alignmentDropdown = new MenuItem2({
     const editorListButton = document.querySelector("#textAlignIcon");
 
     if (isAlignmentLeft) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
-      document.getElementById("defaultEditorAlignment")?.classList.add("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.add("note-active-state");
     }
     if (isAlignmentCenter) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
-      document.getElementById("defaultEditorAlignment")?.classList.add("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.add("note-active-state");
     }
     if (isAlignmentRight) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
-      document.getElementById("defaultEditorAlignment")?.classList.add("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.add("note-active-state");
     }
     if(!isAlignmentLeft && !isAlignmentCenter && !isAlignmentRight && editorListButton) {
-      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
-      document.getElementById("defaultEditorAlignment")?.classList.remove("bg-gray-200");
+      editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
+      document.getElementById("defaultEditorAlignment")?.classList.remove("note-active-state");
     }
     return true;
   },
