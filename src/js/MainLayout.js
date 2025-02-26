@@ -176,7 +176,6 @@ const MainLayout = ({ children }) => {
         />
       ),
     }));
-
     setRoutes(apiRoutes);
     setIsLoading(false);
   }, []);
@@ -364,7 +363,7 @@ const MainLayout = ({ children }) => {
               {/* Association Routs */}
               <PrivateRoute
                 key={`association`}
-                path={`/association`}
+                path={`/association/:name`}
                 component={(props) => (
                   <React.Fragment>
                     <HeaderLayout

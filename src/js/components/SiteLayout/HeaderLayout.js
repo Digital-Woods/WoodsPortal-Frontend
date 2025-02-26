@@ -1,5 +1,7 @@
 let globalNavHeight = 0;
-const HeaderLayout = ({ title, path, id = null }) => {
+const HeaderLayout = (props) => {
+  const { title, path, id = null } = props;
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleButtonRef = useRef(null);
@@ -88,7 +90,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
           </div>
         </div>
         <div className="max-lg:hidden">
-          <Breadcrumb id={id} title={title} path={path} />
+          <Breadcrumb {...props} />
         </div>
         <div>
           <div className="flex gap-2 items-center">
@@ -191,7 +193,7 @@ const HeaderLayout = ({ title, path, id = null }) => {
         </div>
       </div>
       <div className="lg:hidden">
-        <Breadcrumb id={id} title={title} path={path} />
+        <Breadcrumb {...props} />
       </div>
     </nav>
   );

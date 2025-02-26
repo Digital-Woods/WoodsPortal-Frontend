@@ -63,7 +63,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationKey: ["addData"],
     mutationFn: async ({ formData, addAnother }) => {
       try {
-        const mUrlParam = updateParamsFromUrl(apis.createAPI, { ...urlParam, addAnother: addAnother ? "true" : "false" })
+        const mUrlParam = updateParamsFromUrl(apis.createAPI, { ...getQueryParamsToObject(urlParam), addAnother: addAnother ? "true" : "false" })
         const API_ENDPOINT = removeAllParams(apis.createAPI)
         const API = addParam(API_ENDPOINT, mUrlParam)
         const response = await Client.form.create({

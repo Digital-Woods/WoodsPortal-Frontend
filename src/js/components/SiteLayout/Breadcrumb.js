@@ -1,54 +1,64 @@
-const Breadcrumb = ({ id, title, path }) => {
-  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
+const Breadcrumb = (props) => {
+  const { id, title, path, location, match } = props;
 
-  const cPath = window.location.hash.split('/')
-  const fullPath = window.location.hash.substring(1);
-  const routeName = window.location.hash.split('?')[0].replace('#', '');
-  const mainPath = `/${routeName.split("/")[1]}`;
+  const { routes, setRoutes } = useRoute();
+
+  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
 
   const convertToBase64 = (str = []) => {
     const base64 = btoa(str);
     return base64;
-  }
+  };
 
   const decodeToBase64 = (base64) => {
     const decodedStr = atob(base64);
     return decodedStr;
-  }
+  };
 
   useEffect(() => {
-    let item = [{
-      name: title,
-      path: fullPath,
-      routeName: routeName
-    }]
+    let item = [
+      {
+        name: path === "/association" ? match?.params?.name : title,
+        path: `${location?.pathname}${location?.search || ""}`,
+        routeName: match.url,
+      },
+    ];
 
-    // if (cPath.length == 2) localStorage.clear();
+    const mRoute = routes.find((route) => route.path === match.url);
 
-    let breadcrumb = getParam("b")
+    let breadcrumb = getParam("b");
 
-    let breadcrumbItems = breadcrumb ? JSON.parse(decodeToBase64(breadcrumb)) : breadcrumbs;
+    let breadcrumbItems = breadcrumb
+      ? JSON.parse(decodeToBase64(breadcrumb))
+      : breadcrumbs;
 
-    let index = breadcrumbItems.findIndex(breadcrumb => breadcrumb.routeName === routeName);
+    let index = breadcrumbItems.findIndex(
+      (breadcrumb) => breadcrumb.routeName === match.url
+    );
 
-    let updatedBreadcrumbs = index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems;
+    let updatedBreadcrumbs =
+      index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems;
 
-    let foundBreadcrumb = updatedBreadcrumbs.find(breadcrumb => breadcrumb.routeName === routeName);
+    let foundBreadcrumb = updatedBreadcrumbs.find(
+      (breadcrumb) => breadcrumb.routeName === match.url
+    );
 
     if (!foundBreadcrumb) {
-      updatedBreadcrumbs = updatedBreadcrumbs ? [...updatedBreadcrumbs, ...item] : []
+      updatedBreadcrumbs = updatedBreadcrumbs
+        ? [...updatedBreadcrumbs, ...item]
+        : [];
     }
 
-    if (mainPath === routeName) {
-      const base64 = convertToBase64(JSON.stringify(item))
-      setParam("b", base64)
-      setBreadcrumbs(item)
+    if (mRoute) {
+      const base64 = convertToBase64(JSON.stringify(item));
+      setParam("b", base64);
+      setBreadcrumbs(item);
     } else {
-      const base64 = convertToBase64(JSON.stringify(updatedBreadcrumbs))
-      setParam("b", base64)
-      setBreadcrumbs(updatedBreadcrumbs)
+      const base64 = convertToBase64(JSON.stringify(updatedBreadcrumbs));
+      setParam("b", base64);
+      setBreadcrumbs(updatedBreadcrumbs);
     }
-  }, []);
+  }, [routes]);
 
   return (
     <div className="text-xs">
@@ -57,7 +67,11 @@ const Breadcrumb = ({ id, title, path }) => {
           return (
             <li key={index} className="flex items-center">
               <Link
-                className={`capitalize ${index == 0 ? 'text-sidelayoutTextColor' : 'text-sidelayoutTextColor/90'} hover:text-sidelayoutTextColor/90 dark:text-white hover:text-white/90`}
+                className={`capitalize ${
+                  index == 0
+                    ? "text-sidelayoutTextColor"
+                    : "text-sidelayoutTextColor/90"
+                } hover:text-sidelayoutTextColor/90 dark:text-white hover:text-white/90`}
                 to={breadcrumb.path}
               >
                 {getParamHash(formatCustomObjectLabel(breadcrumb.name))}
@@ -69,10 +83,8 @@ const Breadcrumb = ({ id, title, path }) => {
               )}
             </li>
           );
-
-        })
-        }
+        })}
       </ol>
     </div>
-  )
+  );
 };
