@@ -28,7 +28,7 @@ const ProseMirrorEditor = ({
 
 
   useEffect(() => {
-    setUploadedAttachments(attachments)
+    if(attachments.length > 0) setUploadedAttachments(attachments)
   }, [attachments]);
 
   const imageNodeSpec = {
