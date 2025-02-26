@@ -30,21 +30,53 @@ const textFonts = [
 ];
 
 // Helper: Traverses the selection to find the first fontFamily mark.
+// const getFontFamilyFromSelection = (state) => {
+//   const { from, to } = state.selection;
+//   const markType = state.schema.marks.fontFamily;
+//   let fontFamily = null;
+
+//   state.doc.nodesBetween(from, to, (node) => {
+//     if (node.marks && node.marks.length) {
+//       const mark = node.marks.find((m) => m.type === markType);
+//       if (mark) {
+//         fontFamily = mark.attrs.font;
+//         // Stop traversing early if a font is found.
+//         return false;
+//       }
+//     }
+//   });
+//   return fontFamily;
+// };
+
 const getFontFamilyFromSelection = (state) => {
-  const { from, to } = state.selection;
+  const { from, to, empty } = state.selection;
   const markType = state.schema.marks.fontFamily;
   let fontFamily = null;
 
+  if (!markType) return null; // Ensure the mark exists
+
+  // If selection is empty (cursor position), check previous character
+  if (empty && from > 0) {
+    const prevNode = state.doc.nodeAt(from - 1);
+    if (prevNode && prevNode.marks) {
+      const mark = prevNode.marks.find((m) => m.type === markType);
+      if (mark) {
+        return mark.attrs.font;
+      }
+    }
+  }
+
+  // Normal selection case
   state.doc.nodesBetween(from, to, (node) => {
     if (node.marks && node.marks.length) {
       const mark = node.marks.find((m) => m.type === markType);
       if (mark) {
         fontFamily = mark.attrs.font;
-        // Stop traversing early if a font is found.
-        return false;
+        return false; // Stop early when we find a font
       }
     }
   });
+
   return fontFamily;
 };
 

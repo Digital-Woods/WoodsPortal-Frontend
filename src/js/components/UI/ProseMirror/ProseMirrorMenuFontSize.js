@@ -42,21 +42,53 @@ const textFontSizes = [
 ];
 
 // Helper: Traverses the selection to find the first fontFamily mark.
+// const getFontSizeFromSelection = (state) => {
+//   const { from, to } = state.selection;
+//   const markType = state.schema.marks.fontSize;
+//   let fontSize = null;
+
+//   state.doc.nodesBetween(from, to, (node) => {
+//     if (node.marks && node.marks.length) {
+//       const mark = node.marks.find((m) => m.type === markType);
+//       if (mark) {
+//         fontSize = mark.attrs.fontSize;
+//         // Stop traversing early if a font is found.
+//         return false;
+//       }
+//     }
+//   });
+//   return fontSize;
+// };
+
 const getFontSizeFromSelection = (state) => {
-  const { from, to } = state.selection;
+  const { from, to, empty } = state.selection;
   const markType = state.schema.marks.fontSize;
   let fontSize = null;
 
+  if (!markType) return null; // Ensure the mark exists
+
+  // If selection is empty (cursor at the end), check the previous character
+  if (empty && from > 0) {
+    const prevNode = state.doc.nodeAt(from - 1);
+    if (prevNode && prevNode.marks) {
+      const mark = prevNode.marks.find((m) => m.type === markType);
+      if (mark) {
+        return mark.attrs.fontSize;
+      }
+    }
+  }
+
+  // Normal selection case
   state.doc.nodesBetween(from, to, (node) => {
     if (node.marks && node.marks.length) {
       const mark = node.marks.find((m) => m.type === markType);
       if (mark) {
         fontSize = mark.attrs.fontSize;
-        // Stop traversing early if a font is found.
-        return false;
+        return false; // Stop early when we find a font size
       }
     }
   });
+
   return fontSize;
 };
 
