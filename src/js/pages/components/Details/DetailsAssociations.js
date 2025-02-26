@@ -44,7 +44,7 @@ const DetailsAssociations = ({
 
             <Link
               className="font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
-              to={`/${"association"}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+              to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
                 }&objectTypeId=${association.objectTypeId
                 }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
                 }&mediatorObjectRecordId=${mediatorObjectRecordId
@@ -123,7 +123,7 @@ const DetailsAssociations = ({
                                               : parentObjectRowId
                                             }&isPrimaryCompany=${companyAsMediator}`
                                             : "",
-                                          detailsView: null,
+                                          detailsView: true,
                                           hoverRow: null,
                                           item: null,
                                           urlParam: null,
@@ -160,7 +160,7 @@ const DetailsAssociations = ({
                                             : parentObjectRowId
                                           }&isPrimaryCompany=${companyAsMediator}`
                                           : "",
-                                        detailsView: null,
+                                        detailsView: true,
                                         hoverRow: null,
                                         item: null,
                                         urlParam: null,
