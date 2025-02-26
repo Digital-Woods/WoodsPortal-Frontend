@@ -159,8 +159,20 @@ const addParam = (url, params = {}) => {
 //   return mergedObj;
 // }
 
+function getQueryParamsToObject(url) {
+  const params = new URLSearchParams(url);
+  let obj = {};
+  
+  params.forEach((value, key) => {
+      obj[key] = value;
+  });
+
+  return obj;
+}
+
 
 function updateParamsFromUrl(apiUrl, params) {
+  console.log('params', params)
     const url = new URL(apiUrl, "http://example.com"); // Base URL to parse query params
     const searchParams = new URLSearchParams(url.search);
 
