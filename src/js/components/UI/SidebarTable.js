@@ -149,16 +149,18 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   return (
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
-        <div onClick={toggleContent} className="flex items-center justify-between gap-x-2 cursor-pointer ">
-          <span className="text-secondary dark:text-white">
-            {isExpanded ? (
-              <Chevron transform="rotate(270)" />
-            ) : (
-              <Chevron transform="rotate(180)" />
-            )}
-          </span>
+        <div className="flex items-center gap-x-2">
+          <div onClick={toggleContent} className="cursor-pointer ">
+            <span className="text-secondary dark:text-white">
+              {isExpanded ? (
+                <Chevron transform="rotate(270)" />
+              ) : (
+                <Chevron transform="rotate(180)" />
+              )}
+            </span>
+          </div>
           <span>
-            <span className="dark:text-white text-secondary hover:underline underline-offset-4 font-bold text-xs">{title}</span>
+            <span className="dark:text-white text-secondary font-bold text-xs">{title}</span>
             <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
               {totalItems}
             </span>
