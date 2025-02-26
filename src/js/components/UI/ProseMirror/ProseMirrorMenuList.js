@@ -107,7 +107,9 @@ const DropdownListMenu = ({ editorView }) => {
         liftListItem(schema.nodes.list_item)(state, dispatch);
       } else {
         liftListItem(schema.nodes.list_item)(state, dispatch);
-        wrapInList(schema.nodes.bullet_list)(state, dispatch);
+        setTimeout(() => {
+          wrapInList(schema.nodes.bullet_list)(state, dispatch);
+        })
       }
     }
     if (listType.key === "ordered") {
@@ -115,10 +117,12 @@ const DropdownListMenu = ({ editorView }) => {
         liftListItem(schema.nodes.list_item)(state, dispatch);
       } else {
         liftListItem(schema.nodes.list_item)(state, dispatch);
+        setTimeout(() => {
         wrapInList(schema.nodes.ordered_list)(state, dispatch);
+        })
       }
     }
-    setIsOpen(false)
+    // setIsOpen(false)
   };
 
   useEffect(() => {
