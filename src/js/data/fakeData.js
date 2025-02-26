@@ -42,7 +42,5 @@ const fakeTableData = {
 };
 
 const bulletPointData = [
-  "Ensure you have the correct permissions.",
-  "Refer to the setup guide in the documentation.",
-  "Reach out to support for further help.",
+  "Ensure you correctly create the association needed for this operation.",
 ];
