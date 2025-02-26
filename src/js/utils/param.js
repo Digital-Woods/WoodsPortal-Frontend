@@ -172,7 +172,6 @@ function getQueryParamsToObject(url) {
 
 
 function updateParamsFromUrl(apiUrl, params) {
-  console.log('params', params)
     const url = new URL(apiUrl, "http://example.com"); // Base URL to parse query params
     const searchParams = new URLSearchParams(url.search);
 
