@@ -1176,3 +1176,11 @@ img.ProseMirror-separator {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+menu, ul {
+  list-style: initial;
+}
+
+menu, ol {
+  list-style: auto;
+}
