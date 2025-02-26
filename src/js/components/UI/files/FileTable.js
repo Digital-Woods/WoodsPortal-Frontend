@@ -159,7 +159,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
             <div>{file.size}</div>
           </TableCell>
-          <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
+          {/* <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
             <div className="relative">
               <button
                 className="border border-gray-300 dark:text-white text-xs px-3 py-1 rounded"
@@ -214,7 +214,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
                 </div>
               )}
             </div>
-          </TableCell>
+          </TableCell> */}
         </TableRow>
       </React.Fragment>
     ));
@@ -223,7 +223,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
     return <FilesSkeleton />;
   }
   return (
-    <div className="table-container  overflow-x-auto overflow-y-visible rounded-md ">
+    <div className="table-container overflow-x-auto rounded-md ">
       <Table className="w-full dark:bg-[#2a2a2a]">
         <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
           <TableRow>
@@ -231,7 +231,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
             <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs">Name</TableHead>
             <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">File Type</TableHead>
             <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs text-left">Size</TableHead>
-            <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead>
+            {/* <TableHead className="px-4 py-2 whitespace-nowrap dark:text-white dark:bg-dark-500 text-xs"></TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>{renderFiles(files)}</TableBody>

@@ -224,19 +224,19 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
         />
         {/* <ModuleFileTable/> */}
 
-        <div className="flex flex md:flex-row flex-col gap-2 justify-between items-center ">
+        <div className="flex md:flex-row flex-col gap-2 justify-between items-center ">
           <div className="flex items-center gap-x-2 pt-3 text-sm">
             <p className="text-secondary leading-5 text-sm dark:text-gray-300">
               Showing
             </p>
-            <span className="border border-2 dark:text-white border-secondary font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+            <span className="border dark:text-white border-secondary font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
               {Math.min(endIndex, totalFiles)}
             </span>
             <span className="dark:text-white">/</span>
             <span className="rounded-md dark:text-white font-medium">
               {totalFiles}
             </span>
-            <p className="text-secondary dark:text-white font-normal text-sm dark:text-gray-300">
+            <p className="text-secondary font-normal text-sm dark:text-gray-300">
               Results
             </p>
           </div>

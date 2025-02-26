@@ -16,20 +16,20 @@ const Home = ({
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
   const [userObjectId, setUserObjectId] = useState();
-  const [cacheEnabled, setCacheEnabled] = useState(true); 
+  const [cacheEnabled, setCacheEnabled] = useState(true);
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
 
   const fetchUserProfile = async ({ portalId, cache = true }) => {
     if (!portalId) return null;
-    
+
     const response = await Client.user.profile({ portalId, cache });
     return response?.data;
   };
-  
+
   const { data: userNewData, error, isLoading, refetch } = useQuery({
-    queryKey: ['userProfile', portalId, cacheEnabled], 
-    queryFn: () => fetchUserProfile({ portalId, cache: cacheEnabled }), 
+    queryKey: ['userProfile', portalId, cacheEnabled],
+    queryFn: () => fetchUserProfile({ portalId, cache: cacheEnabled }),
     onSuccess: (data) => {
       if (data) {
         sessionStorage.setItem('userProfile', JSON.stringify(data));
@@ -42,7 +42,7 @@ const Home = ({
       console.error("Error fetching profile:", error);
     }
   });
-  
+
   useEffect(() => {
     if (sync) {
       setCacheEnabled(false);
@@ -186,7 +186,7 @@ const Home = ({
                     };
 
                     return index === 0 ? (
-                      <SidebarData
+                      <SidebarTable
                         key={index}
                         hubspotObjectTypeId={hubspotObjectTypeId}
                         path={`/${formatPath(option.label)}`}

@@ -404,12 +404,7 @@ const DashboardTable = ({
 
   return (
     <div
-      className={` ${
-        hubSpotUserDetails.sideMenu[0].tabName === title ||
-        componentName === "ticket"
-          ? "mt-0"
-          : "md:mt-4 mt-3"
-      } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      className={` ${ hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? "mt-0" : "md:mt-4 mt-3" } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
@@ -433,7 +428,7 @@ const DashboardTable = ({
 
       {isLoading && (activeCard ? <BoardViewSkeleton /> : <TableSkeleton />)}
 
-      {!isLoading && !activeCard && apiResponse?.data?.total === 0 && (
+      {!isLoading && !activeCard && (apiResponse?.data?.total === 0 || apiResponse?.data?.total == null) && (
         <div className="text-center pb-4">
           <EmptyMessageCard
             name={
