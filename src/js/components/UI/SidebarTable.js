@@ -42,10 +42,6 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   }, [location.search]);
 
   const mapResponseData = (data) => {
-    // const results = data.data.results.rows || [];
-    // const columns = data.data.results.columns || [];
-
-
     if (env.DATA_SOURCE_SET === true) {
       const results = data.data.results || [];
 

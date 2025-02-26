@@ -39,7 +39,7 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
     <div
       className={`flex justify-between gap-2 dark:border-gray-600 dark:bg-dark-300 items-start p-4 cursor-pointer transition-colors ${active != null ? "" : ""
         }`}
-      onClick={() => handleToggle(id)}
+      
     >
         <span className='font-semibold text-secondary dark:text-white'>
           {active === id ? (
@@ -48,7 +48,7 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
             <Chevron transform="rotate(180)" />
           )}
         </span>
-        <h5 className="font-medium text-sm flex items-center justify-between gap-x-2 flex-1 ">{children}</h5>
+        <h5 className="font-medium text-sm flex items-center justify-between gap-x-2 flex-1 " onClick={() => handleToggle(id)} >{children}</h5>
 
       {/* {active === id ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />} */}
     </div>
