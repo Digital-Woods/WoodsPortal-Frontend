@@ -46,6 +46,9 @@ const DashboardTableData = ({
   setItemsPerPage,
   detailsUrl
 }) => {
+  const mUrlParam = Object.fromEntries(
+    Object.entries(urlParam).filter(([key]) => key !== "cache")
+  );
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
   const objectTypeId = getParam("objectTypeId");
@@ -184,7 +187,7 @@ const DashboardTableData = ({
                         detailsView: detailsView,
                         hoverRow: hoverRow,
                         item: null,
-                        urlParam: toQueryString(urlParam),
+                        urlParam: toQueryString(mUrlParam),
                       })}
 
                       {/* {viewName === "ticket"
