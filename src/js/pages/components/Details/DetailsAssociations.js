@@ -123,7 +123,7 @@ const DetailsAssociations = ({
                                               : parentObjectRowId
                                             }&isPrimaryCompany=${companyAsMediator}`
                                             : "",
-                                          detailsView: null,
+                                          detailsView: true,
                                           hoverRow: null,
                                           item: null,
                                           urlParam: null,
@@ -160,7 +160,7 @@ const DetailsAssociations = ({
                                             : parentObjectRowId
                                           }&isPrimaryCompany=${companyAsMediator}`
                                           : "",
-                                        detailsView: null,
+                                        detailsView: true,
                                         hoverRow: null,
                                         item: null,
                                         urlParam: null,
