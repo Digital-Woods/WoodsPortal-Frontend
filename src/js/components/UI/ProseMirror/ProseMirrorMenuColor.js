@@ -1,21 +1,54 @@
 // Helper: Traverses the selection to find the first fontFamily mark.
+// const getTextColorFromSelection = (state) => {
+//   const { from, to } = state.selection;
+//   const markType = state.schema.marks.textColor;
+//   let textColor = null;
+
+//   state.doc.nodesBetween(from, to, (node) => {
+//     if (node.marks && node.marks.length) {
+//       const mark = node.marks.find((m) => m.type === markType);
+//       if (mark) {
+//         textColor = mark.attrs.color;
+//         // Stop traversing early if a font is found.
+//         return false;
+//       }
+//     }
+//   });
+//   return textColor;
+// };
+
 const getTextColorFromSelection = (state) => {
-  const { from, to } = state.selection;
+  const { from, to, empty } = state.selection;
   const markType = state.schema.marks.textColor;
   let textColor = null;
 
+  if (!markType) return null; // Ensure the mark exists
+
+  // If selection is empty (cursor position), check previous character
+  if (empty && from > 0) {
+    const prevNode = state.doc.nodeAt(from - 1);
+    if (prevNode && prevNode.marks) {
+      const mark = prevNode.marks.find((m) => m.type === markType);
+      if (mark) {
+        return mark.attrs.color;
+      }
+    }
+  }
+
+  // Normal selection case
   state.doc.nodesBetween(from, to, (node) => {
     if (node.marks && node.marks.length) {
       const mark = node.marks.find((m) => m.type === markType);
       if (mark) {
         textColor = mark.attrs.color;
-        // Stop traversing early if a font is found.
-        return false;
+        return false; // Stop early when we find the color
       }
     }
   });
+
   return textColor;
 };
+
 
 const ProseMirrorPlugin2 = window.ProseMirrorPlugin;
 const ProseMirrorPluginKey2 = window.ProseMirrorPluginKey;
