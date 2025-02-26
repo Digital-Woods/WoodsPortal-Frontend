@@ -179,7 +179,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
             height="semiMedium"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            icon={SearchIcon} 
+            icon={SearchIcon}
           />
           {permissions && permissions.create && (
             <div className="flex justify-end space-x-2">
@@ -187,14 +187,19 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
                 variant="create"
                 onClick={() => setIsCreateFolderOpen(true)}
               >
-                <span className="mr-2"> <IconPlus className='!w-3 !h-3' /> </span> New Folder
+                <span className="mr-2">
+                  {" "}
+                  <IconPlus className="!w-3 !h-3" />{" "}
+                </span>{" "}
+                New Folder
               </Button>
 
-              <Button
-                variant="create"
-                onClick={() => setIsDialogOpen(true)}
-              >
-                <span className="mr-2"> <IconPlus className='!w-3 !h-3' /> </span> New File
+              <Button variant="create" onClick={() => setIsDialogOpen(true)}>
+                <span className="mr-2">
+                  {" "}
+                  <IconPlus className="!w-3 !h-3" />{" "}
+                </span>{" "}
+                New File
               </Button>
             </div>
           )}
