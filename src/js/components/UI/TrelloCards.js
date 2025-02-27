@@ -13,6 +13,8 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
     portalId = getPortal()?.portalId
   }
 
+  const myCurrency = getUserDetails()?.companyCurrency || 'USD';
+
   // const detailsUrl = `?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isForm=false&isPrimaryCompany=${companyAsMediator}`
 
   // const apis = {
@@ -213,7 +215,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
         >
           <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
         </Link>
-        {amount && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>${amount}</p>}
+        <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>{Currency(myCurrency)} {amount ? amount : '--'}</p>
         {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
       </div>
     );
@@ -323,11 +325,9 @@ Main Component Starts Here
       });
       setData(pipelineData);
       // setActivePipeline(pipelineSingle.pipelineId);
-      console.log(pipelineData, 'pipelineData');
     }
   }, [activePipeline, stageDataCount]);
-  console.log(pipelines, 'pipelines');
-  console.log(stageDataCount,'stageDataCount from trello card');
+
   const loadMore = () => {
     // Trigger loading of more cards by calling the parent function
     handleCardData(currentPage + 1);
