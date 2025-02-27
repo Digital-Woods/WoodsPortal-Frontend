@@ -122,7 +122,7 @@ const DropdownListMenu = ({ editorView }) => {
         })
       }
     }
-    // setIsOpen(false)
+    setIsOpen(false)
   };
 
   useEffect(() => {
