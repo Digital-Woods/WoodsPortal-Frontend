@@ -1,9 +1,18 @@
 const getDisplayData = (objectId, items) => {
   if (!Array.isArray(items) || items.length === 0) return {};
 
+  const getUserCurrency = () => {
+    return getUserDetails()?.companyCurrency || "USD";
+  };
+
   const findValue = (key) => {
     const field = items.find((item) => item.key === key);
     if (!field || field.value === null || field.value === undefined) return "";
+    
+    if (key === "amount" && field.showCurrencySymbol) {
+      return `${Currency(getUserCurrency())} ${field.value}`;
+    }
+    
     return typeof field.value === 'object' && field.value.label ? field.value.label : field.value;
   };
 

@@ -75,6 +75,7 @@ const DashboardTable = ({
   const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
   const [hasMoreData, setHasMoreData] = useState(true);
+  const [stageDataCount, setStageDataCount] = useState(true);
 
   const { sync, setSync } = useSync();
 
@@ -213,6 +214,7 @@ const DashboardTable = ({
       if (data.statusCode === "200") {
         if (activeCard) {
           setActivePrevCardData(data?.data?.results?.rows);
+          setStageDataCount(data?.stageDataCount);
         } else {
           setTotalItems(data.data.total || 0);
           setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
@@ -458,6 +460,7 @@ const DashboardTable = ({
             handleCardData={handleCardPageChange}
             currentPage={currentPage}
             hasMoreData={hasMoreData}
+            stageDataCount={stageDataCount}
           />
         )}
 
