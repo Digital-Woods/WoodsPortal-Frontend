@@ -228,7 +228,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
       >
         <Link
           className="my-1 inline-block"
-          to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}/${objectToQueryParams(urlParam)}`}
         >
           <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
         </Link>
@@ -257,6 +257,8 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
     );
   }
 
+  console.log(urlParam,'urlParam');
+  console.log(objectToQueryParams(urlParam),'objectToQueryParams(urlParam)');
   /* =============================================================
 
 Main Component Starts Here
@@ -406,7 +408,7 @@ Main Component Starts Here
     mutationKey: ["updateDealsDataByPipeline"],
     mutationFn: async ({ recordId, stageId }) => {
       return await Client.Deals.updatePipelineDeal({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}${toQueryString(urlParam)}`,
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}?${objectToQueryParams(urlParam)}`,
         data:
           hubspotObjectTypeId == "0-3"
             ? { pipeline: activePipeline, dealstage: stageId }

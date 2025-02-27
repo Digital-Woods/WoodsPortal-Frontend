@@ -165,11 +165,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             <div className={``}>
               <DetailsHeaderCard
                 bgImageClass="bg-custom-bg"
-                date="17/01/2024"
-                serviceName="AquaFlow Service"
-                following="Following"
                 path={path}
                 item={item}
+                objectId={objectId}
               />
               <IframeViewDialog />
               <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
