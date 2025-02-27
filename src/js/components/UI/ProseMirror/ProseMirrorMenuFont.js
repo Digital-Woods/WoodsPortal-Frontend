@@ -254,6 +254,8 @@ const fontMenuItem = new MenuItem2({
     const selectedEditorFont = fontSelectionPluginKey.getState(state);
     const font = textFonts.find((font) => font.key === selectedEditorFont);
 
+    // defaultEditorFont = font
+
     const div = document.getElementById("textFontIcon");
     if (div && selectedEditorFont) {
       div.textContent = font.label; // Change text content
