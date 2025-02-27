@@ -26,7 +26,8 @@ const DynamicComponent = ({
   const [sidebarRightOpen, setSidebarRightOpen] = useState(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false);
-  const viewText = `List of ${title}`;
+  const [totalRecord, setTotalRecord] = useState(0);
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
@@ -59,13 +60,16 @@ const DynamicComponent = ({
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
 
+  useEffect(() => {
+    
+  }, [totalRecord]);
+
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
     formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
-      param ? param + "&isForm=true" : "?isForm=true"
-    }`,
+    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+      }`,
     createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   };
@@ -96,7 +100,7 @@ const DynamicComponent = ({
                   {tableTitle()}
                 </span>
                 <p className="dark:text-white leading-5 text-sm">
-                  {env.DATA_SOURCE_SET !== true ? viewText : viewText + "s"}
+                  {totalRecord} records
                 </p>
               </span>
             ) : (
@@ -108,8 +112,8 @@ const DynamicComponent = ({
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
           {hubSpotUserDetails.sideMenu[0].tabName === title &&
-          !isLargeScreen &&
-          !sidebarRightOpen ? (
+            !isLargeScreen &&
+            !sidebarRightOpen ? (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
                 className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
@@ -134,6 +138,7 @@ const DynamicComponent = ({
               companyAsMediator={companyAsMediator}
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
+              setTotalRecord={setTotalRecord}
             />
           </div>
         </div>

@@ -40,6 +40,7 @@ const DashboardTable = ({
   companyAsMediator,
   pipeLineId,
   specPipeLine,
+  setTotalRecord=null,
 }) => {
   const [apiResponse, setApiResponse] = useState(null);
   // const [tableData, setTableData] = useState([]);
@@ -217,6 +218,7 @@ const DashboardTable = ({
           setStageDataCount(data?.stageDataCount);
         } else {
           setTotalItems(data.data.total || 0);
+          setTotalRecord(data.data.total || 0);
           setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
           // mapResponseData(data);
         }

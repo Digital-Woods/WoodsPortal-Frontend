@@ -18,8 +18,7 @@ const DetailsAssociations = ({
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const hubspotObjectTypeId = association.objectTypeId;
-  const param = `parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId || parentObjectTypeId
-    }&mediatorObjectRecordId=${mediatorObjectRecordId || parentObjectRowId}&${urlParam.replace(/^\?/, "")}`;
+  const param = `parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${ mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId }&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isPrimaryCompany=${companyAsMediator}`;
   const portalId = getPortal()?.portalId
 
   const associationApis = {
@@ -33,6 +32,10 @@ const DetailsAssociations = ({
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
   };
+
+  useEffect(() => {
+    setPermissions(association.configurations["object"]);
+  }, [association]);
 
   return (
     <React.Fragment>
@@ -101,7 +104,7 @@ const DetailsAssociations = ({
 
         <div className={`flex flex-col space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-auto" : "max-h-[344px] overflow-y-auto hide-scrollbar"}`}>
           {association.total === 0 ? (
-            <EmptyMessageCard name={association?.labels?.plural} type='col' className='p-4 dark:bg-[#3e3e3e] bg-rscardbackhround rounded-md text-xs font-semibold dark:text-white !mt-0' />
+            <EmptyMessageCard name={association?.labels?.plural} type='col' imgWidth='110px' className='p-4 dark:bg-[#3e3e3e] bg-rscardbackhround rounded-md text-xs font-semibold dark:text-white !mt-0' />
           ) : (
             association.data &&
             association.data.length > 0 && (
