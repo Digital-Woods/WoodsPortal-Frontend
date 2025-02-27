@@ -151,6 +151,18 @@ const filterAssociationsData = (obj) => {
   return filtered;
 };
 
+const objectToQueryParams = (params) => {
+  if (!params || typeof params !== "object") {
+    return ""; // Return an empty string if params is null, undefined, or not an object
+  }
+
+  return Object.entries(params)
+    .map(([key, value]) => 
+      `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+    )
+    .join("&");
+};
+
 // const sortData = (list, type = "list", removeKeys = 'hs_object_id') => {
 //   if (type == "list" || type == "details") delete list.associations;
 //   let data =

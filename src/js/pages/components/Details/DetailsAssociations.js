@@ -33,7 +33,7 @@ const DetailsAssociations = ({
   return (
     <React.Fragment>
       <Accordion
-        className="mb-0 rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"
+        className="rounded-md mb-4 last:mb-0 md:mb-3 !text-rstextcolor"
         isActive={isActive}
       >
         <AccordionSummary>
@@ -63,7 +63,10 @@ const DetailsAssociations = ({
             </Link>
             {(permissions?.create) && (
               <div className="text-end cursor-pointer ">
-                <Button className='font-semibold text-xs' variant="link" size='link' onClick={() => setShowAddDialog(true)}>
+                <Button className='font-semibold text-xs' variant="link" size='link' onClick={(event) => {
+                  event.stopPropagation();
+                  setShowAddDialog(true);
+                }}>
                   <span className="mr-1">
                     <IconPlus className="!w-3 !h-3" />
                   </span>

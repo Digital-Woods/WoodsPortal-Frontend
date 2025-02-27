@@ -380,8 +380,8 @@
       "id" : "29333503-3f64-167b-c9a9-14c77aa32a95",
       "name" : "properties",
       "label" : "Enter Properties to Show on Card",
-      "help_text" : "If not displayed, please enable visibility in the admin panel for the property you entered.",
-      "inline_help_text" : "These properties will be displayed on the Home Company card.",
+      "help_text" : "These properties will be displayed on the Home Company card.",
+      "inline_help_text" : "If not displayed, please enable visibility in the admin panel for the property you have entered.",
       "required" : false,
       "locked" : false,
       "occurrence" : {

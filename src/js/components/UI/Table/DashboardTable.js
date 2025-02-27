@@ -193,7 +193,7 @@ const DashboardTable = ({
           props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-        view: activeCard ? "card" : "list",
+        view: activeCard ? "BOARD" : "LIST",
       };
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
 
