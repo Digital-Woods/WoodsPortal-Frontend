@@ -25,7 +25,7 @@ const FileDetailsModal = ({ file, onClose }) => {
       onClose={onClose}
       className={`!p-0 relative mx-auto !bg-white overflow-y-auto transition-all  duration-500 ease-in-out ${
         expandDialog
-          ? "lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] max-h-[85vh] h-[85vh]"
+          ? "lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] min-h-[85vh] h-auto"
           : "lg:w-[780px]  md:w-[680px] w-[calc(100vw-28px)] h-auto"
       }`}
     >
