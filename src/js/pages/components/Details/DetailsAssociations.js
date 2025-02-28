@@ -37,6 +37,26 @@ const DetailsAssociations = ({
     setPermissions(association.configurations["object"]);
   }, [association]);
 
+  const viewUrl = `/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+  }&objectTypeId=${association.objectTypeId
+  }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+  }&mediatorObjectRecordId=${mediatorObjectRecordId
+    ? mediatorObjectRecordId
+    : parentObjectRowId
+  }&isPrimaryCompany=${companyAsMediator}`
+
+  const setItemAsync = (key, value, days = env.COOKIE_EXPIRE) => {
+    return new Promise((resolve) => {
+      setCookie(key, value, days);
+      resolve();
+    });
+  };
+  setItemAsync(env.ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
+    name: association.labels.plural,
+    path: viewUrl,
+    routeName: `/association/${association.labels.plural}`})
+  );
+
   return (
     <React.Fragment>
       <div
@@ -61,13 +81,14 @@ const DetailsAssociations = ({
             </div>
             <Link
               className="font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
-              to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
-                }&objectTypeId=${association.objectTypeId
-                }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
-                }&mediatorObjectRecordId=${mediatorObjectRecordId
-                  ? mediatorObjectRecordId
-                  : parentObjectRowId
-                }&isPrimaryCompany=${companyAsMediator}`}
+              // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+              //   }&objectTypeId=${association.objectTypeId
+              //   }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+              //   }&mediatorObjectRecordId=${mediatorObjectRecordId
+              //     ? mediatorObjectRecordId
+              //     : parentObjectRowId
+              //   }&isPrimaryCompany=${companyAsMediator}`}
+              to={viewUrl}
             >
               <span>
                 <span className="text-secondary  hover:underline underline-offset-4  dark:text-white">
@@ -145,7 +166,7 @@ const DetailsAssociations = ({
                                         }&mediatorObjectRecordId=${mediatorObjectRecordId
                                           ? mediatorObjectRecordId
                                           : parentObjectRowId
-                                        }&isPrimaryCompany=${companyAsMediator}`
+                                        }&isPrimaryCompany=${companyAsMediator}&parentObjectName=${association.labels.plural}`
                                         : "",
                                       detailsView: true,
                                       hoverRow: null,
@@ -182,7 +203,7 @@ const DetailsAssociations = ({
                                       }&mediatorObjectRecordId=${mediatorObjectRecordId
                                         ? mediatorObjectRecordId
                                         : parentObjectRowId
-                                      }&isPrimaryCompany=${companyAsMediator}`
+                                      }&isPrimaryCompany=${companyAsMediator}&parentObjectName=${association.labels.plural}`
                                       : "",
                                     detailsView: true,
                                     hoverRow: null,
@@ -205,13 +226,14 @@ const DetailsAssociations = ({
         <div className="text-right py-6">
           <Link
             className="text-secondary hover:underline font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
-            to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
-              }&objectTypeId=${association.objectTypeId
-              }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
-              }&mediatorObjectRecordId=${mediatorObjectRecordId
-                ? mediatorObjectRecordId
-                : parentObjectRowId
-              }&isPrimaryCompany=${companyAsMediator}`}
+            // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+            //   }&objectTypeId=${association.objectTypeId
+            //   }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+            //   }&mediatorObjectRecordId=${mediatorObjectRecordId
+            //     ? mediatorObjectRecordId
+            //     : parentObjectRowId
+            //   }&isPrimaryCompany=${companyAsMediator}`}
+            to={viewUrl}
           >
             View associated {association.labels.plural}
           </Link>

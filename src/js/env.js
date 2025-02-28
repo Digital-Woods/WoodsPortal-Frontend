@@ -9,6 +9,7 @@ const env = {
   AUTH_USER_KEY: "testUser",
   AUTH_PORTAL_KEY: "portalSettings",
   ROUTE_MENU_CONFIG_KEY: "routeMenuConfig",
+  ASSOCIATION_VIEW_URL_KEY: "associationsViewUrl",
   COOKIE_EXPIRE: 7,
   DATA_SOURCE_SET: false,
   NOTE_INTERVAL_TIME: 10000,

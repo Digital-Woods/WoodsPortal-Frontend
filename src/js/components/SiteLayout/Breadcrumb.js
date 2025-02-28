@@ -15,14 +15,29 @@ const Breadcrumb = (props) => {
     return decodedStr;
   };
 
+  const getParentObjectUrl = () => {
+    const parentObjectUrl = getCookie(env.ASSOCIATION_VIEW_URL_KEY)
+    return JSON.parse(parentObjectUrl)
+  };
+  
   useEffect(() => {
-    let item = [
-      {
-        name: path === "/association" ? match?.params?.name : title,
-        path: `${location?.pathname}${location?.search || ""}`,
-        routeName: match.url,
-      },
-    ];
+    let item= [];
+    if(getParam('parentObjectName')) {
+      item.push(getParentObjectUrl())
+    }
+    item.push({
+      name: path === "/association" ? match?.params?.name : title,
+      path: `${location?.pathname}${location?.search || ""}`,
+      routeName: match.url,
+    });
+
+    // let item = [
+    //   {
+    //     name: path === "/association" ? match?.params?.name : title,
+    //     path: `${location?.pathname}${location?.search || ""}`,
+    //     routeName: match.url,
+    //   },
+    // ];
 
     const mRoute = routes.find((route) => route.path === match.url);
 
