@@ -64,10 +64,18 @@ const DropdownAlightMenu = ({ editorView }) => {
     return true;
   };
 
+  // useEffect(() => {
+  //   if (defaultEditorAlignment && textAlign)
+  //     applyAlignment(editorView.state, editorView.dispatch, textAlign.value);
+  // }, [defaultEditorAlignment, textAlign]);
+
+  const changeAlignment = (alignment) => {
+    applyAlignment(editorView.state, editorView.dispatch, alignment.value);
+  }
+
   useEffect(() => {
-    if (defaultEditorAlignment && textAlign)
-      applyAlignment(editorView.state, editorView.dispatch, textAlign.value);
-  }, [defaultEditorAlignment, textAlign]);
+    if (defaultEditorAlignment) setTextAlign(defaultEditorAlignment);
+  }, [defaultEditorAlignment]);
 
   return (
     <div className="relative inline-block">
@@ -113,7 +121,8 @@ const DropdownAlightMenu = ({ editorView }) => {
                 // className="cursor-pointer hover:note-active-state px-4 py-1"
                 className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8]  py-1 ${defaultEditorAlignment?.value === alignment.value ? 'bg-gray-100' : 'bg-none'}`}
                 onClick={() => {
-                  setTextAlign(alignment);
+                  // setTextAlign(alignment);
+                  changeAlignment(alignment);
                   defaultEditorAlignment = alignment;
                 }}
               >
@@ -160,18 +169,22 @@ const alignmentDropdown = new MenuItem2({
     if (isAlignmentLeft) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
       document.getElementById("defaultEditorAlignment")?.classList.add("note-active-state");
+      defaultEditorAlignment = alignments[0];
     }
     if (isAlignmentCenter) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
       document.getElementById("defaultEditorAlignment")?.classList.add("note-active-state");
+      defaultEditorAlignment = alignments[1];
     }
     if (isAlignmentRight) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
       document.getElementById("defaultEditorAlignment")?.classList.add("note-active-state");
+      defaultEditorAlignment = alignments[2];
     }
     if(!isAlignmentLeft && !isAlignmentCenter && !isAlignmentRight && editorListButton) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
       document.getElementById("defaultEditorAlignment")?.classList.remove("note-active-state");
+      defaultEditorAlignment = "";
     }
     return true;
   },

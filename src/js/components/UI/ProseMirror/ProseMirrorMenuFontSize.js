@@ -268,6 +268,8 @@ const fontSizeMenuItem = new MenuItem2({
     const selectedEditorFontSize = fontSizeSelectionPluginKey.getState(state);
     const fontSize = textFontSizes.find((font) => font.value === selectedEditorFontSize);
 
+    defaultEditorFontSize = fontSize
+
     const div = document.getElementById("textFontSize");
     if (div && selectedEditorFontSize) {
       div.textContent = fontSize?.label; // Change text content

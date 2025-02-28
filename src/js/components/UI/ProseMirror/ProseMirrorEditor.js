@@ -65,6 +65,7 @@ const ProseMirrorEditor = ({
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
     const { menuBar } = window.menuBar;
+    const { splitListItem } = window.splitListItem;
 
     // Define schema
     const paragraphNode = {
@@ -221,6 +222,13 @@ const ProseMirrorEditor = ({
         doc: initialDoc,
         schema,
         plugins: [
+          keymap({
+            Enter: (state, dispatch) => {
+              const { schema } = state;
+              return splitListItem(schema.nodes.list_item)(state, dispatch);
+            },
+            "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
+          }),
           keymap(baseKeymap),
           menu,
           fontSelectionPlugin,

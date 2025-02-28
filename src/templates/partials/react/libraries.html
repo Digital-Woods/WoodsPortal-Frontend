@@ -117,9 +117,9 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
   const { history, undo, redo } = PM.history;
   const { exampleSetup, buildMenuItems } = PM.example_setup;
   const { MenuItem, Dropdown, menuBar } = PM.menu;
-  const { addListNodes, wrapInList, liftListItem } = PM.schema_list;
+  const { addListNodes, wrapInList, liftListItem, splitListItem } = PM.schema_list;
   const { schema } = PM.schema_basic;
-  const { toggleMark, wrapIn, baseKeymap } = PM.commands;
+  const { toggleMark, wrapIn, lift, baseKeymap } = PM.commands;
 
   const ProseMirrorPluginKey = PluginKey
   const ProseMirrorPlugin = Plugin
@@ -145,6 +145,8 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
   window.ProseMirrorMenuDropdown = { Dropdown };
   window.toggleMark = { toggleMark };
   window.wrapIn = { wrapIn };
+  window.lift = { lift };
   window.menuBar = { menuBar };
+  window.splitListItem = { splitListItem };
   
 </script>
