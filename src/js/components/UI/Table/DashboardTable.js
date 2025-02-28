@@ -319,12 +319,14 @@ const DashboardTable = ({
       } else {
         if (routeMenuConfig[key]?.activeTab)
           routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
-        if (routeMenuConfig[key]?.activePipeline)
+        if (routeMenuConfig[key]?.activePipeline) {
           routeMenuConfigs[key].activePipeline =
             routeMenuConfig[key].activePipeline;
+        } else {
+          routeMenuConfigs[key].activePipeline = "";
+        }
       }
     });
-
     setRouteMenuConfig(routeMenuConfigs);
   };
 
@@ -354,7 +356,8 @@ const DashboardTable = ({
   // End Cookie RouteMenuConfig
 
   // CHange Pipeline
-  const handelChangePipeline = (pipeLineId) => {
+  const handelChangePipeline = async (pipeLineId) => {
+
     let filterValue = "";
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
@@ -365,26 +368,26 @@ const DashboardTable = ({
       setFilterValue(pipelineSingle.pipelineId);
       setActivePipeline(pipelineSingle.pipelineId);
       filterValue = pipelineSingle.pipelineId;
-
-      const routeMenuConfig = {
-        [hubspotObjectTypeId]: {
-          activePipeline: pipelineSingle.pipelineId,
-        },
-      };
-      setSelectRouteMenuConfig(routeMenuConfig);
     } else {
       setFilterPropertyName(null);
       setFilterOperator(null);
       setFilterValue(null);
       setActivePipeline(null);
 
-      const routeMenuConfig = {
-        [hubspotObjectTypeId]: {
-          activePipeline: null,
-        },
-      };
-      setSelectRouteMenuConfig(routeMenuConfig);
+      // const routeMenuConfig = {
+      //   [hubspotObjectTypeId]: {
+      //     activePipeline: null,
+      //   },
+      // };
+      // setSelectRouteMenuConfig(routeMenuConfig);
     }
+
+    const routeMenuConfig = {
+      [hubspotObjectTypeId]: {
+        activePipeline: pipeLineId,
+      },
+    };
+    setSelectRouteMenuConfig(routeMenuConfig);
 
     getData({
       filterPropertyName: "hs_pipeline",
