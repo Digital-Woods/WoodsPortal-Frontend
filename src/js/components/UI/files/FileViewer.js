@@ -85,7 +85,8 @@ const FileViewer = ({ file }) => {
     fileExtension === "gif" ||
     fileExtension === "webp" ||
     fileExtension === "bmp" ||
-    fileExtension === "tiff"
+    fileExtension === "tiff" ||
+    fileExtension === "svg"
   ) {
     return (
       <div className="w-full flex relative justify-center ">
