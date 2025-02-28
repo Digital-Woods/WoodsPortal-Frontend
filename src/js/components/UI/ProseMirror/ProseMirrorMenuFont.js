@@ -56,13 +56,28 @@ const getFontFamilyFromSelection = (state) => {
   if (!markType) return null; // Ensure the mark exists
 
   // If selection is empty (cursor position), check previous character
-  if (empty && from > 0) {
-    const prevNode = state.doc.nodeAt(from - 1);
-    if (prevNode && prevNode.marks) {
-      const mark = prevNode.marks.find((m) => m.type === markType);
-      if (mark) {
-        return mark.attrs.font;
-      }
+  // if (empty && from > 0) {
+  //   const prevNode = state.doc.nodeAt(from - 1);
+  //   if (prevNode && prevNode.marks) {
+  //     const mark = prevNode.marks.find((m) => m.type === markType);
+  //     if (mark) {
+  //       return mark.attrs.font;
+  //     }
+  //   }
+  // }
+
+  if (empty) {
+    const storedMark = state.storedMarks?.find((m) => m.type === markType);
+
+    if (storedMark) {
+      return storedMark.attrs.font;
+    }
+
+    // Fallback: Check marks at cursor position
+    const marksAtCursor = state.selection.$from.marks();
+    const mark = marksAtCursor.find((m) => m.type === markType);
+    if (mark) {
+      return mark.attrs.font;
     }
   }
 
@@ -237,21 +252,23 @@ const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 
 const fontMenuItem = new MenuItem2({
   title: `Fonts`,
-  run: (state, dispatch, editorView) => {
-    const newFont = fontSelectionPluginKey.getState(state); // Example selected font
-    const tr = state.tr;
-    console.log("newFont", newFont);
-    // Set the font selection in the plugin state
-    tr.setMeta(fontSelectionPluginKey, newFont);
-    // Dispatch the transaction to update the plugin state
-    dispatch(tr);
-    // Update the editor state so the plugin state is re-read and the component can re-render
-    editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
-  },
+  // run: (state, dispatch, editorView) => {
+  //   const newFont = fontSelectionPluginKey.getState(state); // Example selected font
+  //   const tr = state.tr;
+  //   console.log("newFont", newFont);
+  //   // Set the font selection in the plugin state
+  //   tr.setMeta(fontSelectionPluginKey, newFont);
+  //   // Dispatch the transaction to update the plugin state
+  //   dispatch(tr);
+  //   // Update the editor state so the plugin state is re-read and the component can re-render
+  //   editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
+  // },
+  run: () => {},
   select: (state) => {
     // Use plugin state for enabling/disabling this item
     const activeFont = fontSelectionPluginKey.getState(state) || true;
-    const selectedEditorFont = fontSelectionPluginKey.getState(state);
+    // const selectedEditorFont = fontSelectionPluginKey.getState(state);
+    const selectedEditorFont = getFontFamilyFromSelection(state);
     const font = textFonts.find((font) => font.key === selectedEditorFont);
 
     // defaultEditorFont = font

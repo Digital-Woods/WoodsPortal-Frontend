@@ -68,13 +68,27 @@ const getFontSizeFromSelection = (state) => {
   if (!markType) return null; // Ensure the mark exists
 
   // If selection is empty (cursor at the end), check the previous character
-  if (empty && from > 0) {
-    const prevNode = state.doc.nodeAt(from - 1);
-    if (prevNode && prevNode.marks) {
-      const mark = prevNode.marks.find((m) => m.type === markType);
-      if (mark) {
-        return mark.attrs.fontSize;
-      }
+  // if (empty && from > 0) {
+  //   const prevNode = state.doc.nodeAt(from - 1);
+  //   if (prevNode && prevNode.marks) {
+  //     const mark = prevNode.marks.find((m) => m.type === markType);
+  //     if (mark) {
+  //       return mark.attrs.fontSize;
+  //     }
+  //   }
+  // }
+  if (empty) {
+    const storedMark = state.storedMarks?.find((m) => m.type === markType);
+
+    if (storedMark) {
+      return storedMark.attrs.fontSize;
+    }
+
+    // Fallback: Check marks at cursor position
+    const marksAtCursor = state.selection.$from.marks();
+    const mark = marksAtCursor.find((m) => m.type === markType);
+    if (mark) {
+      return mark.attrs.fontSize;
     }
   }
 
@@ -251,21 +265,23 @@ const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 
 const fontSizeMenuItem = new MenuItem2({
   title: `Font Size`,
-  run: (state, dispatch, editorView) => {
-    const newFont = fontSizeSelectionPluginKey.getState(state); // Example selected font
-    const tr = state.tr;
-    console.log("newFont", newFont);
-    // Set the font selection in the plugin state
-    tr.setMeta(fontSizeSelectionPluginKey, newFont);
-    // Dispatch the transaction to update the plugin state
-    dispatch(tr);
-    // Update the editor state so the plugin state is re-read and the component can re-render
-    editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
-  },
+  // run: (state, dispatch, editorView) => {
+  //   const newFont = fontSizeSelectionPluginKey.getState(state); // Example selected font
+  //   const tr = state.tr;
+  //   console.log("newFont", newFont);
+  //   // Set the font selection in the plugin state
+  //   tr.setMeta(fontSizeSelectionPluginKey, newFont);
+  //   // Dispatch the transaction to update the plugin state
+  //   dispatch(tr);
+  //   // Update the editor state so the plugin state is re-read and the component can re-render
+  //   editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
+  // },
+  run: () => {},
   select: (state) => {
     // Use plugin state for enabling/disabling this item
     const activeFont = fontSizeSelectionPluginKey.getState(state) || true;
-    const selectedEditorFontSize = fontSizeSelectionPluginKey.getState(state);
+    // const selectedEditorFontSize = fontSizeSelectionPluginKey.getState(state);
+    const selectedEditorFontSize = getFontSizeFromSelection(state);
     const fontSize = textFontSizes.find((font) => font.value === selectedEditorFontSize);
 
     defaultEditorFontSize = fontSize

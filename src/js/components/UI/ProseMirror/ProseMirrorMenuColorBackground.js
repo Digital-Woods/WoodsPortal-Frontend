@@ -25,13 +25,27 @@ const getTextBGColorFromSelection = (state) => {
   if (!markType) return null; // Ensure the mark exists
 
   // If selection is empty (cursor position), check previous character
-  if (empty && from > 0) {
-    const prevNode = state.doc.nodeAt(from - 1);
-    if (prevNode && prevNode.marks) {
-      const mark = prevNode.marks.find((m) => m.type === markType);
-      if (mark) {
-        return mark.attrs.color;
-      }
+  // if (empty && from > 0) {
+  //   const prevNode = state.doc.nodeAt(from - 1);
+  //   if (prevNode && prevNode.marks) {
+  //     const mark = prevNode.marks.find((m) => m.type === markType);
+  //     if (mark) {
+  //       return mark.attrs.color;
+  //     }
+  //   }
+  // }
+  if (empty) {
+    const storedMark = state.storedMarks?.find((m) => m.type === markType);
+
+    if (storedMark) {
+      return storedMark.attrs.color;
+    }
+
+    // Fallback: Check marks at cursor position
+    const marksAtCursor = state.selection.$from.marks();
+    const mark = marksAtCursor.find((m) => m.type === markType);
+    if (mark) {
+      return mark.attrs.color;
     }
   }
 
@@ -74,7 +88,8 @@ const textBGColorPlugin = new ProseMirrorPlugin2({
   },
 });
 
-let selectedTextColor = "";
+let defaultTextBGColor = "#fff";
+let selectedTextBGColor = "";
 
 const DropdownColorMenu2 = ({ editorView, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -137,8 +152,14 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
   };
 
   useEffect(() => {
-    if (color)
+    if (color) {
+      // console.log('color', color)
       applyTextBackgroundColor(color)(editorView.state, editorView.dispatch);
+      const div = document.getElementById("text-bg-color-svg");
+      if (div) {
+        div.setAttribute("fill", color);
+      }
+    }
   }, [color]);
 
   return (
@@ -165,7 +186,7 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
             viewBox="0 -960 960 960"
             width="20px"
           >
-            <path d="M80 0v-160h800V0H80Z" fill="#fff" id="text-bg-color-svg" />
+            <path d="M80 0v-160h800V0H80Z"  fill={defaultTextBGColor} id="text-bg-color-svg" />
             <path
               d="M160-320h56l312-311-29-29-28-28-311 312v56Z"
               fill="#666666"
@@ -212,25 +233,27 @@ const renderReactComponent2 = (editorView) => {
 };
 const textBGColor = new MenuItem2({
   title: `Text highlight`,
-  run: (state, dispatch, editorView) => {
-    const newFont = textBGColorPluginKey.getState(state); // Example selected font
-    const tr = state.tr;
-    // Set the font selection in the plugin state
-    tr.setMeta(textBGColorPluginKey, newFont);
-    // Dispatch the transaction to update the plugin state
-    dispatch(tr);
-    // Update the editor state so the plugin state is re-read and the component can re-render
-    editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
-  },
+  // run: (state, dispatch, editorView) => {
+  //   const newFont = textBGColorPluginKey.getState(state); // Example selected font
+  //   const tr = state.tr;
+  //   // Set the font selection in the plugin state
+  //   tr.setMeta(textBGColorPluginKey, newFont);
+  //   // Dispatch the transaction to update the plugin state
+  //   dispatch(tr);
+  //   // Update the editor state so the plugin state is re-read and the component can re-render
+  //   editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
+  // },
+  run: () => {},
   select: (state) => {
     // Use plugin state for enabling/disabling this item
     const activeFont = textBGColorPluginKey.getState(state) || true;
-    selectedTextColor = textBGColorPluginKey.getState(state);
+    // selectedTextBGColor = textBGColorPluginKey.getState(state);
+    selectedTextBGColor = getTextBGColorFromSelection(state);
     const div = document.getElementById("text-bg-color-svg");
-    if (div && selectedTextColor) {
-      div.setAttribute("fill", selectedTextColor);
+    if (div && selectedTextBGColor) {
+      div.setAttribute("fill", selectedTextBGColor);
     }
-    if (div && !selectedTextColor) {
+    if (div && !selectedTextBGColor) {
       div.setAttribute("fill", "#fff");
     }
     return activeFont !== null;
