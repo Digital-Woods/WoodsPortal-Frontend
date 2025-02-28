@@ -107,9 +107,9 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   }
 
   // Filter files based on search term
-  const filteredFiles = currentFiles.child.filter((file) =>
-    file.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredFiles = currentFiles.child
+    .filter((file) => file.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const totalFiles = filteredFiles.length;
   const startIndex = (currentPage - 1) * itemsPerPage;
