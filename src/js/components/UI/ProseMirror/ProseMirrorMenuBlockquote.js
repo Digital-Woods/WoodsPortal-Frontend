@@ -1,9 +1,9 @@
 const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 const { wrapIn } = window.wrapIn;
+const { lift } = window.lift;
 
 const blockquoteItem = new MenuItem2({
   title: "Blockquote",
-  // label: "Blockquote",
   icon: {
     dom: (() => {
       const span = document.createElement("span");
@@ -11,9 +11,6 @@ const blockquoteItem = new MenuItem2({
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="20px" height="20px" viewBox="0 0 24.000000 23.000000"
         preserveAspectRatio="xMidYMid meet">
-        <metadata>
-        Created by potrace 1.10, written by Peter Selinger 2001-2011
-        </metadata>
         <g transform="translate(0.000000,23.000000) scale(0.100000,-0.100000)"
         fill="#666666" stroke="none">
         <path d="M44 166 c-3 -7 -4 -35 -2 -62 3 -45 5 -49 31 -52 25 -3 27 -1 27 33
@@ -28,11 +25,25 @@ const blockquoteItem = new MenuItem2({
       return span;
     })(),
   },
-  enable: (state) => wrapIn(state.schema.nodes.blockquote)(state),
-  // run: (state, dispatch) =>
-  //   wrapIn(schema.nodes.blockquote)(state, dispatch),
+  enable: (state) => wrapIn(state.schema.nodes.blockquote)(state) || lift(state), // Enable if can wrap or lift
   run: (state, dispatch) => {
-    wrapIn(state.schema.nodes.blockquote)(state, dispatch);
-    // updateMenuState(editor); // Call function to update menu state
+    const { blockquote } = state.schema.nodes;
+    const { $from, $to } = state.selection;
+
+    // Check if inside a blockquote
+    let inBlockquote = false;
+    state.doc.nodesBetween($from.pos, $to.pos, (node) => {
+      if (node.type === blockquote) {
+        inBlockquote = true;
+      }
+    });
+
+    if (inBlockquote) {
+      // If already inside blockquote, remove it (lift)
+      lift(state, dispatch);
+    } else {
+      // Otherwise, wrap in a blockquote
+      wrapIn(blockquote)(state, dispatch);
+    }
   },
 });
