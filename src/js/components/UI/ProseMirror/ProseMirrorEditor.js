@@ -35,6 +35,9 @@ const ProseMirrorEditor = ({
     inline: false, // Defines the image as an inline node
     attrs: {
       src: {}, // The source URL of the image (required)
+      width: { default: "auto" }, 
+      height: { default: "auto" }, 
+      class: { default: "w-auto h-auto" }, 
       // alt: { default: null }, // Alternative text (optional)
       // title: { default: null }, // Title for the image (optional)
     },
@@ -46,6 +49,9 @@ const ProseMirrorEditor = ({
         getAttrs(dom) {
           return {
             src: dom.getAttribute("src"),
+            width: dom.getAttribute("width") || "auto",
+            height: dom.getAttribute("height") || "auto",
+            class: dom.getAttribute("class") || "w-auto h-auto",
             // alt: dom.getAttribute("alt"),
             // title: dom.getAttribute("title"),
           };
@@ -53,7 +59,14 @@ const ProseMirrorEditor = ({
       },
     ],
     toDOM(node) {
-      return ["img", node.attrs]; // Renders the image node as an <img> element
+      return ["img",
+        {
+          ...node.attrs,
+          width: node.attrs.width,
+          height: node.attrs.height,
+          class: `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
+        }
+      ]; // Renders the image node as an <img> element
     },
   };
 
@@ -114,7 +127,7 @@ const ProseMirrorEditor = ({
       image: imageNodeSpec,
     };
 
-    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode);
+    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode).addToEnd("image", imageNodeSpec);;
     const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
 
     const schema = new Schema({

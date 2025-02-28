@@ -4,10 +4,13 @@ const insertImage = (view, src) => {
   const { state, dispatch } = view;
   const { selection } = state;
   const position = selection.$cursor ? selection.$cursor.pos : selection.from;
-  console.log("insertImage", src);
+
+  const width = "50%";
+  const height = "auto";
+
   const transaction = state.tr.insert(
     position,
-    state.schema.nodes.image.create({ src })
+    state.schema.nodes.image.create({ src, width, height, class: `w-${width} h-${height}` })
   );
   dispatch(transaction);
 };
