@@ -23,7 +23,7 @@
 
   return (
     <div className="flex justify-end items-center py-6 px-2">
-      <ul className="flex items-center space-x-2">
+      <ul className="flex items-center space-x-2 list-none">
         <div className="dark:bg-dark-500 bg-gray-200 p-2 rounded-md">
           <li
             className={`dark:text-white text-secondary ${currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
@@ -36,7 +36,7 @@
         {arrOfCurrButtons.map((data, index) => (
           <li
             key={index}
-            className={`cursor-pointer text-sm px-2 py-1 rounded-md text-sm ${currentPage === data
+            className={`cursor-pointer text-sm px-2 py-1 rounded-md ${currentPage === data
                 ? " bg-secondary dark:bg-dark-400 text-white"
                 : ""
               } ${data === "..." ? "cursor-default" : ""}`}

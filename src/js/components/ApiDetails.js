@@ -43,10 +43,25 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
 
+  const availableTabs = [
+    "overview",
+    permissions?.fileManager?.display && "files",
+    permissions?.note?.display && "notes",
+    permissions?.ticket?.display && "tickets",
+  ].filter(Boolean);
+
   const setActiveTabFucntion = (active) => {
     setParam("t", active);
     setActiveTab(active);
   };
+
+  useEffect(() => {
+    if (!availableTabs.includes(activeTab)) {
+      setActiveTab("overview");
+      setParam("t", "overview");
+    }
+  }, [permissions]);
+
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
@@ -114,20 +129,18 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       <div>
         <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:pt-4 pt-3">
           <div
-            className={`${
-              isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-            } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+            className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+              } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
           >
             <DetailsSkeleton />
           </div>
           <div
             className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
         lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
-        ${
-          isLargeScreen
-            ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
-            : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
-        } 
+        ${isLargeScreen
+                ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+                : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+              } 
         ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
           >
             <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
@@ -158,9 +171,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
 
           {/* main content code start */}
           <div
-            className={`${
-              isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-            } lg:h-full hide-scrollbar overflow-y-auto overflow-x-hidden md:pt-4 pt-3`}
+            className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+              } lg:h-full hide-scrollbar overflow-y-auto overflow-x-hidden md:pt-4 pt-3`}
           >
             <div className={``}>
               <DetailsHeaderCard
@@ -174,6 +186,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 <Tabs
                   activeTab={activeTab}
                   setActiveTab={setActiveTabFucntion}
+                  onValueChange={setActiveTabFucntion}
                   className="rounded-md "
                 >
                   <TabsList>
@@ -211,7 +224,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
 
                   <TabsContent value="overview"></TabsContent>
                   <TabsContent value="files"></TabsContent>
-                  <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
+                  <TabsContent value="notes"></TabsContent>
                   {/* <TabsContent value="trello"></TabsContent> */}
                   {/* <TabsContent value="photos"></TabsContent> */}
                 </Tabs>
@@ -301,11 +314,10 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           <div
             className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
             lg:h-[calc(100vh-var(--nav-height))] h-full hide-scrollbar overflow-visible max-lg:z-[52] lg:mt-[1px]
-            ${
-              isLargeScreen
+            ${isLargeScreen
                 ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
                 : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
-            } 
+              } 
             ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
           >
             {/* Close Button for Small Devices */}
@@ -323,21 +335,27 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             {/* Sidebar Content */}
             <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible md:!py-4">
               {associations &&
-                Object.entries(associations).map(([key, association]) => (
-                  <DetailsAssociations
-                    key={key}
-                    association={association}
-                    isActive={true}
-                    parentObjectTypeName={path}
-                    parentObjectTypeId={objectId}
-                    parentObjectRowId={id}
-                    refetch={getData}
-                    objectId={objectId}
-                    id={id}
-                    companyAsMediator={companyAsMediator}
-                    urlParam={urlParam}
-                  />
-                ))}
+                Object.entries(associations)
+                  .filter(
+                    ([, association]) =>
+                      association?.objectTypeId !== "0-5" || permissions?.ticket?.display
+                  )
+                  .map(([key, association]) => (
+                    <DetailsAssociations
+                      key={key}
+                      association={association}
+                      isActive={true}
+                      parentObjectTypeName={path}
+                      parentObjectTypeId={objectId}
+                      parentObjectRowId={id}
+                      refetch={getData}
+                      objectId={objectId}
+                      id={id}
+                      companyAsMediator={companyAsMediator}
+                      urlParam={urlParam}
+                      parentPermissions={permissions}
+                    />
+                  ))}
             </div>
           </div>
 
@@ -366,20 +384,18 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         <div>
           <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden md:pt-4 pt-3">
             <div
-              className={`${
-                isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-              } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+              className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+                } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
             >
               <DetailsSkeleton />
             </div>
             <div
               className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
             lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
-            ${
-              isLargeScreen
-                ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
-                : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
-            } 
+            ${isLargeScreen
+                  ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+                  : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+                } 
             ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
             >
               <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">

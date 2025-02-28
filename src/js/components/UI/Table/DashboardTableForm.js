@@ -78,7 +78,6 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     },
     onSuccess: async (response, variables) => {
       setAlert({ message: response.statusMsg, type: "success" });
-      setSync(true)
       if (!variables.addAnother) {
         setOpenModal(false);
       } else {
@@ -147,7 +146,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[600px] min-w-[305px]">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[600px] min-w-[305px] max-h-[95vh] overflow-y-auto">
         <div>
           <h3 className="text-start text-xl dark:text-white font-semibold mb-4">
             Add {title}

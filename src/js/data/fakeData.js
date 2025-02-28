@@ -42,6 +42,6 @@ const fakeTableData = {
 };
 
 const bulletPointData = [
-  "Use the ‘Clear Cache’ button to refresh system data, which might resolve visibility issues of newly created associations or records",
-  "Ensure you correctly create the association needed for this operation.",
+  '<span class="inline-block font-semibold">Refresh Data:</span> Click the ‘Clear Cache’ button to update system data. This may fix issues with visibility of new records or associations.',
+  '<span class="inline-block font-semibold">Check Associations:</span> Ensure the necessary associations are correctly created for this operation.',
 ];

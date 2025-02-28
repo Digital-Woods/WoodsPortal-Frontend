@@ -1,4 +1,4 @@
-const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam, companyAsMediator, handleCardData, currentPage, hasMoreData }) => {
+const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam, companyAsMediator, handleCardData, currentPage, hasMoreData, stageDataCount }) => {
   // const { sync, setSync } = useSync();
   // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
   //const title = "Ticket"
@@ -12,6 +12,8 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId
   }
+
+  const myCurrency = getUserDetails()?.companyCurrency || 'USD';
 
   // const detailsUrl = `?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isForm=false&isPrimaryCompany=${companyAsMediator}`
 
@@ -200,25 +202,6 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   };
 
   // Trello Cards Starts Here
-  const dummyData = [
-    // { id: 1, name: "Appointment Scheduled", cards: [
-    //   { id: 1, title: "Test Deal A", date: '09/30/2024', description: 'No activity for 5 months' },
-    //   { id: 2, title: "Test Deal B", date: '09/30/2024', description: 'Updated 3 days ago' },
-    //   { id: 3, title: "Test Deal C", date: '09/30/2024', description: 'No activity for 2 months' },
-    //   { id: 4, title: "Card 4" },
-    //   { id: 5, title: "Card 5" },
-    // ] },
-    // { id: 2, name: "Qualified To Buy", cards: [
-    //     { id: 4, title: "Buy Car A", date: '09/15/2024', description: 'No activity for 1 months' },
-    //     { id: 5, title: "Buy Car B", date: '09/10/2024', description: 'Updated 27 days ago' },
-    //     { id: 6, title: "Buy Car C", date: '09/18/2024', description: 'No activity for 12 months' },
-    // ] },
-    // { id: 3, name: "Presentation Scheduled", cards: [
-    //     { id: 9, title: "Card 6" },
-    //     { id: 10, title: "Card 7" },
-    //     { id: 11, title: "Card 8" },
-    //   ] }
-  ];
 
   function Card({ title, amount, date, dragItem, cardData }) {
     return (
@@ -232,7 +215,7 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
         >
           <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
         </Link>
-        {amount && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>${amount}</p>}
+        <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>{Currency(myCurrency)} {amount ? amount : '--'}</p>
         {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
       </div>
     );
@@ -257,8 +240,6 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
     );
   }
 
-  console.log(urlParam,'urlParam');
-  console.log(objectToQueryParams(urlParam),'objectToQueryParams(urlParam)');
   /* =============================================================
 
 Main Component Starts Here
@@ -337,6 +318,7 @@ Main Component Starts Here
         pipelineData.push({
           id: index + 1,
           name: element.label,
+          count:stageDataCount[element.id] ?? 0,
           ...element,
           cards: [],
         });
@@ -344,7 +326,7 @@ Main Component Starts Here
       setData(pipelineData);
       // setActivePipeline(pipelineSingle.pipelineId);
     }
-  }, [activePipeline]);
+  }, [activePipeline, stageDataCount]);
 
   const loadMore = () => {
     // Trigger loading of more cards by calling the parent function
@@ -650,7 +632,7 @@ Main Component Starts Here
                       dragType="list"
                     >
                       <List
-                        count={data[listPosition].cards.length || 0}
+                        count={list.count || 0}
                         name={list.name}
                         dragItem={
                           activeItem === list.id && activeType === "list"

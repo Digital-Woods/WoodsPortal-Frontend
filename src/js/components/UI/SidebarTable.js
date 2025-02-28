@@ -84,9 +84,9 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
         page: currentPage,
         ...(after && after.length > 0 && { after }),
         sort: sortConfig,
-        filterPropertyName:'hs_pipeline',
-        filterOperator:'eq',
-        filterValue:specPipeLine ? pipeLineId : '',
+        filterPropertyName: 'hs_pipeline',
+        filterOperator: 'eq',
+        filterValue: specPipeLine ? pipeLineId : '',
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       };
@@ -97,7 +97,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
         param: updateParamsFromUrl(apis.tableAPI, param)
       });
     },
-  
+
     onSuccess: (data) => {
       setSync(false); // Ensure sync state resets after fetching data
       if (data.statusCode === "200") {
@@ -106,7 +106,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
         setNumOfPages(Math.ceil(data.data.total / itemsPerPage));
       }
     },
-  
+
     onError: (error) => {
       console.error("API Error:", error); // Log errors if API call fails
       setSync(false);
@@ -114,7 +114,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       setPermissions(null);
     },
   });
-  
+
 
   const handlePageChange = async (page) => {
     setCurrentPage(page);
@@ -151,13 +151,15 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
         <div className="flex items-center gap-x-2">
           <div onClick={toggleContent} className="cursor-pointer ">
-            <span className="text-secondary dark:text-white">
-              {isExpanded ? (
-                <Chevron transform="rotate(270)" />
-              ) : (
-                <Chevron transform="rotate(180)" />
-              )}
-            </span>
+            <Tooltip content={isExpanded ? 'Shrink' : 'Expand'}>
+              <span className="text-secondary dark:text-white">
+                {isExpanded ? (
+                  <Chevron transform="rotate(270)" />
+                ) : (
+                  <Chevron transform="rotate(180)" />
+                )}
+              </span>
+            </Tooltip>
           </div>
           <span>
             <span className="dark:text-white text-secondary font-bold text-xs">{title}</span>
@@ -191,7 +193,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
       )}
       {!isLoading && tableData.length > 0 && (
         <React.Fragment>
-          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-full" : "max-h-[270px]"} overflow-hidden`}>
+          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-auto" : "max-h-[270px] overflow-y-auto hide-scrollbar"}`}>
             {tableData.map((item) => (
               <table key={item.id} className="flex items-start text-rstextcolor bg-rscardbackhround dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
                 {tableHeader.map((column) => (
