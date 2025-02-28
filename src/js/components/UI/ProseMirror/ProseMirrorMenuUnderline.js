@@ -26,7 +26,7 @@
 const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 const { toggleMark: toggleMark2 } = window.toggleMark;
 
-const isMarkActive = (state, markType) => {
+const isUnderlineMarkActive = (state, markType) => {
   const { from, to, empty } = state.selection;
   if (empty) {
     return !!markType.isInSet(
@@ -84,10 +84,10 @@ const underlineMenuItem = new MenuItem2({
   run: () => {},
   select: (state) => {
     const editorListButton = document.querySelector("#selectedEditorUnderline");
-    if (editorListButton && isMarkActive(state, state.schema.marks.underline)) {
+    if (editorListButton && isUnderlineMarkActive(state, state.schema.marks.underline)) {
       editorListButton.classList.add("note-active-state");
     } 
-    if (editorListButton && !isMarkActive(state, state.schema.marks.underline)) {
+    if (editorListButton && !isUnderlineMarkActive(state, state.schema.marks.underline)) {
       editorListButton.classList.remove("note-active-state");
     }
     return true;

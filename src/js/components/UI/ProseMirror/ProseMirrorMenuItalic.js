@@ -25,7 +25,7 @@
 const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 const { toggleMark: toggleMark2 } = window.toggleMark;
 
-const isMarkActive = (state, markType) => {
+const isItalicMarkActive = (state, markType) => {
   const { from, to, empty } = state.selection;
   if (empty) {
     return !!markType.isInSet(
@@ -83,10 +83,10 @@ const italicItem = new MenuItem2({
   run: () => {},
   select: (state) => {
     const editorListButton = document.querySelector("#selectedEditorItalic");
-    if (editorListButton && isMarkActive(state, state.schema.marks.em)) {
+    if (editorListButton && isItalicMarkActive(state, state.schema.marks.em)) {
       editorListButton.classList.add("note-active-state");
     } 
-    if (editorListButton && !isMarkActive(state, state.schema.marks.em)) {
+    if (editorListButton && !isItalicMarkActive(state, state.schema.marks.em)) {
       editorListButton.classList.remove("note-active-state");
     }
     return true;

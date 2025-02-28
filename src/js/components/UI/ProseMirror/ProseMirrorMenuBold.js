@@ -1,7 +1,7 @@
 const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 const { toggleMark: toggleMark2 } = window.toggleMark;
 
-const isMarkActive = (state, markType) => {
+const isBoldMarkActive = (state, markType) => {
   const { from, to, empty } = state.selection;
   if (empty) {
     return !!markType.isInSet(
@@ -60,10 +60,10 @@ const boldItem = new MenuItem2({
   run: () => {},
   select: (state) => {
     const editorListButton = document.querySelector("#selectedEditorBold");
-    if (editorListButton && isMarkActive(state, state.schema.marks.strong)) {
+    if (editorListButton && isBoldMarkActive(state, state.schema.marks.strong)) {
       editorListButton.classList.add("note-active-state");
     } 
-    if (editorListButton && !isMarkActive(state, state.schema.marks.strong)) {
+    if (editorListButton && !isBoldMarkActive(state, state.schema.marks.strong)) {
       editorListButton.classList.remove("note-active-state");
     }
     return true;

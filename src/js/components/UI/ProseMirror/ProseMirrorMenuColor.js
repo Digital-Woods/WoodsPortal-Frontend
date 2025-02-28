@@ -25,13 +25,27 @@ const getTextColorFromSelection = (state) => {
   if (!markType) return null; // Ensure the mark exists
 
   // If selection is empty (cursor position), check previous character
-  if (empty && from > 0) {
-    const prevNode = state.doc.nodeAt(from - 1);
-    if (prevNode && prevNode.marks) {
-      const mark = prevNode.marks.find((m) => m.type === markType);
-      if (mark) {
-        return mark.attrs.color;
-      }
+  // if (empty && from > 0) {
+  //   const prevNode = state.doc.nodeAt(from - 1);
+  //   if (prevNode && prevNode.marks) {
+  //     const mark = prevNode.marks.find((m) => m.type === markType);
+  //     if (mark) {
+  //       return mark.attrs.color;
+  //     }
+  //   }
+  // }
+  if (empty) {
+    const storedMark = state.storedMarks?.find((m) => m.type === markType);
+
+    if (storedMark) {
+      return storedMark.attrs.color;
+    }
+
+    // Fallback: Check marks at cursor position
+    const marksAtCursor = state.selection.$from.marks();
+    const mark = marksAtCursor.find((m) => m.type === markType);
+    if (mark) {
+      return mark.attrs.color;
     }
   }
 
@@ -74,7 +88,7 @@ const textColorPlugin = new ProseMirrorPlugin2({
   },
 });
 
-const defaultTextColor = "#000";
+let defaultTextColor = "#000";
 let selectedTextColor = "";
 
 const DropdownColorMenu = ({ editorView, icon }) => {
@@ -136,7 +150,13 @@ const DropdownColorMenu = ({ editorView, icon }) => {
   };
 
   useEffect(() => {
-    if (color) applyTextColor(color)(editorView.state, editorView.dispatch);
+    if (color) {
+      applyTextColor(color)(editorView.state, editorView.dispatch);
+      const div = document.getElementById("text-color-svg");
+      if (div) {
+        div.setAttribute("fill", color);
+      }
+    }
   }, [color]);
 
   return (
@@ -199,20 +219,22 @@ const renderReactComponent = (editorView) => {
 };
 const textColor = new MenuItem2({
   title: `Text color`,
-  run: (state, dispatch, editorView) => {
-    const newFont = textColorPluginKey.getState(state); // Example selected font
-    const tr = state.tr;
-    // Set the font selection in the plugin state
-    tr.setMeta(textColorPluginKey, newFont);
-    // Dispatch the transaction to update the plugin state
-    dispatch(tr);
-    // Update the editor state so the plugin state is re-read and the component can re-render
-    editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
-  },
+  // run: (state, dispatch, editorView) => {
+  //   const newFont = textColorPluginKey.getState(state); // Example selected font
+  //   const tr = state.tr;
+  //   // Set the font selection in the plugin state
+  //   tr.setMeta(textColorPluginKey, newFont);
+  //   // Dispatch the transaction to update the plugin state
+  //   dispatch(tr);
+  //   // Update the editor state so the plugin state is re-read and the component can re-render
+  //   editorView.updateState(state); // This will trigger a re-render in ProseMirror and React
+  // },
+  run: () => {},
   select: (state) => {
     // Use plugin state for enabling/disabling this item
     const activeFont = textColorPluginKey.getState(state) || true;
-    selectedTextColor = textColorPluginKey.getState(state);
+    // selectedTextColor = textColorPluginKey.getState(state);
+    selectedTextColor = getTextColorFromSelection(state);
     const div = document.getElementById("text-color-svg");
     if (div && selectedTextColor) {
       div.setAttribute("fill", selectedTextColor);
