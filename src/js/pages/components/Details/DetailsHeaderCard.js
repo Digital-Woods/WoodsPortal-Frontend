@@ -59,27 +59,27 @@ const DetailsHeaderCard = ({
       className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient"
     >
       <div className="relative flex flex-col justify-center p-4 text-detailsBannerTextColor z-10">
-        <p className="text-2xl font-semibold mb-2">{displayData.primary}</p>
-        {displayData.secondary && (
+        <p className="text-2xl font-semibold mb-2">{displayData?.primary}</p>
+        {displayData?.secondary && (
           <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
-            {displayData.secondary}
+            {displayData?.secondary}
           </p>
         )}
-        {displayData.domain && (
+        {displayData?.domain && (
           <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
-            <a href={`https://${displayData.domain}`} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
+            <a href={displayData?.domain ? `https://${displayData.domain}` : ''} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
               <span>
-                {displayData.domain}
+                {displayData?.domain}
               </span>
               <OpenIcon />
             </a>
           </p>
         )}
-        {displayData.date && (
-          <p className="text-xs text-detailsBannerTextColor mt-1">{displayData.date}</p>
+        {displayData?.date && (
+          <p className="text-xs text-detailsBannerTextColor mt-1">{displayData?.date}</p>
         )}
-        {displayData.stage && (
-          <p className="text-xs text-detailsBannerTextColor mt-1">{displayData.stage}</p>
+        {displayData?.stage && (
+          <p className="text-xs text-detailsBannerTextColor mt-1">{displayData?.stage}</p>
         )}
       </div>
     </div>

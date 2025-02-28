@@ -40,7 +40,7 @@ const DashboardTable = ({
   companyAsMediator,
   pipeLineId,
   specPipeLine,
-  setTotalRecord=null,
+  setTotalRecord = null,
 }) => {
   const [apiResponse, setApiResponse] = useState(null);
   // const [tableData, setTableData] = useState([]);
@@ -215,17 +215,17 @@ const DashboardTable = ({
       if (data.statusCode === "200") {
         if (activeCard) {
           setActivePrevCardData(data?.data?.results?.rows);
-          setStageDataCount(data?.stageDataCount);
         } else {
-          setTotalItems(data.data.total || 0);
-          setTotalRecord(data.data.total || 0);
+          setTotalItems(data?.data?.total || 0);
           setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
           // mapResponseData(data);
         }
+        setStageDataCount(data?.stageDataCount);
+        setTotalRecord(data?.data?.total || 0);
         if (defPermissions === null) {
-          setPermissions(data.configurations[componentName]);
+          setPermissions(data?.configurations[componentName]);
         } else {
-          setPermissions(data.configurations["object"]);
+          setPermissions(data?.configurations["object"]);
         }
       } else {
         setPermissions(null);
@@ -355,6 +355,7 @@ const DashboardTable = ({
 
   // CHange Pipeline
   const handelChangePipeline = (pipeLineId) => {
+    setCurrentPage(1);
     let filterValue = "";
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
@@ -401,14 +402,12 @@ const DashboardTable = ({
 
   // If click sync button
   useEffect(() => {
-    if (env.DATA_SOURCE_SET != true && sync === true) {
-      getPipelines();
-    }
+    getPipelines();
   }, [sync]);
 
   return (
     <div
-      className={` ${ hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? "mt-0" : "md:mt-4 mt-3" } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      className={` ${hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? "mt-0" : "md:mt-4 mt-3"} rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
