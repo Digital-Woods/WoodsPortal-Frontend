@@ -82,7 +82,7 @@ const Breadcrumb = (props) => {
           return (
             <li key={index} className="flex items-center">
               <Link
-                className={`capitalize ${
+                className={`capitalize hover:underline ${
                   index == 0
                     ? "text-sidelayoutTextColor"
                     : "text-sidelayoutTextColor/90"
