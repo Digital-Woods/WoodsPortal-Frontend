@@ -89,11 +89,11 @@ const DynamicComponent = ({
       <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
         <div className="flex justify-between items-center relative z-[2] gap-6">
           <div className="flex items-start flex-col gap-2">
-            {objectTypeName && (
+            {/* {objectTypeName && (
               <div className="pr-2 cursor-pointer" onClick={() => back()}>
                 <BackIcon />
               </div>
-            )}
+            )} */}
             {hubSpotUserDetails.sideMenu[0].tabName != title ? (
               <span>
                 <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
