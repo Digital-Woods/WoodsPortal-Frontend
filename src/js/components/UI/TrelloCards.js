@@ -213,9 +213,14 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
           className="my-1 inline-block"
           to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}/${objectToQueryParams(urlParam)}`}
         >
-          <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
+          <span className="flex items-center gap-1">
+            <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
+            <span className="  text-secondary ">
+              <OpenIcon />
+            </span>
+          </span>
         </Link>
-        <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>{Currency(myCurrency)} {amount ? amount : '--'}</p>
+        {hubspotObjectTypeId == "0-3" && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>{amount ? Currency(myCurrency) : ''} {amount ? amount : '--'}</p>}
         {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
       </div>
     );
@@ -318,7 +323,7 @@ Main Component Starts Here
         pipelineData.push({
           id: index + 1,
           name: element.label,
-          count:stageDataCount[element.id] ?? 0,
+          count: stageDataCount[element.id] ?? 0,
           ...element,
           cards: [],
         });
