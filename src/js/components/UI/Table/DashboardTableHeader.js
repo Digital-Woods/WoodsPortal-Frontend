@@ -82,7 +82,7 @@ const DashboardTableHeader = ({
             <select
               className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
               value={activePipeline}
-              onChange={(e) => handelChangePipeline(e.target?.value)}
+              onChange={(e) => handelChangePipeline(e.target?.value || "")}
             >
               <option value="" disabled={activeCard} selected>
                 All Pipelines
