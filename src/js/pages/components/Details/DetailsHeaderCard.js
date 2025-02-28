@@ -8,11 +8,11 @@ const getDisplayData = (objectId, items) => {
   const findValue = (key) => {
     const field = items.find((item) => item.key === key);
     if (!field || field.value === null || field.value === undefined) return "";
-    
+
     if (key === "amount" && field.showCurrencySymbol) {
       return `${Currency(getUserCurrency())} ${field.value}`;
     }
-    
+
     return typeof field.value === 'object' && field.value.label ? field.value.label : field.value;
   };
 
@@ -26,7 +26,7 @@ const getDisplayData = (objectId, items) => {
     case "0-2":
       return {
         primary: findValue("name"),
-        secondary:findValue("domain") ? findValue("domain") : null,
+        domain: findValue("domain") ? findValue("domain") : null,
       };
 
     case "0-3":
@@ -63,6 +63,16 @@ const DetailsHeaderCard = ({
         {displayData.secondary && (
           <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
             {displayData.secondary}
+          </p>
+        )}
+        {displayData.domain && (
+          <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
+            <a href={`https://${displayData.domain}`} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
+              <span>
+                {displayData.domain}
+              </span>
+              <OpenIcon />
+            </a>
           </p>
         )}
         {displayData.date && (

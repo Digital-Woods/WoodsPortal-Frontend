@@ -157,7 +157,7 @@ const objectToQueryParams = (params) => {
   }
 
   return Object.entries(params)
-    .map(([key, value]) => 
+    .map(([key, value]) =>
       `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     )
     .join("&");
@@ -229,17 +229,17 @@ const sortData = (list, type = "list") => {
   const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate", "associations"];
   let data = list
 
-  if(type === "list") {
-    data =  data.filter(item => !excludeKeys.includes(item.key));
+  if (type === "list") {
+    data = data.filter(item => !excludeKeys.includes(item.key));
     return data.sort((a, b) => a.tableDisplayOrder - b.tableDisplayOrder);
   }
 
-  data =  Object.entries(list)
-  .filter(([key]) => !excludeKeys.includes(key))
-  .map(([key, value]) => ({
+  data = Object.entries(list)
+    .filter(([key]) => !excludeKeys.includes(key))
+    .map(([key, value]) => ({
       ...value,
       key
-  }));
+    }));
 
   return data.sort((a, b) => a.overviewDisplayOrder - b.overviewDisplayOrder);
 }
@@ -288,9 +288,9 @@ const renderCellContent = ({
   detailsView = true,
   hoverRow,
   item,
-  urlParam=null
+  urlParam = null
 }) => {
-  
+
   if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
     return "--";
   }
@@ -307,6 +307,21 @@ const renderCellContent = ({
     return formatDate(isObject(value) ? value.label : value);
   }
 
+  if (
+    column &&
+    value != null &&
+    (column.key === 'domain')
+  ) {
+    return (
+      <a href={`https://${value}`} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
+        <span>
+          {value}
+        </span>
+        <OpenIcon />
+      </a>
+    )
+  }
+
   if (column.showCurrencySymbol) { // if value is a currency symbol
     const myCurrency = getUserDetails()?.companyCurrency
     return `${Currency(myCurrency)} ${value}`;
@@ -314,13 +329,13 @@ const renderCellContent = ({
 
   if ( // if primary display property then add open button
     !value &&
-    (type == "associations" || type == "list" || type ==='homeList') &&
+    (type == "associations" || type == "list" || type === 'homeList') &&
     column &&
     column.isPrimaryDisplayProperty &&
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[155px] relative justify-between">
+      <div className="flex gap-1 min-w-[155px] relative items-center">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -328,23 +343,16 @@ const renderCellContent = ({
           --
         </Link>
         <Link
-          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white   dark:bg-dark-300  inline-flex items-center 
-          justify-center gap-1 flex-shrink-0 rounded-md 
-          outline-none transition duration-300 ease-in-out 
-          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
-          ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
-          `}
+          className={` text-secondary `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
-          Open
           <OpenIcon />
         </Link>
       </div>
     );
   }
 
-  if ((type === "list" || type === "associations" || type==='homeList') && column?.fieldType === "html") {
+  if ((type === "list" || type === "associations" || type === 'homeList') && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
         {truncatedText(decodeAndStripHtml(value || ""))}
@@ -363,7 +371,7 @@ const renderCellContent = ({
   }
 
   if (
-    (type === "details" || type === "associations" || type === 'list' || type==='homeList') &&
+    (type === "details" || type === "associations" || type === 'list' || type === 'homeList') &&
     (column?.fieldType === "checkbox")
   ) {
     if (Array.isArray(value) && value.length > 0) {
@@ -389,7 +397,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[180px] relative justify-between group">
+      <div className="flex gap-1 min-w-[180px] relative group items-center">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={associationPath}
@@ -397,15 +405,9 @@ const renderCellContent = ({
           {truncatedText(isObject(value) ? value.label : value, "25")}
         </Link>
         <Link
-          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white   dark:bg-dark-300  inline-flex items-center 
-      justify-center gap-1 flex-shrink-0 rounded-md 
-      outline-none transition duration-300 ease-in-out 
-      focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-      hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-5 text-xs hover:dark:text-white
-      opacity-0 group-hover:opacity-100`}
+          className={` text-secondary `}
           to={associationPath}
         >
-          Open
           <OpenIcon />
         </Link>
       </div>
@@ -418,7 +420,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[250px] relative justify-between">
+      <div className="flex gap-1 min-w-[250px] relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
@@ -426,16 +428,9 @@ const renderCellContent = ({
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
-          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white  dark:bg-dark-300  inline-flex items-center 
-          justify-center gap-1 flex-shrink-0 rounded-md 
-          outline-none transition duration-300 ease-in-out 
-          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
-          ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
-          `}
+          className={` text-secondary `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          Open
           <OpenIcon />
         </Link>
       </div>
@@ -448,7 +443,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[155px] relative justify-between">
+      <div className="flex gap-1 min-w-[155px] relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -456,16 +451,9 @@ const renderCellContent = ({
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
-          className={`absolute z-[4] right-0 top-1/2 -translate-y-1/2 dark:text-white dark:bg-dark-300 inline-flex items-center 
-          justify-center gap-1 flex-shrink-0 rounded-md 
-          outline-none transition duration-300 ease-in-out 
-          focus:outline-none focus:shadow focus:ring-1 border border-gray-400 bg-gray-200 
-          hover:bg-white hover:dark:bg-dark-200 focus:ring-gray-200 px-2 py-0 h-6 text-xs hover:dark:text-white
-          ${hoverRow?.hs_object_id === itemId ? "" : "invisible"}
-          `}
+          className={` text-secondary `}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
-          Open
           <OpenIcon />
         </Link>
       </div>
@@ -484,7 +472,7 @@ const renderCellContent = ({
 
   const { truncated, isTruncated } = truncateString(value || "");
 
-  if (type === 'list' || type==='homeList' && isTruncated) {
+  if (type === 'list' || type === 'homeList' && isTruncated) {
     return (
       <Tooltip content={value}>
         <span className="dark:text-white">{truncated}</span>
