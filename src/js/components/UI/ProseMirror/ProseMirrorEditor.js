@@ -79,6 +79,9 @@ const ProseMirrorEditor = ({
     const { baseSchema } = window.baseSchema;
     const { menuBar } = window.menuBar;
     const { splitListItem } = window.splitListItem;
+    const { chainCommands } = window.chainCommands;
+    const { exitCode } = window.exitCode;
+    const { splitBlock } = window.splitBlock;
 
     // Define schema
     const paragraphNode = {
@@ -229,6 +232,33 @@ const ProseMirrorEditor = ({
       ],
     });
 
+    const customEnterHandler = (state, dispatch) => {
+      const { schema, selection } = state;
+      const { $from } = selection;
+      const nodeType = schema.nodes.list_item;
+    
+      // Check if the current block is a list item
+      const parentNode = $from.node(-1);
+      const blockNode = $from.node(1); // Get the paragraph or block-level node
+
+      if (parentNode && parentNode.type === nodeType) {
+        // If inside a list, split the list item
+        return splitListItem(schema.nodes.list_item)(state, dispatch);
+      }
+    
+      // If not inside a list, reset alignment on new lines
+      if (!dispatch) return false;
+    
+      const tr = state.tr;
+
+      const currentAlignment = blockNode?.attrs?.align || "left"; // Default to left
+      const newNodeAttrs = { align: currentAlignment }; // Reset alignment on new lines
+      tr.split($from.pos).setNodeMarkup($from.pos + 1, null, newNodeAttrs);
+    
+      dispatch(tr);
+      return true;
+    };
+
     // Initialize the editor
     const editor = new EditorView(editorRef.current, {
       state: EditorState.create({
@@ -236,10 +266,8 @@ const ProseMirrorEditor = ({
         schema,
         plugins: [
           keymap({
-            Enter: (state, dispatch) => {
-              const { schema } = state;
-              return splitListItem(schema.nodes.list_item)(state, dispatch);
-            },
+            // 
+            Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
           }),
           keymap(baseKeymap),
