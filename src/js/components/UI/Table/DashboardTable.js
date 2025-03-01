@@ -214,7 +214,7 @@ const DashboardTable = ({
 
       setSync(false);
       if (data.statusCode === "200") {
-        if (currentPage === 1) setGridData('reset', [])
+        // if (currentPage === 1) setGridData('reset', [])
         if (activeCard) {
           setActiveCardData(data?.data)
         } else {
@@ -467,6 +467,8 @@ const DashboardTable = ({
             setAfter={setAfter}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            setItemsPerPage={setItemsPerPage}
+            itemsPerPage={itemsPerPage}
             isLoading={isLoading}
           />
         )}

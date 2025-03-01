@@ -9,10 +9,12 @@ const TrelloCards = ({
   setAfter,
   currentPage,
   setCurrentPage,
+  setItemsPerPage,
+  itemsPerPage,
   isLoading,
 }) => {
   const { gridData: data, setGridData: setData } = useTable();
-  const itemsPerPage = activeCardData.itemsPerPage || 10;
+  // const itemsPerPage = activeCardData.itemsPerPage || 10;
   const myCurrency = getUserDetails()?.companyCurrency || "USD";
 
   let portalId;
@@ -262,9 +264,10 @@ Main Component Starts Here
 
 =================================================================*/
 
-  const handlePageChange = async (page) => {
-    await setCurrentPage(page);
-    await setAfter((page - 1) * itemsPerPage);
+  const handlePageChange = async (limit) => {
+    await setCurrentPage(1);
+    await setItemsPerPage(limit);
+    await setAfter((1 - 1) * itemsPerPage);
     await getData();
   };
 
@@ -297,7 +300,7 @@ Main Component Starts Here
             : { hs_pipeline: activePipeline, hs_pipeline_stage: stageId },
       });
     },
-    onSuccess: (resp) => {},
+    onSuccess: (resp) => {getData()},
     onError: () => {
       // setPipelines([]);
     },
@@ -483,7 +486,7 @@ Main Component Starts Here
                     {data[listPosition]?.data?.hasMore ? (
                       <div className="bg-[#f5f8fa] dark:bg-dark-500 flex items-center justify-center p-2 sticky bottom-0">
                         <Button
-                          onClick={() => handlePageChange(currentPage + 1)}
+                          onClick={() => handlePageChange(itemsPerPage+10)}
                           size="sm"
                           isLoading={isLoading}
                         >
