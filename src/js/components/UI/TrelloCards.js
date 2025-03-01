@@ -1,30 +1,23 @@
-const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, pipelines, activePipeline, isLoadingPipelines, urlParam, companyAsMediator, handleCardData, currentPage, hasMoreData, stageDataCount }) => {
-  // const { sync, setSync } = useSync();
-  // const hubspotObjectTypeId = objectId || getParam("objectTypeId")
-  //const title = "Ticket"
-
-  // const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
-  //const mediatorObjectRecordId = getParam("mediatorObjectRecordId")
-  // const param =  mediatorObjectTypeId && mediatorObjectRecordId ? `?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : ''
-  // const param =  `?parentObjectTypeId=${objectId}&parentObjectRecordId=${id}&isPrimaryCompany=${companyAsMediator}`
+const TrelloCards = ({
+  hubspotObjectTypeId,
+  activeCardData,
+  activePipeline,
+  isLoadingPipelines,
+  urlParam,
+  companyAsMediator,
+  getData,
+  setAfter,
+  currentPage,
+  setCurrentPage,
+}) => {
+  const { gridData: data, setGridData: setData } = useTable();
+  const itemsPerPage = activeCardData.itemsPerPage || 10;
+  const myCurrency = getUserDetails()?.companyCurrency || "USD";
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
-    portalId = getPortal()?.portalId
+    portalId = getPortal()?.portalId;
   }
-
-  const myCurrency = getUserDetails()?.companyCurrency || 'USD';
-
-  // const detailsUrl = `?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isForm=false&isPrimaryCompany=${companyAsMediator}`
-
-  // const apis = {
-  //   tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isPrimaryCompany=${companyAsMediator}`,
-  //   stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
-  //   formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields?isPrimaryCompany=${companyAsMediator}`,
-  //   formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isForm=true&isPrimaryCompany=${companyAsMediator}`,
-  //   createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
-  //   updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}` // concat ticketId
-  // }
 
   //Declaring
   const DragContext = createContext();
@@ -171,8 +164,9 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
         {children}
         {dragType === dropType && isDragging && (
           <div
-            className={`absolute inset-[0px] flex ${split === "x" ? "flex-row" : "flex-column"
-              }`}
+            className={`absolute inset-[0px] flex ${
+              split === "x" ? "flex-row" : "flex-column"
+            }`}
           >
             <Drag.DropZone
               dropId={prevId}
@@ -206,22 +200,39 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   function Card({ title, amount, date, dragItem, cardData }) {
     return (
       <div
-        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
-          }`}
+        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
+          dragItem ? " rotate-6" : ""
+        }`}
       >
         <Link
           className="my-1 inline-block"
-          to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId}?isPrimaryCompany=${companyAsMediator || false}/${objectToQueryParams(urlParam)}`}
+          to={`${title}/${cardData?.hubspotObjectTypeId}/${
+            cardData?.hsObjectId
+          }?isPrimaryCompany=${
+            companyAsMediator || false
+          }/${objectToQueryParams(urlParam)}`}
         >
           <span className="flex items-center gap-1">
-            <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">{title?.substring(0, 30)}</h4>
+            <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">
+              {title?.substring(0, 30)}
+            </h4>
             <span className="  text-secondary ">
               <OpenIcon />
             </span>
           </span>
         </Link>
-        {hubspotObjectTypeId == "0-3" && <p className="text-xs line-clamp-2 dark:text-white"><span className="font-bold">Amount: </span>{amount ? Currency(myCurrency) : ''} {amount ? amount : '--'}</p>}
-        {date && <p className="text-xs mb-2 dark:text-white"><span className="font-bold">Close Date: </span>{date}</p>}
+        {hubspotObjectTypeId == "0-3" && (
+          <p className="text-xs line-clamp-2 dark:text-white">
+            <span className="font-bold">Amount: </span>
+            {amount ? Currency(myCurrency) : ""} {amount ? amount : "--"}
+          </p>
+        )}
+        {date && (
+          <p className="text-xs mb-2 dark:text-white">
+            <span className="font-bold">Close Date: </span>
+            {date}
+          </p>
+        )}
       </div>
     );
   }
@@ -229,16 +240,15 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
   function List({ name, dragItem, children, count }) {
     return (
       <div
-        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
-          }`}
+        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${
+          dragItem ? " rotate-6" : ""
+        }`}
       >
         <div className="flex items-center justify-between px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
             {name}
           </h2>
-          <span className="text-sm">
-            {count}
-          </span>
+          <span className="text-sm">{count}</span>
         </div>
         {children}
       </div>
@@ -250,140 +260,22 @@ const TrelloCards = ({ hubspotObjectTypeId, getTrelloCardsData, activeCardData, 
 Main Component Starts Here
 
 =================================================================*/
-  const [data, setData] = React.useState([]);
-  const [dardData, setCardData] = React.useState();
-  // const [pipelines, setPipelines] = useState([]);
-  // const [activePipeline, setActivePipeline] = useState();
 
-  // let portalId;
-  // if (env.DATA_SOURCE_SET != true) {
-  //   portalId = getPortal()?.portalId;
-  // }
-
-  // https://app.dev.one.digitalwoods.io/api/
-
-  // https://app.dev.one.digitalwoods.io/api/48745110/335/hubspot-object-pipelines/0-5
-
-  // const {
-  //   mutate: getData,
-  //   data: tableAPiData,
-  //   isLoading,
-  // } = useMutation({
-  //   mutationKey: ["PipelineData"],
-  //   mutationFn: async () => {
-  //     return await Client.Deals.pipelines({
-  //       API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
-  //     });
-  //   },
-
-  //   onSuccess: (data) => {
-  //     setPipelines(data.data);
-
-  //     // Hey Get HERE //
-  //     const pipelineSingle = data.data.find(
-  //       (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
-  //     );
-  //     let pipelineData = [];
-  //     pipelineSingle.stages.forEach((element, index) => {
-  //       pipelineData.push({
-  //         id: index + 1,
-  //         name: element.label,
-  //         ...element,
-  //         cards: [],
-  //       });
-  //     });
-  //     setData([])
-  //     setData(pipelineData);
-  //     // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
-  //     getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-  //     setActivePipeline(pipelineSingle.pipelineId);
-  //   },
-  //   onError: () => {
-  //     setPipelines([]);
-  //   },
-  // });
-
-  // useEffect(()=>{
-  //   setCardData(activeCardData)
-  //   console.log(activeCardData,'activeCardData');
-  // },[activeCardData])
-
-  // useEffect(()=>{
-  //   setCardData(activeCardData)
-  //   console.log(activeCardData,'activeCardData');
-  // },[currentPage])
-
-  useEffect(() => {
-    if (activePipeline) {
-      const pipelineSingle = pipelines.find(
-        (pipeline) => pipeline.pipelineId === activePipeline
-      );
-      let pipelineData = [];
-      pipelineSingle.stages.forEach((element, index) => {
-        pipelineData.push({
-          id: index + 1,
-          name: element.label,
-          count: stageDataCount[element.id] ?? 0,
-          ...element,
-          cards: [],
-        });
-      });
-      setData(pipelineData);
-      // setActivePipeline(pipelineSingle.pipelineId);
-    }
-  }, [activePipeline, stageDataCount]);
-
-  const loadMore = () => {
-    // Trigger loading of more cards by calling the parent function
-    handleCardData(currentPage + 1);
-    // setItemsPerPage(itemsPerPage * 2);
-    // Append data to existing cards
-    //   if (hubspotObjectTypeId == "0-3") {
-    //     if (activeCardData?.data?.results?.rows.length > 0) {
-    //       addDeals(activeCardData?.data?.results?.rows);
-    //     }
-    //   } else {
-    //     if (activeCardData?.data?.results?.rows.length > 0) {
-    //       addTickets(activeCardData?.data?.results?.rows);
-    //     }
-    //   }
+  const handlePageChange = async (page) => {
+    await setCurrentPage(page);
+    await setAfter((page - 1) * itemsPerPage);
+    await getData();
   };
-  // const { mutate: getDealsByPipeline } = useMutation({
-  //   mutationKey: ["DealsDataByPipeline"],
-  //   mutationFn: async ({ pipelineId }) => {
-  //     return await Client.Deals.pipelineDeals({
-  //       // API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}?mediatorObjectTypeId=0-1&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=false`
-  //       API_ENDPOINT: `${API_ENDPOINT}&filterPropertyName=hs_pipeline&filterOperator=eq&filterValue=${pipelineId}&limit=10&sort=-hs_createdate&page=1&cache=${
-  //         sync ? false : true
-  //       }`,
-  //     });
-  //   },
-  //   onSuccess: (resp) => {
-  //     if (hubspotObjectTypeId == "0-3") {
-  //       if (resp?.data?.results?.rows.length > 0) {
-  //         addDeals(resp?.data?.results?.rows);
-  //       }
-  //     } else {
-  //       if (resp?.data?.results?.rows.length > 0) {
-  //         addTickets(resp?.data?.results?.rows);
-  //       }
-  //     }
-  //   },
-  //   onError: () => {
-  //     // setPipelines([]);
-  //   },
-  // });
 
   useEffect(() => {
-    activeCardData
-    if (activeCardData?.length > 0) {
+    if (activeCardData?.results?.length > 0) {
       if (hubspotObjectTypeId == "0-3") {
-        if (activeCardData?.length > 0) {
-          addDeals(activeCardData);
+        if (activeCardData?.results?.length > 0) {
+          setData("deals", activeCardData?.results);
         }
       } else {
-        if (activeCardData?.length > 0) {
-          addTickets(activeCardData);
+        if (activeCardData?.results?.length > 0) {
+          setData("tickets", activeCardData?.results);
         }
       }
     } else {
@@ -395,107 +287,24 @@ Main Component Starts Here
     mutationKey: ["updateDealsDataByPipeline"],
     mutationFn: async ({ recordId, stageId }) => {
       return await Client.Deals.updatePipelineDeal({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}?${objectToQueryParams(urlParam)}`,
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}?${objectToQueryParams(
+          urlParam
+        )}`,
         data:
           hubspotObjectTypeId == "0-3"
             ? { pipeline: activePipeline, dealstage: stageId }
             : { hs_pipeline: activePipeline, hs_pipeline_stage: stageId },
       });
     },
-    onSuccess: (resp) => { },
+    onSuccess: (resp) => {},
     onError: () => {
       // setPipelines([]);
     },
   });
 
-  const addDeals = (deals) => {
-    // return
-    setData((prevStages) =>
-      prevStages.map((stage) => {
-        // Find deals that match the current stage ID
-        const matchingDeals = deals.filter(
-          (deal) => deal.dealstage?.value === stage.id
-        );
-
-        // If there are matching deals, add them to the `cards` array
-        if (matchingDeals.length > 0) {
-          return {
-            ...stage,
-            cards: [
-              // ...stage.cards,
-              ...matchingDeals.map((deal) => ({
-                dealName: deal.dealname,
-                hsObjectId: deal.hs_object_id,
-                id: deal.hs_object_id,
-                title: deal.dealname,
-                closedate: deal?.closedate ? formatDate(deal.closedate) : "",
-                amount: deal.amount || "",
-                hubspotObjectTypeId: '0-3'
-              })),
-            ],
-          };
-        }
-        return {
-          ...stage,
-          cards: []
-        };
-      })
-    );
-  };
-
-  const addTickets = (tickets) => {
-    setData((prevStages) =>
-      prevStages.map((stage) => {
-        // Find deals that match the current stage ID
-        const matchingDeals = tickets.filter(
-          (deal) => deal.hs_pipeline_stage?.value === stage.id
-        );
-        // If there are matching deals, add them to the `cards` array
-        if (matchingDeals.length > 0) {
-          return {
-            ...stage,
-            cards: [
-              // ...stage.cards,
-              ...matchingDeals.map((ticket) => ({
-                dealName: ticket.subject,
-                hsObjectId: ticket.hs_object_id,
-                id: ticket.hs_object_id,
-                title: ticket.subject,
-                closedate: ticket?.closed_date
-                  ? formatDate(ticket.closed_date)
-                  : "",
-                amount: "",
-                hubspotObjectTypeId: '0-5'
-              })),
-            ],
-          };
-        }
-        return {
-          ...stage,
-          cards: []
-        };
-      })
-    );
-  };
-
   const removeTicketsDeals = () => {
-    setData((prevStages) =>
-      prevStages.map((stage) => {
-        return {
-          ...stage,
-          cards: []
-        };
-      })
-    );
+    setData("reset", []);
   };
-
-  // useEffect(() => {
-  //   if(sync) getData();
-  // }, [sync]);
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
 
   // handle a dropped item
   function handleDrop({ dragItem, dragType, drop }) {
@@ -529,7 +338,7 @@ Main Component Starts Here
       // put it in the new position
       newData[newListPosition].cards.splice(newCardPosition, 0, card);
       // update the state
-      setData(newData);
+      setData("directly", newData);
       // Calling Update API
       updateDealsByPipeline({ recordId, stageId });
     }
@@ -557,25 +366,6 @@ Main Component Starts Here
     //   updateDealsByPipeline(dragItem,activePipeline)
   }
 
-  // function mapData(pipeLineId) {
-  //   const pipelineSingle = pipelines.find(
-  //     (pipeline) => pipeline.pipelineId === pipeLineId
-  //   );
-  //   let pipelineData = [];
-  //   pipelineSingle.stages.forEach((element, index) => {
-  //     pipelineData.push({
-  //       id: index + 1,
-  //       name: element.label,
-  //       ...element,
-  //       cards: [],
-  //     });
-  //   });
-  //   setData(pipelineData);
-  //   // getDealsByPipeline({ pipelineId: pipelineSingle.pipelineId });
-  //   // getTrelloCardsData({ filterValue: pipelineSingle.pipelineId })
-  //   setActivePipeline(pipelineSingle.pipelineId);
-  // }
-
   return (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
       {/* <h1 className="font-semibold text-3xl py-2">Trello-Style Drag & Drop</h1> */}
@@ -598,6 +388,8 @@ Main Component Starts Here
 
       {isLoadingPipelines && <div className="loader-line"></div>}
 
+      {/* {console.log('pData', pData)} */}
+
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
           <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">
@@ -617,8 +409,12 @@ Main Component Starts Here
                   </Drag.DropZone>
                   <Drag.DropZones
                     className={`relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
-                    ${listPosition === 0 ? 'rounded-s-md border-r-1  border-l-1' : 'border-l-0'} 
-                    ${listPosition === data.length - 1 ? 'rounded-e-md' : ''}`}
+                    ${
+                      listPosition === 0
+                        ? "rounded-s-md border-r-1  border-l-1"
+                        : "border-l-0"
+                    } 
+                    ${listPosition === data.length - 1 ? "rounded-e-md" : ""}`}
                     prevId={listPosition}
                     nextId={listPosition + 1}
                     dropType="list"
@@ -660,12 +456,13 @@ Main Component Starts Here
                               />
                               <Drag.DragItem
                                 dragId={card.id}
-                                className={`cursor-pointer ${activeItem === card.id &&
+                                className={`cursor-pointer ${
+                                  activeItem === card.id &&
                                   activeType === "card" &&
                                   isDragging
-                                  ? "hidden"
-                                  : "translate-x-0"
-                                  }`}
+                                    ? "hidden"
+                                    : "translate-x-0"
+                                }`}
                                 dragType="card"
                               >
                                 <Card
@@ -701,11 +498,16 @@ Main Component Starts Here
                       dropType="card"
                       remember={true}
                     />
-                    {hasMoreData ?
+                    {data[listPosition]?.data?.hasMore ? (
                       <div className="bg-[#f5f8fa] dark:bg-dark-500 flex items-center justify-center p-2 sticky bottom-0">
-                        <Button onClick={loadMore} size='sm' >Show more</Button>
+                        <Button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          size="sm"
+                        >
+                          Show more
+                        </Button>
                       </div>
-                      : null}
+                    ) : null}
                   </Drag.DropZones>
                 </React.Fragment>
               );
