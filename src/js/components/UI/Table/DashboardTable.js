@@ -214,7 +214,7 @@ const DashboardTable = ({
 
       setSync(false);
       if (data.statusCode === "200") {
-        if(currentPage === 1) setGridData('reset', [])
+        if (currentPage === 1) setGridData('reset', [])
         if (activeCard) {
           setActiveCardData(data?.data)
         } else {
@@ -430,7 +430,11 @@ const DashboardTable = ({
         defPermissions={defPermissions}
       />
 
-      {isLoading && (activeCard ? <BoardViewSkeleton /> : <TableSkeleton />)}
+      {isLoading && (
+        activeCard
+          ? (!activeCardData ? <BoardViewSkeleton /> : null)
+          : <TableSkeleton />
+      )}
 
       {!isLoading && !activeCard && (apiResponse?.data?.total === 0 || apiResponse?.data?.total == null) && (
         <div className="text-center pb-4">
@@ -447,8 +451,7 @@ const DashboardTable = ({
         </div>
       )}
 
-      {!isLoading &&
-        activeCard &&
+      {activeCard &&
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
           <TrelloCards
             hubspotObjectTypeId={hubspotObjectTypeId}
@@ -464,6 +467,7 @@ const DashboardTable = ({
             setAfter={setAfter}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            isLoading={isLoading}
           />
         )}
 
