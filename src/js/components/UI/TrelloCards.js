@@ -16,6 +16,8 @@ const TrelloCards = ({
   const { gridData: data, setGridData: setData } = useTable();
   // const itemsPerPage = activeCardData.itemsPerPage || 10;
   const myCurrency = getUserDetails()?.companyCurrency || "USD";
+  const { sync, setSync } = useSync();
+
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -167,9 +169,8 @@ const TrelloCards = ({
         {children}
         {dragType === dropType && isDragging && (
           <div
-            className={`absolute inset-[0px] flex ${
-              split === "x" ? "flex-row" : "flex-column"
-            }`}
+            className={`absolute inset-[0px] flex ${split === "x" ? "flex-row" : "flex-column"
+              }`}
           >
             <Drag.DropZone
               dropId={prevId}
@@ -203,17 +204,14 @@ const TrelloCards = ({
   function Card({ title, amount, date, dragItem, cardData }) {
     return (
       <div
-        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
-          dragItem ? " rotate-6" : ""
-        }`}
+        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
+          }`}
       >
         <Link
           className="my-1 inline-block"
-          to={`${title}/${cardData?.hubspotObjectTypeId}/${
-            cardData?.hsObjectId
-          }?isPrimaryCompany=${
-            companyAsMediator || false
-          }/${objectToQueryParams(urlParam)}`}
+          to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId
+            }?isPrimaryCompany=${companyAsMediator || false
+            }/${objectToQueryParams(urlParam)}`}
         >
           <span className="flex items-center gap-1">
             <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">
@@ -243,9 +241,8 @@ const TrelloCards = ({
   function List({ name, dragItem, children, count }) {
     return (
       <div
-        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${
-          dragItem ? " rotate-6" : ""
-        }`}
+        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
+          }`}
       >
         <div className="flex items-center justify-between px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
@@ -300,7 +297,11 @@ Main Component Starts Here
             : { hs_pipeline: activePipeline, hs_pipeline_stage: stageId },
       });
     },
-    onSuccess: (resp) => {getData()},
+    onSuccess: (resp) => {
+      // getData({
+      //   cache: false,
+      // })
+    },
     onError: () => {
       // setPipelines([]);
     },
@@ -394,11 +395,10 @@ Main Component Starts Here
                   </Drag.DropZone>
                   <Drag.DropZones
                     className={`relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
-                    ${
-                      listPosition === 0
+                    ${listPosition === 0
                         ? "rounded-s-md border-r-1  border-l-1"
                         : "border-l-0"
-                    } 
+                      } 
                     ${listPosition === data.length - 1 ? "rounded-e-md" : ""}`}
                     prevId={listPosition}
                     nextId={listPosition + 1}
@@ -441,13 +441,12 @@ Main Component Starts Here
                               />
                               <Drag.DragItem
                                 dragId={card.id}
-                                className={`cursor-pointer ${
-                                  activeItem === card.id &&
-                                  activeType === "card" &&
-                                  isDragging
+                                className={`cursor-pointer ${activeItem === card.id &&
+                                    activeType === "card" &&
+                                    isDragging
                                     ? "hidden"
                                     : "translate-x-0"
-                                }`}
+                                  }`}
                                 dragType="card"
                               >
                                 <Card
@@ -486,7 +485,7 @@ Main Component Starts Here
                     {data[listPosition]?.data?.hasMore ? (
                       <div className="bg-[#f5f8fa] dark:bg-dark-500 flex items-center justify-center p-2 sticky bottom-0">
                         <Button
-                          onClick={() => handlePageChange(itemsPerPage+10)}
+                          onClick={() => handlePageChange(itemsPerPage + 10)}
                           size="sm"
                           isLoading={isLoading}
                         >
