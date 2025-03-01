@@ -216,17 +216,11 @@ const DashboardTable = ({
       if (data.statusCode === "200") {
         if(currentPage === 1) setGridData('reset', [])
         if (activeCard) {
-          // setActivePrevCardData(data?.data?.results?.rows);
           setActiveCardData(data?.data)
-          // const newData = data?.data || []
-          // console.log('newData', newData)
-          // setActiveCardData((prevData) => [...prevData, ...newData]);
         } else {
           setTotalItems(data?.data?.total || 0);
           setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
-          // mapResponseData(data);
         }
-        // setStageDataCount(data?.stageDataCount);
         setTotalRecord(data?.data?.total || 0);
         if (defPermissions === null) {
           setPermissions(data?.configurations[componentName]);
@@ -239,7 +233,6 @@ const DashboardTable = ({
     },
     onError: () => {
       setSync(false);
-      // setTableData([]);
       setPermissions(null);
     },
   });

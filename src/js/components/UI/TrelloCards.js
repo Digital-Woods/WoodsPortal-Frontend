@@ -368,27 +368,8 @@ Main Component Starts Here
 
   return (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
-      {/* <h1 className="font-semibold text-3xl py-2">Trello-Style Drag & Drop</h1> */}
-      {/* <p>Let's drag some cards around!</p> */}
-
-      {/* Select Pipeline Goes Here */}
-      {/* <div className="w-[180px] mb-4">
-        <select
-          className="w-[180px] text-sm border border-gray-300 rounded px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={activePipeline}
-          onChange={(e) => mapData(e.target?.value)}
-        >
-          <option value="">Select an Pipeline</option>
-          {pipelines.map((item) => (
-            // <p onClick={()=> {setActivePipeline(item); mapData(item);}}>{item.label}</p>
-            <option value={item.pipelineId}>{item.label}</option>
-          ))}
-        </select>
-      </div> */}
 
       {isLoadingPipelines && <div className="loader-line"></div>}
-
-      {/* {console.log('pData', pData)} */}
 
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
