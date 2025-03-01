@@ -35,6 +35,9 @@ const ProseMirrorEditor = ({
     inline: false, // Defines the image as an inline node
     attrs: {
       src: {}, // The source URL of the image (required)
+      width: { default: "auto" }, 
+      height: { default: "auto" }, 
+      class: { default: "w-auto h-auto" }, 
       // alt: { default: null }, // Alternative text (optional)
       // title: { default: null }, // Title for the image (optional)
     },
@@ -46,6 +49,9 @@ const ProseMirrorEditor = ({
         getAttrs(dom) {
           return {
             src: dom.getAttribute("src"),
+            width: dom.getAttribute("width") || "auto",
+            height: dom.getAttribute("height") || "auto",
+            class: dom.getAttribute("class") || "w-auto h-auto",
             // alt: dom.getAttribute("alt"),
             // title: dom.getAttribute("title"),
           };
@@ -53,7 +59,14 @@ const ProseMirrorEditor = ({
       },
     ],
     toDOM(node) {
-      return ["img", node.attrs]; // Renders the image node as an <img> element
+      return ["img",
+        {
+          ...node.attrs,
+          width: node.attrs.width,
+          height: node.attrs.height,
+          class: `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
+        }
+      ]; // Renders the image node as an <img> element
     },
   };
 
@@ -66,6 +79,9 @@ const ProseMirrorEditor = ({
     const { baseSchema } = window.baseSchema;
     const { menuBar } = window.menuBar;
     const { splitListItem } = window.splitListItem;
+    const { chainCommands } = window.chainCommands;
+    const { exitCode } = window.exitCode;
+    const { splitBlock } = window.splitBlock;
 
     // Define schema
     const paragraphNode = {
@@ -114,7 +130,7 @@ const ProseMirrorEditor = ({
       image: imageNodeSpec,
     };
 
-    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode);
+    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode).addToEnd("image", imageNodeSpec);;
     const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
 
     const schema = new Schema({
@@ -216,6 +232,33 @@ const ProseMirrorEditor = ({
       ],
     });
 
+    const customEnterHandler = (state, dispatch) => {
+      const { schema, selection } = state;
+      const { $from } = selection;
+      const nodeType = schema.nodes.list_item;
+    
+      // Check if the current block is a list item
+      const parentNode = $from.node(-1);
+      const blockNode = $from.node(1); // Get the paragraph or block-level node
+
+      if (parentNode && parentNode.type === nodeType) {
+        // If inside a list, split the list item
+        return splitListItem(schema.nodes.list_item)(state, dispatch);
+      }
+    
+      // If not inside a list, reset alignment on new lines
+      if (!dispatch) return false;
+    
+      const tr = state.tr;
+
+      const currentAlignment = blockNode?.attrs?.align || "left"; // Default to left
+      const newNodeAttrs = { align: currentAlignment }; // Reset alignment on new lines
+      tr.split($from.pos).setNodeMarkup($from.pos + 1, null, newNodeAttrs);
+    
+      dispatch(tr);
+      return true;
+    };
+
     // Initialize the editor
     const editor = new EditorView(editorRef.current, {
       state: EditorState.create({
@@ -223,10 +266,8 @@ const ProseMirrorEditor = ({
         schema,
         plugins: [
           keymap({
-            Enter: (state, dispatch) => {
-              const { schema } = state;
-              return splitListItem(schema.nodes.list_item)(state, dispatch);
-            },
+            // 
+            Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
           }),
           keymap(baseKeymap),

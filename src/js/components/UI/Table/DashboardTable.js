@@ -75,7 +75,6 @@ const DashboardTable = ({
   const [activeCard, setActiveCard] = useState(false);
   const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
-  const [hasMoreData, setHasMoreData] = useState(true);
   const [stageDataCount, setStageDataCount] = useState(true);
 
   const { sync, setSync } = useSync();
@@ -179,6 +178,8 @@ const DashboardTable = ({
     },
   });
 
+  const { gridData, setGridData } = useTable();
+
   // Get List And Card Data
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableData"],
@@ -213,14 +214,13 @@ const DashboardTable = ({
 
       setSync(false);
       if (data.statusCode === "200") {
+        if(currentPage === 1) setGridData('reset', [])
         if (activeCard) {
-          setActivePrevCardData(data?.data?.results?.rows);
+          setActiveCardData(data?.data)
         } else {
           setTotalItems(data?.data?.total || 0);
           setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
-          // mapResponseData(data);
         }
-        setStageDataCount(data?.stageDataCount);
         setTotalRecord(data?.data?.total || 0);
         if (defPermissions === null) {
           setPermissions(data?.configurations[componentName]);
@@ -233,7 +233,6 @@ const DashboardTable = ({
     },
     onError: () => {
       setSync(false);
-      // setTableData([]);
       setPermissions(null);
     },
   });
@@ -256,38 +255,38 @@ const DashboardTable = ({
   //   getData();
   // };
 
-  const handleCardPageChange = async (page) => {
-    await setCurrentPage(page);
-    getData();
-  };
+  // const handleCardPageChange = async (page) => {
+  //   await setCurrentPage(page);
+  //   getData();
+  // };
 
-  useEffect(() => {
-    if (activeCardPrevData) {
-      setActiveCardData((prevData) => {
-        if (!prevData) return activeCardPrevData; // If no previous data, set directly
+  // useEffect(() => {
+  //   if (activeCardPrevData) {
+  //     setActiveCardData((prevData) => {
+  //       if (!prevData) return activeCardPrevData; // If no previous data, set directly
 
-        // Create a Set of unique identifiers (hs_object_id + hs_pipeline_stage.value)
-        const existingKeys = new Set(
-          prevData.map(
-            (item) => `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`
-          )
-        );
+  //       // Create a Set of unique identifiers (hs_object_id + hs_pipeline_stage.value)
+  //       const existingKeys = new Set(
+  //         prevData.map(
+  //           (item) => `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`
+  //         )
+  //       );
 
-        // Filter out duplicates from activeCardPrevData
-        const newData = activeCardPrevData.filter(
-          (item) =>
-            !existingKeys.has(
-              `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`
-            )
-        );
+  //       // Filter out duplicates from activeCardPrevData
+  //       const newData = activeCardPrevData.filter(
+  //         (item) =>
+  //           !existingKeys.has(
+  //             `${item.hs_object_id}-${item.hs_pipeline_stage?.value}`
+  //           )
+  //       );
 
-        setHasMoreData(newData.length > 0);
+  //       setHasMoreData(newData.length > 0);
 
-        // Append only new unique data
-        return [...prevData, ...newData];
-      });
-    }
-  }, [activeCardPrevData]);
+  //       // Append only new unique data
+  //       return [...prevData, ...newData];
+  //     });
+  //   }
+  // }, [activeCardPrevData]);
 
   // const setDialogData = (data) => {
   //   setModalData(data);
@@ -460,10 +459,11 @@ const DashboardTable = ({
             isLoadingPipelines={isLoadingPipelines}
             urlParam={urlParam}
             companyAsMediator={companyAsMediator}
-            handleCardData={handleCardPageChange}
+            // handleCardPageChange={handleCardPageChange}
+            getData={getData}
+            setAfter={setAfter}
             currentPage={currentPage}
-            hasMoreData={hasMoreData}
-            stageDataCount={stageDataCount}
+            setCurrentPage={setCurrentPage}
           />
         )}
 
