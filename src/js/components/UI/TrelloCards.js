@@ -9,6 +9,7 @@ const TrelloCards = ({
   setAfter,
   currentPage,
   setCurrentPage,
+  isLoading,
 }) => {
   const { gridData: data, setGridData: setData } = useTable();
   const itemsPerPage = activeCardData.itemsPerPage || 10;
@@ -214,7 +215,7 @@ const TrelloCards = ({
         >
           <span className="flex items-center gap-1">
             <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">
-              {title?.substring(0, 30)}
+              {title?.substring(0, 26)}
             </h4>
             <span className="  text-secondary ">
               <OpenIcon />
@@ -484,6 +485,7 @@ Main Component Starts Here
                         <Button
                           onClick={() => handlePageChange(currentPage + 1)}
                           size="sm"
+                          isLoading={isLoading}
                         >
                           Show more
                         </Button>

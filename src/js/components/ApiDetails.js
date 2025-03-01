@@ -209,6 +209,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                           {permissions?.ticket?.display_label
                             ? permissions?.ticket?.display_label
                             : "Tickets"}
+                          {associations?.TICKET && associations.TICKET?.total > 0 && (
+                            <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
+                              {associations.TICKET.total}
+                            </span>
+                          )}
                         </p>
                       </TabsTrigger>
                     )}
@@ -338,7 +343,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                 Object.entries(associations)
                   .filter(
                     ([, association]) =>
-                      association?.objectTypeId !== "0-5" || permissions?.ticket?.display
+                      association?.objectTypeId !== "0-5"
                   )
                   .map(([key, association]) => (
                     <DetailsAssociations

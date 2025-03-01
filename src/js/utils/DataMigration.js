@@ -343,7 +343,7 @@ const renderCellContent = ({
           --
         </Link>
         <Link
-          className={` text-secondary `}
+          className={` text-secondary  dark:text-white`}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           <OpenIcon />
@@ -405,7 +405,7 @@ const renderCellContent = ({
           {truncatedText(isObject(value) ? value.label : value, "25")}
         </Link>
         <Link
-          className={` text-secondary `}
+          className={` text-secondary  dark:text-white`}
           to={associationPath}
         >
           <OpenIcon />
@@ -428,7 +428,7 @@ const renderCellContent = ({
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
-          className={` text-secondary `}
+          className={` text-secondary  dark:text-white`}
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
@@ -451,7 +451,7 @@ const renderCellContent = ({
           {truncatedText(isObject(value) ? value.label : value)}
         </Link>
         <Link
-          className={` text-secondary `}
+          className={` text-secondary  dark:text-white`}
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           <OpenIcon />

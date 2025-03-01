@@ -142,7 +142,7 @@ const DashboardTableHeader = ({
 
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
         (componentName === "ticket"
-          ? permissions?.create && defPermissions?.create
+          ? defPermissions?.create
           : permissions?.create) && (
           <div className="text-end">
             <Button variant="create" onClick={() => setShowAddDialog(true)}>

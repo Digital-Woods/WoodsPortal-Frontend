@@ -159,62 +159,6 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
             <div>{file.size}</div>
           </TableCell>
-          {/* <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
-            <div className="relative">
-              <button
-                className="border border-gray-300 dark:text-white text-xs px-3 py-1 rounded"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleDropdown(index);
-                }}
-              >
-                Actions
-              </button>
-
-              {activeDropdown === index && (
-                <div
-                  className="absolute right-0 top-full mt-2 min-w-[150px] bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50"
-                  ref={dropdownRef}
-                >
-                  {file.type === "folder" ? (
-                    <button
-                      className="block w-full text-left text-xs px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300 rounded-lg"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFolder(file);
-                        setActiveDropdown(null);
-                      }}
-                    >
-                      Open
-                    </button>
-                  ) : (
-                    <div>
-                      <button
-                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300 rounded-lg"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedFileId(file.id);
-                          toggleDropdown(index);
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        Details
-                      </button>
-                      <button
-                        className="block w-full text-left px-4 py-2 text-xs text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-300 rounded-lg"
-                        onClick={(e) => {
-                          handleDownload(file, e);
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        Download
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </TableCell> */}
         </TableRow>
       </React.Fragment>
     ));

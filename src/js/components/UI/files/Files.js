@@ -58,6 +58,8 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
         if (folderStack.length > 0 && currentFiles.name != id) {
           const foundObject = findObjectById(data.data, currentFiles.id);
           setCurrentFiles(foundObject);
+          const updatedFolderStack = updateFolderStack(folderStack, foundObject);
+          setFolderStack(updatedFolderStack);
         } else {
           setCurrentFiles(data.data);
           setFolderStack([data.data]);
@@ -68,29 +70,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
       setSync(false);
       console.error("Error fetching file details:", error);
     },
-    // queryFn: async () => {
-    //   if (me && me.hubspotPortals && fileId && path) {
-    //     // console.log(
-    //     //   "Fetching files with:",
-    //     //   me.hubspotPortals.templateName,
-    //     //   fileId,
-    //     //   path
-    //     // );
-    //     return await Client.files.all(me, fileId, path);
-    //   } else {
-    //     throw new Error("Missing data for fetching files");
-    //   }
-    // },
   });
-
-  // useEffect(() => {
-  //   if (data && data.data) {
-  //     setCurrentFiles(data.data);
-  //     setFolderStack([data.data]);
-  //     // setCurrentFiles(testData123[1]);
-  //     // setFolderStack(testData123);
-  //   }
-  // }, [data]);
 
   useEffect(() => {
     if (sync == true) refetch();
@@ -124,14 +104,53 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     setCurrentPage(1);
   };
 
+  // Update folder stack 
+  const updateFolderStack = (folderStack, currentFolder) => {
+    // Recursive function to find and update the folder
+    const updateRecursive = (folders) => {
+      return folders.map(folder => {
+        if (folder.id === currentFolder.id) {
+          // Update the folder that matches the currentFolder ID
+          return {
+            ...folder, // Copy the current folder properties
+            name: currentFolder.name, // Update the name
+            size: currentFolder.size, // Update the size
+            child: currentFolder.child || folder.child // Update the children if provided
+          };
+        }
+
+        // If not the current folder, check the children recursively
+        if (folder.child && folder.child.length > 0) {
+          return {
+            ...folder,
+            child: updateRecursive(folder.child) // Recursively update children
+          };
+        }
+
+        return folder; // Return folder as-is if no match and no children
+      });
+    };
+
+    // Start recursion on the folderStack
+    return updateRecursive(folderStack);
+  };
+
   const handleBreadcrumbClick = (index) => {
-    if (folderStack && folderStack.length > index) {
-      const newStack = folderStack.slice(0, index + 1);
-      const folder = newStack[index];
-      setFolderStack(newStack);
-      setCurrentFiles(folder);
-      setCurrentPage(1);
+
+    if (!Array.isArray(folderStack) || folderStack.length <= index) {
+      console.log('Hello hweekly');
+      return;
     }
+    const updatedFolderStack = updateFolderStack(folderStack, currentFiles);
+    console.log(updatedFolderStack, 'updatedFolderStack');
+    // setFolderStack(updatedFolderStack);
+
+    const selectedFolder = folderStack[index];
+
+    setCurrentPage(1);
+    setCurrentFiles(selectedFolder);
+    setFolderStack(folderStack.slice(0, index + 1));
+
   };
 
   const createFolder = (folderName) => {
