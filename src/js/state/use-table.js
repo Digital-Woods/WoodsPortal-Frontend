@@ -16,58 +16,28 @@ function useTable() {
   const setGridData = async (type, deals) => {
     if (type === "reset") return setData([]);
     if (type === "directly") return setData(deals);
-    let finalData = await deals.map((deal) => {
-      const cards = deal?.data?.results?.rows
-        ? [
-            ...deal?.data?.results?.rows?.map((row) => ({
-              dealName: type === "deals" ? row?.dealname : row?.subject,
-              hsObjectId: row?.hs_object_id,
-              id: row?.hs_object_id,
-              title: type === "deals" ? row?.dealname : row?.subject,
-              closedate: dataCLoseDate(type, row),
-              amount: type === "deals" ? row?.amount : "",
-              hubspotObjectTypeId: type === "deals" ? "0-3" : "0-5",
-            })),
-          ]
-        : [];
-      const mapData = {
+    
+    let finalData = deals.map((deal) => {
+      const cards = deal?.data?.results?.rows?.map((row) => ({
+        dealName: type === "deals" ? row?.dealname : row?.subject,
+        hsObjectId: row?.hs_object_id,
+        id: row?.hs_object_id,
+        title: type === "deals" ? row?.dealname : row?.subject,
+        closedate: dataCLoseDate(type, row),
+        amount: type === "deals" ? row?.amount : "",
+        hubspotObjectTypeId: type === "deals" ? "0-3" : "0-5",
+      })) || [];
+      
+      return {
         id: deal.id,
         name: deal.label,
         count: deal?.data?.total,
         ...deal,
         cards: cards,
       };
-      return mapData;
     });
-    console.log("finalData", finalData);
 
-    setData((prevData) => {
-      if (prevData.length) {
-        return prevData.map((stage) => {
-          const matchingDeals = finalData.find((deal) => deal.id === stage.id);
-          console.log("stage", stage);
-          console.log("matchingDeals", matchingDeals);
-
-          if (matchingDeals) {
-            return {
-              ...matchingDeals,
-              cards: [...stage.cards, ...matchingDeals.cards],
-            };
-          } else {
-            // console.log('noo', {
-            //   ...stage,
-            //   cards: [],
-            // })
-            return {
-              ...stage,
-              cards: [],
-            };
-          }
-        });
-      } else {
-        return finalData;
-      }
-    });
+    setData(finalData);
   };
 
   return {
