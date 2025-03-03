@@ -289,6 +289,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   parentObjectRowId={id}
                   permissions={permissions ? permissions.ticket : null}
                   companyAsMediator={companyAsMediator}
+                  title={permissions?.ticket?.display_label || "Tickets"}
                 />
               )}
 

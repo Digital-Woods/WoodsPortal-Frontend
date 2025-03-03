@@ -55,8 +55,8 @@ const NoteCard = ({
     {
       onSuccess: (res) => {
         queryClient.invalidateQueries(["data"]);
-        // refetch();
-        setSync(true);
+        refetch();
+        // setSync(true);
         setAlert({
           message: res.statusMsg,
           type: "success",
@@ -226,7 +226,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
     portalId = getPortal()?.portalId;
   }
 
-  const limit = 20;
+  const limit = 10;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["data", page],
     queryFn: async () =>
@@ -266,7 +266,8 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
     },
 
     onSuccess: (response) => {
-      setSync(true);
+      // setSync(true);
+      refetch();
       setShowDialog(false);
       setAlert({
         message: response.statusMsg,

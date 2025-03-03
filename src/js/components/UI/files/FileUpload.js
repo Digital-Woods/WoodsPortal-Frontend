@@ -123,8 +123,8 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
         type: "success",
         show: true,
       });
-      // refetch();
-      setSync(true)
+      refetch();
+      // setSync(true)
       onClose();
     },
     onError: (error) => {
@@ -179,8 +179,8 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
         type: "success",
         show: true,
       });
-      // refetch();
-      setSync(true)
+      refetch();
+      // setSync(true)
       onClose();
       // setUploadStatus("File uploaded successfully!");
       // console.log("Server Response:", response.data);

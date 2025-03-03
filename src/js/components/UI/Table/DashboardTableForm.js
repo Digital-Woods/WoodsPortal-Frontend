@@ -79,7 +79,8 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     onSuccess: async (response, variables) => {
       setAlert({ message: response.statusMsg, type: "success" });
       if (!addAnother) {
-        setSync(true);
+        // setSync(true);
+        refetch();
       }
       if (!variables.addAnother) {
         setOpenModal(false);

@@ -139,6 +139,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   useEffect(() => {
     getData();
   }, []);
+
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
   };

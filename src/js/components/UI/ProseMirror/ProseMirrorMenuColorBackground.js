@@ -210,6 +210,7 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
             color={color}
             setColor={setColor}
             setIsOpen={setIsOpen}
+            defaultTextColor={defaultTextBGColor}
           />
         </div>
       )}
