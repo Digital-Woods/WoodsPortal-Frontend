@@ -8,23 +8,6 @@ const Axios = axios.create({
   },
 });
 
-// axios.interceptors.request.use(
-//   (config) => {
-//     console.log("Hellooo");
-//     const token = getCookie(env.AUTH_TOKEN_KEY);
-//     console.log(token, "token");
-
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
 Axios.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
@@ -38,7 +21,9 @@ Axios.interceptors.request.use(
     // Parse and sort query parameters to ensure uniqueness
     const url = new URL(config.url, config.baseURL);
     const params = new URLSearchParams(config.params || url.search);
-    const sortedParams = new URLSearchParams([...params.entries()].sort()).toString();
+    const sortedParams = new URLSearchParams(
+      [...params.entries()].sort()
+    ).toString();
     const fullUrl = `${url.pathname}?${sortedParams}`;
 
     // const requestIdentifier = `${config.url}_${config.method}`;
@@ -47,7 +32,9 @@ Axios.interceptors.request.use(
     if (pendingRequests.has(requestIdentifier)) {
       const cancelTokenSource = pendingRequests.get(requestIdentifier);
       // cancel the previous request
-      cancelTokenSource.cancel("Cancelled due to new request with the same parameters");
+      cancelTokenSource.cancel(
+        "Cancelled due to new request with the same parameters"
+      );
     }
 
     // create a new CancelToken
@@ -87,22 +74,30 @@ class HttpClient {
   }
 
   static async post(url, data, options) {
+    updateSyncDisableState(true);
     const response = await Axios.post(url, data, options);
+    updateSyncDisableState(false);
     return response.data;
   }
 
   static async patch(url, data) {
+    updateSyncDisableState(true);
     const response = await Axios.patch(url, data);
+    updateSyncDisableState(false);
     return response.data;
   }
 
   static async put(url, data) {
+    updateSyncDisableState(true);
     const response = await Axios.put(url, data);
+    updateSyncDisableState(false);
     return response.data;
   }
 
   static async delete(url) {
+    updateSyncDisableState(true);
     const response = await Axios.delete(url);
+    updateSyncDisableState(false);
     return response.data;
   }
 
