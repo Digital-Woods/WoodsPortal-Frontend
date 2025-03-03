@@ -400,9 +400,10 @@ const DashboardTable = ({
     setCurrentPage(1);
   }, [activeCard]);
 
-  // If click sync button
   useEffect(() => {
-    getPipelines();
+    if (sync) {
+      getPipelines();
+    }
   }, [sync]);
 
   return (

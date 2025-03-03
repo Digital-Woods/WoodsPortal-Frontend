@@ -44,7 +44,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
     );
     const sortedAssociatedDetails = sortProperties(Object.fromEntries(filteredAssociatedDetails));
     const visibleAssociatedDetails = showMoreAssociated ? sortedAssociatedDetails : sortedAssociatedDetails.slice(0, 4);
-console.log(userDetails,'userData.response?.associations');
+
     return (
         <div>
             <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
