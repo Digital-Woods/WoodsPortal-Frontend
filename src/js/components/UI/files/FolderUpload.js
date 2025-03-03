@@ -29,8 +29,8 @@ const FolderUpload = ({
         type: "success",
         show: true,
       });
-      // refetch();
-      setSync(true)
+      refetch();
+      // setSync(true)
       setNewFolderName("");
       onClose(); // Close modal after folder creation
     },

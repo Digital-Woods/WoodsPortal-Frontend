@@ -46,8 +46,9 @@ const DashboardTableData = ({
   setItemsPerPage,
   detailsUrl
 }) => {
+  // console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
-    Object.entries(urlParam).filter(([key]) => key !== "cache")
+    Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
   );
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");

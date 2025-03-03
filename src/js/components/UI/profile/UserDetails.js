@@ -58,65 +58,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
         portalId = getPortal()?.portalId;
     }
 
-    // console.log(permissions, 'permissions');
 
-    // const {
-    //     mutate: getData,
-    //     error,
-    //     isLoading,
-    // } = useMutation({
-    //     mutationKey: ["DetailsData", path, id],
-    //     mutationFn: async () =>
-    //         await Client.objects.byObjectId({
-    //             objectId: objectId,
-    //             id: id,
-    //             urlParam,
-    //             portalId,
-    //             hubId,
-    //             cache: sync ? false : true,
-    //         }),
-    //     onSuccess: (data) => {
-    //         setSync(false);
-    //         const associations = data?.data?.associations;
-    //         setAssociations(associations);
-
-    //         const mConfigurations = data?.configurations;
-    //         setConfigurations(mConfigurations);
-
-    //         const details = data?.data;
-    //         const sortedItems = sortData(details, "details");
-    //         setItems(sortedItems);
-    //         console.log(sortedItems,'sortedItems');
-    //         setPermissions(data.configurations)
-    //     },
-    //     onError: (error) => {
-    //         setSync(false);
-    //         console.error("Error fetching file details:", error);
-    //     },
-    // });
-
-    // useEffect(() => {
-    //     getData();
-    // }, []);
-
-    // useEffect(() => {
-    //     setSync(true);
-    // }, [objectId, id]);
-
-    // const back = () => {
-    //     let breadcrumbItems =
-    //         JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
-    //     let path = breadcrumbItems[breadcrumbItems.length - 1];
-    //     return path.path;
-    // };
-
-    // if (error) {
-    //     return (
-    //         <div className="w-full h-[calc(100vh_-110px)] flex flex-col items-center justify-center dark:text-white text-dark-300 bg-cleanWhite dark:bg-dark-200 md:text-2xl text-base font-semibold">
-    //             Error fetching data
-    //         </div>
-    //     );
-    // }
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
         stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
@@ -207,7 +149,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
                                 <DashboardTable
                                     hubspotObjectTypeId={'0-5'}
                                     path={path}
-                                    title={'Tickets'}
+                                    title={permissions?.ticket?.display_label || "Tickets"}
                                     apis={apis}
                                     componentName="object"
                                     defPermissions={permissions ? permissions.ticket : null}

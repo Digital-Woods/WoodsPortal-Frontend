@@ -411,8 +411,8 @@ const DetailsViewUpdate = ({
       // console.log(data);
       setPipelineDialog(false);
       setEditRow(null);
-      setSync(true);
-      // refetch();
+      // setSync(true);
+      refetch();
       setAlert({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {

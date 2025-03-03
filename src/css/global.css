@@ -753,7 +753,8 @@ tfoot td {
 
 .ProseMirror {
   position: relative;
-  min-height:360px;
+  height:360px;
+  overflow-y: auto;
 }
 
 .ProseMirror {
@@ -771,6 +772,12 @@ tfoot td {
 
 .ProseMirror li {
   position: relative;
+}
+
+.advance-color-picker > div{
+  width: 100% !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
 }
 
 .ProseMirror-hideselection *::selection { background: transparent; }

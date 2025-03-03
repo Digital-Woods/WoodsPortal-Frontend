@@ -32,7 +32,6 @@ const Home = ({
     queryFn: () => fetchUserProfile({ portalId, cache: cacheEnabled }),
     onSuccess: (data) => {
       if (data) {
-        sessionStorage.setItem('userProfile', JSON.stringify(data));
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
@@ -46,9 +45,11 @@ const Home = ({
   useEffect(() => {
     if (sync) {
       setCacheEnabled(false);
-      queryClient.invalidateQueries(['userProfile', portalId]);
+      refetch();
     }
-  }, [sync, portalId]);
+  }, [sync]);
+
+  console.log(sync,'sync');
 
   const toggleSidebar = () => {
     setUserToggled(true);
@@ -85,7 +86,7 @@ const Home = ({
   //   updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   // };
 
-  const objectTypeName = getParam("objectTypeName");
+  // const objectTypeName = getParam("objectTypeName");
   // const tableTitle = () => {
   //   return objectTypeName ? objectTypeName : title;
   // };

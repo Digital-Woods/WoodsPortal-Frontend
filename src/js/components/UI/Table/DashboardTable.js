@@ -192,8 +192,7 @@ const DashboardTable = ({
         search: searchTerm,
         filterPropertyName: props?.filterPropertyName || filterPropertyName,
         filterOperator: props?.filterOperator || filterOperator,
-        filterValue:
-          props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
+        filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
         view: activeCard ? "BOARD" : "LIST",

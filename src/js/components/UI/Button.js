@@ -5,12 +5,12 @@ const classes = {
 
 const variantClasses = {
   default:
-    "bg-primary text-white dark:bg-dark-400 shadow hover:bg-primary/90",
+    "bg-primary text-white dark:border dark:bg-dark-400 shadow hover:bg-primary/90",
   create: `!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}] hover:!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}]/80 !text-[${moduleStylesOptions.creatButtonStyles.textColor}]`,
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline:
-    "border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+    "border border-input dark:!text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground dark:bg-dark-400",
   secondary:
     "bg-primary text-primary-foreground shadow-sm hover:bg-primary/80",
   ghost: "hover:bg-accent hover:text-accent-foreground",
