@@ -46,7 +46,6 @@ const DashboardTableData = ({
   setItemsPerPage,
   detailsUrl
 }) => {
-  console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
     Object.entries(urlParam).filter(([key]) => key !== "cache")
   );

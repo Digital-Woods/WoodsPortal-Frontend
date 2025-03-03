@@ -6,10 +6,8 @@ const MainLayout = ({ children }) => {
   const { sidebarCollapsed } = useCollapsible();
   const { Switch, Route, Redirect } = ReactRouterDOM;
   const [showPortalMessage, setShowPortalMessage] = React.useState(false);
-  const loggedInDetails = useRecoilValue(userDetailsAtom);
   const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
-  // useSetColors();
 
   const defaultRoutes = [
     {
@@ -45,58 +43,7 @@ const MainLayout = ({ children }) => {
       component: <Profile />,
     },
   ];
-  // useEffect(() => {
-  //   let userDetails = null;
 
-  //   if (isLivePreview()) {
-  //     userDetails = fakeUserDetails;
-  //   } else if (dataSourceSet == true) {
-  //     userDetails = fakeUserDetails;
-  //   } else {
-  //     userDetails = loggedInDetails || me;
-  //   }
-
-  //   if (userDetails && userDetails.hubspotPortals) {
-  //     if (userDetails.sideMenu && userDetails.sideMenu.length > 0) {
-  //       const apiRoutes = userDetails.sideMenu.map((menuItem) => ({
-  //         path: `/${menuItem.name}`,
-  //         title: menuItem.labels.plural,
-  //         icon: menuItem.icon,
-  //         isRequiredAuth: true,
-  //         isHeader: true,
-  //         component: (
-  //           <DynamicComponent
-  //             path={`/${menuItem.name}`}
-  //             title={menuItem.labels.plural}
-  //             icon={menuItem.icon}
-  //           />
-  //         ),
-  //       }));
-
-  //       setRoutes(apiRoutes);
-  //     } else {
-  //       setRoutes([
-  //         {
-  //           path: "/no-routes",
-  //           title: "No Routes Found",
-
-  //           isRequiredAuth: false,
-  //           isHeader: false,
-  //           component: (
-  //             <div className="text-center p-10">
-  //               <h2>No Navigation Available</h2>
-  //               <p>Please check back later.</p>
-  //             </div>
-  //           ),
-  //         },
-  //       ]);
-  //     }
-  //     setIsLoading(false);
-  //   } else if (userDetails && !userDetails.hubspotPortals) {
-  //     setShowPortalMessage(true);
-  //     setIsLoading(false);
-  //   }
-  // }, [loggedInDetails, me, setRoutes]);
   useEffect(() => {
     const sideMenu = [
       {
@@ -108,49 +55,6 @@ const MainLayout = ({ children }) => {
         hubspotObjectId: 1,
         hubspotObjectTypeId: "0-1",
         children: hubSpotUserDetails.sideMenu,
-        // "children": [
-        //   {
-        //     "name": "cabins",
-        //     "labels": {
-        //       "singular": "Cabin",
-        //       "plural": "Cabins"
-        //     },
-        //     "hubspotObjectId": 5,
-        //     "hubspotObjectTypeId": "2-35357275",
-        //     "children": [
-        //       {
-        //         "name": "equipements",
-        //         "labels": {
-        //           "singular": "Equipement",
-        //           "plural": "Equipements"
-        //         },
-        //         "hubspotObjectId": 8,
-        //         "hubspotObjectTypeId": "2-35388777",
-        //         "children": []
-        //       },
-        //       {
-        //         "name": "assets",
-        //         "labels": {
-        //           "singular": "Asset",
-        //           "plural": "Assets"
-        //         },
-        //         "hubspotObjectId": 7,
-        //         "hubspotObjectTypeId": "2-35364163",
-        //         "children": []
-        //       }
-        //     ]
-        //   },
-        //   {
-        //     "name": "departments",
-        //     "labels": {
-        //       "singular": "Department",
-        //       "plural": "Departments"
-        //     },
-        //     "hubspotObjectId": 6,
-        //     "hubspotObjectTypeId": "2-35357263",
-        //     "children": []
-        //   }
-        // ]
       },
     ];
 
@@ -161,9 +65,9 @@ const MainLayout = ({ children }) => {
       icon: menuItem.icon,
       isRequiredAuth: true,
       isHeader: true,
-      companyAsMediator:menuItem.companyAsMediator,
-      pipeLineId:menuItem.pipeLineId,
-      specPipeLine:menuItem.specPipeLine,
+      companyAsMediator: menuItem.companyAsMediator,
+      pipeLineId: menuItem.pipeLineId,
+      specPipeLine: menuItem.specPipeLine,
       component: (
         <DynamicComponent
           hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
@@ -179,14 +83,6 @@ const MainLayout = ({ children }) => {
     setRoutes(apiRoutes);
     setIsLoading(false);
   }, []);
-
-  // const getRouteDetails = (path) => {
-  //   console.log('route', routes)
-  //   console.log('path', path)
-  //   const result = routes.find(item => item.path === `/${path}`);
-  //   console.log('result', result)
-  //   return result
-  // }
 
   if (isLoading) {
     return (
@@ -205,7 +101,6 @@ const MainLayout = ({ children }) => {
         <p>Before Continuing.</p>
         <div
           className="block bg-white text-black my-4 px-3 py-2.5 rounded-md no-underline cursor-pointer"
-          // activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
           onClick={logout}
         >
           <div className="flex items-center gap-x-4">
@@ -322,28 +217,10 @@ const MainLayout = ({ children }) => {
               />
 
               {/* Details Routs */}
-              {/* {routes.map(({ path, title, icon }) => (
-                <PrivateRoute
-                  key={`${path}/:object_id/:id`}
-                  path={`${path}/:object_id/:id`}
-                  component={(props) => (
-                    <React.Fragment>
-                      <HeaderLayout
-                        {...props}
-                        path={path}
-                        title={`${title}`}
-                        icon={icon}
-                      />
-                      <Details path={path} objectId={props.match.params.object_id} id={props.match.params.id} />
-                    </React.Fragment>
-                  )}
-                />
-              ))} */}
               <PrivateRoute
                 path={`/:path/:object_id/:id`}
                 component={(props) => (
                   <React.Fragment>
-                    {/* {console.log('props', props.match.params.path)} */}
                     <HeaderLayout
                       {...props}
                       path={`/${props.match.params.path}`}
@@ -381,64 +258,55 @@ const MainLayout = ({ children }) => {
               />
 
               {/* List Routs */}
-              {routes.map(({ hubspotObjectTypeId, path, title, icon,companyAsMediator, pipeLineId, specPipeLine }) => (
-                <PrivateRoute
-                  key={path}
-                  path={path}
-                  component={(props) => (
-                    <React.Fragment>
-                      <HeaderLayout
-                        {...props}
-                        path={path}
-                        title={`${title}`}
-                        icon={icon}
-                      />
-                      {path === "/home" ? (
-                        <Home
+              {routes.map(
+                ({
+                  hubspotObjectTypeId,
+                  path,
+                  title,
+                  icon,
+                  companyAsMediator,
+                  pipeLineId,
+                  specPipeLine,
+                }) => (
+                  <PrivateRoute
+                    key={path}
+                    path={path}
+                    component={(props) => (
+                      <React.Fragment>
+                        <HeaderLayout
                           {...props}
-                          hubspotObjectTypeId={hubspotObjectTypeId}
                           path={path}
                           title={`${title}`}
                           icon={icon}
-                          companyAsMediator={companyAsMediator}
-                          pipeLineId={pipeLineId}
-                          specPipeLine={specPipeLine}
                         />
-                      ) : (
-                        <DynamicComponent
-                          {...props}
-                          hubspotObjectTypeId={hubspotObjectTypeId}
-                          path={path}
-                          title={`${title}`}
-                          icon={icon}
-                          companyAsMediator={companyAsMediator}
-                          pipeLineId={pipeLineId}
-                          specPipeLine={specPipeLine}
-                        />
-                      )}
-                    </React.Fragment>
-                  )}
-                />
-              ))}
-
-              {/* <PrivateRoute
-                path={`/:path`}
-                component={(props) => (
-                  <React.Fragment>
-                    <HeaderLayout
-                      {...props}
-                      path={`/${props.match.params.path}`}
-                      title={getRouteDetails(props.match.params.path).title}
-                    />
-                    <DynamicComponent
-                      {...props}
-                      hubspotObjectTypeId={getRouteDetails(props.match.params.path).hubspotObjectTypeId}
-                      path={`/${props.match.params.path}`}
-                      title={getRouteDetails(props.match.params.path).title}
-                    />
-                  </React.Fragment>
-                )}
-              /> */}
+                        {path === "/home" ? (
+                          <Home
+                            {...props}
+                            hubspotObjectTypeId={hubspotObjectTypeId}
+                            path={path}
+                            title={`${title}`}
+                            icon={icon}
+                            companyAsMediator={companyAsMediator}
+                            pipeLineId={pipeLineId}
+                            specPipeLine={specPipeLine}
+                          />
+                        ) : (
+                          <DynamicComponent
+                            {...props}
+                            hubspotObjectTypeId={hubspotObjectTypeId}
+                            path={path}
+                            title={`${title}`}
+                            icon={icon}
+                            companyAsMediator={companyAsMediator}
+                            pipeLineId={pipeLineId}
+                            specPipeLine={specPipeLine}
+                          />
+                        )}
+                      </React.Fragment>
+                    )}
+                  />
+                )
+              )}
 
               <Redirect to="/login" />
             </Switch>

@@ -34,6 +34,7 @@ function App() {
   const { QueryClientProvider } = ReactQuery;
   return (
     <RecoilRoot>
+      <RecoilSyncStore />
       <QueryClientProvider client={queryClient}>
         <HashRouter>
           <Route
