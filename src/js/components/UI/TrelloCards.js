@@ -12,12 +12,13 @@ const TrelloCards = ({
   setItemsPerPage,
   itemsPerPage,
   isLoading,
+  path,
+  viewName,
+  detailsView,
+  detailsUrl
 }) => {
+  // console.log('TrelloCards', true)
   const { gridData: data, setGridData: setData } = useTable();
-  // const itemsPerPage = activeCardData.itemsPerPage || 10;
-  const myCurrency = getUserDetails()?.companyCurrency || "USD";
-  const { sync, setSync } = useSync();
-
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -169,8 +170,9 @@ const TrelloCards = ({
         {children}
         {dragType === dropType && isDragging && (
           <div
-            className={`absolute inset-[0px] flex ${split === "x" ? "flex-row" : "flex-column"
-              }`}
+            className={`absolute inset-[0px] flex ${
+              split === "x" ? "flex-row" : "flex-column"
+            }`}
           >
             <Drag.DropZone
               dropId={prevId}
@@ -201,39 +203,35 @@ const TrelloCards = ({
 
   // Trello Cards Starts Here
 
-  function Card({ title, amount, date, dragItem, cardData }) {
+  function Card({ dragItem, item, columns }) {
+    const mUrlParam = Object.fromEntries(
+      Object.entries(urlParam).filter(([key]) => key !== "cache")
+    );
     return (
       <div
-        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
-          }`}
+        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
+          dragItem ? " rotate-6" : ""
+        }`}
       >
-        <Link
-          className="my-1 inline-block"
-          to={`${title}/${cardData?.hubspotObjectTypeId}/${cardData?.hsObjectId
-            }?isPrimaryCompany=${companyAsMediator || false
-            }/${objectToQueryParams(urlParam)}`}
-        >
-          <span className="flex items-center gap-1">
-            <h4 className="dark:text-white  text-secondary font-bold text-xs hover:underline underline-offset-4 inline-block">
-              {title?.substring(0, 26)}
-            </h4>
-            <span className="  text-secondary ">
-              <OpenIcon />
-            </span>
-          </span>
-        </Link>
-        {hubspotObjectTypeId == "0-3" && (
-          <p className="text-xs line-clamp-2 dark:text-white">
-            <span className="font-bold">Amount: </span>
-            {amount ? Currency(myCurrency) : ""} {amount ? amount : "--"}
-          </p>
-        )}
-        {date && (
-          <p className="text-xs mb-2 dark:text-white">
-            <span className="font-bold">Close Date: </span>
-            {date}
-          </p>
-        )}
+        {/* {console.log('renderCellContent', true)} */}
+        {columns.map((column) => (
+          <div>
+            {renderCellContent({
+              companyAsMediator: companyAsMediator,
+              value: item[column.key],
+              column: column,
+              itemId: item?.hs_object_id,
+              path: path == "/association" ? `/${getParam("objectTypeName")}` : item[column.key],
+              hubspotObjectTypeId: path == "/association" ? getParam("objectTypeId") : hubspotObjectTypeId,
+              type: "list",
+              associationPath: viewName === "ticket" ? `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}` : (path == "/association" ? `/${item[column.key]}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : ""),
+              detailsView: detailsView,
+              hoverRow: null,
+              item: null,
+              urlParam: toQueryString(mUrlParam),
+            })}
+          </div>
+        ))}
       </div>
     );
   }
@@ -241,8 +239,9 @@ const TrelloCards = ({
   function List({ name, dragItem, children, count }) {
     return (
       <div
-        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
-          }`}
+        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${
+          dragItem ? " rotate-6" : ""
+        }`}
       >
         <div className="flex items-center justify-between px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
@@ -269,6 +268,7 @@ Main Component Starts Here
   };
 
   useEffect(() => {
+    // console.log('hubspotObjectTypeId', hubspotObjectTypeId)
     if (activeCardData?.results?.length > 0) {
       if (hubspotObjectTypeId == "0-3") {
         if (activeCardData?.results?.length > 0) {
@@ -375,7 +375,6 @@ Main Component Starts Here
 
   return (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
-
       {isLoadingPipelines && <div className="loader-line"></div>}
 
       <Drag handleDrop={handleDrop}>
@@ -397,10 +396,11 @@ Main Component Starts Here
                   </Drag.DropZone>
                   <Drag.DropZones
                     className={`relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
-                    ${listPosition === 0
+                    ${
+                      listPosition === 0
                         ? "rounded-s-md border-r-1  border-l-1"
                         : "border-l-0"
-                      } 
+                    } 
                     ${listPosition === data.length - 1 ? "rounded-e-md" : ""}`}
                     prevId={listPosition}
                     nextId={listPosition + 1}
@@ -443,23 +443,22 @@ Main Component Starts Here
                               />
                               <Drag.DragItem
                                 dragId={card.id}
-                                className={`cursor-pointer ${activeItem === card.id &&
-                                    activeType === "card" &&
-                                    isDragging
+                                className={`cursor-pointer ${
+                                  activeItem === card.id &&
+                                  activeType === "card" &&
+                                  isDragging
                                     ? "hidden"
                                     : "translate-x-0"
-                                  }`}
+                                }`}
                                 dragType="card"
                               >
                                 <Card
-                                  title={card.title}
-                                  amount={card?.amount}
-                                  date={card?.closedate}
                                   dragItem={
-                                    activeItem === card.id &&
+                                    activeItem === card?.id &&
                                     activeType === "card"
                                   }
-                                  cardData={card}
+                                  item={card}
+                                  columns={list?.data?.results?.columns || []}
                                 />
                               </Drag.DragItem>
                             </Drag.DropZones>
