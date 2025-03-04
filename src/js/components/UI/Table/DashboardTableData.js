@@ -261,7 +261,7 @@ const DashboardTableData = ({
           <p className="text-secondary leading-5 text-sm dark:text-gray-300">
             Showing
           </p>
-          <span className="border border-2 border-secondary dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
+          <span className="border border-secondary dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {currentItems || 0}
           </span>
           <span className="text-secondary dark:text-gray-300">/</span>

@@ -215,7 +215,7 @@ const TrelloCards = ({
     const parentObjectRecordId = getParam("parentObjectRecordId");
     return (
       <div
-        className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
+        className={`text-sm rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
           dragItem ? " rotate-6" : ""
         }`}
       >
@@ -245,7 +245,7 @@ const TrelloCards = ({
   function List({ name, dragItem, children, count }) {
     return (
       <div
-        className={`rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 w-64 shrink-0 grow-0 ${
+        className={`w-[280px] rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 shrink-0 grow-0 ${
           dragItem ? " rotate-6" : ""
         }`}
       >
@@ -401,7 +401,7 @@ Main Component Starts Here
                     />
                   </Drag.DropZone>
                   <Drag.DropZones
-                    className={`relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
+                    className={`min-w-[280px] relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
                     ${
                       listPosition === 0
                         ? "rounded-s-md border-r-1  border-l-1"
