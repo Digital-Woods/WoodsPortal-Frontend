@@ -268,8 +268,7 @@ Main Component Starts Here
   };
 
   useEffect(() => {
-    // console.log('hubspotObjectTypeId', hubspotObjectTypeId)
-    if (activeCardData?.results?.length > 0) {
+    if (!isLoading && activeCardData?.results?.length > 0) {
       if (hubspotObjectTypeId == "0-3") {
         if (activeCardData?.results?.length > 0) {
           setData("deals", activeCardData?.results);
@@ -282,7 +281,7 @@ Main Component Starts Here
     } else {
       removeTicketsDeals();
     }
-  }, [activeCardData]);
+  }, [activeCardData, isLoading]);
 
   const { mutate: updateDealsByPipeline } = useMutation({
     mutationKey: ["updateDealsDataByPipeline"],

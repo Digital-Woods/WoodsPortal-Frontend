@@ -72,7 +72,8 @@ const DashboardTable = ({
   const [activePipeline, setActivePipeline] = useState();
 
   // added for card view
-  const [activeCard, setActiveCard] = useState(false);
+  const [isLoadingHoldData, setIsLoadingHoldData] = useState(null);
+  const [activeCard, setActiveCard] = useState(null);
   const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
   const [stageDataCount, setStageDataCount] = useState(true);
@@ -175,6 +176,7 @@ const DashboardTable = ({
     },
     onError: () => {
       setPipelines([]);
+      setIsLoadingHoldData(false);
     },
   });
 
@@ -230,10 +232,12 @@ const DashboardTable = ({
       } else {
         setPermissions(null);
       }
+      setIsLoadingHoldData(false);
     },
     onError: () => {
       setSync(false);
       setPermissions(null);
+      setIsLoadingHoldData(false);
     },
   });
 
@@ -330,6 +334,7 @@ const DashboardTable = ({
   };
 
   const setActiveTab = (status) => {
+    setIsLoadingHoldData(true);
     setActiveCard(status);
     const routeMenuConfig = {
       [hubspotObjectTypeId]: {
@@ -347,8 +352,10 @@ const DashboardTable = ({
       routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)
     ) {
       const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
+      setIsLoadingHoldData(true);
       setActiveCard(activeTab === "grid" ? true : false);
     } else {
+      setIsLoadingHoldData(true);
       setActiveCard(false);
     }
   }, []);
@@ -397,14 +404,19 @@ const DashboardTable = ({
 
   // Initial Call Pipeline
   useEffect(() => {
-    getPipelines();
-    setCurrentPage(1);
+    if(activeCard != null) {
+      getPipelines();
+    }
   }, [activeCard]);
 
   // If click sync button
   useEffect(() => {
     getPipelines();
   }, [sync]);
+
+  if (isLoadingHoldData === true) {
+    return activeCardData ? <BoardViewSkeleton /> : <TableSkeleton />;
+  }
 
   return (
     <div

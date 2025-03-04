@@ -126,8 +126,9 @@ const DynamicComponent = ({
             ""
           )}
 
-          <div className="w-full">
+          <div className="w-full" key={hubspotObjectTypeId}>
             <DashboardTable
+              key={hubspotObjectTypeId}
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
               title={tableTitle() || hubSpotUserDetails.sideMenu[0].label}
