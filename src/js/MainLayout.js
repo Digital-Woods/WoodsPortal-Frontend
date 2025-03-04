@@ -58,7 +58,7 @@ const MainLayout = ({ children }) => {
       },
     ];
 
-    const apiRoutes = sideMenu[0].children.map((menuItem) => ({
+    const apiRoutes = sideMenu[0].children.map((menuItem, index) => ({
       hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
       path: `/${formatPath(menuItem.tabName || menuItem.label)}`,
       title: formatCustomObjectLabel(menuItem.tabName || menuItem.label),
@@ -70,6 +70,7 @@ const MainLayout = ({ children }) => {
       specPipeLine: menuItem.specPipeLine,
       component: (
         <DynamicComponent
+          key={index}
           hubspotObjectTypeId={`/${menuItem.hubspotObjectTypeId}`}
           path={`/${formatPath(menuItem.tabName || menuItem.label)}`}
           title={formatCustomObjectLabel(menuItem.tabName || menuItem.label)}
