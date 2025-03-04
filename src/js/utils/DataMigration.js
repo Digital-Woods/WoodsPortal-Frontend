@@ -290,11 +290,31 @@ const renderCellContent = ({
   item,
   urlParam = null
 }) => {
-  // console.log(column);
   if (column.hidden) return null;
   if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
     return "--";
   }
+
+  // Start - Set associations url in cookie
+  const changeRoute = () => {
+    if(type == "associations") {
+      const newPath = path.replace(/^\/+/, "");
+      setItemAsync(env.ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
+        name: newPath,
+        path: associationPath,
+        routeName: `/association/${newPath}`})
+      );
+    }
+  }
+
+  const setItemAsync = (key, value, days = env.COOKIE_EXPIRE) => {
+    return new Promise((resolve) => {
+      setCookie(key, value, days);
+      resolve();
+    });
+  };
+  // End - Set associations url in cookie
+
 
   if ( // if date then conver into date format
     column &&
@@ -401,6 +421,7 @@ const renderCellContent = ({
       <div className="flex gap-1 min-w-[180px] relative group items-center">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
+          onClick={changeRoute}
           to={associationPath}
         >
           {truncatedText(isObject(value) ? value.label : value, "25")}

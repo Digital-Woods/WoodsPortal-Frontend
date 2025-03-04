@@ -20,6 +20,7 @@ const DetailsAssociations = ({
   const hubspotObjectTypeId = association.objectTypeId;
   const param = `parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${ mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId }&mediatorObjectRecordId=${mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId}&isPrimaryCompany=${companyAsMediator}`;
   const portalId = getPortal()?.portalId
+  const [viewUrl, setViewUrl] = useState("");
 
   const associationApis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -34,28 +35,25 @@ const DetailsAssociations = ({
   };
 
   useEffect(() => {
+    const mViewUrl = `/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+    }&objectTypeId=${association.objectTypeId
+    }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+    }&mediatorObjectRecordId=${mediatorObjectRecordId
+      ? mediatorObjectRecordId
+      : parentObjectRowId
+    }&isPrimaryCompany=${companyAsMediator}`
+
+    setViewUrl(mViewUrl)
     setPermissions(association.configurations["object"]);
   }, [association]);
 
-  const viewUrl = `/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
-  }&objectTypeId=${association.objectTypeId
-  }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
-  }&mediatorObjectRecordId=${mediatorObjectRecordId
-    ? mediatorObjectRecordId
-    : parentObjectRowId
-  }&isPrimaryCompany=${companyAsMediator}`
-
-  const setItemAsync = (key, value, days = env.COOKIE_EXPIRE) => {
-    return new Promise((resolve) => {
-      setCookie(key, value, days);
-      resolve();
-    });
-  };
-  setItemAsync(env.ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
-    name: association.labels.plural,
-    path: viewUrl,
-    routeName: `/association/${association.labels.plural}`})
-  );
+  // const viewUrl = `/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+  // }&objectTypeId=${association.objectTypeId
+  // }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+  // }&mediatorObjectRecordId=${mediatorObjectRecordId
+  //   ? mediatorObjectRecordId
+  //   : parentObjectRowId
+  // }&isPrimaryCompany=${companyAsMediator}`
 
   return (
     <React.Fragment>
