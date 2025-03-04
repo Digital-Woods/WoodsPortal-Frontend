@@ -345,7 +345,7 @@ const renderCellContent = ({
 
   if (column.showCurrencySymbol) { // if value is a currency symbol
     const myCurrency = getUserDetails()?.companyCurrency
-    return `${Currency(myCurrency)} ${value}`;
+    return `${Currency(myCurrency)} ${formatAmount(value)}`;
   }
 
   if ( // if primary display property then add open button
@@ -748,3 +748,11 @@ function sortFormData(data) {
 const escapeHTML = (str) => {
   return str.replace(/'/g, "\\'");
 }
+const formatAmount = (amount, locale = "en-US") => {
+  if (isNaN(amount)) return "Invalid amount";
+
+  return new Intl.NumberFormat(locale, {
+    maximumFractionDigits: amount % 1 === 0 ? 0 : 2,
+    useGrouping: true, 
+  }).format(amount);
+};
