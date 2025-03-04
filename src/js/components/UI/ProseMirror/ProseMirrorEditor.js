@@ -104,31 +104,31 @@ const ProseMirrorEditor = ({
       },
     };
 
-    const myNodes = {
-      doc: { content: "block+" },
-      paragraph: paragraphNode,
-      text: { group: "inline" },
-      // text: { inline: true },
-      heading: {
-        content: "text*",
-        group: "block",
-        toDOM: (node) => ["h" + node.attrs.level, 0],
-        parseDOM: [
-          { tag: "h1", attrs: { level: 1 } },
-          { tag: "h2", attrs: { level: 2 } },
-          { tag: "h3", attrs: { level: 3 } },
-        ],
-        attrs: { level: { default: 1 } },
-      },
-      hard_break: {
-        inline: true,
-        group: "inline",
-        selectable: false,
-        toDOM: () => ["br"],
-        parseDOM: [{ tag: "br" }],
-      },
-      image: imageNodeSpec,
-    };
+    // const myNodes = {
+    //   doc: { content: "block+" },
+    //   paragraph: paragraphNode,
+    //   text: { group: "inline" },
+    //   // text: { inline: true },
+    //   heading: {
+    //     content: "text*",
+    //     group: "block",
+    //     toDOM: (node) => ["h" + node.attrs.level, 0],
+    //     parseDOM: [
+    //       { tag: "h1", attrs: { level: 1 } },
+    //       { tag: "h2", attrs: { level: 2 } },
+    //       { tag: "h3", attrs: { level: 3 } },
+    //     ],
+    //     attrs: { level: { default: 1 } },
+    //   },
+    //   hard_break: {
+    //     inline: true,
+    //     group: "inline",
+    //     selectable: false,
+    //     toDOM: () => ["br"],
+    //     parseDOM: [{ tag: "br" }],
+    //   },
+    //   image: imageNodeSpec,
+    // };
 
     const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode).addToEnd("image", imageNodeSpec);;
     const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
@@ -236,7 +236,8 @@ const ProseMirrorEditor = ({
       const { schema, selection } = state;
       const { $from } = selection;
       const nodeType = schema.nodes.list_item;
-    
+      const tr = state.tr;
+
       // Check if the current block is a list item
       const parentNode = $from.node(-1);
       const blockNode = $from.node(1); // Get the paragraph or block-level node
@@ -248,8 +249,28 @@ const ProseMirrorEditor = ({
     
       // If not inside a list, reset alignment on new lines
       if (!dispatch) return false;
-    
-      const tr = state.tr;
+
+      // **Check if 'strong' mark is active**
+      const isBoldActive = state.storedMarks?.some(mark => mark.type === schema.marks.strong) ||
+      state.selection.$from.marks().some(mark => mark.type === schema.marks.strong);
+
+       // **Check if 'italic' mark is active**
+       const isItalicActive = state.storedMarks?.some(mark => mark.type === schema.marks.em) ||
+       state.selection.$from.marks().some(mark => mark.type === schema.marks.em);
+
+      // **Check if 'underline' mark is active**
+      const isUnderlineActive = state.storedMarks?.some(mark => mark.type === schema.marks.underline) ||
+      state.selection.$from.marks().some(mark => mark.type === schema.marks.underline);
+   
+ 
+      if (isBoldActive || isUnderlineActive || isItalicActive) {
+        tr.split($from.pos);
+        if(isBoldActive) tr.addStoredMark(schema.marks.strong.create());
+        if(isItalicActive) tr.addStoredMark(schema.marks.em.create());
+        if(isUnderlineActive) tr.addStoredMark(schema.marks.underline.create());
+        dispatch(tr);
+        return true;
+      }
 
       const currentAlignment = blockNode?.attrs?.align || "left"; // Default to left
       const newNodeAttrs = { align: currentAlignment }; // Reset alignment on new lines
