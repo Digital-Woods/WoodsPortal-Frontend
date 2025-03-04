@@ -196,12 +196,13 @@ const DropdownColorMenu = ({ editorView, icon }) => {
         <div
           ref={dropdownMenuRef}
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded w-60 z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-md rounded w-60 z-10"
         >
           <ColorPicker
             color={color}
             setColor={setColor}
             setIsOpen={setIsOpen}
+            defaultTextColor={defaultTextColor}
           />
         </div>
       )}

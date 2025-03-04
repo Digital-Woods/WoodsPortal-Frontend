@@ -3,7 +3,7 @@
   "name" : "backend_server_url",
   "label" : "WoodsPortal Admin URL",
   "help_text" : "Paste the WoodsPortal Admin URL here",
-  "inline_help_text" : "<a href=\"https://app.dev.one.digitalwoods.io/\" target=\"_blank\"> Click here</a> to set up WoodsPortal and connect with our server.",
+  "inline_help_text" : "<a href=\"https://app.demo.digitalwoods.io\" target=\"_blank\"> Click here</a> to set up WoodsPortal and connect with our server.",
   "required" : false,
   "locked" : false,
   "validation_regex" : "",

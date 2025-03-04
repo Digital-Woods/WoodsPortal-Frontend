@@ -17,6 +17,12 @@ const DashboardTableHeader = ({
   pageLimit,
   defPermissions
 }) => {
+  const [showPipelineFilter, setShowPippelineFilter] = useState(false);
+
+  useEffect(() => {
+    setShowPippelineFilter(pipelines?.length === 1 ? false : true);
+  }, [pipelines])
+
   return (
     <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
       <div className="flex gap-2 justify-between">
@@ -25,11 +31,10 @@ const DashboardTableHeader = ({
             <button
               type="button"
               onClick={() => setActiveTab(false)}
-              className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md hover:bg-gray-50 dark:hover:bg-dark-500 last:rounded-e-md text-sm font-medium text-gray-800 ${
-                activeCard
+              className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md hover:bg-gray-50 dark:hover:bg-dark-500 last:rounded-e-md text-sm font-medium text-gray-800 ${activeCard
                   ? " bg-graySecondary dark:bg-dark-200"
                   : "bg-white dark:bg-dark-400"
-              }`}
+                }`}
             >
               <svg
                 fill="currentcolor"
@@ -46,11 +51,10 @@ const DashboardTableHeader = ({
             <button
               type="button"
               onClick={() => setActiveTab(true)}
-              className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 hover:bg-gray-50 dark:hover:bg-dark-500 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800 ${
-                activeCard
+              className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 hover:bg-gray-50 dark:hover:bg-dark-500 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800 ${activeCard
                   ? "bg-white dark:bg-dark-400"
                   : " bg-graySecondary dark:bg-dark-200"
-              }`}
+                }`}
             >
               <svg
                 width="15px"
@@ -78,20 +82,21 @@ const DashboardTableHeader = ({
         )}
 
         {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-          <div className="w-[180px]">
-            <select
-              className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-              value={activePipeline}
-              onChange={(e) => handelChangePipeline(e.target?.value || "")}
-            >
-              <option value="" disabled={activeCard} selected>
-                All Pipelines
-              </option>
-              {pipelines.map((item) => (
-                <option value={item.pipelineId}>{item.label}</option>
-              ))}
-            </select>
-          </div>
+          showPipelineFilter ? (
+            <div className="w-[180px]">
+              <select
+                className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
+                value={activePipeline}
+                onChange={(e) => handelChangePipeline(e.target?.value || "")}
+              >
+                <option value="" disabled={activeCard} selected>
+                  All Pipelines
+                </option>
+                {pipelines.map((item) => (
+                  <option value={item.pipelineId}>{item.label}</option>
+                ))}
+              </select>
+            </div>) : (null)
         )}
 
         <div className=" flex items-center gap-2">

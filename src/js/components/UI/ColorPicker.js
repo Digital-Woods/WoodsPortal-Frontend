@@ -1,9 +1,13 @@
-const ColorPicker = ({ color, setColor, setIsOpen }) => {
+const ColorPicker = ({ color, setColor, setIsOpen, defaultTextColor }) => {
   const [tab, setTab] = useState("tab1");
+  const defaultColor = defaultTextColor;
 
   const onColorChange = (color, open) => {
     setColor(color);
-    if(!open) setIsOpen(false);
+    if (!open) setIsOpen(false);
+  };
+  const resetColor = () => {
+    setColor(defaultColor);
   };
 
   return (
@@ -11,7 +15,7 @@ const ColorPicker = ({ color, setColor, setIsOpen }) => {
       <div class="flex">
         <div class="w-1/2">
           <button
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-tl-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-dark-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3"
+            className={`${tab == 'tab1' ? 'bg-gray-100' : ''} inline-flex items-center justify-center whitespace-nowrap rounded-tl-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-dark-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3`}
             onClick={() => setTab("tab1")}
           >
             Simple
@@ -19,18 +23,27 @@ const ColorPicker = ({ color, setColor, setIsOpen }) => {
         </div>
         <div class="w-1/2">
           <button
-            className="inline-flex items-center justify-center whitespace-tr-nowrap rounded-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-dark-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3"
+            className={`${tab == 'tab2' ? 'bg-gray-100' : ''} inline-flex items-center justify-center whitespace-nowrap rounded-tl-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input dark:text-dark-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 w-full py-3`}
             onClick={() => setTab("tab2")}
           >
             Advance
           </button>
         </div>
       </div>
-      <div className={`${tab === "tab1" ? "block" : "hidden"}`}>
+      <div className={`${tab === "tab1" ? "block bg-gray-100" : "hidden"}`}>
         <GridColorPicker onColorChange={onColorChange} />
       </div>
-      <div className={`${tab === "tab2" ? "block" : "hidden"}`}>
-        <SimonColorPicker onColorChange={onColorChange} />
+      <div className={`${tab === "tab2" ? "block bg-gray-100" : "hidden"} advance-color-picker`}>
+        <SimonColorPicker onColorChange={onColorChange} defaultColor={defaultColor} />
+      </div>
+      <div className="flex justify-center bg-gray-100 py-2">
+        <Button
+          className="!w-full"
+          size='sm'
+          onClick={resetColor}
+        >
+          Reset to Default
+        </Button>
       </div>
     </div>
   );
@@ -103,8 +116,8 @@ const GridColorPicker = ({ onColorChange }) => {
     "#4C1130",
   ];
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="grid grid-cols-9 gap-2 p-4 bg-white shadow-md rounded-lg">
+    <div className="flex items-center justify-center">
+      <div className="grid grid-cols-9 gap-2 p-4 ">
         {colors.map((color, index) => (
           <div
             key={index}
@@ -118,8 +131,8 @@ const GridColorPicker = ({ onColorChange }) => {
   );
 };
 
-const SimonColorPicker = ({ onColorChange }) => {
-  const [color, setColor] = useState("#ff0000");
+const SimonColorPicker = ({ onColorChange, defaultColor }) => {
+  const [color, setColor] = useState(defaultColor);
   const pickerRef = React.useRef(null);
 
   useEffect(() => {
@@ -128,7 +141,7 @@ const SimonColorPicker = ({ onColorChange }) => {
       theme: "nano",
       useAsButton: true,
       inline: true,
-
+      width: 100,
       default: color,
 
       components: {

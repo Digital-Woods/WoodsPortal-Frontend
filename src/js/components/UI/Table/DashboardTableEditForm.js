@@ -164,8 +164,8 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     },
     onSuccess: async (response) => {
       setAlert({ message: response.statusMsg, type: "success" });
-      // refetch()
-      setSync(true)
+      refetch()
+      // setSync(true)
       setOpenModal(false)
     },
 

@@ -194,8 +194,7 @@ const DashboardTable = ({
         search: searchTerm,
         filterPropertyName: props?.filterPropertyName || filterPropertyName,
         filterOperator: props?.filterOperator || filterOperator,
-        filterValue:
-          props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
+        filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
         view: activeCard ? "BOARD" : "LIST",
@@ -409,9 +408,10 @@ const DashboardTable = ({
     }
   }, [activeCard]);
 
-  // If click sync button
   useEffect(() => {
-    getPipelines();
+    if (sync) {
+      getPipelines();
+    }
   }, [sync]);
 
   if (isLoadingHoldData === true) {

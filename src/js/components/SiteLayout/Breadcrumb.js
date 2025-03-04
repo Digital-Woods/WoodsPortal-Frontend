@@ -28,18 +28,18 @@ const Breadcrumb = (props) => {
     item.push({
       name: path === "/association" ? match?.params?.name : title,
       path: `${location?.pathname}${location?.search || ""}`,
-      routeName: match.url,
+      routeName: match?.url,
     });
 
     // let item = [
     //   {
     //     name: path === "/association" ? match?.params?.name : title,
     //     path: `${location?.pathname}${location?.search || ""}`,
-    //     routeName: match.url,
+    //     routeName: match?.url,
     //   },
     // ];
 
-    const mRoute = routes.find((route) => route.path === match.url);
+    const mRoute = routes.find((route) => route.path === match?.url);
 
     let breadcrumb = getParam("b");
 
@@ -48,14 +48,14 @@ const Breadcrumb = (props) => {
       : breadcrumbs;
 
     let index = breadcrumbItems.findIndex(
-      (breadcrumb) => breadcrumb.routeName === match.url
+      (breadcrumb) => breadcrumb.routeName === match?.url
     );
 
     let updatedBreadcrumbs =
       index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems;
 
     let foundBreadcrumb = updatedBreadcrumbs.find(
-      (breadcrumb) => breadcrumb.routeName === match.url
+      (breadcrumb) => breadcrumb.routeName === match?.url
     );
 
     if (!foundBreadcrumb) {

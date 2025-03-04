@@ -20,35 +20,35 @@ const Home = ({
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
 
-  const fetchUserProfile = async ({ portalId, cache = true }) => {
+  const fetchUserProfile = async ({ portalId, cache }) => {
     if (!portalId) return null;
-
+  
     const response = await Client.user.profile({ portalId, cache });
     return response?.data;
   };
-
+  
   const { data: userNewData, error, isLoading, refetch } = useQuery({
-    queryKey: ['userProfile', portalId, cacheEnabled],
-    queryFn: () => fetchUserProfile({ portalId, cache: cacheEnabled }),
+    queryKey: ['userProfilePage', portalId, cacheEnabled],
+    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }), 
     onSuccess: (data) => {
       if (data) {
-        sessionStorage.setItem('userProfile', JSON.stringify(data));
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
       }
+      setSync(false);
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
+      setSync(false);
     }
   });
-
+  
   useEffect(() => {
-    if (sync) {
-      setCacheEnabled(false);
-      queryClient.invalidateQueries(['userProfile', portalId]);
+    if (sync) {  
+      refetch();
     }
-  }, [sync, portalId]);
+  }, [sync]);
 
   const toggleSidebar = () => {
     setUserToggled(true);
@@ -85,7 +85,7 @@ const Home = ({
   //   updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   // };
 
-  const objectTypeName = getParam("objectTypeName");
+  // const objectTypeName = getParam("objectTypeName");
   // const tableTitle = () => {
   //   return objectTypeName ? objectTypeName : title;
   // };
