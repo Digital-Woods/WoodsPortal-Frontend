@@ -17,7 +17,14 @@ const ProseMirrorEditor = ({
   // const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
   // const [isLoadingUoloading, setisLoadingUoloading] = useState(false);
   // const [uploadProgress, setUploadProgress] = useState(0);
-  const { isLoadingUoloading, setisLoadingUoloading, uploadProgress, setUploadProgress, uploadedAttachments, setUploadedAttachments } = useEditor();
+  const {
+    isLoadingUoloading,
+    setisLoadingUoloading,
+    uploadProgress,
+    setUploadProgress,
+    uploadedAttachments,
+    setUploadedAttachments,
+  } = useEditor();
 
   // Plugin
   const editorRef = useRef(null);
@@ -26,18 +33,17 @@ const ProseMirrorEditor = ({
   const [editorShema, setEditorSchema] = useState();
   const { DOMSerializer } = window.DOMSerializer;
 
-
   useEffect(() => {
-    if(attachments.length > 0) setUploadedAttachments(attachments)
+    if (attachments.length > 0) setUploadedAttachments(attachments);
   }, [attachments]);
 
   const imageNodeSpec = {
     inline: false, // Defines the image as an inline node
     attrs: {
       src: {}, // The source URL of the image (required)
-      width: { default: "auto" }, 
-      height: { default: "auto" }, 
-      class: { default: "w-auto h-auto" }, 
+      width: { default: "auto" },
+      height: { default: "auto" },
+      class: { default: "w-auto h-auto" },
       // alt: { default: null }, // Alternative text (optional)
       // title: { default: null }, // Title for the image (optional)
     },
@@ -59,13 +65,15 @@ const ProseMirrorEditor = ({
       },
     ],
     toDOM(node) {
-      return ["img",
+      return [
+        "img",
         {
           ...node.attrs,
           width: node.attrs.width,
           height: node.attrs.height,
-          class: `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
-        }
+          class:
+            `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
+        },
       ]; // Renders the image node as an <img> element
     },
   };
@@ -130,7 +138,9 @@ const ProseMirrorEditor = ({
     //   image: imageNodeSpec,
     // };
 
-    const nodes = baseSchema.spec.nodes.update("paragraph", paragraphNode).addToEnd("image", imageNodeSpec);;
+    const nodes = baseSchema.spec.nodes
+      .update("paragraph", paragraphNode)
+      .addToEnd("image", imageNodeSpec);
     const nodesWithList = addListNodes(nodes, "paragraph block*", "block");
 
     const schema = new Schema({
@@ -212,13 +222,22 @@ const ProseMirrorEditor = ({
     const initialDoc = DOMParser.fromSchema(schema).parse(initialContent);
 
     const imageUploader = () => {
-      return customMenuItemImage(imageUploadUrl, setisLoadingUoloading, setUploadProgress)
-    }
+      return customMenuItemImage(
+        imageUploadUrl,
+        setisLoadingUoloading,
+        setUploadProgress
+      );
+    };
 
     const attachmentUploader = () => {
-      return customMenuItemAttachment(attachmentUploadUrl, attachmentUploadMethod, setUploadedAttachments, setisLoadingUoloading, setUploadProgress)
-    }
-
+      return customMenuItemAttachment(
+        attachmentUploadUrl,
+        attachmentUploadMethod,
+        setUploadedAttachments,
+        setisLoadingUoloading,
+        setUploadProgress
+      );
+    };
 
     const menu = menuBar({
       content: [
@@ -246,28 +265,105 @@ const ProseMirrorEditor = ({
         // If inside a list, split the list item
         return splitListItem(schema.nodes.list_item)(state, dispatch);
       }
-    
+
       // If not inside a list, reset alignment on new lines
       if (!dispatch) return false;
 
       // **Check if 'strong' mark is active**
-      const isBoldActive = state.storedMarks?.some(mark => mark.type === schema.marks.strong) ||
-      state.selection.$from.marks().some(mark => mark.type === schema.marks.strong);
+      const isBoldActive =
+        state.storedMarks?.some((mark) => mark.type === schema.marks.strong) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.strong);
 
-       // **Check if 'italic' mark is active**
-       const isItalicActive = state.storedMarks?.some(mark => mark.type === schema.marks.em) ||
-       state.selection.$from.marks().some(mark => mark.type === schema.marks.em);
+      // **Check if 'italic' mark is active**
+      const isItalicActive =
+        state.storedMarks?.some((mark) => mark.type === schema.marks.em) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.em);
 
       // **Check if 'underline' mark is active**
-      const isUnderlineActive = state.storedMarks?.some(mark => mark.type === schema.marks.underline) ||
-      state.selection.$from.marks().some(mark => mark.type === schema.marks.underline);
-   
- 
-      if (isBoldActive || isUnderlineActive || isItalicActive) {
+      const isUnderlineActive =
+        state.storedMarks?.some(
+          (mark) => mark.type === schema.marks.underline
+        ) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.underline);
+
+      // **Check if 'fontFamily' mark is active**
+      const isFontFamilyActive =
+        state.storedMarks?.some(
+          (mark) => mark.type === schema.marks.fontFamily
+        ) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.fontFamily);
+      const fontFamilyMark = state.selection.$from
+        .marks()
+        .find((mark) => mark.type === schema.marks.fontFamily);
+
+      // **Check if 'fontSize' mark is active**
+      const isFontSizeActive =
+        state.storedMarks?.some(
+          (mark) => mark.type === schema.marks.fontSize
+        ) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.fontSize);
+      const fontSizeMark = state.selection.$from
+        .marks()
+        .find((mark) => mark.type === schema.marks.fontSize);
+
+      // **Check if 'textColor' mark is active**
+      const isTextColorActive =
+        state.storedMarks?.some(
+          (mark) => mark.type === schema.marks.textColor
+        ) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.textColor);
+      const textColorMark = state.selection.$from
+        .marks()
+        .find((mark) => mark.type === schema.marks.textColor);
+
+      // **Check if 'textBackgroundColor' mark is active**
+      const isTextBackgroundColorActive =
+        state.storedMarks?.some(
+          (mark) => mark.type === schema.marks.textBackgroundColor
+        ) ||
+        state.selection.$from
+          .marks()
+          .some((mark) => mark.type === schema.marks.textBackgroundColor);
+      const textBackgroundColorMark = state.selection.$from
+        .marks()
+        .find((mark) => mark.type === schema.marks.textBackgroundColor);
+
+      if (
+        isBoldActive ||
+        isUnderlineActive ||
+        isItalicActive ||
+        isFontFamilyActive ||
+        isFontSizeActive ||
+        isTextColorActive ||
+        isTextBackgroundColorActive
+      ) {
         tr.split($from.pos);
-        if(isBoldActive) tr.addStoredMark(schema.marks.strong.create());
-        if(isItalicActive) tr.addStoredMark(schema.marks.em.create());
-        if(isUnderlineActive) tr.addStoredMark(schema.marks.underline.create());
+        if (isBoldActive) tr.addStoredMark(schema.marks.strong.create());
+        if (isItalicActive) tr.addStoredMark(schema.marks.em.create());
+        if (isUnderlineActive)
+          tr.addStoredMark(schema.marks.underline.create());
+        if (isFontFamilyActive)
+          tr.addStoredMark(
+            schema.marks.fontFamily.create(fontFamilyMark.attrs)
+          );
+        if (isFontSizeActive)
+          tr.addStoredMark(schema.marks.fontSize.create(fontSizeMark.attrs));
+        if (isTextColorActive)
+          tr.addStoredMark(schema.marks.textColor.create(textColorMark.attrs));
+        if (isTextBackgroundColorActive)
+          tr.addStoredMark(schema.marks.textBackgroundColor.create(textBackgroundColorMark.attrs));
         dispatch(tr);
         return true;
       }
@@ -275,7 +371,7 @@ const ProseMirrorEditor = ({
       const currentAlignment = blockNode?.attrs?.align || "left"; // Default to left
       const newNodeAttrs = { align: currentAlignment }; // Reset alignment on new lines
       tr.split($from.pos).setNodeMarkup($from.pos + 1, null, newNodeAttrs);
-    
+
       dispatch(tr);
       return true;
     };
@@ -287,7 +383,7 @@ const ProseMirrorEditor = ({
         schema,
         plugins: [
           keymap({
-            // 
+            //
             Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
           }),
@@ -296,7 +392,7 @@ const ProseMirrorEditor = ({
           fontSelectionPlugin,
           fontSizeSelectionPlugin,
           textColorPlugin,
-          textBGColorPlugin
+          textBGColorPlugin,
         ],
       }),
       dispatchTransaction(transaction) {
@@ -307,7 +403,7 @@ const ProseMirrorEditor = ({
       },
     });
     setPmView(editor);
-  
+
     // Cleanup on unmount
     return () => {
       editor.destroy();
