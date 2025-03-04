@@ -136,7 +136,7 @@ const DashboardTable = ({
         (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
-      let filterValue = "";
+      let mFilterValue = "";
 
       let routeMenuConfigs = getRouteMenuConfig();
 
@@ -145,11 +145,11 @@ const DashboardTable = ({
         routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) &&
         routeMenuConfigs[hubspotObjectTypeId].activePipeline
       ) {
-        filterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline;
+        mFilterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline;
         setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
       } else {
         if (activeCard && !activePipeline) {
-          filterValue = pipelineSingle.pipelineId;
+          mFilterValue = pipelineSingle.pipelineId;
           setActivePipeline(pipelineSingle.pipelineId);
 
           const routeMenuConfig = {
@@ -159,19 +159,19 @@ const DashboardTable = ({
           };
           setSelectRouteMenuConfig(routeMenuConfig);
         } else {
-          filterValue = activePipeline;
+          mFilterValue = activePipeline;
         }
       }
 
       if (activeCard || activePipeline) {
         setFilterPropertyName("hs_pipeline");
         setFilterOperator("eq");
-        setFilterValue(pipelineSingle.pipelineId);
+        setFilterValue(filterValue || pipelineSingle.pipelineId);
       }
       getData({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
-        filterValue: filterValue,
+        filterValue: mFilterValue,
       });
     },
     onError: () => {
@@ -186,6 +186,7 @@ const DashboardTable = ({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
+      console.log("props?.filterValue", props?.filterValue)
       const param = {
         limit: itemsPerPage || pageLimit,
         page: currentPage,
