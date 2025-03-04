@@ -103,7 +103,7 @@ const DashboardTableData = ({
         <Table className="w-full">
           <TableHeader>
             <TableRow>
-              {tableHeader.map((column) => (
+              {tableHeader.filter((column) => !column.hidden).map((column) => (
                 <TableHead
                   key={column.key}
                   className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"
@@ -151,7 +151,7 @@ const DashboardTableData = ({
                 onMouseEnter={() => handleRowHover(item)}
                 onMouseLeave={() => handleRowHover(null)}
               >
-                {tableHeader.map((column) => (
+                {tableHeader.filter((column) => !column.hidden).map((column) => (
                   <TableCell
                     key={column.value}
                     className="whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b"

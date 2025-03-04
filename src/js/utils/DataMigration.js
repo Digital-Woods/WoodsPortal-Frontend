@@ -290,7 +290,8 @@ const renderCellContent = ({
   item,
   urlParam = null
 }) => {
-
+  // console.log(column);
+  if (column.hidden) return null;
   if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
     return "--";
   }

@@ -38,9 +38,10 @@ class Client {
   };
 
   static user = {
-    profile: async ({ portalId, cache = false, ...query }) => {
+    profile: async ({ portalId, cache, ...query }) => {
       try {
         const url = `/api/${hubId}/${portalId}/profiles`;
+        console.log(cache,'cache');
         const response = await HttpClient.get(url, { cache, ...query }); 
         return response; 
       } catch (error) {

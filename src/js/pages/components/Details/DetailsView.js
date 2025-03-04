@@ -59,7 +59,7 @@ const DetailsView = ({
     <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
       <table className="w-full dark:bg-[#2a2a2a]">
         {item?.length > 0 &&
-          item.map((value, index) =>
+          item.filter((item) => !item.hidden).map((value, index) =>
             value?.key === propertyName && showIframe ? (
               <tr key={value?.key}>
                 <td className="py-2 pr-1 text-sm dark:text-white whitespace-wrap lg:w-[250px] w-[150px] align-top">
