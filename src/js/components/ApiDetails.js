@@ -11,7 +11,8 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   });
   const param = getParam("t");
   const companyAsMediator = getParam("isPrimaryCompany");
-  const [activeTab, setActiveTab] = useState(param || "overview");
+  // const [activeTab, setActiveTab] = useState(param || "overview");
+  const [activeTab, setActiveTab] = useState("overview");
   const [permissions, setPermissions] = useState(null);
   const urlParam = getQueryParamsFromCurrentUrl();
   const [galleryDialog, setGalleryDialog] = useState(false);
@@ -51,16 +52,60 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   ].filter(Boolean);
 
   const setActiveTabFucntion = (active) => {
-    setParam("t", active);
+    // setParam("t", active);
     setActiveTab(active);
+
+    const routeMenuConfig = {
+      key: objectId,
+      details: {
+        activeTab: active
+      },
+    };
+    setSelectRouteMenuConfig(routeMenuConfig);
   };
 
-  useEffect(() => {
-    if (!availableTabs.includes(activeTab)) {
-      setActiveTab("overview");
-      setParam("t", "overview");
+  // Start Cookie RouteMenuConfig
+  const setSelectRouteMenuConfig = (routeMenuConfig) => {
+    let routeMenuConfigs = getRouteMenuConfig();
+    const { key, details } = routeMenuConfig;
+
+    if (routeMenuConfigs[key]) {
+        routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
     }
-  }, [permissions]);
+
+    // console.log('routeMenuConfigs', routeMenuConfigs)
+    setRouteMenuConfig(routeMenuConfigs);
+  };
+
+  // useEffect(() => {
+  //   if (!availableTabs.includes(activeTab)) {
+  //     setActiveTab("overview");
+  //     // setParam("t", "overview");
+
+  //     const routeMenuConfig = {
+  //       key: objectId,
+  //       details: {
+  //         activeTab: "overview"
+  //       },
+  //     };
+  //     setSelectRouteMenuConfig(routeMenuConfig);
+  //   }
+
+  // }, [permissions]);
+
+  useEffect(() => {
+    let routeMenuConfigs = getRouteMenuConfig();
+
+    if (
+      routeMenuConfigs &&
+      routeMenuConfigs.hasOwnProperty(objectId)
+    ) {
+      const activeTab = routeMenuConfigs[objectId]?.details?.activeTab;
+      setActiveTab(activeTab || "overview");
+    } else {
+      setActiveTab("overview");
+    }
+  }, []);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {

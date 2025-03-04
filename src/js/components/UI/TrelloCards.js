@@ -349,6 +349,7 @@ Main Component Starts Here
       newData[newListPosition].cards.splice(newCardPosition, 0, card);
       newData[oldListPosition].count -= 1;
       newData[newListPosition].count += 1;
+      newData[newListPosition].data.results.columns = newData[oldListPosition].data.results.columns;
       // update the state
       setData("directly", newData);
       // Calling Update API
