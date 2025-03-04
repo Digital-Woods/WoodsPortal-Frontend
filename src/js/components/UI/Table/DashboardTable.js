@@ -482,6 +482,9 @@ const DashboardTable = ({
             setItemsPerPage={setItemsPerPage}
             itemsPerPage={itemsPerPage}
             isLoading={isLoading}
+            path={path}
+            viewName={viewName}
+            detailsUrl={detailsUrl}
           />
         )}
 

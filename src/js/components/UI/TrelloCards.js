@@ -205,8 +205,14 @@ const TrelloCards = ({
 
   function Card({ dragItem, item, columns }) {
     const mUrlParam = Object.fromEntries(
-      Object.entries(urlParam).filter(([key]) => key !== "cache")
+      Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
     );
+    const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
+    const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
+    const objectTypeId = getParam("objectTypeId");
+    const isPrimaryCompany = getParam("isPrimaryCompany");
+    const parentObjectTypeId = getParam("parentObjectTypeId");
+    const parentObjectRecordId = getParam("parentObjectRecordId");
     return (
       <div
         className={`rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
