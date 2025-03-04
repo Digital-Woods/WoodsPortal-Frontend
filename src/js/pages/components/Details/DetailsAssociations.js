@@ -238,7 +238,7 @@ const DetailsAssociations = ({
         </div>
         {/* } */}
       </div>
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={association.labels.singular} path={association.labels.plural} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={associationApis} urlParam={param} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={association.labels.singular} path={association.labels.plural} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={associationApis} urlParam={param} refetch={refetch} />}
     </React.Fragment>
   );
 };

@@ -186,7 +186,6 @@ const DashboardTable = ({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
-      console.log("props?.filterValue", props?.filterValue)
       const param = {
         limit: itemsPerPage || pageLimit,
         page: currentPage,
