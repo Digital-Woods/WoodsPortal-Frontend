@@ -20,6 +20,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState(false);
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false); 
 
   // Automatically adjust the sidebar based on screen size
   useEffect(() => {
@@ -77,22 +78,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     setRouteMenuConfig(routeMenuConfigs);
   };
 
-  // useEffect(() => {
-  //   if (!availableTabs.includes(activeTab)) {
-  //     setActiveTab("overview");
-  //     // setParam("t", "overview");
-
-  //     const routeMenuConfig = {
-  //       key: objectId,
-  //       details: {
-  //         activeTab: "overview"
-  //       },
-  //     };
-  //     setSelectRouteMenuConfig(routeMenuConfig);
-  //   }
-
-  // }, [permissions]);
-
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();
 
@@ -139,9 +124,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
       const sortedItems = sortData(details, "details");
       setItems(sortedItems);
       setPermissions(data.configurations);
+      setIsLoadedFirstTime(true);
     },
     onError: (error) => {
       setSync(false);
+      setIsLoadedFirstTime(true);
       console.error("Error fetching file details:", error);
     },
   });
@@ -169,10 +156,10 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     );
   }
 
-  if (isLoading && !item) {
+  if (!isLoadedFirstTime || (sync === true && isLoading) ) {
     return (
       <div>
-        <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:pt-4 pt-3">
+        <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:p-4 p-3">
           <div
             className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
               } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
@@ -201,7 +188,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     <div
       className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
     >
-      {item.length > 0 ? (
+      {item.length > 0 && (
         <div className=" flex relative bg-cleanWhite  h-full dark:bg-dark-200 overflow-hidden">
           {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
@@ -262,35 +249,13 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                         </p>
                       </TabsTrigger>
                     )}
-
-                    {/* <TabsTrigger className="rounded-md" value="trello">
-                      <p className="text-black dark:text-white">Trello</p>
-                    </TabsTrigger> */}
-
-                    {/* <TabsTrigger className="rounded-md" value="photos">
-                    <p className="text-black dark:text-white">Photos</p>
-                  </TabsTrigger> */}
                   </TabsList>
 
                   <TabsContent value="overview"></TabsContent>
                   <TabsContent value="files"></TabsContent>
                   <TabsContent value="notes"></TabsContent>
-                  {/* <TabsContent value="trello"></TabsContent> */}
-                  {/* <TabsContent value="photos"></TabsContent> */}
                 </Tabs>
               </div>
-
-              {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
-
-              {/* {path === "/jobs" && (
-              <div className="col-span-4">
-                <DetailsTable item={item} path={path} />
-              </div>
-            )} */}
-              {/* {sortItems && activeTab === "overview" && (
-              <DetailsView item={item} sortItems={sortItems} />
-            )} */}
-
               {activeTab === "overview" && (
                 <DetailsView
                   propertyName={propertyName}
@@ -337,18 +302,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   title={permissions?.ticket?.display_label || "Tickets"}
                 />
               )}
-
-              {/* {activeTab === "trello" && (
-                <TrelloCards
-                  path={path}
-                  objectId={objectId}
-                  id={id}
-                  parentObjectTypeId={objectId}
-                  parentObjectRowId={id}
-                  permissions={permissions ? permissions.ticket : null}
-                  companyAsMediator={companyAsMediator}
-                />
-              )} */}
 
               {images.length > 0 && activeTab === "photos" && (
                 <DetailsGallery
@@ -431,31 +384,33 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
             </div>
           </Dialog>
         </div>
-      ) : (
-        <div>
-          <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden md:pt-4 pt-3">
-            <div
-              className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-                } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
-            >
-              <DetailsSkeleton />
-            </div>
-            <div
-              className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
-            lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
-            ${isLargeScreen
-                  ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
-                  : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
-                } 
-            ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
-            >
-              <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
-                <DetailsSidebarSkeleton />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      ) 
+      // : (
+      //   <div>
+      //     <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden md:pt-4 pt-3">
+      //       <div
+      //         className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+      //           } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+      //       >
+      //         <DetailsSkeleton />
+      //       </div>
+      //       <div
+      //         className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
+      //       lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
+      //       ${isLargeScreen
+      //             ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
+      //             : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+      //           } 
+      //       ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
+      //       >
+      //         <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
+      //           <DetailsSidebarSkeleton />
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
+      // )
+      }
     </div>
   );
 };

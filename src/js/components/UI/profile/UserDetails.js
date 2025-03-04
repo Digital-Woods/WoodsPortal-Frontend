@@ -1,5 +1,5 @@
 
-const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
+const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime }) => {
     const [item, setItems] = useState([]);
     const [images, setImages] = useState([]);
     const [sortItems, setSortItems] = useState([]);
@@ -69,131 +69,132 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
         updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
     };
 
-    // if (!item) {
-    //     return <div className="loader-line"></div>;
-    // }
-    return (
-        <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
-        >
-            {!isLoading ? (
-                <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
-
-                    {/* main content code start */}
-                    <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
-                        <div className={``}>
-                            <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit my-4">
-                                <Tabs
-                                    activeTab={activeTab}
-                                    setActiveTab={setActiveTabFucntion}
-                                    className="rounded-md"
-                                >
-                                    <TabsList>
-                                        {permissions && permissions?.fileManager?.display && (
-                                            <TabsTrigger className="rounded-md" value="files">
-                                                <p className="text-black dark:text-white">Files</p>
-                                            </TabsTrigger>
-                                        )}
-                                        {permissions && permissions?.note?.display && (
-                                            <TabsTrigger className="rounded-md" value="notes">
-                                                <p className="text-black dark:text-white">Notes</p>
-                                            </TabsTrigger>
-                                        )}
-                                        {permissions && permissions?.ticket?.display && (
-                                            <TabsTrigger className="rounded-md" value="tickets">
-                                                <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}</p>
-                                            </TabsTrigger>
-                                        )}
-                                        {/* <TabsTrigger className="rounded-md" value="photos">
-                      <p className="text-black dark:text-white">Photos</p>
-                    </TabsTrigger> */}
-                                    </TabsList>
-
-                                    <TabsContent value="overview"></TabsContent>
-                                    <TabsContent value="files"></TabsContent>
-                                    <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
-                                    {/* <TabsContent value="photos"></TabsContent> */}
-                                </Tabs>
-                            </div>
-
-                            {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
-
-                            {/* {path === "/jobs" && (
-                <div className="col-span-4">
-                  <DetailsTable item={item} path={path} />
-                </div>
-              )} */}
-                            {/* {sortItems && activeTab === "overview" && (
-                <DetailsView item={item} sortItems={sortItems} />
-              )} */}
-
-                            {activeTab === "files" && (
-                                <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
-                            )}
-
-                            {activeTab === "notes" && (
-                                <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
-                            )}
-
-                            {activeTab === "tickets" && (
-                                // <Tickets
-                                //     path={path}
-                                //     objectId={objectId}
-                                //     id={id}
-                                //     parentObjectTypeId={objectId}
-                                //     parentObjectRowId={id}
-                                //     permissions={permissions ? permissions.ticket : null}
-                                //     companyAsMediator={false}
-                                //     profileTicket={true}
-                                // />
-
-                                <DashboardTable
-                                    hubspotObjectTypeId={'0-5'}
-                                    path={path}
-                                    title={permissions?.ticket?.display_label || "Tickets"}
-                                    apis={apis}
-                                    componentName="ticket"
-                                    defPermissions={permissions ? permissions.ticket : null}
-                                    editView={true}
-
-                                />
-                            )}
-
-                            {images.length > 0 && activeTab === "photos" && (
-                                <DetailsGallery
-                                    images={images}
-                                    setGalleryDialog={setGalleryDialog}
-                                />
-                            )}
-                        </div>
-                    </div>
-                    {/* main content code end */}
-
-                    <Dialog
-                        open={galleryDialog}
-                        onClose={setGalleryDialog}
-                        className="w-[50%]"
-                    >
-                        <div className=" bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
-                            <div className="grid grid-cols-2 gap-4">
-                                {images.map((url, index) => (
-                                    <img
-                                        key={index}
-                                        src={url}
-                                        alt={`Image ${index + 1}`}
-                                        className="w-full h-auto"
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </Dialog>
-                </div>
-            ) : (
+    if ((!isLoadedFirstTime  && activeTab === "files") || (sync === true  && activeTab === "files" ) ) {
+        return (
+            <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
+            >
                 <div className="h-[calc(100vh_-136px)]">
                     <div className="mt-4">
                         <DetailsSkeleton header={false} tabs={3} active={'file'} />
                     </div>
                 </div>
-            )}
+            </div>
+        );
+    }
+    return (
+        <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
+        >
+            <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
+
+                {/* main content code start */}
+                <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+                    <div className={``}>
+                        <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit my-4">
+                            <Tabs
+                                activeTab={activeTab}
+                                setActiveTab={setActiveTabFucntion}
+                                className="rounded-md"
+                            >
+                                <TabsList>
+                                    {permissions && permissions?.fileManager?.display && (
+                                        <TabsTrigger className="rounded-md" value="files">
+                                            <p className="text-black dark:text-white">Files</p>
+                                        </TabsTrigger>
+                                    )}
+                                    {permissions && permissions?.note?.display && (
+                                        <TabsTrigger className="rounded-md" value="notes">
+                                            <p className="text-black dark:text-white">Notes</p>
+                                        </TabsTrigger>
+                                    )}
+                                    {permissions && permissions?.ticket?.display && (
+                                        <TabsTrigger className="rounded-md" value="tickets">
+                                            <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}</p>
+                                        </TabsTrigger>
+                                    )}
+                                    {/* <TabsTrigger className="rounded-md" value="photos">
+  <p className="text-black dark:text-white">Photos</p>
+</TabsTrigger> */}
+                                </TabsList>
+
+                                <TabsContent value="overview"></TabsContent>
+                                <TabsContent value="files"></TabsContent>
+                                <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
+                                {/* <TabsContent value="photos"></TabsContent> */}
+                            </Tabs>
+                        </div>
+
+                        {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
+
+                        {/* {path === "/jobs" && (
+<div className="col-span-4">
+<DetailsTable item={item} path={path} />
+</div>
+)} */}
+                        {/* {sortItems && activeTab === "overview" && (
+<DetailsView item={item} sortItems={sortItems} />
+)} */}
+
+                        {activeTab === "files" && (
+                            <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
+                        )}
+
+                        {activeTab === "notes" && (
+                            <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
+                        )}
+
+                        {activeTab === "tickets" && (
+                            // <Tickets
+                            //     path={path}
+                            //     objectId={objectId}
+                            //     id={id}
+                            //     parentObjectTypeId={objectId}
+                            //     parentObjectRowId={id}
+                            //     permissions={permissions ? permissions.ticket : null}
+                            //     companyAsMediator={false}
+                            //     profileTicket={true}
+                            // />
+
+                            <DashboardTable
+                                hubspotObjectTypeId={'0-5'}
+                                path={path}
+                                title={permissions?.ticket?.display_label || "Tickets"}
+                                apis={apis}
+                                componentName="ticket"
+                                defPermissions={permissions ? permissions.ticket : null}
+                                editView={true}
+
+                            />
+                        )}
+
+                        {images.length > 0 && activeTab === "photos" && (
+                            <DetailsGallery
+                                images={images}
+                                setGalleryDialog={setGalleryDialog}
+                            />
+                        )}
+                    </div>
+                </div>
+                {/* main content code end */}
+
+                <Dialog
+                    open={galleryDialog}
+                    onClose={setGalleryDialog}
+                    className="w-[50%]"
+                >
+                    <div className=" bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+                        <div className="grid grid-cols-2 gap-4">
+                            {images.map((url, index) => (
+                                <img
+                                    key={index}
+                                    src={url}
+                                    alt={`Image ${index + 1}`}
+                                    className="w-full h-auto"
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </Dialog>
+            </div>
         </div>
     );
 };

@@ -484,9 +484,9 @@ const renderCellContent = ({
   if (isArray(value) && value.length > 0) {
     const labels = value.map((item) => item.label).join(", ");
     return (
-      <Tooltip content={labels}>
+      // <Tooltip content={labels}>
         <span className="dark:text-white">{truncatedText(labels)}</span>
-      </Tooltip>
+      // </Tooltip>
     );
   }
 
@@ -496,9 +496,9 @@ const renderCellContent = ({
 
   if (type === 'list' || type === 'homeList' && isTruncated) {
     return (
-      <Tooltip content={value}>
+      // <Tooltip content={value}>
         <span className="dark:text-white">{truncated}</span>
-      </Tooltip>
+      // </Tooltip>
     );
   } else {
     return truncatedText(value);
