@@ -151,7 +151,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading }) => {
                                     path={path}
                                     title={permissions?.ticket?.display_label || "Tickets"}
                                     apis={apis}
-                                    componentName="object"
+                                    componentName="ticket"
                                     defPermissions={permissions ? permissions.ticket : null}
                                     editView={true}
 

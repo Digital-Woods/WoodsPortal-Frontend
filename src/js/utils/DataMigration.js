@@ -426,7 +426,7 @@ const renderCellContent = ({
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          {truncatedText(isObject(value) ? value.label : value)}
+          {truncatedText(isObject(value) ? value.label : value,'23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
