@@ -305,7 +305,7 @@ const DashboardTable = ({
     getData({
       filterPropertyName: "hs_pipeline",
       filterOperator: "eq",
-      filterValue: filterValue,
+      filterValue: activePipeline || filterValue,
     });
   };
   // Handle Filter End
@@ -353,6 +353,7 @@ const DashboardTable = ({
       const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
       setIsLoadingHoldData(true);
       setActiveCard(activeTab === "grid" ? true : false);
+      setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
     } else {
       setIsLoadingHoldData(true);
       setActiveCard(false);
