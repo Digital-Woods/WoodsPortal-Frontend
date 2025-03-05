@@ -86,7 +86,7 @@ const ProseMirrorEditor = ({
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
     const { menuBar } = window.menuBar;
-    const { splitListItem } = window.splitListItem;
+    const { liftListItem } = window.liftListItem;
     const { chainCommands } = window.chainCommands;
     const { exitCode } = window.exitCode;
     const { splitBlock } = window.splitBlock;
@@ -255,28 +255,33 @@ const ProseMirrorEditor = ({
       const { schema, selection } = state;
       const { $from, $to } = selection;
       const tr = state.tr;
-    
+
       if (!dispatch) return false;
-    
+
       // Check if we are inside a list item
       const listItem = $from.node(-1);
+
+      const isEmpty = $from.parent.textContent.length === 0;
+
+      if (isEmpty) {
+        // If the list item is empty, remove it and lift the content out of the list
+        return liftListItem(schema.nodes.list_item)(state, dispatch);
+      }
       if (listItem && listItem.type.name === "list_item") {
         tr.split($from.pos, 2); // Split inside the list item
       } else {
         tr.split($from.pos); // Regular split
       }
-    
+
       // Preserve active marks (bold, italic, etc.)
       const activeMarks = state.storedMarks || $from.marks();
       activeMarks.forEach((mark) => {
         tr.addStoredMark(schema.marks[mark.type.name].create(mark.attrs));
       });
-    
+
       dispatch(tr);
       return true;
     };
-    
-    
 
     // Initialize the editor
     const editor = new EditorView(editorRef.current, {
