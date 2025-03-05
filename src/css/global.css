@@ -747,9 +747,9 @@ tfoot td {
 }
 
 /* ProseMirror Editor */
-.prosemirror-editor {
+/* .prosemirror-editor {
   height: 400px;
-}
+} */
 
 .ProseMirror {
   position: relative;

@@ -111,7 +111,7 @@ const DetailsView = ({
                           associationPath: null,
                           detailsView: null,
                           hoverRow: null,
-                          item: null,
+                          item: item,
                           urlParam: item,
                         }
                       )}

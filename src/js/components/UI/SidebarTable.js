@@ -229,7 +229,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
                           associationPath: path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                           detailsView: detailsView,
                           hoverRow: hoverRow,
-                          item: null,
+                          item: item,
                           urlParam: null,
                         }
                       )}

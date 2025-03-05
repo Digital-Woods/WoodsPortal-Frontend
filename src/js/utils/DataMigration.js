@@ -343,6 +343,19 @@ const renderCellContent = ({
     )
   }
 
+  if (
+    column.key === "amount" && column.showCurrencySymbol
+  ) {
+    let find_currency_code;
+    if (type == 'details') {
+      find_currency_code = item.find(item => item.key === "deal_currency_code");
+    } else {
+      find_currency_code = item.deal_currency_code;
+    }
+    const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value
+    return `${Currency(currency)} ${formatAmount(value)}`;
+  }
+
   if (column.showCurrencySymbol) { // if value is a currency symbol
     const myCurrency = getUserDetails()?.companyCurrency
     return `${Currency(myCurrency)} ${formatAmount(value)}`;
@@ -447,7 +460,7 @@ const renderCellContent = ({
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          {truncatedText(isObject(value) ? value.label : value,'23')}
+          {truncatedText(isObject(value) ? value.label : value, '23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
@@ -485,7 +498,7 @@ const renderCellContent = ({
     const labels = value.map((item) => item.label).join(", ");
     return (
       // <Tooltip content={labels}>
-        <span className="dark:text-white">{truncatedText(labels)}</span>
+      <span className="dark:text-white">{truncatedText(labels)}</span>
       // </Tooltip>
     );
   }
@@ -497,7 +510,7 @@ const renderCellContent = ({
   if (type === 'list' || type === 'homeList' && isTruncated) {
     return (
       // <Tooltip content={value}>
-        <span className="dark:text-white">{truncated}</span>
+      <span className="dark:text-white">{truncated}</span>
       // </Tooltip>
     );
   } else {
@@ -753,6 +766,6 @@ const formatAmount = (amount, locale = "en-US") => {
 
   return new Intl.NumberFormat(locale, {
     maximumFractionDigits: amount % 1 === 0 ? 0 : 2,
-    useGrouping: true, 
+    useGrouping: true,
   }).format(amount);
 };
