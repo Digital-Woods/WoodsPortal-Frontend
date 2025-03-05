@@ -94,7 +94,11 @@ const DashboardTableData = ({
   const handlePageChange = async (page) => {
     await setCurrentPage(page);
     await setAfter((page - 1) * itemsPerPage);
-    getData();
+    getData({
+      filterPropertyName: "hs_pipeline",
+      filterOperator: "eq",
+      filterValue: ""
+    });
   };
 
   return (

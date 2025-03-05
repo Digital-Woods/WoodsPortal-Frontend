@@ -165,10 +165,11 @@ const DashboardTable = ({
       }
 
       if (activeCard || activePipeline) {
+        mFilterValue = filterValue || pipelineSingle.pipelineId
         setFilterPropertyName("hs_pipeline");
         setFilterOperator("eq");
-        setFilterValue(filterValue || pipelineSingle.pipelineId);
       }
+      setFilterValue(mFilterValue);
       getData({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
