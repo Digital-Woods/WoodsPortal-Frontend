@@ -263,10 +263,11 @@ const ProseMirrorEditor = ({
       const listItem = $from.node(-1);
 
       if ($from.parent.textContent.length === 0) {
-        if (listItem && listItem.type.name === "list_item")
+        if (listItem && listItem.type.name === "list_item") {
           liftListItem(schema.nodes.list_item)(state, dispatch);
-        dispatch(tr);
-        return true;
+          dispatch(tr);
+          return true;
+        }
       }
       if (listItem && listItem.type.name === "list_item") {
         tr.split($from.pos, 2); // Split inside the list item
