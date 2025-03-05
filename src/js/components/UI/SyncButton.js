@@ -4,14 +4,15 @@ const SyncButton = () => {
   return (
     <div
       className={`text-sidelayoutTextColor dark:text-white  p-3 text-center
-        ${
-          isSyncLoading || isSyncDisable
-            ? "cursor-not-allowed pointer-events-none"
-            : "cursor-pointer"
+        ${isSyncLoading || isSyncDisable
+          ? "cursor-not-allowed "
+          : "cursor-pointer"
         }
       `}
       onClick={() => {
-        if (!isSyncLoading || !isSyncDisable) setSync(true);
+        if (!isSyncLoading && !isSyncDisable) {
+          setSync(true);
+        }
       }}
     >
       <svg

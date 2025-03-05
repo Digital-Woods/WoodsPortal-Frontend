@@ -73,10 +73,9 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   });
 
   useEffect(() => {
-    if (sync == true) refetch();
+    if (sync){ refetch()};
   }, [sync]);
 
-  // console.log('folderStack', folderStack)
 
   if (isLoading) {
     return <FilesSkeleton />;

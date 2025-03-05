@@ -19,6 +19,7 @@ const Home = ({
   const [cacheEnabled, setCacheEnabled] = useState(true);
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false); 
 
   const fetchUserProfile = async ({ portalId, cache }) => {
     if (!portalId) return null;
@@ -37,10 +38,12 @@ const Home = ({
         setUserObjectId(data?.info?.objectTypeId);
       }
       setSync(false);
+      setIsLoadedFirstTime(true);
     },
     onError: (error) => {
       console.error("Error fetching profile:", error);
       setSync(false);
+      setIsLoadedFirstTime(true);
     }
   });
   
@@ -125,7 +128,7 @@ const Home = ({
             <div className={`${companyDetailsCard == 'true' ? 'grid grid-cols-2 max-sm:grid-cols-1' : ' '}  md:gap-4 gap-3`}>
               <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
               {companyDetailsCard == 'true' ? (
-                <HomeCompanyCard userData={userData} isLoading={isLoading} />
+                <HomeCompanyCard userData={userData} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
               ) : null}
             </div>
 
@@ -141,7 +144,7 @@ const Home = ({
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} />
+            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading}  isLoadedFirstTime={isLoadedFirstTime} />
 
           </div>
 

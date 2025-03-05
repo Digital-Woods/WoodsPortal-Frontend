@@ -10,7 +10,7 @@ const getDisplayData = (objectId, items) => {
     if (!field || field.value === null || field.value === undefined) return "";
 
     if (key === "amount" && field.showCurrencySymbol) {
-      return `${Currency(getUserCurrency())} ${field.value}`;
+      return `${Currency(getUserCurrency())} ${formatAmount(field.value)}`;
     }
 
     return typeof field.value === 'object' && field.value.label ? field.value.label : field.value;
@@ -32,7 +32,7 @@ const getDisplayData = (objectId, items) => {
     case "0-3":
       return {
         primary: findValue("dealname"),
-        secondary: findValue("amount") ? `Amount: ${findValue("amount")}` : 'Amount: --',
+        amount: findValue("amount") ? `Amount: ${findValue("amount")}` : 'Amount: --',
         stage: `Stage: ${findValue("dealstage")}`,
       };
 
@@ -63,6 +63,11 @@ const DetailsHeaderCard = ({
         {displayData?.secondary && (
           <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
             {displayData?.secondary}
+          </p>
+        )}
+        {displayData?.amount && (
+          <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
+            {displayData?.amount}
           </p>
         )}
         {displayData?.domain && (
