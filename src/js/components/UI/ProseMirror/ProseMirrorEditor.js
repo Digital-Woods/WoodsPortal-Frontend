@@ -90,6 +90,7 @@ const ProseMirrorEditor = ({
     const { chainCommands } = window.chainCommands;
     const { exitCode } = window.exitCode;
     const { splitBlock } = window.splitBlock;
+    const { lift } = window.ProseMirrorLift;
 
     // Define schema
     const paragraphNode = {
@@ -261,11 +262,11 @@ const ProseMirrorEditor = ({
       // Check if we are inside a list item
       const listItem = $from.node(-1);
 
-      const isEmpty = $from.parent.textContent.length === 0;
-
-      if (isEmpty) {
-        // If the list item is empty, remove it and lift the content out of the list
-        return liftListItem(schema.nodes.list_item)(state, dispatch);
+      if ($from.parent.textContent.length === 0) {
+        if (listItem && listItem.type.name === "list_item")
+          liftListItem(schema.nodes.list_item)(state, dispatch);
+        dispatch(tr);
+        return true;
       }
       if (listItem && listItem.type.name === "list_item") {
         tr.split($from.pos, 2); // Split inside the list item

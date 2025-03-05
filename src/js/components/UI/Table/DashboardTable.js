@@ -165,7 +165,7 @@ const DashboardTable = ({
       }
 
       if (activeCard || activePipeline) {
-        mFilterValue = filterValue || pipelineSingle.pipelineId
+        // mFilterValue = filterValue || pipelineSingle.pipelineId
         setFilterPropertyName("hs_pipeline");
         setFilterOperator("eq");
       }
@@ -356,6 +356,7 @@ const DashboardTable = ({
       const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
       setIsLoadingHoldData(true);
       setActiveCard(activeTab === "grid" ? true : false);
+      // console.log("routeMenuConfigs[hubspotObjectTypeId]", routeMenuConfigs[hubspotObjectTypeId])
       setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
     } else {
       setIsLoadingHoldData(true);
