@@ -253,128 +253,30 @@ const ProseMirrorEditor = ({
 
     const customEnterHandler = (state, dispatch) => {
       const { schema, selection } = state;
-      const { $from } = selection;
-      const nodeType = schema.nodes.list_item;
+      const { $from, $to } = selection;
       const tr = state.tr;
-
-      // Check if the current block is a list item
-      const parentNode = $from.node(-1);
-      const blockNode = $from.node(1); // Get the paragraph or block-level node
-
-      if (parentNode && parentNode.type === nodeType) {
-        // If inside a list, split the list item
-        return splitListItem(schema.nodes.list_item)(state, dispatch);
-      }
-
-      // If not inside a list, reset alignment on new lines
+    
       if (!dispatch) return false;
-
-      // **Check if 'strong' mark is active**
-      const isBoldActive =
-        state.storedMarks?.some((mark) => mark.type === schema.marks.strong) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.strong);
-
-      // **Check if 'italic' mark is active**
-      const isItalicActive =
-        state.storedMarks?.some((mark) => mark.type === schema.marks.em) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.em);
-
-      // **Check if 'underline' mark is active**
-      const isUnderlineActive =
-        state.storedMarks?.some(
-          (mark) => mark.type === schema.marks.underline
-        ) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.underline);
-
-      // **Check if 'fontFamily' mark is active**
-      const isFontFamilyActive =
-        state.storedMarks?.some(
-          (mark) => mark.type === schema.marks.fontFamily
-        ) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.fontFamily);
-      const fontFamilyMark = state.selection.$from
-        .marks()
-        .find((mark) => mark.type === schema.marks.fontFamily);
-
-      // **Check if 'fontSize' mark is active**
-      const isFontSizeActive =
-        state.storedMarks?.some(
-          (mark) => mark.type === schema.marks.fontSize
-        ) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.fontSize);
-      const fontSizeMark = state.selection.$from
-        .marks()
-        .find((mark) => mark.type === schema.marks.fontSize);
-
-      // **Check if 'textColor' mark is active**
-      const isTextColorActive =
-        state.storedMarks?.some(
-          (mark) => mark.type === schema.marks.textColor
-        ) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.textColor);
-      const textColorMark = state.selection.$from
-        .marks()
-        .find((mark) => mark.type === schema.marks.textColor);
-
-      // **Check if 'textBackgroundColor' mark is active**
-      const isTextBackgroundColorActive =
-        state.storedMarks?.some(
-          (mark) => mark.type === schema.marks.textBackgroundColor
-        ) ||
-        state.selection.$from
-          .marks()
-          .some((mark) => mark.type === schema.marks.textBackgroundColor);
-      const textBackgroundColorMark = state.selection.$from
-        .marks()
-        .find((mark) => mark.type === schema.marks.textBackgroundColor);
-
-      if (
-        isBoldActive ||
-        isUnderlineActive ||
-        isItalicActive ||
-        isFontFamilyActive ||
-        isFontSizeActive ||
-        isTextColorActive ||
-        isTextBackgroundColorActive
-      ) {
-        tr.split($from.pos);
-        if (isBoldActive) tr.addStoredMark(schema.marks.strong.create());
-        if (isItalicActive) tr.addStoredMark(schema.marks.em.create());
-        if (isUnderlineActive)
-          tr.addStoredMark(schema.marks.underline.create());
-        if (isFontFamilyActive)
-          tr.addStoredMark(
-            schema.marks.fontFamily.create(fontFamilyMark.attrs)
-          );
-        if (isFontSizeActive)
-          tr.addStoredMark(schema.marks.fontSize.create(fontSizeMark.attrs));
-        if (isTextColorActive)
-          tr.addStoredMark(schema.marks.textColor.create(textColorMark.attrs));
-        if (isTextBackgroundColorActive)
-          tr.addStoredMark(schema.marks.textBackgroundColor.create(textBackgroundColorMark.attrs));
-        dispatch(tr);
-        return true;
+    
+      // Check if we are inside a list item
+      const listItem = $from.node(-1);
+      if (listItem && listItem.type.name === "list_item") {
+        tr.split($from.pos, 2); // Split inside the list item
+      } else {
+        tr.split($from.pos); // Regular split
       }
-
-      const currentAlignment = blockNode?.attrs?.align || "left"; // Default to left
-      const newNodeAttrs = { align: currentAlignment }; // Reset alignment on new lines
-      tr.split($from.pos).setNodeMarkup($from.pos + 1, null, newNodeAttrs);
-
+    
+      // Preserve active marks (bold, italic, etc.)
+      const activeMarks = state.storedMarks || $from.marks();
+      activeMarks.forEach((mark) => {
+        tr.addStoredMark(schema.marks[mark.type.name].create(mark.attrs));
+      });
+    
       dispatch(tr);
       return true;
     };
+    
+    
 
     // Initialize the editor
     const editor = new EditorView(editorRef.current, {
