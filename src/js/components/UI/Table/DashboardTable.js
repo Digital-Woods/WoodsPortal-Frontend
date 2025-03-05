@@ -159,7 +159,8 @@ const DashboardTable = ({
           };
           setSelectRouteMenuConfig(routeMenuConfig);
         } else {
-          mFilterValue = activePipeline;
+          mFilterValue =
+            data.data.length === 1 ? pipelineSingle.pipelineId : activePipeline;
         }
       }
 
@@ -194,7 +195,8 @@ const DashboardTable = ({
         search: searchTerm,
         filterPropertyName: props?.filterPropertyName || filterPropertyName,
         filterOperator: props?.filterOperator || filterOperator,
-        filterValue: props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
+        filterValue:
+          props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
         cache: sync ? false : true,
         isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
         view: activeCard ? "BOARD" : "LIST",
@@ -217,7 +219,7 @@ const DashboardTable = ({
       if (data.statusCode === "200") {
         // if (currentPage === 1) setGridData('reset', [])
         if (activeCard) {
-          setActiveCardData(data?.data)
+          setActiveCardData(data?.data);
         } else {
           setTotalItems(data?.data?.total || 0);
           setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
@@ -305,7 +307,7 @@ const DashboardTable = ({
     getData({
       filterPropertyName: "hs_pipeline",
       filterOperator: "eq",
-      filterValue: filterValue,
+      filterValue: activePipeline || filterValue,
     });
   };
   // Handle Filter End
@@ -353,6 +355,7 @@ const DashboardTable = ({
       const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
       setIsLoadingHoldData(true);
       setActiveCard(activeTab === "grid" ? true : false);
+      setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
     } else {
       setIsLoadingHoldData(true);
       setActiveCard(false);
@@ -403,7 +406,7 @@ const DashboardTable = ({
 
   // Initial Call Pipeline
   useEffect(() => {
-    if(activeCard != null) {
+    if (activeCard != null) {
       getPipelines();
     }
   }, [activeCard]);
@@ -420,7 +423,12 @@ const DashboardTable = ({
 
   return (
     <div
-      className={` ${hubSpotUserDetails.sideMenu[0].tabName === title || componentName === "ticket" ? "mt-0" : "md:mt-4 mt-3"} rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      className={` ${
+        hubSpotUserDetails.sideMenu[0].tabName === title ||
+        componentName === "ticket"
+          ? "mt-0"
+          : "md:mt-4 mt-3"
+      } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
@@ -442,26 +450,34 @@ const DashboardTable = ({
         defPermissions={defPermissions}
       />
 
-      {isLoading && (
-        activeCard
-          ? (!activeCardData ? <BoardViewSkeleton /> : null)
-          : <TableSkeleton />
-      )}
+      {isLoading &&
+        (activeCard ? (
+          !activeCardData ? (
+            <BoardViewSkeleton />
+          ) : null
+        ) : (
+          <TableSkeleton />
+        ))}
 
-      {!isLoading && !activeCard && (apiResponse?.data?.total === 0 || apiResponse?.data?.total == null) && (
-        <div className="text-center pb-4">
-          <EmptyMessageCard
-            name={
-              hubSpotUserDetails.sideMenu[0].tabName === title ? "item" : title
-            }
-          />
-          {permissions && permissions.association && (
-            <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
-              {permissions.associationMessage}
-            </p>
-          )}
-        </div>
-      )}
+      {!isLoading &&
+        !activeCard &&
+        (apiResponse?.data?.total === 0 ||
+          apiResponse?.data?.total == null) && (
+          <div className="text-center pb-4">
+            <EmptyMessageCard
+              name={
+                hubSpotUserDetails.sideMenu[0].tabName === title
+                  ? "item"
+                  : title
+              }
+            />
+            {permissions && permissions.association && (
+              <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
+                {permissions.associationMessage}
+              </p>
+            )}
+          </div>
+        )}
 
       {activeCard &&
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
