@@ -88,7 +88,11 @@ const DashboardTableData = ({
       newSortConfig = column; // Toggle back to ascending if clicked again
     }
     setSortConfig(newSortConfig);
-    getData();
+    getData({
+      filterPropertyName: "hs_pipeline",
+      filterOperator: "eq",
+      filterValue: ""
+    });
   };
 
   const handlePageChange = async (page) => {

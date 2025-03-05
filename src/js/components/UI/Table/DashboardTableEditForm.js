@@ -164,7 +164,11 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     },
     onSuccess: async (response) => {
       setAlert({ message: response.statusMsg, type: "success" });
-      refetch()
+      refetch({
+        filterPropertyName: "hs_pipeline",
+        filterOperator: "eq",
+        filterValue: ""
+      })
       // setSync(true)
       setOpenModal(false)
     },
