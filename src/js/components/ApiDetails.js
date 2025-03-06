@@ -159,7 +159,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   if (!isLoadedFirstTime || (sync === true && isLoading) ) {
     return (
       <div>
-        <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:p-4 p-3">
+        <div className=" flex relative z-[1] bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:p-4 p-3">
           <div
             className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
               } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
