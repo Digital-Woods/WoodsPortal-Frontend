@@ -343,19 +343,35 @@ const renderCellContent = ({
     )
   }
 
+  // if (
+  //   column.key === "amount" && column.showCurrencySymbol
+  // ) {
+  //   let find_currency_code;
+  //   if (type == 'details') {
+  //     find_currency_code = item.find(item => item.key === "deal_currency_code");
+  //   } else {
+  //     find_currency_code = item.deal_currency_code;
+  //   }
+  //   const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value
+  //   return `${Currency(currency)} ${formatAmount(value)}`;
+  // }
   if (
     column.key === "amount" && column.showCurrencySymbol
   ) {
     let find_currency_code;
+    
     if (type == 'details') {
-      find_currency_code = item.find(item => item.key === "deal_currency_code");
+      find_currency_code = Array.isArray(item) ? item.find(i => i.key === "deal_currency_code") : null;
     } else {
-      find_currency_code = item.deal_currency_code;
+      find_currency_code = item && item.deal_currency_code ? item.deal_currency_code : null;
     }
-    const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value
-    return `${Currency(currency)} ${formatAmount(value)}`;
+  
+    if (find_currency_code && find_currency_code.value) {
+      const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value;
+      return `${Currency(currency)} ${formatAmount(value)}`;
+    }
   }
-
+  
   if (column.showCurrencySymbol) { // if value is a currency symbol
     const myCurrency = getUserDetails()?.companyCurrency
     return `${Currency(myCurrency)} ${formatAmount(value)}`;

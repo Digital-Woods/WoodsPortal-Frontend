@@ -411,8 +411,6 @@ const DashboardTable = ({
     if (activeCard != null) {
       getPipelines();
     }
-    setCurrentPage(1);
-    setItemsPerPage(pageLimit);
   }, [activeCard]);
 
   useEffect(() => {

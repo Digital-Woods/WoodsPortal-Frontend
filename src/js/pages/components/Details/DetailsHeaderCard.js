@@ -5,15 +5,36 @@ const getDisplayData = (objectId, items) => {
     return getUserDetails()?.companyCurrency || "USD";
   };
 
+  // const findValue = (key) => {
+  //   const field = items.find((item) => item.key === key);
+  //   if (!field || field.value === null || field.value === undefined) return "";
+
+  //   if (key === "amount" && field.showCurrencySymbol) {
+  //     return `${Currency(getUserCurrency())} ${formatAmount(field.value)}`;
+  //   }
+
+  //   return typeof field.value === 'object' && field.value.label ? field.value.label : field.value;
+  // };
+
   const findValue = (key) => {
     const field = items.find((item) => item.key === key);
     if (!field || field.value === null || field.value === undefined) return "";
-
-    if (key === "amount" && field.showCurrencySymbol) {
-      return `${Currency(getUserCurrency())} ${formatAmount(field.value)}`;
+  
+    let currencyCode = getUserCurrency(); // Default currency
+  
+    if (key === "amount") {
+      // Check if items.deal_currency_code is available
+      const currencyField = items.find((item) => item.key === "deal_currency_code");
+      if (currencyField && currencyField.value) {
+        currencyCode = typeof currencyField.value === "object" ? currencyField.value.value : currencyField.value;
+      }
+  
+      if (field.showCurrencySymbol) {
+        return `${Currency(currencyCode)} ${formatAmount(field.value)}`;
+      }
     }
-
-    return typeof field.value === 'object' && field.value.label ? field.value.label : field.value;
+  
+    return typeof field.value === "object" && field.value.label ? field.value.label : field.value;
   };
 
   switch (objectId) {
