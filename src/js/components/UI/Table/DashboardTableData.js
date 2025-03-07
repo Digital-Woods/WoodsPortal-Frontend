@@ -28,7 +28,7 @@ const sortedHeaders = (headers) => {
 const DashboardTableData = ({
   getData,
   apiResponse,
-  numOfPages,
+  // numOfPages,
   viewName,
   companyAsMediator,
   path,
@@ -37,15 +37,28 @@ const DashboardTableData = ({
   hoverRow,
   urlParam,
   handleRowHover,
-  currentPage,
-  setCurrentPage,
-  sortConfig,
-  setSortConfig,
-  setAfter,
-  itemsPerPage,
-  setItemsPerPage,
+  // currentPage,
+  // setCurrentPage,
+  // sortConfig,
+  // setSortConfig,
+  // setAfter,
+  // itemsPerPage,
+  // setItemsPerPage,
   detailsUrl
 }) => {
+  const {
+    page,
+    setPage,
+    sort,
+    setSort,
+    after,
+    setAfter,
+    limit,
+    setLimit,
+    numOfPages
+  } = useTable();
+
+
   // console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
     Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
@@ -71,7 +84,8 @@ const DashboardTableData = ({
     const columns = data.data.results.columns || [];
     setTableData(results);
     setTotalItems(data.data.total || 0);
-    setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
+    // setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
+    setLimit(results.length > 0 ? limit : 0);
     setCurrentItems(results.length);
     setTableHeader(sortData(columns));
   };
@@ -82,23 +96,34 @@ const DashboardTableData = ({
 
   const handleSort = (column) => {
     let newSortConfig = column;
-    if (sortConfig === column) {
+    if (sort === column) {
       newSortConfig = `-${column}`; // Toggle to descending if the same column is clicked again
-    } else if (sortConfig === `-${column}`) {
+    } else if (sort === `-${column}`) {
       newSortConfig = column; // Toggle back to ascending if clicked again
     }
-    setSortConfig(newSortConfig);
-    getData();
+    setSort(newSortConfig);
+
+    // console.log("call get data", sort)
+
+    // setSortConfig(newSortConfig);
+    // getData({
+    //   filterPropertyName: "hs_pipeline",
+    //   filterOperator: "eq",
+    //   filterValue: ""
+    // });
+    getData()
   };
 
   const handlePageChange = async (page) => {
-    await setCurrentPage(page);
-    await setAfter((page - 1) * itemsPerPage);
-    getData({
-      filterPropertyName: "hs_pipeline",
-      filterOperator: "eq",
-      filterValue: ""
-    });
+    await setPage(page);
+    await setAfter((page - 1) * limit);
+    // getData({
+    //   filterPropertyName: "hs_pipeline",
+    //   filterOperator: "eq",
+    //   filterValue: ""
+    // });
+    getData()
+    // console.log("call get data", currentPage)
   };
 
   return (
@@ -117,7 +142,7 @@ const DashboardTableData = ({
                     <span className="font-semibold text-xs">
                       {formatColumnLabel(column.value)}
                     </span>
-                    {sortConfig === column.key && (
+                    {sort === column.key && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 -960 960 960"
@@ -127,7 +152,7 @@ const DashboardTableData = ({
                         <path d="m280-400 200-200 200 200H280Z" />
                       </svg>
                     )}
-                    {sortConfig === `-${column.key}` && (
+                    {sort === `-${column.key}` && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 -960 960 960"
@@ -279,7 +304,7 @@ const DashboardTableData = ({
         <div className="flex justify-end">
           <Pagination
             numOfPages={numOfPages || 1}
-            currentPage={currentPage}
+            currentPage={page}
             setCurrentPage={handlePageChange}
           />
         </div>

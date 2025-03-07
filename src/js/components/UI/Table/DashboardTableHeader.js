@@ -3,25 +3,40 @@ const DashboardTableHeader = ({
   componentName,
   permissions,
   hubspotObjectTypeId,
-  activePipeline,
-  activeCard,
+  // activePipeline,
   setActiveTab,
-  searchTerm,
+  // search,
   handelChangePipeline,
   pipelines,
-  setSearchTerm,
-  setCurrentPage,
-  setItemsPerPage,
+  // setSearchTerm,
+  // setCurrentPage,
+  // setItemsPerPage,
   handleSearch,
   setShowAddDialog,
-  pageLimit,
+  // pageLimit,
   defPermissions,
 }) => {
+  const pageLimit = env.TABLE_PAGE_LIMIT;
+  const {
+    view,
+    search,
+    setSearch,
+    selectedPipeline,
+    setSelectedPipeline,
+    setPage,
+    setLimit
+  } = useTable();
+
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
 
   useEffect(() => {
     setShowPippelineFilter(pipelines?.length === 1 ? false : true);
   }, [pipelines]);
+
+  const handelPipeline = (value) => {
+    setSelectedPipeline(hubspotObjectTypeId, pipelines, value)
+    handelChangePipeline()
+  }
 
   return (
     <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
@@ -31,10 +46,10 @@ const DashboardTableHeader = ({
             <button
               type="button"
               onClick={() => {
-                if (activeCard) setActiveTab(false);
+                if (view != "LIST") setActiveTab("LIST");
               }}
               className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md hover:bg-gray-50 dark:hover:bg-dark-500 last:rounded-e-md text-sm font-medium text-gray-800 ${
-                activeCard
+                view === "BOARD"
                   ? " bg-graySecondary dark:bg-dark-200"
                   : "bg-white dark:bg-dark-400"
               }`}
@@ -54,10 +69,10 @@ const DashboardTableHeader = ({
             <button
               type="button"
               onClick={() => {
-                if (!activeCard) setActiveTab(true);
+                if (view != "BOARD") setActiveTab("BOARD");
               }}
               className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 hover:bg-gray-50 dark:hover:bg-dark-500 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800 ${
-                activeCard
+                view === "BOARD"
                   ? "bg-white dark:bg-dark-400"
                   : " bg-graySecondary dark:bg-dark-200"
               }`}
@@ -92,10 +107,10 @@ const DashboardTableHeader = ({
             <div className="w-[180px]">
               <select
                 className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                value={activePipeline}
-                onChange={(e) => handelChangePipeline(e.target?.value || "")}
+                value={selectedPipeline}
+                onChange={(e) => handelPipeline(e.target?.value || "")}
               >
-                <option value="" disabled={activeCard} selected>
+                <option value="" disabled={view === "BOARD"} selected>
                   All Pipelines
                 </option>
                 {pipelines.map((item) => (
@@ -111,21 +126,21 @@ const DashboardTableHeader = ({
               placeholder="Search..."
               height="semiMedium"
               icon={SearchIcon}
-              value={searchTerm}
+              value={search}
               onChange={async (e) => {
-                await setSearchTerm(e.target.value);
+                await setSearch(e.target.value);
                 if (e.target.value === "") handleSearch();
               }}
               onKeyDown={async (e) => {
                 if (e.key === "Enter") {
-                  await setCurrentPage(1);
-                  await setItemsPerPage(pageLimit);
+                  await setPage(1);
+                  await setLimit(pageLimit);
                   handleSearch(); // Trigger search when Enter is pressed
                 }
               }}
               className="pr-12"
             />
-            {searchTerm && (
+            {search && (
               <div
                 className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={handleSearch} // Trigger search on button click
@@ -134,12 +149,12 @@ const DashboardTableHeader = ({
               </div>
             )}
           </Tooltip>
-          {searchTerm && (
+          {search && (
             <Button
               onClick={async () => {
-                await setSearchTerm("");
-                await setCurrentPage(1);
-                await setItemsPerPage(pageLimit);
+                await setSearch("");
+                await setPage(1);
+                await setLimit(pageLimit);
                 handleSearch();
               }}
               variant="link"

@@ -1,22 +1,31 @@
 const TrelloCards = ({
   hubspotObjectTypeId,
   activeCardData,
-  activePipeline,
+  // activePipeline,
   isLoadingPipelines,
   urlParam,
   companyAsMediator,
   getData,
-  setAfter,
-  currentPage,
-  setCurrentPage,
-  setItemsPerPage,
-  itemsPerPage,
+  // setAfter,
+  // currentPage,
+  // setCurrentPage,
+  // setItemsPerPage,
+  // itemsPerPage,
   isLoading,
   path,
   viewName,
   detailsView,
   detailsUrl
 }) => {
+
+  const {
+    setPage,
+    setAfter,
+    limit,
+    selectedPipeline
+  } = useTable();
+
+
   // console.log('TrelloCards', true)
   const { gridData: data, setGridData: setData } = useTable();
 
@@ -266,9 +275,9 @@ Main Component Starts Here
 
 =================================================================*/
 
-  const handlePageChange = async (limit) => {
-    await setCurrentPage(1);
-    await setItemsPerPage(limit);
+  const handlePageChange = async (mLimit) => {
+    await setPage(1);
+    await limit(mLimit);
     await setAfter((1 - 1) * itemsPerPage);
     await getData();
   };
@@ -298,8 +307,8 @@ Main Component Starts Here
         )}`,
         data:
           hubspotObjectTypeId == "0-3"
-            ? { pipeline: activePipeline, dealstage: stageId }
-            : { hs_pipeline: activePipeline, hs_pipeline_stage: stageId },
+            ? { pipeline: selectedPipeline, dealstage: stageId }
+            : { hs_pipeline: selectedPipeline, hs_pipeline_stage: stageId },
       });
     },
     onSuccess: (resp) => {

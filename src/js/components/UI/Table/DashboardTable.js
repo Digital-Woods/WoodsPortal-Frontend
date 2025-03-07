@@ -42,57 +42,81 @@ const DashboardTable = ({
   specPipeLine,
   setTotalRecord = null,
 }) => {
+  const {
+    view,
+    setView,
+    search,
+    selectedPipeline,
+    setDefaultPipeline,
+    getTableParam,
+    setSelectedPipeline,
+    limit,
+    setLimit,
+    totalItems,
+    setTotalItems,
+    numOfPages,
+    setNumOfPages,
+    resetTableParam,
+    setSelectRouteMenuConfig
+  } = useTable();
+
+
+
   const [apiResponse, setApiResponse] = useState(null);
   // const [tableData, setTableData] = useState([]);
 
-  const pageLimit = env.TABLE_PAGE_LIMIT;
+  // const pageLimit = env.TABLE_PAGE_LIMIT;
   const [urlParam, setUrlParam] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
-  const [numOfPages, setNumOfPages] = useState();
-  const [totalItems, setTotalItems] = useState(0);
+  // const [numOfPages, setNumOfPages] = useState();
+  // const [totalItems, setTotalItems] = useState(0);
   // const [currentItems, setCurrentItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(pageLimit);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(pageLimit);
+  // const [currentPage, setCurrentPage] = useState(1);
   // const [tableHeader, setTableHeader] = useState([]);
-  const [after, setAfter] = useState("");
-  const [sortConfig, setSortConfig] = useState("-hs_createdate");
-  const [filterPropertyName, setFilterPropertyName] = useState(null);
-  const [filterOperator, setFilterOperator] = useState(null);
-  const [filterValue, setFilterValue] = useState(null);
+  // const [after, setAfter] = useState("");
+  // const [sortConfig, setSortConfig] = useState("-hs_createdate");
+  // const [filterPropertyName, setFilterPropertyName] = useState(null);
+  // const [filterOperator, setFilterOperator] = useState(null);
+  // const [filterValue, setFilterValue] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [permissions, setPermissions] = useState(null);
   const [hoverRow, setHoverRow] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  // const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   // Pipelines
   const [pipelines, setPipelines] = useState([]);
-  const [activePipeline, setActivePipeline] = useState();
+  // const [activePipeline, setActivePipeline] = useState();
 
   // added for card view
   const [isLoadingHoldData, setIsLoadingHoldData] = useState(null);
   const [activeCard, setActiveCard] = useState(null);
-  const [activeCardPrevData, setActivePrevCardData] = useState(null);
+  // const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
-  const [stageDataCount, setStageDataCount] = useState(true);
+  // const [stageDataCount, setStageDataCount] = useState(true);
 
   const { sync, setSync } = useSync();
 
-  useEffect(() => {
-    setNumOfPages(Math.ceil(totalItems / itemsPerPage));
-  }, [totalItems, itemsPerPage, searchTerm]);
+  // useEffect(() => {
+  //   setNumOfPages(Math.ceil(totalItems / itemsPerPage));
+  // }, [totalItems, itemsPerPage, searchTerm]);
 
-  useEffect(() => {
-    const hash = location.hash; // Get the hash fragment
-    const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
-    const queryParams = new URLSearchParams(hash.substring(queryIndex)); // Parse the query string
+  //  useEffect(() => {
+  //   setNumOfPages(Math.ceil(totalItems / itemsPerPage));
+  // }, [totalItems, itemsPerPage, searchTerm]);
 
-    setFilterPropertyName(queryParams.get("filterPropertyName"));
-    setFilterOperator(queryParams.get("filterOperator"));
-    setFilterValue(queryParams.get("filterValue"));
-  }, [location.search]);
+  // useEffect(() => {
+  //   const hash = location.hash; // Get the hash fragment
+  //   const queryIndex = hash.indexOf("?"); // Find the start of the query string in the hash
+  //   const queryParams = new URLSearchParams(hash.substring(queryIndex)); // Parse the query string
+
+  //   setFilterPropertyName(queryParams.get("filterPropertyName"));
+  //   setFilterOperator(queryParams.get("filterOperator"));
+  //   setFilterValue(queryParams.get("filterValue"));
+  // }, [location.search]);
 
   // const mapResponseData = (data) => {
   //   const results = data.data.results.rows || [];
@@ -132,48 +156,47 @@ const DashboardTable = ({
     onSuccess: (data) => {
       setPipelines(data.data);
       // // Hey Get HERE //
-      const pipelineSingle = data.data.find(
-        (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
-      );
 
-      let mFilterValue = "";
+      // let mFilterValue = "";
 
-      let routeMenuConfigs = getRouteMenuConfig();
+      // let routeMenuConfigs = getRouteMenuConfig();
 
-      if (
-        routeMenuConfigs &&
-        routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) &&
-        routeMenuConfigs[hubspotObjectTypeId].activePipeline
-      ) {
-        mFilterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline;
-        setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
-      } else {
-        if (activeCard && !activePipeline) {
-          mFilterValue = pipelineSingle.pipelineId;
-          setActivePipeline(pipelineSingle.pipelineId);
+      // if (
+      //   routeMenuConfigs &&
+      //   routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) &&
+      //   routeMenuConfigs[hubspotObjectTypeId].activePipeline
+      // ) {
+      //   mFilterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline;
+      //   setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
+      // } else {
+      //   if (activeCard && !activePipeline) {
+      //     mFilterValue = pipelineSingle.pipelineId;
+      //     setActivePipeline(pipelineSingle.pipelineId);
 
-          const routeMenuConfig = {
-            [hubspotObjectTypeId]: {
-              activePipeline: pipelineSingle.pipelineId,
-            },
-          };
-          setSelectRouteMenuConfig(routeMenuConfig);
-        } else {
-          mFilterValue =
-            data.data.length === 1 ? pipelineSingle.pipelineId : activePipeline;
-        }
-      }
+      //     const routeMenuConfig = {
+      //       [hubspotObjectTypeId]: {
+      //         activePipeline: pipelineSingle.pipelineId,
+      //       },
+      //     };
+      //     setSelectRouteMenuConfig(routeMenuConfig);
+      //   } else {
+      //     mFilterValue =
+      //       data.data.length === 1 ? pipelineSingle.pipelineId : activePipeline;
+      //   }
+      // }
 
-      if (activeCard || activePipeline) {
-        // mFilterValue = filterValue || pipelineSingle.pipelineId
-        setFilterPropertyName("hs_pipeline");
-        setFilterOperator("eq");
-      }
-      setFilterValue(mFilterValue);
+      setDefaultPipeline(data, hubspotObjectTypeId)
+
+      // if (activeCard || activePipeline) {
+      //   // mFilterValue = filterValue || pipelineSingle.pipelineId
+      //   setFilterPropertyName("hs_pipeline");
+      //   setFilterOperator("eq");
+      // }
+      // setFilterValue(mFilterValue);
       getData({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
-        filterValue: mFilterValue,
+        filterValue: selectedPipeline,
       });
     },
     onError: () => {
@@ -188,21 +211,24 @@ const DashboardTable = ({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
-      const param = {
-        limit: itemsPerPage || pageLimit,
-        page: currentPage,
-        ...(after && after.length > 0 && { after }),
-        sort: sortConfig,
-        search: searchTerm,
-        filterPropertyName: props?.filterPropertyName || filterPropertyName,
-        filterOperator: props?.filterOperator || filterOperator,
-        filterValue:
-          props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
-        cache: sync ? false : true,
-        isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-        view: activeCard ? "BOARD" : "LIST",
-      };
+      // const param = {
+      //   limit: itemsPerPage || pageLimit,
+      //   page: currentPage,
+      //   ...(after && after.length > 0 && { after }),
+      //   sort: sortConfig,
+      //   search: searchTerm,
+      //   filterPropertyName: props?.filterPropertyName || filterPropertyName,
+      //   filterOperator: props?.filterOperator || filterOperator,
+      //   filterValue:
+      //     props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
+      //   cache: sync ? false : true,
+      //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+      //   view: activeCard ? "BOARD" : "LIST",
+      // };
+      const param = getTableParam(companyAsMediator);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
+
+      // console.log('param', getTableParam(companyAsMediator))
 
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
 
@@ -219,11 +245,16 @@ const DashboardTable = ({
       setSync(false);
       if (data.statusCode === "200") {
         // if (currentPage === 1) setGridData('reset', [])
-        if (activeCard) {
+        
+        if (view === "BOARD") {
           setActiveCardData(data?.data);
         } else {
-          setTotalItems(data?.data?.total || 0);
-          setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
+          const totalData = data?.data?.total;
+          setTotalItems(totalData || 0);
+          // setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
+          const ItemsPerPage = totalData > 0 ? limit : 0
+          setLimit(ItemsPerPage)
+          setNumOfPages(Math.ceil(totalData / ItemsPerPage));
         }
         setTotalRecord(data?.data?.total || 0);
         if (defPermissions === null) {
@@ -304,46 +335,49 @@ const DashboardTable = ({
   };
 
   const handleSearch = () => {
-    if (!searchTerm.trim()) return;
-    getData({
-      filterPropertyName: "hs_pipeline",
-      filterOperator: "eq",
-      filterValue: activePipeline || filterValue,
-    });
+    // if (!searchTerm.trim()) return;
+    // getData({
+    //   filterPropertyName: "hs_pipeline",
+    //   filterOperator: "eq",
+    //   filterValue: activePipeline || filterValue,
+    // });
+    getData()
+    // console.log("call get data", search)
   };
   // Handle Filter End
 
   // Start Cookie RouteMenuConfig
-  const setSelectRouteMenuConfig = (routeMenuConfig) => {
-    let routeMenuConfigs = getRouteMenuConfig();
+  // const setSelectRouteMenuConfig = (routeMenuConfig) => {
+  //   let routeMenuConfigs = getRouteMenuConfig();
 
-    Object.keys(routeMenuConfig).forEach((key) => {
-      if (!routeMenuConfigs) routeMenuConfigs = {};
-      if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
-        routeMenuConfigs[key] = routeMenuConfig[key];
-      } else {
-        if (routeMenuConfig[key]?.activeTab)
-          routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
-        if (routeMenuConfig[key]?.activePipeline) {
-          routeMenuConfigs[key].activePipeline =
-            routeMenuConfig[key].activePipeline;
-        } else {
-          routeMenuConfigs[key].activePipeline = "";
-        }
-      }
-    });
-    setRouteMenuConfig(routeMenuConfigs);
-  };
+  //   Object.keys(routeMenuConfig).forEach((key) => {
+  //     if (!routeMenuConfigs) routeMenuConfigs = {};
+  //     if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
+  //       routeMenuConfigs[key] = routeMenuConfig[key];
+  //     } else {
+  //       if (routeMenuConfig[key]?.activeTab)
+  //         routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
+  //       if (routeMenuConfig[key]?.activePipeline) {
+  //         routeMenuConfigs[key].activePipeline =
+  //           routeMenuConfig[key].activePipeline;
+  //       } else {
+  //         routeMenuConfigs[key].activePipeline = "";
+  //       }
+  //     }
+  //   });
+  //   setRouteMenuConfig(routeMenuConfigs);
+  // };
 
-  const setActiveTab = (status) => {
+  const setActiveTab = (selectView) => {
     setIsLoadingHoldData(true);
-    setActiveCard(status);
+    // setActiveCard(status);
     const routeMenuConfig = {
       [hubspotObjectTypeId]: {
-        activeTab: status ? "grid" : "list",
+        activeTab: selectView === "BOARD" ? "grid" : "list",
       },
     };
     setSelectRouteMenuConfig(routeMenuConfig);
+    setView(selectView)
   };
 
   useEffect(() => {
@@ -355,69 +389,76 @@ const DashboardTable = ({
     ) {
       const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
       setIsLoadingHoldData(true);
-      setActiveCard(activeTab === "grid" ? true : false);
-      // console.log("routeMenuConfigs[hubspotObjectTypeId]", routeMenuConfigs[hubspotObjectTypeId])
-      setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
+      // setActiveCard(activeTab === "grid" ? true : false);
+      setView(activeTab === "grid" ? "BOARD" : "LIST");
+      // setActivePipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
+      setSelectedPipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
     } else {
       setIsLoadingHoldData(true);
-      setActiveCard(false);
+      // setActiveCard(false);
+      setView("LIST");
     }
   }, []);
   // End Cookie RouteMenuConfig
 
   // CHange Pipeline
-  const handelChangePipeline = (pipeLineId) => {
-    setCurrentPage(1);
-    let filterValue = "";
-    if (pipeLineId) {
-      const pipelineSingle = pipelines.find(
-        (pipeline) => pipeline.pipelineId === pipeLineId
-      );
-      setFilterPropertyName("hs_pipeline");
-      setFilterOperator("eq");
-      setFilterValue(pipelineSingle.pipelineId);
-      setActivePipeline(pipelineSingle.pipelineId);
-      filterValue = pipelineSingle.pipelineId;
-    } else {
-      setFilterPropertyName(null);
-      setFilterOperator(null);
-      setFilterValue(null);
-      setActivePipeline(null);
+  const handelChangePipeline = async (pipeLineId) => {
+    // setCurrentPage(1);
+    // let filterValue = "";
+    // if (pipeLineId) {
+    //   const pipelineSingle = pipelines.find(
+    //     (pipeline) => pipeline.pipelineId === pipeLineId
+    //   );
+    //   setFilterPropertyName("hs_pipeline");
+    //   setFilterOperator("eq");
+    //   setFilterValue(pipelineSingle.pipelineId);
+    //   setActivePipeline(pipelineSingle.pipelineId);
+    //   filterValue = pipelineSingle.pipelineId;
+    // } else {
+    //   setFilterPropertyName(null);
+    //   setFilterOperator(null);
+    //   setFilterValue(null);
+    //   setActivePipeline(null);
+    // }
 
-      // const routeMenuConfig = {
-      //   [hubspotObjectTypeId]: {
-      //     activePipeline: null,
-      //   },
-      // };
-      // setSelectRouteMenuConfig(routeMenuConfig);
-    }
+    // const routeMenuConfig = {
+    //   [hubspotObjectTypeId]: {
+    //     activePipeline: pipeLineId,
+    //   },
+    // };
+    // setSelectRouteMenuConfig(routeMenuConfig);
 
-    const routeMenuConfig = {
-      [hubspotObjectTypeId]: {
-        activePipeline: pipeLineId,
-      },
-    };
-    setSelectRouteMenuConfig(routeMenuConfig);
-
-    getData({
-      filterPropertyName: "hs_pipeline",
-      filterOperator: "eq",
-      filterValue: filterValue,
-    });
+    // getData({
+    //   filterPropertyName: "hs_pipeline",
+    //   filterOperator: "eq",
+    //   filterValue: filterValue,
+    // });
+    // changePipeline(hubspotObjectTypeId, pipelines, pipeLineId);
+    getData()
   };
 
   // Initial Call Pipeline
+  // useEffect(() => {
+  //   if (activeCard != null) {
+  //     getPipelines();
+  //   }
+  // }, [activeCard]);
+
   useEffect(() => {
-    if (activeCard != null) {
+    if (view != null) {
       getPipelines();
     }
-  }, [activeCard]);
+  }, [view]);
 
   useEffect(() => {
     if (sync) {
       getPipelines();
     }
   }, [sync]);
+
+  useEffect(() => {
+    resetTableParam();
+  }, []);
 
   if (isLoadingHoldData === true) {
     return activeCardData ? <BoardViewSkeleton /> : <TableSkeleton />;
@@ -437,23 +478,23 @@ const DashboardTable = ({
         componentName={componentName}
         permissions={permissions}
         hubspotObjectTypeId={hubspotObjectTypeId}
-        activePipeline={activePipeline}
-        activeCard={activeCard}
+        // activePipeline={activePipeline}
+        view={view}
         setActiveTab={setActiveTab}
-        searchTerm={searchTerm}
+        // searchTerm={searchTerm}
         handelChangePipeline={handelChangePipeline}
         pipelines={pipelines}
-        setSearchTerm={setSearchTerm}
-        setCurrentPage={setCurrentPage}
-        setItemsPerPage={setItemsPerPage}
+        // setSearchTerm={setSearchTerm}
+        // setCurrentPage={setCurrentPage}
+        // setItemsPerPage={setItemsPerPage}
         handleSearch={handleSearch}
         setShowAddDialog={setShowAddDialog}
-        pageLimit={pageLimit}
+        // pageLimit={pageLimit}
         defPermissions={defPermissions}
       />
 
       {isLoading &&
-        (activeCard ? (
+        (view === "BOARD" ? (
           !activeCardData ? (
             <BoardViewSkeleton />
           ) : null
@@ -462,7 +503,7 @@ const DashboardTable = ({
         ))}
 
       {!isLoading &&
-        !activeCard &&
+        !view != "BOARD" &&
         (apiResponse?.data?.total === 0 ||
           apiResponse?.data?.total == null) && (
           <div className="text-center pb-4">
@@ -481,24 +522,24 @@ const DashboardTable = ({
           </div>
         )}
 
-      {activeCard &&
+      {view === "BOARD" &&
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
           <TrelloCards
             hubspotObjectTypeId={hubspotObjectTypeId}
             // getTrelloCardsData={getTrelloCardsData}
             activeCardData={activeCardData}
             pipelines={pipelines}
-            activePipeline={activePipeline}
+            // activePipeline={activePipeline}
             isLoadingPipelines={isLoadingPipelines}
             urlParam={urlParam}
             companyAsMediator={companyAsMediator}
             // handleCardPageChange={handleCardPageChange}
             getData={getData}
-            setAfter={setAfter}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            setItemsPerPage={setItemsPerPage}
-            itemsPerPage={itemsPerPage}
+            // setAfter={setAfter}
+            // currentPage={currentPage}
+            // setCurrentPage={setCurrentPage}
+            // setItemsPerPage={setItemsPerPage}
+            // itemsPerPage={itemsPerPage}
             isLoading={isLoading}
             path={path}
             viewName={viewName}
@@ -506,7 +547,7 @@ const DashboardTable = ({
           />
         )}
 
-      {!isLoading && !activeCard && apiResponse?.data?.total > 0 && (
+      {!isLoading && view === "LIST" && apiResponse?.data?.total > 0 && (
         <DashboardTableData
           getData={getData}
           apiResponse={apiResponse}
@@ -519,13 +560,13 @@ const DashboardTable = ({
           hoverRow={hoverRow}
           urlParam={urlParam}
           handleRowHover={handleRowHover}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          sortConfig={sortConfig}
-          setSortConfig={setSortConfig}
-          setAfter={setAfter}
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
+          // currentPage={currentPage}
+          // setCurrentPage={setCurrentPage}
+          // sortConfig={sortConfig}
+          // setSortConfig={setSortConfig}
+          // setAfter={setAfter}
+          // itemsPerPage={itemsPerPage}
+          // setItemsPerPage={setItemsPerPage}
           detailsUrl={detailsUrl}
         />
       )}
