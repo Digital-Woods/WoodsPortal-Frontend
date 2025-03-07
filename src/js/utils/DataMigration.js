@@ -453,7 +453,7 @@ const renderCellContent = ({
           onClick={changeRoute}
           to={associationPath}
         >
-          {truncatedText(isObject(value) ? value.label : value, "25")}
+          {truncatedText(isObject(value) ? value.label : value, "23")}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
@@ -499,7 +499,7 @@ const renderCellContent = ({
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          {truncatedText(isObject(value) ? value.label : value)}
+          {truncatedText(isObject(value) ? value.label : value,'23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
@@ -514,19 +514,19 @@ const renderCellContent = ({
     const labels = value.map((item) => item.label).join(", ");
     return (
       // <Tooltip content={labels}>
-      <span className="dark:text-white">{truncatedText(labels)}</span>
+      <span className="dark:text-white">{truncatedText(labels,'23')}</span>
       // </Tooltip>
     );
   }
 
-  if (isObject(value)) return truncatedText(value.label) || "--";
+  if (isObject(value)) return truncatedText(value.label,'23') || "--";
 
   const { truncated, isTruncated } = truncateString(value || "");
 
-  if (type === 'list' || type === 'homeList' && isTruncated) {
+  if (type === 'list' || type === 'homeList') {
     return (
       // <Tooltip content={value}>
-      <span className="dark:text-white">{truncated}</span>
+      <span className="dark:text-white">{truncatedText(value,'23')}</span>
       // </Tooltip>
     );
   } else {
