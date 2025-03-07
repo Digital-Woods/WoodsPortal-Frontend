@@ -15,17 +15,9 @@ const BoardView = ({
   path,
   viewName,
   detailsView,
-  detailsUrl
+  detailsUrl,
 }) => {
-
-  const {
-    setPage,
-    setAfter,
-    limit,
-    setLimit,
-    selectedPipeline
-  } = useTable();
-
+  const { setPage, setAfter, limit, setLimit, selectedPipeline } = useTable();
 
   // console.log('TrelloCards', true)
   const { gridData: data, setGridData: setData } = useTable();
@@ -215,7 +207,9 @@ const BoardView = ({
 
   function Card({ dragItem, item, columns }) {
     const mUrlParam = Object.fromEntries(
-      Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
+      Object.entries(urlParam || {}).filter(
+        ([key]) => key !== "cache" && key !== "limit"
+      )
     );
     const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
     const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
@@ -236,10 +230,25 @@ const BoardView = ({
               value: item[column.key],
               column: column,
               itemId: item?.hs_object_id,
-              path: path == "/association" ? `/${getParam("objectTypeName")}` : item[column.key],
-              hubspotObjectTypeId: path == "/association" ? getParam("objectTypeId") : hubspotObjectTypeId,
+              path:
+                path == "/association"
+                  ? `/${getParam("objectTypeName")}`
+                  : item[column.key],
+              hubspotObjectTypeId:
+                path == "/association"
+                  ? getParam("objectTypeId")
+                  : hubspotObjectTypeId,
               type: "list",
-              associationPath: viewName === "ticket" ? `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}` : (path == "/association" ? `/${item[column.key]}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : ""),
+              associationPath:
+                viewName === "ticket"
+                  ? `/${item[column.key]}/${
+                      env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets
+                    }/${item.hs_object_id}${detailsUrl}`
+                  : path == "/association"
+                  ? `/${item[column.key]}/${objectTypeId}/${
+                      item.hs_object_id
+                    }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}`
+                  : "",
               detailsView: detailsView,
               hoverRow: null,
               item: item,
@@ -283,18 +292,20 @@ Main Component Starts Here
   };
 
   useEffect(() => {
-    if (activeCardData?.results?.length > 0) {
-      if (hubspotObjectTypeId == "0-3") {
-        if (activeCardData?.results?.length > 0) {
-          setData("deals", activeCardData?.results);
+    if (!isLoading) {
+      if (activeCardData?.total > 0) {
+        if (hubspotObjectTypeId == "0-3") {
+          if (activeCardData?.results?.length > 0) {
+            setData("deals", activeCardData?.results);
+          }
+        } else {
+          if (activeCardData?.results?.length > 0) {
+            setData("tickets", activeCardData?.results);
+          }
         }
       } else {
-        if (activeCardData?.results?.length > 0) {
-          setData("tickets", activeCardData?.results);
-        }
+        removeTicketsDeals();
       }
-    } else {
-      removeTicketsDeals();
     }
   }, [activeCardData, isLoading]);
 
@@ -358,7 +369,8 @@ Main Component Starts Here
       newData[newListPosition].cards.splice(newCardPosition, 0, card);
       newData[oldListPosition].count -= 1;
       newData[newListPosition].count += 1;
-      newData[newListPosition].data.results.columns = newData[oldListPosition].data.results.columns;
+      newData[newListPosition].data.results.columns =
+        newData[oldListPosition].data.results.columns;
       // update the state
       setData("directly", newData);
       // Calling Update API
@@ -388,7 +400,7 @@ Main Component Starts Here
     //   updateDealsByPipeline(dragItem,activePipeline)
   }
 
-  return (
+  return data.length > 0 ? (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
@@ -409,12 +421,14 @@ Main Component Starts Here
                   </Drag.DropZone>
                   <Drag.DropZones
                     className={`min-w-[280px] relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
-                    ${
-                      listPosition === 0
-                        ? "rounded-s-md border-r-1  border-l-1"
-                        : "border-l-0"
-                    } 
-                    ${listPosition === data.length - 1 ? "rounded-e-md" : ""}`}
+                      ${
+                        listPosition === 0
+                          ? "rounded-s-md border-r-1  border-l-1"
+                          : "border-l-0"
+                      } 
+                      ${
+                        listPosition === data.length - 1 ? "rounded-e-md" : ""
+                      }`}
                     prevId={listPosition}
                     nextId={listPosition + 1}
                     dropType="list"
@@ -522,5 +536,5 @@ Main Component Starts Here
         )}
       </Drag>
     </div>
-  );
+  ) : null;
 };
