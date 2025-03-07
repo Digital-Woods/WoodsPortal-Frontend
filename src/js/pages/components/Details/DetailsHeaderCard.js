@@ -64,8 +64,12 @@ const getDisplayData = (objectId, items) => {
         stage: `Status: ${findValue("hs_pipeline_stage")}`,
       };
 
-    default:
-      return { primary: findValue("name") };
+      default:
+        let primaryValue = findValue("name");
+        if (!primaryValue) {
+          primaryValue = items.length > 0 ? items[0].value : "";
+        }
+        return { primary: primaryValue };
   }
 };
 
