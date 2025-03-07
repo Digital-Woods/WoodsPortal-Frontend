@@ -292,18 +292,20 @@ Main Component Starts Here
   };
 
   useEffect(() => {
-    if (activeCardData?.total > 0) {
-      if (hubspotObjectTypeId == "0-3") {
-        if (activeCardData?.results?.length > 0) {
-          setData("deals", activeCardData?.results);
+    if (!isLoading) {
+      if (activeCardData?.total > 0) {
+        if (hubspotObjectTypeId == "0-3") {
+          if (activeCardData?.results?.length > 0) {
+            setData("deals", activeCardData?.results);
+          }
+        } else {
+          if (activeCardData?.results?.length > 0) {
+            setData("tickets", activeCardData?.results);
+          }
         }
       } else {
-        if (activeCardData?.results?.length > 0) {
-          setData("tickets", activeCardData?.results);
-        }
+        removeTicketsDeals();
       }
-    } else {
-      removeTicketsDeals();
     }
   }, [activeCardData, isLoading]);
 
