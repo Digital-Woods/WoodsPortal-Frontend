@@ -45,8 +45,6 @@ Axios.interceptors.request.use(
     // store the new cancel token source in the map
     pendingRequests.set(requestIdentifier, newCancelTokenSource);
     numberOfAjaxCAllPending++;
-    console.log("numberOfAjaxCAllPending_0", numberOfAjaxCAllPending)
-
 
     return config;
   },
@@ -101,7 +99,6 @@ class HttpClient {
     updateSyncDisableState(true);
     const response = await Axios.put(url, data);
      updateSyncDisableState(numberOfAjaxCAllPending === 0 ? false : true);
-    console.log("numberOfAjaxCAllPending", numberOfAjaxCAllPending)
     return response.data;
   }
 
