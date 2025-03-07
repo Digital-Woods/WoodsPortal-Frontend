@@ -22,6 +22,7 @@ const TrelloCards = ({
     setPage,
     setAfter,
     limit,
+    setLimit,
     selectedPipeline
   } = useTable();
 
@@ -277,8 +278,8 @@ Main Component Starts Here
 
   const handlePageChange = async (mLimit) => {
     await setPage(1);
-    await limit(mLimit);
-    await setAfter((1 - 1) * itemsPerPage);
+    await setLimit(mLimit);
+    await setAfter((1 - 1) * limit);
     await getData();
   };
 
@@ -501,7 +502,7 @@ Main Component Starts Here
                     {data[listPosition]?.data?.hasMore ? (
                       <div className="bg-[#f5f8fa] dark:bg-dark-500 flex items-center justify-center p-2 sticky bottom-0">
                         <Button
-                          onClick={() => handlePageChange(itemsPerPage + 10)}
+                          onClick={() => handlePageChange(limit + 10)}
                           size="sm"
                           isLoading={isLoading}
                         >
