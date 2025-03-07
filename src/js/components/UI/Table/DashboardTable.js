@@ -93,7 +93,7 @@ const DashboardTable = ({
 
   // added for card view
   const [isLoadingHoldData, setIsLoadingHoldData] = useState(null);
-  const [activeCard, setActiveCard] = useState(null);
+  // const [activeCard, setActiveCard] = useState(null);
   // const [activeCardPrevData, setActivePrevCardData] = useState(null);
   const [activeCardData, setActiveCardData] = useState([]);
   // const [stageDataCount, setStageDataCount] = useState(true);
@@ -493,7 +493,7 @@ const DashboardTable = ({
         defPermissions={defPermissions}
       />
 
-      {isLoading &&
+      {/* {isLoading &&
         (view === "BOARD" ? (
           !activeCardData ? (
             <BoardViewSkeleton />
@@ -501,6 +501,7 @@ const DashboardTable = ({
         ) : (
           <TableSkeleton />
         ))}
+         */}
 
       {!isLoading &&
         !view != "BOARD" &&
@@ -524,7 +525,7 @@ const DashboardTable = ({
 
       {view === "BOARD" &&
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-          <TrelloCards
+          <BoardView
             hubspotObjectTypeId={hubspotObjectTypeId}
             // getTrelloCardsData={getTrelloCardsData}
             activeCardData={activeCardData}
