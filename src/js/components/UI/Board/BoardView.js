@@ -229,7 +229,6 @@ const TrelloCards = ({
           dragItem ? " rotate-6" : ""
         }`}
       >
-        {/* {console.log('renderCellContent', true)} */}
         {columns.map((column) => (
           <div>
             {renderCellContent({
@@ -243,7 +242,7 @@ const TrelloCards = ({
               associationPath: viewName === "ticket" ? `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}` : (path == "/association" ? `/${item[column.key]}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : ""),
               detailsView: detailsView,
               hoverRow: null,
-              item: null,
+              item: item,
               urlParam: toQueryString(mUrlParam),
             })}
           </div>
