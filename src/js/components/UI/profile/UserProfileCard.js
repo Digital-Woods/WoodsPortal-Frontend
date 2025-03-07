@@ -80,7 +80,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                         {
                                             companyAsMediator: false,
                                             value: value?.value,
-                                            column: value,
+                                            column:  { ...value, key },
                                             itemId: null,
                                             path: null,
                                             hubspotObjectTypeId: null,
@@ -127,7 +127,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                                             {
                                                                 companyAsMediator: false,
                                                                 value: value?.value,
-                                                                column: value,
+                                                                column:  { ...value, key },
                                                             }
                                                         )}
                                                     </div>
