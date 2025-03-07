@@ -107,7 +107,7 @@ function useTable() {
   const [isPrimaryCompany, setIsPrimaryCompany] = Recoil.useRecoilState(
     tableIsPrimaryCompanyState
   );
-  const [view, setView] = Recoil.useRecoilState(tableViewState);
+  const [view, changeView] = Recoil.useRecoilState(tableViewState);
 
   const [selectedPipeline, changePipeline] = Recoil.useRecoilState(
     tableSelectedPipelineState
@@ -123,6 +123,11 @@ function useTable() {
   //   filterOperator: "eq",
   //   filterValue: activePipeline || filterValue,
   // };
+
+  const setView = (mView) => {
+    setPage(1)
+    changeView(mView)
+  }
 
   const resetTableParam = () => {
     setSort("-hs_createdate");

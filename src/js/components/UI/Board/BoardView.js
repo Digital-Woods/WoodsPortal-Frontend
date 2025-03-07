@@ -229,7 +229,6 @@ const TrelloCards = ({
           dragItem ? " rotate-6" : ""
         }`}
       >
-        {/* {console.log('renderCellContent', true)} */}
         {columns.map((column) => (
           <div>
             {renderCellContent({
