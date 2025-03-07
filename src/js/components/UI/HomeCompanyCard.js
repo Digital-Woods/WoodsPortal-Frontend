@@ -69,7 +69,7 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
                                             {
                                                 companyAsMediator: false,
                                                 value: value?.value,
-                                                column: value,
+                                                column: { ...value, key },
                                             }
                                         )}
                                     </div>
@@ -125,7 +125,7 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
                                         {
                                             companyAsMediator: false,
                                             value: value?.value,
-                                            column: value,
+                                            column: { ...value, key },
                                         }
                                     )}
                                 </div>

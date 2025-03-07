@@ -1,12 +1,31 @@
-const Details = ({ path, objectId, id }) => {
+const Details = ({ path, objectId, id, title }) => {
+  const { breadcrumbs } = useBreadcrumb();
 
+  const decodeToBase64 = (base64) => {
+    const decodedStr = atob(base64);
+    return decodedStr;
+  };
+
+  let breadcrumb = getParam("b");
+
+  let breadcrumbItems = breadcrumb
+    ? JSON.parse(decodeToBase64(breadcrumb))
+    : breadcrumbs;
+  let tabName = breadcrumbItems.length > 1 ? breadcrumbItems[breadcrumbItems.length - 2].name : breadcrumbItems[0].name;
+  
   // Find the object in moduleIframeListOptions that matches the objectId
-  const matchedObject = 
-  moduleIframeListOptions.find((item) => item.hubspotObjectTypeId === objectId) || '';
+
+  // const matchedObject = 
+  // moduleIframeListOptions.find((item) => item.hubspotObjectTypeId && item.label === objectId && tabName ) || '';
+
+  const matchedObject = moduleIframeListOptions.find(
+    (item) => item.hubspotObjectTypeId === objectId && item.label === tabName
+  ) || '';
+  
   // Extract propertyName and showIframe from the matched object
   const propertyName = matchedObject.propertyName || '';
   const showIframe = matchedObject.showIframe || false;
-  const { isLargeScreen } = useResponsive();
+
 
 
   return (
