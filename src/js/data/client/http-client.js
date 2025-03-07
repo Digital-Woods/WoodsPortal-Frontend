@@ -1,4 +1,5 @@
 const pendingRequests = new Map();
+var numberOfAjaxCAllPending = 0;
 
 const Axios = axios.create({
   baseURL: env.API_BASE_URL,
@@ -43,6 +44,9 @@ Axios.interceptors.request.use(
 
     // store the new cancel token source in the map
     pendingRequests.set(requestIdentifier, newCancelTokenSource);
+    numberOfAjaxCAllPending++;
+    console.log("numberOfAjaxCAllPending_0", numberOfAjaxCAllPending)
+
 
     return config;
   },
@@ -52,8 +56,12 @@ Axios.interceptors.request.use(
 );
 
 Axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    numberOfAjaxCAllPending = Math.max(0, numberOfAjaxCAllPending - 1); // Ensure it never goes below 0
+    return response;
+  },
   (error) => {
+    numberOfAjaxCAllPending = Math.max(0, numberOfAjaxCAllPending - 1);
     if (
       (error.response && error.response.status === 401) ||
       // (error.response && error.response.status === 403) ||
@@ -69,35 +77,38 @@ Axios.interceptors.response.use(
 
 class HttpClient {
   static async get(url, params) {
+    updateSyncDisableState(true);
     const response = await Axios.get(url, { params });
+    updateSyncDisableState(numberOfAjaxCAllPending === 0 ? false : true);
     return response.data;
   }
 
   static async post(url, data, options) {
     updateSyncDisableState(true);
     const response = await Axios.post(url, data, options);
-    updateSyncDisableState(false);
+     updateSyncDisableState(numberOfAjaxCAllPending === 0 ? false : true);
     return response.data;
   }
 
   static async patch(url, data) {
     updateSyncDisableState(true);
     const response = await Axios.patch(url, data);
-    updateSyncDisableState(false);
+     updateSyncDisableState(numberOfAjaxCAllPending === 0 ? false : true);
     return response.data;
   }
 
   static async put(url, data) {
     updateSyncDisableState(true);
     const response = await Axios.put(url, data);
-    updateSyncDisableState(false);
+     updateSyncDisableState(numberOfAjaxCAllPending === 0 ? false : true);
+    console.log("numberOfAjaxCAllPending", numberOfAjaxCAllPending)
     return response.data;
   }
 
   static async delete(url) {
     updateSyncDisableState(true);
     const response = await Axios.delete(url);
-    updateSyncDisableState(false);
+     updateSyncDisableState(numberOfAjaxCAllPending === 0 ? false : true);
     return response.data;
   }
 
