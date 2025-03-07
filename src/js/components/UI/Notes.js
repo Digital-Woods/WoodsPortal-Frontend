@@ -227,7 +227,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   }
 
   const limit = 10;
-  const { data, error, isLoading, refetch } = useQuery({
+  const { data, error, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["data", page],
     queryFn: async () =>
       await Client.notes.all({
@@ -246,11 +246,11 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       setSync(false);
       console.error("Error fetching file details:", error);
     },
-    refetchInterval: env.NOTE_INTERVAL_TIME,
+    refetchInterval: sync ? env.NOTE_INTERVAL_TIME : false,
   });
 
   useEffect(() => {
-    if (sync == true) refetch();
+    if (sync) refetch();
   }, [sync]);
 
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
@@ -309,7 +309,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
   
-  if (isLoading && !results) {
+  if (isLoading || isFetching) {
     return <NoteSkeleton />;
   }
 

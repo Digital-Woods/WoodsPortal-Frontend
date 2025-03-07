@@ -252,7 +252,8 @@ const DashboardTable = ({
           const totalData = data?.data?.total;
           setTotalItems(totalData || 0);
           // setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
-          const ItemsPerPage = totalData > 0 ? limit : 0
+          // const ItemsPerPage = totalData > 0 ? limit : 0
+          const ItemsPerPage = limit;
           setLimit(ItemsPerPage)
           setNumOfPages(Math.ceil(totalData / ItemsPerPage));
         }
