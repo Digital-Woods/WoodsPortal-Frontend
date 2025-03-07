@@ -5,37 +5,29 @@ const getDisplayData = (objectId, items) => {
     return getUserDetails()?.companyCurrency || "USD";
   };
 
-  // const findValue = (key) => {
-  //   const field = items.find((item) => item.key === key);
-  //   if (!field || field.value === null || field.value === undefined) return "";
-
-  //   if (key === "amount" && field.showCurrencySymbol) {
-  //     return `${Currency(getUserCurrency())} ${formatAmount(field.value)}`;
-  //   }
-
-  //   return typeof field.value === 'object' && field.value.label ? field.value.label : field.value;
-  // };
-
   const findValue = (key) => {
     const field = items.find((item) => item.key === key);
     if (!field || field.value === null || field.value === undefined) return "";
-  
+
     let currencyCode = getUserCurrency(); // Default currency
-  
+
     if (key === "amount") {
-      // Check if items.deal_currency_code is available
       const currencyField = items.find((item) => item.key === "deal_currency_code");
       if (currencyField && currencyField.value) {
         currencyCode = typeof currencyField.value === "object" ? currencyField.value.value : currencyField.value;
       }
-  
+
       if (field.showCurrencySymbol) {
         return `${Currency(currencyCode)} ${formatAmount(field.value)}`;
       }
     }
-  
+
     return typeof field.value === "object" && field.value.label ? field.value.label : field.value;
   };
+
+  // Determine primary value based on `isPrimaryDisplayProperty`
+  const primaryItem = items.find((item) => item.isPrimaryDisplayProperty);
+  let primaryValue = primaryItem ? primaryItem.value : null;
 
   switch (objectId) {
     case "0-1":
@@ -46,30 +38,28 @@ const getDisplayData = (objectId, items) => {
 
     case "0-2":
       return {
-        primary: findValue("name"),
-        domain: findValue("domain") ? findValue("domain") : null,
+        primary: primaryValue,
+        domain: findValue("domain") || null,
       };
 
     case "0-3":
       return {
-        primary: findValue("dealname"),
-        amount: findValue("amount") ? `Amount: ${findValue("amount")}` : 'Amount: --',
+        primary: primaryValue,
+        amount: findValue("amount") ? `Amount: ${findValue("amount")}` : "Amount: --",
         stage: `Stage: ${findValue("dealstage")}`,
       };
 
     case "0-5":
       return {
-        primary: findValue("subject"),
+        primary: primaryValue,
         date: findValue("closedate") ? `Close date: ${formatDate(findValue("closedate"))}` : `Created date: ${formatDate(findValue("createdate"))}`,
         stage: `Status: ${findValue("hs_pipeline_stage")}`,
       };
 
-      default:
-        let primaryValue = findValue("name");
-        if (!primaryValue) {
-          primaryValue = items.length > 0 ? items[0].value : "";
-        }
-        return { primary: primaryValue };
+    default:
+      return {
+        primary: primaryValue || (items.length > 0 ? items[0].value : ""),
+      };
   }
 };
 
