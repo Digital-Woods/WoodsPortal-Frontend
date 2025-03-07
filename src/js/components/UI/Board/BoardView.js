@@ -1,4 +1,4 @@
-const TrelloCards = ({
+const BoardView = ({
   hubspotObjectTypeId,
   activeCardData,
   // activePipeline,
@@ -283,7 +283,7 @@ Main Component Starts Here
   };
 
   useEffect(() => {
-    if (!isLoading && activeCardData?.results?.length > 0) {
+    if (activeCardData?.results?.length > 0) {
       if (hubspotObjectTypeId == "0-3") {
         if (activeCardData?.results?.length > 0) {
           setData("deals", activeCardData?.results);
@@ -390,8 +390,6 @@ Main Component Starts Here
 
   return (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
-      {isLoadingPipelines && <div className="loader-line"></div>}
-
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
           <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">
