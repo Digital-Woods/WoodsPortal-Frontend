@@ -144,6 +144,7 @@ function useTable() {
     setIsPrimaryCompany(null);
     changePipeline("");
   };
+  const { sync, setSync } = useSync();
 
   const getTableParam = (companyAsMediator) => ({
     // const param = {
@@ -168,7 +169,7 @@ function useTable() {
     filterPropertyName: filterPropertyName,
     filterOperator: filterOperator,
     filterValue: selectedPipeline,
-    // cache: sync ? false : true,
+    cache: sync ? false : true,
     isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
     view: view,
   });
