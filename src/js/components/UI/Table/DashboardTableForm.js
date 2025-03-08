@@ -207,7 +207,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                               <FormControl>
                                 <div>
                                   {
-                                    filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                    filled.fieldType == 'select' || filled.fieldType == 'radio' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
                                       <Select
                                         label={`Select ${filled.customLabel}`}
                                         name={filled.name}

@@ -8,6 +8,7 @@ const MainLayout = ({ children }) => {
   const [showPortalMessage, setShowPortalMessage] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
+  const [dashboardTabName, setDashboardTabName] = React.useState('');
 
   const defaultRoutes = [
     {
@@ -83,6 +84,7 @@ const MainLayout = ({ children }) => {
     }));
     setRoutes(apiRoutes);
     setIsLoading(false);
+    setDashboardTabName(sideMenu[0]?.children[0]?.tabName ? formatPath(sideMenu[0]?.children[0]?.tabName):'');
   }, []);
 
   if (isLoading) {
@@ -280,7 +282,7 @@ const MainLayout = ({ children }) => {
                           title={`${title}`}
                           icon={icon}
                         />
-                        {path === "/home" ? (
+                        {path === `/${dashboardTabName}` ? (
                           <Home
                             {...props}
                             hubspotObjectTypeId={hubspotObjectTypeId}
