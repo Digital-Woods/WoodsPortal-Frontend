@@ -260,6 +260,7 @@ const ProseMirrorEditor = ({
         [boldItem, italicItem, underlineMenuItem],
         [fontMenuItem, fontSizeMenuItem],
         [textColor, textBGColor],
+        [clearFormattingNoteMenuItem],
         [blockquoteItem],
         [alignmentDropdown],
         [listMenuItem],
