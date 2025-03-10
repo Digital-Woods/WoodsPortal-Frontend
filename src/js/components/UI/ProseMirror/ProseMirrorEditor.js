@@ -30,7 +30,8 @@ const ProseMirrorEditor = ({
   const editorRef = useRef(null);
   const [pmState, setPmState] = useState();
   const [pmView, setPmView] = useState();
-  const [editorShema, setEditorSchema] = useState();
+  const [editorShema, setEditorSchema] = useState(null);
+  const [initialDoc, setInitialDoc] = useState(null);
   const { DOMSerializer } = window.DOMSerializer;
 
   useEffect(() => {
@@ -79,18 +80,9 @@ const ProseMirrorEditor = ({
   };
 
   useEffect(() => {
-    const { EditorState } = window.ProseMirrorState;
-    const { EditorView } = window.ProseMirrorView;
     const { Schema, DOMParser } = window.ProseMirrorModel;
-    const { keymap, baseKeymap } = window.ProseMirrorKeymap;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
-    const { menuBar } = window.menuBar;
-    const { liftListItem } = window.liftListItem;
-    const { chainCommands } = window.chainCommands;
-    const { exitCode } = window.exitCode;
-    const { splitBlock } = window.splitBlock;
-    const { lift } = window.ProseMirrorLift;
 
     // Define schema
     const paragraphNode = {
@@ -103,7 +95,7 @@ const ProseMirrorEditor = ({
         {
           tag: "p",
           getAttrs: (dom) => ({
-            align: dom.style.textAlign || null,
+            align: dom?.style?.textAlign || null,
           }),
         },
       ],
@@ -215,12 +207,34 @@ const ProseMirrorEditor = ({
       },
     });
     setEditorSchema(schema);
+  }, []);
 
+  useEffect(() => {
+    const { Schema, DOMParser } = window.ProseMirrorModel;
+    if (!editorShema) return;
     // Create an initial document with some content
     const initialContent = document.createElement("div");
     // initialContent.innerHTML = `<p>Start typing!</p> <p><img src="https://prosemirror.net/img/picture.png" alt="Image" contenteditable="false"><img class="ProseMirror-separator" alt=""><br class="ProseMirror-trailingBreak"></p>`;
     initialContent.innerHTML = initialData;
-    const initialDoc = DOMParser.fromSchema(schema).parse(initialContent);
+    const mInitialDoc = DOMParser.fromSchema(editorShema).parse(initialContent);
+    setInitialDoc(mInitialDoc);
+  }, [editorShema]);
+
+  useEffect(() => {
+    if (!editorShema && !initialDoc) return;
+
+    const { EditorState } = window.ProseMirrorState;
+    const { EditorView } = window.ProseMirrorView;
+    const { keymap, baseKeymap } = window.ProseMirrorKeymap;
+    const { menuBar } = window.menuBar;
+    const { liftListItem } = window.liftListItem;
+    const { chainCommands } = window.chainCommands;
+    const { exitCode } = window.exitCode;
+    const { splitBlock } = window.splitBlock;
+    const { lift } = window.ProseMirrorLift;
+
+
+    const schema = editorShema;
 
     const imageUploader = () => {
       return customMenuItemImage(
@@ -311,13 +325,13 @@ const ProseMirrorEditor = ({
         setPmState(newState);
       },
     });
-    setPmView(editor);
+    // setPmView(editor);
 
     // Cleanup on unmount
     return () => {
       editor.destroy();
     };
-  }, []);
+  }, [editorShema, initialDoc]);
 
   const getContentString = () => {
     let fragment = DOMSerializer.fromSchema(editorShema).serializeFragment(
@@ -331,7 +345,6 @@ const ProseMirrorEditor = ({
   useEffect(() => {
     if (pmState) {
       const content = getContentString();
-      // console.log("content", content);
       setEditorContent(content);
     }
   }, [pmState?.doc.toJSON()]);

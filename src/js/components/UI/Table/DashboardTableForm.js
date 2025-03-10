@@ -80,11 +80,12 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
       setAlert({ message: response.statusMsg, type: "success" });
       if (!addAnother) {
         // setSync(true);
-        refetch({
-          filterPropertyName: "hs_pipeline",
-          filterOperator: "eq",
-          filterValue: ""
-        });
+        // refetch({
+        //   filterPropertyName: "hs_pipeline",
+        //   filterOperator: "eq",
+        //   filterValue: ""
+        // });
+        refetch(response)
       }
       if (!variables.addAnother) {
         setOpenModal(false);

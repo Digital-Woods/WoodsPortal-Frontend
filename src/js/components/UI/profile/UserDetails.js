@@ -52,12 +52,45 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const setActiveTabFucntion = (active) => {
         // setParam("t", active);
         setActiveTab(active);
+
+        const routeMenuConfig = {
+            key: 'home',
+            details: {
+              activeTab: active
+            },
+        };
+        setSelectRouteMenuConfig(routeMenuConfig);
     };
+
+    // Start Cookie RouteMenuConfig
+    const setSelectRouteMenuConfig = (routeMenuConfig) => {
+        let routeMenuConfigs = getRouteMenuConfig();
+        const { key, details } = routeMenuConfig;
+
+        routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
+
+        setRouteMenuConfig(routeMenuConfigs);
+    };
+    
+    useEffect(() => {
+        let routeMenuConfigs = getRouteMenuConfig();
+    
+        if (
+          routeMenuConfigs &&
+          routeMenuConfigs.hasOwnProperty('home')
+        ) {
+          const activeTab = routeMenuConfigs.home?.details?.activeTab;
+          setActiveTab(activeTab || "files");
+        } else {
+          setActiveTab("files");
+        }
+    }, []);
+
     let portalId;
     if (env.DATA_SOURCE_SET != true) {
         portalId = getPortal()?.portalId;
     }
-
+  
 
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
@@ -138,7 +171,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                             <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
                         )}
 
-                        {activeTab === "notes" && (
+                        {activeTab === "notes" && objectId && id && (
                             <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
                         )}
 
