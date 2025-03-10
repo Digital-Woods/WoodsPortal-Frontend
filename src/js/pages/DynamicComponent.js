@@ -99,8 +99,8 @@ const DynamicComponent = ({
                 <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
                   {tableTitle()}
                 </span>
-                <p className="dark:text-white leading-5 text-sm">
-                  {totalRecord} records
+                <p className="dark:text-white leading-5 text-sm flex items-center">
+                  {totalRecord ? totalRecord : <div className="h-3 w-3 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>} records
                 </p>
               </span>
             ) : (
