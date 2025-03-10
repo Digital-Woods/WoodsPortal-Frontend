@@ -118,6 +118,7 @@ const NoteCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <ProseMirrorEditor
+                key={id}
                 initialData={escapeHTML(note.hs_note_body)}
                 attachments={note.hs_attachment_ids || []}
                 setEditorContent={setEditorContent}
@@ -354,8 +355,9 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
         </div>
       )}
       {results && results.rows && results.rows.length > 0 ? (
-        results.rows.map((note) => (
+        results.rows.map((note, index) => (
           <NoteCard
+            key={index}
             note={note}
             objectId={objectId}
             id={id}
