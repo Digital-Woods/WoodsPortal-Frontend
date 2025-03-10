@@ -228,6 +228,7 @@ const ProseMirrorEditor = ({
     const { keymap, baseKeymap } = window.ProseMirrorKeymap;
     const { menuBar } = window.menuBar;
     const { liftListItem } = window.liftListItem;
+    const { sinkListItem } = window.sinkListItem;
     const { chainCommands } = window.chainCommands;
     const { exitCode } = window.exitCode;
     const { splitBlock } = window.splitBlock;
@@ -259,6 +260,7 @@ const ProseMirrorEditor = ({
         [boldItem, italicItem, underlineMenuItem],
         [fontMenuItem, fontSizeMenuItem],
         [textColor, textBGColor],
+        [clearFormattingNoteMenuItem],
         [blockquoteItem],
         [alignmentDropdown],
         [listMenuItem],
@@ -273,13 +275,22 @@ const ProseMirrorEditor = ({
 
       if (!dispatch) return false;
 
+      const parentNode = $from.node(-1);
+  
+      if (parentNode && parentNode.type.name === "blockquote") {
+        if ($from.parent.textContent.length === 0) {
+          lift(state, dispatch);
+          return true;
+        }
+      }
+
       // Check if we are inside a list item
       const listItem = $from.node(-1);
 
       if ($from.parent.textContent.length === 0) {
         if (listItem && listItem.type.name === "list_item") {
           liftListItem(schema.nodes.list_item)(state, dispatch);
-          dispatch(tr);
+          // dispatch(tr);
           return true;
         }
       }
@@ -308,6 +319,9 @@ const ProseMirrorEditor = ({
           keymap({
             //
             Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
+            Tab: (state, dispatch) => {
+              return sinkListItem(state.schema.nodes.list_item)(state, dispatch);
+            },
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
           }),
           keymap(baseKeymap),
