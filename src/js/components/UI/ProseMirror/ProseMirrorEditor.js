@@ -273,13 +273,22 @@ const ProseMirrorEditor = ({
 
       if (!dispatch) return false;
 
+      const parentNode = $from.node(-1);
+  
+      if (parentNode && parentNode.type.name === "blockquote") {
+        if ($from.parent.textContent.length === 0) {
+          lift(state, dispatch);
+          return true;
+        }
+      }
+
       // Check if we are inside a list item
       const listItem = $from.node(-1);
 
       if ($from.parent.textContent.length === 0) {
         if (listItem && listItem.type.name === "list_item") {
           liftListItem(schema.nodes.list_item)(state, dispatch);
-          dispatch(tr);
+          // dispatch(tr);
           return true;
         }
       }
