@@ -56,5 +56,6 @@ const clearFormattingNoteMenuItem = new MenuItem2({
     })(),
   },
   enable: (state) => true,
+  // enable: (state) => !state.selection.empty,
   run: clearFormattingNote,
 });
