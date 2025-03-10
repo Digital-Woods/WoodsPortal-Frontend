@@ -228,6 +228,7 @@ const ProseMirrorEditor = ({
     const { keymap, baseKeymap } = window.ProseMirrorKeymap;
     const { menuBar } = window.menuBar;
     const { liftListItem } = window.liftListItem;
+    const { sinkListItem } = window.sinkListItem;
     const { chainCommands } = window.chainCommands;
     const { exitCode } = window.exitCode;
     const { splitBlock } = window.splitBlock;
@@ -317,6 +318,9 @@ const ProseMirrorEditor = ({
           keymap({
             //
             Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
+            Tab: (state, dispatch) => {
+              return sinkListItem(state.schema.nodes.list_item)(state, dispatch);
+            },
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
           }),
           keymap(baseKeymap),
