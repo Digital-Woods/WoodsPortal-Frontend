@@ -313,6 +313,7 @@ const DetailsViewUpdateDialog = ({
                   <div className="mt-4 flex justify-end items-end gap-1">
                     <Button
                       variant="outline"
+                      disabled={isLoading}
                       onClick={() => {
                         setPipelineDialog(false);
                         setEditRow(null);
