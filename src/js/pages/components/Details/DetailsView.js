@@ -68,7 +68,7 @@ const DetailsView = ({
                 <td className="py-2 pl-1 text-sm dark:text-white align-top">
                   {value?.value ? (
                     <Button
-                      className="bg-cleanWhite dark:bg-cleanWhite hover:bg-cleanWhite dark:text-secondary"
+                      className=""
                       variant="outline"
                       size="sm"
                       onClick={() => handleViewClick(value?.value)}

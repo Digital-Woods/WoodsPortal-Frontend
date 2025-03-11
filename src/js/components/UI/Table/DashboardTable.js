@@ -245,7 +245,7 @@ const DashboardTable = ({
       setSync(false);
       if (data.statusCode === "200") {
         // if (currentPage === 1) setGridData('reset', [])
-        
+
         if (view === "BOARD") {
           setActiveCardData(data?.data);
         } else {
@@ -462,17 +462,26 @@ const DashboardTable = ({
   }, []);
 
   if (isLoadingHoldData === true) {
-    return activeCardData ? <BoardViewSkeleton /> : <TableSkeleton />;
+    return (
+      <div
+        className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
+            componentName === "ticket"
+            ? "mt-0"
+            : "md:mt-4 mt-3"
+          } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      >
+        <DashboardTableHeaderSkeleton hubspotObjectTypeId={hubspotObjectTypeId} title={title}/>
+        {view === "BOARD" && activeCardData ? <BoardViewSkeleton /> : <TableSkeleton />}
+      </div>);
   }
 
   return (
     <div
-      className={` ${
-        hubSpotUserDetails.sideMenu[0].tabName === title ||
-        componentName === "ticket"
+      className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
+          componentName === "ticket"
           ? "mt-0"
           : "md:mt-4 mt-3"
-      } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+        } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
