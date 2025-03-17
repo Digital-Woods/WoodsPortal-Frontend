@@ -18,6 +18,10 @@ const attachmentsState = Recoil.atom({
   default: [],
 });
 
+const linkDataState = Recoil.atom({
+  key: "linkDataState",
+  default: null,
+});
 
 
 function useEditor() {
@@ -25,6 +29,7 @@ function useEditor() {
   const [isLoadingUoloading, setisLoadingUoloading] = Recoil.useRecoilState(isLoadingUoloadingState);
   const [uploadProgress, setUploadProgress] = Recoil.useRecoilState(uploadProgressState);
   const [uploadedAttachments, setUploadedAttachments] = Recoil.useRecoilState(attachmentsState);
+  const [linkData, setLinkDataState] = Recoil.useRecoilState(linkDataState);
 
   return {
     font,
@@ -34,6 +39,13 @@ function useEditor() {
     uploadProgress,
     setUploadProgress,
     uploadedAttachments,
-    setUploadedAttachments
+    setUploadedAttachments,
+    linkData,
+    setLinkDataState
   };
+}
+
+function getLinkData() {
+  const snapshot = Recoil.snapshot_UNSTABLE();
+  return snapshot.getLoadable(linkDataState).valueOrThrow();
 }

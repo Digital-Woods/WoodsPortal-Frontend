@@ -17,13 +17,16 @@ const ProseMirrorEditor = ({
   // const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
   // const [isLoadingUoloading, setisLoadingUoloading] = useState(false);
   // const [uploadProgress, setUploadProgress] = useState(0);
+  // const [isOpenLinkPopup, setIsOpenLinkPopup] = useState(false);
+  const linkPopupRef = useRef(null);
+
   const {
     isLoadingUoloading,
     setisLoadingUoloading,
     uploadProgress,
     setUploadProgress,
     uploadedAttachments,
-    setUploadedAttachments,
+    setUploadedAttachments
   } = useEditor();
 
   // Plugin
@@ -83,6 +86,68 @@ const ProseMirrorEditor = ({
     const { Schema, DOMParser } = window.ProseMirrorModel;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
+
+    // const linkMark = {
+    //   attrs: {
+    //     href: {},
+    //     title: { default: "" }, // Add title attribute
+    //   },
+    //   inclusive: false,
+    //   parseDOM: [
+    //     {
+    //       tag: "a[href]",
+    //       getAttrs(dom) {
+    //         return {
+    //           href: dom.getAttribute("href"),
+    //           title: dom.getAttribute("title") || "",
+    //         };
+    //       },
+    //     },
+    //   ],
+    //   toDOM(node) {
+    //     return [
+    //       "a",
+    //       {
+    //         href: node.attrs.href,
+    //         title: node.attrs.title,
+    //         target: "_blank",
+    //         rel: "noopener noreferrer",
+    //       },
+    //       0, // This means the text inside will be editable
+    //     ];
+    //   },
+    // };
+
+    const linkMark = {
+      attrs: {
+        href: {},
+        title: { default: "" },
+      },
+      inclusive: false,
+      parseDOM: [
+        {
+          tag: "a[href]",
+          getAttrs(dom) {
+            return {
+              href: dom.getAttribute("href"),
+              title: dom.getAttribute("title") || dom.textContent, // Use text content if no title
+            };
+          },
+        },
+      ],
+      toDOM(node) {
+        return [
+          "a",
+          {
+            href: node.attrs.href,
+            title: node.attrs.title,
+            target: "_blank",
+            rel: "noopener noreferrer",
+          },
+          0, // This means the text inside will be editable
+        ];
+      },
+    };
 
     // Define schema
     const paragraphNode = {
@@ -204,6 +269,7 @@ const ProseMirrorEditor = ({
             0,
           ],
         },
+        link: linkMark,
       },
     });
     setEditorSchema(schema);
@@ -220,6 +286,10 @@ const ProseMirrorEditor = ({
     setInitialDoc(mInitialDoc);
   }, [editorShema]);
 
+  // useEffect(() => {
+  //   console.log("linkData", linkData)
+  // }, [linkData]);
+
   useEffect(() => {
     if (!editorShema && !initialDoc) return;
 
@@ -233,7 +303,6 @@ const ProseMirrorEditor = ({
     const { exitCode } = window.exitCode;
     const { splitBlock } = window.splitBlock;
     const { lift } = window.ProseMirrorLift;
-
 
     const schema = editorShema;
 
@@ -264,6 +333,7 @@ const ProseMirrorEditor = ({
         [blockquoteItem],
         [alignmentDropdown],
         [listMenuItem],
+        [insertLinkMenuItem],
         [imageUploader(), attachmentUploader()],
       ],
     });
@@ -276,7 +346,7 @@ const ProseMirrorEditor = ({
       if (!dispatch) return false;
 
       const parentNode = $from.node(-1);
-  
+
       if (parentNode && parentNode.type.name === "blockquote") {
         if ($from.parent.textContent.length === 0) {
           lift(state, dispatch);
@@ -317,10 +387,12 @@ const ProseMirrorEditor = ({
         schema,
         plugins: [
           keymap({
-            //
             Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
             Tab: (state, dispatch) => {
-              return sinkListItem(state.schema.nodes.list_item)(state, dispatch);
+              return sinkListItem(state.schema.nodes.list_item)(
+                state,
+                dispatch
+              );
             },
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
           }),
@@ -339,7 +411,56 @@ const ProseMirrorEditor = ({
         setPmState(newState);
       },
     });
-    // setPmView(editor);
+
+    let isOpenLinkPopup = true;
+    let isOpenLinkPopupId = "";
+
+    const closeLinkPopup = () => {
+      document.body.removeChild(linkPopupRef.current);
+      linkPopupRef.current = null;
+      isOpenLinkPopup = !isOpenLinkPopup;
+    };
+
+    // Detect click on a link inside the editor
+    editor.dom.addEventListener("click", (event) => {
+      let target = event.target.closest("a"); // Find closest <a> element
+      if (target) {
+        event.preventDefault(); // Prevent default navigation
+
+        if (!isOpenLinkPopup && linkPopupRef.current) {
+          document.body.removeChild(linkPopupRef.current);
+          linkPopupRef.current = null;
+        }
+
+        isOpenLinkPopup = !isOpenLinkPopup;
+
+        if (!isOpenLinkPopup) {
+          target.classList.add("relative", "inline-block");
+          const href = target.getAttribute("href");
+          const title = target.getAttribute("title") || target.textContent;
+
+          let container = document.createElement("div");
+          container.style.position = "absolute";
+          container.style.left = `${event.clientX}px`;
+          container.style.top = `${event.clientY}px`;
+          container.style.zIndex = "9999";
+          container.classList.add("mt-2");
+          document.body.appendChild(container);
+
+          linkPopupRef.current = container;
+
+          ReactDOM.render(
+            <ProseMirrorMenuInsertLinkPopUp
+              editorView={editor}
+              href={href}
+              title={title}
+              closeLinkPopup={closeLinkPopup}
+            />,
+            container
+          );
+        }
+      }
+    });
 
     // Cleanup on unmount
     return () => {
