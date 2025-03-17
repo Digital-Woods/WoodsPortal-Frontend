@@ -162,7 +162,7 @@ const NoteCard = ({
                 className={`py-3 pr-3 pl-6 ${!isOpen
                   ? ""
                   : `${permissions.update ? 'cursor-text' : 'cursor-auto'} hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
-                  }`}
+                  } EditorView`}
                 onClick={(e) => {
                   if (isOpen) {
                     e.stopPropagation();
