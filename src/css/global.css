@@ -1213,3 +1213,10 @@ menu, ol {
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
+
+.ProseMirror a {
+  color: #0091ae;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
