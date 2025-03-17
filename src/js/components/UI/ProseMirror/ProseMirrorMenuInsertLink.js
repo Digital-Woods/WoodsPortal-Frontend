@@ -31,7 +31,7 @@ const insertLink = (state, dispatch, linkText, url, blank) => {
 
   let title = text; // Use the text as the title
 
-  let attrs = { href, title: title, ...(blank && { target: "_blank" }) };
+  let attrs = { href, title: title, ...{ target: blank ? "_blank" : "_self" } };
 
   if (dispatch) {
     if (empty) {

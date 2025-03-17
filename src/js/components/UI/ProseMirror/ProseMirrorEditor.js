@@ -122,6 +122,7 @@ const ProseMirrorEditor = ({
       attrs: {
         href: {},
         title: { default: "" },
+        target: {},
       },
       inclusive: false,
       parseDOM: [
@@ -131,6 +132,7 @@ const ProseMirrorEditor = ({
             return {
               href: dom.getAttribute("href"),
               title: dom.getAttribute("title") || dom.textContent, // Use text content if no title
+              target: dom.getAttribute("target"),
             };
           },
         },
@@ -141,8 +143,7 @@ const ProseMirrorEditor = ({
           {
             href: node.attrs.href,
             title: node.attrs.title,
-            target: "_blank",
-            rel: "noopener noreferrer",
+            target: node.attrs.target,
           },
           0, // This means the text inside will be editable
         ];
