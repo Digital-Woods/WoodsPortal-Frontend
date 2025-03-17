@@ -34,7 +34,7 @@ const NoteCard = ({
     </svg>
   );
 
-  const openEditor = () => { };
+  const openEditor = () => {};
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -113,8 +113,9 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${isOpenEditor ? "" : "dark:text-white"
-                }`}
+              className={`p-4 cursor-text ${
+                isOpenEditor ? "" : "dark:text-white"
+              }`}
               onClick={(e) => e.stopPropagation()}
             >
               <ProseMirrorEditor
@@ -157,12 +158,21 @@ const NoteCard = ({
               </div>
             </div>
           ) : (
-            <div>
+            <div
+              className={
+                !isOpen
+                  ? "relative line-clamp-2 max-h-[120px] overflow-hidden"
+                  : ""
+              }
+            >
               <div
-                className={`py-3 pr-3 pl-6 ${!isOpen
-                  ? ""
-                  : `${permissions.update ? 'cursor-text' : 'cursor-auto'} hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
-                  } EditorView`}
+                className={`py-3 pr-3 pl-6 ${
+                  !isOpen
+                    ? ""
+                    : `${
+                        permissions.update ? "cursor-text" : "cursor-auto"
+                      } hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
+                } EditorView`}
                 onClick={(e) => {
                   if (isOpen) {
                     e.stopPropagation();
@@ -171,19 +181,12 @@ const NoteCard = ({
                   }
                 }}
               >
-                <div className={!isOpen ? "relative line-clamp-2" : ""}>
+                <div>
                   <span>
                     {ReactHtmlParser.default(
                       DOMPurify.sanitize(note.hs_note_body)
                     )}
                   </span>
-
-                  <div
-                    className={`${!isOpen
-                      ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
-                      : ""
-                      }`}
-                  ></div>
                 </div>
                 {permissions.update === true ? (
                   <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 text-secondary transition-opacity">
@@ -199,6 +202,13 @@ const NoteCard = ({
                   />
                 </div>
               )}
+              <div
+                className={`${
+                  !isOpen
+                    ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
+                    : ""
+                }`}
+              ></div>
             </div>
           )}
         </div>
@@ -287,7 +297,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
 
   const expandToggleButton = () => {
     setExpandDialog(!expandDialog);
-  }
+  };
 
   useEffect(() => {
     const portalId = getPortal()?.portalId;
@@ -309,7 +319,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const results = data && data.data && data.data.results;
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
-  
+
   if (isLoading || isFetching) {
     return <NoteSkeleton />;
   }
@@ -381,7 +391,11 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className={`!p-0 relative mx-auto bg-white dark:bg-white overflow-y-auto max-h-[95vh] ${expandDialog ? 'lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]' : 'lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] '} `}
+        className={`!p-0 relative mx-auto bg-white dark:bg-white overflow-y-auto max-h-[95vh] ${
+          expandDialog
+            ? "lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]"
+            : "lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] "
+        } `}
       >
         <div className="flex justify-between items-center mb-4 bg-[#516f90] p-4">
           <h2 className="text-lg font-semibold text-white dark:text-white">
@@ -394,15 +408,15 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
               onClick={expandToggleButton}
               className="text-white dark:text-white cursor-pointer"
             >
-              {expandDialog ?
-                <div title='Shrink window'>
-                  <ShrinkIcon width='22px' height='22px' />
+              {expandDialog ? (
+                <div title="Shrink window">
+                  <ShrinkIcon width="22px" height="22px" />
                 </div>
-                :
-                <div title='Make window expand'>
-                  <ExpandIcon width='22px' height='22px' />
+              ) : (
+                <div title="Make window expand">
+                  <ExpandIcon width="22px" height="22px" />
                 </div>
-              }
+              )}
             </button>
             <button
               disabled={isPosting || isUploading}
@@ -410,7 +424,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
               onClick={() => setShowDialog(false)}
               className="text-white dark:text-white"
             >
-              <CloseIcon width='24px' height='24px' />
+              <CloseIcon width="24px" height="24px" />
             </button>
           </div>
         </div>
@@ -436,7 +450,10 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             <Button
               disabled={isPosting || isUploading}
               variant="outline"
-              onClick={() => { setShowDialog(false); setExpandDialog(false); }}
+              onClick={() => {
+                setShowDialog(false);
+                setExpandDialog(false);
+              }}
               className={`dark:!text-dark-200`}
             >
               Cancel
