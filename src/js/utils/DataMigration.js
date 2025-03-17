@@ -385,7 +385,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[155px] relative items-center">
+      <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
           to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
@@ -447,7 +447,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[180px] relative group items-center">
+      <div className="flex gap-1 relative group items-center">
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           onClick={changeRoute}
@@ -471,7 +471,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[250px] relative items-center">
+      <div className="flex gap-1 min-w-[100px] relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
@@ -494,7 +494,7 @@ const renderCellContent = ({
     detailsView
   ) {
     return (
-      <div className="flex gap-1 min-w-[155px] relative items-center">
+      <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}

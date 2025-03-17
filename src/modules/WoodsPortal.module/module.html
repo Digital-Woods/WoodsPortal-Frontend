@@ -154,7 +154,13 @@
   const companyPropertiesList = {{ companyPropertiesList | tojson | safe }}; {# Company properties list data #}
   const companyDetailsCard = "{{ module.home.add_company_card }}"; {# Company card show hide boolean #}
   const companyDetailsModal = "{{ module.home.home_company_card.add_details_modal }}"; {# Company modal show hide boolean #}
-
+    
+  {# Company card ifram list #}
+  const companyCardIframeList = {
+    showIframe: `{{ module.home.home_company_card.show_iframe }}`,
+    propertyName:`{{ module.home.home_company_card.property_name }}`,
+    }
+  
   {# Sidebar Cta data #}
       const sidebarCtaDetails = {
       title: "{{ module.other_options.sidebar_cta_details.title }}",
@@ -162,6 +168,7 @@
       buttonUrl: "{{ module.other_options.sidebar_cta_details.button_url.href|escape_url }}",
     };
   {#End Sidebar Cta data #}
+    
   {# Branding Data #}
     const baseCompanyOptions = {
       logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
@@ -171,10 +178,11 @@
       welcomeMessage: "{{ module.other_options.welcome_message }}"
     };
   {# end branding data #}
+    
   {# Home banner data #}
     const moduleBannerDetailsOption = {
       title: "{{ module.home.home_tab_banner_details.title }}",
-      description: "{{ module.home.home_tab_banner_details.description }}",
+      description: `{{ module.home.home_tab_banner_details.description }}`,
     };
   {# End Home banner data #}
 
@@ -194,6 +202,9 @@
        svgColor: {
           color: "{{ module.style.home_tab_styles.user_card_svg_color.color }}",
           opacity: "{{ module.style.home_tab_styles.user_card_svg_color.opacity }}",
+        },
+        cards: {
+          direction: "{{ module.style.home_tab_styles.cards_direction }}",
         }
       },
       sidebarStyles: {

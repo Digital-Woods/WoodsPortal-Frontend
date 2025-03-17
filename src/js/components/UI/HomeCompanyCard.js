@@ -4,7 +4,9 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
     const [openModal, setOpenModal] = useState(false);
     const [expandDialog, setExpandDialog] = useState(false);
     const { sync, setSync } = useSync();
-
+    const [iframeViewDialog, setIframeViewDialog] = useState(false);
+    const [iframeUrls, setIframeUrls] = useState([]);
+    const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
 
     useEffect(() => {
         if (userData?.response) {
@@ -36,43 +38,94 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
         setExpandDialog(!expandDialog);
     }
 
+    const propertyName = companyCardIframeList.propertyName ? companyCardIframeList.propertyName.split(',') : [];
+    const showIframe = companyCardIframeList.showIframe || false;
+
+    // Function to check if URL is an image
+    const isImageUrl = (url) => {
+        const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
+
+        // Check if the URL ends with an image extension
+        const hasImageExtension = imageExtensions.some((ext) =>
+            url.toLowerCase().endsWith(ext)
+        );
+
+        // Check if the URL contains known patterns for image URLs
+        const containsImagePattern =
+            url.includes("images.unsplash.com") || url.includes("photo");
+
+        // Return true if either condition is true
+        return hasImageExtension || containsImagePattern;
+    };
+
+    const handleViewClick = (urls) => {
+        const urlArray = urls.split(",").map((url) => url.trim()); // Split and trim the comma-separated URLs
+        setIframeUrls(urlArray);
+        setCurrentIframeIndex(0); // Start with the first URL
+        setIframeViewDialog(true);
+    };
+
+    const handleNext = () => {
+        setCurrentIframeIndex((prevIndex) =>
+            prevIndex < iframeUrls.length - 1 ? prevIndex + 1 : prevIndex
+        );
+    };
+
+    const handlePrevious = () => {
+        setCurrentIframeIndex((prevIndex) =>
+            prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+    };
+
     return (
         <div className="rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
             {/* Associated Company Details */}
             {visibleAssociatedDetailsModal && (
                 <div className="w-full dark:border-gray-600">
-                    <div className="relative md:py-4 py-3 md:px-4 px-3 ">
-                        <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 bottom-0`}></div>
-                        <div className="relative z-2 ">
-                            {companyDetailsModal == 'true' && visibleAssociatedDetailsModal.length > 0 ? (
-                                <button onClick={() => setOpenModal(true)} className="absolute right-0 top-1/2 z-[4] -translate-y-1/2 p-3 rounded-full overflow-hidden">
-                                    <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
-                                    <span className="text-secondary dark:text-white inline-block -rotate-45">
-                                        <Arrow />
-                                    </span>
-                                </button>
-                            ) : null}
-                            <h3 className="text-lg font-semibold text-secondary dark:text-white dark:opacity-70">
-                                {userAssociatedDetails?.name?.value || "--"}
-                            </h3>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs dark:text-white transition-all mt-2 duration-500 md:px-4 px-3 md:pb-4 pb-3 ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:p-4 p-3">
+                        {companyDetailsModal == 'true' && visibleAssociatedDetailsModal.length > 0 ? (
+                            <button onClick={() => setOpenModal(true)} className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
+                                <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
+                                <span className="text-secondary dark:text-white inline-block -rotate-45">
+                                    <Arrow />
+                                </span>
+                            </button>
+                        ) : null}
                         {userAssociatedDetails?.name ? (
                             visibleAssociatedDetails.length > 0 ? (
                                 visibleAssociatedDetails.map(([key, value]) => (
-                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                        <span className="font-semibold">{value?.label}</span>
-                                        {renderCellContent(
-                                            // false, value?.value, value
-                                            {
-                                                companyAsMediator: false,
-                                                value: value?.value,
-                                                column: { ...value, key },
-                                            }
-                                        )}
-                                    </div>
+                                    propertyName.includes(key) && showIframe ? (
+                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                            <span className="font-semibold">
+                                                {value?.label}:
+                                            </span>
+                                            <span className="text-sm dark:text-white ">
+                                                {value?.value ? (
+                                                    <Button
+                                                        className=""
+                                                        variant="outline"
+                                                        size="xsm"
+                                                        onClick={() => handleViewClick(value?.value)}
+                                                    >
+                                                        View {value?.label}
+                                                    </Button>
+                                                ) : (
+                                                    "--"
+                                                )}
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                            <span className="font-semibold">{value?.label}</span>
+                                            {renderCellContent(
+                                                // false, value?.value, value
+                                                {
+                                                    companyAsMediator: false,
+                                                    value: value?.value,
+                                                    column: { ...value, key },
+                                                }
+                                            )}
+                                        </div>)
                                 ))) : (
                                 <div className="text-xs dark:text-white">Please enable visibility in the admin panel for the property you entered.</div>
                             )
@@ -118,21 +171,53 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
                     <div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500 md:px-4 px-3 md:pb-4 pb-3 ">
                             {visibleAssociatedDetailsModal.map(([key, value]) => (
-                                <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                    <span className="font-semibold">{value?.label}</span>
-                                    {renderCellContent(
-                                        // false, value?.value, value
-                                        {
-                                            companyAsMediator: false,
-                                            value: value?.value,
-                                            column: { ...value, key },
-                                        }
-                                    )}
-                                </div>
+                                propertyName.includes(key) && showIframe ? (
+                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                        <span className="font-semibold">
+                                            {value?.label}:
+                                        </span>
+                                        <span className="text-sm pt-2 dark:text-white align-top">
+                                            {value?.value ? (
+                                                <Button
+                                                    className=""
+                                                    variant="outline"
+                                                    size="xsm"
+                                                    onClick={() => handleViewClick(value?.value)}
+                                                >
+                                                    View {value?.label}
+                                                </Button>
+                                            ) : (
+                                                "--"
+                                            )}
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                        <span className="font-semibold">{value?.label}</span>
+                                        {renderCellContent(
+                                            // false, value?.value, value
+                                            {
+                                                companyAsMediator: false,
+                                                value: value?.value,
+                                                column: { ...value, key },
+                                            }
+                                        )}
+                                    </div>
+                                )
                             ))}
                         </div>
                     </div>
                 </Dialog>) : null}
+            {/* Iframe View Dialog Component */}
+            <IframeViewDialog
+                open={iframeViewDialog}
+                onClose={() => setIframeViewDialog(false)}
+                iframeUrls={iframeUrls}
+                currentIframeIndex={currentIframeIndex}
+                handleNext={handleNext}
+                handlePrevious={handlePrevious}
+                isImageUrl={isImageUrl}
+            />
         </div>
     );
 };

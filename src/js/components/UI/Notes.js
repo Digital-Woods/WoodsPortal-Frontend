@@ -113,8 +113,7 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${isOpenEditor ? "" : "dark:text-white"
-                }`}
+              className={`p-4 cursor-text ${isOpenEditor ? "" : "dark:text-white"}`}
               onClick={(e) => e.stopPropagation()}
             >
               <ProseMirrorEditor
@@ -157,7 +156,7 @@ const NoteCard = ({
               </div>
             </div>
           ) : (
-            <div>
+            <div className={!isOpen ? "relative line-clamp-2 max-h-[120px] overflow-hidden" : ""}>
               <div
                 className={`py-3 pr-3 pl-6 ${!isOpen
                   ? ""
@@ -171,19 +170,12 @@ const NoteCard = ({
                   }
                 }}
               >
-                <div className={!isOpen ? "relative line-clamp-2" : ""}>
+                <div>
                   <span>
                     {ReactHtmlParser.default(
                       DOMPurify.sanitize(note.hs_note_body)
                     )}
                   </span>
-
-                  <div
-                    className={`${!isOpen
-                      ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
-                      : ""
-                      }`}
-                  ></div>
                 </div>
                 {permissions.update === true ? (
                   <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 text-secondary transition-opacity">
@@ -199,6 +191,12 @@ const NoteCard = ({
                   />
                 </div>
               )}
+              <div
+                className={`${!isOpen
+                  ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
+                  : ""
+                  }`}
+              ></div>
             </div>
           )}
         </div>
@@ -309,7 +307,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const results = data && data.data && data.data.results;
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
-  
+
   if (isLoading || isFetching) {
     return <NoteSkeleton />;
   }
