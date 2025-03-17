@@ -422,6 +422,37 @@
       "type" : "boolean",
       "display_width" : null,
       "default" : true
+    }, {
+      "id" : "040b66e7-c825-5448-512f-001cc1278e30",
+      "name" : "show_iframe",
+      "label" : "Enable Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "90e95cd8-ba79-0aff-cff4-931d56d6bacb",
+      "name" : "property_name",
+      "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.home_company_card.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -432,7 +463,8 @@
       "properties" : [ {
         "properties_value" : "industry"
       } ],
-      "add_details_modal" : true
+      "add_details_modal" : true,
+      "show_iframe" : false
     }
   }, {
     "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
@@ -667,7 +699,8 @@
       "properties" : [ {
         "properties_value" : "industry"
       } ],
-      "add_details_modal" : true
+      "add_details_modal" : true,
+      "show_iframe" : false
     },
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
