@@ -34,7 +34,7 @@ const insertEditLink = (
   const { from, to } = findTextRange(editorView, title);
 
   let href = url;
-  let attrs = { href, title: linkText, ...(blank && { target: "_blank" }) };
+  let attrs = { href, title: linkText, ...{ target: blank ? "_blank" : "_self" } };
 
   if (dispatch) {
     tr.delete(from, to);
@@ -69,6 +69,13 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     }
   }, []);
 
+  const resetMenu = () => {
+    setLinkText("");
+    setIsSetLinkText(false);
+    setUrl("");
+    setBlank(true);
+  }
+
   const handleClickOutside = (event) => {
     if (
       dropdownMenuRef.current &&
@@ -76,7 +83,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       dropdownButtonRef.current &&
       !dropdownButtonRef.current.contains(event.target)
     ) {
-      console.log("handleClickOutside", true);
+      resetMenu();
       closeLinkPopup();
     }
   };
@@ -102,6 +109,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       url,
       blank
     );
+    resetMenu();
     closeLinkPopup();
   };
 
@@ -116,6 +124,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       tr.removeMark(from, to, linkType); // Remove the link mark
       dispatch(tr);
     }
+    resetMenu();
     closeLinkPopup();
     return true;
   };
