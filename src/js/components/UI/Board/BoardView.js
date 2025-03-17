@@ -516,6 +516,7 @@ Main Component Starts Here
                           onClick={() => handlePageChange(limit + 10)}
                           size="sm"
                           isLoading={isLoading}
+                          variant={'secondary'}
                         >
                           Show more
                         </Button>

@@ -448,6 +448,7 @@ const DashboardTable = ({
   useEffect(() => {
     if (view != null) {
       getPipelines();
+      setLimit(pageLimit);
     }
   }, [view]);
 

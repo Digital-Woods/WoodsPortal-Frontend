@@ -330,18 +330,14 @@
       "display_width" : null,
       "default" : ""
     }, {
-      "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
+      "id" : "27133681-a8bb-c428-6ce2-0c1bafc74a05",
       "name" : "description",
-      "label" : "Description",
-      "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
+      "label" : "description",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
+      "type" : "richtext",
       "display_width" : null,
-      "default" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
+      "default" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -350,7 +346,7 @@
     "display_width" : null,
     "default" : {
       "title" : "",
-      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
     }
   }, {
     "id" : "c36e2852-c866-3ae4-1f2f-9c3c3587981b",
@@ -426,6 +422,37 @@
       "type" : "boolean",
       "display_width" : null,
       "default" : true
+    }, {
+      "id" : "040b66e7-c825-5448-512f-001cc1278e30",
+      "name" : "show_iframe",
+      "label" : "Enable Iframe",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : false
+    }, {
+      "id" : "90e95cd8-ba79-0aff-cff4-931d56d6bacb",
+      "name" : "property_name",
+      "label" : "Property Name",
+      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
+      "inline_help_text" : "Enter the internal property name.",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.home_company_card.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -436,7 +463,8 @@
       "properties" : [ {
         "properties_value" : "industry"
       } ],
-      "add_details_modal" : true
+      "add_details_modal" : true,
+      "show_iframe" : false
     }
   }, {
     "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
@@ -664,14 +692,15 @@
     } ],
     "home_tab_banner_details" : {
       "title" : "",
-      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
     },
     "add_company_card" : true,
     "home_company_card" : {
       "properties" : [ {
         "properties_value" : "industry"
       } ],
-      "add_details_modal" : true
+      "add_details_modal" : true,
+      "show_iframe" : false
     },
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
@@ -1210,6 +1239,20 @@
         "color" : "#0091ae",
         "opacity" : 100
       }
+    }, {
+      "id" : "ea44d480-a28a-38b3-0649-d529395c5646",
+      "name" : "cards_direction",
+      "label" : "Cards direction",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "md:flex-row", "Row" ], [ "md:flex-row-reverse", "Row Reverse" ], [ "flex-col\t", "Column" ], [ "flex-col-reverse", "Column Reverse" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "md:flex-row"
     } ],
     "tab" : "STYLE",
     "expanded" : false,
@@ -1232,7 +1275,8 @@
       "user_card_svg_color" : {
         "color" : "#0091ae",
         "opacity" : 100
-      }
+      },
+      "cards_direction" : "md:flex-row"
     }
   }, {
     "id" : "76f40114-fea8-8230-7167-74a8f484d787",
@@ -1497,7 +1541,8 @@
       "user_card_svg_color" : {
         "color" : "#0091ae",
         "opacity" : 100
-      }
+      },
+      "cards_direction" : "md:flex-row"
     },
     "table_record_creation_button" : {
       "text_color" : {

@@ -60,7 +60,7 @@ const DetailsView = ({
       <table className="w-full dark:bg-[#2a2a2a]">
         {item?.length > 0 &&
           item.filter((item) => !item.hidden).map((value, index) =>
-            value?.key === propertyName && showIframe ? (
+            propertyName.includes(value?.key) && showIframe ? (
               <tr key={value?.key}>
                 <td className="py-2 pr-1 text-sm dark:text-white whitespace-wrap lg:w-[250px] w-[150px] align-top">
                   {value?.label}:

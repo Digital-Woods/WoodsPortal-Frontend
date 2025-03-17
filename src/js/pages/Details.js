@@ -18,15 +18,21 @@ const Details = ({ path, objectId, id, title }) => {
   // const matchedObject = 
   // moduleIframeListOptions.find((item) => item.hubspotObjectTypeId && item.label === objectId && tabName ) || '';
 
+  // const matchedObject = moduleIframeListOptions.find(
+  //   (item) => item.hubspotObjectTypeId === objectId && item.label === tabName
+  // ) || '';
+  
+  // // Extract propertyName and showIframe from the matched object
+  // const propertyName = matchedObject.propertyName || '';
+  // const showIframe = matchedObject.showIframe || false;
+
   const matchedObject = moduleIframeListOptions.find(
     (item) => item.hubspotObjectTypeId === objectId && item.label === tabName
-  ) || '';
+  ) || {};
   
   // Extract propertyName and showIframe from the matched object
-  const propertyName = matchedObject.propertyName || '';
+  const propertyName = matchedObject.propertyName ? matchedObject.propertyName.split(',') : [];
   const showIframe = matchedObject.showIframe || false;
-
-
 
   return (
     <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">

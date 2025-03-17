@@ -19,18 +19,18 @@ const Home = ({
   const [cacheEnabled, setCacheEnabled] = useState(true);
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
-  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false); 
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false);
 
   const fetchUserProfile = async ({ portalId, cache }) => {
     if (!portalId) return null;
-  
+
     const response = await Client.user.profile({ portalId, cache });
     return response?.data;
   };
-  
+
   const { data: userNewData, error, isLoading, refetch } = useQuery({
     queryKey: ['userProfilePage', portalId, cacheEnabled],
-    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }), 
+    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
     onSuccess: (data) => {
       if (data) {
         setUserData(data);
@@ -46,9 +46,9 @@ const Home = ({
       setIsLoadedFirstTime(true);
     }
   });
-  
+
   useEffect(() => {
-    if (sync) {  
+    if (sync) {
       refetch();
     }
   }, [sync]);
@@ -125,10 +125,14 @@ const Home = ({
                 : "w-full"
               } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}
           >
-            <div className={`${companyDetailsCard == 'true' ? 'grid grid-cols-2 max-sm:grid-cols-1' : ' '}  md:gap-4 gap-3`}>
-              <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
+            <div className={`${companyDetailsCard == 'true' ? `flex ${moduleStylesOptions.homeTabStyles.cards.direction} items-stretch` : ' '}  md:gap-4 gap-3`}>
+              <div className="flex-1 grid">
+                <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
+              </div>
               {companyDetailsCard == 'true' ? (
-                <HomeCompanyCard userData={userData} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
+                <div className="flex-1 grid">
+                  <HomeCompanyCard userData={userData} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
+                </div>
               ) : null}
             </div>
 
@@ -144,7 +148,7 @@ const Home = ({
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading}  isLoadedFirstTime={isLoadedFirstTime} />
+            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
 
           </div>
 

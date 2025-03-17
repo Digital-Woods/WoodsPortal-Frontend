@@ -36,6 +36,7 @@ const DashboardTableHeader = ({
   const handelPipeline = (value) => {
     setSelectedPipeline(hubspotObjectTypeId, pipelines, value)
     handelChangePipeline()
+    setPage(1)
   }
 
   return (
