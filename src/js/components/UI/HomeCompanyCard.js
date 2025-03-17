@@ -82,24 +82,15 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
             {/* Associated Company Details */}
             {visibleAssociatedDetailsModal && (
                 <div className="w-full dark:border-gray-600">
-                    <div className="relative md:py-4 py-3 md:px-4 px-3 ">
-                        <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-gray-600/10 absolute top-0 right-0 left-0 bottom-0`}></div>
-                        <div className="relative z-2 ">
-                            {companyDetailsModal == 'true' && visibleAssociatedDetailsModal.length > 0 ? (
-                                <button onClick={() => setOpenModal(true)} className="absolute right-0 top-1/2 z-[4] -translate-y-1/2 p-3 rounded-full overflow-hidden">
-                                    <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
-                                    <span className="text-secondary dark:text-white inline-block -rotate-45">
-                                        <Arrow />
-                                    </span>
-                                </button>
-                            ) : null}
-                            <h3 className="text-lg font-semibold text-secondary dark:text-white dark:opacity-70">
-                                {userAssociatedDetails?.name?.value || "--"}
-                            </h3>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs dark:text-white transition-all mt-2 duration-500 md:px-4 px-3 md:pb-4 pb-3 ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:p-4 p-3">
+                        {companyDetailsModal == 'true' && visibleAssociatedDetailsModal.length > 0 ? (
+                            <button onClick={() => setOpenModal(true)} className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
+                                <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
+                                <span className="text-secondary dark:text-white inline-block -rotate-45">
+                                    <Arrow />
+                                </span>
+                            </button>
+                        ) : null}
                         {userAssociatedDetails?.name ? (
                             visibleAssociatedDetails.length > 0 ? (
                                 visibleAssociatedDetails.map(([key, value]) => (
@@ -108,7 +99,7 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
                                             <span className="font-semibold">
                                                 {value?.label}:
                                             </span>
-                                            <span className="text-sm pt-2 dark:text-white align-top">
+                                            <span className="text-sm dark:text-white ">
                                                 {value?.value ? (
                                                     <Button
                                                         className=""
@@ -124,17 +115,17 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
                                             </span>
                                         </div>
                                     ) : (
-                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                        <span className="font-semibold">{value?.label}</span>
-                                        {renderCellContent(
-                                            // false, value?.value, value
-                                            {
-                                                companyAsMediator: false,
-                                                value: value?.value,
-                                                column: { ...value, key },
-                                            }
-                                        )}
-                                    </div>)
+                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                            <span className="font-semibold">{value?.label}</span>
+                                            {renderCellContent(
+                                                // false, value?.value, value
+                                                {
+                                                    companyAsMediator: false,
+                                                    value: value?.value,
+                                                    column: { ...value, key },
+                                                }
+                                            )}
+                                        </div>)
                                 ))) : (
                                 <div className="text-xs dark:text-white">Please enable visibility in the admin panel for the property you entered.</div>
                             )

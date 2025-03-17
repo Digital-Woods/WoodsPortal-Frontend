@@ -1239,6 +1239,20 @@
         "color" : "#0091ae",
         "opacity" : 100
       }
+    }, {
+      "id" : "ea44d480-a28a-38b3-0649-d529395c5646",
+      "name" : "cards_direction",
+      "label" : "Cards direction",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "md:flex-row", "Row" ], [ "md:flex-row-reverse", "Row Reverse" ], [ "flex-col\t", "Column" ], [ "flex-col-reverse", "Column Reverse" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "md:flex-row"
     } ],
     "tab" : "STYLE",
     "expanded" : false,
@@ -1261,7 +1275,8 @@
       "user_card_svg_color" : {
         "color" : "#0091ae",
         "opacity" : 100
-      }
+      },
+      "cards_direction" : "md:flex-row"
     }
   }, {
     "id" : "76f40114-fea8-8230-7167-74a8f484d787",
@@ -1526,7 +1541,8 @@
       "user_card_svg_color" : {
         "color" : "#0091ae",
         "opacity" : 100
-      }
+      },
+      "cards_direction" : "md:flex-row"
     },
     "table_record_creation_button" : {
       "text_color" : {
