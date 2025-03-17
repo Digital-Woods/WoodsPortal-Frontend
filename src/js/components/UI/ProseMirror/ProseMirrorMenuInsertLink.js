@@ -94,14 +94,21 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
   // }, [getLinkData]);
 
 
-  setTimeout(() => {
-    console.log("getLinkData", true);
-  }, 1000);
-
+  const resetMenu = () => {
+    setLinkText("");
+    setIsSetLinkText(false);
+    setUrl("");
+    setBlank(true);
+  }
 
   useEffect(() => {
-    setLinkText(selectedText || "");
-    setUrl("");
+    if(selectedText) {
+      setLinkText(selectedText);
+      setIsSetLinkText(true);
+      setUrl("");
+    } else {
+      resetMenu();
+    }
   }, [selectedText]);
 
   useEffect(() => {
@@ -117,6 +124,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
       dropdownButtonRef.current &&
       !dropdownButtonRef.current.contains(event.target)
     ) {
+      resetMenu();
       setIsOpen(false);
     }
   };
@@ -187,7 +195,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
         <div
           ref={dropdownMenuRef}
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm w-50 z-10"
+          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm w-60 z-10"
         >
           <div class="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
             <h2 class="text-sm">Create Link</h2>
@@ -200,7 +208,6 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
                 placeholder=""
                 defaultValue={linkText}
                 onChange={(e) => {
-                  console.log("onChange", true);
                   setLinkText(e.target.value);
                   if (e.target.value) {
                     setIsSetLinkText(true);
@@ -245,7 +252,10 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
                 size="sm"
                 variant="outline"
                 className="w-full"
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  resetMenu();
+                  setIsOpen(false);
+                }}
               >
                 Cancel
               </Button>
