@@ -330,18 +330,14 @@
       "display_width" : null,
       "default" : ""
     }, {
-      "id" : "1c36929d-c281-cc5d-22d8-d2a997ce8473",
+      "id" : "27133681-a8bb-c428-6ce2-0c1bafc74a05",
       "name" : "description",
-      "label" : "Description",
-      "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
+      "label" : "description",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
+      "type" : "richtext",
       "display_width" : null,
-      "default" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
+      "default" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -350,7 +346,7 @@
     "display_width" : null,
     "default" : {
       "title" : "",
-      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
     }
   }, {
     "id" : "c36e2852-c866-3ae4-1f2f-9c3c3587981b",
@@ -664,7 +660,7 @@
     } ],
     "home_tab_banner_details" : {
       "title" : "",
-      "description" : "Your work is shaping results, **firstname**. Let’s align actions with goals for maximum impact."
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
     },
     "add_company_card" : true,
     "home_company_card" : {
