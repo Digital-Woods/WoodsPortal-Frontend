@@ -454,7 +454,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
                 setShowDialog(false);
                 setExpandDialog(false);
               }}
-              className={`dark:!text-dark-200`}
+              className={`dark:!text-white`}
             >
               Cancel
             </Button>

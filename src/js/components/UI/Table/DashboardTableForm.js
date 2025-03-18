@@ -155,7 +155,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[600px] min-w-[305px] max-h-[95vh] overflow-y-auto">
+      <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto">
         <div>
           <h3 className="text-start text-xl dark:text-white font-semibold mb-4">
             Add {title}
@@ -262,7 +262,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                           </div>
                         ))}
                       </div>
-                      <div className="mt-4 flex justify-end items-end gap-1">
+                      <div className="mt-4 flex justify-end items-end gap-1 flex-wrap">
                         <Button
                           variant="outline"
                           onClick={() => setOpenModal(false)}

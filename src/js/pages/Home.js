@@ -167,7 +167,7 @@ const Home = ({
               {!isLargeScreen &&
                 sidebarRightOpen &&
                 showSidebarListDataOption && (
-                  <div className="absolute z-[59] right-[14px] top-[8px]">
+                  <div className="absolute z-[59] right-[9px] top-[60px]">
                     <button
                       className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200  animate-pulseEffect dark:animate-pulseEffectDark"
                       onClick={toggleSidebar}

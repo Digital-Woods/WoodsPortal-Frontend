@@ -268,6 +268,7 @@ const DashboardTable = ({
       } else {
         setPermissions(null);
       }
+      setTotalRecord(data?.data?.total || 0);
       setIsLoadingHoldData(false);
     },
     onError: () => {

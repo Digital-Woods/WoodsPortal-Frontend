@@ -423,6 +423,15 @@ const ProseMirrorEditor = ({
       isOpenLinkPopup = !isOpenLinkPopup;
     };
 
+    const handleClickOutside = (event) => {
+      if (
+        linkPopupRef.current &&
+        !linkPopupRef.current.contains(event.target)
+      ) {
+        closeLinkPopup();
+      }
+    };
+
     // Detect click on a link inside the editor
     editor.dom.addEventListener("click", (event) => {
       let target = event.target.closest("a"); // Find closest <a> element
@@ -435,6 +444,10 @@ const ProseMirrorEditor = ({
         }
 
         isOpenLinkPopup = !isOpenLinkPopup;
+
+        setTimeout(() => {
+          document.addEventListener("mousedown", handleClickOutside);
+        }, 0);
 
         if (!isOpenLinkPopup) {
           const randomId = Math.floor(Math.random() * 10000000) + 1;
@@ -468,6 +481,12 @@ const ProseMirrorEditor = ({
       editor.destroy();
     };
   }, [editorShema, initialDoc]);
+
+  useEffect(() => {
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const getContentString = () => {
     let fragment = DOMSerializer.fromSchema(editorShema).serializeFragment(

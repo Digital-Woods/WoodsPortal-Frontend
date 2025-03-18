@@ -327,7 +327,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
           >
             {/* Close Button for Small Devices */}
             {!isLargeScreen && sidebarDetailsOpen && (
-              <div className="rounded-full dark:bg-dark-200 z-50 absolute right-[15px] top-[16px]">
+              <div className="rounded-full dark:bg-dark-200 z-50 absolute right-[10px] top-[60px]">
                 <button
                   className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                   onClick={() => setSidebarDetailsOpen(false)}
