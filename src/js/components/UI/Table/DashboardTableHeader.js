@@ -24,7 +24,7 @@ const DashboardTableHeader = ({
     selectedPipeline,
     setSelectedPipeline,
     setPage,
-    setLimit
+    setLimit,
   } = useTable();
 
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
@@ -34,10 +34,14 @@ const DashboardTableHeader = ({
   }, [pipelines]);
 
   const handelPipeline = (value) => {
-    setSelectedPipeline(hubspotObjectTypeId, pipelines, value)
-    handelChangePipeline()
-    setPage(1)
-  }
+    setSelectedPipeline(hubspotObjectTypeId, pipelines, value);
+    handelChangePipeline();
+    setPage(1);
+  };
+
+  useEffect(() => {
+    if (!view) setActiveTab("LIST");
+  }, [view]);
 
   return (
     <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
