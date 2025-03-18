@@ -174,7 +174,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       id={`child-${randomId}`}
       ref={dropdownMenuRef}
       // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-      className={`absolute p-4 bg-white shadow-lg rounded-lg border border-gray-300 z-20 bg-white shadow-lg rounded-sm
+      className={`absolute bg-white shadow-lg rounded-lg border border-gray-300 z-20 bg-white shadow-lg rounded-sm
       absolute top-[${popupPosition.top}px] left-[${popupPosition.left}px]`}
     >
       <div class="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
