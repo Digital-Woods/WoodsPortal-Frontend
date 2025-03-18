@@ -81,25 +81,6 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     setBlank(true);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target) &&
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target)
-    ) {
-      resetMenu();
-      closeLinkPopup();
-    }
-  };
-
-  useEffect(() => {
-    document.removeEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const onChangeCheckbox = () => {
     setBlank((prev) => !prev);
   };
