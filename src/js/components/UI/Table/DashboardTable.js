@@ -40,7 +40,7 @@ const DashboardTable = ({
   companyAsMediator,
   pipeLineId,
   specPipeLine,
-  setTotalRecord = null,
+  setTotalRecord,
 }) => {
   const {
     view,
@@ -57,7 +57,8 @@ const DashboardTable = ({
     numOfPages,
     setNumOfPages,
     resetTableParam,
-    setSelectRouteMenuConfig
+    setSelectRouteMenuConfig,
+    changePipeline,
   } = useTable();
 
 
@@ -227,6 +228,7 @@ const DashboardTable = ({
       // };
       const param = getTableParam(companyAsMediator);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
+      if (defPermissions?.pipeline_id) param.filterValue = defPermissions?.pipeline_id;
 
       // console.log('param', getTableParam(companyAsMediator))
 
@@ -245,7 +247,11 @@ const DashboardTable = ({
       setSync(false);
       if (data.statusCode === "200") {
         // if (currentPage === 1) setGridData('reset', [])
-
+        const totalData = data?.data?.total;
+        setTotalItems(totalData || 0);
+        if (componentName != 'ticket'){
+          setTotalRecord(data?.data?.total || totalData || 0);
+        }
         if (view === "BOARD") {
           setActiveCardData(data?.data);
         } else {
@@ -258,8 +264,6 @@ const DashboardTable = ({
           setNumOfPages(Math.ceil(totalData / ItemsPerPage));
         }
         // setTotalRecord(data?.data?.total || 0);
-        const totalData = data?.data?.total;
-        setTotalItems(totalData || 0);
         if (defPermissions === null) {
           setPermissions(data?.configurations[componentName]);
         } else {
@@ -468,12 +472,12 @@ const DashboardTable = ({
     return (
       <div
         className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
-            componentName === "ticket"
-            ? "mt-0"
-            : "md:mt-4 mt-3"
+          componentName === "ticket"
+          ? "mt-0"
+          : "md:mt-4 mt-3"
           } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
-        <DashboardTableHeaderSkeleton hubspotObjectTypeId={hubspotObjectTypeId} title={title}/>
+        <DashboardTableHeaderSkeleton hubspotObjectTypeId={hubspotObjectTypeId} title={title} />
         {view === "BOARD" && activeCardData ? <BoardViewSkeleton /> : <TableSkeleton />}
       </div>);
   }
@@ -481,9 +485,9 @@ const DashboardTable = ({
   return (
     <div
       className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
-          componentName === "ticket"
-          ? "mt-0"
-          : "md:mt-4 mt-3"
+        componentName === "ticket"
+        ? "mt-0"
+        : "md:mt-4 mt-3"
         } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
