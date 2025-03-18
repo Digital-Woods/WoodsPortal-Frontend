@@ -64,11 +64,9 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
 
     // Start Cookie RouteMenuConfig
     const setSelectRouteMenuConfig = (routeMenuConfig) => {
-        let routeMenuConfigs = getRouteMenuConfig();
+        let routeMenuConfigs = getRouteMenuConfig() || {};
         const { key, details } = routeMenuConfig;
-
         routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
-
         setRouteMenuConfig(routeMenuConfigs);
     };
     
@@ -80,9 +78,9 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
           routeMenuConfigs.hasOwnProperty('home')
         ) {
           const activeTab = routeMenuConfigs.home?.details?.activeTab;
-          setActiveTab(activeTab || "files");
+          setActiveTabFucntion(activeTab || "files")
         } else {
-          setActiveTab("files");
+          setActiveTabFucntion("files")
         }
     }, []);
 
