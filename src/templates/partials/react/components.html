@@ -7,8 +7,18 @@
 
 <script type="text/babel" src='{{get_asset_url("../../../child/child.js")}}'></script>
 
+<!-- Environment -->
+<script type="text/babel" src='{{get_asset_url("../../../js/env.js")}}'></script>
 
-<!-- Components -->
+<!-- Layout -->
+<script type="text/babel" src='{{get_asset_url("../../../js/MainLayout.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/HeaderLayout.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/PrivateRoute.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/PublicRoute.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/Breadcrumb.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/Drawer.js")}}'></script>
+
+<!-- Details Components -->
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsHeaderCard.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsMapsCard.js")}}'></script>
 <script type="text/babel"
@@ -16,13 +26,15 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsTable.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsView.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsGallery.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsViewUpdate.js")}}'></script>
 
 <!-- UI -->
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/HomeCompanyCard.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTable.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableHeader.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableData.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableForm.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/DashboardTableEditForm.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableEditForm.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/HomeBanner.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/IframeViewDialog.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/SidebarTable.js")}}'></script>
@@ -39,7 +51,6 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Form.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Select.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Pagination.js")}}'></script>
-<!-- <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Accordion.js")}}'></script> -->
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/checkboxes/CustomCheckbox.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/checkboxes/MultipleCheckBox.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/SvgRenderer.js")}}'></script>
@@ -59,12 +70,10 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/files/FileDetailsModal.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/files/CreateFolderDialog.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/files/FolderUpload.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/CKEditor.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Attachments.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/EmptyMessageCard.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/SummernoteEditor.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/pages/components/details/DetailsViewUpdate.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ColorPicker.js")}}'></script>
+
 <!-- ProseMirror Editor -->
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ProseMirror/ProseMirrorMenuInsertLink.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ProseMirror/ProseMirrorMenuInsertLinkPopUp.js")}}'></script>
@@ -83,37 +92,10 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ProseMirror/ProseMirrorMenuAttachment.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ProseMirror/ProseMirrorEditor.js")}}'></script>
 
-
-<!-- Trello Cards -->
-<!-- <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/dnd/Drag.js")}}'></script> -->
-<!-- <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/dnd/Drag.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/dnd/Drag.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/dnd/Drag.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/dnd/Drag.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/dnd/Drag.js")}}'></script> -->
-
-
-
-
-
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/HomeCompanyCard.js")}}'></script>
-
 <!-- Pages -->
-<script type="text/babel" src='{{get_asset_url("../../../js/env.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/MainLayout.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/HeaderLayout.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/PrivateRoute.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/PublicRoute.js")}}'></script>
-
-<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/Breadcrumb.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/SiteLayout/Drawer.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/Home.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/DynamicComponent.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/Details.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/Recoiljs.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/ApiDetails.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/ModuleDetails.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/TnstackQuery.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/PreLogin.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/Login.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/FinalLogin.js")}}'></script>
@@ -123,21 +105,18 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/ResetPassword.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/VerifyEmail.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/NotVerifiedEmail.js")}}'></script>
-
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/Register.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/pages/auth/Profile.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/pages/Notification.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/pages/Profile.js")}}'></script>
 
-
-<!--Profile-->
+<!-- Profile -->
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/ChangePassword.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/ProfileUpdate.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/ProfileCard.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/UserProfileCard.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/profile/UserDetails.js")}}'></script>
 
-<!-- skeletons -->
-
+<!-- Skeletons -->
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/skeletons/SkeletonLoader.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/skeletons/TableSkeleton.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/skeletons/DetailsSkeleton.js")}}'></script>
@@ -150,6 +129,12 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/skeletons/BoardViewSkeleton.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/skeletons/DashboardTableHeaderSkeleton.js")}}'></script>
 
+<!-- API -->
+<script type="text/babel" src='{{get_asset_url("../../../js/components/Recoiljs.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/ApiDetails.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/ModuleDetails.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/TnstackQuery.js")}}'></script>
+
 <!-- Data -->
 <script type="text/babel" src='{{get_asset_url("../../../js/data/client/http-client.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/data/client/endpoints.js")}}'></script>
@@ -158,7 +143,6 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/data/user.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/data/fakeData.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/data/hubSpotData.js")}}'></script>
-
 
 <!-- Store -->
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-name.js")}}'></script>
