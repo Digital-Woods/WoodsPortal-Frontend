@@ -83,6 +83,7 @@ const ProseMirrorEditor = ({
   };
 
   useEffect(() => {
+    setUploadedAttachments([])
     const { Schema, DOMParser } = window.ProseMirrorModel;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
