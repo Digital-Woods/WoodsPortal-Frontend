@@ -34,7 +34,11 @@ const insertEditLink = (
   const { from, to } = findTextRange(editorView, title);
 
   let href = url;
-  let attrs = { href, title: linkText, ...{ target: blank ? "_blank" : "_self" } };
+  let attrs = {
+    href,
+    title: linkText,
+    ...{ target: blank ? "_blank" : "_self" },
+  };
 
   if (dispatch) {
     tr.delete(from, to);
@@ -47,6 +51,7 @@ const insertEditLink = (
 };
 
 const ProseMirrorMenuInsertLinkPopUp = ({
+  randomId,
   editorView,
   href,
   title,
@@ -74,7 +79,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     setIsSetLinkText(false);
     setUrl("");
     setBlank(true);
-  }
+  };
 
   const handleClickOutside = (event) => {
     if (
@@ -117,9 +122,9 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     const { state, dispatch } = editorView;
     const { schema, tr } = state;
     const linkType = schema.marks.link;
-  
+
     const { from, to } = findTextRange(editorView, title);
-  
+
     if (dispatch) {
       tr.removeMark(from, to, linkType); // Remove the link mark
       dispatch(tr);
@@ -129,11 +134,48 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     return true;
   };
 
+  // Set Dynamic Position & Scroll
+  const [popupPosition, setPopupPosition] = React.useState({ top: 0, left: 0 });
+
+  const updatePopupPosition = () => {
+    const userNameElement = document.getElementById(`main-${randomId}`);
+    if (userNameElement) {
+      const rect = userNameElement.getBoundingClientRect();
+      setPopupPosition({
+        top: rect.bottom + window.scrollY, // Position relative to viewport
+        left: rect.left + window.scrollX,
+      });
+    }
+  };
+
+  useEffect(() => {
+    updatePopupPosition();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      updatePopupPosition();
+    };
+
+    const scrollableDiv = document.getElementById("details-scrollable-container");
+    if (scrollableDiv) {
+      scrollableDiv.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scrollableDiv) {
+        scrollableDiv.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [popupPosition]);
+
   return (
     <div
+      id={`child-${randomId}`}
       ref={dropdownMenuRef}
       // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-      className="bg-white shadow-lg rounded-sm"
+      className={`absolute p-4 bg-white shadow-lg rounded-lg border border-gray-300 z-20 bg-white shadow-lg rounded-sm
+      absolute top-[${popupPosition.top}px] left-[${popupPosition.left}px]`}
     >
       <div class="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
         <h2 class="text-sm">Edit Link</h2>
