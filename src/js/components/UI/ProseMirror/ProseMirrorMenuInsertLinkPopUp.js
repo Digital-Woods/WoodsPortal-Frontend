@@ -138,11 +138,11 @@ const ProseMirrorMenuInsertLinkPopUp = ({
   const [popupPosition, setPopupPosition] = React.useState({ top: 0, left: 0 });
 
   const updatePopupPosition = () => {
-    const userNameElement = document.getElementById(`main-${randomId}`);
-    if (userNameElement) {
-      const rect = userNameElement.getBoundingClientRect();
+    const mainButton = document.getElementById(`main-${randomId}`);
+    if (mainButton) {
+      const rect = mainButton.getBoundingClientRect();
       setPopupPosition({
-        top: rect.bottom + window.scrollY, // Position relative to viewport
+        top: rect.bottom + window.scrollY,
         left: rect.left + window.scrollX,
       });
     }
