@@ -436,22 +436,21 @@ const ProseMirrorEditor = ({
         isOpenLinkPopup = !isOpenLinkPopup;
 
         if (!isOpenLinkPopup) {
+          const randomId = Math.floor(Math.random() * 10000000) + 1;
+          target.id = `main-${randomId}`;
           target.classList.add("relative", "inline-block");
           const href = target.getAttribute("href");
           const title = target.getAttribute("title") || target.textContent;
 
+
           let container = document.createElement("div");
-          container.style.position = "absolute";
-          container.style.left = `${event.clientX}px`;
-          container.style.top = `${event.clientY}px`;
-          container.style.zIndex = "9999";
-          container.classList.add("mt-2");
           document.body.appendChild(container);
 
           linkPopupRef.current = container;
 
           ReactDOM.render(
             <ProseMirrorMenuInsertLinkPopUp
+              randomId={randomId}
               editorView={editor}
               href={href}
               title={title}

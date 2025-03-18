@@ -203,6 +203,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
 
           {/* main content code start */}
           <div
+            id="details-scrollable-container"
             className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
               } lg:h-full hide-scrollbar overflow-y-auto overflow-x-hidden md:pt-4 pt-3`}
           >
