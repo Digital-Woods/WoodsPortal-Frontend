@@ -249,15 +249,17 @@ const DashboardTable = ({
         if (view === "BOARD") {
           setActiveCardData(data?.data);
         } else {
-          const totalData = data?.data?.total;
-          setTotalItems(totalData || 0);
+          // const totalData = data?.data?.total;
+          // setTotalItems(totalData || 0);
           // setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
           // const ItemsPerPage = totalData > 0 ? limit : 0
           const ItemsPerPage = limit;
           setLimit(ItemsPerPage)
           setNumOfPages(Math.ceil(totalData / ItemsPerPage));
         }
-        setTotalRecord(data?.data?.total || 0);
+        // setTotalRecord(data?.data?.total || 0);
+        const totalData = data?.data?.total;
+        setTotalItems(totalData || 0);
         if (defPermissions === null) {
           setPermissions(data?.configurations[componentName]);
         } else {
