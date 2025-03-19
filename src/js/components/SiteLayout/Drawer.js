@@ -129,7 +129,7 @@ const Drawer = ({ className }) => {
             </div>
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
-                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-430px)]' : 'max-h-[calc(100vh-160px)]'} flex flex-col gap-2 overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
+                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-355px)]' : 'max-h-[calc(100vh-160px)]'} flex flex-col gap-2 overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }) => (
                       <div
@@ -221,7 +221,7 @@ const Drawer = ({ className }) => {
                 </NavLink> */}
 
                   <div
-                    className={`block dark:hover:text-white `}
+                    className={` dark:hover:text-white hidden lg:block `}
                   >
                     <div className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-end"}`}>
                       <div onClick={() => toggleSidebar()} className={`flex items-center justify-center hover:bg-activeState dark:hover:bg-activeState ${sidebarCollapsed ? 'py-3 px-0 w-full' : 'px-3 py-[0.55rem]'} rounded-md no-underline cursor-pointer`}>

@@ -27,6 +27,7 @@ const DynamicComponent = ({
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false);
   const [totalRecord, setTotalRecord] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -100,7 +101,7 @@ const DynamicComponent = ({
                   {tableTitle()}
                 </span>
                 <p className="dark:text-white leading-5 text-sm flex items-center">
-                  {totalRecord ? totalRecord : <div className="h-3 w-3 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>} records
+                  {!isLoading ? `${totalRecord} records` : <div className="h-3 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>} 
                 </p>
               </span>
             ) : (
@@ -140,6 +141,7 @@ const DynamicComponent = ({
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
               setTotalRecord={setTotalRecord}
+              setIsLoading={setIsLoading}
             />
           </div>
         </div>
