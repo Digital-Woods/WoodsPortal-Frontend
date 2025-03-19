@@ -975,7 +975,7 @@ img.ProseMirror-separator {
   align-items: center;
   gap: 2px;
   padding-bottom: 0.75rem;
-  overflow-x: auto;
+  flex-wrap:wrap;
 }
 
 .note-font-dropdown-menu{

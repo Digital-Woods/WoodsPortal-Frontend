@@ -41,6 +41,7 @@ const DashboardTable = ({
   pipeLineId,
   specPipeLine,
   setTotalRecord,
+  setIsLoading,
 }) => {
   const {
     view,
@@ -233,7 +234,7 @@ const DashboardTable = ({
       // console.log('param', getTableParam(companyAsMediator))
 
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
-
+      setIsLoading(true);
       setUrlParam(param);
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -249,6 +250,7 @@ const DashboardTable = ({
         // if (currentPage === 1) setGridData('reset', [])
         const totalData = data?.data?.total;
         setTotalItems(totalData || 0);
+        setIsLoading(false);
         if (componentName != 'ticket'){
           setTotalRecord(data?.data?.total || totalData || 0);
         }
@@ -278,6 +280,7 @@ const DashboardTable = ({
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
+      setIsLoading(false);
     },
   });
 
