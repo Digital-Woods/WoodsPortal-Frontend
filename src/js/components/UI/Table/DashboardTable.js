@@ -234,7 +234,9 @@ const DashboardTable = ({
       // console.log('param', getTableParam(companyAsMediator))
 
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
+      if (componentName != 'ticket'){
       setIsLoading(true);
+      }
       setUrlParam(param);
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -250,8 +252,8 @@ const DashboardTable = ({
         // if (currentPage === 1) setGridData('reset', [])
         const totalData = data?.data?.total;
         setTotalItems(totalData || 0);
-        setIsLoading(false);
         if (componentName != 'ticket'){
+          setIsLoading(false);
           setTotalRecord(data?.data?.total || totalData || 0);
         }
         if (view === "BOARD") {
@@ -280,7 +282,9 @@ const DashboardTable = ({
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
+      if (componentName != 'ticket'){
       setIsLoading(false);
+      }
     },
   });
 
