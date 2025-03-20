@@ -416,7 +416,7 @@ const DashboardTable = ({
   // End Cookie RouteMenuConfig
 
   // CHange Pipeline
-  // const handelChangePipeline = async (pipeLineId) => {
+  const handelChangePipeline = async (pipeLineId) => {
     // setCurrentPage(1);
     // let filterValue = "";
     // if (pipeLineId) {
@@ -448,8 +448,9 @@ const DashboardTable = ({
     //   filterValue: filterValue,
     // });
     // changePipeline(hubspotObjectTypeId, pipelines, pipeLineId);
-    // getData()
-  // };
+    // getData();
+    getPipelines();
+  };
 
   // Initial Call Pipeline
   // useEffect(() => {
@@ -467,13 +468,13 @@ const DashboardTable = ({
 
   useEffect(() => {
     if (sync) {
-      getPipelines();
+      handelChangePipeline();
     }
   }, [sync]);
 
-  useEffect(() => {
-      getPipelines();
-  }, [selectedPipeline]);
+  // useEffect(() => {
+  //     getPipelines();
+  // }, [selectedPipeline]);
 
   useEffect(() => {
     resetTableParam();
@@ -510,7 +511,7 @@ const DashboardTable = ({
         view={view}
         setActiveTab={setActiveTab}
         // searchTerm={searchTerm}
-        // handelChangePipeline={handelChangePipeline}
+        handelChangePipeline={handelChangePipeline}
         pipelines={pipelines}
         // setSearchTerm={setSearchTerm}
         // setCurrentPage={setCurrentPage}
