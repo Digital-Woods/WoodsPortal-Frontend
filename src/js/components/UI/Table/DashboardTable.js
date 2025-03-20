@@ -207,8 +207,6 @@ const DashboardTable = ({
     },
   });
 
-  const { gridData, setGridData } = useTable();
-
   // Get List And Card Data
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableData"],
@@ -229,7 +227,7 @@ const DashboardTable = ({
       // };
       const param = getTableParam(companyAsMediator);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
-      if (defPermissions?.pipeline_id) param.filterValue = defPermissions?.pipeline_id;
+      if (defPermissions?.pipeline_id && componentName === 'ticket') param.filterValue = defPermissions?.pipeline_id;
 
       // console.log('param', getTableParam(companyAsMediator))
 
@@ -471,10 +469,6 @@ const DashboardTable = ({
       handelChangePipeline();
     }
   }, [sync]);
-
-  // useEffect(() => {
-  //     getPipelines();
-  // }, [selectedPipeline]);
 
   useEffect(() => {
     resetTableParam();
