@@ -21,7 +21,7 @@ const isListActive = (state, nodeType) => {
   return false;
 };
 
-let defaultEditorList = null
+let defaultEditorList = null;
 
 const DropdownListMenu = ({ editorView }) => {
   const { wrapInList } = window.wrapInList;
@@ -100,7 +100,7 @@ const DropdownListMenu = ({ editorView }) => {
   // }, [selectedEditorList, textAlign]);
 
   const toggleListMenu = (listType) => {
-    const {state, dispatch} = editorView
+    const { state, dispatch } = editorView;
     const { schema } = state;
     if (listType.key === "bullet") {
       if (isListActive(state, schema.nodes.bullet_list)) {
@@ -109,7 +109,7 @@ const DropdownListMenu = ({ editorView }) => {
         liftListItem(schema.nodes.list_item)(state, dispatch);
         setTimeout(() => {
           wrapInList(schema.nodes.bullet_list)(state, dispatch);
-        })
+        });
       }
     }
     if (listType.key === "ordered") {
@@ -118,11 +118,11 @@ const DropdownListMenu = ({ editorView }) => {
       } else {
         liftListItem(schema.nodes.list_item)(state, dispatch);
         setTimeout(() => {
-        wrapInList(schema.nodes.ordered_list)(state, dispatch);
-        })
+          wrapInList(schema.nodes.ordered_list)(state, dispatch);
+        });
       }
     }
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   // useEffect(() => {
@@ -172,7 +172,11 @@ const DropdownListMenu = ({ editorView }) => {
               <li
                 key={listType.key}
                 // className="cursor-pointer hover:note-active-state px-4 py-1"
-                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8] py-1 ${defaultEditorList?.key === listType.key ? 'bg-gray-100' : 'bg-none'}`}
+                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8] py-1 ${
+                  defaultEditorList?.key === listType.key
+                    ? "bg-gray-100"
+                    : "bg-none"
+                }`}
                 onClick={() => {
                   // setTextAlign(listType);
                   toggleListMenu(listType);
@@ -225,19 +229,25 @@ const listMenuItem = new MenuItem2({
 
     if (isBulletList) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>`;
-      document.getElementById("selectedEditorList")?.classList.add("note-active-state");
-      defaultEditorList = listTypes[0]
+      document
+        .getElementById("selectedEditorList")
+        ?.classList.add("note-active-state");
+      defaultEditorList = listTypes[0];
     }
     if (isOrderedList) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm180 440v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360Z"/></svg>`;
-      document.getElementById("selectedEditorList")?.classList.add("note-active-state");
-      defaultEditorList = listTypes[1]
+      document
+        .getElementById("selectedEditorList")
+        ?.classList.add("note-active-state");
+      defaultEditorList = listTypes[1];
     }
 
-    if(!isBulletList && !isOrderedList && editorListButton) {
+    if (!isBulletList && !isOrderedList && editorListButton) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>`;
-      document.getElementById("selectedEditorList")?.classList.remove("note-active-state");
-      defaultEditorList = ""
+      document
+        .getElementById("selectedEditorList")
+        ?.classList.remove("note-active-state");
+      defaultEditorList = "";
     }
 
     return true;

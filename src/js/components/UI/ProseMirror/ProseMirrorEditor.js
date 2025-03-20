@@ -12,8 +12,8 @@ const ProseMirrorEditor = ({
   setIsUploading,
 }) => {
   // Upload
-  const fileInputRef = useRef(null);
-  const token = getAuthToken();
+  // const fileInputRef = useRef(null);
+  // const token = getAuthToken();
   // const [uploadedAttachments, setUploadedAttachments] = useState(attachments);
   // const [isLoadingUoloading, setisLoadingUoloading] = useState(false);
   // const [uploadProgress, setUploadProgress] = useState(0);
@@ -26,7 +26,7 @@ const ProseMirrorEditor = ({
     uploadProgress,
     setUploadProgress,
     uploadedAttachments,
-    setUploadedAttachments
+    setUploadedAttachments,
   } = useEditor();
 
   // Plugin
@@ -45,23 +45,23 @@ const ProseMirrorEditor = ({
     inline: false, // Defines the image as an inline node
     attrs: {
       src: {}, // The source URL of the image (required)
-      width: { default: "auto" },
-      height: { default: "auto" },
-      class: { default: "w-auto h-auto" },
+      width: { default: "" },
+      height: { default: "" },
+      // class: { default: "w-auto h-auto" },
       // alt: { default: null }, // Alternative text (optional)
       // title: { default: null }, // Title for the image (optional)
     },
     group: "block", // Belongs to the "inline" group
-    draggable: true, // Makes the image draggable in the editor
+    draggable: false, // Makes the image draggable in the editor
     parseDOM: [
       {
         tag: "img[src]", // Matches <img> elements with a `src` attribute
         getAttrs(dom) {
           return {
             src: dom.getAttribute("src"),
-            width: dom.getAttribute("width") || "auto",
-            height: dom.getAttribute("height") || "auto",
-            class: dom.getAttribute("class") || "w-auto h-auto",
+            width: dom.getAttribute("width") || "",
+            height: dom.getAttribute("height") || "",
+            // class: dom.getAttribute("class") || "w-auto h-auto",
             // alt: dom.getAttribute("alt"),
             // title: dom.getAttribute("title"),
           };
@@ -75,15 +75,15 @@ const ProseMirrorEditor = ({
           ...node.attrs,
           width: node.attrs.width,
           height: node.attrs.height,
-          class:
-            `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
+          // class:
+          //   `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
         },
       ]; // Renders the image node as an <img> element
     },
   };
 
   useEffect(() => {
-    setUploadedAttachments([])
+    setUploadedAttachments([]);
     const { Schema, DOMParser } = window.ProseMirrorModel;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
@@ -406,6 +406,9 @@ const ProseMirrorEditor = ({
           textBGColorPlugin,
         ],
       }),
+      nodeViews: {
+        image: ProseMirrorImageResize(),
+      },
       dispatchTransaction(transaction) {
         const newState = editor.state.apply(transaction);
         editor.updateState(newState);
@@ -455,7 +458,6 @@ const ProseMirrorEditor = ({
           target.classList.add("relative", "inline-block");
           const href = target.getAttribute("href");
           const title = target.getAttribute("title") || target.textContent;
-
 
           let container = document.createElement("div");
           document.body.appendChild(container);
