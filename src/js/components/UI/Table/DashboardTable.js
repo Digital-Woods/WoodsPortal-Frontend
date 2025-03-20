@@ -254,8 +254,8 @@ const DashboardTable = ({
         setTotalItems(totalData || 0);
         if (componentName != 'ticket'){
           setIsLoading(false);
-          setTotalRecord(data?.data?.total || totalData || 0);
         }
+        setTotalRecord(data?.data?.total || totalData || 0);
         if (view === "BOARD") {
           setActiveCardData(data?.data);
         } else {
@@ -416,7 +416,7 @@ const DashboardTable = ({
   // End Cookie RouteMenuConfig
 
   // CHange Pipeline
-  const handelChangePipeline = async (pipeLineId) => {
+  // const handelChangePipeline = async (pipeLineId) => {
     // setCurrentPage(1);
     // let filterValue = "";
     // if (pipeLineId) {
@@ -448,8 +448,8 @@ const DashboardTable = ({
     //   filterValue: filterValue,
     // });
     // changePipeline(hubspotObjectTypeId, pipelines, pipeLineId);
-    getData()
-  };
+    // getData()
+  // };
 
   // Initial Call Pipeline
   // useEffect(() => {
@@ -470,6 +470,10 @@ const DashboardTable = ({
       getPipelines();
     }
   }, [sync]);
+
+  useEffect(() => {
+      getPipelines();
+  }, [selectedPipeline]);
 
   useEffect(() => {
     resetTableParam();
@@ -506,7 +510,7 @@ const DashboardTable = ({
         view={view}
         setActiveTab={setActiveTab}
         // searchTerm={searchTerm}
-        handelChangePipeline={handelChangePipeline}
+        // handelChangePipeline={handelChangePipeline}
         pipelines={pipelines}
         // setSearchTerm={setSearchTerm}
         // setCurrentPage={setCurrentPage}

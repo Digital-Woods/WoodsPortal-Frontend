@@ -89,6 +89,7 @@
   {% set objName = item.list_object_name | replace("p_","") %}
   {% do dynamicRouteList.append({
   label: item.list_object_name,
+  objectDescription: item.object_description,
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
@@ -119,6 +120,7 @@
   {% set objName = item.list_object_name | replace("p_","") %}
   {% do dynamicRouteList.append({
   label: item.list_object_name,
+  objectDescription: item.object_description,
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,

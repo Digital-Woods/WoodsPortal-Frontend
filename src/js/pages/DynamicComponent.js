@@ -18,7 +18,8 @@ const DynamicComponent = ({
   propertyName,
   companyAsMediator,
   pipeLineId,
-  specPipeLine
+  specPipeLine,
+  objectDescription
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -101,7 +102,12 @@ const DynamicComponent = ({
                   {tableTitle()}
                 </span>
                 <p className="dark:text-white leading-5 text-sm flex items-center">
-                  {!isLoading ? `${totalRecord} records` : <div className="h-3 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>} 
+                  {!isLoading ? `${totalRecord} records` : <div className="h-3 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>}
+                </p>
+                <p className="dark:text-white leading-5 text-sm flex items-center">
+                  {objectDescription ? ReactHtmlParser.default(
+                    DOMPurify.sanitize(objectDescription)
+                  ) : ''}
                 </p>
               </span>
             ) : (

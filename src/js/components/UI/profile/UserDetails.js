@@ -20,6 +20,8 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState(false);
     const { isLargeScreen } = useResponsive();
     const [userToggled, setUserToggled] = useState(false); // Track user interaction
+    const [totalRecord, setTotalRecord] = useState(0);
+
     // console.log(path,'=path', objectId,"=objectId", id,'=id');
     // Automatically adjust the sidebar based on screen size
     useEffect(() => {
@@ -56,7 +58,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
         const routeMenuConfig = {
             key: 'home',
             details: {
-              activeTab: active
+                activeTab: active
             },
         };
         setSelectRouteMenuConfig(routeMenuConfig);
@@ -69,18 +71,18 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
         routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
         setRouteMenuConfig(routeMenuConfigs);
     };
-    
+
     useEffect(() => {
         let routeMenuConfigs = getRouteMenuConfig();
-    
+
         if (
-          routeMenuConfigs &&
-          routeMenuConfigs.hasOwnProperty('home')
+            routeMenuConfigs &&
+            routeMenuConfigs.hasOwnProperty('home')
         ) {
-          const activeTab = routeMenuConfigs.home?.details?.activeTab;
-          setActiveTabFucntion(activeTab || "files")
+            const activeTab = routeMenuConfigs.home?.details?.activeTab;
+            setActiveTabFucntion(activeTab || "files")
         } else {
-          setActiveTabFucntion("files")
+            setActiveTabFucntion("files")
         }
     }, []);
 
@@ -88,7 +90,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     if (env.DATA_SOURCE_SET != true) {
         portalId = getPortal()?.portalId;
     }
-  
+
 
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
@@ -100,7 +102,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
         updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
     };
 
-    if ((!isLoadedFirstTime  && activeTab === "files") || (sync === true  && activeTab === "files" ) ) {
+    if ((!isLoadedFirstTime && activeTab === "files") || (sync === true && activeTab === "files")) {
         return (
             <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
             >
@@ -139,7 +141,13 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                     )}
                                     {permissions && permissions?.ticket?.display && (
                                         <TabsTrigger className="rounded-md" value="tickets">
-                                            <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}</p>
+                                            <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
+                                                {totalRecord > 0 && (
+                                                    <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
+                                                        {totalRecord}
+                                                    </span>
+                                                )}
+                                            </p>
                                         </TabsTrigger>
                                     )}
                                     {/* <TabsTrigger className="rounded-md" value="photos">
@@ -193,7 +201,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 componentName="ticket"
                                 defPermissions={permissions ? permissions.ticket : null}
                                 editView={true}
-
+                                setTotalRecord={setTotalRecord}
                             />
                         )}
 

@@ -775,6 +775,14 @@
       "display_width" : null,
       "default" : "Tickets"
     }, {
+      "id" : "818b9fae-2921-5a4e-2887-6a502d56f1bb",
+      "name" : "object_description",
+      "label" : "Object Description",
+      "required" : false,
+      "locked" : false,
+      "type" : "richtext",
+      "display_width" : null
+    }, {
       "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
       "name" : "list_object_properties",
       "label" : "Object Properties",
@@ -985,6 +993,14 @@
       "type" : "text",
       "display_width" : null,
       "default" : "Customers"
+    }, {
+      "id" : "7716b340-b61f-e735-54c9-eb0ee41a31c2",
+      "name" : "object_description",
+      "label" : "Object Description",
+      "required" : false,
+      "locked" : false,
+      "type" : "richtext",
+      "display_width" : null
     }, {
       "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
       "name" : "list_object_properties",

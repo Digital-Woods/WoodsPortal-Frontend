@@ -1,4 +1,4 @@
-const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, permissions, companyAsMediator, title}) => {
+const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, permissions, companyAsMediator, title, setTotalRecord}) => {
   const hubspotObjectTypeId = '0-5'; 
 
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId")
@@ -33,6 +33,7 @@ const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, pe
       detailsUrl={detailsUrl}
       componentName="ticket"
       defPermissions={permissions}
+      setTotalRecord={setTotalRecord}
     />
   );
 };
