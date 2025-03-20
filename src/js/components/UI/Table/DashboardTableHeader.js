@@ -6,7 +6,7 @@ const DashboardTableHeader = ({
   // activePipeline,
   setActiveTab,
   // search,
-  handelChangePipeline,
+  // handelChangePipeline,
   pipelines,
   // setSearchTerm,
   // setCurrentPage,
@@ -35,7 +35,6 @@ const DashboardTableHeader = ({
 
   const handelPipeline = (value) => {
     setSelectedPipeline(hubspotObjectTypeId, pipelines, value);
-    handelChangePipeline();
     setPage(1);
   };
 

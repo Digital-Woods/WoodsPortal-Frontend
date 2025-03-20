@@ -21,6 +21,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false); 
+  const [totalRecord, setTotalRecord] = useState(0);
 
   // Automatically adjust the sidebar based on screen size
   useEffect(() => {
@@ -242,9 +243,14 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                           {permissions?.ticket?.display_label
                             ? permissions?.ticket?.display_label
                             : "Tickets"}
-                          {associations?.TICKET && associations.TICKET?.total > 0 && (
+                          {/* {associations?.TICKET && associations.TICKET?.total > 0 && (
                             <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
                               {associations.TICKET.total}
+                            </span>
+                          )} */}
+                          {totalRecord > 0 && (
+                            <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
+                              {totalRecord}
                             </span>
                           )}
                         </p>
@@ -301,6 +307,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   permissions={permissions ? permissions.ticket : null}
                   companyAsMediator={companyAsMediator}
                   title={permissions?.ticket?.display_label || "Tickets"}
+                  setTotalRecord={setTotalRecord}
                 />
               )}
 

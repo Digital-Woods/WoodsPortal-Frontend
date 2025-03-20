@@ -69,6 +69,7 @@ const MainLayout = ({ children }) => {
       companyAsMediator: menuItem.companyAsMediator,
       pipeLineId: menuItem.pipeLineId,
       specPipeLine: menuItem.specPipeLine,
+      objectDescription:menuItem.objectDescription,
       component: (
         <DynamicComponent
           key={index}
@@ -79,6 +80,7 @@ const MainLayout = ({ children }) => {
           companyAsMediator={menuItem.companyAsMediator}
           pipeLineId={menuItem.pipeLineId}
           specPipeLine={menuItem.specPipeLine}
+          objectDescription={menuItem.objectDescription}
         />
       ),
     }));
@@ -214,6 +216,7 @@ const MainLayout = ({ children }) => {
                       companyAsMediator={routes[0].companyAsMediator}
                       pipeLineId={routes[0].pipeLineId}
                       specPipeLine={routes[0].specPipeLine}
+                      objectDescription={routes[0].objectDescription}
                     />
                   </React.Fragment>
                 )}
@@ -270,6 +273,7 @@ const MainLayout = ({ children }) => {
                   companyAsMediator,
                   pipeLineId,
                   specPipeLine,
+                  objectDescription
                 }) => (
                   <PrivateRoute
                     key={path}
@@ -303,6 +307,7 @@ const MainLayout = ({ children }) => {
                             companyAsMediator={companyAsMediator}
                             pipeLineId={pipeLineId}
                             specPipeLine={specPipeLine}
+                            objectDescription={objectDescription}
                           />
                         )}
                       </React.Fragment>
