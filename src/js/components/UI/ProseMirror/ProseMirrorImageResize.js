@@ -43,10 +43,10 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
         width: Math.max(50, newWidth),
         height: Math.max(50 / aspectRatio, newHeight),
       });
-      // updateImageNodeAttributes(node, view, getPos, {
-      //   width: newWidth,
-      //   height: newHeight,
-      // });
+      updateImageNodeAttributes(node, view, getPos, {
+        width: newWidth,
+        height: newHeight,
+      });
     };
 
     const onMouseUp = () => {
