@@ -61,73 +61,55 @@ const DropdownListMenu = ({ editorView }) => {
     };
   }, [isOpen]);
 
-  // // Toggle Bullet List
-  // function toggleBulletList(state, dispatch) {
-  //   const { schema, selection } = state;
-
-  //   console.log("bullet_list", isListActive(state, schema.nodes.bullet_list));
-
-  //   if (isListActive(state, schema.nodes.bullet_list)) {
-  //     liftListItem(schema.nodes.list_item)(state, dispatch);
-  //   } else {
-  //     liftListItem(schema.nodes.list_item)(state, dispatch);
-  //     wrapInList(schema.nodes.bullet_list)(state, dispatch);
+  // const toggleListMenu = (listType) => {
+  //   const { state, dispatch } = editorView;
+  //   const { schema } = state;
+  //   if (listType.key === "bullet") {
+  //     if (isListActive(state, schema.nodes.bullet_list)) {
+  //       liftListItem(schema.nodes.list_item)(state, dispatch);
+  //     } else {
+  //       liftListItem(schema.nodes.list_item)(state, dispatch);
+  //       setTimeout(() => {
+  //         wrapInList(schema.nodes.bullet_list)(state, dispatch);
+  //       });
+  //     }
   //   }
-  //   toggleMenu();
-  // }
-
-  // // Toggle Ordered List
-  // function toggleOrderedList(state, dispatch) {
-  //   const { schema, selection } = state;
-
-  //   console.log("ordered_list", isListActive(state, schema.nodes.ordered_list));
-
-  //   if (isListActive(state, schema.nodes.ordered_list)) {
-  //     liftListItem(schema.nodes.list_item)(state, dispatch);
-  //   } else {
-  //     liftListItem(schema.nodes.list_item)(state, dispatch);
-  //     wrapInList(schema.nodes.ordered_list)(state, dispatch);
+  //   if (listType.key === "ordered") {
+  //     if (isListActive(state, schema.nodes.ordered_list)) {
+  //       liftListItem(schema.nodes.list_item)(state, dispatch);
+  //     } else {
+  //       liftListItem(schema.nodes.list_item)(state, dispatch);
+  //       setTimeout(() => {
+  //         wrapInList(schema.nodes.ordered_list)(state, dispatch);
+  //       });
+  //     }
   //   }
-  //   toggleMenu();
-  // }
-
-  // useEffect(() => {
-  //   console.log("textAlign", textAlign);
-  //   if (selectedEditorList && textAlign && textAlign?.key === "bullet")
-  //     toggleBulletList(editorView.state, editorView.dispatch);
-  //   if (selectedEditorList && textAlign && textAlign?.key === "ordered")
-  //     toggleOrderedList(editorView.state, editorView.dispatch);
-  // }, [selectedEditorList, textAlign]);
+  //   setIsOpen(false);
+  // };
 
   const toggleListMenu = (listType) => {
     const { state, dispatch } = editorView;
     const { schema } = state;
-    if (listType.key === "bullet") {
-      if (isListActive(state, schema.nodes.bullet_list)) {
-        liftListItem(schema.nodes.list_item)(state, dispatch);
-      } else {
-        liftListItem(schema.nodes.list_item)(state, dispatch);
-        setTimeout(() => {
-          wrapInList(schema.nodes.bullet_list)(state, dispatch);
-        });
-      }
+
+    const isBulletList = isListActive(state, schema.nodes.bullet_list);
+    const isOrderedList = isListActive(state, schema.nodes.ordered_list);
+    const isAnyList = isBulletList || isOrderedList;
+
+    // If already in a list, remove it first
+    if (isAnyList) {
+      liftListItem(schema.nodes.list_item)(state, dispatch);
     }
-    if (listType.key === "ordered") {
-      if (isListActive(state, schema.nodes.ordered_list)) {
-        liftListItem(schema.nodes.list_item)(state, dispatch);
-      } else {
-        liftListItem(schema.nodes.list_item)(state, dispatch);
-        setTimeout(() => {
-          wrapInList(schema.nodes.ordered_list)(state, dispatch);
-        });
-      }
+
+    // If not in the target list, wrap in the new list
+    if (!isListActive(state, schema.nodes[listType.key + "_list"])) {
+      wrapInList(schema.nodes[listType.key + "_list"])(
+        editorView.state,
+        editorView.dispatch
+      );
     }
+
     setIsOpen(false);
   };
-
-  // useEffect(() => {
-  //   if (defaultEditorList) toggleListMenu(defaultEditorList);
-  // }, [defaultEditorList]);
 
   useEffect(() => {
     if (defaultEditorList) setTextAlign(defaultEditorList);
