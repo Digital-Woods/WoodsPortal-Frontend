@@ -117,7 +117,7 @@ const EditorAttachmentUploadMenu = ({
       });
 
       setAttachmentId((prevAttachments) => 
-        prevAttachments ? `${prevAttachments},${response.data.data.id}` : response.data.data.id
+        prevAttachments ? `${prevAttachments};${response.data.data.id}` : response.data.data.id
       );
       
       setUploadedAttachments((prevAttachments) => [
