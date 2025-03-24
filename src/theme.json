@@ -1,5 +1,5 @@
 {
-  "label" : "WoodsPortal",
+  "label" : "WoodsPortal test",
   "preview_path" : "./templates/layout/woodsportal-base-template.html",
   "screenshot_path" : "./images/template-previews/WoodsPortal-theme-preview-banner-dev.png",
   "enable_domain_stylesheets" : false,
