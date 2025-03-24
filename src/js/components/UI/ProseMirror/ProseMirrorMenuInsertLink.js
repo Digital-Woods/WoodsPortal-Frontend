@@ -200,7 +200,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
           <div className="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
             <h2 className="text-sm">Create Link</h2>
             <div>
-              <label className="text-sm  dark">Link text</label>
+              <label className="text-sm ">Link text</label>
               <Input
                 ref={inputRef}
                 onClick={() => inputRef.current.focus()}
