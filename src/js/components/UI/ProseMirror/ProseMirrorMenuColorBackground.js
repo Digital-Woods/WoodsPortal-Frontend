@@ -163,9 +163,9 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
   }, [color]);
 
   return (
-    <div className="note-menuitem">
+    <div className="">
       <div
-        class="ProseMirror-icon"
+        class="ProseMirror-icon note-menuitem"
         title="Text highlight"
         ref={dropdownButtonRef}
         onClick={toggleMenu}

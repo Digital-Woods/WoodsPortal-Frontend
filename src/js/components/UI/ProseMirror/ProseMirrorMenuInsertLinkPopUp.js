@@ -55,12 +55,13 @@ const ProseMirrorMenuInsertLinkPopUp = ({
   editorView,
   href,
   title,
+  target,
   closeLinkPopup,
 }) => {
   const [isSetLinkText, setIsSetLinkText] = useState(false);
   const [linkText, setLinkText] = useState(title);
   const [url, setUrl] = useState(href);
-  const [blank, setBlank] = useState(true);
+  const [blank, setBlank] = useState(target === '_self' ? false : true);
 
   const dropdownButtonRef = useRef(null);
   const dropdownMenuRef = useRef(null);
@@ -168,7 +169,6 @@ const ProseMirrorMenuInsertLinkPopUp = ({
             placeholder=""
             defaultValue={linkText}
             onChange={(e) => {
-              console.log("onChange", true);
               setLinkText(e.target.value);
               if (e.target.value) {
                 setIsSetLinkText(true);

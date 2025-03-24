@@ -53,6 +53,7 @@ const ProseMirrorEditor = ({
     },
     group: "block", // Belongs to the "inline" group
     draggable: false, // Makes the image draggable in the editor
+    selectable: false, // Prevents text input in the same line
     parseDOM: [
       {
         tag: "img[src]", // Matches <img> elements with a `src` attribute
@@ -70,15 +71,17 @@ const ProseMirrorEditor = ({
     ],
     toDOM(node) {
       return [
-        "img",
-        {
-          ...node.attrs,
-          width: node.attrs.width,
-          height: node.attrs.height,
-          // class:
-          //   `w-${node.attrs.width} h-${node.attrs.height} ${node.attrs.class}`.trim(),
-        },
-      ]; // Renders the image node as an <img> element
+        "div", // Wrap in a `div` to enforce block behavior
+        { class: "image-container" }, // Optional class for further styling
+        [
+          "img",
+          {
+            src: node.attrs.src,
+            width: node.attrs.width,
+            height: node.attrs.height,
+          },
+        ],
+      ]; // Renders the image node as a block element
     },
   };
 
@@ -219,30 +222,6 @@ const ProseMirrorEditor = ({
           toDOM: () => ["u", 0],
           parseDOM: [{ tag: "u" }],
         },
-        textColor: {
-          attrs: { color: {} },
-          parseDOM: [
-            {
-              style: "color",
-              getAttrs: (value) => ({ color: value }),
-            },
-          ],
-          toDOM: (mark) => ["span", { style: `color: ${mark.attrs.color}` }, 0],
-        },
-        textBackgroundColor: {
-          attrs: { color: {} },
-          parseDOM: [
-            {
-              style: "background-color",
-              getAttrs: (value) => ({ color: value }),
-            },
-          ],
-          toDOM: (mark) => [
-            "span",
-            { style: `background-color: ${mark.attrs.color}` },
-            0,
-          ],
-        },
         fontSize: {
           attrs: { fontSize: {} },
           parseDOM: [
@@ -268,6 +247,30 @@ const ProseMirrorEditor = ({
           toDOM: (mark) => [
             "span",
             { style: `font-family: ${mark.attrs.font}` },
+            0,
+          ],
+        },
+        textColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => ["span", { style: `color: ${mark.attrs.color}` }, 0],
+        },
+        textBackgroundColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "background-color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `background-color: ${mark.attrs.color}` },
             0,
           ],
         },
@@ -305,6 +308,7 @@ const ProseMirrorEditor = ({
     const { exitCode } = window.exitCode;
     const { splitBlock } = window.splitBlock;
     const { lift } = window.ProseMirrorLift;
+    const { history, undo, redo } = window.ProseMirrorHistory;
 
     const schema = editorShema;
 
@@ -322,7 +326,8 @@ const ProseMirrorEditor = ({
         attachmentUploadMethod,
         setUploadedAttachments,
         setisLoadingUoloading,
-        setUploadProgress
+        setUploadProgress,
+        setAttachmentId
       );
     };
 
@@ -388,6 +393,7 @@ const ProseMirrorEditor = ({
         doc: initialDoc,
         schema,
         plugins: [
+          history(), // Enables history tracking
           keymap({
             Enter: chainCommands(exitCode, customEnterHandler, splitBlock),
             Tab: (state, dispatch) => {
@@ -397,6 +403,8 @@ const ProseMirrorEditor = ({
               );
             },
             "Shift-Enter": baseKeymap["Enter"], // Allow Shift+Enter to add a line break instead of a new list item
+            "Mod-z": undo, // Ctrl + Z or Cmd + Z for undo
+            "Mod-y": redo, // Ctrl + Y or Cmd + Shift + Z for redo
           }),
           keymap(baseKeymap),
           menu,
@@ -458,6 +466,7 @@ const ProseMirrorEditor = ({
           target.classList.add("relative", "inline-block");
           const href = target.getAttribute("href");
           const title = target.getAttribute("title") || target.textContent;
+          const target_b = target.getAttribute("target");
 
           let container = document.createElement("div");
           document.body.appendChild(container);
@@ -470,6 +479,7 @@ const ProseMirrorEditor = ({
               editorView={editor}
               href={href}
               title={title}
+              target={target_b}
               closeLinkPopup={closeLinkPopup}
             />,
             container
@@ -501,7 +511,11 @@ const ProseMirrorEditor = ({
 
   useEffect(() => {
     if (pmState) {
-      const content = getContentString();
+      const { doc } = pmState;
+      const isEmpty =
+        doc.content.childCount === 1 && doc.textContent.trim() === "";
+      const content = isEmpty ? "" : getContentString();
+
       setEditorContent(content);
     }
   }, [pmState?.doc.toJSON()]);

@@ -870,8 +870,11 @@ img.ProseMirror-separator {
 }
 
 .ProseMirror-menuseparator {
-  border-right: 1px solid #ddd;
-  margin-right: 3px;
+  border-right: 1px solid rgb(234, 240, 246);
+  height: 24px;
+  margin: auto 4px;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .ProseMirror-menu-dropdown, .ProseMirror-menu-dropdown-menu {
@@ -1182,7 +1185,7 @@ img.ProseMirror-separator {
   outline: none;
 }
 
-.ProseMirror p { margin-bottom: 1em }
+/* .ProseMirror p { margin-bottom: 1em } */
 
 .line-clamp-2 {
   @apply overflow-hidden text-ellipsis;
@@ -1231,4 +1234,22 @@ menu, ol {
 .ProseMirror a:hover, .EditorView a:hover {
   color: #0091ae;
   text-decoration: underline;
+}
+
+.ProseMirror p, .EditorView p {
+  line-height: 1.5;
+}
+
+.editor-menuitem {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+
+.editor-menuitem:hover {
+  border: 1px solid #cbd6e2;
+  border-radius: 3px;
 }
