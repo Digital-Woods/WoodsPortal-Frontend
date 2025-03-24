@@ -80,6 +80,10 @@ const NoteCard = ({
     updateNoteMutation.mutate(payload);
   };
 
+  const configDOMPurify = {
+    ALLOWED_ATTR: ['href', 'title', 'target'],
+  };
+
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
@@ -184,7 +188,7 @@ const NoteCard = ({
                 <div>
                   <span>
                     {ReactHtmlParser.default(
-                      DOMPurify.sanitize(note.hs_note_body)
+                      DOMPurify.sanitize(note.hs_note_body, configDOMPurify)
                     )}
                   </span>
                 </div>
@@ -229,8 +233,6 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const [attachmentId, setAttachmentId] = useState("");
   const { sync, setSync } = useSync();
   const [expandDialog, setExpandDialog] = useState(false);
-
-  // const [permissions, setPermissions] = useState(null);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {

@@ -8,6 +8,7 @@ const updateImageNodeAttributes = (node, view, getPos, attrs) => {
     view.dispatch(tr);
   }
 };
+const { NodeSelection } = window.NodeSelection;
 
 const ProseMirrorImage = ({ node, view, getPos }) => {
   const imgResizeRef = useRef(null);
@@ -59,10 +60,7 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
   };
 
   const handleClickOutside = (event) => {
-    if (
-      imgResizeRef.current &&
-      !imgResizeRef.current.contains(event.target)
-    ) {
+    if (imgResizeRef.current && !imgResizeRef.current.contains(event.target)) {
       setImageResize(false);
     }
   };
@@ -79,6 +77,17 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
     };
   }, [imageResize]);
 
+  const handleImageClick = (event) => {
+    event.preventDefault(); // Prevent ProseMirror's default text selection
+    setImageResize(true);
+
+    // Create a NodeSelection to properly select the image node in ProseMirror
+    const { state, dispatch } = view;
+    const tr = state.tr.setSelection(NodeSelection.create(state.doc, getPos()));
+    dispatch(tr);
+    view.focus(); // Set focus on the editor to avoid text input issues
+  };
+
   return (
     <div
       class={`relative inline-block border-2 cursor-pointer w-[${
@@ -87,6 +96,7 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
         imageResize ? "border-[#00d0e4]" : "border-transparent"
       }`}
       onClick={() => setImageResize(true)}
+      onMouseDown={handleImageClick}
       ref={imgResizeRef}
     >
       <img

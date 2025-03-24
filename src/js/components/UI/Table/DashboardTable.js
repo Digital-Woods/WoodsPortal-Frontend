@@ -229,8 +229,6 @@ const DashboardTable = ({
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       if (defPermissions?.pipeline_id && componentName === 'ticket') param.filterValue = defPermissions?.pipeline_id;
 
-      // console.log('param', getTableParam(companyAsMediator))
-
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
       if (componentName != 'ticket'){
       setIsLoading(true);
@@ -250,7 +248,7 @@ const DashboardTable = ({
         // if (currentPage === 1) setGridData('reset', [])
         const totalData = data?.data?.total;
         setTotalItems(totalData || 0);
-        if (componentName != 'ticket'){
+        if (componentName != 'ticket') {
           setIsLoading(false);
         }
         setTotalRecord(data?.data?.total || totalData || 0);
@@ -280,8 +278,8 @@ const DashboardTable = ({
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
-      if (componentName != 'ticket'){
-      setIsLoading(false);
+      if (componentName != 'ticket') {
+        setIsLoading(false);
       }
     },
   });
@@ -446,8 +444,11 @@ const DashboardTable = ({
     //   filterValue: filterValue,
     // });
     // changePipeline(hubspotObjectTypeId, pipelines, pipeLineId);
-    // getData();
-    getPipelines();
+    getData({
+      filterPropertyName: "hs_pipeline",
+      filterOperator: "eq",
+      filterValue: pipeLineId,
+    });
   };
 
   // Initial Call Pipeline
@@ -466,13 +467,20 @@ const DashboardTable = ({
 
   useEffect(() => {
     if (sync) {
-      handelChangePipeline();
+      // handelChangePipeline();
+      getPipelines();
+      // getData()
     }
   }, [sync]);
 
   useEffect(() => {
     resetTableParam();
   }, []);
+
+
+useEffect(() => {
+  getPipelines();
+}, [selectedPipeline]);
 
   if (isLoadingHoldData === true) {
     return (
