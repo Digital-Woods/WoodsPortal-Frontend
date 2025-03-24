@@ -157,7 +157,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
   return (
     <div className="relative inline-block">
       <div
-        className="ProseMirror-icon"
+        className="ProseMirror-icon note-menuitem"
         title="Insert Link"
         ref={dropdownButtonRef}
         onClick={toggleMenu}
