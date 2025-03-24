@@ -51,7 +51,7 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
 
 <!-- ProseMirror Modules -->
 <script type="module">
-  const { EditorState, Plugin, PluginKey } = PM.state;
+  const { EditorState, Plugin, PluginKey, NodeSelection  } = PM.state;
   const { EditorView, Decoration, DecorationSet } = PM.view;
   const { Schema, DOMParser, DOMSerializer } = PM.model;
   const { keymap } = PM.keymap;
@@ -70,6 +70,7 @@ https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js
   window.ProseMirrorPlugin = ProseMirrorPlugin;
   window.ProseMirrorPluginKey = ProseMirrorPluginKey;
   window.ProseMirrorView = { EditorView };
+  window.NodeSelection = { NodeSelection };
   window.Decoration = { Decoration };
   window.DecorationSet = { DecorationSet };
   window.ProseMirrorModel = { Schema, DOMParser };
