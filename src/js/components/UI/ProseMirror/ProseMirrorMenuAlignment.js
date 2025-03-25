@@ -157,14 +157,29 @@ function isAlignmentActive(state, alignValue) {
   return false;
 }
 
+function isImageSelected(state) {
+  const { from } = state.selection;
+  const node = state.doc.nodeAt(from);
+  return (node && node.type.name === "image") ? node : false;
+}
+
 const alignmentDropdown = new MenuItem2({
   title: `Select Alignment`,
   run: () => {},
   select: (state) => {
-    const isAlignmentLeft = isAlignmentActive(state, "left");
-    const isAlignmentCenter = isAlignmentActive(state, "center");
-    const isAlignmentRight = isAlignmentActive(state, "right");
-    const editorListButton = document.querySelector("#textAlignIcon");
+
+    let isAlignmentLeft = isAlignmentActive(state, "left");
+    let isAlignmentCenter = isAlignmentActive(state, "center");
+    let isAlignmentRight = isAlignmentActive(state, "right");
+    let editorListButton = document.querySelector("#textAlignIcon");
+
+    const imageNode = isImageSelected(state)
+    if(imageNode) {
+      const figureStyle = imageNode?.attrs?.style || "";
+      isAlignmentLeft = figureStyle.includes("text-align: left;");
+      isAlignmentCenter = figureStyle.includes("text-align: center;");
+      isAlignmentRight = figureStyle.includes("text-align: right;");
+    }
 
     if (isAlignmentLeft && editorListButton) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
