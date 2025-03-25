@@ -125,7 +125,7 @@ const Home = ({
                 : "w-full"
               } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}
           >
-            <div className={`${companyDetailsCard == 'true' ? `flex ${moduleStylesOptions.homeTabStyles.cards.direction} items-stretch` : ' '}  md:gap-4 gap-3`}>
+            <div className={`${companyDetailsCard == 'true' ? `flex ${moduleStylesOptions.homeTabStyles.cards.direction} items-stretch flex-col` : ' '}  md:gap-4 gap-3`}>
               <div className="flex-1 grid">
                 <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
               </div>

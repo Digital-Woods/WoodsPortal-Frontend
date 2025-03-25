@@ -16,6 +16,7 @@ const BoardView = ({
   viewName,
   detailsView,
   detailsUrl,
+  defPermissions
 }) => {
   const { setPage, setAfter, limit, setLimit, selectedPipeline } = useTable();
 
@@ -172,9 +173,8 @@ const BoardView = ({
         {children}
         {dragType === dropType && isDragging && (
           <div
-            className={`absolute inset-[0px] flex ${
-              split === "x" ? "flex-row" : "flex-column"
-            }`}
+            className={`absolute inset-[0px] flex ${split === "x" ? "flex-row" : "flex-column"
+              }`}
           >
             <Drag.DropZone
               dropId={prevId}
@@ -219,9 +219,8 @@ const BoardView = ({
     const parentObjectRecordId = getParam("parentObjectRecordId");
     return (
       <div
-        className={`text-sm rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${
-          dragItem ? " rotate-6" : ""
-        }`}
+        className={`text-sm rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
+          }`}
       >
         {columns.map((column) => (
           <div>
@@ -241,14 +240,12 @@ const BoardView = ({
               type: "list",
               associationPath:
                 viewName === "ticket"
-                  ? `/${item[column.key]}/${
-                      env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets
-                    }/${item.hs_object_id}${detailsUrl}`
+                  ? `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets
+                  }/${item.hs_object_id}${detailsUrl}`
                   : path == "/association"
-                  ? `/${item[column.key]}/${objectTypeId}/${
-                      item.hs_object_id
+                    ? `/${item[column.key]}/${objectTypeId}/${item.hs_object_id
                     }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}`
-                  : "",
+                    : "",
               detailsView: detailsView,
               hoverRow: null,
               item: item,
@@ -263,9 +260,8 @@ const BoardView = ({
   function List({ name, dragItem, children, count }) {
     return (
       <div
-        className={`w-[280px] rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 shrink-0 grow-0 ${
-          dragItem ? " rotate-6" : ""
-        }`}
+        className={`w-[280px] rounded-xs whitespace-nowrap dark:text-white bg-[#f5f8fa] dark:bg-dark-500 mx-0 my-0 pb-1 shrink-0 grow-0 ${dragItem ? " rotate-6" : ""
+          }`}
       >
         <div className="flex items-center justify-between px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
           <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
@@ -283,6 +279,8 @@ const BoardView = ({
 Main Component Starts Here
 
 =================================================================*/
+  const [alert, setAlert] = useState(null);
+
 
   const handlePageChange = async (mLimit) => {
     await setPage(1);
@@ -318,17 +316,19 @@ Main Component Starts Here
         )}`,
         data:
           hubspotObjectTypeId == "0-3"
-            ? { pipeline: selectedPipeline, dealstage: stageId }
-            : { hs_pipeline: selectedPipeline, hs_pipeline_stage: stageId },
+            ? { pipeline: defPermissions && defPermissions?.pipeline_id ? defPermissions.pipeline_id : selectedPipeline, dealstage: stageId }
+            : { hs_pipeline: defPermissions && defPermissions?.pipeline_id ? defPermissions.pipeline_id : selectedPipeline, hs_pipeline_stage: stageId },
       });
     },
     onSuccess: (resp) => {
+      setAlert({ message: resp.statusMsg, type: "success" });
       // getData({
       //   cache: false,
       // })
     },
-    onError: () => {
+    onError: (error) => {
       // setPipelines([]);
+      // setAlert({ message: error.message, type: "error" });
     },
   });
 
@@ -402,6 +402,13 @@ Main Component Starts Here
 
   return data.length > 0 ? (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
+      {alert && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
           <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">
@@ -421,13 +428,11 @@ Main Component Starts Here
                   </Drag.DropZone>
                   <Drag.DropZones
                     className={`min-w-[280px] relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
-                      ${
-                        listPosition === 0
-                          ? "rounded-s-md border-r-1  border-l-1"
-                          : "border-l-0"
+                      ${listPosition === 0
+                        ? "rounded-s-md border-r-1  border-l-1"
+                        : "border-l-0"
                       } 
-                      ${
-                        listPosition === data.length - 1 ? "rounded-e-md" : ""
+                      ${listPosition === data.length - 1 ? "rounded-e-md" : ""
                       }`}
                     prevId={listPosition}
                     nextId={listPosition + 1}
@@ -470,13 +475,12 @@ Main Component Starts Here
                               />
                               <Drag.DragItem
                                 dragId={card.id}
-                                className={`cursor-pointer ${
-                                  activeItem === card.id &&
-                                  activeType === "card" &&
-                                  isDragging
+                                className={`cursor-pointer ${activeItem === card.id &&
+                                    activeType === "card" &&
+                                    isDragging
                                     ? "hidden"
                                     : "translate-x-0"
-                                }`}
+                                  }`}
                                 dragType="card"
                               >
                                 <Card
