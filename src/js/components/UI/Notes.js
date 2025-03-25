@@ -80,10 +80,6 @@ const NoteCard = ({
     updateNoteMutation.mutate(payload);
   };
 
-  const configDOMPurify = {
-    ALLOWED_ATTR: ['href', 'title', 'target'],
-  };
-
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
@@ -185,10 +181,12 @@ const NoteCard = ({
                   }
                 }}
               >
-                <div>
+                <div className="break-words">
                   <span>
                     {ReactHtmlParser.default(
-                      DOMPurify.sanitize(note.hs_note_body, configDOMPurify)
+                      DOMPurify.sanitize(note.hs_note_body, {
+                        ADD_ATTR: ['target'],
+                      })
                     )}
                   </span>
                 </div>

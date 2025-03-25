@@ -444,11 +444,11 @@ const DashboardTable = ({
     //   filterValue: filterValue,
     // });
     // changePipeline(hubspotObjectTypeId, pipelines, pipeLineId);
-    getData({
-      filterPropertyName: "hs_pipeline",
-      filterOperator: "eq",
-      filterValue: pipeLineId,
-    });
+    // getData({
+    //   filterPropertyName: "hs_pipeline",
+    //   filterOperator: "eq",
+    //   filterValue: pipeLineId,
+    // });
   };
 
   // Initial Call Pipeline
@@ -478,9 +478,11 @@ const DashboardTable = ({
   }, []);
 
 
-useEffect(() => {
-  getPipelines();
-}, [selectedPipeline]);
+  useEffect(() => {
+    if(!defPermissions?.pipeline_id){
+      getPipelines();
+    }
+  }, [selectedPipeline]);
 
   if (isLoadingHoldData === true) {
     return (
