@@ -63,7 +63,7 @@ const DynamicComponent = ({
   }, []);
 
   useEffect(() => {
-    
+
   }, [totalRecord]);
 
   const apis = {
@@ -104,11 +104,11 @@ const DynamicComponent = ({
                 <p className="dark:text-white leading-5 text-sm flex items-center">
                   {!isLoading ? `${totalRecord} records` : <div className="h-3 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>}
                 </p>
-                <p className="dark:text-white leading-5 text-sm flex items-center">
+                <pre className="dark:text-white ">
                   {objectDescription ? ReactHtmlParser.default(
                     DOMPurify.sanitize(objectDescription)
                   ) : ''}
-                </p>
+                </pre>
               </span>
             ) : (
               ""

@@ -181,7 +181,7 @@ const NoteCard = ({
                   }
                 }}
               >
-                <div>
+                <div className="break-words">
                   <span>
                     {ReactHtmlParser.default(
                       DOMPurify.sanitize(note.hs_note_body, {
