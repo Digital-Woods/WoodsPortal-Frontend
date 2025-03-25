@@ -200,8 +200,8 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
           <div className="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
             <h2 className="text-sm">Create Link</h2>
             <div>
-              <label className="text-sm ">Link text</label>
-              <Input
+              <label className="text-sm">Link text</label>
+              <Input 
                 ref={inputRef}
                 onClick={() => inputRef.current.focus()}
                 height="medium"
@@ -215,7 +215,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
                     setIsSetLinkText(false);
                   }
                 }}
-                className="!bg-white !text-black"
+                className="!bg-white !text-black !border-gray-200"
             
               />
             </div>
@@ -232,7 +232,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
                   setUrl(e.target.value);
                   if (!isSetLinkText) setLinkText(e.target.value);
                 }}
-                className="!bg-white !text-black"
+                className="!bg-white !text-black !border-gray-200"
               />
             </div>
 

@@ -117,7 +117,7 @@ const Input = React.forwardRef(
     );
     delete rest.className;
     return (
-      <div className="relative dark:bg-dark-300 flex items-center rounded-md max-sm:w-full">
+      <div className="relative dark:bg-dark-300 flex items-center rounded-lg max-sm:w-full">
         {Icon && (
           <div className="absolute left-2 top-1/2 -translate-y-1/2">
             <Icon className="h-6 w-6 text-gray-500" />
