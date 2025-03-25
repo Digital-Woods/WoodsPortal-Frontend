@@ -15,6 +15,9 @@ const UserProfileCard = ({ userData, isLoading }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [showMoreDetails, setShowMoreDetails] = useState(false);
     const [showMoreAssociated, setShowMoreAssociated] = useState(false);
+    const [iframeViewDialog, setIframeViewDialog] = useState(false);
+    const [iframeUrls, setIframeUrls] = useState([]);
+    const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
 
     useEffect(() => {
         if (userData?.response) {
@@ -30,7 +33,8 @@ const UserProfileCard = ({ userData, isLoading }) => {
     const firstName = userDetails?.firstname?.value || "";
     const lastName = userDetails?.lastname?.value || "";
     const initials = profileInitial(firstName, lastName);
-
+    const propertyName = companyCardIframeList.propertyName ? companyCardIframeList.propertyName.split(',') : [];
+    const showIframe = companyCardIframeList.showIframe || false;
     // Filter and sort user details
     const filteredDetails = Object.entries(userDetails).filter(
         ([key, value]) => value?.label && !["firstname", "lastname", "email", "company", "phone", "associations", "hs_object_id"].includes(key)
@@ -44,6 +48,39 @@ const UserProfileCard = ({ userData, isLoading }) => {
     );
     const sortedAssociatedDetails = sortProperties(Object.fromEntries(filteredAssociatedDetails));
     const visibleAssociatedDetails = showMoreAssociated ? sortedAssociatedDetails : sortedAssociatedDetails.slice(0, 4);
+    const isImageUrl = (url) => {
+        const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
+
+        // Check if the URL ends with an image extension
+        const hasImageExtension = imageExtensions.some((ext) =>
+            url.toLowerCase().endsWith(ext)
+        );
+
+        // Check if the URL contains known patterns for image URLs
+        const containsImagePattern =
+            url.includes("images.unsplash.com") || url.includes("photo");
+
+        // Return true if either condition is true
+        return hasImageExtension || containsImagePattern;
+    };
+    const handleViewClick = (urls) => {
+        const urlArray = urls.split(",").map((url) => url.trim()); // Split and trim the comma-separated URLs
+        setIframeUrls(urlArray);
+        setCurrentIframeIndex(0); // Start with the first URL
+        setIframeViewDialog(true);
+    };
+
+    const handleNext = () => {
+        setCurrentIframeIndex((prevIndex) =>
+            prevIndex < iframeUrls.length - 1 ? prevIndex + 1 : prevIndex
+        );
+    };
+
+    const handlePrevious = () => {
+        setCurrentIframeIndex((prevIndex) =>
+            prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+    };
 
     return (
         <div>
@@ -80,7 +117,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                         {
                                             companyAsMediator: false,
                                             value: value?.value,
-                                            column:  { ...value, key },
+                                            column: { ...value, key },
                                             itemId: null,
                                             path: null,
                                             hubspotObjectTypeId: null,
@@ -120,6 +157,27 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                     {(userDetails?.associations?.COMPANY?.name) ? (
                                         (visibleAssociatedDetails?.length ?? 0) > 0 ? (
                                             visibleAssociatedDetails.map(([key, value]) => (
+                                                propertyName.includes(key) && showIframe ? (
+                                                    <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                                        <span className="font-semibold">
+                                                            {value?.label}:
+                                                        </span>
+                                                        <span className="text-sm dark:text-white ">
+                                                            {value?.value ? (
+                                                                <Button
+                                                                    className=""
+                                                                    variant="outline"
+                                                                    size="xsm"
+                                                                    onClick={() => handleViewClick(value?.value)}
+                                                                >
+                                                                    View {value?.label}
+                                                                </Button>
+                                                            ) : (
+                                                                "--"
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                ) : (
                                                     <div key={key} className="flex flex-col items-start gap-1 text-xs">
                                                         <span className="font-semibold">{value?.label}</span>
                                                         {renderCellContent(
@@ -127,11 +185,11 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                                             {
                                                                 companyAsMediator: false,
                                                                 value: value?.value,
-                                                                column:  { ...value, key },
+                                                                column: { ...value, key },
                                                             }
                                                         )}
                                                     </div>
-                                                ))
+                                                )))
                                         ) : (
                                             <div className="text-xs dark:text-white">
                                                 Please enable visibility in the admin panel for the property.
@@ -159,6 +217,16 @@ const UserProfileCard = ({ userData, isLoading }) => {
                     )}
                 </div>
             </div>
+                        {/* Iframe View Dialog Component */}
+             <IframeViewDialog
+                open={iframeViewDialog}
+                onClose={() => setIframeViewDialog(false)}
+                iframeUrls={iframeUrls}
+                currentIframeIndex={currentIframeIndex}
+                handleNext={handleNext}
+                handlePrevious={handlePrevious}
+                isImageUrl={isImageUrl}
+            />
         </div>
     );
 };

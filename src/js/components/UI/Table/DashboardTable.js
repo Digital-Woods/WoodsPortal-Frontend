@@ -578,6 +578,7 @@ const DashboardTable = ({
             path={path}
             viewName={viewName}
             detailsUrl={detailsUrl}
+            defPermissions={defPermissions}
           />
         )}
 

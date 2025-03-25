@@ -89,20 +89,20 @@ const DynamicComponent = ({
   return (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
       <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
-        <div className="flex justify-between items-center relative z-[2] gap-6">
-          <div className="flex items-start flex-col gap-2">
+        <div className="flex relative z-[2] gap-6">
+          <div className="flex flex-col gap-2 flex-1">
             {/* {objectTypeName && (
               <div className="pr-2 cursor-pointer" onClick={() => back()}>
                 <BackIcon />
               </div>
             )} */}
             {hubSpotUserDetails.sideMenu[0].tabName != title ? (
-              <span>
+              <span className="flex-1">
                 <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
                   {tableTitle()}
                 </span>
                 <p className="dark:text-white leading-5 text-sm flex items-center">
-                  {!isLoading ? `${totalRecord} records` : <div className="h-3 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1"></div>}
+                  {!isLoading ? `${totalRecord} records` : <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>}
                 </p>
                 <pre className="dark:text-white ">
                   {objectDescription ? ReactHtmlParser.default(
