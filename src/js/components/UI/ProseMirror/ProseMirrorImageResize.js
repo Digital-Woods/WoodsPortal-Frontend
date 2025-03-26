@@ -1,3 +1,5 @@
+const { NodeSelection } = window.NodeSelection;
+
 const updateImageNodeAttributes = (node, view, getPos, attrs) => {
   if (node && node.type) {
     const { tr } = view.state;
@@ -8,7 +10,6 @@ const updateImageNodeAttributes = (node, view, getPos, attrs) => {
     view.dispatch(tr);
   }
 };
-const { NodeSelection } = window.NodeSelection;
 
 const ProseMirrorImage = ({ node, view, getPos }) => {
   const imgResizeRef = useRef(null);
@@ -135,23 +136,20 @@ const ProseMirrorImageResize = () => {
     const dom = document.createElement("div");
     dom.className = "prosemirror-react-image";
 
+    const applyAlignmentStyle = (node) => {
       const figureStyle = node.attrs?.style || "";
-
-      // Check if the parent node or node has `style="text-align: left;"`
       if (figureStyle.includes("text-align: left;")) {
-        console.log("figureStyle", figureStyle)
-        dom.style.textAlign = "left"; // Apply left alignment
+        dom.style.textAlign = "left";
+      } else if (figureStyle.includes("text-align: center;")) {
+        dom.style.textAlign = "center";
+      } else if (figureStyle.includes("text-align: right;")) {
+        dom.style.textAlign = "right";
+      } else {
+        dom.style.textAlign = "initial"; // Reset to default if alignment is removed
       }
-      // Check if the parent node or node has `style="text-align: center;"`
-      if (figureStyle.includes("text-align: center;")) {
-        console.log("figureStyle", figureStyle)
-        dom.style.textAlign = "center"; // Apply center alignment
-      }
-       // Check if the parent node or node has `style="text-align: right;"`
-      if (figureStyle.includes("text-align: right;")) {
-        console.log("figureStyle", figureStyle)
-        dom.style.textAlign = "right"; // Apply right alignment
-      }
+    };
+
+    applyAlignmentStyle(node); // Initial alignment check
 
     ReactDOM.render(
       <ProseMirrorImage node={node} view={view} getPos={getPos} />,
@@ -162,6 +160,10 @@ const ProseMirrorImageResize = () => {
       dom,
       update(updatedNode) {
         if (updatedNode.type !== node.type) return false;
+
+        // Reapply alignment when node is updated
+        applyAlignmentStyle(updatedNode);
+
         ReactDOM.render(
           <ProseMirrorImage node={updatedNode} view={view} getPos={getPos} />,
           dom

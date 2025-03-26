@@ -45,10 +45,12 @@ const updateImageAlignment = (node, view, getPos, alignment) => {
       return;
     }
 
-    const tr = state.tr.setNodeMarkup(pos, null, {
+    let tr = state.tr.setNodeMarkup(pos, null, {
       ...node.attrs,
       style: `text-align: ${alignment};`,
     });
+
+    tr = tr.setSelection(NodeSelection.create(tr.doc, pos));
 
     if (tr.docChanged) {
       dispatch(tr);

@@ -80,6 +80,14 @@ const NoteCard = ({
     updateNoteMutation.mutate(payload);
   };
 
+  const noteViewConfig = {
+    ADD_ATTR: ['target'],
+    // ALLOWED_ATTR: ["style", "src", "width", "height", "alt"],
+    // ALLOWED_TAGS: ["p", "a", "figure", "img", "br"],
+    // ALLOW_DATA_ATTR: true, // If data attributes are required
+    // KEEP_CONTENT: true // Keep empty tags
+  };
+
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
@@ -183,10 +191,13 @@ const NoteCard = ({
               >
                 <div>
                   <span>
-                    {ReactHtmlParser.default(
+                    {/* {ReactHtmlParser.default(
                       DOMPurify.sanitize(note.hs_note_body, {
                         ADD_ATTR: ['target'],
                       })
+                    )} */}
+                    {ReactHtmlParser.default(
+                      DOMPurify.sanitize(note.hs_note_body, noteViewConfig)
                     )}
                   </span>
                 </div>
