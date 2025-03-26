@@ -38,55 +38,127 @@ const ProseMirrorEditor = ({
   const { DOMSerializer } = window.DOMSerializer;
 
   useEffect(() => {
-    if (attachments.length > 0) setUploadedAttachments(attachments);
+    if (attachments.length > 0) {
+      setUploadedAttachments(attachments);
+    } else {
+      setUploadedAttachments([]);
+    }
   }, [attachments]);
 
+  // const imageNodeSpec = {
+  //   inline: false, // Defines the image as a block-level element
+  //   attrs: {
+  //     src: {}, // The source URL of the image (required)
+  //     width: { default: "" }, // Width attribute (default empty)
+  //     height: { default: "" }, // Height attribute (default empty)
+  //     style: { default: "" }, // Added to capture styles like text alignment
+  //   },
+  //   group: "block", // Defines this node as part of the block group
+  //   draggable: false, // Prevents dragging the node in the editor
+  //   selectable: false, // Prevents text input in the same line
+  //   parseDOM: [
+  //     {
+  //       tag: "figure, div.image-container", // Matches <figure> or <div> containers
+  //       getAttrs(dom) {
+  //         const img = dom.querySelector("img"); // Selects the inner <img> tag
+  
+  //         return {
+  //           src: img ? img.getAttribute("src") : "",
+  //           width: img ? img.getAttribute("width") || "" : "",
+  //           height: img ? img.getAttribute("height") || "" : "",
+  //           style: dom.getAttribute("style") || "", // Extracts container style like text-align
+  //         };
+  //       },
+  //     },
+  //   ],
+  //   toDOM(node) {
+  //     return [
+  //       "div",
+  //       { class: "image-container" }, // Apply style if available
+  //       [
+  //         "img",
+  //         {
+  //           src: node.attrs.src,
+  //           width: node.attrs.width,
+  //           height: node.attrs.height,
+  //         },
+  //       ],
+  //     ];
+  //   },
+  // };
+  
+
   const imageNodeSpec = {
-    inline: false, // Defines the image as an inline node
+    inline: false, // Defines the image as a block-level element
     attrs: {
       src: {}, // The source URL of the image (required)
-      width: { default: "" },
-      height: { default: "" },
-      // class: { default: "w-auto h-auto" },
-      // alt: { default: null }, // Alternative text (optional)
-      // title: { default: null }, // Title for the image (optional)
+      width: { default: "" }, // Image width
+      height: { default: "" }, // Image height
+      style: { default: "" }, // Style for alignment or other container-level styles
+      wrap: { default: false }, // Boolean to check if image is wrapped with <figure>
     },
-    group: "block", // Belongs to the "inline" group
-    draggable: false, // Makes the image draggable in the editor
-    selectable: false, // Prevents text input in the same line
+    group: "block",
+    draggable: false,
+    selectable: false,
     parseDOM: [
+      // Image wrapped in a <figure> tag
       {
-        tag: "img[src]", // Matches <img> elements with a `src` attribute
+        tag: "figure",
+        getAttrs(dom) {
+          const img = dom.querySelector("img");
+          return {
+            src: img ? img.getAttribute("src") : "",
+            width: img ? img.getAttribute("width") : "",
+            height: img ? img.getAttribute("height") : "",
+            style: dom.getAttribute("style") || "", // Capture figure's style (e.g., text-align)
+            wrap: true, // Mark that the image is wrapped
+          };
+        },
+      },
+      // Image without <figure> wrapper
+      {
+        tag: "img",
         getAttrs(dom) {
           return {
             src: dom.getAttribute("src"),
-            width: dom.getAttribute("width") || "",
-            height: dom.getAttribute("height") || "",
-            // class: dom.getAttribute("class") || "w-auto h-auto",
-            // alt: dom.getAttribute("alt"),
-            // title: dom.getAttribute("title"),
+            width: dom.getAttribute("width"),
+            height: dom.getAttribute("height"),
+            style: "", // No wrapper, so no additional style from <figure>
+            wrap: false, // Not wrapped in a <figure>
           };
         },
       },
     ],
     toDOM(node) {
-      return [
-        "div", // Wrap in a `div` to enforce block behavior
-        { class: "image-container" }, // Optional class for further styling
-        [
+      // Render based on whether the image is wrapped or not
+      if (node.attrs.wrap) {
+        return [
+          "figure",
+          { style: node.attrs.style || "" }, // Apply text-align or other styles if present
+          [
+            "img",
+            {
+              src: node.attrs.src,
+              width: node.attrs.width,
+              height: node.attrs.height,
+            },
+          ],
+        ];
+      } else {
+        return [
           "img",
           {
             src: node.attrs.src,
             width: node.attrs.width,
             height: node.attrs.height,
           },
-        ],
-      ]; // Renders the image node as a block element
+        ];
+      }
     },
   };
-
+  
   useEffect(() => {
-    setUploadedAttachments([]);
+    // setUploadedAttachments([]);
     const { Schema, DOMParser } = window.ProseMirrorModel;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
@@ -201,6 +273,17 @@ const ProseMirrorEditor = ({
     //   image: imageNodeSpec,
     // };
 
+    const alignmentMark = {
+      attrs: { align: { default: "left" } }, // Default alignment is 'left'
+      parseDOM: [
+        {
+          style: "text-align",
+          getAttrs: (value) => ({ align: value }),
+        },
+      ],
+      toDOM: (mark) => ["span", { style: `text-align: ${mark.attrs.align};` }],
+    };
+
     const nodes = baseSchema.spec.nodes
       .update("paragraph", paragraphNode)
       .addToEnd("image", imageNodeSpec);
@@ -209,7 +292,7 @@ const ProseMirrorEditor = ({
     const schema = new Schema({
       nodes: nodesWithList,
       marks: {
-        // alignment: alignmentMark,
+        alignment: alignmentMark,
         strong: {
           toDOM: () => ["strong", 0],
           parseDOM: [{ tag: "strong" }],

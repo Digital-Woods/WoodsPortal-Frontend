@@ -18,7 +18,51 @@ const alignments = [
 
 let defaultEditorAlignment = null;
 
+
+// Update image alignment based on selection
+// const updateImageAlignment = (node, view, getPos, alignment) => {
+//   const { tr } = view.state;
+//   const pos = getPos();
+//   const newAttrs = { ...node.attrs, style: `text-align: ${alignment};` };
+//   tr.setNodeMarkup(pos, null, newAttrs); // Update node attributes with new alignment
+//   view.dispatch(tr); // Apply transaction
+// };
+
+
+let transactionQueued = false;
+
+const updateImageAlignment = (node, view, getPos, alignment) => {
+  if (transactionQueued) return;
+
+  transactionQueued = true;
+  requestAnimationFrame(() => {
+    const { state, dispatch } = view;
+    const pos = getPos();
+
+    if (pos === null || pos < 0 || pos >= state.doc.content.size) {
+      console.error("Invalid position for node update");
+      transactionQueued = false;
+      return;
+    }
+
+    let tr = state.tr.setNodeMarkup(pos, null, {
+      ...node.attrs,
+      style: `text-align: ${alignment};`,
+    });
+
+    tr = tr.setSelection(NodeSelection.create(tr.doc, pos));
+
+    if (tr.docChanged) {
+      dispatch(tr);
+    }
+    transactionQueued = false;
+  });
+};
+
+
+
 const DropdownAlightMenu = ({ editorView }) => {
+
   const [isOpen, setIsOpen] = useState(false);
   const [textAlign, setTextAlign] = useState(alignments[0]);
 
@@ -57,9 +101,17 @@ const DropdownAlightMenu = ({ editorView }) => {
     const nodeType = schema.nodes.paragraph;
     const { from, to } = selection;
 
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.type.name === "image") {
+        updateImageAlignment(node, editorView, () => pos, align);
+        return true;
+      }
+    });
+
     if (dispatch) {
       dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
     }
+    
     setIsOpen(false)
     return true;
   };
@@ -157,14 +209,29 @@ function isAlignmentActive(state, alignValue) {
   return false;
 }
 
+function isImageSelected(state) {
+  const { from } = state.selection;
+  const node = state.doc.nodeAt(from);
+  return (node && node.type.name === "image") ? node : false;
+}
+
 const alignmentDropdown = new MenuItem2({
   title: `Select Alignment`,
   run: () => {},
   select: (state) => {
-    const isAlignmentLeft = isAlignmentActive(state, "left");
-    const isAlignmentCenter = isAlignmentActive(state, "center");
-    const isAlignmentRight = isAlignmentActive(state, "right");
-    const editorListButton = document.querySelector("#textAlignIcon");
+
+    let isAlignmentLeft = isAlignmentActive(state, "left");
+    let isAlignmentCenter = isAlignmentActive(state, "center");
+    let isAlignmentRight = isAlignmentActive(state, "right");
+    let editorListButton = document.querySelector("#textAlignIcon");
+
+    const imageNode = isImageSelected(state)
+    if(imageNode) {
+      const figureStyle = imageNode?.attrs?.style || "";
+      isAlignmentLeft = figureStyle.includes("text-align: left;");
+      isAlignmentCenter = figureStyle.includes("text-align: center;");
+      isAlignmentRight = figureStyle.includes("text-align: right;");
+    }
 
     if (isAlignmentLeft && editorListButton) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;

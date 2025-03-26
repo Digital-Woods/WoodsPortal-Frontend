@@ -1,3 +1,5 @@
+const { NodeSelection } = window.NodeSelection;
+
 const updateImageNodeAttributes = (node, view, getPos, attrs) => {
   if (node && node.type) {
     const { tr } = view.state;
@@ -8,7 +10,6 @@ const updateImageNodeAttributes = (node, view, getPos, attrs) => {
     view.dispatch(tr);
   }
 };
-const { NodeSelection } = window.NodeSelection;
 
 const ProseMirrorImage = ({ node, view, getPos }) => {
   const imgResizeRef = useRef(null);
@@ -135,6 +136,21 @@ const ProseMirrorImageResize = () => {
     const dom = document.createElement("div");
     dom.className = "prosemirror-react-image";
 
+    const applyAlignmentStyle = (node) => {
+      const figureStyle = node.attrs?.style || "";
+      if (figureStyle.includes("text-align: left;")) {
+        dom.style.textAlign = "left";
+      } else if (figureStyle.includes("text-align: center;")) {
+        dom.style.textAlign = "center";
+      } else if (figureStyle.includes("text-align: right;")) {
+        dom.style.textAlign = "right";
+      } else {
+        dom.style.textAlign = "initial"; // Reset to default if alignment is removed
+      }
+    };
+
+    applyAlignmentStyle(node); // Initial alignment check
+
     ReactDOM.render(
       <ProseMirrorImage node={node} view={view} getPos={getPos} />,
       dom
@@ -144,6 +160,10 @@ const ProseMirrorImageResize = () => {
       dom,
       update(updatedNode) {
         if (updatedNode.type !== node.type) return false;
+
+        // Reapply alignment when node is updated
+        applyAlignmentStyle(updatedNode);
+
         ReactDOM.render(
           <ProseMirrorImage node={updatedNode} view={view} getPos={getPos} />,
           dom
