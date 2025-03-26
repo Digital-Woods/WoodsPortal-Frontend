@@ -106,7 +106,7 @@ const Home = ({
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
           {showSidebarListDataOption && !isLargeScreen && !sidebarRightOpen ? (
-            <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
+            <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] lg:top-[10px] md:top-[60px] top-[10px]">
               <button
                 className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                 onClick={toggleSidebar}
