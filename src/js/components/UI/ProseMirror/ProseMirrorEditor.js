@@ -38,7 +38,11 @@ const ProseMirrorEditor = ({
   const { DOMSerializer } = window.DOMSerializer;
 
   useEffect(() => {
-    if (attachments.length > 0) setUploadedAttachments(attachments);
+    if (attachments.length > 0) {
+      setUploadedAttachments(attachments);
+    } else {
+      setUploadedAttachments([]);
+    }
   }, [attachments]);
 
   // const imageNodeSpec = {
@@ -154,7 +158,7 @@ const ProseMirrorEditor = ({
   };
   
   useEffect(() => {
-    setUploadedAttachments([]);
+    // setUploadedAttachments([]);
     const { Schema, DOMParser } = window.ProseMirrorModel;
     const { addListNodes } = window.addListNodes;
     const { baseSchema } = window.baseSchema;
