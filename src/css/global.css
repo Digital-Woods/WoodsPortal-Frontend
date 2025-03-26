@@ -1259,6 +1259,10 @@ menu, ol {
   min-height: 17px;
 }
 
+.EditorView figure img {
+  display: inline !important;
+}
+
 figure {
   margin: 0;
 }
