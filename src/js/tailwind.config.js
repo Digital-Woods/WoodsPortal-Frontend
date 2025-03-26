@@ -136,5 +136,8 @@ tailwind.config = {
       },
     },
   },
+  corePlugins: {
+    preflight: false,
+  },
   // plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
