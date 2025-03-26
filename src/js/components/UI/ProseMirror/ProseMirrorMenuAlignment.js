@@ -18,7 +18,49 @@ const alignments = [
 
 let defaultEditorAlignment = null;
 
+
+// Update image alignment based on selection
+// const updateImageAlignment = (node, view, getPos, alignment) => {
+//   const { tr } = view.state;
+//   const pos = getPos();
+//   const newAttrs = { ...node.attrs, style: `text-align: ${alignment};` };
+//   tr.setNodeMarkup(pos, null, newAttrs); // Update node attributes with new alignment
+//   view.dispatch(tr); // Apply transaction
+// };
+
+
+let transactionQueued = false;
+
+const updateImageAlignment = (node, view, getPos, alignment) => {
+  if (transactionQueued) return;
+
+  transactionQueued = true;
+  requestAnimationFrame(() => {
+    const { state, dispatch } = view;
+    const pos = getPos();
+
+    if (pos === null || pos < 0 || pos >= state.doc.content.size) {
+      console.error("Invalid position for node update");
+      transactionQueued = false;
+      return;
+    }
+
+    const tr = state.tr.setNodeMarkup(pos, null, {
+      ...node.attrs,
+      style: `text-align: ${alignment};`,
+    });
+
+    if (tr.docChanged) {
+      dispatch(tr);
+    }
+    transactionQueued = false;
+  });
+};
+
+
+
 const DropdownAlightMenu = ({ editorView }) => {
+
   const [isOpen, setIsOpen] = useState(false);
   const [textAlign, setTextAlign] = useState(alignments[0]);
 
@@ -57,9 +99,17 @@ const DropdownAlightMenu = ({ editorView }) => {
     const nodeType = schema.nodes.paragraph;
     const { from, to } = selection;
 
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.type.name === "image") {
+        updateImageAlignment(node, editorView, () => pos, align);
+        return true;
+      }
+    });
+
     if (dispatch) {
       dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
     }
+    
     setIsOpen(false)
     return true;
   };

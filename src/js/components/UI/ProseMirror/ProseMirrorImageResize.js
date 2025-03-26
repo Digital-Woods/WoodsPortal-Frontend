@@ -135,12 +135,22 @@ const ProseMirrorImageResize = () => {
     const dom = document.createElement("div");
     dom.className = "prosemirror-react-image";
 
-      // Check if the parent node or node has `style="text-align: center;"`
       const figureStyle = node.attrs?.style || "";
 
+      // Check if the parent node or node has `style="text-align: left;"`
+      if (figureStyle.includes("text-align: left;")) {
+        console.log("figureStyle", figureStyle)
+        dom.style.textAlign = "left"; // Apply left alignment
+      }
+      // Check if the parent node or node has `style="text-align: center;"`
       if (figureStyle.includes("text-align: center;")) {
-        // console.log("figureStyle", figureStyle)
+        console.log("figureStyle", figureStyle)
         dom.style.textAlign = "center"; // Apply center alignment
+      }
+       // Check if the parent node or node has `style="text-align: right;"`
+      if (figureStyle.includes("text-align: right;")) {
+        console.log("figureStyle", figureStyle)
+        dom.style.textAlign = "right"; // Apply right alignment
       }
 
     ReactDOM.render(
