@@ -176,6 +176,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
                 setIsSetLinkText(false);
               }
             }}
+            className="!bg-white !text-black !border-gray-200"
           />
         </div>
 
@@ -191,6 +192,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
               setUrl(e.target.value);
               if (!isSetLinkText) setLinkText(e.target.value);
             }}
+            className="!bg-white !text-black !border-gray-200"
           />
         </div>
 
