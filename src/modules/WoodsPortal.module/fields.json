@@ -1534,6 +1534,88 @@
         "opacity" : 8
       }
     }
+  }, {
+    "id" : "0f537655-3de9-109f-58d6-8f95c2507a41",
+    "name" : "note_cards",
+    "label" : "Note cards",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "714aa64a-e07c-a4a4-c13a-c2cce0d572ca",
+      "name" : "hs_note_card_bg_color",
+      "label" : "HubSpot created note card background color",
+      "required" : false,
+      "locked" : false,
+      "show_opacity" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#efefef",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "6bf63560-ade0-20c5-d7be-e11dab5d5e20",
+      "name" : "hs_note_ts_text_color",
+      "label" : "HubSpot created note timestamp text color",
+      "required" : false,
+      "locked" : false,
+      "show_opacity" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "837116dc-ca7e-6393-1f56-722c74661bf0",
+      "name" : "wp_note_card_bg_color",
+      "label" : "WoodsPortal created note card background color",
+      "required" : false,
+      "locked" : false,
+      "show_opacity" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FAFAFA",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "3df27f58-0015-8936-dcf9-3bae948327e2",
+      "name" : "wp_note_ts_text_color",
+      "label" : "WoodsPortal created note timestamp text color",
+      "required" : false,
+      "locked" : false,
+      "show_opacity" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#999999",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "hs_note_card_bg_color" : {
+        "color" : "#efefef",
+        "opacity" : 100
+      },
+      "hs_note_ts_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "wp_note_card_bg_color" : {
+        "color" : "#FAFAFA",
+        "opacity" : 100
+      },
+      "wp_note_ts_text_color" : {
+        "color" : "#999999",
+        "opacity" : 100
+      }
+    }
   } ],
   "tab" : "STYLE",
   "expanded" : false,
@@ -1608,6 +1690,24 @@
       "background_color" : {
         "color" : "#2d3e50",
         "opacity" : 8
+      }
+    },
+    "note_cards" : {
+      "hs_note_card_bg_color" : {
+        "color" : "#efefef",
+        "opacity" : 100
+      },
+      "hs_note_ts_text_color" : {
+        "color" : "#2a2a2a",
+        "opacity" : 100
+      },
+      "wp_note_card_bg_color" : {
+        "color" : "#FAFAFA",
+        "opacity" : 100
+      },
+      "wp_note_ts_text_color" : {
+        "color" : "#999999",
+        "opacity" : 100
       }
     }
   }
