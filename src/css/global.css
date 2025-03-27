@@ -1168,7 +1168,7 @@ img.ProseMirror-separator {
   margin-bottom: 23px;
 }
 
-.ProseMirror p:first-child,
+/* .ProseMirror p:first-child,
 .ProseMirror h1:first-child,
 .ProseMirror h2:first-child,
 .ProseMirror h3:first-child,
@@ -1176,7 +1176,7 @@ img.ProseMirror-separator {
 .ProseMirror h5:first-child,
 .ProseMirror h6:first-child {
   margin-top: 10px;
-}
+} */
 
 .ProseMirror {
   padding: 4px 8px 4px 14px;
@@ -1268,6 +1268,11 @@ figure {
 
 h1, h2, h3, h4, h5, h6 {
   color: unset;
+  margin-bottom: 16px;
+  margin-top: 0;
+  display: block;
+  line-height: normal;
+  text-transform: none;
 }
 
 .ProseMirror img {
