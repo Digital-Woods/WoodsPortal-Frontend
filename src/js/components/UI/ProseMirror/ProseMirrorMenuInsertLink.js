@@ -295,7 +295,6 @@ function isAlignmentActive(state, alignValue) {
 const insertLinkMenuItem = new MenuItem2({
   title: `Select Alignment`,
   run: (state, dispatch, view) => {
-    console.log("run", true)
     // insertLink(state, dispatch, "", "", true);
   },
   select: (state) => {

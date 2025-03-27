@@ -13,6 +13,7 @@ const NoteCard = ({
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState(note.hs_note_body);
   const [isUploading, setIsUploading] = useState(false);
+  const editorRef = useRef(null);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -127,6 +128,7 @@ const NoteCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <ProseMirrorEditor
+                ref={editorRef}
                 key={id}
                 initialData={escapeHTML(note.hs_note_body)}
                 attachments={note.hs_attachment_ids || []}
@@ -179,7 +181,7 @@ const NoteCard = ({
                     ? ""
                     : `${
                         permissions.update ? "cursor-text" : "cursor-auto"
-                      } hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
+                      } border border-[#ffffff] dark:border-[transparent] hover:border-[#7fd1de] hover:dark:border-[#7fd1de] hover:bg-[#e5f5f8] hover:dark:bg-gray-600 rounded-md relative group`
                 } EditorView`}
                 onClick={(e) => {
                   if (isOpen) {
@@ -447,6 +449,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             </p>
           </div>
           <ProseMirrorEditor
+            id={objectId}
             attachments={[]}
             setEditorContent={setEditorContent}
             imageUploadUrl={imageUploadUrl}

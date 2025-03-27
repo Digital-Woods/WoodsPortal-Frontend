@@ -966,8 +966,8 @@ img.ProseMirror-separator {
 
 .ProseMirror-menubar {
   display: flex;
-  background: #fff;
-  border-bottom: 1px solid silver;
+  background: transparent;
+  border-bottom: 1px solid #7fd1de;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   -moz-box-sizing: border-box;
@@ -976,14 +976,13 @@ img.ProseMirror-separator {
   left: 0;
   min-height: 1em;
   overflow: visible;
-  padding: 0px 6px;
+  padding: 6px 6px;
   position: relative;
   right: 0;
   top: 0;
   z-index: 10;
   align-items: center;
   gap: 2px;
-  padding-bottom: 0.75rem;
   flex-wrap:wrap;
 }
 
@@ -1226,7 +1225,6 @@ menu, ol {
 
 .ProseMirror a , .EditorView a {
   color: #0091ae;
-  text-decoration: none;
   cursor: pointer;
   font-weight: 600;
 }
@@ -1234,6 +1232,7 @@ menu, ol {
 .ProseMirror a:hover, .EditorView a:hover {
   color: #0091ae;
   text-decoration: underline;
+  text-decoration-color: black;
 }
 
 .ProseMirror p, .EditorView p {
@@ -1265,4 +1264,8 @@ menu, ol {
 
 figure {
   margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: unset;
 }

@@ -10,6 +10,22 @@ const ProseMirrorEditor = ({
   refetch = null,
   objectId,
   setIsUploading,
+  menuConfig = {
+    boldItem: true,
+    italicItem: true,
+    underlineMenuItem: true,
+    fontMenuItem: true,
+    fontSizeMenuItem: true,
+    textColor: true,
+    textBGColor: true,
+    clearFormattingNoteMenuItem: true,
+    blockquoteItem: true,
+    alignmentDropdown: true,
+    listMenuItem: true,
+    insertLinkMenuItem: true,
+    imageUploader: true,
+    attachmentUploader: true,
+  }
 }) => {
   // Upload
   // const fileInputRef = useRef(null);
@@ -19,6 +35,23 @@ const ProseMirrorEditor = ({
   // const [uploadProgress, setUploadProgress] = useState(0);
   // const [isOpenLinkPopup, setIsOpenLinkPopup] = useState(false);
   const linkPopupRef = useRef(null);
+
+  const editorMenuConfig = {
+    boldItem: menuConfig?.boldItem ?? true,
+    italicItem: menuConfig?.italicItem ?? true,
+    underlineMenuItem: menuConfig?.underlineMenuItem ?? true,
+    fontMenuItem: menuConfig?.fontMenuItem ?? true,
+    fontSizeMenuItem: menuConfig?.fontSizeMenuItem ?? true,
+    textColor: menuConfig?.textColor ?? true,
+    textBGColor: menuConfig?.textBGColor ?? true,
+    clearFormattingNoteMenuItem: menuConfig?.clearFormattingNoteMenuItem ?? true,
+    blockquoteItem: menuConfig?.blockquoteItem ?? true,
+    alignmentDropdown: menuConfig?.alignmentDropdown ?? true,
+    listMenuItem: menuConfig?.listMenuItem ?? true,
+    insertLinkMenuItem: menuConfig?.insertLinkMenuItem ?? true,
+    imageUploader: menuConfig?.imageUploader ?? true,
+    attachmentUploader: menuConfig?.attachmentUploader ?? true,
+  }
 
   const {
     isLoadingUoloading,
@@ -43,7 +76,7 @@ const ProseMirrorEditor = ({
     } else {
       setUploadedAttachments([]);
     }
-  }, [attachments]);
+  }, []);
 
   // const imageNodeSpec = {
   //   inline: false, // Defines the image as a block-level element
@@ -61,7 +94,7 @@ const ProseMirrorEditor = ({
   //       tag: "figure, div.image-container", // Matches <figure> or <div> containers
   //       getAttrs(dom) {
   //         const img = dom.querySelector("img"); // Selects the inner <img> tag
-  
+
   //         return {
   //           src: img ? img.getAttribute("src") : "",
   //           width: img ? img.getAttribute("width") || "" : "",
@@ -86,7 +119,6 @@ const ProseMirrorEditor = ({
   //     ];
   //   },
   // };
-  
 
   const imageNodeSpec = {
     inline: false, // Defines the image as a block-level element
@@ -156,7 +188,7 @@ const ProseMirrorEditor = ({
       }
     },
   };
-  
+
   useEffect(() => {
     // setUploadedAttachments([]);
     const { Schema, DOMParser } = window.ProseMirrorModel;
@@ -292,18 +324,43 @@ const ProseMirrorEditor = ({
     const schema = new Schema({
       nodes: nodesWithList,
       marks: {
+        link: linkMark,
         alignment: alignmentMark,
-        strong: {
-          toDOM: () => ["strong", 0],
-          parseDOM: [{ tag: "strong" }],
-        },
         em: {
           toDOM: () => ["em", 0],
           parseDOM: [{ tag: "em" }],
         },
+        strong: {
+          toDOM: () => ["strong", 0],
+          parseDOM: [{ tag: "strong" }],
+        },
         underline: {
           toDOM: () => ["u", 0],
           parseDOM: [{ tag: "u" }],
+        },
+        textColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => ["span", { style: `color: ${mark.attrs.color}` }, 0],
+        },
+        textBackgroundColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "background-color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `background-color: ${mark.attrs.color}` },
+            0,
+          ],
         },
         fontSize: {
           attrs: { fontSize: {} },
@@ -332,32 +389,7 @@ const ProseMirrorEditor = ({
             { style: `font-family: ${mark.attrs.font}` },
             0,
           ],
-        },
-        textColor: {
-          attrs: { color: {} },
-          parseDOM: [
-            {
-              style: "color",
-              getAttrs: (value) => ({ color: value }),
-            },
-          ],
-          toDOM: (mark) => ["span", { style: `color: ${mark.attrs.color}` }, 0],
-        },
-        textBackgroundColor: {
-          attrs: { color: {} },
-          parseDOM: [
-            {
-              style: "background-color",
-              getAttrs: (value) => ({ color: value }),
-            },
-          ],
-          toDOM: (mark) => [
-            "span",
-            { style: `background-color: ${mark.attrs.color}` },
-            0,
-          ],
-        },
-        link: linkMark,
+        }
       },
     });
     setEditorSchema(schema);
@@ -414,18 +446,43 @@ const ProseMirrorEditor = ({
       );
     };
 
+    const menuBarContent =  [
+      [
+        editorMenuConfig.boldItem && boldItem,
+        editorMenuConfig.italicItem && italicItem,
+        editorMenuConfig.underlineMenuItem && underlineMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.fontMenuItem && fontMenuItem,
+        editorMenuConfig.fontSizeMenuItem && fontSizeMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.textColor && textColor,
+        editorMenuConfig.textBGColor && textBGColor,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.clearFormattingNoteMenuItem && clearFormattingNoteMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.blockquoteItem && blockquoteItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.alignmentDropdown && alignmentDropdown,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.listMenuItem && listMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.insertLinkMenuItem && insertLinkMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.imageUploader && imageUploader(),
+        editorMenuConfig.attachmentUploader && attachmentUploader(),
+      ].filter(Boolean), // Remove undefined/false items
+    ]
+
     const menu = menuBar({
-      content: [
-        [boldItem, italicItem, underlineMenuItem],
-        [fontMenuItem, fontSizeMenuItem],
-        [textColor, textBGColor],
-        [clearFormattingNoteMenuItem],
-        [blockquoteItem],
-        [alignmentDropdown],
-        [listMenuItem],
-        [insertLinkMenuItem],
-        [imageUploader(), attachmentUploader()],
-      ],
+      content:menuBarContent,
     });
 
     const customEnterHandler = (state, dispatch) => {
@@ -608,7 +665,7 @@ const ProseMirrorEditor = ({
       <div
         ref={editorRef}
         id="prosemirror-editor"
-        className="text-[#000] prosemirror-editor dark:bg-white pt-3 rounded"
+        className="text-[#000] prosemirror-editor dark:bg-white rounded border border-[#7fd1de]"
       ></div>
 
       <Attachments
