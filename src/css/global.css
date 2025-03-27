@@ -1282,3 +1282,14 @@ h1, h2, h3, h4, h5, h6 {
 .EditorView img {
   height: revert-layer;
 }
+
+.EditorView ol, .EditorView ul {
+  margin: revert-layer;
+  padding: revert-layer;
+}
+
+.ProseMirror ol, .ProseMirror ul, .EditorView ol, .EditorView ul {
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
