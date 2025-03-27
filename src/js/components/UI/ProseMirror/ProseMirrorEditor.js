@@ -348,20 +348,6 @@ const ProseMirrorEditor = ({
           ],
           toDOM: (mark) => ["span", { style: `color: ${mark.attrs.color}` }, 0],
         },
-        textBackgroundColor: {
-          attrs: { color: {} },
-          parseDOM: [
-            {
-              style: "background-color",
-              getAttrs: (value) => ({ color: value }),
-            },
-          ],
-          toDOM: (mark) => [
-            "span",
-            { style: `background-color: ${mark.attrs.color}` },
-            0,
-          ],
-        },
         fontSize: {
           attrs: { fontSize: {} },
           parseDOM: [
@@ -373,6 +359,20 @@ const ProseMirrorEditor = ({
           toDOM: (mark) => [
             "span",
             { style: `font-size: ${mark.attrs.fontSize}` },
+            0,
+          ],
+        },
+        textBackgroundColor: {
+          attrs: { color: {} },
+          parseDOM: [
+            {
+              style: "background-color",
+              getAttrs: (value) => ({ color: value }),
+            },
+          ],
+          toDOM: (mark) => [
+            "span",
+            { style: `background-color: ${mark.attrs.color}` },
             0,
           ],
         },
