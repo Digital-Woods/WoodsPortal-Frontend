@@ -539,6 +539,23 @@ const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           ></Textarea>
+                        ) : editRow.fieldType === "html" ? (
+                          <DetailsViewEditor
+                            openModal={true}
+                            setOpenModal={null} 
+                            title={editRow.label}
+                            value={editRow.value}
+                            setEditRow={setEditRow}
+                            saveData={saveData}
+                            control={control}
+                            setValue={setValue}
+                            name={editRow.key}
+                            isLoading={isLoading}
+                            objectId={objectId}
+                            id={id}
+                            urlParam={urlParam}
+                            refetch={refetch}
+                          />
                         ) : editRow.fieldType === "checkbox" ? (
                           <CheckboxField
                             editRow={editRow}
