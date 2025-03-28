@@ -228,7 +228,13 @@
         backgroundColor: "{{ module.style.d_h_sidebar.background_color.rgba }}",
         cardBackgroundColor: "{{ module.style.d_h_sidebar.card_background_color.rgba }}",
         textColor: "{{ module.style.d_h_sidebar.text_color.rgba }}",
-      }
+      },
+        noteStyle:{
+          hsBg:"{{ module.style.note_cards.hs_note_card_bg_color.color }}",
+          hsText:"{{ module.style.note_cards.hs_note_ts_text_color.color }}",
+          wpBg:"{{ module.style.note_cards.wp_note_card_bg_color.color }}",
+          wpText:"{{ module.style.note_cards.wp_note_ts_text_color.color }}",
+        }
     }
   {# Module Custom Styles #}
   </script>

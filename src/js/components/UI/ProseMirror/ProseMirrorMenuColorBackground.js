@@ -88,7 +88,7 @@ const textBGColorPlugin = new ProseMirrorPlugin2({
   },
 });
 
-let defaultTextBGColor = "#fff";
+let defaultTextBGColor = "";
 let selectedTextBGColor = "";
 
 const DropdownColorMenu2 = ({ editorView, icon }) => {

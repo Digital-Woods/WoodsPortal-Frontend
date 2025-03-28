@@ -13,6 +13,7 @@ const NoteCard = ({
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   const [editorContent, setEditorContent] = useState(note.hs_note_body);
   const [isUploading, setIsUploading] = useState(false);
+  const noteStyle = moduleStylesOptions.noteStyle;
   const editorRef = useRef(null);
 
   const formatDate = (timestamp) => {
@@ -92,7 +93,7 @@ const NoteCard = ({
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
-        className="border border-gray-200 dark:border-gray-600 dark:bg-dark-500 bg-white shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer"
+        className={`border ${note?.createdBy === 'hubspot' ? `bg-[${noteStyle.hsBg}]` : `bg-[${noteStyle.wpBg}]` } border-gray-200 dark:border-gray-600 dark:bg-dark-500  shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
         onClick={() => {
           setIsOpen(!isOpen);
           setIsOpenEditor(false);
@@ -100,7 +101,7 @@ const NoteCard = ({
       >
         <div>
           <div className="flex items-center gap-2">
-            <div>
+            <div className={`${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white`}>
               {isOpen ? (
                 <Chevron transform="rotate(270)" />
               ) : (
@@ -108,9 +109,9 @@ const NoteCard = ({
               )}
             </div>
             <div className="flex justify-between items-center w-full">
-              <p className="text-sm font-semibold  whitespace-nowrap">Note</p>
+              <p className={`text-sm font-semibold  whitespace-nowrap ${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white`}>Note</p>
               <div>
-                <p className="text-gray-400 dark:text-white text-xs ">
+                <p className={`${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white text-xs`}>
                   <span className="mr-1">
                     {" "}
                     {formatDate(note.hs_createdate)}{" "}
@@ -122,11 +123,12 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text ${
-                isOpenEditor ? "" : "dark:text-white"
-              }`}
+              className={`p-4 cursor-text`}
               onClick={(e) => e.stopPropagation()}
             >
+              <div className={`${
+                isOpenEditor ? "bg-white rounded-md" : "bg-transparent"
+              }`}>
               <ProseMirrorEditor
                 ref={editorRef}
                 key={id}
@@ -142,6 +144,7 @@ const NoteCard = ({
                 objectId={objectId}
                 setIsUploading={setIsUploading}
               />
+              </div>
               <div className="flex gap-x-2 mt-2">
                 <Button
                   disabled={
@@ -181,7 +184,7 @@ const NoteCard = ({
                     ? ""
                     : `${
                         permissions.update ? "cursor-text" : "cursor-auto"
-                      } border border-[#ffffff] dark:border-[transparent] hover:border-[#7fd1de] hover:dark:border-[#7fd1de] hover:bg-[#e5f5f8] hover:dark:bg-gray-600 rounded-md relative group`
+                      } hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
                 } EditorView`}
                 onClick={(e) => {
                   if (isOpen) {
@@ -220,7 +223,7 @@ const NoteCard = ({
               <div
                 className={`${
                   !isOpen
-                    ? "bg-gradient-to-t from-white dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0"
+                    ? ` ${note?.createdBy === 'hubspot' ? `from-[${noteStyle.hsBg}]` : `from-[${noteStyle.wpBg}]` } bg-gradient-to-t dark:from-dark-500 to-transparent h-8 absolute bottom-0 right-0 left-0`
                     : ""
                 }`}
               ></div>
