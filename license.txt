@@ -2,7 +2,7 @@
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
-Copyright 2024 DigitalWoods Technologies Inc. All rights reserved.
+Copyright 2024 DigitalWoods Technologies Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,40 +15,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION:
-
-1.  Definitions.
-    "License" shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.
-    "Licensor" shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.
-    "You" (or "Your") shall mean an individual or Legal Entity exercising permissions granted by this License.
-    "Source" form shall mean the form of the work preferred for making modifications.
-    "Object" form shall mean any form resulting from mechanical transformation or translation of a Source form, including but not limited to compiled object code, generated documentation, and the like.
-    "Work" shall mean the work of authorship, whether in Source or Object form, made available under the License.
-    "Derivative Works" shall mean any work, whether in Source or Object form, that is based on the Work and that is allowed under this License.
-    "Contribution" shall mean any modification or addition to the Work that is submitted to the Licensor by You for inclusion in the Work.
-
-2.  Grant of Copyright License.
-    Subject to the terms and conditions of this License, the Licensor hereby grants You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to use, reproduce, modify, distribute, perform, and display the Work.
-
-3.  Grant of Patent License.
-    Subject to the terms and conditions of this License, the Licensor hereby grants You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, use, sell, offer for sale, import, and otherwise transfer the Work, where such license applies only to those patents that are necessarily infringed by the modification(s) You make to the Work.
-
-4.  Redistribution.
-    You may reproduce and distribute copies of the Work or Derivative Works in any medium, with or without modifications, provided that You meet the following conditions:
-    
-    a) You must include a copy of this License in any distribution of the Work or Derivative Works.
-    b) You must not use the names, trademarks, or other identifiers of the Licensor, except as required by the License to give attribution.
-
-
-5.  No Warranty.
-    The Work is provided on an "AS IS" basis, without warranty of any kind, either express or implied, including, but not limited to, the implied warranties of merchantability, fitness for a particular purpose, or non-infringement. See the Apache License 2.0 for specific language regarding warranties and liabilities.
-
-6.  Limitation on Liability.
-    In no event shall the Licensor be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of the Work, even if advised of the possibility of such damage.
-
-7.  Accepting the License.
-    By using, copying, modifying, or distributing the Work, You accept and agree to be bound by the terms of this License.
-
-8.  Termination.
-    This License and the rights granted hereunder will terminate automatically if You fail to comply with any of the terms and conditions of this License. If You do not comply, You must stop using, modifying, and distributing the Work and destroy all copies in your possession.
