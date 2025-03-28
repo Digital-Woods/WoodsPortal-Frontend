@@ -758,9 +758,16 @@ tfoot td {
 
 .ProseMirror {
   position: relative;
-  height:360px;
   /* overflow-y: auto; */
   overflow: auto;
+}
+
+.modal-editor .ProseMirror {
+  height:360px;
+}
+
+.edit-note .ProseMirror {
+  min-height:360px;
 }
 
 .ProseMirror {

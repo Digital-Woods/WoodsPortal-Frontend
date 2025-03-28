@@ -55,7 +55,7 @@
               currentPage < numOfPages && setCurrentPage(currentPage + 1)
             }
           >
-            <Chevron transform="rotate(180)" />
+            <Chevron className="rotate-180 origin-center -webkit-transform" />
           </li>
         </div>
       </ul>

@@ -93,7 +93,7 @@ const Breadcrumb = (props) => {
               </Link>
               {index < breadcrumbs.length - 1 && (
                 <span className="mx-1 text-sidelayoutTextColor dark:text-white">
-                  <Chevron transform="rotate(180)" />
+                  <Chevron className="rotate-180 origin-center -webkit-transform" />
                 </span>
               )}
             </li>

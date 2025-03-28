@@ -104,9 +104,9 @@ const DetailsAssociations = ({
               <Tooltip content={isExpanded ? "Shrink" : "Expand"}>
                 <span className="text-secondary dark:text-white">
                   {isExpanded ? (
-                    <Chevron transform="rotate(270)" />
+                    <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
                   ) : (
-                    <Chevron transform="rotate(180)" />
+                    <Chevron className="rotate-180 origin-center -webkit-transform" />
                   )}
                 </span>
               </Tooltip>

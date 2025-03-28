@@ -43,9 +43,9 @@ const AccordionSummary = ({ children, active, id, handleToggle }) => {
     >
         <span className='font-semibold text-secondary dark:text-white'>
           {active === id ? (
-            <Chevron transform="rotate(270)" />
+            <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
           ) : (
-            <Chevron transform="rotate(180)" />
+            <Chevron className="rotate-180 origin-center -webkit-transform" />
           )}
         </span>
         <h5 className="font-medium text-sm flex items-center justify-between gap-x-2 flex-1 ">{children}</h5>

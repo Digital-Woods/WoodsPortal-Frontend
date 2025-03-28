@@ -44,7 +44,7 @@ const Attachments = ({
       height="24px"
       viewBox="0 -960 960 960"
       width="24px"
-      fill="#5f6368"
+      fill="currentColor"
     >
       <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
     </svg>
@@ -85,14 +85,14 @@ const Attachments = ({
         ) : null}
       </div>
       <div className="flex items-start">
-        <ul class="list-none inline-block flex flex-wrap gap-2 mt-4 max-w-full">
+        <ul class={`list-none ${attachments.length > 0 ? 'p-1' : ''} flex flex-wrap gap-2 max-w-full`}>
           {attachments.map((attachment) => (
-            <li className="p-2 bg-[#f5f8fa] border border-[#eaf0f6] rounded-sm flex gap-1 text-sm flex items-center">
+            <li className="p-2 bg-[#f5f8fa] dark:bg-dark-300 dark:text-white border dark:border-gray-600 rounded-sm flex gap-1 text-sm items-center">
               <FileIcon />
               <div class="flex gap-2">
                 <span
                   onClick={() => setSelectedFileId(attachment.id)}
-                  class="cursor-pointer font-semibold text-xs text-lightblue dark:text-blue-500 hover:underline"
+                  class="cursor-pointer font-semibold text-xs text-lightblue text-[#5f6368] dark:text-white hover:underline"
                   target="_blank"
                 >
                   {getFileName(attachment.name)}
