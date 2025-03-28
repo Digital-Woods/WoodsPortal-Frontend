@@ -1,6 +1,5 @@
 # WoodsPortal Frontend Customization Guide
 
-This project is tested with BrowserStack.
 
 This codebase is designed to extend the capabilities of HubSpot’s membership portal using React, enabling a fully customizable, single-page application (SPA) experience. It integrates seamlessly with **WoodsPortal**—our hosted, enterprise-level membership portal for HubSpot—offering unlimited customization potential.
 
@@ -108,3 +107,7 @@ To style the Woods Portal, you have multiple options:
 - **Adding New Components**: Link new components in `child/child.js` and style them in `child/child.css`.
 
 By following this guide, you can effectively customize the Woods Portal to align with your project requirements. Enjoy building with WoodsPortal!
+
+
+This project is tested with BrowserStack.
+
