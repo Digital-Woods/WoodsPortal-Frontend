@@ -103,9 +103,9 @@ const NoteCard = ({
           <div className="flex items-center gap-2">
             <div className={`${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white`}>
               {isOpen ? (
-                <Chevron transform="rotate(270)" />
+                <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
               ) : (
-                <Chevron transform="rotate(180)" />
+                <Chevron className="rotate-180 origin-center -webkit-transform" />
               )}
             </div>
             <div className="flex justify-between items-center w-full">
@@ -127,7 +127,7 @@ const NoteCard = ({
               onClick={(e) => e.stopPropagation()}
             >
               <div className={`${
-                isOpenEditor ? "bg-white rounded-md" : "bg-transparent"
+                isOpenEditor ? "bg-white rounded-md edit-note" : "bg-transparent "
               }`}>
               <ProseMirrorEditor
                 ref={editorRef}
@@ -172,11 +172,11 @@ const NoteCard = ({
             </div>
           ) : (
             <div
-              className={
+              className={`text-black ${
                 !isOpen
-                  ? "relative line-clamp-2 max-h-[120px] overflow-hidden"
-                  : ""
-              }
+                  ? "relative line-clamp-3 h-[80px] overflow-hidden"
+                  : "" }
+              `}
             >
               <div
                 className={`py-3 pr-3 pl-6 ${
@@ -184,7 +184,7 @@ const NoteCard = ({
                     ? ""
                     : `${
                         permissions.update ? "cursor-text" : "cursor-auto"
-                      } hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
+                      } rounded-md bg-white mt-2 border dark:border-[transparent] ${note?.createdBy === 'hubspot' ? `hover:bg-[${noteStyle.wpBg}] border-[${noteStyle.wpBg}] ` : `hover:bg-[${noteStyle.hsBg}] border-[${noteStyle.hsBg}]` }  hover:bg-opacity-10 hover:dark:bg-gray-600 rounded-md relative group`
                 } EditorView`}
                 onClick={(e) => {
                   if (isOpen) {
@@ -413,8 +413,9 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             : "lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] "
         } `}
       >
-        <div className="flex justify-between items-center mb-4 bg-[#516f90] p-4">
-          <h2 className="text-lg font-semibold text-white dark:text-white">
+      <div className="sticky top-0 z-50">
+         <div className="flex justify-between items-center bg-[#516f90] p-4 sticky top-0 z-50">
+          <h2 className="text-lg font-semibold text-white dark:text-white mb-0">
             Note
           </h2>
           <div className="flex gap-2 items-center">
@@ -444,13 +445,14 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             </button>
           </div>
         </div>
-        <div className="px-4 pb-4">
-          <div className="flex items-center px-4">
+        <div className="flex items-center px-4 bg-white py-4">
             <p className="text-gray-600 dark:!text-gray-600 text-xs">For</p>
             <p className="border rounded-full px-2 py-1 text-xs ml-2 dark:!text-gray-600">
               {getObjectName()}
             </p>
           </div>
+        </div>
+        <div className="px-4 modal-editor">
           <ProseMirrorEditor
             id={objectId}
             attachments={[]}
@@ -463,7 +465,8 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             objectId={objectId}
             setIsUploading={setIsUploading}
           />
-          <div className="mt-4 flex justify-end gap-3 darkbg-[#516f90] ">
+        </div>
+          <div className="flex justify-end gap-3 darkbg-[#516f90] sticky bottom-0 z-50 bg-white px-4 pb-4 pt-2">
             <Button
               disabled={isPosting || isUploading}
               variant="outline"
@@ -483,7 +486,6 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
               Create Note
             </Button>
           </div>
-        </div>
       </Dialog>
     </div>
   );

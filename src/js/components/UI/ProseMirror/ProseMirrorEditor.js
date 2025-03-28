@@ -665,7 +665,7 @@ const ProseMirrorEditor = ({
       <div
         ref={editorRef}
         id="prosemirror-editor"
-        className="text-[#000] prosemirror-editor dark:bg-white rounded border border-[#7fd1de]"
+        className="text-[#000] prosemirror-editor dark:bg-white rounded border border-[#7fd1de] pt-0"
       ></div>
 
       <Attachments

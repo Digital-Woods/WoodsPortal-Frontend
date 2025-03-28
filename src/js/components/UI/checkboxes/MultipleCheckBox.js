@@ -89,7 +89,7 @@ const CheckboxField = ({ editRow, saveData, setValue, name, control, setSelected
           <span className="text-gray-400">Select options...</span>
         )}
         <span className="ml-auto absolute top-1/2 right-1 transform -translate-y-1/2">
-          <Chevron transform={`${isDropdownOpen ? 'rotate(90)' : 'rotate(270)'}`}  className={`w-4 h-4 transition-transform `} />
+          <Chevron transform={`${isDropdownOpen ? 'rotate(90)' : 'rotate(270)'}`}  className={`w-4 h-4 transition-transform -webkit-transform`} />
         </span>
       </div>
 
