@@ -18,6 +18,7 @@ const DetailsViewEditor = ({
   const menuConfig = {
     imageUploader: false,
     attachmentUploader: false,
+    proseMirrorMenuEmoji: true,
   };
 
   const { mutate: saveData, isLoading } = useMutation({

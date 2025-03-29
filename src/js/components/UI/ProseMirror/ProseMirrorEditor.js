@@ -23,6 +23,7 @@ const ProseMirrorEditor = ({
     alignmentDropdown: true,
     listMenuItem: true,
     insertLinkMenuItem: true,
+    proseMirrorMenuEmoji: false,
     imageUploader: true,
     attachmentUploader: true,
   }
@@ -49,9 +50,11 @@ const ProseMirrorEditor = ({
     alignmentDropdown: menuConfig?.alignmentDropdown ?? true,
     listMenuItem: menuConfig?.listMenuItem ?? true,
     insertLinkMenuItem: menuConfig?.insertLinkMenuItem ?? true,
+    proseMirrorMenuEmoji: menuConfig?.proseMirrorMenuEmoji ?? true,
     imageUploader: menuConfig?.imageUploader ?? true,
     attachmentUploader: menuConfig?.attachmentUploader ?? true,
   }
+  console.log("editorMenuConfig", editorMenuConfig)
 
   const {
     isLoadingUoloading,
@@ -474,6 +477,9 @@ const ProseMirrorEditor = ({
       ].filter(Boolean), // Remove undefined/false items
       [
         editorMenuConfig.insertLinkMenuItem && insertLinkMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.proseMirrorMenuEmoji && proseMirrorMenuEmoji,
       ].filter(Boolean), // Remove undefined/false items
       [
         editorMenuConfig.imageUploader && imageUploader(),
