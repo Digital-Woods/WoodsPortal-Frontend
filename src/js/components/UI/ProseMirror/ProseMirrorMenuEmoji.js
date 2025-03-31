@@ -49,7 +49,6 @@ const PopupInsertEmojiMenu = ({ editorView, href, title }) => {
       dropdownButtonRef.current &&
       !dropdownButtonRef.current.contains(event.target)
     ) {
-      resetMenu();
       setIsOpen(false);
     }
   };
@@ -97,7 +96,7 @@ const PopupInsertEmojiMenu = ({ editorView, href, title }) => {
         <div
           ref={dropdownMenuRef}
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm z-10"
+          className="absolute left-[-130px] transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm z-10"
         >
             <Emoji applyEmoji={applyEmoji} />
         </div>
@@ -110,7 +109,6 @@ const { MenuItem: MenuItem2 } = window.ProseMirrorMenuItem;
 
 const renderReactEmojiComponent = (editorView) => {
   const container = document.createElement("div");
-  console.log("container", container)
   ReactDOM.render(<PopupInsertEmojiMenu editorView={editorView} />, container);
   return container;
 };
