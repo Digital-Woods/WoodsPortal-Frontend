@@ -130,7 +130,7 @@ const DetailsViewEditor = ({
               onClick={() => saveData()}
               isLoading={isLoading}
             >
-              Create Note
+              Save
             </Button>
           </div>
         </div>
