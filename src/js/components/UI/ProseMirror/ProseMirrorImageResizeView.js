@@ -131,7 +131,7 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
   );
 };
 
-const ProseMirrorImageResize = () => {
+const ProseMirrorImageResizeView = () => {
   return (node, view, getPos) => {
     const dom = document.createElement("div");
     dom.className = "prosemirror-react-image";

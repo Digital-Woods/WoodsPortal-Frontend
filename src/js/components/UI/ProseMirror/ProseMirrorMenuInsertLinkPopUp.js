@@ -222,7 +222,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
           <Button
             size="sm"
             variant="link"
-            className="w-full"
+            className="w-full dark:text-secondary"
             onClick={() => removeEditLink()}
           >
             Remove link
