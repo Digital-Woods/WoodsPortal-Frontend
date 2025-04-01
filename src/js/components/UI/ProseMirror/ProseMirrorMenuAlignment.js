@@ -114,8 +114,23 @@ const DropdownAlightMenu = ({ editorView }) => {
       }
     });
 
+   
+    let selectedPaddingLeft = null ; 
+
+    state.doc.nodesBetween(from, to, (node) => {
+      if (node.type === nodeType) {
+        selectedPaddingLeft = node.attrs.paddingLeft
+      }
+    });
+
+    let attrs = {
+      align: align,
+    }
+    if(selectedPaddingLeft) attrs.paddingLeft = selectedPaddingLeft;
+
+
     if (dispatch) {
-      dispatch(state.tr.setBlockType(from, to, nodeType, { align }));
+      dispatch(state.tr.setBlockType(from, to, nodeType, attrs));
     }
 
     setIsOpen(false);
