@@ -37,7 +37,6 @@ const ProseMirrorEditor = ({
   // const [isLoadingUoloading, setisLoadingUoloading] = useState(false);
   // const [uploadProgress, setUploadProgress] = useState(0);
   // const [isOpenLinkPopup, setIsOpenLinkPopup] = useState(false);
-  const linkPopupRef = useRef(null);
 
   const editorMenuConfig = {
     boldItem: menuConfig?.boldItem ?? true,
@@ -586,7 +585,8 @@ const ProseMirrorEditor = ({
         ],
       }),
       nodeViews: {
-        image: ProseMirrorImageResize(),
+        image: ProseMirrorImageResizeView(),
+        link: ProseMirrorLinkView,
       },
       dispatchTransaction(transaction) {
         const newState = editor.state.apply(transaction);
@@ -594,69 +594,6 @@ const ProseMirrorEditor = ({
         setEditorContent(newState.doc.textContent); // Update editor content
         setPmState(newState);
       },
-    });
-
-    let isOpenLinkPopup = true;
-    let isOpenLinkPopupId = "";
-
-    const closeLinkPopup = () => {
-      document.body.removeChild(linkPopupRef.current);
-      linkPopupRef.current = null;
-      isOpenLinkPopup = !isOpenLinkPopup;
-    };
-
-    const handleClickOutside = (event) => {
-      if (
-        linkPopupRef.current &&
-        !linkPopupRef.current.contains(event.target)
-      ) {
-        closeLinkPopup();
-      }
-    };
-
-    // Detect click on a link inside the editor
-    editor.dom.addEventListener("click", (event) => {
-      let target = event.target.closest("a"); // Find closest <a> element
-      if (target) {
-        event.preventDefault(); // Prevent default navigation
-
-        if (!isOpenLinkPopup && linkPopupRef.current) {
-          document.body.removeChild(linkPopupRef.current);
-          linkPopupRef.current = null;
-        }
-
-        isOpenLinkPopup = !isOpenLinkPopup;
-
-        setTimeout(() => {
-          document.addEventListener("mousedown", handleClickOutside);
-        }, 0);
-
-        if (!isOpenLinkPopup) {
-          const randomId = Math.floor(Math.random() * 10000000) + 1;
-          target.id = `main-${randomId}`;
-          target.classList.add("relative", "inline-block");
-          const href = target.getAttribute("href");
-          const title = target.getAttribute("title") || target.textContent;
-          const target_b = target.getAttribute("target");
-
-          let container = document.createElement("div");
-          document.body.appendChild(container);
-
-          linkPopupRef.current = container;
-
-          ReactDOM.render(
-            <ProseMirrorMenuInsertLinkPopUp
-              randomId={randomId}
-              editorView={editor}
-              href={href}
-              title={title}
-              target={target_b}
-              closeLinkPopup={closeLinkPopup}
-            />,
-            container
-          );
-        }
-      }
     });
 
     // Cleanup on unmount
