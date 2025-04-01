@@ -23,6 +23,8 @@ const ProseMirrorEditor = ({
     alignmentDropdown: true,
     listMenuItem: true,
     insertLinkMenuItem: true,
+    proseMirrorMenuDecreaseIndent: false,
+    proseMirrorMenuIncreaseIndent: false,
     proseMirrorMenuEmoji: false,
     imageUploader: true,
     attachmentUploader: true,
@@ -50,11 +52,12 @@ const ProseMirrorEditor = ({
     alignmentDropdown: menuConfig?.alignmentDropdown ?? true,
     listMenuItem: menuConfig?.listMenuItem ?? true,
     insertLinkMenuItem: menuConfig?.insertLinkMenuItem ?? true,
+    proseMirrorMenuDecreaseIndent: menuConfig?.proseMirrorMenuDecreaseIndent ?? true,
+    proseMirrorMenuIncreaseIndent: menuConfig?.proseMirrorMenuIncreaseIndent ?? true,
     proseMirrorMenuEmoji: menuConfig?.proseMirrorMenuEmoji ?? true,
     imageUploader: menuConfig?.imageUploader ?? true,
     attachmentUploader: menuConfig?.attachmentUploader ?? true,
   }
-  console.log("editorMenuConfig", editorMenuConfig)
 
   const {
     isLoadingUoloading,
@@ -68,7 +71,6 @@ const ProseMirrorEditor = ({
   // Plugin
   const editorRef = useRef(null);
   const [pmState, setPmState] = useState();
-  const [pmView, setPmView] = useState();
   const [editorShema, setEditorSchema] = useState(null);
   const [initialDoc, setInitialDoc] = useState(null);
   const { DOMSerializer } = window.DOMSerializer;
@@ -267,18 +269,37 @@ const ProseMirrorEditor = ({
       group: "block",
       attrs: {
         align: { default: null },
+        paddingLeft: { default: 0 }, // New attribute for padding
       },
       parseDOM: [
         {
           tag: "p",
+          // getAttrs: (dom) => ({
+          //   align: dom?.style?.textAlign || null,
+          // }),
           getAttrs: (dom) => ({
             align: dom?.style?.textAlign || null,
+            paddingLeft: dom?.style?.paddingLeft
+            ? parseInt(dom.style.paddingLeft, 10) // Extract padding value as an integer
+            : 0,
           }),
         },
       ],
       toDOM(node) {
-        const { align } = node.attrs;
-        return ["p", { style: align ? `text-align: ${align};` : "" }, 0];
+        const { align, paddingLeft } = node.attrs;
+        // console.log("node.attrs", node.attrs)
+        // return ["p", { style: align ? `text-align: ${align};` : "" }, 0];
+        return [
+          "p",
+          {
+            style: `
+              ${align ? `text-align: ${align};` : ""}
+              ${paddingLeft ? `padding-left: ${paddingLeft}` : ""}
+            `,
+            // "data-mce-style": `padding-left: ${paddingLeft}px;`, // TinyMCE compatibility
+          },
+          0,
+        ];
       },
     };
 
@@ -477,6 +498,10 @@ const ProseMirrorEditor = ({
       ].filter(Boolean), // Remove undefined/false items
       [
         editorMenuConfig.insertLinkMenuItem && insertLinkMenuItem,
+      ].filter(Boolean), // Remove undefined/false items
+      [
+        editorMenuConfig.proseMirrorMenuDecreaseIndent && proseMirrorMenuDecreaseIndent,
+        editorMenuConfig.proseMirrorMenuIncreaseIndent && proseMirrorMenuIncreaseIndent,
       ].filter(Boolean), // Remove undefined/false items
       [
         editorMenuConfig.proseMirrorMenuEmoji && proseMirrorMenuEmoji,

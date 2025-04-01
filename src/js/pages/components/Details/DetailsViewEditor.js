@@ -18,6 +18,8 @@ const DetailsViewEditor = ({
   const menuConfig = {
     imageUploader: false,
     attachmentUploader: false,
+    proseMirrorMenuDecreaseIndent: true,
+    proseMirrorMenuIncreaseIndent: true,
     proseMirrorMenuEmoji: true,
   };
 
