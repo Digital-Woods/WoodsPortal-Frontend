@@ -69,38 +69,8 @@ const updateImageAlignment = (node, view, getPos, alignment) => {
 };
 
 const DropdownAlightMenu = ({ editorView }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const [textAlign, setTextAlign] = useState(alignments[0]);
-
-  const dropdownButtonRef = useRef(null);
-  const dropdownMenuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target) &&
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
 
   const applyAlignment = (state, dispatch, align) => {
     const { schema, selection } = state;
@@ -114,33 +84,26 @@ const DropdownAlightMenu = ({ editorView }) => {
       }
     });
 
-   
-    let selectedPaddingLeft = null ; 
+    let selectedPaddingLeft = null;
 
     state.doc.nodesBetween(from, to, (node) => {
       if (node.type === nodeType) {
-        selectedPaddingLeft = node.attrs.paddingLeft
+        selectedPaddingLeft = node.attrs.paddingLeft;
       }
     });
 
     let attrs = {
       align: align,
-    }
-    if(selectedPaddingLeft) attrs.paddingLeft = selectedPaddingLeft;
-
+    };
+    if (selectedPaddingLeft) attrs.paddingLeft = selectedPaddingLeft;
 
     if (dispatch) {
       dispatch(state.tr.setBlockType(from, to, nodeType, attrs));
     }
 
-    setIsOpen(false);
+    setOpen(false);
     return true;
   };
-
-  // useEffect(() => {
-  //   if (defaultEditorAlignment && textAlign)
-  //     applyAlignment(editorView.state, editorView.dispatch, textAlign.value);
-  // }, [defaultEditorAlignment, textAlign]);
 
   const changeAlignment = (alignment) => {
     applyAlignment(editorView.state, editorView.dispatch, alignment.value);
@@ -152,53 +115,25 @@ const DropdownAlightMenu = ({ editorView }) => {
 
   return (
     <div className="relative inline-block">
-      <div
-        class="ProseMirror-icon"
-        title="Text Alignment"
-        ref={dropdownButtonRef}
-        onClick={toggleMenu}
-      >
-        {/* <div id="textAlignIcon">
-          <SvgRenderer svgContent={textAlign.icon} />
-        </div> */}
-        <div
+      <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
+        <ProseMirrorMenuButton
           id="defaultEditorAlignment"
-          className={`note-menuitem ${
-            defaultEditorAlignment ? "note-active-state" : ""
-          }`}
+          title="Text Alignment"
+          isActive={defaultEditorAlignment}
         >
-          <div id="textAlignIcon">
-            <SvgRenderer svgContent={textAlign?.icon} />
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            fill="#e8eaed"
-          >
-            <path d="M480-360 280-560h400L480-360Z" />
-          </svg>
-        </div>
-      </div>
-      {isOpen && (
-        <div
-          ref={dropdownMenuRef}
-          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm z-10"
-        >
+          <SvgRenderer svgContent={textAlign?.icon} />
+        </ProseMirrorMenuButton>
+        <ProseMirrorMenuOption>
           <ul class="space-y-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
             {alignments.map((alignment) => (
               <li
                 key={alignment.value}
-                // className="cursor-pointer hover:note-active-state px-4 py-1"
                 className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8]  py-1 ${
                   defaultEditorAlignment?.value === alignment.value
                     ? "bg-gray-100"
                     : "bg-none"
                 }`}
                 onClick={() => {
-                  // setTextAlign(alignment);
                   changeAlignment(alignment);
                   defaultEditorAlignment = alignment;
                 }}
@@ -207,8 +142,8 @@ const DropdownAlightMenu = ({ editorView }) => {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+        </ProseMirrorMenuOption>
+      </ProseMirrorMenuPopup>
     </div>
   );
 };
@@ -247,7 +182,9 @@ const alignmentDropdown = new MenuItem2({
     let isAlignmentLeft = isAlignmentActive(state, "left");
     let isAlignmentCenter = isAlignmentActive(state, "center");
     let isAlignmentRight = isAlignmentActive(state, "right");
-    let editorListButton = document.querySelector("#textAlignIcon");
+    let editorListButton = document.querySelector(
+      "#defaultEditorAlignment-icon"
+    );
 
     const imageNode = isImageSelected(state);
     if (imageNode) {
