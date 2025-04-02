@@ -24,68 +24,12 @@ const isListActive = (state, nodeType) => {
 let defaultEditorList = null;
 
 const DropdownListMenu = ({ editorView }) => {
+  const [open, setOpen] = React.useState(false);
   const { wrapInList } = window.wrapInList;
   const { liftListItem } = window.liftListItem;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [textAlign, setTextAlign] = useState(listTypes[0]);
+  const [textList, setTextList] = useState(listTypes[0]);
   const [selectedEditorList, setSelectedEditorList] = useState("");
-
-  const dropdownButtonRef = useRef(null);
-  const dropdownMenuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target) &&
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
-
-  // const toggleListMenu = (listType) => {
-  //   const { state, dispatch } = editorView;
-  //   const { schema } = state;
-  //   if (listType.key === "bullet") {
-  //     if (isListActive(state, schema.nodes.bullet_list)) {
-  //       liftListItem(schema.nodes.list_item)(state, dispatch);
-  //     } else {
-  //       liftListItem(schema.nodes.list_item)(state, dispatch);
-  //       setTimeout(() => {
-  //         wrapInList(schema.nodes.bullet_list)(state, dispatch);
-  //       });
-  //     }
-  //   }
-  //   if (listType.key === "ordered") {
-  //     if (isListActive(state, schema.nodes.ordered_list)) {
-  //       liftListItem(schema.nodes.list_item)(state, dispatch);
-  //     } else {
-  //       liftListItem(schema.nodes.list_item)(state, dispatch);
-  //       setTimeout(() => {
-  //         wrapInList(schema.nodes.ordered_list)(state, dispatch);
-  //       });
-  //     }
-  //   }
-  //   setIsOpen(false);
-  // };
 
   const toggleListMenu = (listType) => {
     const { state, dispatch } = editorView;
@@ -108,47 +52,24 @@ const DropdownListMenu = ({ editorView }) => {
       );
     }
 
-    setIsOpen(false);
+    setOpen(false);
   };
 
   useEffect(() => {
-    if (defaultEditorList) setTextAlign(defaultEditorList);
+    if (defaultEditorList) setTextList(defaultEditorList);
   }, [defaultEditorList]);
 
   return (
     <div className="relative inline-block">
-      <div
-        class="ProseMirror-icon"
-        title="List styles"
-        ref={dropdownButtonRef}
-        onClick={toggleMenu}
-      >
-        <div
+      <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
+        <ProseMirrorMenuButton
           id="selectedEditorList"
-          className={`note-menuitem ${
-            selectedEditorList ? "note-active-state" : ""
-          }`}
+          title="Text Alignment"
+          isActive={selectedEditorList}
         >
-          <div id="textListIcon">
-            <SvgRenderer svgContent={textAlign?.icon} />
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            fill="#e8eaed"
-          >
-            <path d="M480-360 280-560h400L480-360Z" />
-          </svg>
-        </div>
-      </div>
-      {isOpen && (
-        <div
-          ref={dropdownMenuRef}
-          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
-        >
+          <SvgRenderer svgContent={textList?.icon} />
+        </ProseMirrorMenuButton>
+        <ProseMirrorMenuOption>
           <ul class="space-y-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
             {listTypes.map((listType) => (
               <li
@@ -160,7 +81,7 @@ const DropdownListMenu = ({ editorView }) => {
                     : "bg-none"
                 }`}
                 onClick={() => {
-                  // setTextAlign(listType);
+                  // setTextList(listType);
                   toggleListMenu(listType);
                   setSelectedEditorList(listType.icon);
                   defaultEditorList = listType;
@@ -170,8 +91,8 @@ const DropdownListMenu = ({ editorView }) => {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+        </ProseMirrorMenuOption>
+      </ProseMirrorMenuPopup>
     </div>
   );
 };
@@ -182,24 +103,6 @@ const renderReactListComponent = (editorView) => {
   return container;
 };
 
-// const isListActive = (state, nodeType) => {
-//   let { $from } = state.selection;
-//   for (let d = $from.depth; d > 0; d--) {
-//     if ($from.node(d).type === nodeType) return true;
-//   }
-//   return false;
-// }
-
-// const listMenuItem = new MenuItem2({
-//   title: `Select List`,
-//   run: () => {},
-//   select: (state) => {
-//     console.log('satet', isListActive())
-//     return true
-//   },
-//   render: (editorView) => renderReactListComponent(editorView),
-// });
-
 const listMenuItem = new MenuItem2({
   title: `List styles`,
   run: () => {},
@@ -207,7 +110,7 @@ const listMenuItem = new MenuItem2({
     const { schema, selection } = state;
     const isBulletList = isListActive(state, schema.nodes.bullet_list);
     const isOrderedList = isListActive(state, schema.nodes.ordered_list);
-    const editorListButton = document.querySelector("#textListIcon");
+    const editorListButton = document.querySelector("#selectedEditorList-icon");
 
     if (isBulletList) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>`;

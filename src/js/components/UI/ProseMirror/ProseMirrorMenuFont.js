@@ -122,38 +122,8 @@ const fontSelectionPlugin = new ProseMirrorPlugin2({
 let defaultEditorFont = null;
 
 const DropdownFontMenu = ({ editorView, activeFont2 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const [font, setFont] = useState(textFonts[0]);
-
-  const dropdownButtonRef = useRef(null);
-  const dropdownMenuRef = useRef(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      dropdownMenuRef.current &&
-      !dropdownMenuRef.current.contains(event.target) &&
-      dropdownButtonRef.current &&
-      !dropdownButtonRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
 
   const applyFontFamily = (font) => {
     return (state, dispatch) => {
@@ -175,7 +145,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
       }
 
       if (dispatch) dispatch(tr);
-      setIsOpen(false);
+      setOpen(false);
       return true;
     };
   };
@@ -186,43 +156,25 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
 
   return (
     <div className="relative inline-block">
-      <div
-        class="ProseMirror-icon"
-        title="Fonts"
-        ref={dropdownButtonRef}
-        onClick={toggleMenu}
-      >
-        <div
+      <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
+        <ProseMirrorMenuButton
           id="defaultEditorFont"
-          className={`min-w-[130px] note-font-dropdown-menu ${
-            defaultEditorFont ? "note-active-state" : ""
-          }`}
+          title="Text Alignment"
+          isActive={defaultEditorFont}
+          variant="outline"
         >
-          <span id="textFontIcon">
-            {defaultEditorFont ? defaultEditorFont?.label : font.label}
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="20px"
-            fill="#e8eaed"
-          >
-            <path d="M480-360 280-560h400L480-360Z" />
-          </svg>
-        </div>
-      </div>
-      {isOpen && (
-        <div
-          ref={dropdownMenuRef}
-          // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded z-10"
-        >
+          {defaultEditorFont ? defaultEditorFont?.label : font.label}
+        </ProseMirrorMenuButton>
+        <ProseMirrorMenuOption>
           <ul class="space-y-2 note-dd-Select-menu list-none min-w-[105px] list-inside dark:text-gray-400">
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className={`cursor-pointer min-w-[130px] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${defaultEditorFont?.key === textFont.key ? 'bg-gray-100' : 'bg-none'}`}
+                className={`cursor-pointer min-w-[130px] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
+                  defaultEditorFont?.key === textFont.key
+                    ? "bg-gray-100"
+                    : "bg-none"
+                }`}
                 onClick={() => {
                   setFont(textFont);
                   defaultEditorFont = textFont;
@@ -236,8 +188,8 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+        </ProseMirrorMenuOption>
+      </ProseMirrorMenuPopup>
     </div>
   );
 };
@@ -273,14 +225,18 @@ const fontMenuItem = new MenuItem2({
 
     // defaultEditorFont = font
 
-    const div = document.getElementById("textFontIcon");
+    const div = document.getElementById("defaultEditorFont-icon");
     if (div && selectedEditorFont) {
       div.textContent = font.label; // Change text content
-      document.getElementById("defaultEditorFont")?.classList.add("note-active-state");
+      document
+        .getElementById("defaultEditorFont")
+        ?.classList.add("note-active-state");
     }
     if (div && !selectedEditorFont) {
       div.textContent = "Sans Serif"; // Change text content
-      document.getElementById("defaultEditorFont")?.classList.remove("note-active-state");
+      document
+        .getElementById("defaultEditorFont")
+        ?.classList.remove("note-active-state");
     }
     return activeFont !== null;
   },
