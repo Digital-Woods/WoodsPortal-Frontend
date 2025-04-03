@@ -30,7 +30,7 @@ const FileDetailsModal = ({ file, onClose }) => {
       }`}
     >
       <div className="flex justify-between items-center bg-[#516f90] p-4">
-        <h2 className="text-white font-medium text-lg break-all">{file?.data.name}</h2>
+        <h2 className="text-white font-medium text-lg break-all mb-0">{file?.data.name}</h2>
         <div className="flex gap-2 items-center">
           <button
             onClick={toggleExpandDialog}
