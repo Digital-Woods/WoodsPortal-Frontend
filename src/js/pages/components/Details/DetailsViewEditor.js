@@ -76,7 +76,7 @@ const DetailsViewEditor = ({
         } `}
       >
         <div className="flex justify-between items-center mb-4 bg-[#516f90] p-4">
-          <h2 className="text-lg font-semibold text-white dark:text-white">
+          <h2 className="text-lg font-semibold text-white dark:text-white mb-0">
             Edit {title}
           </h2>
           <div className="flex gap-2 items-center">
@@ -106,7 +106,7 @@ const DetailsViewEditor = ({
             </button>
           </div>
         </div>
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 updateRichText">
           <ProseMirrorEditor
             ref={editorRef}
             key={title}

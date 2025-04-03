@@ -770,6 +770,10 @@ tfoot td {
   min-height:360px;
 }
 
+.updateRichText .ProseMirror{
+  height:280px;
+}
+
 .ProseMirror {
   word-wrap: break-word;
   white-space: pre-wrap;
