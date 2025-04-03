@@ -90,11 +90,64 @@ const ProseMirrorMenuButton = ({
 };
 
 const ProseMirrorMenuOption = ({ children, open, dropdownMenuRef }) => {
+  const [position, setPosition] = useState({ top: '100%', left: 0 });
+  const menuRef = useRef(null);
+
+useEffect(() => {
+  if (open && menuRef.current && dropdownMenuRef.current) {
+    const menuElement = menuRef.current;
+    const dropdownElement = dropdownMenuRef.current;
+    
+    const modalContainer = menuElement.closest('.popup-modal') || document.body;
+    const containerRect = modalContainer.getBoundingClientRect();
+    const buttonRect = dropdownElement.getBoundingClientRect();
+    
+    const relativeLeft = buttonRect.left - containerRect.left;
+    const relativeTop = buttonRect.bottom - containerRect.top;
+    
+    const menuWidth = menuElement.offsetWidth;
+    const availableSpaceRight = containerRect.width - (relativeLeft + menuWidth);
+    
+    // Default position (below and aligned left)
+    let newPosition = {
+      top: '100%',
+      left: 0,
+      right: 'auto'
+    };
+    
+    // If not enough space on right, try aligning right
+    if (availableSpaceRight < 0) {
+      newPosition = {
+        top: '100%',
+        left: 'auto',
+        right: 0
+      };
+      
+      // If aligning right would push it out of left boundary, adjust to stay within container
+      const availableSpaceLeft = relativeLeft;
+      if (availableSpaceLeft < menuWidth) {
+        newPosition = {
+          top: '100%',
+          left: Math.max(0, containerRect.width - menuWidth),
+          right: 'auto'
+        };
+      }
+    }
+    
+    setPosition(newPosition);
+  }
+}, [open]);
+
+
   return (
     open && (
       <ul
-        ref={dropdownMenuRef}
-        className="absolute right-0 mt-1 transform border bg-white shadow-lg rounded-rounded overflow-hidden z-50 w-max"
+        ref={(node) => {
+          menuRef.current = node;
+          dropdownMenuRef.current = node;
+        }}
+        className="absolute mt-1 border bg-white shadow-lg rounded-rounded overflow-hidden z-50 w-max"
+        style={position}
       >
         {children}
       </ul>
