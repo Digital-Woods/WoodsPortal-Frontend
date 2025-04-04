@@ -5,7 +5,8 @@ const Emoji = ({applyEmoji}) => {
     const pickerOptions = {
       onEmojiSelect: (emoji) => {
         applyEmoji(emoji.native)
-      }
+      },
+      theme: "light",
     };
     const picker = new EmojiMart.Picker(pickerOptions);
     pickerContainerRef.current.appendChild(picker);
@@ -33,8 +34,6 @@ const insertEmoji = (emoji) => (state, dispatch) => {
   return true; // Indicate the command was executed
 };
 
-
-let testChange = "";
 
 const PopupInsertEmojiMenu = ({ editorView, href, title }) => {
   const [isOpen, setIsOpen] = useState(false);

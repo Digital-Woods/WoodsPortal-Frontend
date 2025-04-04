@@ -22,9 +22,17 @@ const ProseMirrorLinkView = (mark, node, view, getPos) => {
   };
 
   const handleClickOutside = (event) => {
-    if (linkPopupContainer && !linkPopupContainer.contains(event.target)) {
-      closeLinkPopup();
+    // if (linkPopupContainer && !linkPopupContainer.contains(event.target)) {
+    //   closeLinkPopup();
+    // }
+
+    if (
+      (linkPopupContainer && linkPopupContainer.contains(event.target)) ||
+      (dom && dom.contains(event.target)) // <- this disables outside click for the <a> tag
+    ) {
+      return; // Ignore click
     }
+    closeLinkPopup();
   };
 
   dom.addEventListener("click", (event) => {
@@ -39,7 +47,7 @@ const ProseMirrorLinkView = (mark, node, view, getPos) => {
       }
 
       // Toggle popup visibility
-      if(!isOpenLinkPopup) isOpenLinkPopup = true;
+      isOpenLinkPopup = !isOpenLinkPopup;
 
       // Add event listener to close popup when clicking outside
       setTimeout(() => {

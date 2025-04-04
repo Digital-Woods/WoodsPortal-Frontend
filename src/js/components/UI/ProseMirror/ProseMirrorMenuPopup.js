@@ -1,4 +1,5 @@
 const ProseMirrorMenuPopup = ({ children, open, setOpen }) => {
+  const containerRef = useRef(null);
   const dropdownMenuRef = useRef(null);
 
   const toggleDropdown = (event) => {
@@ -7,6 +8,12 @@ const ProseMirrorMenuPopup = ({ children, open, setOpen }) => {
   };
 
   const handleClickOutside = (event) => {
+    if (
+      containerRef.current &&
+      containerRef.current.contains(event.target) // Ignore clicks inside this container
+    ) {
+      return;
+    }
     if (
       dropdownMenuRef.current &&
       !dropdownMenuRef.current.contains(event.target)
@@ -28,7 +35,7 @@ const ProseMirrorMenuPopup = ({ children, open, setOpen }) => {
   }, [open]);
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" ref={containerRef}>
       {React.Children.map(children, (child) => {
         if (!React.isValidElement(child)) return child;
 
