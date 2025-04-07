@@ -1,0 +1,21 @@
+{
+  "label" : "WoodsPortal",
+  "preview_path" : "./templates/layout/woodsportal-base-template.html",
+  "screenshot_path" : "./images/template-previews/WoodsPortal-theme-preview-banner-dev.png",
+  "enable_domain_stylesheets" : false,
+  "is_available_for_new_content" : true,
+  "responsive_breakpoints" : [ {
+    "name" : "mobile",
+    "previewWidth" : {
+      "value" : 477,
+      "units" : "px"
+    },
+    "mediaQuery" : "@media (max-width: 767px)",
+    "messages" : { }
+  } ],
+  "author" : {
+    "name" : "Digital Woods",
+    "email" : "support@digitalwoods.io",
+    "url" : "https://hub.digitalwoods.io/"
+  }
+}

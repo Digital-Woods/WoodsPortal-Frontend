@@ -1,1 +1,0 @@
-# digitalwoods.io-membership-frontend
