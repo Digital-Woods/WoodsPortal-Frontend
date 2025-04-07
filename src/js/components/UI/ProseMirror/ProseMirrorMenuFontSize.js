@@ -172,7 +172,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
       <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
         <ProseMirrorMenuButton
           id="defaultEditorFontSize"
-          title="Text Alignment"
+          title="Font Size"
           isActive={defaultEditorFont}
           variant="outline"
         >
