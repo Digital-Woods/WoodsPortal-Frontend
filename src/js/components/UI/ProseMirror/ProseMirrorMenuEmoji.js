@@ -7,6 +7,9 @@ const Emoji = ({applyEmoji}) => {
         applyEmoji(emoji.native)
       },
       theme: "light",
+      previewPosition: "none",
+      perLine:7,
+      emojiSize: 18,
     };
     const picker = new EmojiMart.Picker(pickerOptions);
     pickerContainerRef.current.appendChild(picker);
@@ -95,7 +98,7 @@ const PopupInsertEmojiMenu = ({ editorView, href, title }) => {
         <div
           ref={dropdownMenuRef}
           // className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 bg-white shadow-lg rounded w-48 z-10"
-          className="absolute left-[180px] transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm z-10"
+          className="emoji-picker-wrapper absolute md:left-[180px] max-sm:-right-[190px] transform -translate-x-1/2 top-full mt-2 bg-white shadow-lg rounded-sm z-10"
         >
             <Emoji applyEmoji={applyEmoji} />
         </div>
