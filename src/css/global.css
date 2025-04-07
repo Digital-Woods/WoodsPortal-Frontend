@@ -1303,7 +1303,3 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 16px;
   margin-top: 0;
 }
-
-section#root{
-    width: calc(280px + (var(--padding) + var(--sidebar-width))) !important;
-}
