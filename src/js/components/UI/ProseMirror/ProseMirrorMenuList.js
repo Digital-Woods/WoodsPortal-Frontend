@@ -64,7 +64,7 @@ const DropdownListMenu = ({ editorView }) => {
       <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
         <ProseMirrorMenuButton
           id="selectedEditorList"
-          title="Text Alignment"
+          title="List styles"
           isActive={selectedEditorList}
         >
           <SvgRenderer svgContent={textList?.icon} />

@@ -100,21 +100,22 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     closeLinkPopup();
   };
 
-  const removeEditLink = () => {
-    const { state, dispatch } = editorView;
-    const { schema, tr } = state;
-    const linkType = schema.marks.link;
+  // const removeEditLink = () => {
+  //   const { state, dispatch } = editorView;
+  //   const { schema, tr } = state;
+  //   const linkType = schema.marks.link;
 
-    const { from, to } = findTextRange(editorView, title);
+  //   const { from, to } = findTextRange(editorView, title);
 
-    if (dispatch) {
-      tr.removeMark(from, to, linkType); // Remove the link mark
-      dispatch(tr);
-    }
-    resetMenu();
-    closeLinkPopup();
-    return true;
-  };
+  //   if (dispatch) {
+  //     tr.removeMark(from, to, linkType); // Remove the link mark
+  //     dispatch(tr);
+  //   }
+  //   resetMenu();
+  //   closeLinkPopup();
+  //   console.log('object removed');
+  //   return true;
+  // };
 
   // Set Dynamic Position & Scroll
   const [popupPosition, setPopupPosition] = React.useState({ top: 0, left: 0 });
@@ -156,7 +157,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       id={`child-${randomId}`}
       ref={dropdownMenuRef}
       className={`absolute bg-white shadow-lg rounded-sm border z-[103]
-      top-[${popupPosition.top}px] left-[${popupPosition.left}px]`}
+      `}
     >
       <div class="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
         <h2 class="text-sm">Edit Link</h2>
@@ -222,7 +223,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
           <Button
             size="sm"
             variant="link"
-            className="w-full dark:text-secondary"
+            className="w-full !text-secondary"
             onClick={() => removeEditLink()}
           >
             Remove link

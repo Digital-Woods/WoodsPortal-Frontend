@@ -83,7 +83,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
       <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
         <ProseMirrorMenuButton
           id="defaultEditorBGColor"
-          title="Text Alignment"
+          title="Insert Link"
           isActive={defaultEditorFont}
         >
           <svg

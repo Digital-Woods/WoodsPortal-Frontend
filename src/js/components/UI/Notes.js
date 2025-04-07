@@ -93,7 +93,7 @@ const NoteCard = ({
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
-        className={`border ${note?.createdBy === 'hubspot' ? `bg-[${noteStyle.hsBg}]` : `bg-[${noteStyle.wpBg}]` } border-gray-200 dark:border-gray-600 dark:bg-dark-500  shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
+        className={`border ${note?.createdBy === 'hubspot' ? `bg-[${noteStyle.hsBg}] dark:bg-dark-300 dark:border-gray-700  ` : `bg-[${noteStyle.wpBg}] dark:bg-dark-500 dark:border-gray-600` } border-gray-200  shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
         onClick={() => {
           setIsOpen(!isOpen);
           setIsOpenEditor(false);
@@ -181,7 +181,7 @@ const NoteCard = ({
               <div
                 className={`py-3 pr-3 pl-6 ${
                   !isOpen
-                    ? ""
+                    ? "rounded-md dark:bg-white mt-2"
                     : `${
                         permissions.update ? "cursor-text" : "cursor-auto"
                       } rounded-md bg-white mt-2 border dark:border-[transparent] ${note?.createdBy === 'hubspot' ? `hover:bg-[${noteStyle.wpBg}] border-[${noteStyle.wpBg}] ` : `hover:bg-[${noteStyle.hsBg}] border-[${noteStyle.hsBg}]` }  hover:bg-opacity-10 hover:dark:bg-gray-600 rounded-md relative group`

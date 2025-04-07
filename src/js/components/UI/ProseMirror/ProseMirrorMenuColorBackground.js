@@ -103,7 +103,7 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
     <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
       <ProseMirrorMenuButton
         id="defaultEditorBGColor"
-        title="Text Alignment"
+        title="Text Highlight"
         isActive={defaultEditorFont}
       >
         <svg
