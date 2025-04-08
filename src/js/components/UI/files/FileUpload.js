@@ -315,7 +315,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
                         }
                         {
                           isUploading && uploadProgress > 90  ? 
-                          <div class="meter">
+                          <div className="meter">
                             <span></span>
                           </div> : null
                         }
