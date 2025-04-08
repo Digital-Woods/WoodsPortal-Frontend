@@ -3,7 +3,7 @@
   "name" : "backend_server_url",
   "label" : "WoodsPortal Admin URL",
   "help_text" : "Paste the WoodsPortal Admin URL here",
-  "inline_help_text" : "<a href=\"https://app.demo.digitalwoods.io\" target=\"_blank\"> Click here</a> to set up WoodsPortal and connect with our server.",
+  "inline_help_text" : "<a href=\"https://woodsportal.digitalwoods.io\" target=\"_blank\"> Click here</a> to set up WoodsPortal and connect with our server.",
   "required" : false,
   "locked" : false,
   "validation_regex" : "",
@@ -19,7 +19,7 @@
   "show_emoji_picker" : false,
   "type" : "text",
   "display_width" : null,
-  "default" : "https://app.demo.digitalwoods.io"
+  "default" : "https://woodsportal.digitalwoods.io"
 }, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
