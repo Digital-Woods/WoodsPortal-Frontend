@@ -1,8 +1,11 @@
-
-const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChangeSelect = null }) => {
+const DetailsViewUpdateDD = ({
+  control,
+  optionData,
+  data,
+  objectTypeId,
+  onChangeSelect = null,
+}) => {
   const [options, setOptions] = useState([]);
-
-
 
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
@@ -27,7 +30,7 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
       }
     },
     onSuccess: async (response) => {
-      setOptions([])
+      setOptions([]);
       setOptions((value) => response.data);
     },
     onError: (error) => {
@@ -39,10 +42,17 @@ const DetailsViewUpdateDD = ({ control, optionData, data, objectTypeId, onChange
   useEffect(() => {
     // console.log(data);
     if (
-      !optionData.apidata && (optionData?.key === "dealstage" || optionData?.key === "hs_pipeline_stage")
+      !optionData.apidata &&
+      (optionData?.key === "dealstage" ||
+        optionData?.key === "hs_pipeline_stage")
     ) {
-      const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
-      const found = dataLoop.find((item) => item.key === "hs_pipeline" || item.key === "pipeline");
+      const dataLoop =
+        typeof data === "object" && !Array.isArray(data)
+          ? Object.keys(data)
+          : data;
+      const found = dataLoop.find(
+        (item) => item.key === "hs_pipeline" || item.key === "pipeline"
+      );
       if (found) getStags(getValue(found.value, "value"));
     } else {
       // console.log("comes here in else");
@@ -87,8 +97,6 @@ const DetailsViewUpdateDialog = ({
   const [stages, setStages] = useState({ options: [], key: "" });
   const [isDealEdit, setIsDealEdit] = useState(false);
 
-
-
   const getValue = (value, type = "label") => {
     if (value && typeof value === "object")
       return type === "label" ? value.label : value.value;
@@ -118,12 +126,12 @@ const DetailsViewUpdateDialog = ({
         options: response.data,
         // "isSecondaryDisplayProperty":true,
         // "label":"Ticket status",
-        "value": { "label": "New", "value": "987017750" },
+        value: { label: "New", value: "987017750" },
         // "isEditableField":true,
         // "fieldType":"select",
         // "isPrimaryDisplayProperty":false,
-        "key": isDealEdit ? "dealstage" : "hs_pipeline_stage",
-        "apidata": true
+        key: isDealEdit ? "dealstage" : "hs_pipeline_stage",
+        apidata: true,
       });
     },
     onError: (error) => {
@@ -136,12 +144,13 @@ const DetailsViewUpdateDialog = ({
     if (initialValues) {
       setPipelines(editRow);
       if (editRow.value) {
-
         // console.log(data);
 
-
         // getStags(getValue(editRow.value, "value"));
-        const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data;
+        const dataLoop =
+          typeof data === "object" && !Array.isArray(data)
+            ? Object.keys(data)
+            : data;
         const filterStage = dataLoop.find(
           (item) =>
             // item.key === "hs_pipeline_stage" || item.key === "dealstage" || item.key === "pipeline"
@@ -156,14 +165,16 @@ const DetailsViewUpdateDialog = ({
         // console.log(filterStage);
         setStages(filterStage);
       }
-
     } else {
       setPipelines(editRow);
     }
   }, [initialValues]);
 
   useEffect(() => {
-    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
+    const dataLoop =
+      typeof data === "object" && !Array.isArray(data)
+        ? Object.keys(data)
+        : data;
     const filterStage = dataLoop.find(
       (item) =>
         // item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
@@ -175,7 +186,7 @@ const DetailsViewUpdateDialog = ({
     if (filterStage) {
       defValue[filterStage.key] = getValue(filterStage.value, "value");
     } else {
-      defValue['hs_pipeline_stage'] = null;
+      defValue["hs_pipeline_stage"] = null;
     }
     setInitialValues(defValue);
   }, []);
@@ -187,7 +198,10 @@ const DetailsViewUpdateDialog = ({
       message: `${value.customLabel || value.label} is required.`,
     });
 
-    const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
+    const dataLoop =
+      typeof data === "object" && !Array.isArray(data)
+        ? Object.keys(data)
+        : data;
     dataLoop.forEach((field) => {
       if (
         field.key === "hs_pipeline_stage" ||
@@ -200,8 +214,11 @@ const DetailsViewUpdateDialog = ({
       }
     });
 
-    if (!Object.prototype.hasOwnProperty.call(schemaShape, "dealstage") && !Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")) {
-      schemaShape['hs_pipeline_stage'] = z.string().nonempty({
+    if (
+      !Object.prototype.hasOwnProperty.call(schemaShape, "dealstage") &&
+      !Object.prototype.hasOwnProperty.call(schemaShape, "hs_pipeline_stage")
+    ) {
+      schemaShape["hs_pipeline_stage"] = z.string().nonempty({
         message: `Stage is required.`,
       });
     }
@@ -217,7 +234,6 @@ const DetailsViewUpdateDialog = ({
   };
 
   const onChangeSelect = (filled, value) => {
-
     // console.log(filled);
     getStags(value);
 
@@ -230,7 +246,7 @@ const DetailsViewUpdateDialog = ({
     // console.log(filterStage);
 
     // setStages(filterStage);
-  }
+  };
 
   return (
     <Dialog
@@ -239,7 +255,9 @@ const DetailsViewUpdateDialog = ({
       className=""
     >
       <div className="rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]  flex-col gap-6 flex">
-        <h3 className="text-start text-xl dark:text-white font-semibold">Select Pipeline</h3>
+        <h3 className="text-start text-xl dark:text-white font-semibold">
+          Select Pipeline
+        </h3>
         {/* {JSON.stringify(initialValues)} */}
         <div>
           {initialValues && (
@@ -250,14 +268,19 @@ const DetailsViewUpdateDialog = ({
               // serverError={serverError}
               className="dark:bg-dark-500 m-0"
             >
-              {({ getValues, register, control, watch, formState: { errors } }) => (
+              {({
+                getValues,
+                register,
+                control,
+                watch,
+                formState: { errors },
+              }) => (
                 <div>
-
                   {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
                     {pipelines && (
                       <div>
-                        <FormItem className=''>
+                        <FormItem className="">
                           <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                             Select Pipeline
                           </FormLabel>
@@ -286,7 +309,7 @@ const DetailsViewUpdateDialog = ({
 
                     {stages && (
                       <div>
-                        <FormItem className=''>
+                        <FormItem className="">
                           <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                             Select Stage
                           </FormLabel>
@@ -335,7 +358,6 @@ const DetailsViewUpdateDialog = ({
   );
 };
 
-
 // Main Component Starts Here
 const DetailsViewUpdate = ({
   renderValue,
@@ -364,7 +386,7 @@ const DetailsViewUpdate = ({
     if (typeof item === "object" && !Array.isArray(item)) {
       let arrayKeys = Object.keys(item);
       let dataArray = [];
-      arrayKeys.forEach(element => {
+      arrayKeys.forEach((element) => {
         dataArray.push({ ...item[element], key: element });
       });
       setData(dataArray);
@@ -373,7 +395,6 @@ const DetailsViewUpdate = ({
     }
     // console.log(selectedValues, "selectedValues from component");
   }, [item]);
-
 
   // Additional
   const getValue = (value, type = "label") => {
@@ -401,7 +422,7 @@ const DetailsViewUpdate = ({
             objectTypeId: objectId,
             recordId: id,
           },
-          queryParams:urlParam
+          queryParams: urlParam,
         });
         return response;
       } catch (error) {
@@ -462,8 +483,8 @@ const DetailsViewUpdate = ({
       setInitialValues({
         [value.key]:
           typeof mValue === "object" && mValue !== null && "value" in mValue
-            ? formatDate(mValue.value, 'input')
-            : formatDate(mValue, 'input'),
+            ? formatDate(mValue.value, "input")
+            : formatDate(mValue, "input"),
       });
     } else {
       setInitialValues({
@@ -480,14 +501,19 @@ const DetailsViewUpdate = ({
   //   saveData(data);
   // };
 
-  useEffect(() => {
-    // console.log(selectedValues, "selectedValues from component");
-  }, [selectedValues]);
+  useEffect(() => {}, [selectedValues]);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
 
   const onSubmit = (data) => {
-
     if (!data && editRow.fieldType != "checkbox") {
-      return
+      return;
     }
 
     if (editRow.fieldType === "checkbox") {
@@ -499,13 +525,25 @@ const DetailsViewUpdate = ({
           )
           .join(";"),
       };
-
       saveData(formattedData);
+    } else if (editRow.fieldType === "date") {
+      const formattedDate = Object.fromEntries(
+        Object.entries(data).map(([key, value]) => {
+          if (typeof value === "string" && /^\d{2}-\d{2}-\d{4}$/.test(value)) {
+            // Convert "dd-mm-yyyy" to Date object
+            const [day, month, year] = value.split("-");
+            const dateObj = new Date(`${year}-${month}-${day}`);
+            return [key, formatDate(dateObj)];
+          }
+          return [key, value]; // leave non-date values unchanged
+        })
+      );
+      saveData(formattedDate);
     } else {
       saveData(data);
     }
   };
-  // console.log(value,'value is this');
+
   return (
     <div className="">
       <div className="gap-2">
@@ -525,7 +563,7 @@ const DetailsViewUpdate = ({
                     <FormItem className="!mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ||
-                          editRow.fieldType === "radio" ? (
+                        editRow.fieldType === "radio" ? (
                           <DetailsViewUpdateDD
                             optionData={editRow}
                             control={control}
@@ -542,7 +580,7 @@ const DetailsViewUpdate = ({
                         ) : editRow.fieldType === "html" ? (
                           <DetailsViewEditor
                             openModal={true}
-                            setOpenModal={null} 
+                            setOpenModal={null}
                             title={editRow.label}
                             value={editRow.value}
                             setEditRow={setEditRow}
@@ -567,11 +605,13 @@ const DetailsViewUpdate = ({
                             selectedValues={selectedValues || []}
                           />
                         ) : editRow.fieldType === "date" ? (
-                          <Input
+                          <DateTimeInput
                             type="date"
+                            dateFormat="dd-mm-yyyy"
                             placeholder={`Enter ${editRow.label}`}
                             height="small"
                             className=""
+                            setValue={setValue}
                             defaultValue={
                               editRow.value
                                 ? formatDate(getValue(editRow.value), "input")
@@ -599,11 +639,12 @@ const DetailsViewUpdate = ({
                         )}
                       </FormControl>
 
-                      {editRow.fieldType != "checkbox" && errors[editRow.key] && (
-                        <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors[editRow.key]?.message}
-                        </FormMessage>
-                      )}
+                      {editRow.fieldType != "checkbox" &&
+                        errors[editRow.key] && (
+                          <FormMessage className="text-red-600 dark:text-red-400">
+                            {errors[editRow.key]?.message}
+                          </FormMessage>
+                        )}
                     </FormItem>
                   </div>
                   <div className="flex gap-1">
@@ -635,10 +676,9 @@ const DetailsViewUpdate = ({
         ) : (
           <div className="flex items-center gap-2">
             <span>{renderValue || "--"}</span>
-            {value.isEditableField && (
-              value.key === "pipeline" ||
-              value.key === "hs_pipeline"
-            ) && value.options.length < 2 ? null : (
+            {value.isEditableField &&
+            (value.key === "pipeline" || value.key === "hs_pipeline") &&
+            value.options.length < 2 ? null : (
               <Button
                 variant="hubSpot"
                 size="hubSpot"
