@@ -17,7 +17,6 @@ const DateTimeInput = React.forwardRef(
     const [openDatePicker, setOpenDatePicker] = useState(false);
     const [inputValue, setInputValue] = useState("");
 
-    // If type Date
     const formatDate = (date) => {
       const d = new Date(date);
       const day = String(d.getDate()).padStart(2, "0");
@@ -25,11 +24,11 @@ const DateTimeInput = React.forwardRef(
       const year = d.getFullYear();
       return `${day}-${month}-${year}`;
     };
-    // If type Date
+
     useEffect(() => {
       if (defaultValue) setInputValue(formatDate(defaultValue));
     }, [defaultValue]);
-    // If type Date
+    
     useEffect(() => {
       if (type === "date") setValue(rest.name, inputValue);
     }, [inputValue]);
@@ -65,7 +64,6 @@ const DateTimeInput = React.forwardRef(
               <Icon className="h-6 w-6 text-gray-500" />
             </div>
           )}
-          {type === "date" ? (
             <input
               placeholder={placeholder}
               className={rootClassName}
@@ -83,15 +81,6 @@ const DateTimeInput = React.forwardRef(
                 type === "date" ? setOpenDatePicker(!openDatePicker) : null
               }
             />
-          ) : (
-            <input
-              type={type}
-              placeholder={placeholder}
-              className={rootClassName}
-              ref={ref}
-              {...rest}
-            />
-          )}
         </div>
         <DatePicker
           defaultValue={defaultValue}
