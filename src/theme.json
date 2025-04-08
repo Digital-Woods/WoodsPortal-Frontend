@@ -1,7 +1,7 @@
 {
   "label" : "WoodsPortal",
   "preview_path" : "./templates/layout/woodsportal-base-template.html",
-  "screenshot_path" : "./images/template-previews/WoodsPortal-theme-preview-banner-dev.png",
+  "screenshot_path" : "./images/template-previews/WoodsPortal-theme-preview-banner.png",
   "enable_domain_stylesheets" : false,
   "is_available_for_new_content" : true,
   "responsive_breakpoints" : [ {
