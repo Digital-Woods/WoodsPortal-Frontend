@@ -61,7 +61,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
   const [isSetLinkText, setIsSetLinkText] = useState(false);
   const [linkText, setLinkText] = useState(title);
   const [url, setUrl] = useState(href);
-  const [blank, setBlank] = useState(target === '_self' ? false : true);
+  const [blank, setBlank] = useState(target === "_self" ? false : true);
 
   const dropdownButtonRef = useRef(null);
   const dropdownMenuRef = useRef(null);
@@ -100,22 +100,21 @@ const ProseMirrorMenuInsertLinkPopUp = ({
     closeLinkPopup();
   };
 
-  // const removeEditLink = () => {
-  //   const { state, dispatch } = editorView;
-  //   const { schema, tr } = state;
-  //   const linkType = schema.marks.link;
+  const removeEditLink = () => {
+    const { state, dispatch } = editorView;
+    const { schema, tr } = state;
+    const linkType = schema.marks.link;
 
-  //   const { from, to } = findTextRange(editorView, title);
+    const { from, to } = findTextRange(editorView, title);
 
-  //   if (dispatch) {
-  //     tr.removeMark(from, to, linkType); // Remove the link mark
-  //     dispatch(tr);
-  //   }
-  //   resetMenu();
-  //   closeLinkPopup();
-  //   console.log('object removed');
-  //   return true;
-  // };
+    if (dispatch) {
+      tr.removeMark(from, to, linkType); // Remove the link mark
+      dispatch(tr);
+    }
+    resetMenu();
+    closeLinkPopup();
+    return true;
+  };
 
   // Set Dynamic Position & Scroll
   const [popupPosition, setPopupPosition] = React.useState({ top: 0, left: 0 });
@@ -140,7 +139,9 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       updatePopupPosition();
     };
 
-    const scrollableDiv = document.getElementById("details-scrollable-container");
+    const scrollableDiv = document.getElementById(
+      "details-scrollable-container"
+    );
     if (scrollableDiv) {
       scrollableDiv.addEventListener("scroll", handleScroll);
     }
@@ -221,14 +222,14 @@ const ProseMirrorMenuInsertLinkPopUp = ({
           >
             Cancel
           </Button>
-          {/* <Button
+          <Button
             size="sm"
             variant="link"
             className="w-full !text-secondary"
             onClick={() => removeEditLink()}
           >
             Remove link
-          </Button> */}
+          </Button>
         </div>
       </div>
     </div>
