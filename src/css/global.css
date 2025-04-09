@@ -770,6 +770,10 @@ tfoot td {
   min-height:360px;
 }
 
+.create-object-editor .ProseMirror {
+  min-height: 180px;
+}
+
 .updateRichText .ProseMirror{
   height:380px;
 }

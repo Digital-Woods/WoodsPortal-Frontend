@@ -155,7 +155,7 @@ const DatePicker = ({
         placeholder="Select date"
       /> */}
       {open && (
-        <div className="absolute bottom-12 bg-white text-gray-800 rounded-lg shadow-lg p-4 w-80 z-50 h-[400px] transition-all duration-300 overflow-hidden">
+        <div className="absolute top-[20px] right-0 bg-white text-gray-800 rounded-lg shadow-lg p-4 w-80 z-50 h-[400px] transition-all duration-300 overflow-hidden">
           <div className="flex justify-between items-center mb-4">
             {showYearSelect || showMonthSelect ? (
               <div></div>

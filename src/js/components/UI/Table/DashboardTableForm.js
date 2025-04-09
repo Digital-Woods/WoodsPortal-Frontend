@@ -168,10 +168,10 @@ const DashboardTableForm = ({
       <Dialog
         open={openModal}
         onClose={setOpenModal}
-        className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto"
+        className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0"
       >
         <div>
-          <h3 className="text-start text-xl dark:text-white font-semibold mb-4">
+          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-10 ">         
             Add {title}
           </h3>
           {isLoading ? (
@@ -249,11 +249,13 @@ const DashboardTableForm = ({
                                       {...register(filled.name)}
                                     />
                                   ) : filled.fieldType === "html" ? (
-                                    <DashboardTableEditor
-                                      title={filled.label}
-                                      value={filled.value}
-                                      setValue={setValue}
-                                    />
+                                    <div className="create-object-editor">
+                                      <DashboardTableEditor
+                                        title={filled.label}
+                                        value={filled.value}
+                                        setValue={setValue}
+                                      />
+                                    </div>
                                   ) : filled.fieldType === "date" ? (
                                     <DateTimeInput
                                       type={filled.type}
@@ -291,7 +293,7 @@ const DashboardTableForm = ({
                           </div>
                         ))}
                       </div>
-                      <div className="mt-4 flex justify-end items-end gap-2 flex-wrap">
+                      <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
                         <Button
                           variant="outline"
                           onClick={() => setOpenModal(false)}
