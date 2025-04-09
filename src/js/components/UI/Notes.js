@@ -126,9 +126,7 @@ const NoteCard = ({
               className={`p-4 cursor-text`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={`${
-                isOpenEditor ? "bg-white rounded-md edit-note" : "bg-transparent "
-              }`}>
+              <div className={`edit-note`}>
               <ProseMirrorEditor
                 ref={editorRef}
                 key={id}
@@ -184,8 +182,7 @@ const NoteCard = ({
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
                         permissions.update ? "cursor-text" : "cursor-auto"
-                      } rounded-md bg-white mt-2 border dark:border-[transparent] ${note?.createdBy === 'hubspot' ? `hover:bg-[${noteStyle.wpBg}] border-[${noteStyle.wpBg}] ` : `hover:bg-[${noteStyle.hsBg}] border-[${noteStyle.hsBg}]` }  hover:bg-opacity-10 hover:dark:bg-gray-600 rounded-md relative group`
-                } EditorView`}
+                      } bg-white mt-2 hover:bg-secondaryBgHover border border-[transparent] hover:border-secondary dark:border-[transparent] rounded-md relative group`} EditorView`}
                 onClick={(e) => {
                   if (isOpen) {
                     e.stopPropagation();

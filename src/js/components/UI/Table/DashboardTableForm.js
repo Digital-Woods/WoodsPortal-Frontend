@@ -171,7 +171,7 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0"
       >
         <div>
-          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-10 ">         
+          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">         
             Add {title}
           </h3>
           {isLoading ? (
