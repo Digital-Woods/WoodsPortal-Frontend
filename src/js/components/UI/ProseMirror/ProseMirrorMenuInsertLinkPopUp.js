@@ -158,6 +158,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       ref={dropdownMenuRef}
       className={`absolute bg-white shadow-lg rounded-sm border z-[103]
       `}
+      style={popupPosition}
     >
       <div class="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
         <h2 class="text-sm">Edit Link</h2>
@@ -220,14 +221,14 @@ const ProseMirrorMenuInsertLinkPopUp = ({
           >
             Cancel
           </Button>
-          <Button
+          {/* <Button
             size="sm"
             variant="link"
             className="w-full !text-secondary"
             onClick={() => removeEditLink()}
           >
             Remove link
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

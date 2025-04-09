@@ -102,9 +102,23 @@ const DashboardTable = ({
 
   const { sync, setSync } = useSync();
 
-  // useEffect(() => {
-  //   setNumOfPages(Math.ceil(totalItems / itemsPerPage));
-  // }, [totalItems, itemsPerPage, searchTerm]);
+  useEffect(() => {
+    if (specPipeLine) {
+      setSelectedPipeline(pipeLineId);
+      setIsLoadingHoldData(true);
+      const routeMenuConfig = {
+        [hubspotObjectTypeId]: {
+          activePipeline: pipeLineId,
+        },
+      };
+      setSelectRouteMenuConfig(routeMenuConfig);
+      // setUrlParam({
+      //   filterPropertyName: "hs_pipeline",
+      //   filterOperator: "eq",
+      //   filterValue: pipeLineId,
+      // });
+    }
+  }, [specPipeLine]);
 
   //  useEffect(() => {
   //   setNumOfPages(Math.ceil(totalItems / itemsPerPage));
@@ -524,6 +538,7 @@ const DashboardTable = ({
         setShowAddDialog={setShowAddDialog}
         // pageLimit={pageLimit}
         defPermissions={defPermissions}
+        specPipeLine={specPipeLine}
       />
 
       {/* {isLoading &&
