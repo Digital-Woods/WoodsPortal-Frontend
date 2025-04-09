@@ -1,11 +1,18 @@
 const { setMark } = window.setMark;
 
+const normalizeUrl = (text) => {
+  if (!/^https?:\/\//i.test(text)) {
+    return `http://${text}`;
+  }
+  return text;
+}
+
 const insertLink = (state, dispatch, linkText, url, blank) => {
   const { schema, selection, tr } = state;
   const { from, to, empty } = selection;
   const linkType = schema.marks.link;
 
-  const href = url;
+  const href = normalizeUrl(url);
 
   let text = linkText; // Default text if no selection
   if (!empty) {
