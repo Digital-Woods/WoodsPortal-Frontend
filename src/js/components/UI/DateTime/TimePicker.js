@@ -49,7 +49,7 @@ const TimePicker = ({
   return (
     <div className="relative" ref={ref}>
       {open && (
-        <div className="absolute bottom-12 bg-white text-gray-800 rounded-lg shadow-lg w-50 z-50 h-[400px] transition-all duration-300 overflow-y-scroll text-center">
+        <div className="absolute top-[20px] right-0 bg-white text-gray-800 rounded-lg shadow-lg w-[250px] z-50 h-[350px] transition-all duration-300 overflow-y-scroll text-center">
           <ul class="text-gray-900 ">
             {timeList.map((time) => (
               <li
