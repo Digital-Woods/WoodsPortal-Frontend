@@ -70,7 +70,7 @@ const DateTimeInput = React.forwardRef(
 
     return (
       <div>
-        <div className={type === "datetime" ? "flex gap-2" : ""}>
+        <div className={type === "datetime" ? "flex max-sm:flex-col gap-2" : ""}>
           <input
             className="hidden"
             value={inputValue}
@@ -106,6 +106,13 @@ const DateTimeInput = React.forwardRef(
               // )}
               onClick={() => setOpenDatePicker(!openDatePicker)}
             />
+            <DatePicker
+              defaultValue={defaultValue}
+              dateFormat={dateFormat}
+              setOpenDatePicker={setOpenDatePicker}
+              openDatePicker={openDatePicker}
+              handelChangeDate={handelChangeDate}
+            />
           </div>
           <div className="relative dark:bg-dark-300 flex items-center rounded-lg w-full">
             {Icon && (
@@ -130,21 +137,14 @@ const DateTimeInput = React.forwardRef(
                 onClick={() => setOpenTimePicker(!openDatePicker)}
               />
             )}
+            <TimePicker
+              defaultValue={defaultValue}
+              setOpenTimePicker={setOpenTimePicker}
+              openTimePicker={openTimePicker}
+              handelChangeTime={handelChangeTime}
+            />
           </div>
         </div>
-        <DatePicker
-          defaultValue={defaultValue}
-          dateFormat={dateFormat}
-          setOpenDatePicker={setOpenDatePicker}
-          openDatePicker={openDatePicker}
-          handelChangeDate={handelChangeDate}
-        />
-        <TimePicker
-          defaultValue={defaultValue}
-          setOpenTimePicker={setOpenTimePicker}
-          openTimePicker={openTimePicker}
-          handelChangeTime={handelChangeTime}
-        />
       </div>
     );
   }
