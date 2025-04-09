@@ -19,6 +19,13 @@ const findTextRange = (editor, searchText) => {
   return { from: startPos, to: endPos };
 };
 
+const normalizeUrl = (text) => {
+  if (!/^https?:\/\//i.test(text)) {
+    return `http://${text}`;
+  }
+  return text;
+}
+
 const insertEditLink = (
   editorView,
   state,
@@ -33,7 +40,7 @@ const insertEditLink = (
 
   const { from, to } = findTextRange(editorView, title);
 
-  let href = url;
+  let href = normalizeUrl(url);
   let attrs = {
     href,
     title: linkText,
