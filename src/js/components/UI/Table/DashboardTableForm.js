@@ -1,19 +1,26 @@
-const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, refetch, companyAsMediator, urlParam }) => {
-
-  const { sync, setSync } = useSync();
+const DashboardTableForm = ({
+  openModal,
+  setOpenModal,
+  title,
+  path,
+  portalId,
+  hubspotObjectTypeId,
+  apis,
+  refetch,
+  companyAsMediator,
+  urlParam,
+}) => {
   const [data, setData] = useState([]);
   const [addAnother, setAddAnother] = useState(false);
   const { mutate: getData, isLoading } = useMutation({
-    mutationKey: [
-      "TableFormData"
-    ],
+    mutationKey: ["TableFormData"],
     mutationFn: async () => {
       return await Client.form.fields({ API: apis.formAPI });
     },
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        return setData(sortFormData(response.data.properties))
+        return setData(sortFormData(response.data.properties));
         // return setData(response.data.properties)
       }
     },
@@ -35,7 +42,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     const schemaShape = {};
 
     data.forEach((field) => {
-      const isDomain = field.name === 'domain'
+      const isDomain = field.name === "domain";
       if ((field.requiredField || field.primaryProperty) && !isDomain) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
@@ -63,13 +70,16 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
     mutationKey: ["addData"],
     mutationFn: async ({ formData, addAnother }) => {
       try {
-        const mUrlParam = updateParamsFromUrl(apis.createAPI, { ...getQueryParamsToObject(urlParam), addAnother: addAnother ? "true" : "false" })
-        const API_ENDPOINT = removeAllParams(apis.createAPI)
-        const API = addParam(API_ENDPOINT, mUrlParam)
+        const mUrlParam = updateParamsFromUrl(apis.createAPI, {
+          ...getQueryParamsToObject(urlParam),
+          addAnother: addAnother ? "true" : "false",
+        });
+        const API_ENDPOINT = removeAllParams(apis.createAPI);
+        const API = addParam(API_ENDPOINT, mUrlParam);
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
-          data: formData
+          data: formData,
         });
         return response;
       } catch (error) {
@@ -85,7 +95,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
         //   filterOperator: "eq",
         //   filterValue: ""
         // });
-        refetch(response)
+        refetch(response);
       }
       if (!variables.addAnother) {
         setOpenModal(false);
@@ -128,7 +138,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           ? { ...property, options: response.data }
           : property
       );
-      setData(updatedProperties)
+      setData(updatedProperties);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -142,7 +152,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
   const onChangeSelect = (filled, selectedValue) => {
     if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
-      getStags(selectedValue)
+      getStags(selectedValue);
     }
   };
 
@@ -155,14 +165,18 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
           onClose={() => setAlert(null)}
         />
       )}
-      <Dialog open={openModal} onClose={setOpenModal} className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto">
+      <Dialog
+        open={openModal}
+        onClose={setOpenModal}
+        className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto"
+      >
         <div>
           <h3 className="text-start text-xl dark:text-white font-semibold mb-4">
             Add {title}
           </h3>
-          {isLoading ?
+          {isLoading ? (
             <div className="loader-line"></div>
-            :
+          ) : (
             <div className="w-full text-left">
               <Form
                 onSubmit={onSubmit}
@@ -170,14 +184,20 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                 serverError={serverError}
                 className="dark:bg-dark-200 !m-0"
               >
-                {({ register, control, formState: { errors }, reset }) => {
+                {({
+                  register,
+                  control,
+                  setValue,
+                  formState: { errors },
+                  reset,
+                }) => {
                   resetRef.current = reset;
                   return (
                     <div>
                       <div className="text-gray-800 dark:text-gray-200">
                         {data.map((filled) => (
                           <div>
-                            <FormItem className=''>
+                            <FormItem className="">
                               <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                                 {filled.customLabel}
                               </FormLabel>
@@ -207,49 +227,58 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
 
                               <FormControl>
                                 <div>
-                                  {
-                                    filled.fieldType == 'select' || filled.fieldType == 'radio' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
-                                      <Select
-                                        label={`Select ${filled.customLabel}`}
-                                        name={filled.name}
-                                        options={filled.options}
-                                        control={control}
-                                        filled={filled}
-                                        onChangeSelect={onChangeSelect}
-                                      />
-                                    ) : filled.fieldType === 'textarea' ? (
-                                      <Textarea
-                                        height="medium"
-                                        placeholder={filled.customLabel}
-                                        className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                                        {...register(filled.name)}
-                                      />
-                                    ) : filled.fieldType === 'date' ? (
-                                      <Input
-                                        type="date"
-                                        placeholder={`Enter ${filled.customLabel}`}
-                                        height="small"
-                                        className=""
-                                        defaultValue={''}
-                                        {...register(filled.name)}
-                                      />
-                                    )
-                                      : filled.fieldType === 'number' ? (
-                                        <Input
-                                          type="number"
-                                          placeholder={filled.customLabel}
-                                          className=""
-                                          {...register(filled.name)}
-                                        />
-                                      ) : (
-                                        <Input
-                                          // type={filled.fieldType}
-                                          placeholder={filled.customLabel}
-                                          className=""
-                                          {...register(filled.name)}
-                                        />
-                                      )
-                                  }
+                                  {filled.fieldType == "select" ||
+                                  filled.fieldType == "radio" ||
+                                  (filled.name == "dealstage" &&
+                                    filled.fieldType == "radio" &&
+                                    hubspotObjectTypeId ===
+                                      env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                    <Select
+                                      label={`Select ${filled.customLabel}`}
+                                      name={filled.name}
+                                      options={filled.options}
+                                      control={control}
+                                      filled={filled}
+                                      onChangeSelect={onChangeSelect}
+                                    />
+                                  ) : filled.fieldType === "textarea" ? (
+                                    <Textarea
+                                      height="medium"
+                                      placeholder={filled.customLabel}
+                                      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
+                                      {...register(filled.name)}
+                                    />
+                                  ) : filled.fieldType === "html" ? (
+                                    <DashboardTableEditor
+                                      title={filled.label}
+                                      value={filled.value}
+                                      setValue={setValue}
+                                    />
+                                  ) : filled.fieldType === "date" ? (
+                                    <DateTimeInput
+                                      type={filled.type}
+                                      dateFormat="dd-mm-yyyy"
+                                      height="small"
+                                      className=""
+                                      setValue={setValue}
+                                      defaultValue={""}
+                                      {...register(filled.name)}
+                                    />
+                                  ) : filled.fieldType === "number" ? (
+                                    <Input
+                                      type="number"
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  ) : (
+                                    <Input
+                                      // type={filled.fieldType}
+                                      placeholder={filled.customLabel}
+                                      className=""
+                                      {...register(filled.name)}
+                                    />
+                                  )}
                                 </div>
                               </FormControl>
 
@@ -262,7 +291,7 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                           </div>
                         ))}
                       </div>
-                      <div className="mt-4 flex justify-end items-end gap-1 flex-wrap">
+                      <div className="mt-4 flex justify-end items-end gap-2 flex-wrap">
                         <Button
                           variant="outline"
                           onClick={() => setOpenModal(false)}
@@ -290,11 +319,11 @@ const DashboardTableForm = ({ openModal, setOpenModal, title, path, portalId, hu
                         </Button>
                       </div>
                     </div>
-                  )
+                  );
                 }}
               </Form>
             </div>
-          }
+          )}
         </div>
       </Dialog>
     </div>

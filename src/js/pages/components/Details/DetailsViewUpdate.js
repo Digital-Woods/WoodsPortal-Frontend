@@ -479,21 +479,21 @@ const DetailsViewUpdate = ({
     setEditRow(row);
 
     const mValue = value.value;
-    if (value.fieldType == "date") {
-      setInitialValues({
-        [value.key]:
-          typeof mValue === "object" && mValue !== null && "value" in mValue
-            ? formatDate(mValue.value, "input")
-            : formatDate(mValue, "input"),
-      });
-    } else {
+    // if (value.fieldType == "date") {
+    //   setInitialValues({
+    //     [value.key]:
+    //       typeof mValue === "object" && mValue !== null && "value" in mValue
+    //         ? formatDate(mValue.value, "input")
+    //         : formatDate(mValue, "input"),
+    //   });
+    // } else {
       setInitialValues({
         [value.key]:
           typeof mValue === "object" && mValue !== null && "value" in mValue
             ? mValue.value
             : mValue,
       });
-    }
+    // }
   };
 
   // const onSubmitPipeline = (data) => {
@@ -503,13 +503,13 @@ const DetailsViewUpdate = ({
 
   useEffect(() => {}, [selectedValues]);
 
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
-  };
+  // const formatDate = (date) => {
+  //   const d = new Date(date);
+  //   const day = String(d.getDate()).padStart(2, "0");
+  //   const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  //   const year = d.getFullYear();
+  //   return `${year}/${month}/${day}`;
+  // };
 
   const onSubmit = (data) => {
     if (!data && editRow.fieldType != "checkbox") {
@@ -526,16 +526,10 @@ const DetailsViewUpdate = ({
           .join(";"),
       };
       saveData(formattedData);
-    } else if (editRow.fieldType === "date") {
+    } else if (editRow.type === "date" || editRow.type === "datetime") {
       const formattedDate = Object.fromEntries(
         Object.entries(data).map(([key, value]) => {
-          if (typeof value === "string" && /^\d{2}-\d{2}-\d{4}$/.test(value)) {
-            // Convert "dd-mm-yyyy" to Date object
-            const [day, month, year] = value.split("-");
-            const dateObj = new Date(`${year}-${month}-${day}`);
-            return [key, formatDate(dateObj)];
-          }
-          return [key, value]; // leave non-date values unchanged
+          return [key, parseISTToTimestamp(value)];
         })
       );
       saveData(formattedDate);
@@ -606,17 +600,12 @@ const DetailsViewUpdate = ({
                           />
                         ) : editRow.fieldType === "date" ? (
                           <DateTimeInput
-                            type="date"
+                            type={editRow.type}
                             dateFormat="dd-mm-yyyy"
-                            placeholder={`Enter ${editRow.label}`}
                             height="small"
                             className=""
                             setValue={setValue}
-                            defaultValue={
-                              editRow.value
-                                ? formatDate(getValue(editRow.value), "input")
-                                : ""
-                            }
+                            defaultValue={editRow.value}
                             {...register(editRow.key)}
                           />
                         ) : editRow.fieldType === "number" ? (
@@ -647,7 +636,7 @@ const DetailsViewUpdate = ({
                         )}
                     </FormItem>
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-2">
                     <Button
                       variant="hubSpot"
                       size="hubSpot"

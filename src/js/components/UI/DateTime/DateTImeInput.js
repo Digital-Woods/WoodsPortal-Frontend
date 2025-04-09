@@ -3,7 +3,6 @@ const DateTimeInput = React.forwardRef(
     {
       className,
       type = "text",
-      placeholder = "Search",
       height = "medium",
       icon: Icon = "",
       variant = "normal",
@@ -15,23 +14,36 @@ const DateTimeInput = React.forwardRef(
     ref
   ) => {
     const [openDatePicker, setOpenDatePicker] = useState(false);
+    const [openTimePicker, setOpenTimePicker] = useState(false);
+    const [inputValueDate, setInputValueDate] = useState("");
+    const [inputValueTime, setInputValueTime] = useState("");
     const [inputValue, setInputValue] = useState("");
 
-    const formatDate = (date) => {
-      const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, "0");
-      const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-      const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
+    useEffect(() => {
+      if (defaultValue) {
+        const formatedDateTime = formatTimestampIST(defaultValue);
+        setInputValueDate(formatedDateTime.date);
+        setInputValueTime(formatedDateTime.time);
+        setInputValue(`${formatedDateTime.date} ${formatedDateTime.time}`);
+      }
+    }, [defaultValue]);
 
     useEffect(() => {
-      if (defaultValue) setInputValue(formatDate(defaultValue));
-    }, [defaultValue]);
-    
-    useEffect(() => {
-      if (type === "date") setValue(rest.name, inputValue);
+      setValue(rest.name, inputValue);
     }, [inputValue]);
+
+    const handelChangeDate = (date) => {
+      const newDateTime = `${date} ${inputValueTime}`;
+      setInputValueDate(date);
+      setInputValue(newDateTime);
+    };
+
+    const handelChangeTime = (time) => {
+      const newTime = `${time.time} ${time.timeZone}`;
+      const newDateTime = `${inputValueDate} ${newTime}`;
+      setInputValueTime(newTime);
+      setInputValue(newDateTime);
+    };
 
     const heightClasses = {
       small: "py-1",
@@ -58,36 +70,80 @@ const DateTimeInput = React.forwardRef(
 
     return (
       <div>
-        <div className="relative dark:bg-dark-300 flex items-center rounded-lg max-sm:w-full">
-          {Icon && (
-            <div className="absolute left-2 top-1/2 -translate-y-1/2">
-              <Icon className="h-6 w-6 text-gray-500" />
-            </div>
-          )}
+        <div className={type === "datetime" ? "flex gap-2" : ""}>
+          <input
+            className="hidden"
+            value={inputValue}
+            ref={ref}
+            {...Object.fromEntries(
+              Object.entries(rest).filter(
+                ([key]) =>
+                  key !== "dateFormat" &&
+                  key !== "type" &&
+                  key !== "defaultValue"
+              )
+            )}
+          />
+
+          <div className="relative dark:bg-dark-300 flex items-center rounded-lg w-full">
+            {Icon && (
+              <div className="absolute left-2 top-1/2 -translate-y-1/2">
+                <Icon className="h-6 w-6 text-gray-500" />
+              </div>
+            )}
             <input
-              placeholder={placeholder}
+              placeholder="MM:DD:YYYY"
               className={rootClassName}
-              value={inputValue}
-              ref={ref}
-              {...Object.fromEntries(
-                Object.entries(rest).filter(
-                  ([key]) =>
-                    key !== "dateFormat" &&
-                    key !== "type" &&
-                    key !== "defaultValue"
-                )
-              )}
-              onClick={() =>
-                type === "date" ? setOpenDatePicker(!openDatePicker) : null
-              }
+              value={inputValueDate}
+              // ref={ref}
+              // {...Object.fromEntries(
+              //   Object.entries(rest).filter(
+              //     ([key]) =>
+              //       key !== "dateFormat" &&
+              //       key !== "type" &&
+              //       key !== "defaultValue"
+              //   )
+              // )}
+              onClick={() => setOpenDatePicker(!openDatePicker)}
             />
+          </div>
+          <div className="relative dark:bg-dark-300 flex items-center rounded-lg w-full">
+            {Icon && (
+              <div className="absolute left-2 top-1/2 -translate-y-1/2">
+                <Icon className="h-6 w-6 text-gray-500" />
+              </div>
+            )}
+            {type === "datetime" && (
+              <input
+                placeholder="HH:MM"
+                className={rootClassName}
+                value={inputValueTime}
+                // ref={ref}
+                // {...Object.fromEntries(
+                //   Object.entries(rest).filter(
+                //     ([key]) =>
+                //       key !== "dateFormat" &&
+                //       key !== "type" &&
+                //       key !== "defaultValue"
+                //   )
+                // )}
+                onClick={() => setOpenTimePicker(!openDatePicker)}
+              />
+            )}
+          </div>
         </div>
         <DatePicker
           defaultValue={defaultValue}
           dateFormat={dateFormat}
           setOpenDatePicker={setOpenDatePicker}
           openDatePicker={openDatePicker}
-          setInputValue={setInputValue}
+          handelChangeDate={handelChangeDate}
+        />
+        <TimePicker
+          defaultValue={defaultValue}
+          setOpenTimePicker={setOpenTimePicker}
+          openTimePicker={openTimePicker}
+          handelChangeTime={handelChangeTime}
         />
       </div>
     );

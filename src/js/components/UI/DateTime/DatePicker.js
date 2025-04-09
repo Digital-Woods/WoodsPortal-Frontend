@@ -3,7 +3,7 @@ const DatePicker = ({
   dateFormat,
   setOpenDatePicker,
   openDatePicker,
-  setInputValue,
+  handelChangeDate,
 }) => {
   const ref = useRef();
   const yearRefs = useRef({});
@@ -20,15 +20,7 @@ const DatePicker = ({
 
   const setChangedDateValue = (value) => {
     setViewDate(value);
-    setInputValue(formatDate(value));
-  };
-
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = d.getFullYear();
-    return `${day}-${month}-${year}`;
+    handelChangeDate(formatDate(value));
   };
 
   const months = [...Array(12)].map((_, i) =>
@@ -121,14 +113,14 @@ const DatePicker = ({
   const handleToday = () => {
     setSelectedDate(today);
     setChangedDateValue(today);
-    setInputValue(formatDate(today));
+    handelChangeDate(formatDate(today));
     setOpen(false);
     setOpenDatePicker(false);
   };
 
   const handleClear = () => {
     setSelectedDate(null);
-    setInputValue("");
+    handelChangeDate("");
     setOpen(false);
     setOpenDatePicker(false);
   };
