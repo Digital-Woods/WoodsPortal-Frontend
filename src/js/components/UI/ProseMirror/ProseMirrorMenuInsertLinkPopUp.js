@@ -58,7 +58,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
   target,
   closeLinkPopup,
 }) => {
-  const [isSetLinkText, setIsSetLinkText] = useState(false);
+  const [isSetLinkText, setIsSetLinkText] = useState( title ? true : false);
   const [linkText, setLinkText] = useState(title);
   const [url, setUrl] = useState(href);
   const [blank, setBlank] = useState(target === "_self" ? false : true);
