@@ -315,11 +315,23 @@ const renderCellContent = ({
   };
   // End - Set associations url in cookie
 
+  if ( // if date then conver into date format
+    column &&
+    value != null &&
+    (column.type == "datetime" ||
+      column.key == "hs_createdate" ||
+      column.key == "hs_lastmodifieddate" ||
+      column.key == "createdate"
+    )
+  ) {
+    const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
+    return `${formatedDateTime.date} ${formatedDateTime.time}`
+  }
 
   if ( // if date then conver into date format
     column &&
     value != null &&
-    (column.fieldType == "date" ||
+    (column.type == "date" ||
       column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
       column.key == "createdate"
