@@ -112,11 +112,11 @@ const DashboardTable = ({
         },
       };
       setSelectRouteMenuConfig(routeMenuConfig);
-      // setUrlParam({
-      //   filterPropertyName: "hs_pipeline",
-      //   filterOperator: "eq",
-      //   filterValue: pipeLineId,
-      // });
+      setUrlParam({
+        filterPropertyName: "hs_pipeline",
+        filterOperator: "eq",
+        filterValue: pipeLineId,
+      });
     }
   }, [specPipeLine]);
 
