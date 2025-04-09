@@ -1,4 +1,7 @@
-const ProseMirrorLinkView = (mark, node, view, getPos) => {
+const ProseMirrorLinkView = (attrs, type) => {
+  const mark = attrs
+  const view = type
+
   const dom = document.createElement("a");
   
   // Set the link attributes
@@ -8,7 +11,8 @@ const ProseMirrorLinkView = (mark, node, view, getPos) => {
   dom.setAttribute("rel", "noopener noreferrer");
 
   // Set the text content of the link
-  dom.textContent = node.textContent;
+  // dom.textContent = node.textContent;
+  dom.textContent = mark.attrs.title;
 
   let isOpenLinkPopup = false;
   let linkPopupContainer = null;

@@ -234,6 +234,7 @@ const fontSizeMenuItem = new MenuItem2({
     const activeFont = fontSizeSelectionPluginKey.getState(state) || true;
     // const selectedEditorFontSize = fontSizeSelectionPluginKey.getState(state);
     const selectedEditorFontSize = getFontSizeFromSelection(state);
+
     const fontSize = textFontSizes.find(
       (font) => font.value === selectedEditorFontSize
     );
