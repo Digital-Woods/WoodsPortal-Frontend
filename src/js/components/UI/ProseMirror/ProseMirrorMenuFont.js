@@ -221,9 +221,9 @@ const fontMenuItem = new MenuItem2({
     const activeFont = fontSelectionPluginKey.getState(state) || true;
     // const selectedEditorFont = fontSelectionPluginKey.getState(state);
     const selectedEditorFont = getFontFamilyFromSelection(state);
-    const font = textFonts.find((font) => font.key === selectedEditorFont);
+    const font = textFonts.find((font) => font.key === selectedEditorFont?.replace(/^"(.*)"$/, "$1"));
 
-    // defaultEditorFont = font
+    defaultEditorFont = font
 
     const div = document.getElementById("defaultEditorFont-icon");
     if (div && selectedEditorFont) {
