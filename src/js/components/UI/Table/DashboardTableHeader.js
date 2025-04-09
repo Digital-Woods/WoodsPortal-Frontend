@@ -15,6 +15,7 @@ const DashboardTableHeader = ({
   setShowAddDialog,
   // pageLimit,
   defPermissions,
+  specPipeLine
 }) => {
   const pageLimit = env.TABLE_PAGE_LIMIT;
   const {
@@ -106,7 +107,7 @@ const DashboardTableHeader = ({
             </div>
           )}
 
-          {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+          {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && !specPipeLine &&
             (showPipelineFilter ? (
               <div className="w-[180px]">
                 <select
