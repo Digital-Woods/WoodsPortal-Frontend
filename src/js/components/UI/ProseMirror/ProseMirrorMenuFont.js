@@ -226,7 +226,7 @@ const fontMenuItem = new MenuItem2({
     defaultEditorFont = font
 
     const div = document.getElementById("defaultEditorFont-icon");
-    if (div && selectedEditorFont) {
+    if (div && selectedEditorFont && font) {
       div.textContent = font.label; // Change text content
       document
         .getElementById("defaultEditorFont")
