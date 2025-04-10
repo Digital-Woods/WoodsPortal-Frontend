@@ -35,7 +35,7 @@ const clearFormattingNoteMenuItem = new MenuItem2({
       const span = document.createElement("span");
       span.innerHTML = `
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-          width="20px" height="20px" viewBox="0 0 30.000000 38.000000"
+          width="15px" height="15px" viewBox="0 0 30.000000 38.000000"
           preserveAspectRatio="xMidYMid meet">
 
           <g transform="translate(0.000000,38.000000) scale(0.100000,-0.100000)"

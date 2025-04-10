@@ -1,3 +1,46 @@
+const usePosition = (containerSelector = '.object-create-form') => {
+  const [position, setPosition] = useState('bottom');
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const calculatePosition = () => {
+      if (ref.current) {
+        const inputRect = ref.current.getBoundingClientRect();
+        const container = document.querySelector(containerSelector);
+        
+        if (!container) {
+          setPosition('bottom');
+          return;
+        }
+
+        const containerRect = container.getBoundingClientRect();
+        
+        // Calculate available space above and below within the container
+        const spaceAbove = inputRect.top - containerRect.top;
+        const spaceBelow = containerRect.bottom - inputRect.bottom;
+
+        // Check if there's enough space (e.g., 300px for the picker height)
+        if (spaceAbove > 400 && spaceAbove > spaceBelow) {
+          setPosition('top');
+        } else {
+          setPosition('bottom');
+        }
+      }
+    };
+
+    calculatePosition();
+    window.addEventListener('resize', calculatePosition);
+    window.addEventListener('scroll', calculatePosition, true); // Capture scroll events
+
+    return () => {
+      window.removeEventListener('resize', calculatePosition);
+      window.removeEventListener('scroll', calculatePosition, true);
+    };
+  }, [containerSelector]);
+
+  return [position, ref];
+};
+
 const DateTimeInput = React.forwardRef(
   (
     {
@@ -18,6 +61,7 @@ const DateTimeInput = React.forwardRef(
     const [inputValueDate, setInputValueDate] = useState("");
     const [inputValueTime, setInputValueTime] = useState("");
     const [inputValue, setInputValue] = useState("");
+    const [position, positionRef] = usePosition('.object-create-form');
 
     useEffect(() => {
       if (defaultValue) {
@@ -106,6 +150,7 @@ const DateTimeInput = React.forwardRef(
               // )}
               onClick={() => setOpenDatePicker(!openDatePicker)}
             />
+            <div className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} right-0 z-50`} ref={positionRef}>
             <DatePicker
               defaultValue={defaultValue}
               dateFormat={dateFormat}
@@ -113,6 +158,7 @@ const DateTimeInput = React.forwardRef(
               openDatePicker={openDatePicker}
               handelChangeDate={handelChangeDate}
             />
+            </div>
           </div>
           <div className="relative dark:bg-dark-300 flex items-center rounded-lg w-full">
             {Icon && (
@@ -137,12 +183,14 @@ const DateTimeInput = React.forwardRef(
                 onClick={() => setOpenTimePicker(!openDatePicker)}
               />
             )}
+            <div className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} right-0 z-50`} ref={positionRef}>
             <TimePicker
               defaultValue={defaultValue}
               setOpenTimePicker={setOpenTimePicker}
               openTimePicker={openTimePicker}
               handelChangeTime={handelChangeTime}
             />
+            </div>
           </div>
         </div>
       </div>

@@ -860,7 +860,7 @@ img.ProseMirror-separator {
   border: 1px solid transparent;
   border-radius: 3px;
   /* height: 27px; */
-  padding:5px;
+  padding:2px;
   vertical-align: middle;
   transition: 150ms ease-out;
   display: flex; 
@@ -1054,6 +1054,7 @@ img.ProseMirror-separator {
 .ProseMirror-icon {
   display: inline-block;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .ProseMirror-menu-disabled.ProseMirror-icon {

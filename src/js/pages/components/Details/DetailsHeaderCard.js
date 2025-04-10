@@ -52,7 +52,7 @@ const getDisplayData = (objectId, items) => {
     case "0-5":
       return {
         primary: primaryValue,
-        date: findValue("closedate") ? `Close date: ${formatDate(findValue("closedate"))}` : `Created date: ${formatDate(findValue("createdate"))}`,
+        date: findValue("closedate") ? `Close date: ${formatDate(findValue("closedate"))}` : `Created date: ${findValue("createdate")?formatDate(findValue("createdate")): ' --'}`,
         stage: `Status: ${findValue("hs_pipeline_stage")}`,
       };
 
