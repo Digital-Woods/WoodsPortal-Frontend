@@ -11,7 +11,6 @@ const HighlightIcon = ({
     viewBox="0 -960 960 960"
     width={width}
     height={height}
-    fill={color}
     {...props}
   >
     <path
