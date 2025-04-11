@@ -106,7 +106,7 @@ const DropdownColorMenu2 = ({ editorView, icon }) => {
         title="Text Highlight"
         isActive={defaultEditorFont}
       >
-        <HighlightIcon color={defaultTextBGColor} id="text-bg-color-svg"/>
+        <HighlightIcon color={defaultTextBGColor}/>
       </ProseMirrorMenuButton>
       <ProseMirrorMenuOption>
         <ColorPicker

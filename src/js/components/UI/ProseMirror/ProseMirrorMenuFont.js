@@ -163,7 +163,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
           isActive={defaultEditorFont}
           variant="outline"
         >
-          <span className="block !text-[12px]  min-w-[85px] ">
+          <span className={`block !text-[12px]  min-w-[85px] font-[${defaultEditorFont ? defaultEditorFont?.key : font.key}]`}>
            {defaultEditorFont ? defaultEditorFont?.label : font.label}
           </span>
         </ProseMirrorMenuButton>
@@ -172,7 +172,7 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className={`cursor-pointer min-w-[100px] !text-[12px] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
+                className={`cursor-pointer min-w-[100px] !text-[12px] font-[${textFont.key}] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
                   defaultEditorFont?.key === textFont.key
                     ? "bg-gray-100"
                     : "bg-none"
@@ -228,7 +228,7 @@ const fontMenuItem = new MenuItem2({
     defaultEditorFont = font
 
     const div = document.getElementById("defaultEditorFont-icon");
-    document.getElementById("defaultEditorFont-icon")?.classList.add(..."!text-[12px] min-w-[85px]".split(" "));
+    document.getElementById("defaultEditorFont-icon")?.classList.add(...`!text-[12px] min-w-[85px] font-[${defaultEditorFont ? defaultEditorFont?.key : ''}]`.split(" "));
     if (div && selectedEditorFont && font) {
       div.textContent = font.label; // Change text content
       document
