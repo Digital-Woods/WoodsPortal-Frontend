@@ -68,16 +68,16 @@ const DateTimeInput = React.forwardRef(
         const formatedDateTime = formatTimestampIST(defaultValue);
         setInputValueDate(formatedDateTime.date);
         setInputValueTime(formatedDateTime.time);
-        setInputValue(`${formatedDateTime.date} ${formatedDateTime.time}`);
+        setInputValue(formatedDateTime?.time ? `${formatedDateTime.date} ${formatedDateTime.time}` : formatedDateTime.date);
       }
     }, [defaultValue]);
 
     useEffect(() => {
-      setValue(rest.name, inputValue);
+      setValue(rest.name, parseISTToTimestamp(inputValue).toString());
     }, [inputValue]);
 
     const handelChangeDate = (date) => {
-      const newDateTime = `${date} ${inputValueTime}`;
+      const newDateTime = inputValueTime ? `${date} ${inputValueTime}` : date;
       setInputValueDate(date);
       setInputValue(newDateTime);
     };
