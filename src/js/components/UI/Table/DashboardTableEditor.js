@@ -1,5 +1,6 @@
-const DashboardTableEditor = ({ title, value, setValue }) => {
-  const editorRef = useRef(null);
+const DashboardTableEditor = ({ title, value, setValue, ...rest }, ref) => {
+  const [inputValue, setInputValue] = useState("");
+
   const menuConfig = {
     imageUploader: false,
     attachmentUploader: false,
@@ -8,12 +9,16 @@ const DashboardTableEditor = ({ title, value, setValue }) => {
     proseMirrorMenuEmoji: true,
   };
 
+  useEffect(() => {
+    setValue(rest.name, inputValue);
+  }, [inputValue]);
+
   return (
     <ProseMirrorEditor
-      ref={editorRef}
+      ref={ref}
       key={title}
       initialData={value}
-      setEditorContent={setValue}
+      setEditorContent={setInputValue}
       id={`editor-${title}`}
       menuConfig={menuConfig}
     />
