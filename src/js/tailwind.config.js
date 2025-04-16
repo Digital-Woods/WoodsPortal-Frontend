@@ -8,8 +8,8 @@ function withOpacity(variableName) {
   };
 }
 
-{% set primary_color = theme.global_colors.primary.color %}
-{% set secondary_color = theme.global_colors.secondary.color %}
+{% set primary_color = theme.global_colors.primary.color %};
+{% set secondary_color = theme.global_colors.secondary.color %};
 
 let primarycolor = "{{ primary_color }}";
 let secondarycolor = "{{ secondary_color }}";
@@ -67,6 +67,8 @@ tailwind.config = {
         rscardbackhround: `${moduleStylesOptions.rightTables.cardBackgroundColor || "#2d3e5030"}`,
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
+        primaryBgHover: "var(--primary-color-hover-bg)",
+        secondaryBgHover: "var(--secondary-color-hover-bg)",
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",

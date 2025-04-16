@@ -47,7 +47,8 @@ const IncreaseIndentMenu = ({ editorView }) => {
       >
         <div className={`note-menuitem`}>
           <div id="textAlignIcon">
-            <SvgRenderer svgContent={increaseIndentIcon} />
+            {/* <SvgRenderer svgContent={increaseIndentIcon} /> */}
+            <IecreaseIndentIcon />
           </div>
         </div>
       </div>
