@@ -526,13 +526,13 @@ const DetailsViewUpdate = ({
           .join(";"),
       };
       saveData(formattedData);
-    } else if (editRow.type === "date" || editRow.type === "datetime") {
-      const formattedDate = Object.fromEntries(
-        Object.entries(data).map(([key, value]) => {
-          return [key, parseISTToTimestamp(value)];
-        })
-      );
-      saveData(formattedDate);
+    // } else if (editRow.type === "date" || editRow.type === "datetime") {
+    //   const formattedDate = Object.fromEntries(
+    //     Object.entries(data).map(([key, value]) => {
+    //       return [key, parseISTToTimestamp(value)];
+    //     })
+    //   );
+    //   saveData(formattedDate);
     } else {
       saveData(data);
     }

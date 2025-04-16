@@ -29,7 +29,7 @@ const DateTimeInput = React.forwardRef(
     }, [defaultValue]);
 
     useEffect(() => {
-      setValue(rest.name, inputValue);
+      setValue(rest.name, parseISTToTimestamp(inputValue).toString());
     }, [inputValue]);
 
     const handelChangeDate = (date) => {
