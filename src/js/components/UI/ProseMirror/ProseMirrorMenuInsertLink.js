@@ -97,9 +97,9 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
           <div className="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
-            <h2 className="text-sm">Create Link</h2>
+            <h2 className="text-sm mb-0">Create Link</h2>
             <div>
-              <label className="text-sm">Link text</label>
+              <label className="!text-xs">Link text</label>
               <Input
                 ref={inputRef}
                 onClick={() => inputRef.current.focus()}
@@ -119,7 +119,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
             </div>
 
             <div>
-              <label className="text-sm">Url</label>
+              <label className="!text-xs">Url</label>
               <Input
                 ref={inputRef2}
                 onClick={() => inputRef2.current.focus()}
@@ -138,6 +138,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }) => {
               label="Open in new tab"
               checked={blank}
               onChange={onChangeCheckbox}
+              labelClassName={`!text-xs`}
             />
 
             <div className="flex gap-1">
