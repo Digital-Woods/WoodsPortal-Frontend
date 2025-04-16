@@ -254,6 +254,7 @@ const DashboardTableForm = ({
                                         title={filled.label}
                                         value={filled.value}
                                         setValue={setValue}
+                                        {...register(filled.name)}
                                       />
                                     </div>
                                   ) : filled.fieldType === "date" ? (

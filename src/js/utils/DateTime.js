@@ -114,7 +114,10 @@ const formatDateTime = (data, type = "date") => {
 function parseISTToTimestamp(dateTimeStr) {
   // If only date is provided, append default time
   if (dateTimeStr.trim().split(" ").length === 1) {
-    dateTimeStr += " 12:00 AM GMT+5:30";
+    const [mm, dd, yyyy] = dateTimeStr.split('/');
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    const timestamp = new Date(`${formattedDate}T00:00:00.000Z`).getTime();
+    return timestamp;
   }
   const [datePart, timePart, meridiem, offset] = dateTimeStr.split(" ");
 
