@@ -1,14 +1,32 @@
 const { Controller } = ReactHookForm;
 
-const Select = ({ label, name='', options, value = "", control, filled = null, onChangeSelect = null, size = "medium", className, ...props }) => {
+const Select = ({
+  label,
+  name = "",
+  options,
+  value = "",
+  control,
+  filled = null,
+  onChangeSelect = null,
+  setValue = null,
+  size = "medium",
+  className,
+  apiEndPoint = null,
+  optionlabel = "label",
+  optionValue = "value",
+  ...props
+}) => {
   const getValue = (value) => {
     if (value && typeof value === "object") value.label;
     return value;
   };
 
-  const handleChange = (event) => {
-    const value = event.target.value;
+  const handleChange = (value) => {
     if (onChangeSelect) onChangeSelect(filled, value);
+    if (setValue) {
+      const mValue = value.length > 0 ? value : "";
+      setValue(filled.name, mValue);
+    }
   };
 
   const heightClasses = {
@@ -23,31 +41,212 @@ const Select = ({ label, name='', options, value = "", control, filled = null, o
       control={control}
       name={name}
       defaultValue={value}
-      render={({ field }) => (
-        <select
-          {...field}
-          onChange={(e) => {
-            field.onChange(e);
-            handleChange(e)
-          }}
-          value={getValue(field.value)}
-          className={classNames(
-            "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2",
-            heightClasses[size],
-            className
-          )}
-        >
-          <option value="" className="dark:placeholder-gray-400  dark:text-gray-200" selected="selected" disabled hidden>
-            {label}
-          </option>
-          {options.map((option) => (
-            <option key={getValue(option.value)} value={getValue(option.value)}>
-              {option.label}
+      render={({ field }) =>
+        apiEndPoint != null ? (
+          <SelectApiData
+            apiEndPoint={apiEndPoint}
+            handleChange={handleChange}
+            optionlabel={optionlabel}
+            optionValue={optionValue}
+          />
+        ) : (
+          <select
+            {...field}
+            onChange={(e) => {
+              field.onChange(e);
+              handleChange(e.target.value);
+            }}
+            value={getValue(field.value)}
+            className={classNames(
+              "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2",
+              heightClasses[size],
+              className
+            )}
+          >
+            <option
+              value=""
+              className="dark:placeholder-gray-400  dark:text-gray-200"
+              selected="selected"
+              disabled
+              hidden
+            >
+              {label}
             </option>
-          ))}
-        </select>
-      )}
+            {options.map((option) => (
+              <option
+                key={getValue(option.value)}
+                value={getValue(option.value)}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        )
+      }
     />
+  );
+};
+
+const SelectApiData = ({
+  apiEndPoint,
+  handleChange,
+  optionlabel,
+  optionValue,
+}) => {
+  const [allOptions, setAllOptions] = useState([]);
+  const [filtered, setfiltered] = useState([]);
+
+  const [selected, setSelected] = useState([]);
+  const [input, setInput] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const wrapperRef = useRef(null);
+
+  const { mutate: callAPI, isLoading } = useMutation({
+    mutationKey: ["getOptionsData"],
+    mutationFn: async () => {
+      try {
+        const response = await Client.form.options({
+          API: apiEndPoint,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: async (response) => {
+      setAllOptions(response.data.results);
+      // filterData(response.data.results)
+    },
+    onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+      setAlert({ message: errorMessage, type: "error" });
+    },
+  });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filterData = (data) => {
+    const filteredData = data.filter((opt) => {
+      const matched = selected.find(
+        (val) => val[optionValue] === opt[optionValue]
+      );
+      return !matched;
+    });
+    setfiltered(filteredData);
+  };
+
+  useEffect(() => {
+    if (allOptions.length > 0) filterData(allOptions);
+  }, [selected, allOptions]);
+
+  const handleSelect = (value) => {
+    // if (!selected.includes(value[optionValue])) {
+    //   setSelected([...selected, value[optionValue]]);
+    // }
+    const filtered = selected.find(
+      (item) => item[optionValue] === value[optionValue]
+    );
+
+    if (!filtered) {
+      setSelected([...selected, value]);
+      handleChange([...selected, value]);
+    }
+    setInput("");
+    setShowDropdown(false);
+  };
+
+  const handleRemove = (value) => {
+    setSelected(
+      selected.filter((item) => item[optionValue] !== value[optionValue])
+    );
+  };
+
+  // const filtered = allOptions.filter(
+  //   (opt) =>
+  //     opt.toLowerCase().includes(input.toLowerCase()) && !selected.includes(opt)
+  // );
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 py-1"
+    >
+      <div
+        className="flex flex-wrap items-center"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (allOptions.length < 1) callAPI();
+          setShowDropdown((prev) => !prev);
+        }}
+      >
+        <div className="flex gap-1 flex-wrap w-[calc(100%-40px)]">
+          {selected.map((tag) => (
+            <div
+              key={tag[optionValue]}
+              className="flex items-center bg-gray-200 dark:bg-cleanWhite border border-gray-300 rounded px-2 py-1 text-sm text-gray-100 dark:text-gray-300"
+            >
+              {tag[optionlabel]}
+              <button
+                className="ml-1 text-gray-600 hover:text-red-500"
+                onClick={() => handleRemove(tag)}
+              >
+                &times;
+              </button>
+            </div>
+          ))}
+          <input
+            className="flex-1 min-w-[100px] p-1 outline-none bg-transparent"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+        </div>
+        <div className="w-[40px] h-full">
+          <div class="w-px h-full bg-gray-300"></div>
+          <div className="">
+            <div className="ml-auto flex items-center space-x-1">
+              <button
+                className="text-gray-500 hover:text-red-500 text-xl"
+                onClick={() => setSelected([])}
+              >
+                &times;
+              </button>
+              <button
+                className="text-gray-500 hover:text-blue-500 text-xl"
+                onClick={() => setShowDropdown((prev) => !prev)}
+              >
+                ▾
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {showDropdown && isLoading && (
+        <div className="absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border border-2 dark:border-gray-600 dark:bg-gray-700">
+          <div className="text-center">Loading...</div>
+        </div>
+      )}
+      {showDropdown && filtered.length > 0 && !isLoading && (
+        <div className="absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border border-2 dark:border-gray-600 dark:bg-gray-700">
+          {filtered.map((opt) => (
+            <div
+              key={opt[optionValue]}
+              className="px-3 py-2 hover:bg-indigo-100 cursor-pointer text-gray-100 dark:text-gray-300"
+              onClick={() => handleSelect(opt)}
+            >
+              {opt[optionlabel]}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
