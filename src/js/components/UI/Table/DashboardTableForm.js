@@ -10,6 +10,10 @@ const DashboardTableForm = ({
   companyAsMediator,
   urlParam,
 }) => {
+  // const [data, setData] = useState([]);
+  const [validationSchema, setValidationSchema] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [objects, setObjects] = useState([]);
   const [data, setData] = useState([]);
   const [addAnother, setAddAnother] = useState(false);
   const { mutate: getData, isLoading } = useMutation({
@@ -20,12 +24,47 @@ const DashboardTableForm = ({
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        return setData(sortFormData(response.data.properties));
-        // return setData(response.data.properties)
+        const groupedProperties = Object.values(
+          response.data.properties.reduce((acc, prop) => {
+            const group = prop.groupName;
+            if (!acc[group]) {
+              acc[group] = {
+                groupName: group
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (char) => char.toUpperCase()),
+                properties: [],
+              };
+            }
+            acc[group].properties.push(prop);
+            return acc;
+          }, {})
+        );
+        setProperties(groupedProperties);
+        setObjects(response.data.objects);
+        setData(response.data);
+
+        const properties = response?.data?.properties
+          ? response.data.properties.map((data) => ({
+              ...data,
+              type: "properties",
+            }))
+          : [];
+
+        const objects = response?.data?.objects
+          ? response.data.objects.map((data) => ({
+              ...data,
+              type: "objects",
+            }))
+          : [];
+
+        setValidationSchema(
+          createValidationSchema([...properties, ...objects])
+        );
       }
     },
     onError: () => {
-      setData([]);
+      setProperties([]);
+      setObjects([]);
     },
   });
 
@@ -43,9 +82,19 @@ const DashboardTableForm = ({
 
     data.forEach((field) => {
       const isDomain = field.name === "domain";
-      if ((field.requiredField || field.primaryProperty) && !isDomain) {
+      if (field.requiredField && field.type === "objects") {
+        schemaShape[field.name] = z
+          .any()
+          .refine((val) => Array.isArray(val) && val.length > 0, {
+            message: `${
+              field?.labels?.plural || field?.customLabel || field?.label
+            } must be a non-empty list.`,
+          });
+      } else if ((field.requiredField || field.primaryProperty) && !isDomain) {
         schemaShape[field.name] = z.string().nonempty({
-          message: `${field.customLabel || field.label} is required.`,
+          message: `${
+            field?.labels?.plural || field?.customLabel || field?.label
+          } is required.`,
         });
       } else if (isDomain) {
         schemaShape[field.name] = z.string().refine(
@@ -58,13 +107,17 @@ const DashboardTableForm = ({
           }
         );
       } else {
-        schemaShape[field.name] = z.string().nullable();
+        if (field.type === "objects") {
+          schemaShape[field.name] = z.any().nullable();
+        } else {
+          schemaShape[field.name] = z.string().nullable();
+        }
       }
     });
     return z.object(schemaShape);
   };
 
-  const validationSchema = createValidationSchema(data);
+  // const validationSchema = createValidationSchema(data);
 
   const { mutate: addData, isLoading: submitLoading } = useMutation({
     mutationKey: ["addData"],
@@ -87,7 +140,7 @@ const DashboardTableForm = ({
       }
     },
     onSuccess: async (response, variables) => {
-      setAlert({ message: response.statusMsg, type: "success" });
+      setAlert({ message: response?.statusMsg, type: "success" });
       if (!addAnother) {
         // setSync(true);
         // refetch({
@@ -138,7 +191,7 @@ const DashboardTableForm = ({
           ? { ...property, options: response.data }
           : property
       );
-      setData(updatedProperties);
+      // setData(updatedProperties);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -146,8 +199,82 @@ const DashboardTableForm = ({
     },
   });
 
+  function formPaylod(data1, data2) {
+    const propertyNames = data1.properties.map((prop) => prop.name);
+    const objectNames = data1.objects.map((obj) => obj.name);
+    const objectTypeMap = data1.objects.reduce((acc, obj) => {
+      acc[obj.name] = obj.objectTypeId;
+      return acc;
+    }, {});
+
+    const propertyPayload = {};
+    const objectPayload = [];
+
+    for (const key in data2) {
+      if (propertyNames.includes(key) && !objectNames.includes(key)) {
+        propertyPayload[key] = data2[key];
+      } else if (objectNames.includes(key)) {
+        const value = data2[key];
+        const recordId = Array.isArray(value) ? value.map((v) => v.ID) : [];
+
+        objectPayload.push({
+          objectTypeId: objectTypeMap[key],
+          recordId,
+        });
+      }
+    }
+
+    // Ensure all objects from data1.objects are represented
+    data1.objects.forEach((obj) => {
+      if (!objectPayload.find((o) => o.objectTypeId === obj.objectTypeId)) {
+        objectPayload.push({
+          objectTypeId: obj.objectTypeId,
+          recordId: [],
+        });
+      }
+    });
+
+    return {
+      propertyPayload,
+      objectPayload,
+    };
+  }
+
   const onSubmit = (formData) => {
-    addData({ formData, addAnother });
+    const payload = formPaylod(data, formData);
+    // console.log('formData', payload)
+    // const propertyPayload = {};
+    // const objectMap = new Map();
+
+    // for (const [key, value] of Object.entries(formData)) {
+    //   if (Array.isArray(value)) {
+    //     value.forEach((obj) => {
+    //       const typeId = obj.objectTypeId;
+    //       const id = obj.ID;
+    //       if (!objectMap.has(typeId)) {
+    //         objectMap.set(typeId, []);
+    //       }
+    //       objectMap.get(typeId).push(id);
+    //     });
+    //   } else {
+    //     propertyPayload[key] = value;
+    //   }
+    // }
+
+    // const objectPayload = Array.from(objectMap.entries()).map(
+    //   ([objectTypeId, recordId]) => ({
+    //     objectTypeId,
+    //     recordId,
+    //   })
+    // );
+
+    // const result = {
+    //   propertyPayload,
+    //   objectPayload,
+    // };
+
+    // console.log("result", result);
+    addData({ formData: payload, addAnother });
   };
 
   const onChangeSelect = (filled, selectedValue) => {
@@ -171,7 +298,7 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
       >
         <div>
-          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">         
+          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
             Add {title}
           </h3>
           {isLoading ? (
@@ -195,13 +322,18 @@ const DashboardTableForm = ({
                   return (
                     <div>
                       <div className="text-gray-800 dark:text-gray-200">
-                        {data.map((filled) => (
-                          <div>
-                            <FormItem className="">
-                              <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                                {filled.customLabel}
-                              </FormLabel>
-                              {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
+                        {properties.map((group) => (
+                          <div key={group.groupName} className="mb-4">
+                            <h2 className="text-xl font-bold">
+                              {group.groupName}
+                            </h2>
+                            {group.properties.map((filled) => (
+                              <div>
+                                <FormItem className="">
+                                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                    {filled.customLabel}
+                                  </FormLabel>
+                                  {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
                               <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
                               :
                               <FormControl>
@@ -225,74 +357,111 @@ const DashboardTableForm = ({
                               </FormControl>
                             } */}
 
-                              <FormControl>
-                                <div>
-                                  {filled.fieldType == "select" ||
-                                  filled.fieldType == "radio" ||
-                                  (filled.name == "dealstage" &&
-                                    filled.fieldType == "radio" &&
-                                    hubspotObjectTypeId ===
-                                      env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
-                                    <Select
-                                      label={`Select ${filled.customLabel}`}
-                                      name={filled.name}
-                                      options={filled.options}
-                                      control={control}
-                                      filled={filled}
-                                      onChangeSelect={onChangeSelect}
-                                    />
-                                  ) : filled.fieldType === "textarea" ? (
-                                    <Textarea
-                                      height="medium"
-                                      placeholder={filled.customLabel}
-                                      className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                                      {...register(filled.name)}
-                                    />
-                                  ) : filled.fieldType === "html" ? (
-                                    <div className="create-object-editor">
-                                      <DashboardTableEditor
-                                        title={filled.label}
-                                        value={filled.value}
-                                        setValue={setValue}
-                                        {...register(filled.name)}
-                                      />
+                                  <FormControl>
+                                    <div>
+                                      {filled.fieldType == "select" ||
+                                      filled.fieldType == "radio" ||
+                                      (filled.name == "dealstage" &&
+                                        filled.fieldType == "radio" &&
+                                        hubspotObjectTypeId ===
+                                          env.HUBSPOT_DEFAULT_OBJECT_IDS
+                                            .deals) ? (
+                                        <Select
+                                          label={`Select ${filled.customLabel}`}
+                                          name={filled.name}
+                                          options={filled.options}
+                                          control={control}
+                                          filled={filled}
+                                          onChangeSelect={onChangeSelect}
+                                        />
+                                      ) : filled.fieldType === "textarea" ? (
+                                        <Textarea
+                                          height="medium"
+                                          placeholder={filled.customLabel}
+                                          className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
+                                          {...register(filled.name)}
+                                        />
+                                      ) : filled.fieldType === "html" ? (
+                                        <div className="create-object-editor">
+                                          <DashboardTableEditor
+                                            title={filled.label}
+                                            value={filled.value}
+                                            setValue={setValue}
+                                            {...register(filled.name)}
+                                          />
+                                        </div>
+                                      ) : filled.fieldType === "date" ? (
+                                        <DateTimeInput
+                                          type={filled.type}
+                                          dateFormat="dd-mm-yyyy"
+                                          height="small"
+                                          className=""
+                                          setValue={setValue}
+                                          defaultValue={""}
+                                          {...register(filled.name)}
+                                        />
+                                      ) : filled.fieldType === "number" ? (
+                                        <Input
+                                          type="number"
+                                          placeholder={filled.customLabel}
+                                          className=""
+                                          {...register(filled.name)}
+                                        />
+                                      ) : (
+                                        <Input
+                                          // type={filled.fieldType}
+                                          placeholder={filled.customLabel}
+                                          className=""
+                                          {...register(filled.name)}
+                                        />
+                                      )}
                                     </div>
-                                  ) : filled.fieldType === "date" ? (
-                                    <DateTimeInput
-                                      type={filled.type}
-                                      dateFormat="dd-mm-yyyy"
-                                      height="small"
-                                      className=""
-                                      setValue={setValue}
-                                      defaultValue={""}
-                                      {...register(filled.name)}
-                                    />
-                                  ) : filled.fieldType === "number" ? (
-                                    <Input
-                                      type="number"
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
-                                  ) : (
-                                    <Input
-                                      // type={filled.fieldType}
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
-                                  )}
-                                </div>
-                              </FormControl>
+                                  </FormControl>
 
-                              {errors[filled.name] && (
-                                <FormMessage className="text-red-600 dark:text-red-400">
-                                  {errors[filled.name].message}
-                                </FormMessage>
-                              )}
-                            </FormItem>
+                                  {errors[filled.name] && (
+                                    <FormMessage className="text-red-600 dark:text-red-400">
+                                      {errors[filled.name].message}
+                                    </FormMessage>
+                                  )}
+                                </FormItem>
+                              </div>
+                            ))}
                           </div>
                         ))}
+
+                        {objects.length > 0 && (
+                          <div>
+                            <h2 className="text-xl font-bold">Objects</h2>
+                            {objects.map((association) => (
+                              <div key={association.name}>
+                                <FormItem className="">
+                                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                    {association?.labels?.plural}
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Select
+                                      label={`Select ${association?.labels?.plural}`}
+                                      name={association.name}
+                                      options={[]}
+                                      control={control}
+                                      filled={association}
+                                      onChangeSelect={onChangeSelect}
+                                      apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${association.formId}/${association.objectTypeId}`}
+                                      optionlabel="label"
+                                      optionValue="ID"
+                                      setValue={setValue}
+                                    />
+                                  </FormControl>
+                                  {errors[association.name] && (
+                                    <FormMessage className="text-red-600 dark:text-red-400">
+                                      {errors[association.name].message}
+                                    </FormMessage>
+                                  )}
+                                </FormItem>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                       <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
                         <Button

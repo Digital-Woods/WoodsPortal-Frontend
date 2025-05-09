@@ -173,6 +173,8 @@ class Client {
     formData: ({ API, params }) =>HttpClient.get(generateApiUrl({route: API, params})),
     stages: ({ API }) =>
       HttpClient.get(API),
+    options: ({ API }) =>
+      HttpClient.get(API),
     create: ({API, data}) => HttpClient.post(API, data),
     update: ({API, data}) => HttpClient.put(API, data),
   };
