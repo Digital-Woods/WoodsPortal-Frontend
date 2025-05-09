@@ -433,7 +433,6 @@ const renderCellContent = ({
   }
 
   if (type === "details" && column?.key === "hubspot_owner_id" && value) {
-    console.log(value,'value');
     return (
       <div className="flex gap-1 relative justify-between">
         {value?.firstname} {value?.lastname}
