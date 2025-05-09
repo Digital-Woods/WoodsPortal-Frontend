@@ -432,6 +432,14 @@ const renderCellContent = ({
     );
   }
 
+  if (type === "details" && column?.key === "hubspot_owner_id" && value) {
+    return (
+      <div className="flex gap-1 relative justify-between">
+        {value?.firstname} {value?.lastname}
+      </div>
+    );
+  }
+
   if (
     (type === "details" || type === "associations" || type === 'list' || type === 'homeList') &&
     (column?.fieldType === "checkbox")
