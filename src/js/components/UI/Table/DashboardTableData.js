@@ -128,7 +128,7 @@ const DashboardTableData = ({
 
   return (
     <React.Fragment>
-      <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
+      <div className="overflow-x-auto relative rounded-md  dark:bg-dark-300">
         <Table className="w-full">
           <TableHeader>
             <TableRow>
@@ -165,8 +165,13 @@ const DashboardTableData = ({
                   </div>
                 </TableHead>
               ))}
+              <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 ">
+                <div className="flex columns-center">
+                  <span className="font-semibold text-xs">Action</span>
+                </div>
+              </TableHead>
+
               {/* {env.DATA_SOURCE_SET === true && (
-                    <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"></TableHead>
                   )}
                   {editView && permissions && permissions.update && (
                     <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"></TableHead>
@@ -179,6 +184,7 @@ const DashboardTableData = ({
                 key={item.id}
                 onMouseEnter={() => handleRowHover(item)}
                 onMouseLeave={() => handleRowHover(null)}
+                className="relative"
               >
                 {tableHeader.filter((column) => !column.hidden).map((column) => (
                   <TableCell
@@ -252,6 +258,12 @@ const DashboardTableData = ({
                     </div>
                   </TableCell>
                 ))}
+                <TableCell className="whitespace-nowrap dark:border-gray-600 text-sm dark:bg-dark-300 border-b">
+                  <div className="flex items-center space-x-2 gap-x-5">
+                    <DisassociateButton onConfirm={() => console.log('Disassociated', item.id)} />
+                  </div>
+                </TableCell>
+
                 {/* {env.DATA_SOURCE_SET === true && (
                       <TableCell className=" whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b">
                         <div className="flex items-center space-x-2  gap-x-5">
