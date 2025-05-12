@@ -6,6 +6,7 @@ const DashboardTableExistingForm = ({
   validationSchema,
   serverError,
   existingData,
+  setAddAnother,
   submitLoading,
   onChangeSelect,
 }) => {
@@ -37,7 +38,7 @@ const DashboardTableExistingForm = ({
   });
 
   useEffect(() => {
-    callAPI();
+    if (options.length < 1) callAPI();
   }, []);
 
   return (

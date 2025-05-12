@@ -1,5 +1,5 @@
 const DashboardTableForm = ({
-  type="create",
+  type = "create",
   openModal,
   setOpenModal,
   title,
@@ -10,7 +10,7 @@ const DashboardTableForm = ({
   refetch,
   companyAsMediator,
   urlParam,
-  info
+  info,
 }) => {
   // const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState("addNew");
@@ -298,21 +298,22 @@ const DashboardTableForm = ({
 
   const onChangeActiveTab = (active) => {
     setActiveTab(active);
-    if(active === "addExisting") {
-      setExistingData(
-        {
-          "name": title,
-          "labels": {
-              "singular": title,
-              "plural": title
-          },
-          "objectTypeId": hubspotObjectTypeId,
-          "requiredField": true,
-          "formId": info?.defaultForm
-        }
-      )
+    if (active === "addExisting") {
+      const data = {
+        name: title,
+        labels: {
+          singular: title,
+          plural: title,
+        },
+        objectTypeId: hubspotObjectTypeId,
+        requiredField: true,
+        formId: info?.defaultForm,
+        type: "objects",
+      };
+      setExistingData(data);
+      setValidationSchema(createValidationSchema([{ ...data }]));
     }
-  }
+  };
 
   return (
     <div>
@@ -329,7 +330,7 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
       >
         <div>
-          {type === 'association'?
+          {type === "association" ? (
             <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               <Tabs
                 activeTab={activeTab}
@@ -339,26 +340,30 @@ const DashboardTableForm = ({
               >
                 <TabsList>
                   <TabsTrigger className="rounded-md" value="addNew">
-                    <p className="text-black dark:text-white">Add New {title}</p>
+                    <p className="text-black dark:text-white">
+                      Add New {title}
+                    </p>
                   </TabsTrigger>
                   <TabsTrigger className="rounded-md" value="addExisting">
-                    <p className="text-black dark:text-white">Add Existing {title}</p>
+                    <p className="text-black dark:text-white">
+                      Add Existing {title}
+                    </p>
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="addNew"></TabsContent>
                 <TabsContent value="addExisting"></TabsContent>
               </Tabs>
-           </div>
-          :
-          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
-            Add {title}
-          </h3>
-          }
+            </div>
+          ) : (
+            <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
+              Add {title}
+            </h3>
+          )}
           {isLoading ? (
             <div className="loader-line"></div>
           ) : (
             <div className="w-full text-left">
-              { activeTab === "addNew" ?
+              {activeTab === "addNew" ? (
                 <Form
                   onSubmit={onSubmit}
                   validationSchema={validationSchema}
@@ -413,7 +418,14 @@ const DashboardTableForm = ({
 
                                     <FormControl>
                                       <div>
-                                        {filled.fieldType == "select" || filled.fieldType == "checkbox" || filled.fieldType == "radio" || (filled.name == "dealstage" && filled.fieldType == "radio" && hubspotObjectTypeId ===env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                        {filled.fieldType == "select" ||
+                                        filled.fieldType == "checkbox" ||
+                                        filled.fieldType == "radio" ||
+                                        (filled.name == "dealstage" &&
+                                          filled.fieldType == "radio" &&
+                                          hubspotObjectTypeId ===
+                                            env.HUBSPOT_DEFAULT_OBJECT_IDS
+                                              .deals) ? (
                                           <Select
                                             label={`Select ${filled.customLabel}`}
                                             name={filled.name}
@@ -542,7 +554,7 @@ const DashboardTableForm = ({
                     );
                   }}
                 </Form>
-                :
+              ) : (
                 <DashboardTableExistingForm
                   resetRef={resetRef}
                   setOpenModal={setOpenModal}
@@ -551,10 +563,11 @@ const DashboardTableForm = ({
                   validationSchema={validationSchema}
                   serverError={serverError}
                   existingData={existingData}
+                  setAddAnother={setAddAnother}
                   submitLoading={submitLoading}
                   onChangeSelect={onChangeSelect}
                 />
-              }
+              )}
             </div>
           )}
         </div>
