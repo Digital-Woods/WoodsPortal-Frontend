@@ -1,5 +1,5 @@
 const usePosition = (containerSelector = '.object-create-form') => {
-  const [position, setPosition] = useState('bottom');
+  const [position, setPosition] = useState('top');
   const ref = useRef(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const usePosition = (containerSelector = '.object-create-form') => {
         const spaceBelow = containerRect.bottom - inputRect.bottom;
 
         // Check if there's enough space (e.g., 300px for the picker height)
-        if (spaceAbove > 400 && spaceAbove > spaceBelow) {
+        if (spaceAbove > 380 && spaceAbove > spaceBelow) {
           setPosition('top');
         } else {
           setPosition('bottom');

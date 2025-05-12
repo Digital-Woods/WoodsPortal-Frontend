@@ -49,11 +49,11 @@ const TimePicker = ({
   return (
     <div className="relative" ref={ref}>
       {open && (
-        <div className=" bg-white text-gray-800 rounded-md shadow-lg w-[200px] h-[400px] transition-all duration-300 overflow-y-scroll text-center">
+        <div className=" bg-white text-gray-800 rounded-md shadow-lg w-[200px] h-[220px] transition-all duration-300 overflow-y-scroll text-center">
           <ul class="text-gray-900 ">
             {timeList.map((time) => (
               <li
-                class="w-full px-4 py-2 cursor-pointer hover:bg-secondary text-[12px]"
+                class="w-full px-4 py-2 cursor-pointer hover:bg-secondary hover:text-white text-[12px]"
                 onClick={() => {
                   handelChangeTime(time)
                   setOpenTimePicker(false)
