@@ -3,7 +3,7 @@ const { Controller } = ReactHookForm;
 const Select = ({
   label,
   name = "",
-  options,
+  options = [],
   value = "",
   control,
   filled = null,
@@ -50,6 +50,7 @@ const Select = ({
             handleChange={handleChange}
             optionlabel={optionlabel}
             optionValue={optionValue}
+            options={options}
           />
         ) : (
           <select
@@ -94,8 +95,9 @@ const SelectApiData = ({
   handleChange,
   optionlabel,
   optionValue,
+  options
 }) => {
-  const [allOptions, setAllOptions] = useState([]);
+  const [allOptions, setAllOptions] = useState(options);
   const [filtered, setfiltered] = useState([]);
 
   const [selected, setSelected] = useState([]);
