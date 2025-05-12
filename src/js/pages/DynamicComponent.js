@@ -19,7 +19,7 @@ const DynamicComponent = ({
   companyAsMediator,
   pipeLineId,
   specPipeLine,
-  objectDescription
+  objectDescription,
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -66,12 +66,20 @@ const DynamicComponent = ({
   }, []);
 
   useEffect(() => {
-    if(breadcrumbs && breadcrumbs.length > 0) {
+    if (breadcrumbs && breadcrumbs.length > 0) {
       const last = breadcrumbs[breadcrumbs.length - 1];
       const previous = breadcrumbs[breadcrumbs.length - 2];
-      const singularLastName = last.name.endsWith('s') ? last.name.slice(0, -1) : last.name;
-      setTableTitle(`${last?.name} of ${previous?.name}`);
-      setSingularTableTitle(`${singularLastName} of ${previous?.name}`);
+      const singularLastName = last.name.endsWith("s")
+        ? last.name.slice(0, -1)
+        : last.name;
+      setTableTitle(
+        previous?.name ? `${last?.name} of ${previous?.name}` : last?.name
+      );
+      setSingularTableTitle(
+        previous?.name
+          ? `${singularLastName} of ${previous?.name}`
+          : singularLastName
+      );
     }
   }, [breadcrumbs]);
 
@@ -79,8 +87,9 @@ const DynamicComponent = ({
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
     formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
-      }`,
+    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
+      param ? param + "&isForm=true" : "?isForm=true"
+    }`,
     createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   };
@@ -111,12 +120,18 @@ const DynamicComponent = ({
                   {tableTitle}
                 </span>
                 <p className="dark:text-white leading-5 text-sm flex items-center">
-                  {!isLoading ? `${totalRecord} records` : <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>}
+                  {!isLoading ? (
+                    `${totalRecord} records`
+                  ) : (
+                    <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
+                  )}
                 </p>
                 <pre className="dark:text-white ">
-                  {objectDescription ? ReactHtmlParser.default(
-                    DOMPurify.sanitize(objectDescription)
-                  ) : ''}
+                  {objectDescription
+                    ? ReactHtmlParser.default(
+                        DOMPurify.sanitize(objectDescription)
+                      )
+                    : ""}
                 </pre>
               </span>
             ) : (
@@ -128,8 +143,8 @@ const DynamicComponent = ({
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
           {hubSpotUserDetails.sideMenu[0].tabName === title &&
-            !isLargeScreen &&
-            !sidebarRightOpen ? (
+          !isLargeScreen &&
+          !sidebarRightOpen ? (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
                 className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
