@@ -192,7 +192,6 @@ const DashboardTableForm = ({
       }
     },
     onSuccess: async (response) => {
-      console.log("data", data);
       const updatedProperties = {
         ...data,
         properties: data.properties.map((property) =>
