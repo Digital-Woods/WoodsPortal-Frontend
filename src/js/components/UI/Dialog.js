@@ -23,12 +23,12 @@ const Dialog = (props, ref) => {
         aria-modal="true"
       >
         <div
-          className="fixed  inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition transition-opacity"
+          className="fixed  inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition-opacity"
           aria-hidden="true"
         ></div>
 
         <div
-          className="fixed inset-0 z-10 w-screen flex items-center justify-center overflow-y-auto"
+          className="fixed inset-0 z-20  w-screen flex items-center justify-center overflow-y-auto"
           // onClick={() => onClose && onClose(false)}
         >
           <div className="sm:p-0 min-h-[90vh] overflow-x-auto flex items-center popup-modal">
