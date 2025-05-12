@@ -20,6 +20,9 @@ const DashboardTableForm = ({
   const [existingData, setExistingData] = useState(null);
   const [data, setData] = useState(null);
   const [addAnother, setAddAnother] = useState(false);
+  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
+  const [addNewTitle, setAddNewTitle] = useState(false);
+  const [addExistingTitle, setAddExistingTitle] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -315,6 +318,17 @@ const DashboardTableForm = ({
     }
   };
 
+  useEffect(() => {
+    if (breadcrumbs && breadcrumbs.length > 0) {
+      const last = breadcrumbs[breadcrumbs.length - 1];
+      const singularLastName = last.name.endsWith("s")
+        ? last.name.slice(0, -1)
+        : last.name;
+      setAddNewTitle(`Create New ${title} of ${singularLastName}`);
+      setAddExistingTitle(`Add Existing ${title} of ${singularLastName}`);
+    }
+  }, [breadcrumbs]);
+
   return (
     <div>
       {alert && (
@@ -340,13 +354,11 @@ const DashboardTableForm = ({
               >
                 <TabsList>
                   <TabsTrigger className="rounded-md" value="addNew">
-                    <p className="text-black dark:text-white">
-                      Add New {title}
-                    </p>
+                    <p className="text-black dark:text-white">{addNewTitle}</p>
                   </TabsTrigger>
                   <TabsTrigger className="rounded-md" value="addExisting">
                     <p className="text-black dark:text-white">
-                      Add Existing {title}
+                      {addExistingTitle}
                     </p>
                   </TabsTrigger>
                 </TabsList>
@@ -383,7 +395,7 @@ const DashboardTableForm = ({
                         <div className="text-gray-800 dark:text-gray-200">
                           {properties.map((group) => (
                             <div key={group.groupName} className="mb-4">
-                              <h2 className="text-xl font-bold">
+                              <h2 className="text-[15px] font-bold">
                                 {group.groupName}
                               </h2>
                               {group.properties.map((filled) => (
@@ -491,7 +503,7 @@ const DashboardTableForm = ({
 
                           {objects.length > 0 && (
                             <div>
-                              <h2 className="text-xl font-bold">Objects</h2>
+                              <h2 className="text-[15px] font-bold">Objects</h2>
                               {objects.map((association) => (
                                 <div key={association.name}>
                                   <FormItem className="">
