@@ -25,8 +25,11 @@ const DashboardTableExistingForm = ({
       }
     },
     onSuccess: async (response) => {
-      console.log("response", response);
-      // setOptions(response.data.results);
+      const transformed = response?.data?.results.map(({ label, ID }) => ({
+        label,
+        value: ID,
+      }));
+      setOptions(transformed);
     },
     onError: (error) => {
       setErrorMessage(error.response.data.detailedMessage);
@@ -40,7 +43,7 @@ const DashboardTableExistingForm = ({
   return (
     <div>
       {isLoading ? (
-        <spa>Loading...</spa>
+        <div className="text-center pb-4">Loading...</div>
       ) : errorMessage ? (
         <div className="text-center text-warning pb-4">{errorMessage}</div>
       ) : (
@@ -70,9 +73,7 @@ const DashboardTableExistingForm = ({
                             control={control}
                             filled={existingData}
                             onChangeSelect={onChangeSelect}
-                            // apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${existingData.formId}/${existingData.objectTypeId}`}
-                            // optionlabel="label"
-                            // optionValue="ID"
+                            apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${existingData.formId}/${existingData.objectTypeId}`}
                             setValue={setValue}
                           />
                         </FormControl>
