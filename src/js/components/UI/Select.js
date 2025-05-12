@@ -176,7 +176,7 @@ const SelectApiData = ({
   //   (opt) =>
   //     opt.toLowerCase().includes(input.toLowerCase()) && !selected.includes(opt)
   // );
-console.log(position,'position');
+
   return (
     <div
       ref={wrapperRef}
