@@ -102,6 +102,7 @@ const SelectApiData = ({
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef(null);
+  const [position, positionRef] = usePosition('.object-create-form');
 
   const { mutate: callAPI, isLoading } = useMutation({
     mutationKey: ["getOptionsData"],
@@ -175,11 +176,11 @@ const SelectApiData = ({
   //   (opt) =>
   //     opt.toLowerCase().includes(input.toLowerCase()) && !selected.includes(opt)
   // );
-
+console.log(position,'position');
   return (
     <div
       ref={wrapperRef}
-      className="relative w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 py-1"
+      className="multiselected-dropdown relative w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 py-1"
     >
       <div
         className="flex flex-wrap items-center"
@@ -193,12 +194,13 @@ const SelectApiData = ({
           {selected.map((tag) => (
             <div
               key={tag[optionValue]}
-              className="flex items-center bg-gray-200 dark:bg-cleanWhite border border-gray-300 rounded px-2 py-1 text-sm text-gray-100 dark:text-gray-300"
+              className="flex items-center bg-indigo-100 dark:bg-dark-300  border border-gray-300 rounded px-2 py-1 text-sm  dark:text-gray-300"
             >
               {tag[optionlabel]}
               <button
                 className="ml-1 text-gray-600 hover:text-red-500"
                 onClick={() => handleRemove(tag)}
+                type="button"
               >
                 &times;
               </button>
@@ -231,16 +233,16 @@ const SelectApiData = ({
         </div>
       </div>
       {showDropdown && isLoading && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border border-2 dark:border-gray-600 dark:bg-gray-700">
+        <div className="absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700">
           <div className="text-center">Loading...</div>
         </div>
       )}
       {showDropdown && filtered.length > 0 && !isLoading && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border border-2 dark:border-gray-600 dark:bg-gray-700">
+        <div ref={positionRef} className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}>
           {filtered.map((opt) => (
             <div
               key={opt[optionValue]}
-              className="px-3 py-2 hover:bg-indigo-100 cursor-pointer text-gray-100 dark:text-gray-300"
+              className="px-3 py-2 hover:bg-indigo-100 dark:hover:bg-dark-300 cursor-pointer dark:text-gray-100"
               onClick={() => handleSelect(opt)}
             >
               {opt[optionlabel]}
