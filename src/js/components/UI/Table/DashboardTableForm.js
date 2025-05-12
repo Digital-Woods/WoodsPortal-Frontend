@@ -14,8 +14,31 @@ const DashboardTableForm = ({
   const [validationSchema, setValidationSchema] = useState([]);
   const [properties, setProperties] = useState([]);
   const [objects, setObjects] = useState([]);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [addAnother, setAddAnother] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      const groupedProperties = Object.values(
+        data.properties.reduce((acc, prop) => {
+          const group = prop.groupName;
+          if (!acc[group]) {
+            acc[group] = {
+              groupName: group
+                .replace(/_/g, " ")
+                .replace(/\b\w/g, (char) => char.toUpperCase()),
+              properties: [],
+            };
+          }
+          acc[group].properties.push(prop);
+          return acc;
+        }, {})
+      );
+      setProperties(groupedProperties);
+      setObjects(data.objects);
+    }
+  }, [data]);
+
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
@@ -24,23 +47,6 @@ const DashboardTableForm = ({
 
     onSuccess: (response) => {
       if (response.statusCode === "200") {
-        const groupedProperties = Object.values(
-          response.data.properties.reduce((acc, prop) => {
-            const group = prop.groupName;
-            if (!acc[group]) {
-              acc[group] = {
-                groupName: group
-                  .replace(/_/g, " ")
-                  .replace(/\b\w/g, (char) => char.toUpperCase()),
-                properties: [],
-              };
-            }
-            acc[group].properties.push(prop);
-            return acc;
-          }, {})
-        );
-        setProperties(groupedProperties);
-        setObjects(response.data.objects);
         setData(response.data);
 
         const properties = response?.data?.properties
@@ -186,12 +192,15 @@ const DashboardTableForm = ({
       }
     },
     onSuccess: async (response) => {
-      const updatedProperties = data.map((property) =>
-        property.name === "hs_pipeline_stage" || property.name === "dealstage"
-          ? { ...property, options: response.data }
-          : property
-      );
-      // setData(updatedProperties);
+      const updatedProperties = {
+        ...data,
+        properties: data.properties.map((property) =>
+          property.name === "hs_pipeline_stage" || property.name === "dealstage"
+            ? { ...property, options: response.data }
+            : property
+        ),
+      };
+      setData(updatedProperties);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -359,13 +368,7 @@ const DashboardTableForm = ({
 
                                   <FormControl>
                                     <div>
-                                      {filled.fieldType == "select" ||
-                                      filled.fieldType == "radio" ||
-                                      (filled.name == "dealstage" &&
-                                        filled.fieldType == "radio" &&
-                                        hubspotObjectTypeId ===
-                                          env.HUBSPOT_DEFAULT_OBJECT_IDS
-                                            .deals) ? (
+                                      {filled.fieldType == "select" ||filled.fieldType == "checkbox" || filled.fieldType == "radio" || (filled.name == "dealstage" && filled.fieldType == "radio" && hubspotObjectTypeId ===env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
                                         <Select
                                           label={`Select ${filled.customLabel}`}
                                           name={filled.name}

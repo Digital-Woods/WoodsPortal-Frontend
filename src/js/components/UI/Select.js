@@ -22,7 +22,9 @@ const Select = ({
   };
 
   const handleChange = (value) => {
-    if (onChangeSelect) onChangeSelect(filled, value);
+    if (onChangeSelect) {
+      onChangeSelect(filled, value);
+    }
     if (setValue) {
       const mValue = value.length > 0 ? value : "";
       setValue(filled.name, mValue);
