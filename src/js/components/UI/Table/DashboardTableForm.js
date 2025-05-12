@@ -1,4 +1,5 @@
 const DashboardTableForm = ({
+  type="create",
   openModal,
   setOpenModal,
   title,
@@ -9,11 +10,14 @@ const DashboardTableForm = ({
   refetch,
   companyAsMediator,
   urlParam,
+  info
 }) => {
   // const [data, setData] = useState([]);
+  const [activeTab, setActiveTab] = useState("addNew");
   const [validationSchema, setValidationSchema] = useState([]);
   const [properties, setProperties] = useState([]);
   const [objects, setObjects] = useState([]);
+  const [existingData, setExistingData] = useState(null);
   const [data, setData] = useState(null);
   const [addAnother, setAddAnother] = useState(false);
 
@@ -292,6 +296,24 @@ const DashboardTableForm = ({
     }
   };
 
+  const onChangeActiveTab = (active) => {
+    setActiveTab(active);
+    if(active === "addExisting") {
+      setExistingData(
+        {
+          "name": title,
+          "labels": {
+              "singular": title,
+              "plural": title
+          },
+          "objectTypeId": hubspotObjectTypeId,
+          "requiredField": true,
+          "formId": info?.defaultForm
+        }
+      )
+    }
+  }
+
   return (
     <div>
       {alert && (
@@ -307,196 +329,232 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
       >
         <div>
+          {type === 'association'?
+            <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
+              <Tabs
+                activeTab={activeTab}
+                setActiveTab={onChangeActiveTab}
+                onValueChange={onChangeActiveTab}
+                className="rounded-md "
+              >
+                <TabsList>
+                  <TabsTrigger className="rounded-md" value="addNew">
+                    <p className="text-black dark:text-white">Add New {title}</p>
+                  </TabsTrigger>
+                  <TabsTrigger className="rounded-md" value="addExisting">
+                    <p className="text-black dark:text-white">Add Existing {title}</p>
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="addNew"></TabsContent>
+                <TabsContent value="addExisting"></TabsContent>
+              </Tabs>
+           </div>
+          :
           <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
             Add {title}
           </h3>
+          }
           {isLoading ? (
             <div className="loader-line"></div>
           ) : (
             <div className="w-full text-left">
-              <Form
-                onSubmit={onSubmit}
-                validationSchema={validationSchema}
-                serverError={serverError}
-                className="dark:bg-dark-200 !m-0"
-              >
-                {({
-                  register,
-                  control,
-                  setValue,
-                  formState: { errors },
-                  reset,
-                }) => {
-                  resetRef.current = reset;
-                  return (
-                    <div>
-                      <div className="text-gray-800 dark:text-gray-200">
-                        {properties.map((group) => (
-                          <div key={group.groupName} className="mb-4">
-                            <h2 className="text-xl font-bold">
-                              {group.groupName}
-                            </h2>
-                            {group.properties.map((filled) => (
-                              <div>
-                                <FormItem className="">
-                                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                                    {filled.customLabel}
-                                  </FormLabel>
-                                  {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
-                              <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
-                              :
-                              <FormControl>
+              { activeTab === "addNew" ?
+                <Form
+                  onSubmit={onSubmit}
+                  validationSchema={validationSchema}
+                  serverError={serverError}
+                  className="dark:bg-dark-200 !m-0"
+                >
+                  {({
+                    register,
+                    control,
+                    setValue,
+                    formState: { errors },
+                    reset,
+                  }) => {
+                    resetRef.current = reset;
+                    return (
+                      <div>
+                        <div className="text-gray-800 dark:text-gray-200">
+                          {properties.map((group) => (
+                            <div key={group.groupName} className="mb-4">
+                              <h2 className="text-xl font-bold">
+                                {group.groupName}
+                              </h2>
+                              {group.properties.map((filled) => (
                                 <div>
-                                  {filled.fieldType == 'textarea' ?
-                                    <Textarea
-                                      height="medium"
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
-                                    :
-                                    <Input
-                                      height="medium"
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
-                                  }
-                                </div>
-                              </FormControl>
-                            } */}
+                                  <FormItem className="">
+                                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                      {filled.customLabel}
+                                    </FormLabel>
+                                    {/* {filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ?
+                                <Select label={`Select ${filled.customLabel}`} name={filled.name} options={filled.options} control={control} filled={filled} onChangeSelect={onChangeSelect} />
+                                :
+                                <FormControl>
+                                  <div>
+                                    {filled.fieldType == 'textarea' ?
+                                      <Textarea
+                                        height="medium"
+                                        placeholder={filled.customLabel}
+                                        className=""
+                                        {...register(filled.name)}
+                                      />
+                                      :
+                                      <Input
+                                        height="medium"
+                                        placeholder={filled.customLabel}
+                                        className=""
+                                        {...register(filled.name)}
+                                      />
+                                    }
+                                  </div>
+                                </FormControl>
+                              } */}
 
-                                  <FormControl>
-                                    <div>
-                                      {filled.fieldType == "select" ||filled.fieldType == "checkbox" || filled.fieldType == "radio" || (filled.name == "dealstage" && filled.fieldType == "radio" && hubspotObjectTypeId ===env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
-                                        <Select
-                                          label={`Select ${filled.customLabel}`}
-                                          name={filled.name}
-                                          options={filled.options}
-                                          control={control}
-                                          filled={filled}
-                                          onChangeSelect={onChangeSelect}
-                                        />
-                                      ) : filled.fieldType === "textarea" ? (
-                                        <Textarea
-                                          height="medium"
-                                          placeholder={filled.customLabel}
-                                          className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                                          {...register(filled.name)}
-                                        />
-                                      ) : filled.fieldType === "html" ? (
-                                        <div className="create-object-editor">
-                                          <DashboardTableEditor
-                                            title={filled.label}
-                                            value={filled.value}
-                                            setValue={setValue}
+                                    <FormControl>
+                                      <div>
+                                        {filled.fieldType == "select" || filled.fieldType == "checkbox" || filled.fieldType == "radio" || (filled.name == "dealstage" && filled.fieldType == "radio" && hubspotObjectTypeId ===env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                          <Select
+                                            label={`Select ${filled.customLabel}`}
+                                            name={filled.name}
+                                            options={filled.options}
+                                            control={control}
+                                            filled={filled}
+                                            onChangeSelect={onChangeSelect}
+                                          />
+                                        ) : filled.fieldType === "textarea" ? (
+                                          <Textarea
+                                            height="medium"
+                                            placeholder={filled.customLabel}
+                                            className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
                                             {...register(filled.name)}
                                           />
-                                        </div>
-                                      ) : filled.fieldType === "date" ? (
-                                        <DateTimeInput
-                                          type={filled.type}
-                                          dateFormat="dd-mm-yyyy"
-                                          height="small"
-                                          className=""
-                                          setValue={setValue}
-                                          defaultValue={""}
-                                          {...register(filled.name)}
-                                        />
-                                      ) : filled.fieldType === "number" ? (
-                                        <Input
-                                          type="number"
-                                          placeholder={filled.customLabel}
-                                          className=""
-                                          {...register(filled.name)}
-                                        />
-                                      ) : (
-                                        <Input
-                                          // type={filled.fieldType}
-                                          placeholder={filled.customLabel}
-                                          className=""
-                                          {...register(filled.name)}
-                                        />
-                                      )}
-                                    </div>
-                                  </FormControl>
+                                        ) : filled.fieldType === "html" ? (
+                                          <div className="create-object-editor">
+                                            <DashboardTableEditor
+                                              title={filled.label}
+                                              value={filled.value}
+                                              setValue={setValue}
+                                              {...register(filled.name)}
+                                            />
+                                          </div>
+                                        ) : filled.fieldType === "date" ? (
+                                          <DateTimeInput
+                                            type={filled.type}
+                                            dateFormat="dd-mm-yyyy"
+                                            height="small"
+                                            className=""
+                                            setValue={setValue}
+                                            defaultValue={""}
+                                            {...register(filled.name)}
+                                          />
+                                        ) : filled.fieldType === "number" ? (
+                                          <Input
+                                            type="number"
+                                            placeholder={filled.customLabel}
+                                            className=""
+                                            {...register(filled.name)}
+                                          />
+                                        ) : (
+                                          <Input
+                                            // type={filled.fieldType}
+                                            placeholder={filled.customLabel}
+                                            className=""
+                                            {...register(filled.name)}
+                                          />
+                                        )}
+                                      </div>
+                                    </FormControl>
 
-                                  {errors[filled.name] && (
-                                    <FormMessage className="text-red-600 dark:text-red-400">
-                                      {errors[filled.name].message}
-                                    </FormMessage>
-                                  )}
-                                </FormItem>
-                              </div>
-                            ))}
-                          </div>
-                        ))}
+                                    {errors[filled.name] && (
+                                      <FormMessage className="text-red-600 dark:text-red-400">
+                                        {errors[filled.name].message}
+                                      </FormMessage>
+                                    )}
+                                  </FormItem>
+                                </div>
+                              ))}
+                            </div>
+                          ))}
 
-                        {objects.length > 0 && (
-                          <div>
-                            <h2 className="text-xl font-bold">Objects</h2>
-                            {objects.map((association) => (
-                              <div key={association.name}>
-                                <FormItem className="">
-                                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                                    {association?.labels?.plural}
-                                  </FormLabel>
-                                  <FormControl>
-                                    <Select
-                                      label={`Select ${association?.labels?.plural}`}
-                                      name={association.name}
-                                      options={[]}
-                                      control={control}
-                                      filled={association}
-                                      onChangeSelect={onChangeSelect}
-                                      apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${association.formId}/${association.objectTypeId}`}
-                                      optionlabel="label"
-                                      optionValue="ID"
-                                      setValue={setValue}
-                                    />
-                                  </FormControl>
-                                  {errors[association.name] && (
-                                    <FormMessage className="text-red-600 dark:text-red-400">
-                                      {errors[association.name].message}
-                                    </FormMessage>
-                                  )}
-                                </FormItem>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                          {objects.length > 0 && (
+                            <div>
+                              <h2 className="text-xl font-bold">Objects</h2>
+                              {objects.map((association) => (
+                                <div key={association.name}>
+                                  <FormItem className="">
+                                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                      {association?.labels?.plural}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Select
+                                        label={`Select ${association?.labels?.plural}`}
+                                        name={association.name}
+                                        options={[]}
+                                        control={control}
+                                        filled={association}
+                                        onChangeSelect={onChangeSelect}
+                                        apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${association.formId}/${association.objectTypeId}`}
+                                        optionlabel="label"
+                                        optionValue="ID"
+                                        setValue={setValue}
+                                      />
+                                    </FormControl>
+                                    {errors[association.name] && (
+                                      <FormMessage className="text-red-600 dark:text-red-400">
+                                        {errors[association.name].message}
+                                      </FormMessage>
+                                    )}
+                                  </FormItem>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
+                          <Button
+                            variant="outline"
+                            onClick={() => setOpenModal(false)}
+                            disabled={submitLoading}
+                          >
+                            Cancel
+                          </Button>
+
+                          <Button
+                            className=" "
+                            isLoading={submitLoading && !addAnother}
+                            onClick={() => setAddAnother(false)}
+                            disabled={submitLoading}
+                          >
+                            Create
+                          </Button>
+
+                          <Button
+                            className=" "
+                            isLoading={submitLoading && addAnother}
+                            onClick={() => setAddAnother(true)}
+                            disabled={submitLoading}
+                          >
+                            Create and add another
+                          </Button>
+                        </div>
                       </div>
-                      <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
-                        <Button
-                          variant="outline"
-                          onClick={() => setOpenModal(false)}
-                          disabled={submitLoading}
-                        >
-                          Cancel
-                        </Button>
-
-                        <Button
-                          className=" "
-                          isLoading={submitLoading && !addAnother}
-                          onClick={() => setAddAnother(false)}
-                          disabled={submitLoading}
-                        >
-                          Create
-                        </Button>
-
-                        <Button
-                          className=" "
-                          isLoading={submitLoading && addAnother}
-                          onClick={() => setAddAnother(true)}
-                          disabled={submitLoading}
-                        >
-                          Create and add another
-                        </Button>
-                      </div>
-                    </div>
-                  );
-                }}
-              </Form>
+                    );
+                  }}
+                </Form>
+                :
+                <DashboardTableExistingForm
+                  resetRef={resetRef}
+                  setOpenModal={setOpenModal}
+                  portalId={portalId}
+                  onSubmit={onSubmit}
+                  validationSchema={validationSchema}
+                  serverError={serverError}
+                  existingData={existingData}
+                  submitLoading={submitLoading}
+                  onChangeSelect={onChangeSelect}
+                />
+              }
             </div>
           )}
         </div>

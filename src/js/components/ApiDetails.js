@@ -1,7 +1,7 @@
 const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
-  const [sortItems, setSortItems] = useState([]);
+  const [info, setInfo] = useState([]);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
   const [configurations, setConfigurations] = useState({
@@ -120,6 +120,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
 
       const mConfigurations = data?.configurations;
       setConfigurations(mConfigurations);
+
+      const mInfo = data?.info;
+      setInfo(mInfo);
 
       const details = data?.data;
       const sortedItems = sortData(details, "details");
@@ -366,6 +369,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                       companyAsMediator={companyAsMediator}
                       urlParam={urlParam}
                       parentPermissions={permissions}
+                      info={info}
                     />
                   ))}
             </div>

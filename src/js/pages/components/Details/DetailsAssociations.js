@@ -11,6 +11,7 @@ const DetailsAssociations = ({
   companyAsMediator = false,
   urlParam,
   parentPermissions,
+  info
 }) => {
   const [associationData, setAssociationData] = useState(association);
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
@@ -300,6 +301,7 @@ const DetailsAssociations = ({
       </div>
       {showAddDialog && (
         <DashboardTableForm
+          type="association"
           openModal={showAddDialog}
           setOpenModal={setShowAddDialog}
           title={associationData.labels.singular}
@@ -309,6 +311,7 @@ const DetailsAssociations = ({
           apis={associationApis}
           urlParam={param}
           refetch={refetchSetData}
+          info={info}
         />
       )}
     </React.Fragment>

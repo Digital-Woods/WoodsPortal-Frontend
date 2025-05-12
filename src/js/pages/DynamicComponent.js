@@ -29,6 +29,9 @@ const DynamicComponent = ({
   const [userToggled, setUserToggled] = useState(false);
   const [totalRecord, setTotalRecord] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
+  const [tableTitle, setTableTitle] = useState("");
+  const [singularTableTitle, setSingularTableTitle] = useState("");
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -63,8 +66,14 @@ const DynamicComponent = ({
   }, []);
 
   useEffect(() => {
-
-  }, [totalRecord]);
+    if(breadcrumbs && breadcrumbs.length > 0) {
+      const last = breadcrumbs[breadcrumbs.length - 1];
+      const previous = breadcrumbs[breadcrumbs.length - 2];
+      const singularLastName = last.name.endsWith('s') ? last.name.slice(0, -1) : last.name;
+      setTableTitle(`${last?.name} of ${previous?.name}`);
+      setSingularTableTitle(`${singularLastName} of ${previous?.name}`);
+    }
+  }, [breadcrumbs]);
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -76,9 +85,9 @@ const DynamicComponent = ({
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   };
 
-  const tableTitle = () => {
-    return objectTypeName ? objectTypeName : title;
-  };
+  // const tableTitle = () => {
+  //   return objectTypeName ? objectTypeName : title;
+  // };
 
   const back = () => {
     window.location.hash = `${getParam("parentObjectTypeName")}/${getParam(
@@ -99,7 +108,7 @@ const DynamicComponent = ({
             {hubSpotUserDetails.sideMenu[0].tabName != title ? (
               <span className="flex-1">
                 <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
-                  {tableTitle()}
+                  {tableTitle}
                 </span>
                 <p className="dark:text-white leading-5 text-sm flex items-center">
                   {!isLoading ? `${totalRecord} records` : <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>}
@@ -138,7 +147,7 @@ const DynamicComponent = ({
               key={hubspotObjectTypeId}
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
-              title={tableTitle() || hubSpotUserDetails.sideMenu[0].label}
+              title={singularTableTitle || hubSpotUserDetails.sideMenu[0].label}
               propertyName={propertyName}
               showIframe={showIframe}
               apis={apis}
