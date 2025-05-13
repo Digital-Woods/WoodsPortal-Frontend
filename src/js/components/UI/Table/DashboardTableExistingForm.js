@@ -46,7 +46,18 @@ const DashboardTableExistingForm = ({
       {isLoading ? (
         <div className="text-center pb-4">Loading...</div>
       ) : errorMessage ? (
-        <div className="text-center text-warning pb-4">{errorMessage}</div>
+        <div className="text-center text-warning pb-4">
+          <span>{errorMessage}</span>
+          <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
+            <Button
+              variant="outline"
+              onClick={() => setOpenModal(false)}
+              disabled={submitLoading}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
       ) : (
         <Form
           onSubmit={onSubmit}

@@ -21,8 +21,10 @@ const DashboardTableForm = ({
   const [data, setData] = useState(null);
   const [addAnother, setAddAnother] = useState(false);
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
-  const [addNewTitle, setAddNewTitle] = useState(false);
-  const [addExistingTitle, setAddExistingTitle] = useState(false);
+  // const [addNewTitle, setAddNewTitle] = useState(false);
+  // const [addExistingTitle, setAddExistingTitle] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [objectName, setObjectName] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -289,7 +291,6 @@ const DashboardTableForm = ({
     //   objectPayload,
     // };
 
-    // console.log("result", result);
     addData({ formData: payload, addAnother });
   };
 
@@ -301,6 +302,7 @@ const DashboardTableForm = ({
 
   const onChangeActiveTab = (active) => {
     setActiveTab(active);
+    console.log('info', info)
     if (active === "addExisting") {
       const data = {
         name: title,
@@ -319,13 +321,17 @@ const DashboardTableForm = ({
   };
 
   useEffect(() => {
-    if (breadcrumbs && breadcrumbs.length > 0) {
+    if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
+      const last = breadcrumbs[breadcrumbs.length - 2];
+      setObjectName(title);
+      setDialogTitle(`Create New ${title} of ${last.name}`);
+    } else {
       const last = breadcrumbs[breadcrumbs.length - 1];
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
-      setAddNewTitle(`Create New ${title} of ${singularLastName}`);
-      setAddExistingTitle(`Add Existing ${title} of ${singularLastName}`);
+      setObjectName(singularLastName);
+      setDialogTitle(`Create New ${title}`);
     }
   }, [breadcrumbs]);
 
@@ -344,7 +350,10 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
       >
         <div>
-          {type === "association" ? (
+          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
+            {dialogTitle}
+          </h3>
+          {(type === "association" || type === "association_new") && (
             <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               <Tabs
                 activeTab={activeTab}
@@ -354,11 +363,13 @@ const DashboardTableForm = ({
               >
                 <TabsList>
                   <TabsTrigger className="rounded-md" value="addNew">
-                    <p className="text-black dark:text-white">{addNewTitle}</p>
+                    <p className="text-black dark:text-white">
+                      Create New {objectName}
+                    </p>
                   </TabsTrigger>
                   <TabsTrigger className="rounded-md" value="addExisting">
                     <p className="text-black dark:text-white">
-                      {addExistingTitle}
+                      Add Existing {objectName}
                     </p>
                   </TabsTrigger>
                 </TabsList>
@@ -366,11 +377,8 @@ const DashboardTableForm = ({
                 <TabsContent value="addExisting"></TabsContent>
               </Tabs>
             </div>
-          ) : (
-            <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
-              Add {title}
-            </h3>
           )}
+
           {isLoading ? (
             <div className="loader-line"></div>
           ) : (
