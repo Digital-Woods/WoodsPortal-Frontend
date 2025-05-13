@@ -1,5 +1,5 @@
 const DashboardTableForm = ({
-  type="create",
+  type = "create",
   openModal,
   setOpenModal,
   title,
@@ -10,7 +10,7 @@ const DashboardTableForm = ({
   refetch,
   companyAsMediator,
   urlParam,
-  info
+  info,
 }) => {
   // const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState("addNew");
@@ -20,6 +20,11 @@ const DashboardTableForm = ({
   const [existingData, setExistingData] = useState(null);
   const [data, setData] = useState(null);
   const [addAnother, setAddAnother] = useState(false);
+  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
+  // const [addNewTitle, setAddNewTitle] = useState(false);
+  // const [addExistingTitle, setAddExistingTitle] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [objectName, setObjectName] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -286,7 +291,6 @@ const DashboardTableForm = ({
     //   objectPayload,
     // };
 
-    // console.log("result", result);
     addData({ formData: payload, addAnother });
   };
 
@@ -298,21 +302,38 @@ const DashboardTableForm = ({
 
   const onChangeActiveTab = (active) => {
     setActiveTab(active);
-    if(active === "addExisting") {
-      setExistingData(
-        {
-          "name": title,
-          "labels": {
-              "singular": title,
-              "plural": title
-          },
-          "objectTypeId": hubspotObjectTypeId,
-          "requiredField": true,
-          "formId": info?.defaultForm
-        }
-      )
+    console.log('info', info)
+    if (active === "addExisting") {
+      const data = {
+        name: title,
+        labels: {
+          singular: title,
+          plural: title,
+        },
+        objectTypeId: hubspotObjectTypeId,
+        requiredField: true,
+        formId: info?.defaultForm,
+        type: "objects",
+      };
+      setExistingData(data);
+      setValidationSchema(createValidationSchema([{ ...data }]));
     }
-  }
+  };
+
+  useEffect(() => {
+    if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
+      const last = breadcrumbs[breadcrumbs.length - 2];
+      setObjectName(title);
+      setDialogTitle(`Create New ${title} of ${last.name}`);
+    } else {
+      const last = breadcrumbs[breadcrumbs.length - 1];
+      const singularLastName = last.name.endsWith("s")
+        ? last.name.slice(0, -1)
+        : last.name;
+      setObjectName(singularLastName);
+      setDialogTitle(`Create New ${title}`);
+    }
+  }, [breadcrumbs]);
 
   return (
     <div>
@@ -329,7 +350,10 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
       >
         <div>
-          {type === 'association'?
+          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
+            {dialogTitle}
+          </h3>
+          {(type === "association" || type === "association_new") && (
             <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               <Tabs
                 activeTab={activeTab}
@@ -339,26 +363,27 @@ const DashboardTableForm = ({
               >
                 <TabsList>
                   <TabsTrigger className="rounded-md" value="addNew">
-                    <p className="text-black dark:text-white">Add New {title}</p>
+                    <p className="text-black dark:text-white">
+                      Create New {objectName}
+                    </p>
                   </TabsTrigger>
                   <TabsTrigger className="rounded-md" value="addExisting">
-                    <p className="text-black dark:text-white">Add Existing {title}</p>
+                    <p className="text-black dark:text-white">
+                      Add Existing {objectName}
+                    </p>
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="addNew"></TabsContent>
                 <TabsContent value="addExisting"></TabsContent>
               </Tabs>
-           </div>
-          :
-          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
-            Add {title}
-          </h3>
-          }
+            </div>
+          )}
+
           {isLoading ? (
             <div className="loader-line"></div>
           ) : (
             <div className="w-full text-left">
-              { activeTab === "addNew" ?
+              {activeTab === "addNew" ? (
                 <Form
                   onSubmit={onSubmit}
                   validationSchema={validationSchema}
@@ -378,7 +403,7 @@ const DashboardTableForm = ({
                         <div className="text-gray-800 dark:text-gray-200">
                           {properties.map((group) => (
                             <div key={group.groupName} className="mb-4">
-                              <h2 className="text-xl font-bold">
+                              <h2 className="text-[15px] font-bold">
                                 {group.groupName}
                               </h2>
                               {group.properties.map((filled) => (
@@ -413,7 +438,14 @@ const DashboardTableForm = ({
 
                                     <FormControl>
                                       <div>
-                                        {filled.fieldType == "select" || filled.fieldType == "checkbox" || filled.fieldType == "radio" || (filled.name == "dealstage" && filled.fieldType == "radio" && hubspotObjectTypeId ===env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                        {filled.fieldType == "select" ||
+                                        filled.fieldType == "checkbox" ||
+                                        filled.fieldType == "radio" ||
+                                        (filled.name == "dealstage" &&
+                                          filled.fieldType == "radio" &&
+                                          hubspotObjectTypeId ===
+                                            env.HUBSPOT_DEFAULT_OBJECT_IDS
+                                              .deals) ? (
                                           <Select
                                             label={`Select ${filled.customLabel}`}
                                             name={filled.name}
@@ -479,7 +511,7 @@ const DashboardTableForm = ({
 
                           {objects.length > 0 && (
                             <div>
-                              <h2 className="text-xl font-bold">Objects</h2>
+                              <h2 className="text-[15px] font-bold">Objects</h2>
                               {objects.map((association) => (
                                 <div key={association.name}>
                                   <FormItem className="">
@@ -542,7 +574,7 @@ const DashboardTableForm = ({
                     );
                   }}
                 </Form>
-                :
+              ) : (
                 <DashboardTableExistingForm
                   resetRef={resetRef}
                   setOpenModal={setOpenModal}
@@ -551,10 +583,11 @@ const DashboardTableForm = ({
                   validationSchema={validationSchema}
                   serverError={serverError}
                   existingData={existingData}
+                  setAddAnother={setAddAnother}
                   submitLoading={submitLoading}
                   onChangeSelect={onChangeSelect}
                 />
-              }
+              )}
             </div>
           )}
         </div>

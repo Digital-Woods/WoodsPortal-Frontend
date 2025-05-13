@@ -62,8 +62,6 @@ const DashboardTable = ({
     changePipeline,
   } = useTable();
 
-
-
   const [apiResponse, setApiResponse] = useState(null);
   // const [tableData, setTableData] = useState([]);
 
@@ -87,6 +85,7 @@ const DashboardTable = ({
   const [modalData, setModalData] = useState(null);
   const [permissions, setPermissions] = useState(null);
   const [hoverRow, setHoverRow] = useState(null);
+  const [info, setInfo] = useState(null);
   // const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   // Pipelines
@@ -149,7 +148,7 @@ const DashboardTable = ({
   // const objectTypeId = getParam("objectTypeId");
   // const objectTypeName = getParam("objectTypeName");
   const isPrimaryCompany = getParam("isPrimaryCompany");
-  // const parentObjectTypeId = getParam("parentObjectTypeId");
+  const parentObjectTypeId = getParam("parentObjectTypeId");
   // const parentObjectRecordId = getParam("parentObjectRecordId");
 
   let portalId;
@@ -201,7 +200,7 @@ const DashboardTable = ({
       //   }
       // }
 
-      setDefaultPipeline(data, hubspotObjectTypeId)
+      setDefaultPipeline(data, hubspotObjectTypeId);
 
       // if (activeCard || activePipeline) {
       //   // mFilterValue = filterValue || pipelineSingle.pipelineId
@@ -241,11 +240,12 @@ const DashboardTable = ({
       // };
       const param = getTableParam(companyAsMediator);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
-      if (defPermissions?.pipeline_id && componentName === 'ticket') param.filterValue = defPermissions?.pipeline_id;
+      if (defPermissions?.pipeline_id && componentName === "ticket")
+        param.filterValue = defPermissions?.pipeline_id;
 
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
-      if (componentName != 'ticket'){
-      setIsLoading(true);
+      if (componentName != "ticket") {
+        setIsLoading(true);
       }
       setUrlParam(param);
       return await Client.objects.all({
@@ -260,9 +260,11 @@ const DashboardTable = ({
       setSync(false);
       if (data.statusCode === "200") {
         // if (currentPage === 1) setGridData('reset', [])
+        setInfo(data.info)
+
         const totalData = data?.data?.total;
         setTotalItems(totalData || 0);
-        if (componentName != 'ticket') {
+        if (componentName != "ticket") {
           setIsLoading(false);
         }
         setTotalRecord(data?.data?.total || totalData || 0);
@@ -274,7 +276,7 @@ const DashboardTable = ({
           // setItemsPerPage(data?.data?.total > 0 ? itemsPerPage : 0);
           // const ItemsPerPage = totalData > 0 ? limit : 0
           const ItemsPerPage = limit;
-          setLimit(ItemsPerPage)
+          setLimit(ItemsPerPage);
           setNumOfPages(Math.ceil(totalData / ItemsPerPage));
         }
         // setTotalRecord(data?.data?.total || 0);
@@ -292,7 +294,7 @@ const DashboardTable = ({
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
-      if (componentName != 'ticket') {
+      if (componentName != "ticket") {
         setIsLoading(false);
       }
     },
@@ -365,8 +367,7 @@ const DashboardTable = ({
     //   filterOperator: "eq",
     //   filterValue: activePipeline || filterValue,
     // });
-    getData()
-    // console.log("call get data", search)
+    getData();
   };
   // Handle Filter End
 
@@ -401,7 +402,7 @@ const DashboardTable = ({
       },
     };
     setSelectRouteMenuConfig(routeMenuConfig);
-    setView(selectView)
+    setView(selectView);
   };
 
   useEffect(() => {
@@ -444,14 +445,12 @@ const DashboardTable = ({
     //   setFilterValue(null);
     //   setActivePipeline(null);
     // }
-
     // const routeMenuConfig = {
     //   [hubspotObjectTypeId]: {
     //     activePipeline: pipeLineId,
     //   },
     // };
     // setSelectRouteMenuConfig(routeMenuConfig);
-
     // getData({
     //   filterPropertyName: "hs_pipeline",
     //   filterOperator: "eq",
@@ -491,9 +490,8 @@ const DashboardTable = ({
     resetTableParam();
   }, []);
 
-
   useEffect(() => {
-    if(!defPermissions?.pipeline_id){
+    if (!defPermissions?.pipeline_id) {
       getPipelines();
     }
   }, [selectedPipeline]);
@@ -501,24 +499,34 @@ const DashboardTable = ({
   if (isLoadingHoldData === true) {
     return (
       <div
-        className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
+        className={` ${
+          hubSpotUserDetails.sideMenu[0].tabName === title ||
           componentName === "ticket"
-          ? "mt-0"
-          : "md:mt-4 mt-3"
-          } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+            ? "mt-0"
+            : "md:mt-4 mt-3"
+        } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
-        <DashboardTableHeaderSkeleton hubspotObjectTypeId={hubspotObjectTypeId} title={title} />
-        {view === "BOARD" && activeCardData ? <BoardViewSkeleton /> : <TableSkeleton />}
-      </div>);
+        <DashboardTableHeaderSkeleton
+          hubspotObjectTypeId={hubspotObjectTypeId}
+          title={title}
+        />
+        {view === "BOARD" && activeCardData ? (
+          <BoardViewSkeleton />
+        ) : (
+          <TableSkeleton />
+        )}
+      </div>
+    );
   }
 
   return (
     <div
-      className={` ${hubSpotUserDetails.sideMenu[0].tabName === title ||
+      className={` ${
+        hubSpotUserDetails.sideMenu[0].tabName === title ||
         componentName === "ticket"
-        ? "mt-0"
-        : "md:mt-4 mt-3"
-        } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+          ? "mt-0"
+          : "md:mt-4 mt-3"
+      } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
@@ -659,6 +667,7 @@ const DashboardTable = ({
       )}
       {showAddDialog && (
         <DashboardTableForm
+          type={parentObjectTypeId ? "association_new" : ""}
           openModal={showAddDialog}
           setOpenModal={setShowAddDialog}
           title={title}
@@ -669,6 +678,7 @@ const DashboardTable = ({
           refetch={getData}
           companyAsMediator={companyAsMediator || isPrimaryCompany}
           urlParam={urlParam}
+          info={info}
         />
       )}
       {showEditDialog && (

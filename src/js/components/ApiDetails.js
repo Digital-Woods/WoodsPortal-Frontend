@@ -1,7 +1,7 @@
 const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
-  const [info, setInfo] = useState([]);
+  const [info, setInfo] = useState(null);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
   const [configurations, setConfigurations] = useState({
@@ -74,8 +74,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     if (routeMenuConfigs[key]) {
         routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
     }
-
-    // console.log('routeMenuConfigs', routeMenuConfigs)
     setRouteMenuConfig(routeMenuConfigs);
   };
 
