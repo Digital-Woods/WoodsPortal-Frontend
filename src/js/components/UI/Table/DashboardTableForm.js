@@ -10,6 +10,8 @@ const DashboardTableForm = ({
   refetch,
   companyAsMediator,
   urlParam,
+  parentObjectTypeId,
+  parentObjectRowId,
   info,
 }) => {
   // const [data, setData] = useState([]);
@@ -25,6 +27,7 @@ const DashboardTableForm = ({
   // const [addExistingTitle, setAddExistingTitle] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [objectName, setObjectName] = useState("");
+  const { sync, setSync } = useSync();
 
   useEffect(() => {
     if (data) {
@@ -188,6 +191,50 @@ const DashboardTableForm = ({
     },
   });
 
+  const { mutate: addExistingData, isLoading: submitExistingDataLoading } =
+    useMutation({
+      mutationKey: ["addExistingData"],
+      mutationFn: async ({ formData }) => {
+        try {
+          const response = await Client.form.createExisting({
+            API: apis.createExistingAPI,
+            params: {
+              fromObjectTypeId: parentObjectTypeId,
+              fromRecordId: parentObjectRowId,
+              toObjectTypeId: hubspotObjectTypeId,
+            },
+            data: formData,
+          });
+          return response;
+        } catch (error) {
+          throw error;
+        }
+      },
+      onSuccess: async (response) => {
+        await setAlert({ message: response?.statusMsg, type: "success" });
+        setSync(true)
+        setOpenModal(false);
+        resetRef.current?.(); // Reset form after successful submission
+      },
+
+      onError: (error) => {
+        let errorMessage = "An unexpected error occurred.";
+
+        if (error.response && error.response.data) {
+          const errorData = error.response.data.detailedMessage;
+          const errors = error.response.data.validationErrors;
+          setServerError(errors);
+
+          errorMessage =
+            typeof errorData === "object"
+              ? JSON.stringify(errorData)
+              : errorData;
+        }
+
+        setAlert({ message: errorMessage, type: "error" });
+      },
+    });
+
   const { mutate: getStags, isLoading: stageLoading } = useMutation({
     mutationKey: ["getStageData"],
     mutationFn: async (pipelineId) => {
@@ -259,39 +306,15 @@ const DashboardTableForm = ({
   }
 
   const onSubmit = (formData) => {
-    const payload = formPaylod(data, formData);
-    // console.log('formData', payload)
-    // const propertyPayload = {};
-    // const objectMap = new Map();
-
-    // for (const [key, value] of Object.entries(formData)) {
-    //   if (Array.isArray(value)) {
-    //     value.forEach((obj) => {
-    //       const typeId = obj.objectTypeId;
-    //       const id = obj.ID;
-    //       if (!objectMap.has(typeId)) {
-    //         objectMap.set(typeId, []);
-    //       }
-    //       objectMap.get(typeId).push(id);
-    //     });
-    //   } else {
-    //     propertyPayload[key] = value;
-    //   }
-    // }
-
-    // const objectPayload = Array.from(objectMap.entries()).map(
-    //   ([objectTypeId, recordId]) => ({
-    //     objectTypeId,
-    //     recordId,
-    //   })
-    // );
-
-    // const result = {
-    //   propertyPayload,
-    //   objectPayload,
-    // };
-
-    addData({ formData: payload, addAnother });
+    if (activeTab === "addExisting") {
+      const payload = {
+        addIds: formData.Asset.map((item) => Number(item.value)),
+      };
+      addExistingData({ formData: payload });
+    } else {
+      const payload = formPaylod(data, formData);
+      addData({ formData: payload, addAnother });
+    }
   };
 
   const onChangeSelect = (filled, selectedValue) => {
@@ -302,7 +325,6 @@ const DashboardTableForm = ({
 
   const onChangeActiveTab = (active) => {
     setActiveTab(active);
-    console.log('info', info)
     if (active === "addExisting") {
       const data = {
         name: title,
@@ -321,12 +343,11 @@ const DashboardTableForm = ({
   };
 
   useEffect(() => {
+    const last = breadcrumbs[breadcrumbs.length - 1];
     if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
-      const last = breadcrumbs[breadcrumbs.length - 2];
       setObjectName(title);
       setDialogTitle(`Create New ${title} of ${last.name}`);
     } else {
-      const last = breadcrumbs[breadcrumbs.length - 1];
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
@@ -584,7 +605,7 @@ const DashboardTableForm = ({
                   serverError={serverError}
                   existingData={existingData}
                   setAddAnother={setAddAnother}
-                  submitLoading={submitLoading}
+                  submitLoading={submitExistingDataLoading}
                   onChangeSelect={onChangeSelect}
                 />
               )}

@@ -176,6 +176,8 @@ class Client {
     options: ({ API }) =>
       HttpClient.get(API),
     create: ({API, data}) => HttpClient.post(API, data),
+    createExisting: ({API, params, data}) => HttpClient.post(generateApiUrl({route: API, params}), data),
+    removeExisting: ({API, params, data}) => HttpClient.post(generateApiUrl({route: API, params}), data),
     update: ({API, data}) => HttpClient.put(API, data),
   };
 

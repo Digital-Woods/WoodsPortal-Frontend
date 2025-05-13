@@ -38,6 +38,8 @@ const DetailsAssociations = ({
       param + "&isForm=true"
     }`,
     createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+    createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId?${param}`,
+    removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId?${param}`,
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`,
   };
   const toggleContent = () => {
@@ -311,6 +313,8 @@ const DetailsAssociations = ({
           apis={associationApis}
           urlParam={param}
           refetch={refetchSetData}
+          parentObjectTypeId={parentObjectTypeId}
+          parentObjectRowId={parentObjectRowId}
           info={info}
         />
       )}

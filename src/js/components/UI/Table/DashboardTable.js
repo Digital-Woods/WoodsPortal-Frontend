@@ -626,6 +626,7 @@ const DashboardTable = ({
           // itemsPerPage={itemsPerPage}
           // setItemsPerPage={setItemsPerPage}
           detailsUrl={detailsUrl}
+          apis={apis}
         />
       )}
 
