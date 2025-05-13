@@ -1,19 +1,72 @@
-
-const DisassociateButton = ({ onConfirm }) => {
+const DisassociateButton = ({
+  item,
+  apis,
+  parentObjectTypeId,
+  parentObjectRecordId,
+  hubspotObjectTypeId,
+  refetch,
+}) => {
+  const [alert, setAlert] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const { sync, setSync } = useSync();
+
+  const { mutate: removeExistingData, isLoading } = useMutation({
+    mutationKey: ["removeExistingData"],
+    mutationFn: async ({ formData }) => {
+      try {
+        const response = await Client.form.removeExisting({
+          API: apis.removeExistingAPI,
+          params: {
+            fromObjectTypeId: parentObjectTypeId,
+            fromRecordId: parentObjectRecordId,
+            toObjectTypeId: hubspotObjectTypeId,
+          },
+          data: formData,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: async (response) => {
+      await setAlert({ message: response?.statusMsg, type: "success" });
+      setSync(true)
+      setOpenModal(false);
+    },
+
+    onError: (error) => {
+      let errorMessage = "An unexpected error occurred.";
+
+      if (error.response && error.response.data) {
+        const errorData = error.response.data.detailedMessage;
+        const errors = error.response.data.validationErrors;
+        setServerError(errors);
+
+        errorMessage =
+          typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
+      }
+
+      setAlert({ message: errorMessage, type: "error" });
+    },
+  });
 
   const handleConfirm = () => {
-    onConfirm();
-    setOpenModal(false);
+    const payload = {
+      removeIds: [item.hs_object_id],
+    };
+    removeExistingData({ formData: payload });
   };
 
   return (
     <>
-      <Button
-        size="xsm"
-        // className="text-white bg-red-600 hover:bg-red-700"
-        onClick={() => setOpenModal(true)}
-      >
+      {alert && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
+      <Button size="xsm" onClick={() => setOpenModal(true)}>
         Disassociate
       </Button>
 
@@ -28,12 +81,14 @@ const DisassociateButton = ({ onConfirm }) => {
           </h3>
 
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
+            <Button
+              variant="outline"
+              disabled={isLoading}
+              onClick={() => setOpenModal(false)}
+            >
               Cancel
             </Button>
-            <Button onClick={handleConfirm}
-            //  className="bg-red-600 text-white hover:bg-red-700"
-             >
+            <Button onClick={handleConfirm} disabled={isLoading}>
               Confirm
             </Button>
           </div>
@@ -42,4 +97,3 @@ const DisassociateButton = ({ onConfirm }) => {
     </>
   );
 };
-
