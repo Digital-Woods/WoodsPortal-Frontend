@@ -306,10 +306,15 @@ const DashboardTableForm = ({
   }
 
   const onSubmit = (formData) => {
+    console.log('activeTab', activeTab)
     if (activeTab === "addExisting") {
+      console.log('formData', formData)
+
       const payload = {
         addIds: formData.Asset.map((item) => Number(item.value)),
       };
+      console.log('payload', payload)
+
       addExistingData({ formData: payload });
     } else {
       const payload = formPaylod(data, formData);
