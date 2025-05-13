@@ -212,7 +212,7 @@ const DashboardTableForm = ({
       },
       onSuccess: async (response) => {
         await setAlert({ message: response?.statusMsg, type: "success" });
-        setSync(true)
+        setSync(true);
         setOpenModal(false);
         resetRef.current?.(); // Reset form after successful submission
       },
@@ -306,14 +306,11 @@ const DashboardTableForm = ({
   }
 
   const onSubmit = (formData) => {
-    console.log('activeTab', activeTab)
     if (activeTab === "addExisting") {
-      console.log('formData', formData)
-
+      const key = Object.keys(formData)[0];
       const payload = {
-        addIds: formData.Asset.map((item) => Number(item.value)),
+        addIds: formData[key].map((item) => Number(item.value)),
       };
-      console.log('payload', payload)
 
       addExistingData({ formData: payload });
     } else {

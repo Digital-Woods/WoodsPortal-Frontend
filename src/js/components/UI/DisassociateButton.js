@@ -66,7 +66,7 @@ const DisassociateButton = ({
           onClose={() => setAlert(null)}
         />
       )}
-      <Button size="xsm" onClick={() => setOpenModal(true)}>
+      <Button size="xsm" variant="outline" className="hover:bg-gray-200" onClick={() => setOpenModal(true)}>
         Disassociate
       </Button>
 
