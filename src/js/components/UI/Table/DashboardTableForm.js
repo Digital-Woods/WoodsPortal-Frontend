@@ -306,7 +306,6 @@ const DashboardTableForm = ({
   }
 
   const onSubmit = (formData) => {
-    console.log("activeTab", activeTab);
     if (activeTab === "addExisting") {
       const key = Object.keys(formData)[0];
       const payload = {
