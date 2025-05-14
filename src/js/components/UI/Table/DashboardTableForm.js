@@ -336,7 +336,7 @@ const DashboardTableForm = ({
         },
         objectTypeId: hubspotObjectTypeId,
         requiredField: true,
-        formId: info?.defaultForm,
+        formId: info?.parentDefaultForm || info?.defaultForm,
         type: "objects",
       };
       setExistingData(data);
