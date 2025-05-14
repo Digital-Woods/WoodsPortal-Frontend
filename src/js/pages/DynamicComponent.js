@@ -30,7 +30,7 @@ const DynamicComponent = ({
   const [totalRecord, setTotalRecord] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
-  const [tableTitle, setTableTitle] = useState("");
+  const [tableTitle, setTableTitle] = useState(null);
   const [singularTableTitle, setSingularTableTitle] = useState("");
 
   let portalId;
@@ -72,9 +72,7 @@ const DynamicComponent = ({
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
-      setTableTitle(
-        previous?.name ? `${last?.name} of ${previous?.name}` : last?.name
-      );
+      setTableTitle(previous?.name ? {previous: previous, last: last} : {last: last})
       setSingularTableTitle(
         previous?.name
           ? `${singularLastName} of ${previous?.name}`
@@ -111,16 +109,27 @@ const DynamicComponent = ({
       <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
         <div className="flex relative z-[2] gap-6">
           <div className="flex flex-col gap-2 flex-1">
-            {/* {objectTypeName && (
-              <div className="pr-2 cursor-pointer" onClick={() => back()}>
-                <BackIcon />
-              </div>
-            )} */}
             {hubSpotUserDetails.sideMenu[0].tabName != title ? (
               <span className="flex-1">
-                <span className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white">
-                  {tableTitle}
-                </span>
+                <ol className="flex dark:text-white flex-wrap">
+                  {tableTitle && Object.entries(tableTitle).map(([key, value], index, array) => {
+                    return (
+                      <li key={key} className="flex items-center">
+                        <Link
+                          className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
+                          to={value?.path}
+                        >
+                          {getParamHash(formatCustomObjectLabel(value?.name))}
+                        </Link>
+                        {index < array.length - 1 && (
+                          <span className="mx-1 text-xl font-semibold text-[#0091AE]">
+                            of
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ol>
                 <p className="dark:text-white leading-5 text-sm flex items-center">
                   {!isLoading ? (
                     `${totalRecord} records`
