@@ -104,7 +104,8 @@ const SelectApiData = ({
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef(null);
-
+  const { setToaster } = useToaster();
+  
   const { mutate: callAPI, isLoading } = useMutation({
     mutationKey: ["getOptionsData"],
     mutationFn: async () => {
@@ -123,7 +124,7 @@ const SelectApiData = ({
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
