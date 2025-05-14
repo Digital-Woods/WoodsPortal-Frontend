@@ -95,7 +95,7 @@ const SelectApiData = ({
   handleChange,
   optionlabel,
   optionValue,
-  options
+  options,
 }) => {
   const [allOptions, setAllOptions] = useState(options);
   const [filtered, setfiltered] = useState([]);
@@ -168,15 +168,17 @@ const SelectApiData = ({
   };
 
   const handleRemove = (value) => {
-    setSelected(
-      selected.filter((item) => item[optionValue] !== value[optionValue])
+    const filtered = selected.filter(
+      (item) => item[optionValue] !== value[optionValue]
     );
+    setSelected(filtered);
+    handleChange(filtered);
   };
 
-  // const filtered = allOptions.filter(
-  //   (opt) =>
-  //     opt.toLowerCase().includes(input.toLowerCase()) && !selected.includes(opt)
-  // );
+  const handleRemoveAll = () => {
+    setSelected([]);
+    handleChange([]);
+  };
 
   return (
     <div
@@ -198,13 +200,16 @@ const SelectApiData = ({
               className="flex items-center bg-indigo-100 dark:bg-dark-300  border border-gray-300 rounded px-2 py-1 text-sm  dark:text-gray-300"
             >
               {tag[optionlabel]}
-              <button
-                className="ml-1 text-gray-600 hover:text-red-500"
-                onClick={() => handleRemove(tag)}
-                type="button"
+              <span
+                className="ml-1 text-gray-600 hover:text-red-500 cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemove(tag);
+                }}
+                asChild={true}
               >
                 &times;
-              </button>
+              </span>
             </div>
           ))}
           <input
@@ -217,18 +222,22 @@ const SelectApiData = ({
           <div class="w-px h-full bg-gray-300"></div>
           <div className="">
             <div className="ml-auto flex items-center space-x-1">
-              <button
-                className="text-gray-500 hover:text-red-500 text-xl"
-                onClick={() => setSelected([])}
+              <span
+                className="text-gray-500 hover:text-red-500 text-xl cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemoveAll();
+                }}
+                asChild={true}
               >
                 &times;
-              </button>
-              <button
-                className="text-gray-500 hover:text-blue-500 text-xl"
-                onClick={() => setShowDropdown((prev) => !prev)}
+              </span>
+              <span
+                className="text-gray-500 hover:text-blue-500 text-xl cursor-pointer"
+                asChild={true}
               >
                 ▾
-              </button>
+              </span>
             </div>
           </div>
         </div>
@@ -239,7 +248,9 @@ const SelectApiData = ({
         </div>
       )}
       {showDropdown && filtered.length > 0 && !isLoading && (
-        <div className={`absolute bottom-full mb-2 left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}>
+        <div
+          className={`absolute bottom-full mb-2 left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}
+        >
           {filtered.map((opt) => (
             <div
               key={opt[optionValue]}
