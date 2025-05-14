@@ -155,8 +155,8 @@ const DatePicker = ({
         placeholder="Select date"
       /> */}
       {open && (
-        <div className="bg-white text-gray-800 rounded-lg shadow-lg p-4 w-80 h-[400px] transition-all duration-300 overflow-hidden">
-          <div className="flex justify-between items-center mb-4">
+        <div className="bg-white text-gray-800 rounded-lg shadow-lg p-2 w-[260px] transition-all duration-300 overflow-hidden">
+          <div className="flex justify-between items-center mb-2">
             {showYearSelect || showMonthSelect ? (
               <div></div>
             ) : (
@@ -188,7 +188,7 @@ const DatePicker = ({
                       )
                 }
               >
-                <ChevronLeftIcon className="text-gray-500" />
+                <ChevronLeftIcon width = {"18px"} height = {"18px"} className="text-gray-500" />
               </div>
             )}
 
@@ -198,7 +198,7 @@ const DatePicker = ({
                   setShowMonthSelect(!showMonthSelect);
                   setShowYearSelect(false);
                 }}
-                className="hover:text-primary flex items-center justify-center cursor-pointer"
+                className="hover:text-primary flex items-center justify-center cursor-pointer text-sm"
               >
                 {months[viewDate.getMonth()]}{" "}
                 <ArrowDropDownIcon className="text-gray-500" />
@@ -208,7 +208,7 @@ const DatePicker = ({
                   setShowYearSelect(!showYearSelect);
                   setShowMonthSelect(false);
                 }}
-                className="hover:text-primary flex items-center justify-center cursor-pointer"
+                className="hover:text-primary flex items-center justify-center cursor-pointer text-sm"
               >
                 {viewDate.getFullYear()}{" "}
                 <ArrowDropDownIcon className="text-gray-500" />
@@ -246,19 +246,19 @@ const DatePicker = ({
                       )
                 }
               >
-                <ChevronRightIcon className="text-gray-500" />
+                <ChevronRightIcon width = {"18px"} height = {"18px"}  className="text-gray-500" />
               </div>
             )}
           </div>
 
           {showYearSelect ? (
-            <div className="grid grid-cols-4 gap-3 overflow-y-auto h-[88%]">
+            <div className="grid grid-cols-4 gap-2 overflow-y-auto h-[250px]">
               {years.map((year) => (
                 <div
                   ref={(el) => (yearRefs.current[year] = el)}
                   key={year}
                   onClick={() => handleYearClick(year)}
-                  className={`text-center py-2 cursor-pointer rounded-full ${
+                  className={`text-center py-2 cursor-pointer rounded-full text-sm ${
                     year === viewDate.getFullYear()
                       ? "bg-primary text-white"
                       : "hover:bg-gray-100"
@@ -269,12 +269,13 @@ const DatePicker = ({
               ))}
             </div>
           ) : showMonthSelect ? (
-            <div className="grid grid-cols-3 gap-3">
+            <div className="h-[250px]">
+            <div className="grid grid-cols-3 gap-1 overflow-y-auto ">
               {months.map((month, index) => (
                 <div
                   key={index}
                   onClick={() => handleMonthClick(index)}
-                  className={`text-center py-2 cursor-pointer rounded-full ${
+                  className={`text-center py-1 cursor-pointer rounded-full text-sm ${
                     index === viewDate.getMonth()
                       ? "bg-primary text-white"
                       : "hover:bg-gray-100"
@@ -284,6 +285,7 @@ const DatePicker = ({
                 </div>
               ))}
             </div>
+            </div>
           ) : (
             <>
               <div className="grid grid-cols-7 text-center text-xs text-gray-500 mb-2 font-medium">
@@ -292,7 +294,7 @@ const DatePicker = ({
                 ))}
               </div>
 
-              <div className="grid grid-cols-7 gap-1 text-center text-sm mb-4">
+              <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2">
                 {calendarDays.map((item, idx) => {
                   const isSelected =
                     selectedDate &&
@@ -316,16 +318,16 @@ const DatePicker = ({
                 })}
               </div>
 
-              <div className="flex justify-between mt-2">
+              <div className="flex justify-between">
                 <div
                   onClick={handleToday}
-                  className="w-full mr-2 py-2 bg-gray-100 hover:bg-gray-200 rounded text-center cursor-pointer"
+                  className="w-full mr-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-center text-sm cursor-pointer"
                 >
                   Today
                 </div>
                 <div
                   onClick={handleClear}
-                  className="w-full ml-2 py-2 bg-gray-100 hover:bg-gray-200 rounded text-center cursor-pointer"
+                  className="w-full ml-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-center text-sm cursor-pointer"
                 >
                   Clear
                 </div>

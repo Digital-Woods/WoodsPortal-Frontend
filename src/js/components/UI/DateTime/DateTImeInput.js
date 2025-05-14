@@ -1,5 +1,5 @@
 const usePosition = (containerSelector = '.object-create-form') => {
-  const [position, setPosition] = useState('top');
+  const [position, setPosition] = useState('bottom');
   const ref = useRef(null);
 
   useEffect(() => {
@@ -15,12 +15,10 @@ const usePosition = (containerSelector = '.object-create-form') => {
 
         const containerRect = container.getBoundingClientRect();
         
-        // Calculate available space above and below within the container
         const spaceAbove = inputRect.top - containerRect.top;
         const spaceBelow = containerRect.bottom - inputRect.bottom;
 
-        // Check if there's enough space (e.g., 300px for the picker height)
-        if (spaceAbove > 380 && spaceAbove > spaceBelow) {
+        if (spaceAbove > 340 && spaceAbove > spaceBelow) {
           setPosition('top');
         } else {
           setPosition('bottom');
@@ -30,11 +28,9 @@ const usePosition = (containerSelector = '.object-create-form') => {
 
     calculatePosition();
     window.addEventListener('resize', calculatePosition);
-    window.addEventListener('scroll', calculatePosition, true); // Capture scroll events
 
     return () => {
       window.removeEventListener('resize', calculatePosition);
-      window.removeEventListener('scroll', calculatePosition, true);
     };
   }, [containerSelector]);
 
