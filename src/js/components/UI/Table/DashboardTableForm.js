@@ -135,8 +135,6 @@ const DashboardTableForm = ({
     return z.object(schemaShape);
   };
 
-  // const validationSchema = createValidationSchema(data);
-
   const { mutate: addData, isLoading: submitLoading } = useMutation({
     mutationKey: ["addData"],
     mutationFn: async ({ formData, addAnother }) => {
@@ -169,7 +167,9 @@ const DashboardTableForm = ({
         refetch(response);
       }
       if (!variables.addAnother) {
-        setOpenModal(false);
+        setTimeout(() => {
+          setOpenModal(false);
+        }, 1000);
       } else {
         resetRef.current?.(); // Reset form after successful submission
       }
@@ -213,7 +213,9 @@ const DashboardTableForm = ({
       onSuccess: async (response) => {
         await setAlert({ message: response?.statusMsg, type: "success" });
         setSync(true);
-        setOpenModal(false);
+        setTimeout(() => {
+          setOpenModal(false);
+        }, 1000);
         resetRef.current?.(); // Reset form after successful submission
       },
 
