@@ -29,6 +29,7 @@ const Tickets = ({ path, objectId, id, parentObjectTypeId, parentObjectRowId, pe
     <DashboardTable
       hubspotObjectTypeId={hubspotObjectTypeId}
       path={path}
+      tableTitle={title}
       title={title}
       apis={apis}
       viewName='ticket'

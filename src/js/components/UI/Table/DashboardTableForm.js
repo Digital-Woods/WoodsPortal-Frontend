@@ -392,11 +392,11 @@ const DashboardTableForm = ({
             //     <TabsContent value="addExisting"></TabsContent>
             //   </Tabs>
             // </div>
-             <div className="border border-primary grid grid-cols-2">
-              <Button onClick={()=>onChangeActiveTab('addNew')} variant={activeTab == 'addNew' ? 'default' : 'outline'} className={`w-full !rounded-none ${activeTab != 'addNew' ? 'dark:hover:!bg-dark-500 dark:!bg-dark-300' : ''}`}>
+             <div className=" grid grid-cols-2">
+              <Button onClick={()=>onChangeActiveTab('addNew')} variant={activeTab == 'addNew' ? 'default' : 'outline'} className={`w-full !rounded-none ${activeTab != 'addNew' ? 'dark:hover:!bg-dark-500 dark:!bg-dark-300 border-primary dark:border-[#e5e7eb]' : ''}`}>
                 Create New {objectName}
               </Button>
-              <Button onClick={()=>onChangeActiveTab('addExisting')} variant={activeTab == 'addExisting' ? 'default' : 'outline'} className={`w-full !rounded-none ${activeTab != 'addExisting' ? 'dark:hover:!bg-dark-500 dark:!bg-dark-300' : ''}`}>
+              <Button onClick={()=>onChangeActiveTab('addExisting')} variant={activeTab == 'addExisting' ? 'default' : 'outline'} className={`w-full !rounded-none ${activeTab != 'addExisting' ? 'dark:hover:!bg-dark-500 dark:!bg-dark-300 border-primary dark:border-[#e5e7eb]' : ''}`}>
                 Add Existing {objectName}
               </Button>
             </div>
