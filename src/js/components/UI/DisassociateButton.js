@@ -9,6 +9,20 @@ const DisassociateButton = ({
   const [alert, setAlert] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { sync, setSync } = useSync();
+  const { breadcrumbs } = useBreadcrumb();
+  const [parentObjectname, setParentObjectname] = useState("");
+  const objectTypeName = getParam("objectTypeName").endsWith('s') ? getParam("objectTypeName").slice(0, -1):'';
+  const parentObjectTypeName = getParam("parentObjectTypeName");
+// const parentObjectTypeName = getParam("parentObjectTypeName");
+
+useEffect(() => {
+  if (!breadcrumbs?.length) return;
+
+  const lastCrumb = breadcrumbs[breadcrumbs.length - 3]?.name;
+  const singularName = lastCrumb?.endsWith('s') ? lastCrumb.slice(0, -1):'';
+  
+  setParentObjectname(singularName);
+}, [breadcrumbs]);
 
   const { mutate: removeExistingData, isLoading } = useMutation({
     mutationKey: ["removeExistingData"],
@@ -81,13 +95,17 @@ const DisassociateButton = ({
       <Dialog
         open={openModal}
         onClose={setOpenModal}
-        className="bg-cleanWhite dark:bg-dark-200 rounded-md sm:min-w-[430px]"
+        className="bg-cleanWhite dark:bg-dark-200 rounded-md sm:max-w-[450px] mx-2"
       >
-        <div className="rounded-md flex-col gap-6 flex">
-          <h3 className="text-start text-xl font-semibold dark:text-white">
-            Are you sure you want to disassociate?
-          </h3>
-
+          <div className="mb-4">
+            <h3 className="text-start text-xl font-semibold dark:text-white mb-2 whitespace-normal break-words break-words">
+             { `Are you sure you want to disassociate this ${objectTypeName}?`}
+            </h3>
+            <p className="whitespace-normal break-words">
+              This will remove the {objectTypeName} from the <span className="font-semibold">{parentObjectTypeName}</span> {parentObjectname}. 
+              The {objectTypeName} will remain available, but it will no longer be linked to this {parentObjectname}.
+            </p>
+          </div>
           <div className="flex justify-end gap-3 pt-2">
             <Button
               variant="outline"
@@ -100,7 +118,6 @@ const DisassociateButton = ({
               Confirm
             </Button>
           </div>
-        </div>
       </Dialog>
     </>
   );
