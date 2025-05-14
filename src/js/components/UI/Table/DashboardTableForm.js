@@ -348,15 +348,15 @@ const DashboardTableForm = ({
     const last = breadcrumbs[breadcrumbs.length - 1];
     if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
       setObjectName(title);
-      setDialogTitle(`Create New ${title} of ${last.name}`);
+      setDialogTitle(`${activeTab == 'addNew' ? 'Create New' : 'Add New'} ${title} of ${last.name}`);
     } else {
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
       setObjectName(singularLastName);
-      setDialogTitle(`Create New ${title}`);
+      setDialogTitle(`${activeTab == 'addNew' ? 'Create New' : 'Add New'} ${title}`);
     }
-  }, [breadcrumbs]);
+  }, [breadcrumbs, activeTab]);
 
   return (
     <div>
@@ -373,34 +373,44 @@ const DashboardTableForm = ({
         className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
       >
         <div>
-          <h3 className="text-start text-xl dark:text-white font-semibold mb-4 py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] ">
+          <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15]">
+          <h3 className="text-start text-xl dark:text-white font-semibold ">
             {dialogTitle}
           </h3>
           {(type === "association" || type === "association_new") && (
-            <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
-              <Tabs
-                activeTab={activeTab}
-                setActiveTab={onChangeActiveTab}
-                onValueChange={onChangeActiveTab}
-                className="rounded-md "
-              >
-                <TabsList>
-                  <TabsTrigger className="rounded-md" value="addNew">
-                    <p className="text-black dark:text-white">
-                      Create New {objectName}
-                    </p>
-                  </TabsTrigger>
-                  <TabsTrigger className="rounded-md" value="addExisting">
-                    <p className="text-black dark:text-white">
-                      Add Existing {objectName}
-                    </p>
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="addNew"></TabsContent>
-                <TabsContent value="addExisting"></TabsContent>
-              </Tabs>
+            // <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
+            //   <Tabs
+            //     activeTab={activeTab}
+            //     setActiveTab={onChangeActiveTab}
+            //     onValueChange={onChangeActiveTab}
+            //     className="rounded-md "
+            //   >
+            //     <TabsList>
+            //       <TabsTrigger className="rounded-md !bg-primary" value="addNew">
+            //         <p className="text-black dark:text-white">
+            //           Create New {objectName}
+            //         </p>
+            //       </TabsTrigger>
+            //       <TabsTrigger className="rounded-md !bg-primary" value="addExisting">
+            //         <p className="text-black dark:text-white">
+            //           Add Existing {objectName}
+            //         </p>
+            //       </TabsTrigger>
+            //     </TabsList>
+            //     <TabsContent value="addNew"></TabsContent>
+            //     <TabsContent value="addExisting"></TabsContent>
+            //   </Tabs>
+            // </div>
+             <div className="border border-primary grid grid-cols-2">
+              <Button onClick={()=>onChangeActiveTab('addNew')} variant={activeTab == 'addNew' ? 'default' : 'outline'} className={`w-full !rounded-none ${activeTab != 'addNew' ? 'dark:hover:!bg-dark-500 dark:!bg-dark-300' : ''}`}>
+                Create New {objectName}
+              </Button>
+              <Button onClick={()=>onChangeActiveTab('addExisting')} variant={activeTab == 'addExisting' ? 'default' : 'outline'} className={`w-full !rounded-none ${activeTab != 'addExisting' ? 'dark:hover:!bg-dark-500 dark:!bg-dark-300' : ''}`}>
+                Add Existing {objectName}
+              </Button>
             </div>
           )}
+          </div>
 
           {isLoading ? (
             <div className="loader-line"></div>

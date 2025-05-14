@@ -243,13 +243,13 @@ const SelectApiData = ({
         </div>
       </div>
       {showDropdown && isLoading && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700">
+        <div className="z-[16] absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700">
           <div className="text-center">Loading...</div>
         </div>
       )}
       {showDropdown && filtered.length > 0 && !isLoading && (
         <div
-          className={`absolute bottom-full mb-2 left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}
+          className={`z-[16] absolute bottom-full mb-2 left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}
         >
           {filtered.map((opt) => (
             <div

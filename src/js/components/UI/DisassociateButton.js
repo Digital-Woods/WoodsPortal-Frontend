@@ -87,7 +87,7 @@ useEffect(() => {
         onClick={() => setOpenModal(true)}
       >
         <span className="mr-2">
-          <IconUnlink className="w-[10px] h-[10px]" />
+          <IconUnlink fill='currentColor' className="w-[10px] h-[10px]" />
         </span>
         Disassociate
       </Button>
