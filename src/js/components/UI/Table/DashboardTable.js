@@ -150,7 +150,7 @@ const DashboardTable = ({
   // const objectTypeName = getParam("objectTypeName");
   const isPrimaryCompany = getParam("isPrimaryCompany");
   const parentObjectTypeId = getParam("parentObjectTypeId");
-  // const parentObjectRecordId = getParam("parentObjectRecordId");
+  const parentObjectRecordId = getParam("parentObjectRecordId");
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -680,6 +680,8 @@ const DashboardTable = ({
           refetch={getData}
           companyAsMediator={companyAsMediator || isPrimaryCompany}
           urlParam={urlParam}
+          parentObjectTypeId={parentObjectTypeId}
+          parentObjectRowId={parentObjectRecordId}
           info={info}
         />
       )}
