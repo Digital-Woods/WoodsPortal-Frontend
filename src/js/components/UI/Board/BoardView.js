@@ -293,8 +293,7 @@ const BoardView = ({
 Main Component Starts Here
 
 =================================================================*/
-  const [alert, setAlert] = useState(null);
-
+  const { setToaster } = useToaster();
 
   const handlePageChange = async (mLimit) => {
     await setPage(1);
@@ -335,14 +334,11 @@ Main Component Starts Here
       });
     },
     onSuccess: (resp) => {
-      setAlert({ message: resp.statusMsg, type: "success" });
-      // getData({
-      //   cache: false,
-      // })
+      setToaster({ message: resp.statusMsg, type: "success" });
     },
     onError: (error) => {
       // setPipelines([]);
-      // setAlert({ message: error.message, type: "error" });
+      // setToaster({ message: error.message, type: "error" });
     },
   });
 
@@ -416,13 +412,6 @@ Main Component Starts Here
 
   return data.length > 0 ? (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
           <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">

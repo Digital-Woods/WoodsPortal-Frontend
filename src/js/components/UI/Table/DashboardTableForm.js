@@ -27,7 +27,12 @@ const DashboardTableForm = ({
   // const [addExistingTitle, setAddExistingTitle] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [objectName, setObjectName] = useState("");
-  const { sync, setSync } = useSync();
+  const { setSync } = useSync();
+  const { setToaster } = useToaster();
+
+  const [serverError, setServerError] = useState(null);
+  const { z } = Zod;
+  const resetRef = useRef(null);
 
   useEffect(() => {
     if (data) {
@@ -90,11 +95,6 @@ const DashboardTableForm = ({
     getData();
   }, []);
 
-  const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
-  const { z } = Zod;
-  const resetRef = useRef(null);
-
   const createValidationSchema = (data) => {
     const schemaShape = {};
 
@@ -135,8 +135,6 @@ const DashboardTableForm = ({
     return z.object(schemaShape);
   };
 
-  // const validationSchema = createValidationSchema(data);
-
   const { mutate: addData, isLoading: submitLoading } = useMutation({
     mutationKey: ["addData"],
     mutationFn: async ({ formData, addAnother }) => {
@@ -158,7 +156,7 @@ const DashboardTableForm = ({
       }
     },
     onSuccess: async (response, variables) => {
-      setAlert({ message: response?.statusMsg, type: "success" });
+      setToaster({ message: response?.statusMsg, type: "success" });
       if (!addAnother) {
         // setSync(true);
         // refetch({
@@ -187,7 +185,7 @@ const DashboardTableForm = ({
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -211,7 +209,7 @@ const DashboardTableForm = ({
         }
       },
       onSuccess: async (response) => {
-        await setAlert({ message: response?.statusMsg, type: "success" });
+        await setToaster({ message: response?.statusMsg, type: "success" });
         setSync(true);
         setOpenModal(false);
         resetRef.current?.(); // Reset form after successful submission
@@ -231,7 +229,7 @@ const DashboardTableForm = ({
               : errorData;
         }
 
-        setAlert({ message: errorMessage, type: "error" });
+        setToaster({ message: errorMessage, type: "error" });
       },
     });
 
@@ -260,7 +258,7 @@ const DashboardTableForm = ({
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -360,13 +358,6 @@ const DashboardTableForm = ({
 
   return (
     <div>
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <Dialog
         open={openModal}
         onClose={setOpenModal}

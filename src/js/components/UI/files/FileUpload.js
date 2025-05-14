@@ -10,7 +10,7 @@
 //   </svg>
 // );
 
-const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id }) => {
+const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, objectId, id }) => {
   const { sync, setSync } = useSync();
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
@@ -118,7 +118,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Files uploaded successfully!",
         type: "success",
         show: true,
@@ -130,7 +130,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
     onError: (error) => {
       console.error("Error uploading files:", error);
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Error uploading files!",
         type: "error",
         show: true,
@@ -174,7 +174,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Files uploaded successfully!",
         type: "success",
         show: true,
@@ -188,7 +188,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       console.error("Upload Error:", error);
       // setUploadStatus("File upload failed.");
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Error uploading files!",
         type: "error",
         show: true,
@@ -225,11 +225,6 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       setFiles(result);
     }
   };
-
-  const closeAlert = () => {
-    setAlert((prev) => ({ ...prev, show: false }));
-  };
-
 
   const truncateText = (text, maxLength) =>{
     if (text.length > maxLength) {

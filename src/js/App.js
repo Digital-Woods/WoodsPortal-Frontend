@@ -36,6 +36,7 @@ function App() {
     <RecoilRoot>
       <RecoilSyncStore />
       <QueryClientProvider client={queryClient}>
+        <Toaster/>
         <HashRouter>
           <Route
             render={() =>

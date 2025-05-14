@@ -1,9 +1,8 @@
 const TwoFa = () => {
   const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const { routes, setRoutes } = useRoute();
+  const { setToaster } = useToaster();
+  const { routes } = useRoute();
 
   const loginUserValidationSchema = z.object({
     otp: z.string().nonempty({
@@ -13,7 +12,6 @@ const TwoFa = () => {
 
   const { tokenData } = getLoggedInDetails()
 
-  // const { getMe, me } = useMe();
   const setUserDetails = useSetRecoilState(userDetailsAtom);
 
   const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
@@ -38,7 +36,7 @@ const TwoFa = () => {
     },
     onSuccess: async (data) => {
       if (!data.data.tokenData.token) {
-        setAlert({ message: "Wrong email or password", type: "error" });
+        setToaster({ message: "Wrong email or password", type: "error" });
         return;
       }
 
@@ -46,7 +44,7 @@ const TwoFa = () => {
       // getMe(); // Fetch user details
 
       setUserDetails(data.data.loggedInDetails);
-      setAlert({ message: "Login successful", type: "success" });
+      setToaster({ message: "Login successful", type: "success" });
 
       // Use if-else to check if routes exist
       if (routes && routes.length > 0) {
@@ -68,7 +66,7 @@ const TwoFa = () => {
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -76,19 +74,8 @@ const TwoFa = () => {
     login(data);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
-
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-[200px]">
           <img

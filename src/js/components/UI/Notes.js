@@ -5,7 +5,7 @@ const NoteCard = ({
   imageUploadUrl,
   attachmentUploadUrl,
   refetch,
-  setAlert,
+  setToaster,
   permissions,
 }) => {
   const { sync, setSync } = useSync();
@@ -59,7 +59,7 @@ const NoteCard = ({
         queryClient.invalidateQueries(["data"]);
         refetch();
         // setSync(true);
-        setAlert({
+        setToaster({
           message: res.statusMsg,
           type: "success",
         });
@@ -67,7 +67,7 @@ const NoteCard = ({
       },
       onError: (error) => {
         console.error("Error creating note:", error);
-        setAlert({
+        setToaster({
           message: error.response.data.errorMessage,
           type: "error",
         });
@@ -240,7 +240,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
   const [imageUploadUrl, setImageUploadUrl] = useState("");
   const [attachmentUploadUrl, setAttachmentUploadUrl] = useState("");
   const [page, setPage] = useState(1);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [attachmentId, setAttachmentId] = useState("");
   const { sync, setSync } = useSync();
   const [expandDialog, setExpandDialog] = useState(false);
@@ -293,7 +293,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       // setSync(true);
       refetch();
       setShowDialog(false);
-      setAlert({
+      setToaster({
         message: response.statusMsg,
         type: "success",
       });
@@ -301,7 +301,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
     },
     onError: (error) => {
       console.error("Error creating note:", error);
-      setAlert({
+      setToaster({
         message: error.response.data.errorMessage,
         type: "error",
       });
@@ -359,13 +359,6 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
 
   return (
     <div className="border dark:border-none dark:bg-dark-300 md:p-4 p-2 rounded-lg bg-cleanWhite ">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       {permissions && permissions.create && (
         <div className="flex justify-end mb-6 items-center">
           <Button variant="create" onClick={() => setShowDialog(true)}>
@@ -387,7 +380,7 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
             imageUploadUrl={imageUploadUrl}
             attachmentUploadUrl={attachmentUploadUrl}
             refetch={refetch}
-            setAlert={setAlert}
+            setToaster={setToaster}
             permissions={permissions}
           />
         ))

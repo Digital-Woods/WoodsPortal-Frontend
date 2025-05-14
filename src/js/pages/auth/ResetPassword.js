@@ -1,6 +1,6 @@
 const ResetPassword = () => {
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -66,12 +66,12 @@ const ResetPassword = () => {
       }
     },
     onSuccess: (data) => {
-      setAlert({ message: "Password reset successful", type: "success" });
+      setToaster({ message: "Password reset successful", type: "success" });
       window.location.hash = "/login";
     },
     onError: (error) => {
       console.error("Error:", error); // Log the error to inspect
-      setAlert({ message: "Failed to reset password", type: "error" });
+      setToaster({ message: "Failed to reset password", type: "error" });
     },
   });
 
@@ -83,26 +83,11 @@ const ResetPassword = () => {
   }, []);
 
   const onSubmit = (data) => {
-    // console.log("Submitting Data:", data);
     resetNewPassword(data);
   };
 
-  // useEffect(() => {
-  //   const token = getTokenFromParams();
-  //   if (!token) {
-  //     window.location.hash = "/login";
-  //   }
-  // }, []);
-
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-[200px]">
           <img

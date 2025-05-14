@@ -10,14 +10,12 @@ const DashboardTableEditForm = ({
   refetch,
   urlParam,
 }) => {
-  const { sync, setSync } = useSync();
   const [isSata, setisData] = useState(false);
-  const [is1st, setis1st] = useState(false);
   const [defaultValues, setDefaultValues] = useState(null);
   const [data, setData] = useState([]);
   const [initialValues, setInitialValues] = useState(false);
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const { z } = Zod;
 
   const { mutate: getFormData, isLoading: stageLoadingFormData } = useMutation({
@@ -53,7 +51,7 @@ const DashboardTableEditForm = ({
     },
     onError: () => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -77,7 +75,7 @@ const DashboardTableEditForm = ({
   //   },
   //   onError: (error) => {
   //     let errorMessage = "An unexpected error occurred.";
-  //     setAlert({ message: errorMessage, type: "error" });
+  //     setToaster({ message: errorMessage, type: "error" });
   //   },
   // });
 
@@ -122,7 +120,7 @@ const DashboardTableEditForm = ({
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -169,7 +167,7 @@ const DashboardTableEditForm = ({
       }
     },
     onSuccess: async (response) => {
-      setAlert({ message: response.statusMsg, type: "success" });
+      setToaster({ message: response.statusMsg, type: "success" });
       refetch({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
@@ -191,7 +189,7 @@ const DashboardTableEditForm = ({
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -252,13 +250,6 @@ const DashboardTableEditForm = ({
   }, [showEditData, isSata]);
   return (
     <div>
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <Dialog
         open={openModal}
         onClose={setOpenModal}

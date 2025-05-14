@@ -1,7 +1,7 @@
 const NotVerifiedEmail = () => {
   const { me } = useMe();
   const loggedInDetails = useRecoilValue(userDetailsAtom);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [serverError, setServerError] = useState(null);
 
   let email = "no-email@example.com";
@@ -25,7 +25,7 @@ const NotVerifiedEmail = () => {
       }
     },
     onSuccess: (data) => {
-      setAlert({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -38,7 +38,7 @@ const NotVerifiedEmail = () => {
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -75,14 +75,6 @@ const NotVerifiedEmail = () => {
             {isLoading ? "Sending..." : "Resend"}
           </Button>
         </div>
-
-        {alert && (
-          <Alert
-            message={alert.message}
-            type={alert.type}
-            onClose={() => setAlert(null)}
-          />
-        )}
       </div>
     </div>
   );

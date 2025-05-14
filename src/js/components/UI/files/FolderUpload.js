@@ -4,7 +4,7 @@ const FolderUpload = ({
   refetch,
   folderId,
   fileId,
-  setAlert,
+  setToaster,
   objectId,
   id
 }) => {
@@ -24,7 +24,7 @@ const FolderUpload = ({
       });
     },
     onSuccess: () => {
-      setAlert({
+      setToaster({
         message: "Folder created successfully!",
         type: "success",
         show: true,
@@ -36,7 +36,7 @@ const FolderUpload = ({
     },
     onError: (error) => {
       console.error("Error creating folder:", error);
-      setAlert({
+      setToaster({
         message: "Error creating folder!",
         type: "error",
         show: true,
@@ -48,7 +48,7 @@ const FolderUpload = ({
 
   const handleCreateFolder = () => {
     if (newFolderName.trim() === "") {
-      setAlert({
+      setToaster({
         message: "Folder name cannot be empty!",
         type: "error",
         show: true,
