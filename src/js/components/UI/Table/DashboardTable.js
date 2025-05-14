@@ -30,6 +30,7 @@ const DashboardTable = ({
   path,
   inputValue,
   title,
+  tableTitle,
   apis,
   detailsView = true,
   editView = false,
@@ -671,7 +672,7 @@ const DashboardTable = ({
           type={parentObjectTypeId ? "association_new" : ""}
           openModal={showAddDialog}
           setOpenModal={setShowAddDialog}
-          title={title}
+          title={tableTitle}
           path={path}
           portalId={portalId}
           hubspotObjectTypeId={hubspotObjectTypeId}
@@ -686,7 +687,7 @@ const DashboardTable = ({
         <DashboardTableEditForm
           openModal={showEditDialog}
           setOpenModal={setShowEditDialog}
-          title={title}
+          title={tableTitle}
           path={path}
           portalId={portalId}
           hubspotObjectTypeId={hubspotObjectTypeId}
