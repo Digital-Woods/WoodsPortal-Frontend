@@ -44,7 +44,9 @@ const DashboardTableExistingForm = ({
   return (
     <div>
       {isLoading ? (
-        <div className="text-center pb-4">Loading...</div>
+        <div className="flex justify-center items-center min-h-[230px]">
+          <div className="text-center pb-4">Loading...</div>
+        </div>
       ) : errorMessage ? (
         <div className="text-center text-warning pb-4">
           <span>{errorMessage}</span>
@@ -71,7 +73,9 @@ const DashboardTableExistingForm = ({
               <div>
                 <div className="text-gray-800 dark:text-gray-200">
                   <div>
-                    <h2 className="text-xl font-bold">Objects</h2>
+                    <h2 className="text-[15px] font-bold">
+                      Objects
+                    </h2>
                     <div key={existingData.name}>
                       <FormItem className="">
                         <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
