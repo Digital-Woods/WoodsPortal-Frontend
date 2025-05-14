@@ -6,7 +6,7 @@ const DisassociateButton = ({
   hubspotObjectTypeId,
   refetch,
 }) => {
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [openModal, setOpenModal] = useState(false);
   const { sync, setSync } = useSync();
 
@@ -29,7 +29,7 @@ const DisassociateButton = ({
       }
     },
     onSuccess: async (response) => {
-      await setAlert({ message: response?.statusMsg, type: "success" });
+      await setToaster({ message: response?.statusMsg, type: "success" });
       setSync(true);
       setOpenModal(false);
     },
@@ -46,7 +46,7 @@ const DisassociateButton = ({
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -59,13 +59,6 @@ const DisassociateButton = ({
 
   return (
     <>
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <Button
         size="xsm"
         variant="outline"

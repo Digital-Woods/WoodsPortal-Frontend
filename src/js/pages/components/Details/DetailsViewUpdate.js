@@ -5,6 +5,7 @@ const DetailsViewUpdateDD = ({
   objectTypeId,
   onChangeSelect = null,
 }) => {
+  const { setToaster } = useToaster();
   const [options, setOptions] = useState([]);
 
   const getValue = (value, type = "label") => {
@@ -35,7 +36,7 @@ const DetailsViewUpdateDD = ({
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -136,7 +137,7 @@ const DetailsViewUpdateDialog = ({
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -368,10 +369,8 @@ const DetailsViewUpdate = ({
   item,
   urlParam,
 }) => {
-  const { sync, setSync } = useSync();
   const [editRow, setEditRow] = useState(null);
-  const [editRowValue, setEditRowValue] = useState("");
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [pipelineDialog, setPipelineDialog] = useState(false);
   const [data, setData] = useState([]);
   const [stages, setStages] = useState(null);
@@ -435,11 +434,11 @@ const DetailsViewUpdate = ({
       setEditRow(null);
       // setSync(true);
       refetch();
-      setAlert({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -681,14 +680,6 @@ const DetailsViewUpdate = ({
           </div>
         )}
       </div>
-
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
 
       {pipelineDialog && (
         <DetailsViewUpdateDialog

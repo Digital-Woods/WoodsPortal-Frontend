@@ -1,31 +1,27 @@
 const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
   const [resend, setIsResend] = useState(true);
 
-  const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const { routes, setRoutes } = useRoute();
 
-  const enterEmailValidationSchema = z.object({
-    // email: z.string().email().nonempty({
-    //   message: "Email is required.",
-    // }),
-    newPassword: z.string().nonempty({
-      message: "New password is required.",
-    }),
-    confirmPassword: z.string().nonempty({
-      message: "Confirm password is required.",
+  const enterEmailValidationSchema = z
+    .object({
+      // email: z.string().email().nonempty({
+      //   message: "Email is required.",
+      // }),
+      newPassword: z.string().nonempty({
+        message: "New password is required.",
+      }),
+      confirmPassword: z.string().nonempty({
+        message: "Confirm password is required.",
+      }),
     })
-  })
-    .refine(
-      (data) => data.newPassword === data.confirmPassword,
-      {
-        message: "Passwords do not match.",
-        path: ["confirmPassword"],
-      }
-    );
+    .refine((data) => data.newPassword === data.confirmPassword, {
+      message: "Passwords do not match.",
+      path: ["confirmPassword"],
+    });
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["enterEmailUser"],
@@ -34,7 +30,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
         const response = await Client.authentication.existingUserRegister({
           email: entredEmail,
           newPassword: input.newPassword,
-          confirmPassword: input.confirmPassword
+          confirmPassword: input.confirmPassword,
         });
         return response;
       } catch (error) {
@@ -42,7 +38,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
       }
     },
     onSuccess: async (data) => {
-      setAlert({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data.statusMsg, type: "success" });
       setTimeout(() => {
         // setActiveState('pre-login')
         setIsResend(false);
@@ -61,7 +57,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -74,7 +70,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
     mutationFn: async (input) => {
       try {
         const response = await Client.authentication.verifyEmailResend({
-          email: entredEmail
+          email: entredEmail,
         });
         return response;
       } catch (error) {
@@ -82,7 +78,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
       }
     },
     onSuccess: async (data) => {
-      setAlert({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data.statusMsg, type: "success" });
     },
 
     onError: (error) => {
@@ -97,7 +93,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -111,21 +107,20 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
 
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
-
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
-      <div className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[50%]'}  ${isSmallScreen && 'w-[80%]'} `}>
+      <div
+        className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${
+          isLargeScreen && "w-[30%]"
+        }  ${isMediumScreen && "w-[50%]"}  ${isSmallScreen && "w-[80%]"} `}
+      >
         <div className="">
           <div className="w-[200px]">
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              src={
+                hubSpotUserDetails.hubspotPortals.portalSettings
+                  .authPopupFormLogo
+              }
               alt="Light Mode Logo"
               className="h-auto dark:hidden"
             />
@@ -139,7 +134,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
         <p className="text-center dark:text-white">
           {baseCompanyOptions.welcomeMessage || ""}
         </p>
-        {resend ?
+        {resend ? (
           <div className="flex flex-col items-center justify-center w-full">
             <div className="w-full">
               <Form
@@ -230,7 +225,10 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
                     </FormItem>
                     <div className="flex justify-end items-center">
                       <div>
-                        <NavLink to="/login" onClick={() => setActiveState('pre-login')}>
+                        <NavLink
+                          to="/login"
+                          onClick={() => setActiveState("pre-login")}
+                        >
                           <p className="text-black text-xs dark:text-gray-300">
                             Back to enter email
                           </p>
@@ -238,10 +236,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
                       </div>
                     </div>
                     <div className="mt-4 flex flex-col justify-center items-center">
-                      <Button
-                        className="w-full"
-                        isLoading={isLoading}
-                      >
+                      <Button className="w-full" isLoading={isLoading}>
                         Change Password
                       </Button>
                     </div>
@@ -250,9 +245,11 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
               </Form>
             </div>
           </div>
-          :
+        ) : (
           <div className="flex flex-col items-center justify-center w-full">
-            <h1 className="text-xl font-bold mb-4">Verify your email address</h1>
+            <h1 className="text-xl font-bold mb-4">
+              Verify your email address
+            </h1>
             <p className=" text-sm text-muted-gray ">
               A verification link has been sent to
             </p>
@@ -269,7 +266,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
             <div className="flex justify-between space-x-4">
               <Button
                 variant="outline"
-                onClick={() => setActiveState('pre-login')}
+                onClick={() => setActiveState("pre-login")}
               >
                 Cancel
               </Button>
@@ -281,15 +278,12 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
               >
                 {isLoading ? 'Sending...' : 'Resend'}
               </Button> */}
-              <Button
-                isLoading={isLoadingResend}
-                onClick={() => resendEmail()}
-              >
+              <Button isLoading={isLoadingResend} onClick={() => resendEmail()}>
                 Resend
               </Button>
             </div>
           </div>
-        }
+        )}
       </div>
     </div>
   );

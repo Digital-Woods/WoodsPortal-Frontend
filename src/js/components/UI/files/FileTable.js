@@ -1,11 +1,10 @@
 const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id }) => {
   const [selectedFileId, setSelectedFileId] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [alert, setAlert] = useState({ message: "", type: "", show: false });
-  const [loadingFileId, setLoadingFileId] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteInput, setDeleteInput] = useState("");
   const [fileToDelete, setFileToDelete] = useState(null);
+  const { setToaster } = useToaster();
 
   const { me } = useMe();
 
@@ -35,13 +34,13 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
   //   {
   //     onMutate: (file) => {
   //       setLoadingFileId(file.id);
-  //       setAlert({ message: "Deleting file...", type: "info", show: true });
+  //       setToaster({ message: "Deleting file...", type: "info", show: true });
   //     },
   //     onSuccess: () => {
   //       queryClient.invalidateQueries(["fileDetails"]);
   //       console.log("File deleted successfully");
   //       refetch();
-  //       setAlert({
+  //       setToaster({
   //         message: "File deleted successfully!",
   //         type: "success",
   //         show: true,
@@ -50,7 +49,7 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
   //     },
   //     onError: (error) => {
   //       console.error("Error deleting file:", error);
-  //       setAlert({
+  //       setToaster({
   //         message: "Error deleting file!",
   //         type: "error",
   //         show: true,
@@ -105,10 +104,6 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
 
   const toggleDropdown = (index) => {
     setActiveDropdown(activeDropdown === index ? null : index);
-  };
-
-  const closeAlert = () => {
-    setAlert((prev) => ({ ...prev, show: false }));
   };
 
   const dropdownRef = useRef(null);
@@ -186,15 +181,6 @@ const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id })
           onClose={closeModal}
           loading={isLoading}
           error={isError}
-        />
-      )}
-
-      {alert.show && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={closeAlert}
-          duration={2000}
         />
       )}
 

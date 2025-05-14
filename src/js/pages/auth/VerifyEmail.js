@@ -23,6 +23,7 @@ const Tick = () => {
 function VerifyEmail() {
   const [isVerifying, setIsVerifying] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
+  const { setToaster } = useToaster();
 
   const token = getParam("token")
 
@@ -44,7 +45,7 @@ function VerifyEmail() {
     },
     onError: (error) => {
       // console.log('error', error.response.data.detailedMessage)
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
       setIsVerifying(false)
     },
   });
