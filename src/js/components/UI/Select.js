@@ -104,7 +104,6 @@ const SelectApiData = ({
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef(null);
-  const [position, positionRef] = usePosition('.object-create-form');
 
   const { mutate: callAPI, isLoading } = useMutation({
     mutationKey: ["getOptionsData"],
@@ -240,7 +239,7 @@ const SelectApiData = ({
         </div>
       )}
       {showDropdown && filtered.length > 0 && !isLoading && (
-        <div ref={positionRef} className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}>
+        <div className={`absolute bottom-full mb-2 left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}>
           {filtered.map((opt) => (
             <div
               key={opt[optionValue]}
