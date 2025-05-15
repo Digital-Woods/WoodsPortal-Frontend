@@ -14,8 +14,6 @@ const DisassociateButton = ({
   const [parentObjectname, setParentObjectname] = useState("");
   const [objectTypeNameSingular, setObjectTypeNameSingular] = useState("");
   const [parentObjectTypeNameSingular, setParentObjectTypeNameSingular] = useState("");
-  const parentObjectTypeName = getParam("parentObjectTypeName");
-// const parentObjectTypeName = getParam("parentObjectTypeName");
 
 useEffect(() => {
   if (!breadcrumbs?.length) return;
@@ -27,14 +25,13 @@ useEffect(() => {
   if (componentName !== "ticket") {
     setParentObjectname(getSingular(thirdLast?.name));
     setObjectTypeNameSingular(getSingular(last?.name));
-    setParentObjectTypeNameSingular(parentObjectTypeName);
+    setParentObjectTypeNameSingular(secondLast?.name);
   } else {
     setObjectTypeNameSingular("Ticket");
     setParentObjectname(getSingular(secondLast?.name));
     setParentObjectTypeNameSingular(last?.name || "");
   }
 }, [breadcrumbs]);
-
 
   const { mutate: removeExistingData, isLoading } = useMutation({
     mutationKey: ["removeExistingData"],
