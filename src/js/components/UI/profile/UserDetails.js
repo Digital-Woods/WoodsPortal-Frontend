@@ -199,6 +199,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 hubspotObjectTypeId={'0-5'}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
+                                tableTitle={permissions?.ticket?.display_label || "Tickets"}
                                 apis={apis}
                                 componentName="ticket"
                                 defPermissions={permissions ? permissions.ticket : null}

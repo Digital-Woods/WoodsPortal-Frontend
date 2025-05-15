@@ -619,6 +619,7 @@ const DashboardTable = ({
           hoverRow={hoverRow}
           urlParam={urlParam}
           handleRowHover={handleRowHover}
+          componentName={componentName}
           // currentPage={currentPage}
           // setCurrentPage={setCurrentPage}
           // sortConfig={sortConfig}
