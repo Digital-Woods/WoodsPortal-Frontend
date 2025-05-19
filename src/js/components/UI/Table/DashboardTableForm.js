@@ -133,7 +133,6 @@ const DashboardTableForm = ({
         }
       }
     });
-    console.log("schemaShape", schemaShape);
     return z.object(schemaShape);
   };
 
@@ -248,14 +247,11 @@ const DashboardTableForm = ({
       }
     },
     onSuccess: async (response) => {
-      const updatedProperties = {
-        ...data,
-        ...data.map((property) =>
-          property.name === "hs_pipeline_stage" || property.name === "dealstage"
-            ? { ...property, options: response.data }
-            : property
-        ),
-      };
+      const updatedProperties = data.map((property) =>
+        property.name === "hs_pipeline_stage" || property.name === "dealstage"
+          ? { ...property, options: response.data }
+          : property
+      );
       setData(updatedProperties);
     },
     onError: (error) => {
@@ -265,20 +261,14 @@ const DashboardTableForm = ({
   });
 
   function formPaylod(data1, data2) {
-    // const propertyNames = data1.properties.map((prop) => prop.name);
     const propertyNames = data1
       .filter((item) => item.fieldRole === "PROPERTIES")
       .map((item) => item.name);
 
-    // const objectNames = data1.objects.map((obj) => obj.name);
     const objectNames = data1
       .filter((item) => item.fieldRole === "OBJECTS")
       .map((item) => item.name);
     const objects = data1.filter((item) => item.fieldRole === "OBJECTS");
-
-    console.log("propertyNames", propertyNames);
-    console.log("objectNames", objectNames);
-    console.log("objects", objects);
 
     const objectTypeMap = objects.reduce((acc, obj) => {
       acc[obj.name] = obj.objectTypeId;
