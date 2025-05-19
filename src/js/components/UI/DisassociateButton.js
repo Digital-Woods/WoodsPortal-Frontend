@@ -5,23 +5,32 @@ const DisassociateButton = ({
   parentObjectRecordId,
   hubspotObjectTypeId,
   refetch,
+  componentName
 }) => {
   const { setToaster } = useToaster();
   const [openModal, setOpenModal] = useState(false);
   const { sync, setSync } = useSync();
   const { breadcrumbs } = useBreadcrumb();
   const [parentObjectname, setParentObjectname] = useState("");
-  const objectTypeName = getParam("objectTypeName").endsWith('s') ? getParam("objectTypeName").slice(0, -1):'';
-  const parentObjectTypeName = getParam("parentObjectTypeName");
-// const parentObjectTypeName = getParam("parentObjectTypeName");
+  const [objectTypeNameSingular, setObjectTypeNameSingular] = useState("");
+  const [parentObjectTypeNameSingular, setParentObjectTypeNameSingular] = useState("");
 
 useEffect(() => {
   if (!breadcrumbs?.length) return;
+  const getSingular = (name) =>
+    name?.endsWith("s") ? name.slice(0, -1) : name || "";
 
-  const lastCrumb = breadcrumbs[breadcrumbs.length - 3]?.name;
-  const singularName = lastCrumb?.endsWith('s') ? lastCrumb.slice(0, -1):'';
+  const [thirdLast, secondLast, last] = breadcrumbs.slice(-3);
   
-  setParentObjectname(singularName);
+  if (componentName !== "ticket") {
+    setParentObjectname(getSingular(thirdLast?.name));
+    setObjectTypeNameSingular(getSingular(last?.name));
+    setParentObjectTypeNameSingular(secondLast?.name);
+  } else {
+    setObjectTypeNameSingular("Ticket");
+    setParentObjectname(getSingular(secondLast?.name));
+    setParentObjectTypeNameSingular(last?.name || "");
+  }
 }, [breadcrumbs]);
 
   const { mutate: removeExistingData, isLoading } = useMutation({
@@ -91,12 +100,12 @@ useEffect(() => {
         className="bg-cleanWhite dark:bg-dark-200 rounded-md sm:max-w-[450px] mx-2"
       >
           <div className="mb-4">
-            <h3 className="text-start text-xl font-semibold dark:text-white mb-2 whitespace-normal break-words break-words">
-             { `Are you sure you want to disassociate this ${objectTypeName}?`}
+            <h3 className="text-start text-xl font-semibold dark:text-white mb-2 whitespace-normal break-words">
+             { `Are you sure you want to disassociate this ${objectTypeNameSingular}?`}
             </h3>
-            <p className="whitespace-normal break-words">
-              This will remove the {objectTypeName} from the <span className="font-semibold">{parentObjectTypeName}</span> {parentObjectname}. 
-              The {objectTypeName} will remain available, but it will no longer be linked to this {parentObjectname}.
+            <p className="whitespace-normal break-words dark:text-white">
+              This will remove the {objectTypeNameSingular} from the <span className="font-semibold">{parentObjectTypeNameSingular}</span> {parentObjectname}. 
+              The {objectTypeNameSingular} will remain available, but it will no longer be linked to this {parentObjectname}.
             </p>
           </div>
           <div className="flex justify-end gap-3 pt-2">

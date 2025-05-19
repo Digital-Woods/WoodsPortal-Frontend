@@ -72,10 +72,10 @@ const DynamicComponent = ({
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
-      setTableTitle(previous?.name ? {previous: previous, last: last} : {last: last})
+      setTableTitle(previous?.name ? { last: last, previous: previous} : {last: last})
       setSingularTableTitle(
         previous?.name
-          ? `${singularLastName} of ${previous?.name}`
+          ? `${singularLastName} with ${previous?.name}`
           : singularLastName
       );
     }
@@ -123,7 +123,7 @@ const DynamicComponent = ({
                         </Link>
                         {index < array.length - 1 && (
                           <span className="mx-1 text-xl font-semibold text-[#0091AE]">
-                            of
+                            associated with
                           </span>
                         )}
                       </li>

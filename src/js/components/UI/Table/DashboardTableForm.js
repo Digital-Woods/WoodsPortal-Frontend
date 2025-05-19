@@ -350,19 +350,13 @@ const DashboardTableForm = ({
     const last = breadcrumbs[breadcrumbs.length - 1];
     if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
       setObjectName(title);
-      setDialogTitle(
-        `${activeTab == "addNew" ? "Create New" : "Add New"} ${title} of ${
-          last.name
-        }`
-      );
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a New ${title} for ${last.name}`: `Associate an Existing ${title} with ${last.name}`}`);
     } else {
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
       setObjectName(singularLastName);
-      setDialogTitle(
-        `${activeTab == "addNew" ? "Create New" : "Add New"} ${title}`
-      );
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a New ${title.includes('with') ? title.replace('with', 'for') : title}` : `Associate an Existing ${title}`}`);
     }
   }, [breadcrumbs, activeTab]);
 
