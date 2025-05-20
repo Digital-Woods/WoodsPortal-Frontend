@@ -34,28 +34,6 @@ const DashboardTableForm = ({
   const { z } = Zod;
   const resetRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (data) {
-  // const groupedProperties = Object.values(
-  //   data.properties.reduce((acc, prop) => {
-  //     const group = prop.groupName;
-  //     if (!acc[group]) {
-  //       acc[group] = {
-  //         groupName: group
-  //           .replace(/_/g, " ")
-  //           .replace(/\b\w/g, (char) => char.toUpperCase()),
-  //         properties: [],
-  //       };
-  //     }
-  //     acc[group].properties.push(prop);
-  //     return acc;
-  //   }, {})
-  // );
-  // setProperties(groupedProperties);
-  // setObjects(data.objects);
-  //   }
-  // }, [data]);
-
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
@@ -65,24 +43,6 @@ const DashboardTableForm = ({
     onSuccess: (response) => {
       if (response.statusCode === "200") {
         setData(response.data.results);
-
-        // const properties = response?.data?.properties
-        //   ? response.data.properties.map((data) => ({
-        //       ...data,
-        //       type: "PROPERTIES",
-        //     }))
-        //   : [];
-
-        // const objects = response?.data?.objects
-        //   ? response.data.objects.map((data) => ({
-        //       ...data,
-        //       type: "OBJECTS",
-        //     }))
-        //   : [];
-
-        // setValidationSchema(
-        //   createValidationSchema([...properties, ...objects])
-        // );
         setValidationSchema(createValidationSchema(response.data.results));
       }
     },
