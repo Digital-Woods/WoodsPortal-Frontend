@@ -299,7 +299,7 @@ const DashboardTableForm = ({
         objectTypeId: hubspotObjectTypeId,
         requiredField: true,
         formId: info?.parentDefaultForm || info?.defaultForm,
-        type: "objects",
+        fieldRole: "OBJECTS",
       };
       setExistingData(data);
       setValidationSchema(createValidationSchema([{ ...data }]));

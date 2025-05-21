@@ -94,8 +94,6 @@ const DynamicComponent = ({
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   };
 
-  console.log('apis_1', apis)
-
   // const tableTitle = () => {
   //   return objectTypeName ? objectTypeName : title;
   // };
