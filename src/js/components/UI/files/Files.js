@@ -67,7 +67,6 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   });
 
   useEffect(() => {
-    console.log('file_sync_1 ', sync)
     if (sync) {
       refetch();
     }

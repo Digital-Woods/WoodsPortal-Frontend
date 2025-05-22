@@ -325,7 +325,7 @@ const renderCellContent = ({
     )
   ) {
     const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
-    return `${formatedDateTime.date} ${formatedDateTime.time}`
+    return  truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
   }
 
   if ( // if date then conver into date format
@@ -417,7 +417,7 @@ const renderCellContent = ({
   if ((type === "list" || type === "associations" || type === 'homeList') && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
-        {truncatedText(decodeAndStripHtml(value || ""))}
+        {truncatedText(decodeAndStripHtml(value || ""), 23)}
       </div>
     );
   }
