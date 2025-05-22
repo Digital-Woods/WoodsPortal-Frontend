@@ -355,6 +355,37 @@ const renderCellContent = ({
     )
   }
 
+  if (
+    column &&
+    typeof value === 'string' &&
+    value !== null
+  ) {
+    const urls = value
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url.startsWith('https://'));
+
+    if (urls.length > 0) {
+      return (
+        <div className="flex flex-wrap gap-1">
+          {urls.map((url, idx) => (
+            <a
+              key={idx}
+              href={url}
+              className="hover:underline flex items-center gap-1"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>{truncatedText(url, '20')}</span>
+              <OpenIcon />
+            </a>
+          ))}
+        </div>
+      );
+    }
+  }
+
+
   // if (
   //   column.key === "amount" && column.showCurrencySymbol
   // ) {

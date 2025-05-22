@@ -301,57 +301,9 @@
       "show_iframe" : false
     } ]
   }, {
-    "id" : "bba6a1e3-38d5-4aa8-6522-1032642b084b",
-    "name" : "home_tab_banner_details",
-    "label" : "Greeting Card",
-    "help_text" : "These details will be displayed on the dashboard greeting card",
-    "required" : false,
-    "locked" : false,
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "add_home_tab",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "children" : [ {
-      "id" : "a59e5be7-8a4b-c0f3-76bf-683d37f1cea4",
-      "name" : "title",
-      "label" : "Title",
-      "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
-      "inline_help_text" : "",
-      "required" : false,
-      "locked" : false,
-      "validation_regex" : "",
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
-      "display_width" : null,
-      "default" : ""
-    }, {
-      "id" : "27133681-a8bb-c428-6ce2-0c1bafc74a05",
-      "name" : "description",
-      "label" : "description",
-      "required" : false,
-      "locked" : false,
-      "type" : "richtext",
-      "display_width" : null,
-      "default" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
-    } ],
-    "tab" : "CONTENT",
-    "expanded" : false,
-    "group_occurrence_meta" : null,
-    "type" : "group",
-    "display_width" : null,
-    "default" : {
-      "title" : "",
-      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
-    }
-  }, {
-    "id" : "c36e2852-c866-3ae4-1f2f-9c3c3587981b",
-    "name" : "add_company_card",
-    "label" : "Enable Company Card",
+    "id" : "4e85e78d-7bd9-7577-c39b-eba6bcfecb2e",
+    "name" : "enable_dashboard_cards",
+    "label" : "Enable Dashboard Cards",
     "help_text" : "This will enable the company card next to the Greeting Card on the dashboard",
     "required" : false,
     "locked" : false,
@@ -360,23 +312,78 @@
     "display_width" : null,
     "default" : true
   }, {
-    "id" : "fb5d2e9a-ceda-b1fc-0d8f-74ece3a74371",
-    "name" : "home_company_card",
-    "label" : "Company Card",
-    "help_text" : "Company card customization options",
-    "inline_help_text" : "These properties will be displayed on the Company card",
+    "id" : "6b247a21-b312-1bd3-ad28-8f325807456b",
+    "name" : "dashboard_cards",
+    "label" : "Dashboard Cards",
     "required" : false,
     "locked" : false,
+    "occurrence" : {
+      "min" : null,
+      "max" : null,
+      "sorting_label_field" : null,
+      "default" : 2
+    },
     "visibility" : {
       "controlling_field" : null,
-      "controlling_field_path" : "home.add_company_card",
+      "controlling_field_path" : "home.enable_dashboard_cards",
       "controlling_value_regex" : "true",
       "property" : null,
       "operator" : "EQUAL",
       "access" : null
     },
     "children" : [ {
-      "id" : "29333503-3f64-167b-c9a9-14c77aa32a95",
+      "id" : "0fa733d6-e1ee-d1e9-6f30-9c1c9eee5aed",
+      "name" : "show_title",
+      "label" : "Show Title",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : true
+    }, {
+      "id" : "80aecc32-bfe3-627b-e792-b98093408501",
+      "name" : "title",
+      "label" : "Title",
+      "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
+      "inline_help_text" : "",
+      "required" : false,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.dashboard_cards.show_title",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : ""
+    }, {
+      "id" : "0ae3528c-c6df-e051-e1e7-74865862a290",
+      "name" : "show_date",
+      "label" : "Show Date",
+      "required" : false,
+      "locked" : false,
+      "display" : "toggle",
+      "type" : "boolean",
+      "display_width" : null,
+      "default" : true
+    }, {
+      "id" : "e2c8f0bc-4e17-813a-131b-5ec40feba8d7",
+      "name" : "description",
+      "label" : "description",
+      "required" : false,
+      "locked" : false,
+      "type" : "richtext",
+      "display_width" : null,
+      "default" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
+    }, {
+      "id" : "111780a2-3978-5023-64ad-f0082cf54a1a",
       "name" : "properties",
       "label" : "Enter Properties to Show on Card",
       "help_text" : "These properties will be displayed on the Home Company card.",
@@ -385,12 +392,12 @@
       "locked" : false,
       "occurrence" : {
         "min" : null,
-        "max" : 4,
+        "max" : null,
         "sorting_label_field" : null,
         "default" : 1
       },
       "children" : [ {
-        "id" : "18dce98c-c7ba-e99f-bc7b-22a81a781268",
+        "id" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "name" : "properties_value",
         "label" : "Property Internal Name",
         "help_text" : "Enter the property name to show on the company card",
@@ -402,6 +409,36 @@
         "type" : "text",
         "display_width" : null,
         "default" : "industry"
+      }, {
+        "id" : "8a79f54c-c73b-da0a-2c3f-bed54daea321",
+        "name" : "show_iframe",
+        "label" : "Enable Iframe",
+        "required" : false,
+        "locked" : false,
+        "display" : "toggle",
+        "type" : "boolean",
+        "display_width" : null,
+        "default" : false
+      }, {
+        "id" : "9e121abb-d2a6-2deb-f4b7-8942fb9e3c60",
+        "name" : "iframe_button_name",
+        "label" : "Iframe Button Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "visibility" : {
+          "controlling_field" : null,
+          "controlling_field_path" : "home.dashboard_cards.properties.show_iframe",
+          "controlling_value_regex" : "true",
+          "property" : null,
+          "operator" : "EQUAL",
+          "access" : null
+        },
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "View Docs"
       } ],
       "tab" : "CONTENT",
       "expanded" : false,
@@ -409,10 +446,12 @@
       "type" : "group",
       "display_width" : null,
       "default" : [ {
-        "properties_value" : "industry"
+        "properties_value" : "industry",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
       } ]
     }, {
-      "id" : "acb67d3e-503a-3126-3b36-b1e966d2b8d8",
+      "id" : "6ccf76f3-18f5-03ca-3fcb-5965874b8342",
       "name" : "add_details_modal",
       "label" : "Add Details Modal",
       "help_text" : "Enabling this toggle will add a button to the company card, allowing users to view all company properties that are set to display in the admin properties table.",
@@ -422,50 +461,35 @@
       "type" : "boolean",
       "display_width" : null,
       "default" : true
-    }, {
-      "id" : "040b66e7-c825-5448-512f-001cc1278e30",
-      "name" : "show_iframe",
-      "label" : "Enable Iframe",
-      "required" : false,
-      "locked" : false,
-      "display" : "toggle",
-      "type" : "boolean",
-      "display_width" : null,
-      "default" : false
-    }, {
-      "id" : "90e95cd8-ba79-0aff-cff4-931d56d6bacb",
-      "name" : "property_name",
-      "label" : "Property Name",
-      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
-      "inline_help_text" : "Enter the internal property name.",
-      "required" : false,
-      "locked" : false,
-      "validation_regex" : "",
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "home.home_company_card.show_iframe",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "EQUAL",
-        "access" : null
-      },
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
-      "display_width" : null
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
     "group_occurrence_meta" : null,
     "type" : "group",
     "display_width" : null,
-    "default" : {
+    "default" : [ {
+      "title" : "",
+      "show_date" : true,
+      "show_date_copy" : true,
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
       "properties" : [ {
-        "properties_value" : "industry"
+        "properties_value" : "industry",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
       } ],
-      "add_details_modal" : true,
-      "show_iframe" : false
-    }
+      "add_details_modal" : true
+    }, {
+      "title" : "",
+      "show_date" : true,
+      "show_date_copy" : true,
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
+      "properties" : [ {
+        "properties_value" : "industry",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ],
+      "add_details_modal" : true
+    } ]
   }, {
     "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
     "name" : "add_right_sidebar",
@@ -690,18 +714,30 @@
       "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
       "show_iframe" : false
     } ],
-    "home_tab_banner_details" : {
+    "enable_dashboard_cards" : true,
+    "dashboard_cards" : [ {
       "title" : "",
-      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
-    },
-    "add_company_card" : true,
-    "home_company_card" : {
+      "show_date" : true,
+      "show_date_copy" : true,
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
       "properties" : [ {
-        "properties_value" : "industry"
+        "properties_value" : "industry",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
       } ],
-      "add_details_modal" : true,
-      "show_iframe" : false
-    },
+      "add_details_modal" : true
+    }, {
+      "title" : "",
+      "show_date" : true,
+      "show_date_copy" : true,
+      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
+      "properties" : [ {
+        "properties_value" : "industry",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ],
+      "add_details_modal" : true
+    } ],
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
       "list_object_name" : "Ticket",
@@ -1233,7 +1269,7 @@
     }, {
       "id" : "ae862e08-35d7-48a7-09bc-6c0dba07fdab",
       "name" : "banner_overlayer_color",
-      "label" : "Greeting and Company Card Background Color",
+      "label" : "Card Background Color",
       "required" : false,
       "locked" : false,
       "type" : "color",
@@ -1245,7 +1281,7 @@
     }, {
       "id" : "5251af8a-70d6-ed54-c621-1665f3a9c630",
       "name" : "user_card_svg_color",
-      "label" : "Greeting Card  SVG Color",
+      "label" : "Card  SVG Color",
       "help_text" : "This is used for the background pattern color of greeting card.",
       "required" : false,
       "locked" : false,
@@ -1256,19 +1292,33 @@
         "opacity" : 100
       }
     }, {
-      "id" : "ea44d480-a28a-38b3-0649-d529395c5646",
-      "name" : "cards_direction",
-      "label" : "Cards direction",
+      "id" : "bd783c72-42c6-cc91-d718-b3c441e4b369",
+      "name" : "company_property_display_type",
+      "label" : "Company Property Display Type",
       "required" : false,
       "locked" : false,
       "display" : "select",
-      "choices" : [ [ "md:flex-row", "Row" ], [ "md:flex-row-reverse", "Row Reverse" ], [ "flex-col\t", "Column" ], [ "flex-col-reverse", "Column Reverse" ] ],
+      "choices" : [ [ "grid", "Grid" ], [ "list", "List" ] ],
       "multiple" : false,
       "reordering_enabled" : true,
       "preset" : null,
       "type" : "choice",
       "display_width" : null,
-      "default" : "md:flex-row"
+      "default" : "grid"
+    }, {
+      "id" : "ea44d480-a28a-38b3-0649-d529395c5646",
+      "name" : "cards_direction",
+      "label" : "Cards Display Type",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "grid", "Grid" ], [ "list", "List" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "grid"
     } ],
     "tab" : "STYLE",
     "expanded" : false,
@@ -1292,7 +1342,8 @@
         "color" : "#0091ae",
         "opacity" : 100
       },
-      "cards_direction" : "md:flex-row"
+      "company_property_display_type" : "grid",
+      "cards_direction" : "grid"
     }
   }, {
     "id" : "76f40114-fea8-8230-7167-74a8f484d787",
@@ -1537,13 +1588,13 @@
   }, {
     "id" : "0f537655-3de9-109f-58d6-8f95c2507a41",
     "name" : "note_cards",
-    "label" : "Note cards",
+    "label" : "Note Cards",
     "required" : false,
     "locked" : false,
     "children" : [ {
       "id" : "714aa64a-e07c-a4a4-c13a-c2cce0d572ca",
       "name" : "hs_note_card_bg_color",
-      "label" : "HubSpot created note card background color",
+      "label" : "HubSpot Created Note Card Background Color",
       "required" : false,
       "locked" : false,
       "show_opacity" : false,
@@ -1556,7 +1607,7 @@
     }, {
       "id" : "6bf63560-ade0-20c5-d7be-e11dab5d5e20",
       "name" : "hs_note_ts_text_color",
-      "label" : "HubSpot created note timestamp text color",
+      "label" : "HubSpot Created Note Timestamp Text Color",
       "required" : false,
       "locked" : false,
       "show_opacity" : false,
@@ -1569,7 +1620,7 @@
     }, {
       "id" : "837116dc-ca7e-6393-1f56-722c74661bf0",
       "name" : "wp_note_card_bg_color",
-      "label" : "WoodsPortal created note card background color",
+      "label" : "WoodsPortal Created Note Card Background Color",
       "required" : false,
       "locked" : false,
       "show_opacity" : false,
@@ -1582,7 +1633,7 @@
     }, {
       "id" : "3df27f58-0015-8936-dcf9-3bae948327e2",
       "name" : "wp_note_ts_text_color",
-      "label" : "WoodsPortal created note timestamp text color",
+      "label" : "WoodsPortal Created Note Timestamp Text Color",
       "required" : false,
       "locked" : false,
       "show_opacity" : false,
@@ -1640,7 +1691,8 @@
         "color" : "#0091ae",
         "opacity" : 100
       },
-      "cards_direction" : "md:flex-row"
+      "company_property_display_type" : "grid",
+      "cards_direction" : "grid"
     },
     "table_record_creation_button" : {
       "text_color" : {

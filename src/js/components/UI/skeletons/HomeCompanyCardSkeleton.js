@@ -1,6 +1,6 @@
 const HomeCompanyCardSkeleton = () => {
     return (
-        <div className="rounded-lg animate-pulse border dark:border-none dark:bg-dark-300 relative overflow-hidden">
+        <div className="rounded-lg animate-pulse relative overflow-hidden">
             {/* Associated Company Details */}
             <div className="w-full dark:border-gray-600">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:p-4 p-3">
