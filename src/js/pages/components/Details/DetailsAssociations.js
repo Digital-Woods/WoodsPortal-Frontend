@@ -11,6 +11,7 @@ const DetailsAssociations = ({
   companyAsMediator = false,
   urlParam,
   parentPermissions,
+  info
 }) => {
   const [associationData, setAssociationData] = useState(association);
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
@@ -32,11 +33,13 @@ const DetailsAssociations = ({
   const associationApis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields?${param}`,
     formDataAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
       param + "&isForm=true"
     }`,
     createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+    createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId?${param}`,
+    removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId?${param}`,
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`,
   };
   const toggleContent = () => {
@@ -300,6 +303,7 @@ const DetailsAssociations = ({
       </div>
       {showAddDialog && (
         <DashboardTableForm
+          type="association"
           openModal={showAddDialog}
           setOpenModal={setShowAddDialog}
           title={associationData.labels.singular}
@@ -309,6 +313,9 @@ const DetailsAssociations = ({
           apis={associationApis}
           urlParam={param}
           refetch={refetchSetData}
+          parentObjectTypeId={parentObjectTypeId}
+          parentObjectRowId={parentObjectRowId}
+          info={info}
         />
       )}
     </React.Fragment>

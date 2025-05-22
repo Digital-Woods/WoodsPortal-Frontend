@@ -10,7 +10,7 @@
 //   </svg>
 // );
 
-const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id }) => {
+const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, objectId, id }) => {
   const { sync, setSync } = useSync();
   const [selectedFile, setSelectedFile] = useState([]);
   const [files, setFiles] = useState([]);
@@ -118,7 +118,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Files uploaded successfully!",
         type: "success",
         show: true,
@@ -130,7 +130,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
     onError: (error) => {
       console.error("Error uploading files:", error);
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Error uploading files!",
         type: "error",
         show: true,
@@ -174,7 +174,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       setFiles((prevValue) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Files uploaded successfully!",
         type: "success",
         show: true,
@@ -188,7 +188,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
       console.error("Upload Error:", error);
       // setUploadStatus("File upload failed.");
       setIsUploading(false);
-      setAlert({
+      setToaster({
         message: "Error uploading files!",
         type: "error",
         show: true,
@@ -226,11 +226,6 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
     }
   };
 
-  const closeAlert = () => {
-    setAlert((prev) => ({ ...prev, show: false }));
-  };
-
-
   const truncateText = (text, maxLength) =>{
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + "...";
@@ -250,8 +245,8 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
                     <h3 className="text-lg text-start font-semibold dark:text-white">File Upload</h3>
                   </div>
                 </div>
-                <form onSubmit={fileUploadSubmit} className="max-w-screen !mb-0">
-                  <div className="kb-file-upload">
+                <form onSubmit={fileUploadSubmit} className={`max-w-screen !mb-0  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
+                  <div className={`kb-file-upload  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
                     <div className={`file-upload-box dark:bg-dark-300 dark:text-white ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
                       {/* <div>
                         <svg
@@ -273,7 +268,7 @@ const FileUpload = ({ fileId, refetch, folderId, onClose, setAlert, objectId, id
                       />
                       <p> Drag and drop </p>
                       <p> or </p>
-                      <p className={`px-6 py-2 text-sm font-medium rounded-md !mt-3 ${isUploading ? `border border-gray-600 text-gray-600 dark:border-gray-600 dark:text-gray-600 cursor-not-allowed ...`:`border border-secondary text-secondary dark:border-white dark:text-white`}`}>
+                      <p className={`px-6 py-2 text-sm font-medium rounded-md !mt-3 ${isUploading ? `border border-gray-300 text-gray-300 dark:border-gray-300 dark:text-gray-300 cursor-not-allowed ...`:`border border-secondary text-secondary dark:border-white dark:text-white`}`}>
                         Browse
                       </p>
                     </div>

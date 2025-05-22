@@ -25,7 +25,7 @@ const passwordIcon = () => (
 const ForgetPassword = () => {
   const { z } = Zod;
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const resetPasswordValidationSchema = z.object({
     email: z.string().email(),
   });
@@ -43,7 +43,7 @@ const ForgetPassword = () => {
       }
     },
     onSuccess: (data) => {
-      setAlert({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -56,7 +56,7 @@ const ForgetPassword = () => {
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -66,13 +66,6 @@ const ForgetPassword = () => {
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-900 justify-center h-screen">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-[200px]">
           <img

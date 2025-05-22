@@ -1,5 +1,5 @@
 const DecreaseIndentMenu = ({ editorView }) => {
-  const decreaseIndentIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M120-120v-80h720v80H120Zm320-160v-80h400v80H440Zm0-160v-80h400v80H440Zm0-160v-80h400v80H440ZM120-760v-80h720v80H120Zm160 440L120-480l160-160v320Z"/></svg>`;
+  // const decreaseIndentIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="#e8eaed"><path d="M120-120v-80h720v80H120Zm320-160v-80h400v80H440Zm0-160v-80h400v80H440Zm0-160v-80h400v80H440ZM120-760v-80h720v80H120Zm160 440L120-480l160-160v320Z"/></svg>`;
 
   const applyIndentation = (state, dispatch) => {
     const { schema, selection } = state;
@@ -49,7 +49,8 @@ const DecreaseIndentMenu = ({ editorView }) => {
       >
         <div className={`note-menuitem`}>
           <div id="textAlignIcon">
-            <SvgRenderer svgContent={decreaseIndentIcon} />
+            {/* <SvgRenderer svgContent={decreaseIndentIcon} /> */}
+            <DecreaseIndentIcon/>
           </div>
         </div>
       </div>

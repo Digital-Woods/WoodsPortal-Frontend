@@ -211,6 +211,20 @@ const BoardView = ({
         ([key]) => key !== "cache" && key !== "limit"
       )
     );
+
+    function getSortedByBoardViewOrder(columns) {
+      return columns
+        .filter(col => col.boardViewOrder !== null)
+        .sort((a, b) => {
+          const aOrder = a.boardViewOrder;
+          const bOrder = b.boardViewOrder;
+          if (aOrder === -1 && bOrder !== -1) return -1;
+          if (bOrder === -1 && aOrder !== -1) return 1;
+    
+          return aOrder - bOrder;
+        });
+    }
+    
     const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
     const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
     const objectTypeId = getParam("objectTypeId");
@@ -222,7 +236,7 @@ const BoardView = ({
         className={`text-sm rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
           }`}
       >
-        {columns.map((column) => (
+        {columns && getSortedByBoardViewOrder(columns).map((column) => (
           <div>
             {renderCellContent({
               companyAsMediator: companyAsMediator,
@@ -279,8 +293,7 @@ const BoardView = ({
 Main Component Starts Here
 
 =================================================================*/
-  const [alert, setAlert] = useState(null);
-
+  const { setToaster } = useToaster();
 
   const handlePageChange = async (mLimit) => {
     await setPage(1);
@@ -321,14 +334,11 @@ Main Component Starts Here
       });
     },
     onSuccess: (resp) => {
-      setAlert({ message: resp.statusMsg, type: "success" });
-      // getData({
-      //   cache: false,
-      // })
+      setToaster({ message: resp.statusMsg, type: "success" });
     },
     onError: (error) => {
       // setPipelines([]);
-      // setAlert({ message: error.message, type: "error" });
+      // setToaster({ message: error.message, type: "error" });
     },
   });
 
@@ -402,13 +412,6 @@ Main Component Starts Here
 
   return data.length > 0 ? (
     <div className="md:mb-4 mb-3 flex flex-col h-[66vh] overflow-auto relative">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }) => (
           <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">

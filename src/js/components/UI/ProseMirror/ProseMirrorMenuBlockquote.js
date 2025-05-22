@@ -9,7 +9,7 @@ const blockquoteItem = new MenuItem2({
       const span = document.createElement("span");
       span.innerHTML = `
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-        width="20px" height="20px" viewBox="0 0 24.000000 23.000000"
+        width="15px" height="15px" viewBox="0 0 24.000000 23.000000"
         preserveAspectRatio="xMidYMid meet">
         <g transform="translate(0.000000,23.000000) scale(0.100000,-0.100000)"
         fill="#666666" stroke="none">

@@ -95,14 +95,16 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
         stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
-        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields`,
+        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
         formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
             }`,
         createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
+        createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
+        removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
         updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
     };
 
-    if ((!isLoadedFirstTime && activeTab === "files") || (sync === true && activeTab === "files")) {
+    if (!isLoadedFirstTime) {
         return (
             <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
             >
@@ -197,6 +199,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 hubspotObjectTypeId={'0-5'}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
+                                tableTitle={permissions?.ticket?.display_label || "Tickets"}
                                 apis={apis}
                                 componentName="ticket"
                                 defPermissions={permissions ? permissions.ticket : null}

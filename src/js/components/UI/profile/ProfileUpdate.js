@@ -58,10 +58,8 @@ const SaveButton = ({ onClick }) => (
 
 const ProfileUpdate = () => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const { setToaster } = useToaster();
   const { me, getMe } = useMe();
-  const loggedInDetails = useRecoilValue(userDetailsAtom);
 
   const validationSchema = z.object({
     firstName: z.string().min(2, {
@@ -82,13 +80,17 @@ const ProfileUpdate = () => {
     mutationFn: (data) => Client.profile.update(data),
     onSuccess: (response) => {
       getMe();
-      setAlertMessage(response.statusMsg || "Profile updated successfully");
-      setShowAlert(true);
+      setToaster({
+        message: response.statusMsg || "Profile updated successfully",
+        type: "success",
+      });
       setIsEditPersonalInfo(false);
     },
     onError: (error) => {
-      setAlertMessage("Error updating profile");
-      setShowAlert(true);
+      setToaster({
+        message: "Error updating profile",
+        type: "success",
+      });
     },
   });
 
@@ -183,15 +185,6 @@ const ProfileUpdate = () => {
           </div>
         )}
       </Form>
-
-      {showAlert && (
-        <Alert
-          duration={1000}
-          message={alertMessage}
-          type={isSuccess ? "success" : "error"}
-          onClose={() => setShowAlert(false)}
-        />
-      )}
     </div>
   );
 };

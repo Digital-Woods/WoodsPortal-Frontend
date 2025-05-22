@@ -1,28 +1,33 @@
-const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId, hubspotObjectTypeId, apis, showEditData, refetch, urlParam }) => {
-  const { sync, setSync } = useSync();
+const DashboardTableEditForm = ({
+  openModal,
+  setOpenModal,
+  title,
+  path,
+  portalId,
+  hubspotObjectTypeId,
+  apis,
+  showEditData,
+  refetch,
+  urlParam,
+}) => {
   const [isSata, setisData] = useState(false);
-  const [is1st, setis1st] = useState(false);
   const [defaultValues, setDefaultValues] = useState(null);
   const [data, setData] = useState([]);
   const [initialValues, setInitialValues] = useState(false);
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const { z } = Zod;
 
   const { mutate: getFormData, isLoading: stageLoadingFormData } = useMutation({
-    mutationKey: [
-      "getFormData"
-    ],
+    mutationKey: ["getFormData"],
     mutationFn: async () => {
-      return await Client.form.formData(
-        {
-          // API: apis.formDataAPI,
-          API: `${apis.formDataAPI}`,
-          params: {
-            objectId: showEditData.hs_object_id
-          }
-        }
-      );
+      return await Client.form.formData({
+        // API: apis.formDataAPI,
+        API: `${apis.formDataAPI}`,
+        params: {
+          objectId: showEditData.hs_object_id,
+        },
+      });
     },
     onSuccess: (response) => {
       if (response.statusCode === "200") {
@@ -34,17 +39,19 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
             const mValue = value.value;
             return [
               key,
-              typeof mValue === 'object' && mValue !== null && 'value' in mValue ? mValue.value : mValue
+              typeof mValue === "object" && mValue !== null && "value" in mValue
+                ? mValue.value
+                : mValue,
             ];
           })
         );
-        setInitialValues(mapData)
-        setDefaultValues(response.data)
+        setInitialValues(mapData);
+        setDefaultValues(response.data);
       }
     },
     onError: () => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -68,7 +75,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   //   },
   //   onError: (error) => {
   //     let errorMessage = "An unexpected error occurred.";
-  //     setAlert({ message: errorMessage, type: "error" });
+  //     setToaster({ message: errorMessage, type: "error" });
   //   },
   // });
 
@@ -82,7 +89,6 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       } else {
         schemaShape[field.name] = z.string().nullable();
       }
-
     });
     return z.object(schemaShape);
   };
@@ -110,19 +116,17 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       );
       // console.log('updatedProperties', updatedProperties)
 
-      setData(updatedProperties)
+      setData(updatedProperties);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
   // get form
   const { mutate: getData, isLoading } = useMutation({
-    mutationKey: [
-      "TableFormData"
-    ],
+    mutationKey: ["TableFormData"],
     mutationFn: async () => {
       return await Client.form.fields({ API: apis.formAPI });
     },
@@ -131,14 +135,14 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       if (response.statusCode === "200") {
         // console.log('getData', response.data.properties)
         // setData(sortFormData(response.data.properties))
-        setData(response.data.properties)
-        setisData(true)
+        setData(response.data.properties);
+        setisData(true);
         // setis1st(!is1st ? true : false)
       }
     },
     onError: () => {
       setData([]);
-      setisData(false)
+      setisData(false);
       // setis1st(false)
     },
   });
@@ -147,15 +151,15 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
     mutationKey: ["editData"],
     mutationFn: async (input) => {
       try {
-        const mUrlParam = updateParamsFromUrl(apis.createAPI, urlParam)
-        mUrlParam.formId = showEditData.hs_object_id
-        const API_ENDPOINT = removeAllParams(apis.createAPI)
-        const API = addParam(API_ENDPOINT, mUrlParam)
+        const mUrlParam = updateParamsFromUrl(apis.createAPI, urlParam);
+        mUrlParam.formId = showEditData.hs_object_id;
+        const API_ENDPOINT = removeAllParams(apis.createAPI);
+        const API = addParam(API_ENDPOINT, mUrlParam);
 
         const response = await Client.form.update({
           // API: apis.updateAPI.replace(":formId", showEditData.hs_object_id),
           API: API,
-          data: input
+          data: input,
         });
         return response;
       } catch (error) {
@@ -163,14 +167,14 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
       }
     },
     onSuccess: async (response) => {
-      setAlert({ message: response.statusMsg, type: "success" });
+      setToaster({ message: response.statusMsg, type: "success" });
       refetch({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
-        filterValue: ""
-      })
+        filterValue: "",
+      });
       // setSync(true)
-      setOpenModal(false)
+      setOpenModal(false);
     },
 
     onError: (error) => {
@@ -185,7 +189,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -195,7 +199,7 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
 
   const onChangeSelect = (filled, selectedValue) => {
     if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
-      getStags(selectedValue)
+      getStags(selectedValue);
     }
   };
 
@@ -219,11 +223,10 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   useEffect(() => {
     // console.log('initialValues', initialValues)
     if (initialValues) getData();
-  }, [initialValues,]);
+  }, [initialValues]);
 
   useEffect(() => {
     getFormData();
-
   }, []);
 
   useEffect(() => {
@@ -236,7 +239,9 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
           }
           return [
             key,
-            typeof value === 'object' && value !== null && 'value' in value ? value.value : value
+            typeof value === "object" && value !== null && "value" in value
+              ? value.value
+              : value,
           ];
         })
       );
@@ -245,21 +250,18 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
   }, [showEditData, isSata]);
   return (
     <div>
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
-      <Dialog open={openModal} onClose={setOpenModal} className="rounded-md lg:w-[480px] md:w-[430px] w-[calc(100vw-28px)]">
+      <Dialog
+        open={openModal}
+        onClose={setOpenModal}
+        className="rounded-md lg:w-[480px] md:w-[430px] w-[calc(100vw-28px)]"
+      >
         <div className="rounded-md flex-col gap-6 flex">
           <h3 className="text-lg text-start font-semibold dark:text-white mb-4">
             Edit {title}
           </h3>
-          {isLoading || stageLoadingFormData ?
+          {isLoading || stageLoadingFormData ? (
             <div className="loader-line"></div>
-            :
+          ) : (
             <div className="w-full text-left">
               <Form
                 onSubmit={onSubmit}
@@ -268,12 +270,12 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 initialValues={initialValues}
                 className="dark:bg-dark-200 !m-0"
               >
-                {({ register, control, formState: { errors } }) => (
+                {({ register, control, setValue, formState: { errors } }) => (
                   <div>
                     <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
                         <div>
-                          <FormItem  className=''>
+                          <FormItem className="">
                             <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                               {filled.customLabel}
                             </FormLabel>
@@ -303,31 +305,49 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
 
                             <FormControl>
                               <div>
-                                {
-                                  filled.fieldType == 'select' || (filled.name == 'dealstage' && filled.fieldType == 'radio' && hubspotObjectTypeId === env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
-                                    <Select
-                                      label={`Select ${filled.customLabel}`}
-                                      name={filled.name}
-                                      options={filled.options}
-                                      control={control}
-                                      filled={filled}
-                                      onChangeSelect={onChangeSelect}
-                                    />
-                                  ) : filled.fieldType === 'textarea' ? (
-                                    <Textarea
-                                      height="medium"
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
-                                  ) : (
-                                    <Input
-                                      placeholder={filled.customLabel}
-                                      className=""
-                                      {...register(filled.name)}
-                                    />
-                                  )
-                                }
+                                {filled.fieldType == "select" ||
+                                (filled.name == "dealstage" &&
+                                  filled.fieldType == "radio" &&
+                                  hubspotObjectTypeId ===
+                                    env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                  <Select
+                                    label={`Select ${filled.customLabel}`}
+                                    name={filled.name}
+                                    options={filled.options}
+                                    control={control}
+                                    filled={filled}
+                                    onChangeSelect={onChangeSelect}
+                                  />
+                                ) : filled.fieldType === "textarea" ? (
+                                  <Textarea
+                                    height="medium"
+                                    placeholder={filled.customLabel}
+                                    className=""
+                                    {...register(filled.name)}
+                                  />
+                                ) : filled.fieldType === "html" ? (
+                                  <DashboardTableEditor
+                                    title={filled.label}
+                                    value={filled.value}
+                                    setValue={setValue}
+                                  />
+                                ) : filled.fieldType === "date" ? (
+                                  <DateTimeInput
+                                    type={filled.type}
+                                    dateFormat="dd-mm-yyyy"
+                                    height="small"
+                                    className=""
+                                    setValue={setValue}
+                                    defaultValue={""}
+                                    {...register(filled.name)}
+                                  />
+                                ) : (
+                                  <Input
+                                    placeholder={filled.customLabel}
+                                    className=""
+                                    {...register(filled.name)}
+                                  />
+                                )}
                               </div>
                             </FormControl>
 
@@ -340,17 +360,14 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                         </div>
                       ))}
                     </div>
-                    <div className="mt-4 flex items-center gap-3 justify-between">
+                    <div className="mt-4 flex items-center gap-2 justify-between">
                       <Button
                         variant="outline"
                         onClick={() => setOpenModal(false)}
                       >
                         Cancel
                       </Button>
-                      <Button
-                        className=" "
-                        isLoading={submitLoading}
-                      >
+                      <Button className=" " isLoading={submitLoading}>
                         Save {title}
                       </Button>
                     </div>
@@ -358,9 +375,9 @@ const DashboardTableEditForm = ({ openModal, setOpenModal, title, path, portalId
                 )}
               </Form>
             </div>
-          }
+          )}
         </div>
-      </Dialog >
-    </div >
+      </Dialog>
+    </div>
   );
 };

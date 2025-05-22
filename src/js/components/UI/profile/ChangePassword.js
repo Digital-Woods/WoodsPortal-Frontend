@@ -23,8 +23,7 @@ const ConfirmandCurrentPassIcon = () => (
 );
 
 const ChangePassword = () => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const { setToaster } = useToaster();
 
   // State variables to manage form input values
   const [currentPassword, setCurrentPassword] = useState("");
@@ -69,8 +68,7 @@ const ChangePassword = () => {
   } = useMutation({
     mutationFn: (data) => Client.authentication.changePassword(data),
     onSuccess: (response) => {
-      setAlertMessage(response.statusMsg || "Password updated successfully");
-      setShowAlert(true);
+      setToaster({ message: response.statusMsg || "Password updated successfully", type: "success" });
       // Clear input fields on success
       setCurrentPassword("");
       setNewPassword("");
@@ -87,8 +85,7 @@ const ChangePassword = () => {
       } else if (error.message) {
         errorMessage = error.message;
       }
-      setAlertMessage(errorMessage);
-      setShowAlert(true);
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -116,15 +113,6 @@ const ChangePassword = () => {
 
   return (
     <div>
-      {showAlert && (
-        <Alert
-          duration={1000}
-          message={alertMessage}
-          type={isSuccess ? "success" : "error"}
-          onClose={() => setShowAlert(false)}
-        />
-      )}
-
       <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
         {({ register, formState: { errors } }) => (
           <div className="p-4 max-sm:p-2 dark:bg-dark-300 bg-cleanWhite rounded-md border dark:border-none dark:text-white">

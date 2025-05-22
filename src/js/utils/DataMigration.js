@@ -315,11 +315,23 @@ const renderCellContent = ({
   };
   // End - Set associations url in cookie
 
+  if ( // if date then conver into date format
+    column &&
+    value != null &&
+    (column.type == "datetime" ||
+      column.key == "hs_createdate" ||
+      column.key == "hs_lastmodifieddate" ||
+      column.key == "createdate"
+    )
+  ) {
+    const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
+    return  truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
+  }
 
   if ( // if date then conver into date format
     column &&
     value != null &&
-    (column.fieldType == "date" ||
+    (column.type == "date" ||
       column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
       column.key == "createdate"
@@ -405,7 +417,7 @@ const renderCellContent = ({
   if ((type === "list" || type === "associations" || type === 'homeList') && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
-        {truncatedText(decodeAndStripHtml(value || ""))}
+        {truncatedText(decodeAndStripHtml(value || ""), 23)}
       </div>
     );
   }
@@ -416,6 +428,14 @@ const renderCellContent = ({
         {/* {isObject(value) ? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))} */}
         {decodeAndStripHtml(value || "")}
+      </div>
+    );
+  }
+
+  if (type === "details" && column?.key === "hubspot_owner_id" && value) {
+    return (
+      <div className="flex gap-1 relative justify-between">
+        {value?.firstname} {value?.lastname}
       </div>
     );
   }

@@ -35,7 +35,9 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableHeader.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableData.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableForm.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableExistingForm.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableEditForm.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Table/DashboardTableEditor.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/HomeBanner.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/IframeViewDialog.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/SidebarTable.js")}}'></script>
@@ -57,7 +59,7 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/SvgRenderer.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Dialog.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Tooltip.js")}}'></script>
-<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Alert.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Toaster.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/files/Files.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Notes.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Tickets.js")}}'></script>
@@ -74,6 +76,10 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/Attachments.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/EmptyMessageCard.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ColorPicker.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/DateTime/DatePicker.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/DateTime/TimePicker.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/DateTime/DateTimeInput.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/components/UI/DisassociateButton.js")}}'></script>
 
 <!-- ProseMirror Editor -->
 <script type="text/babel" src='{{get_asset_url("../../../js/components/UI/ProseMirror/ProseMirrorMenuPopup.js")}}'></script>
@@ -163,6 +169,7 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-sync.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-editor.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/state/use-table.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/state/use-toaster.js")}}'></script>
 
 <!-- Utils -->
 <script type="text/babel" src='{{get_asset_url("../../../js/utils/dataMigration.js")}}'></script>
@@ -172,6 +179,7 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/utils/generateApiUrl.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/utils/Currency.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/utils/GetIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/utils/DateTime.js")}}'></script>
 
 <!-- Icons -->
 <script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/editIcon.js")}}'></script>
@@ -201,6 +209,21 @@
 <script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/OutlineSearch.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/SearchIcon.js")}}'></script>
 <script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/EnterIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/ChevronLeftIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/ChevronRightIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/ArrowDropDownIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/BoldIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/AttachmentIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/ItalicIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/UnderlineIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/AlfabateIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/HighlightIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/LinkIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/ImageIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/IecreaseIndentIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/DecreaseIndentIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/EmojiIcon.js")}}'></script>
+<script type="text/babel" src='{{get_asset_url("../../../js/assets/icons/IconUnlink.js")}}'></script>
 
 <!-- Main APP -->
 <script type="text/babel" src='{{get_asset_url("../../../js/App.js")}}'></script>

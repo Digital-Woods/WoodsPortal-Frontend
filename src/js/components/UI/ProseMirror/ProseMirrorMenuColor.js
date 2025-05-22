@@ -106,22 +106,7 @@ const DropdownColorMenu = ({ editorView, icon }) => {
         title="Text Color"
         isActive={defaultEditorFont}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="20px"
-          viewBox="0 -960 960 960"
-          width="20px"
-        >
-          <path
-            d="M80 0v-160h800V0H80Z"
-            fill={defaultTextColor}
-            id="text-color-svg"
-          />
-          <path
-            d="M220-280 430-840h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"
-            fill={defaultTextColor}
-          />
-        </svg>
+        <AlfabateIcon color={defaultTextColor}/>
       </ProseMirrorMenuButton>
       <ProseMirrorMenuOption>
         <ColorPicker
