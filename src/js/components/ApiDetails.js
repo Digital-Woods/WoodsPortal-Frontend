@@ -1,7 +1,7 @@
 const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
-  const [sortItems, setSortItems] = useState([]);
+  const [info, setInfo] = useState(null);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
   const [configurations, setConfigurations] = useState({
@@ -74,8 +74,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     if (routeMenuConfigs[key]) {
         routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
     }
-
-    // console.log('routeMenuConfigs', routeMenuConfigs)
     setRouteMenuConfig(routeMenuConfigs);
   };
 
@@ -120,6 +118,9 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
 
       const mConfigurations = data?.configurations;
       setConfigurations(mConfigurations);
+
+      const mInfo = data?.info;
+      setInfo(mInfo);
 
       const details = data?.data;
       const sortedItems = sortData(details, "details");
@@ -366,6 +367,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                       companyAsMediator={companyAsMediator}
                       urlParam={urlParam}
                       parentPermissions={permissions}
+                      info={info}
                     />
                   ))}
             </div>

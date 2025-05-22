@@ -140,7 +140,7 @@ const HomeCompanyCard = ({ userData, isLoading, isLoadedFirstTime }) => {
                     className={`!p-0 relative mx-auto bg-white overflow-y-auto max-h-[95vh] ${expandDialog ? 'lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]' : 'lg:w-[780px] md:w-[680px] w-[calc(100vw-28px)] '} `}
                 >
                     <div className="flex justify-between items-center mb-4 bg-[#516f90] dark:bg-dark-300 dark:bg-dark-200 p-4">
-                        <h2 className="text-lg font-semibold text-white dark:text-white">
+                        <h2 className="text-lg font-semibold text-white dark:text-white mb-0">
                             {userAssociatedDetails?.name?.value || "No Company Name"}
                         </h2>
                         <div className="flex gap-2 items-center">

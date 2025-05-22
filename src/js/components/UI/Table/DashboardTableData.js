@@ -37,6 +37,7 @@ const DashboardTableData = ({
   hoverRow,
   urlParam,
   handleRowHover,
+  componentName,
   // currentPage,
   // setCurrentPage,
   // sortConfig,
@@ -44,7 +45,8 @@ const DashboardTableData = ({
   // setAfter,
   // itemsPerPage,
   // setItemsPerPage,
-  detailsUrl
+  detailsUrl,
+  apis
 }) => {
   const {
     page,
@@ -75,6 +77,7 @@ const DashboardTableData = ({
   const [tableData, setTableData] = useState([]);
   const [currentItems, setCurrentItems] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+  const [activeDisassociatedButton, setActiveDisassociatedButton] = useState(null);
   // const [itemsPerPage, setItemsPerPage] = useState(0);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [sortConfig, setSortConfig] = useState("-hs_createdate");
@@ -128,7 +131,7 @@ const DashboardTableData = ({
 
   return (
     <React.Fragment>
-      <div className="overflow-x-auto rounded-md  dark:bg-dark-300">
+      <div className="overflow-x-auto relative rounded-md  dark:bg-dark-300">
         <Table className="w-full">
           <TableHeader>
             <TableRow>
@@ -165,8 +168,15 @@ const DashboardTableData = ({
                   </div>
                 </TableHead>
               ))}
+              {parentObjectTypeId && parentObjectRecordId &&
+                <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 sticky right-0">
+                  <div className="flex columns-center">
+                    <span className="font-semibold text-xs">Action</span>
+                  </div>
+                </TableHead>
+              }
+
               {/* {env.DATA_SOURCE_SET === true && (
-                    <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"></TableHead>
                   )}
                   {editView && permissions && permissions.update && (
                     <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"></TableHead>
@@ -174,11 +184,12 @@ const DashboardTableData = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {tableData.map((item) => (
+            {tableData.map((item, index) => (
               <TableRow
                 key={item.id}
                 onMouseEnter={() => handleRowHover(item)}
                 onMouseLeave={() => handleRowHover(null)}
+                className="relative"
               >
                 {tableHeader.filter((column) => !column.hidden).map((column) => (
                   <TableCell
@@ -252,6 +263,14 @@ const DashboardTableData = ({
                     </div>
                   </TableCell>
                 ))}
+                {parentObjectTypeId && parentObjectRecordId &&
+                  <TableCell className={`whitespace-nowrap dark:border-gray-600 text-sm bg-white dark:bg-dark-300 border-b z-[${activeDisassociatedButton === index ? 51 : 50}] sticky right-0`}>
+                    <div onClick={() => setActiveDisassociatedButton(index)}  className="flex items-center space-x-2 gap-x-5">
+                      <DisassociateButton componentName={componentName} item={item} apis={apis} parentObjectTypeId={parentObjectTypeId} parentObjectRecordId={parentObjectRecordId} hubspotObjectTypeId={hubspotObjectTypeId} refetch={getData} />
+                    </div>
+                  </TableCell>
+                }
+
                 {/* {env.DATA_SOURCE_SET === true && (
                       <TableCell className=" whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b">
                         <div className="flex items-center space-x-2  gap-x-5">

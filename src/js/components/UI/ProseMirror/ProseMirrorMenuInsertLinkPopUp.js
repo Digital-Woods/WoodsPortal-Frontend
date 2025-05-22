@@ -19,6 +19,13 @@ const findTextRange = (editor, searchText) => {
   return { from: startPos, to: endPos };
 };
 
+const normalizeUrl = (text) => {
+  if (!/^https?:\/\//i.test(text)) {
+    return `http://${text}`;
+  }
+  return text;
+}
+
 const insertEditLink = (
   editorView,
   state,
@@ -33,7 +40,7 @@ const insertEditLink = (
 
   const { from, to } = findTextRange(editorView, title);
 
-  let href = url;
+  let href = normalizeUrl(url);
   let attrs = {
     href,
     title: linkText,
@@ -58,10 +65,10 @@ const ProseMirrorMenuInsertLinkPopUp = ({
   target,
   closeLinkPopup,
 }) => {
-  const [isSetLinkText, setIsSetLinkText] = useState(false);
+  const [isSetLinkText, setIsSetLinkText] = useState( title ? true : false);
   const [linkText, setLinkText] = useState(title);
   const [url, setUrl] = useState(href);
-  const [blank, setBlank] = useState(target === '_self' ? false : true);
+  const [blank, setBlank] = useState(target === "_self" ? false : true);
 
   const dropdownButtonRef = useRef(null);
   const dropdownMenuRef = useRef(null);
@@ -139,7 +146,9 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       updatePopupPosition();
     };
 
-    const scrollableDiv = document.getElementById("details-scrollable-container");
+    const scrollableDiv = document.getElementById(
+      "details-scrollable-container"
+    );
     if (scrollableDiv) {
       scrollableDiv.addEventListener("scroll", handleScroll);
     }
@@ -156,7 +165,8 @@ const ProseMirrorMenuInsertLinkPopUp = ({
       id={`child-${randomId}`}
       ref={dropdownMenuRef}
       className={`absolute bg-white shadow-lg rounded-sm border z-[103]
-      top-[${popupPosition.top}px] left-[${popupPosition.left}px]`}
+      `}
+      style={popupPosition}
     >
       <div class="space-y-2 px-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
         <h2 class="text-sm">Edit Link</h2>
@@ -222,7 +232,7 @@ const ProseMirrorMenuInsertLinkPopUp = ({
           <Button
             size="sm"
             variant="link"
-            className="w-full dark:text-secondary"
+            className="w-full !text-secondary"
             onClick={() => removeEditLink()}
           >
             Remove link

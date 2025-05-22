@@ -481,6 +481,8 @@
   :root{
     --primary-color:{{primary_color}};
     --secondary-color:{{secondary_color}};
+    --primary-color-hover-bg:{{primary_color}}30;
+    --secondary-color-hover-bg:{{secondary_color}}30;
   }
 
   .spinner {
@@ -770,6 +772,10 @@ tfoot td {
   min-height:360px;
 }
 
+.create-object-editor .ProseMirror {
+  min-height: 180px;
+}
+
 .updateRichText .ProseMirror{
   height:380px;
 }
@@ -854,7 +860,7 @@ img.ProseMirror-separator {
   border: 1px solid transparent;
   border-radius: 3px;
   /* height: 27px; */
-  padding:5px;
+  padding:2px;
   vertical-align: middle;
   transition: 150ms ease-out;
   display: flex; 
@@ -978,7 +984,7 @@ img.ProseMirror-separator {
 .ProseMirror-menubar {
   display: flex;
   background: transparent;
-  border-bottom: 1px solid #7fd1de;
+  border-bottom: 1px solid var(--secondary-color);
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   -moz-box-sizing: border-box;
@@ -1048,6 +1054,7 @@ img.ProseMirror-separator {
 .ProseMirror-icon {
   display: inline-block;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .ProseMirror-menu-disabled.ProseMirror-icon {
@@ -1303,4 +1310,3 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 16px;
   margin-top: 0;
 }
-

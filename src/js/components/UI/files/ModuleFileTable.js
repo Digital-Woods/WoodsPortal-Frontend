@@ -1,7 +1,6 @@
 const ModuleFileTable = ({ files }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [alert, setAlert] = useState({ message: "", type: "", show: false });
 
   const handleRowClick = (file) => {
     let data = { data: {} }
@@ -14,17 +13,12 @@ const ModuleFileTable = ({ files }) => {
   };
 
   const handleDownload = (file, e) => {
-    // console.log(file);
     e.stopPropagation();
     window.open(file.url, "_blank");
   };
 
   const toggleDropdown = (index) => {
     setActiveDropdown(activeDropdown === index ? null : index);
-  };
-
-  const closeAlert = () => {
-    setAlert((prev) => ({ ...prev, show: false }));
   };
 
   const renderFiles = (files) => {
@@ -111,15 +105,6 @@ const ModuleFileTable = ({ files }) => {
 
       {selectedFile && (
         <FileDetailsModal file={selectedFile} onClose={closeModal} />
-      )}
-
-      {alert.show && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={closeAlert}
-          duration={2000}
-        />
       )}
     </div>
   );

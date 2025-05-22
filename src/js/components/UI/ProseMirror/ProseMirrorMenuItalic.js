@@ -43,7 +43,7 @@ const isItalicMarkActive = (state, markType) => {
 };
 
 const EditorItalicMenu = ({ editorView }) => {
-  const boldIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>`;
+  // const boldIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M200-200v-100h160l120-360H320v-100h400v100H580L460-300h140v100H200Z"/></svg>`;
   const boldButtonRef = useRef(null);
   const [selectedEditorItalic, setSelectedEditorItalic] = useState(false);
 
@@ -65,7 +65,8 @@ const EditorItalicMenu = ({ editorView }) => {
           id="selectedEditorItalic"
           className={`note-menuitem ${selectedEditorItalic ? "note-active-state" : ""}`}
         >
-          <SvgRenderer svgContent={boldIcon} />
+          {/* <SvgRenderer svgContent={boldIcon} /> */}
+          <ItalicIcon/>
         </div>
       </div>
     </div>

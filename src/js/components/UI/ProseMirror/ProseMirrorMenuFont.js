@@ -159,18 +159,20 @@ const DropdownFontMenu = ({ editorView, activeFont2 }) => {
       <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
         <ProseMirrorMenuButton
           id="defaultEditorFont"
-          title="Text Alignment"
+          title="Font Family"
           isActive={defaultEditorFont}
           variant="outline"
         >
-          {defaultEditorFont ? defaultEditorFont?.label : font.label}
+          <span className={`block !text-[12px]  min-w-[85px] font-[${defaultEditorFont ? defaultEditorFont?.key : font.key}]`}>
+           {defaultEditorFont ? defaultEditorFont?.label : font.label}
+          </span>
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
           <ul class="space-y-2 note-dd-Select-menu list-none min-w-[105px] list-inside dark:text-gray-400">
             {textFonts.map((textFont) => (
               <li
                 key={textFont.key}
-                className={`cursor-pointer min-w-[130px] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
+                className={`cursor-pointer min-w-[100px] !text-[12px] font-[${textFont.key}] note-dd-Select-menu-options hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
                   defaultEditorFont?.key === textFont.key
                     ? "bg-gray-100"
                     : "bg-none"
@@ -221,12 +223,13 @@ const fontMenuItem = new MenuItem2({
     const activeFont = fontSelectionPluginKey.getState(state) || true;
     // const selectedEditorFont = fontSelectionPluginKey.getState(state);
     const selectedEditorFont = getFontFamilyFromSelection(state);
-    const font = textFonts.find((font) => font.key === selectedEditorFont);
+    const font = textFonts.find((font) => font.key === selectedEditorFont?.replace(/^"(.*)"$/, "$1"));
 
-    // defaultEditorFont = font
+    defaultEditorFont = font
 
     const div = document.getElementById("defaultEditorFont-icon");
-    if (div && selectedEditorFont) {
+    document.getElementById("defaultEditorFont-icon")?.classList.add(...`!text-[12px] min-w-[85px] font-[${defaultEditorFont ? defaultEditorFont?.key : ''}]`.split(" "));
+    if (div && selectedEditorFont && font) {
       div.textContent = font.label; // Change text content
       document
         .getElementById("defaultEditorFont")

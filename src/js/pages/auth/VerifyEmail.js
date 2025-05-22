@@ -23,6 +23,7 @@ const Tick = () => {
 function VerifyEmail() {
   const [isVerifying, setIsVerifying] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
+  const { setToaster } = useToaster();
 
   const token = getParam("token")
 
@@ -44,7 +45,7 @@ function VerifyEmail() {
     },
     onError: (error) => {
       // console.log('error', error.response.data.detailedMessage)
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
       setIsVerifying(false)
     },
   });
@@ -69,7 +70,7 @@ function VerifyEmail() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">
         {isVerified ? "Your Email Has Been Successfully Verified" : "Verify your email"}
       </h1>
       <p className="text-lg text-gray-600 mb-8 text-center">

@@ -173,7 +173,11 @@ class Client {
     formData: ({ API, params }) =>HttpClient.get(generateApiUrl({route: API, params})),
     stages: ({ API }) =>
       HttpClient.get(API),
+    options: ({ API }) =>
+      HttpClient.get(API),
     create: ({API, data}) => HttpClient.post(API, data),
+    createExisting: ({API, params, data}) => HttpClient.post(generateApiUrl({route: API, params}), data),
+    removeExisting: ({API, params, data}) => HttpClient.post(generateApiUrl({route: API, params}), data),
     update: ({API, data}) => HttpClient.put(API, data),
   };
 

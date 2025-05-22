@@ -1,25 +1,12 @@
 const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
-  const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
-  const [alert, setAlert] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const { routes, setRoutes } = useRoute();
+  const { setToaster } = useToaster();
 
   const enterEmailValidationSchema = z.object({
     email: z.string().email().nonempty({
       message: "Email is required.",
     }),
   });
-
-  // const { getMe } = useMe();
-  // const setUserDetails = useSetRecoilState(userDetailsAtom);
-
-  // const setItemAsync = async (key, value, days = env.COOKIE_EXPIRE) => {
-  //   return new Promise((resolve) => {
-  //     setCookie(key, value, days);
-  //     resolve();
-  //   });
-  // };
 
   const { mutate: login, isLoading } = useMutation({
     mutationKey: ["enterEmailUser"],
@@ -57,7 +44,7 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }
 
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -72,13 +59,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
-      {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <div className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
         <div className="">
           <div className="w-[200px]">
