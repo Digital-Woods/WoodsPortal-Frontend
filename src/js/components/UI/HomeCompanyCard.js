@@ -136,6 +136,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                                                     companyAsMediator: false,
                                                     value: value?.value,
                                                     column: { ...value, key },
+                                                    type:'company'
                                                 }
                                             )}
                                         </div>)
@@ -213,6 +214,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                                                 companyAsMediator: false,
                                                 value: value?.value,
                                                 column: { ...value, key },
+                                                type:'company'
                                             }
                                         )}
                                     </div>
