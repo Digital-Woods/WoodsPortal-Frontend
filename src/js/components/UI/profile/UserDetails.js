@@ -104,7 +104,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
         updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
     };
 
-    if ((!isLoadedFirstTime && activeTab === "files") || (sync === true && activeTab === "files")) {
+    if (!isLoadedFirstTime) {
         return (
             <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
             >

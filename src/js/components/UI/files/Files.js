@@ -43,7 +43,6 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
         cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      setSync(false);
       // setPermissions(data.configurations.fileManager);
       if (data && data.data) {
         if (folderStack.length > 0 && currentFiles.name != id) {
@@ -59,6 +58,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
           setFolderStack([data.data]);
         }
       }
+      setSync(false);
     },
     onError: (error) => {
       setSync(false);
@@ -67,6 +67,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   });
 
   useEffect(() => {
+    console.log('file_sync_1 ', sync)
     if (sync) {
       refetch();
     }
