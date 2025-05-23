@@ -316,6 +316,7 @@ const DetailsAssociations = ({
           parentObjectTypeId={parentObjectTypeId}
           parentObjectRowId={parentObjectRowId}
           info={info}
+          isShowExistingRecord={association?.configurations?.object.existing_record}
         />
       )}
     </React.Fragment>
