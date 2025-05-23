@@ -13,6 +13,7 @@ const DashboardTableForm = ({
   parentObjectTypeId,
   parentObjectRowId,
   info,
+  isShowExistingRecord=false
 }) => {
   // const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState("addNew");
@@ -332,7 +333,7 @@ const DashboardTableForm = ({
             <h3 className="text-start text-xl dark:text-white font-semibold ">
               {dialogTitle}
             </h3>
-            {(type === "association" || type === "association_new") && (
+            {(type === "association" || type === "association_new") && (isShowExistingRecord) && (
               // <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               //   <Tabs
               //     activeTab={activeTab}
