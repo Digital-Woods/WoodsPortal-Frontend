@@ -304,7 +304,7 @@
     "id" : "4e85e78d-7bd9-7577-c39b-eba6bcfecb2e",
     "name" : "enable_dashboard_cards",
     "label" : "Enable Dashboard Cards",
-    "help_text" : "This will enable the company card next to the Greeting Card on the dashboard",
+    "help_text" : "Enables dashboard cards to show company details and more.",
     "required" : false,
     "locked" : false,
     "display" : "toggle",
@@ -335,6 +335,7 @@
       "id" : "0fa733d6-e1ee-d1e9-6f30-9c1c9eee5aed",
       "name" : "show_title",
       "label" : "Show Title",
+      "help_text" : "Display the title at the top of the card",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -344,7 +345,7 @@
     }, {
       "id" : "80aecc32-bfe3-627b-e792-b98093408501",
       "name" : "title",
-      "label" : "Title",
+      "label" : "Card Title",
       "help_text" : "To display a dynamic value, please copy the label from the admin properties table and paste it between asterisks, like this: **label**.",
       "inline_help_text" : "",
       "required" : false,
@@ -366,7 +367,8 @@
     }, {
       "id" : "0ae3528c-c6df-e051-e1e7-74865862a290",
       "name" : "show_date",
-      "label" : "Show Date",
+      "label" : "Display Date",
+      "help_text" : "Toggle to show or hide the date on the card",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -376,17 +378,17 @@
     }, {
       "id" : "e2c8f0bc-4e17-813a-131b-5ec40feba8d7",
       "name" : "description",
-      "label" : "description",
+      "label" : "Description",
       "required" : false,
       "locked" : false,
       "type" : "richtext",
       "display_width" : null,
-      "default" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>"
+      "default" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>"
     }, {
       "id" : "111780a2-3978-5023-64ad-f0082cf54a1a",
       "name" : "properties",
-      "label" : "Enter Properties to Show on Card",
-      "help_text" : "These properties will be displayed on the Home Company card.",
+      "label" : "Add Primary Company Properties",
+      "help_text" : "Added properties will be shown on the card.",
       "inline_help_text" : "If not displayed, please enable visibility in the admin panel for the property you have entered.",
       "required" : false,
       "locked" : false,
@@ -400,7 +402,7 @@
         "id" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "name" : "properties_value",
         "label" : "Property Internal Name",
-        "help_text" : "Enter the property name to show on the company card",
+        "help_text" : "Enter the property name to show on the card",
         "required" : false,
         "locked" : false,
         "validation_regex" : "",
@@ -408,7 +410,7 @@
         "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
-        "default" : "industry"
+        "default" : "Property Name"
       }, {
         "id" : "8a79f54c-c73b-da0a-2c3f-bed54daea321",
         "name" : "show_iframe",
@@ -446,15 +448,15 @@
       "type" : "group",
       "display_width" : null,
       "default" : [ {
-        "properties_value" : "industry",
+        "properties_value" : "Property Name",
         "show_iframe" : false,
         "iframe_button_name" : "View Docs"
       } ]
     }, {
       "id" : "6ccf76f3-18f5-03ca-3fcb-5965874b8342",
       "name" : "add_details_modal",
-      "label" : "Add Details Modal",
-      "help_text" : "Enabling this toggle will add a button to the company card, allowing users to view all company properties that are set to display in the admin properties table.",
+      "label" : "Enable Details Modal",
+      "help_text" : "Enabling this toggle will add a button to the card, allowing users to view all company properties that are set to display in the admin properties table.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -468,23 +470,23 @@
     "type" : "group",
     "display_width" : null,
     "default" : [ {
+      "show_title" : true,
       "title" : "",
       "show_date" : true,
-      "show_date_copy" : true,
-      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
+      "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
-        "properties_value" : "industry",
+        "properties_value" : "Property Name",
         "show_iframe" : false,
         "iframe_button_name" : "View Docs"
       } ],
       "add_details_modal" : true
     }, {
+      "show_title" : true,
       "title" : "",
       "show_date" : true,
-      "show_date_copy" : true,
-      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
+      "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
-        "properties_value" : "industry",
+        "properties_value" : "Property Name",
         "show_iframe" : false,
         "iframe_button_name" : "View Docs"
       } ],
@@ -716,23 +718,23 @@
     } ],
     "enable_dashboard_cards" : true,
     "dashboard_cards" : [ {
+      "show_title" : true,
       "title" : "",
       "show_date" : true,
-      "show_date_copy" : true,
-      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
+      "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
-        "properties_value" : "industry",
+        "properties_value" : "Property Name",
         "show_iframe" : false,
         "iframe_button_name" : "View Docs"
       } ],
       "add_details_modal" : true
     }, {
+      "show_title" : true,
       "title" : "",
       "show_date" : true,
-      "show_date_copy" : true,
-      "description" : "<h6>Your</h6>\n<p>work is shaping results, **firstname**. Let’s align actions with goals for maximum impact.</p>",
+      "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
-        "properties_value" : "industry",
+        "properties_value" : "Property Name",
         "show_iframe" : false,
         "iframe_button_name" : "View Docs"
       } ],
@@ -1292,9 +1294,9 @@
         "opacity" : 100
       }
     }, {
-      "id" : "bd783c72-42c6-cc91-d718-b3c441e4b369",
-      "name" : "company_property_display_type",
-      "label" : "Company Property Display Type",
+      "id" : "ea44d480-a28a-38b3-0649-d529395c5646",
+      "name" : "cards_direction",
+      "label" : "Cards Display Type",
       "required" : false,
       "locked" : false,
       "display" : "select",
@@ -1306,9 +1308,9 @@
       "display_width" : null,
       "default" : "grid"
     }, {
-      "id" : "ea44d480-a28a-38b3-0649-d529395c5646",
-      "name" : "cards_direction",
-      "label" : "Cards Display Type",
+      "id" : "bd783c72-42c6-cc91-d718-b3c441e4b369",
+      "name" : "company_property_display_type",
+      "label" : "Company Property Display Type",
       "required" : false,
       "locked" : false,
       "display" : "select",
@@ -1342,8 +1344,8 @@
         "color" : "#0091ae",
         "opacity" : 100
       },
-      "company_property_display_type" : "grid",
-      "cards_direction" : "grid"
+      "cards_direction" : "grid",
+      "company_property_display_type" : "grid"
     }
   }, {
     "id" : "76f40114-fea8-8230-7167-74a8f484d787",
@@ -1691,8 +1693,8 @@
         "color" : "#0091ae",
         "opacity" : 100
       },
-      "company_property_display_type" : "grid",
-      "cards_direction" : "grid"
+      "cards_direction" : "grid",
+      "company_property_display_type" : "grid"
     },
     "table_record_creation_button" : {
       "text_color" : {
