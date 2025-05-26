@@ -355,6 +355,41 @@ const renderCellContent = ({
     )
   }
 
+  if (
+    column &&
+    (type == "details" ||
+    type == "company" ||
+    type == "homeList") &&
+    value !== null &&
+    typeof value === 'string' &&
+    value.startsWith('https://')
+  ) {
+    const urls = value
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url.startsWith('https://'));
+
+    if (urls.length > 0) {
+      return (
+        <div className={`flex flex-wrap gap-1`}>
+          {urls.map((url, idx) => (
+            <a
+              key={idx}
+              href={url}
+              className="hover:underline flex items-center flex-wrap gap-1"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="break-all inline-block">{url}</span>
+              <OpenIcon />
+            </a>
+          ))}
+        </div>
+      );
+    }
+  }
+
+
   // if (
   //   column.key === "amount" && column.showCurrencySymbol
   // ) {
