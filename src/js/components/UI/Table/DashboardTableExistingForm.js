@@ -9,9 +9,23 @@ const DashboardTableExistingForm = ({
   setAddAnother,
   submitLoading,
   onChangeSelect,
+  title
 }) => {
   const [options, setOptions] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedObjects, setSelectedObjects] = useState([]);
+  const [search, setSearch] = useState();
+
+  const handleCheckboxChange = (value, label) => {
+    setSelectedObjects((prevSelected) => {
+      const exists = prevSelected.some((obj) => obj.value === value);
+      if (exists) {
+        return prevSelected.filter((obj) => obj.value !== value);
+      } else {
+        return [...prevSelected, { value, label }];
+      }
+    });
+  };
 
   const { mutate: callAPI, isLoading } = useMutation({
     mutationKey: ["getExistingOptionsData"],
@@ -37,6 +51,10 @@ const DashboardTableExistingForm = ({
     },
   });
 
+    const handleSearch = () => {
+    console.log('searched');
+  };
+
   useEffect(() => {
     if (options.length < 1) callAPI();
   }, []);
@@ -61,7 +79,8 @@ const DashboardTableExistingForm = ({
           </div>
         </div>
       ) : (
-        <Form
+        <React.Fragment>
+        {/* <Form
           onSubmit={onSubmit}
           validationSchema={validationSchema}
           serverError={serverError}
@@ -117,7 +136,87 @@ const DashboardTableExistingForm = ({
               </div>
             );
           }}
-        </Form>
+        </Form> */}
+          <div>
+            <div className="mb-2">
+              <Tooltip content="Press enter to search " className="relative">
+                <Input
+                  placeholder="Search..."
+                  height="semiMedium"
+                  icon={SearchIcon}
+                  value={search}
+                  onChange={async (e) => {
+                    await setSearch(e.target.value);
+                    if (e.target.value === "") handleSearch();
+                  }}
+                  onKeyDown={async (e) => {
+                    if (e.key === "Enter") {
+                      handleSearch();
+                    }
+                  }}
+                  className="pr-12"
+                />
+                {search && (
+                  <div
+                    className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={handleSearch}
+                  >
+                    <EnterIcon />
+                  </div>
+                )}
+              </Tooltip>
+            </div>
+            <div className="flex flex-col gap-2 mb-4">
+              {selectedObjects.length > 0 && 
+               <div className="flex flex-col gap-4">
+                <span className="dark:text-white">
+                  {selectedObjects.length} selected
+                </span>
+                <span className="dark:text-white font-semibold text-sm">
+                  Selected
+                </span>
+              </div>
+              }
+              <ExistingObjectsSelect
+                optionObjects={selectedObjects}
+                selectedObjects={selectedObjects}
+                handleCheckboxChange={handleCheckboxChange}
+                pagination={false}
+              />
+            </div>
+            <div className="flex justify-between items-center mb-4">
+              <span className="dark:text-white font-semibold text-sm">{options?.length} {title}s</span>
+              <span className="text-secondary dark:text-white text-sm cursor-pointer">
+                Default (Recently added) <span className="ml-1">▼</span>
+              </span>
+            </div>
+            <ExistingObjectsSelect
+              optionObjects={options}
+              selectedObjects={selectedObjects}
+              handleCheckboxChange={handleCheckboxChange}
+              pagination={true} />
+            <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSelectedObjects([])
+                  setOpenModal(false)
+                }}
+                disabled={submitLoading}>
+                Cancel
+              </Button>
+              <Button
+                className=" "
+                isLoading={submitLoading}
+                onClick={() => {
+                  console.log('Selected deals:', selectedObjects);
+                }}
+                disabled={submitLoading || selectedObjects.length < 1}>
+                Add
+              </Button>
+            </div>
+          </div>
+        </React.Fragment>
       )}
     </div>
   );

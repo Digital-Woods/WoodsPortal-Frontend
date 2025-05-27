@@ -564,6 +564,7 @@ const DashboardTableForm = ({
                   setAddAnother={setAddAnother}
                   submitLoading={submitExistingDataLoading}
                   onChangeSelect={onChangeSelect}
+                  title={title.includes('with') ? title.replace('with', '') : title}
                 />
               )}
             </div>
