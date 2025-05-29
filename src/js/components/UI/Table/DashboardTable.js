@@ -41,8 +41,9 @@ const DashboardTable = ({
   companyAsMediator,
   pipeLineId,
   specPipeLine,
-  setTotalRecord,
-  setIsLoading,
+  // setTotalRecord,
+  // setIsLoading,
+  // setPageView
 }) => {
   const {
     view,
@@ -61,23 +62,39 @@ const DashboardTable = ({
     resetTableParam,
     setSelectRouteMenuConfig,
     changePipeline,
+    // isLoading,
+    setIsLoading,
+    urlParam,
+    setUrlParam,
+    apiResponse,
+    setApiResponse,
+    info,
+    setInfo,
+    setTotalRecord,
+    activeCardData,
+    setActiveCardData,
+    permissions,
+    setPermissions,
+    isLoadingHoldData,
+    setIsLoadingHoldData,
+    setPageView
   } = useTable();
 
-  const [apiResponse, setApiResponse] = useState(null);
-  const [urlParam, setUrlParam] = useState(null);
+  // const [apiResponse, setApiResponse] = useState(null);
+  // const [urlParam, setUrlParam] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showEditData, setShowEditData] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [permissions, setPermissions] = useState(null);
+  // const [permissions, setPermissions] = useState(null);
   const [hoverRow, setHoverRow] = useState(null);
-  const [info, setInfo] = useState(null);
+  // const [info, setInfo] = useState(null);
   // Pipelines
   const [pipelines, setPipelines] = useState([]);
   // added for card view
-  const [isLoadingHoldData, setIsLoadingHoldData] = useState(null);
-  const [activeCardData, setActiveCardData] = useState([]);
+  // const [isLoadingHoldData, setIsLoadingHoldData] = useState(null);
+  // const [activeCardData, setActiveCardData] = useState([]);
 
   const { sync, setSync } = useSync();
 
@@ -131,7 +148,7 @@ const DashboardTable = ({
     },
     onError: () => {
       setPipelines([]);
-      setIsLoadingHoldData(false);
+      // setIsLoadingHoldData(false);
     },
   });
 
@@ -156,24 +173,29 @@ const DashboardTable = ({
     },
 
     onSuccess: (data) => {
+      setPageView(data?.configurations?.object?.list_view ? 'table' : 'single')
       setApiResponse(data);
 
       setSync(false);
       if (data.statusCode === "200") {
         setInfo(data.info);
 
-        const totalData = data?.data?.total;
+        const totalData = data?.configurations?.object?.list_view ? data?.data?.total : data?.pagination?.total;
+
         setTotalItems(totalData || 0);
         if (componentName != "ticket") {
           setIsLoading(false);
         }
-        setTotalRecord(data?.data?.total || totalData || 0);
+        setTotalRecord(totalData || 0);
         if (view === "BOARD") {
           setActiveCardData(data?.data);
         } else {
           const ItemsPerPage = limit;
           setLimit(ItemsPerPage);
-          setNumOfPages(Math.ceil(totalData / ItemsPerPage));
+
+          const totalPage = data?.configurations?.object?.list_view ? Math.ceil(totalData / ItemsPerPage) : Math.ceil(totalData / 1)
+          console.log('totalPage', totalPage)
+          setNumOfPages(totalPage);
         }
         if (defPermissions === null) {
           setPermissions(data?.configurations[componentName]);
