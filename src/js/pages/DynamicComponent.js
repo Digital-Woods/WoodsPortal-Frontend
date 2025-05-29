@@ -1,15 +1,3 @@
-const BackIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    viewBox="0 -960 960 960"
-    width="24px"
-    fill="#5f6368"
-  >
-    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-  </svg>
-);
-
 const DynamicComponent = ({
   hubspotObjectTypeId,
   path,
@@ -27,11 +15,25 @@ const DynamicComponent = ({
   const [sidebarRightOpen, setSidebarRightOpen] = useState(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false);
-  const [totalRecord, setTotalRecord] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [totalRecord, setTotalRecord] = useState(0);
+  // const [isLoading, setIsLoading] = useState(false);
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   const [tableTitle, setTableTitle] = useState(null);
   const [singularTableTitle, setSingularTableTitle] = useState("");
+  // const [pageView, setPageView] = useState("table");
+
+  const {
+    isLoading,
+    totalRecord,
+    pageView,
+    setPageView,
+    setApiResponse
+  } = useTable();
+
+  useEffect(() => {
+    setApiResponse(null)
+    setPageView("table");
+  }, []);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
@@ -72,7 +74,9 @@ const DynamicComponent = ({
       const singularLastName = last.name.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
-      setTableTitle(previous?.name ? { last: last, previous: previous} : {last: last})
+      setTableTitle(
+        previous?.name ? { last: last, previous: previous } : { last: last }
+      );
       setSingularTableTitle(
         previous?.name
           ? `${singularLastName} with ${previous?.name}`
@@ -94,42 +98,44 @@ const DynamicComponent = ({
     updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
   };
 
-  // const tableTitle = () => {
-  //   return objectTypeName ? objectTypeName : title;
-  // };
-
-  const back = () => {
-    window.location.hash = `${getParam("parentObjectTypeName")}/${getParam(
-      "parentObjectTypeId"
-    )}/${getParam("parentObjectRecordId")}`;
-  };
-
-  return (
+  return pageView === "single" ? (
+    <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
+      <div className={`bg-cleanWhite dark:bg-dark-200`}>
+         <TableDetails tableAPI={apis.tableAPI} companyAsMediator={companyAsMediator} objectId={'0-3'} path={'path'} id={'37095871661'} propertyName={'propertyName'} showIframe={'showIframe'} />
+      </div>
+    </div>
+  ) : (
     <div className="bg-sidelayoutColor dark:bg-dark-300">
       <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
         <div className="flex relative z-[2] gap-6">
           <div className="flex flex-col gap-2 flex-1">
-            {hubSpotUserDetails.sideMenu[0].tabName != title ? (
+            {hubSpotUserDetails.sideMenu[0].tabName != title && (
               <span className="flex-1">
                 <ol className="flex dark:text-white flex-wrap">
-                  {tableTitle && Object.entries(tableTitle).map(([key, value], index, array) => {
-                    return (
-                      <li key={key} className="flex items-center">
-                        <Link
-                          className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
-                          to={value?.path}
-                        >
-                          {getParamHash(formatCustomObjectLabel(value?.name))}
-                        </Link>
-                        {index < array.length - 1 && (
-                          <span className="mx-1 text-xl font-semibold text-[#0091AE]">
-                            associated with
-                          </span>
-                        )}
-                      </li>
-                    );
-                  })}
+                  {tableTitle &&
+                    Object.entries(tableTitle).map(
+                      ([key, value], index, array) => {
+                        return (
+                          <li key={key} className="flex items-center">
+                            <Link
+                              className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
+                              to={value?.path}
+                            >
+                              {getParamHash(
+                                formatCustomObjectLabel(value?.name)
+                              )}
+                            </Link>
+                            {index < array.length - 1 && (
+                              <span className="mx-1 text-xl font-semibold text-[#0091AE]">
+                                associated with
+                              </span>
+                            )}
+                          </li>
+                        );
+                      }
+                    )}
                 </ol>
+
                 <p className="dark:text-white leading-5 text-sm flex items-center">
                   {!isLoading ? (
                     `${totalRecord} records`
@@ -145,8 +151,6 @@ const DynamicComponent = ({
                     : ""}
                 </pre>
               </span>
-            ) : (
-              ""
             )}
           </div>
         </div>
@@ -174,7 +178,9 @@ const DynamicComponent = ({
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
               title={title || hubSpotUserDetails.sideMenu[0].label}
-              tableTitle={singularTableTitle || hubSpotUserDetails.sideMenu[0].label}
+              tableTitle={
+                singularTableTitle || hubSpotUserDetails.sideMenu[0].label
+              }
               propertyName={propertyName}
               showIframe={showIframe}
               apis={apis}
@@ -182,8 +188,6 @@ const DynamicComponent = ({
               companyAsMediator={companyAsMediator}
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
-              setTotalRecord={setTotalRecord}
-              setIsLoading={setIsLoading}
             />
           </div>
         </div>

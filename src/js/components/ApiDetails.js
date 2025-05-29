@@ -1,4 +1,4 @@
-const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
+const ApiDetails = ({ path, objectId, id, propertyName, showIframe, preData = null }) => {
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
   const [info, setInfo] = useState(null);
@@ -21,7 +21,10 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false); 
-  const [totalRecord, setTotalRecord] = useState(0);
+  const {
+    totalRecord,
+    isLoading: isLoadingList
+  } = useTable();
 
   // Automatically adjust the sidebar based on screen size
   useEffect(() => {
@@ -96,8 +99,26 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     portalId = getPortal()?.portalId;
   }
 
+  const setSuccessResponse = (data) => {
+    setSync(false);
+    const associations = data?.data?.associations;
+    setAssociations(associations);
+
+    const mConfigurations = data?.configurations;
+    setConfigurations(mConfigurations);
+
+    const mInfo = data?.info;
+    setInfo(mInfo);
+
+    const details = data?.data;
+    const sortedItems = sortData(details, "details");
+    setItems(sortedItems);
+    setPermissions(data.configurations);
+    setIsLoadedFirstTime(true);
+  }
+
   const {
-    mutate: getData,
+    mutate: getDetails,
     error,
     isLoading,
   } = useMutation({
@@ -112,21 +133,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      setSync(false);
-      const associations = data?.data?.associations;
-      setAssociations(associations);
-
-      const mConfigurations = data?.configurations;
-      setConfigurations(mConfigurations);
-
-      const mInfo = data?.info;
-      setInfo(mInfo);
-
-      const details = data?.data;
-      const sortedItems = sortData(details, "details");
-      setItems(sortedItems);
-      setPermissions(data.configurations);
-      setIsLoadedFirstTime(true);
+      setSuccessResponse(data)
     },
     onError: (error) => {
       setSync(false);
@@ -135,9 +142,17 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     },
   });
 
+  const getData = () => {
+    if(preData) {
+      setSuccessResponse(preData)
+    } else {
+      getDetails()
+    }
+  }
+
   useEffect(() => {
     getData();
-  }, []);
+  }, [preData]);
 
   useEffect(() => {
     if (sync) getData();
@@ -308,7 +323,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   permissions={permissions ? permissions.ticket : null}
                   companyAsMediator={companyAsMediator}
                   title={permissions?.ticket?.display_label || "Tickets"}
-                  setTotalRecord={setTotalRecord}
                 />
               )}
 
@@ -318,6 +332,20 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   setGalleryDialog={setGalleryDialog}
                 />
               )}
+
+              {preData &&
+                <div>
+                  {isLoadingList ?
+                    <div className="loader">
+                      <div className="loader-line"></div>
+                    </div>
+                  : 
+                    <hr className="w-full" />
+                  }
+                  <DetailsPagination />
+                </div>
+              }
+
             </div>
           </div>
           {/* main content code end */}
