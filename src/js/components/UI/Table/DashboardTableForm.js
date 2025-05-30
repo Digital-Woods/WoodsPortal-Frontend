@@ -271,9 +271,13 @@ const DashboardTableForm = ({
 
   const onSubmit = (formData) => {
     if (activeTab === "addExisting") {
-      const key = Object.keys(formData)[0];
+      // const key = Object.keys(formData)[0];
+      // console.log(key,'key');
+      // const payload = {
+      //   addIds: formData[key].map((item) => Number(item.value)),
+      // };
       const payload = {
-        addIds: formData[key].map((item) => Number(item.value)),
+        addIds: formData.map((item) => Number(item.value)),
       };
       addExistingData({ formData: payload });
     } else {
