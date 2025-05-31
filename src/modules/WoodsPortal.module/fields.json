@@ -1258,7 +1258,7 @@
   "children" : [ {
     "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
     "name" : "home_tab_styles",
-    "label" : "Home",
+    "label" : "Dashboard",
     "required" : false,
     "locked" : false,
     "children" : [ {
