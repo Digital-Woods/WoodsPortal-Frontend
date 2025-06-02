@@ -72,34 +72,29 @@ const DashboardTableExistingForm = ({
             return (
               <div>
                 <div className="text-gray-800 dark:text-gray-200">
-                  <div>
-                    <h2 className="text-[15px] font-bold">
-                      Objects
-                    </h2>
-                    <div key={existingData.name}>
-                      <FormItem className="">
-                        <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                          {existingData?.labels?.plural}
-                        </FormLabel>
-                        <FormControl>
-                          <Select
-                            label={`Select ${existingData?.labels?.plural}`}
-                            name={existingData.name}
-                            options={options}
-                            control={control}
-                            filled={existingData}
-                            onChangeSelect={onChangeSelect}
-                            apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${existingData.formId}/${existingData.objectTypeId}`}
-                            setValue={setValue}
-                          />
-                        </FormControl>
-                        {errors[existingData.name] && (
-                          <FormMessage className="text-red-600 dark:text-red-400">
-                            {errors[existingData.name].message}
-                          </FormMessage>
-                        )}
-                      </FormItem>
-                    </div>
+                  <div key={existingData.name}>
+                    <FormItem className="">
+                      <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                        {existingData?.labels?.plural}
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          label={`Select ${existingData?.labels?.plural}`}
+                          name={existingData.name}
+                          options={options}
+                          control={control}
+                          filled={existingData}
+                          onChangeSelect={onChangeSelect}
+                          apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${existingData.formId}/${existingData.objectTypeId}`}
+                          setValue={setValue}
+                        />
+                      </FormControl>
+                      {errors[existingData.name] && (
+                        <FormMessage className="text-red-600 dark:text-red-400">
+                          {errors[existingData.name].message}
+                        </FormMessage>
+                      )}
+                    </FormItem>
                   </div>
                 </div>
                 <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
