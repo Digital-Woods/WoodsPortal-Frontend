@@ -20,9 +20,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState(false);
     const { isLargeScreen } = useResponsive();
     const [userToggled, setUserToggled] = useState(false); // Track user interaction
-    const {
-        totalRecord,
-    } = useTable();
+    const [totalRecord, setTotalRecord] = useState(0);
 
     // console.log(path,'=path', objectId,"=objectId", id,'=id');
     // Automatically adjust the sidebar based on screen size
@@ -206,6 +204,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 componentName="ticket"
                                 defPermissions={permissions ? permissions.ticket : null}
                                 editView={true}
+                                setTotalRecord={setTotalRecord}
                             />
                         )}
 

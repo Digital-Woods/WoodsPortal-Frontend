@@ -80,51 +80,6 @@ const gridDataState = Recoil.atom({
   default: [],
 });
 
-const isLoadingSate = Recoil.atom({
-  key: "isLoadingSate",
-  default: null,
-});
-
-const urlParamSate = Recoil.atom({
-  key: "urlParamSate",
-  default: [],
-});
-
-const apiResponseSate = Recoil.atom({
-  key: "apiResponseSate",
-  default: null,
-});
-
-const infoSate = Recoil.atom({
-  key: "infoSate",
-  default: null,
-});
-
-const totalRecordSate = Recoil.atom({
-  key: "totalRecordSate",
-  default: null,
-});
-
-const activeCardDataSate = Recoil.atom({
-  key: "activeCardDataSate",
-  default: null,
-});
-
-const permissionsSate = Recoil.atom({
-  key: "permissionsSate",
-  default: null,
-});
-
-const isLoadingHoldDataSate = Recoil.atom({
-  key: "isLoadingHoldDataSate",
-  default: null,
-});
-
-const pageViewSate = Recoil.atom({
-  key: "pageViewSate",
-  default: "table",
-});
-
 function useTable() {
   const [data, setData] = Recoil.useRecoilState(gridDataState);
 
@@ -160,17 +115,6 @@ function useTable() {
 
   const [tableParam, setTableFilterData] =
     Recoil.useRecoilState(tableParamState);
-
-  const [isLoading, setIsLoading] = Recoil.useRecoilState(isLoadingSate);
-  const [urlParam, setUrlParam] = Recoil.useRecoilState(urlParamSate);
-
-  const [apiResponse, setApiResponse] = Recoil.useRecoilState(apiResponseSate);
-  const [info, setInfo] = Recoil.useRecoilState(infoSate);
-  const [totalRecord, setTotalRecord] = Recoil.useRecoilState(totalRecordSate);
-  const [activeCardData, setActiveCardData] = Recoil.useRecoilState(activeCardDataSate);
-  const [permissions, setPermissions] = Recoil.useRecoilState(permissionsSate);
-  const [isLoadingHoldData, setIsLoadingHoldData] = Recoil.useRecoilState(isLoadingHoldDataSate);
-  const [pageView, setPageView] = Recoil.useRecoilState(pageViewSate);
 
   // Filter Data
 
@@ -397,23 +341,5 @@ function useTable() {
     getTableParam,
     gridData: data,
     setGridData,
-    isLoading,
-    setIsLoading,
-    urlParam,
-    setUrlParam,
-    apiResponse,
-    setApiResponse,
-    info,
-    setInfo,
-    totalRecord,
-    setTotalRecord,
-    activeCardData,
-    setActiveCardData,
-    permissions,
-    setPermissions,
-    isLoadingHoldData,
-    setIsLoadingHoldData,
-    pageView,
-    setPageView,
   };
 }
