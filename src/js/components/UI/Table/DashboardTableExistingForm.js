@@ -50,7 +50,7 @@ const DashboardTableExistingForm = ({
       ) : errorMessage ? (
         <div className="text-center text-warning pb-4">
           <span>{errorMessage}</span>
-          <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
+          <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4">
             <Button
               variant="outline"
               onClick={() => setOpenModal(false)}
@@ -97,7 +97,7 @@ const DashboardTableExistingForm = ({
                     </FormItem>
                   </div>
                 </div>
-                <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
+                <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4">
                   <Button
                     variant="outline"
                     onClick={() => setOpenModal(false)}

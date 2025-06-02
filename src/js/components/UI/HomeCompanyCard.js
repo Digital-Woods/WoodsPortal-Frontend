@@ -1,4 +1,4 @@
-const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName }) => {
+const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName, className }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -106,7 +106,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
             {/* Associated Company Details */}
             {visibleAssociatedDetails && (
                 <div className="w-full">
-                    <div className={`grid ${moduleStylesOptions.homeTabStyles.companyProperties.direction != 'list' ? 'grid-cols-2' : 'grid-cols-1'}  gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:pb-4 pb-3 md:px-4 px-3`}>
+                    <div className={`grid ${moduleStylesOptions.homeTabStyles.companyProperties.direction != 'list' ? 'grid-cols-2' : 'grid-cols-1'}  gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:pb-4 pb-3 md:px-4 px-3 ${className}`}>
                         {companyDetailsModalOption ? (
                             <button onClick={() => setOpenModal(true)} className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
                                 <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>

@@ -20,6 +20,7 @@ const DynamicComponent = ({
   pipeLineId,
   specPipeLine,
   objectDescription,
+  objectUserProperties
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -32,11 +33,45 @@ const DynamicComponent = ({
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   const [tableTitle, setTableTitle] = useState(null);
   const [singularTableTitle, setSingularTableTitle] = useState("");
+  const [userData, setUserData] = useState();
+  const [cacheEnabled, setCacheEnabled] = useState(true);
+  const { sync, setSync } = useSync();
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false);
 
   let portalId;
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
   }
+
+  const fetchUserProfile = async ({ portalId, cache }) => {
+    if (!portalId) return null;
+
+    const response = await Client.user.profile({ portalId, cache });
+    return response?.data;
+  };
+
+  const { data: userNewData, error, isLoading:propertyIsLoading, refetch } = useQuery({
+    queryKey: ['userProfilePage', portalId, cacheEnabled],
+    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
+    onSuccess: (data) => {
+      if (data) {
+        setUserData(data);
+      }
+      setSync(false);
+      setIsLoadedFirstTime(true);
+    },
+    onError: (error) => {
+      console.error("Error fetching profile:", error);
+      setSync(false);
+      setIsLoadedFirstTime(true);
+    }
+  });
+
+  useEffect(() => {
+    if (sync) {
+      refetch();
+    }
+  }, [sync]);
 
   // Sidebar show/hide logic for medium and small devices
   const toggleSidebar = () => {
@@ -80,6 +115,10 @@ const DynamicComponent = ({
       );
     }
   }, [breadcrumbs]);
+
+  const singularTitle = title.endsWith("s")
+        ? title.slice(0, -1)
+        : title;
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -137,19 +176,33 @@ const DynamicComponent = ({
                     <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
                   )}
                 </p>
-                <pre className="dark:text-white ">
+                <div className="dark:text-white ">
                   {objectDescription
                     ? ReactHtmlParser.default(
                         DOMPurify.sanitize(objectDescription)
                       )
                     : ""}
-                </pre>
+                </div>
               </span>
             ) : (
               ""
             )}
           </div>
         </div>
+
+      {objectUserProperties && 
+        <div className="mt-4">
+              <HomeCompanyCard
+                companyDetailsModalOption={false}
+                propertiesList={objectUserProperties}
+                userData={userData?.response}
+                isLoading={propertyIsLoading}
+                isLoadedFirstTime={isLoadedFirstTime}
+                iframePropertyName={objectUserProperties}
+                className={`!md:px-0 !px-0`}
+              />
+        </div>
+      }
 
         <div className="flex gap-4 w-full overflow-hidden relative">
           {/* Main content container */}
@@ -173,7 +226,7 @@ const DynamicComponent = ({
               key={hubspotObjectTypeId}
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
-              title={title || hubSpotUserDetails.sideMenu[0].label}
+              title={singularTitle || hubSpotUserDetails.sideMenu[0].label}
               tableTitle={singularTableTitle || hubSpotUserDetails.sideMenu[0].label}
               propertyName={propertyName}
               showIframe={showIframe}
