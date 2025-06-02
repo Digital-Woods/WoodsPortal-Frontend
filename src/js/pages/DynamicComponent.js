@@ -191,7 +191,7 @@ const DynamicComponent = ({
         </div>
 
       {objectUserProperties && 
-        <div className="mt-4">
+        <div className="mt-3">
               <HomeCompanyCard
                 companyDetailsModalOption={false}
                 propertiesList={objectUserProperties}
@@ -199,7 +199,7 @@ const DynamicComponent = ({
                 isLoading={propertyIsLoading}
                 isLoadedFirstTime={isLoadedFirstTime}
                 iframePropertyName={objectUserProperties}
-                className={`!md:px-0 !px-0`}
+                className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
               />
         </div>
       }
