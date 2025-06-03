@@ -521,7 +521,7 @@ const DashboardTableForm = ({
                           </div>
                           {/* ))} */}
                         </div>
-                        <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4 rounded-md">
+                        <div className="mt-4 flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4">
                           <Button
                             variant="outline"
                             onClick={() => setOpenModal(false)}
