@@ -70,6 +70,7 @@ const MainLayout = ({ children }) => {
       pipeLineId: menuItem.pipeLineId,
       specPipeLine: menuItem.specPipeLine,
       objectDescription:menuItem.objectDescription,
+      objectUserProperties:menuItem.objectUserProperties,
       component: (
         <DynamicComponent
           key={index}
@@ -81,6 +82,7 @@ const MainLayout = ({ children }) => {
           pipeLineId={menuItem.pipeLineId}
           specPipeLine={menuItem.specPipeLine}
           objectDescription={menuItem.objectDescription}
+          objectUserProperties={menuItem.objectUserProperties}
         />
       ),
     }));
@@ -217,6 +219,7 @@ const MainLayout = ({ children }) => {
                       pipeLineId={routes[0].pipeLineId}
                       specPipeLine={routes[0].specPipeLine}
                       objectDescription={routes[0].objectDescription}
+                      objectUserProperties={routes[0].objectUserProperties}
                     />
                   </React.Fragment>
                 )}
@@ -273,7 +276,8 @@ const MainLayout = ({ children }) => {
                   companyAsMediator,
                   pipeLineId,
                   specPipeLine,
-                  objectDescription
+                  objectDescription,
+                  objectUserProperties
                 }) => (
                   <PrivateRoute
                     key={path}
@@ -308,6 +312,7 @@ const MainLayout = ({ children }) => {
                             pipeLineId={pipeLineId}
                             specPipeLine={specPipeLine}
                             objectDescription={objectDescription}
+                            objectUserProperties={objectUserProperties}
                           />
                         )}
                       </React.Fragment>

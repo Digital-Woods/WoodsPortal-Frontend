@@ -840,6 +840,89 @@
       "type" : "richtext",
       "display_width" : null
     }, {
+      "id" : "fb458c27-1f2a-0e69-86ec-9def7b344a54",
+      "name" : "properties",
+      "label" : "Add  Properties",
+      "help_text" : "Added properties will be shown on the card.",
+      "inline_help_text" : "If not displayed, please enable visibility in the admin panel for the property you have entered.",
+      "required" : false,
+      "locked" : false,
+      "occurrence" : {
+        "min" : null,
+        "max" : null,
+        "sorting_label_field" : null,
+        "default" : 1
+      },
+      "children" : [ {
+        "id" : "d4c99559-a0df-70c0-85d6-d2925eaa3b19",
+        "name" : "property_type",
+        "label" : "Property Type",
+        "required" : false,
+        "locked" : false,
+        "display" : "select",
+        "choices" : [ [ "company", "Company" ], [ "contact", "Contact" ] ],
+        "multiple" : false,
+        "reordering_enabled" : true,
+        "preset" : null,
+        "type" : "choice",
+        "display_width" : null,
+        "default" : "company"
+      }, {
+        "id" : "7e6b8c9d-ec3b-f245-0b25-bfa5ac249dd5",
+        "name" : "properties_value",
+        "label" : "Property Internal Name",
+        "help_text" : "Enter the property name to show on the card",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "Property Name"
+      }, {
+        "id" : "a37a5a3b-52d9-9093-39e8-4808a9b891e6",
+        "name" : "show_iframe",
+        "label" : "Enable Iframe",
+        "required" : false,
+        "locked" : false,
+        "display" : "toggle",
+        "type" : "boolean",
+        "display_width" : null,
+        "default" : false
+      }, {
+        "id" : "9ae18736-ad9d-2096-9989-0a1b665ebc6b",
+        "name" : "iframe_button_name",
+        "label" : "Iframe Button Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "visibility" : {
+          "controlling_field" : null,
+          "controlling_field_path" : "menu_options.objects.properties.show_iframe",
+          "controlling_value_regex" : "true",
+          "property" : null,
+          "operator" : "EQUAL",
+          "access" : null
+        },
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "View Docs"
+      } ],
+      "tab" : "CONTENT",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : [ {
+        "property_type" : "company",
+        "properties_value" : "Property Name",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ]
+    }, {
       "id" : "8c9c7237-cd00-b692-f465-2b922e84f22b",
       "name" : "list_object_properties",
       "label" : "Object Properties",
@@ -997,6 +1080,12 @@
     "display_width" : null,
     "default" : [ {
       "list_object_name" : "Tickets",
+      "properties" : [ {
+        "property_type" : "company",
+        "properties_value" : "Property Name",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ],
       "list_object_properties" : "dealname,dealstage,amount",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
@@ -1058,6 +1147,89 @@
       "locked" : false,
       "type" : "richtext",
       "display_width" : null
+    }, {
+      "id" : "a7db68a4-fb30-ed07-b532-f29f19ce6144",
+      "name" : "properties",
+      "label" : "Add  Properties",
+      "help_text" : "Added properties will be shown on the card.",
+      "inline_help_text" : "If not displayed, please enable visibility in the admin panel for the property you have entered.",
+      "required" : false,
+      "locked" : false,
+      "occurrence" : {
+        "min" : null,
+        "max" : null,
+        "sorting_label_field" : null,
+        "default" : 1
+      },
+      "children" : [ {
+        "id" : "6cd97831-989f-1649-6653-63e426738e76",
+        "name" : "property_type",
+        "label" : "Property Type",
+        "required" : false,
+        "locked" : false,
+        "display" : "select",
+        "choices" : [ [ "company", "Company" ], [ "contact", "Contact" ] ],
+        "multiple" : false,
+        "reordering_enabled" : true,
+        "preset" : null,
+        "type" : "choice",
+        "display_width" : null,
+        "default" : "company"
+      }, {
+        "id" : "68fa50a8-dea0-0a82-29ab-2e8fec20f774",
+        "name" : "properties_value",
+        "label" : "Property Internal Name",
+        "help_text" : "Enter the property name to show on the card",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "Property Name"
+      }, {
+        "id" : "7f1972e7-b953-e317-9cf6-76f31097802c",
+        "name" : "show_iframe",
+        "label" : "Enable Iframe",
+        "required" : false,
+        "locked" : false,
+        "display" : "toggle",
+        "type" : "boolean",
+        "display_width" : null,
+        "default" : false
+      }, {
+        "id" : "d9ad8d40-97f3-a6b2-fd3f-040ec5e625e6",
+        "name" : "iframe_button_name",
+        "label" : "Iframe Button Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "visibility" : {
+          "controlling_field" : null,
+          "controlling_field_path" : "menu_options.hubspot_custom_objects.properties.show_iframe",
+          "controlling_value_regex" : "true",
+          "property" : null,
+          "operator" : "EQUAL",
+          "access" : null
+        },
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "View Docs"
+      } ],
+      "tab" : "CONTENT",
+      "expanded" : false,
+      "group_occurrence_meta" : null,
+      "type" : "group",
+      "display_width" : null,
+      "default" : [ {
+        "property_type" : "company",
+        "properties_value" : "Property Name",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ]
     }, {
       "id" : "07c899bb-3682-ac8c-7b55-d5a5adaf7155",
       "name" : "list_object_properties",
@@ -1212,6 +1384,12 @@
     "display_width" : null,
     "default" : [ {
       "list_object_name" : "Customers",
+      "properties_copy" : [ {
+        "property_type" : "company",
+        "properties_value" : "Property Name",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ],
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
@@ -1229,6 +1407,12 @@
     "hubspot_defined_object" : true,
     "objects" : [ {
       "list_object_name" : "Tickets",
+      "properties" : [ {
+        "property_type" : "company",
+        "properties_value" : "Property Name",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ],
       "list_object_properties" : "dealname,dealstage,amount",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
@@ -1241,6 +1425,12 @@
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
       "list_object_name" : "Customers",
+      "properties_copy" : [ {
+        "property_type" : "company",
+        "properties_value" : "Property Name",
+        "show_iframe" : false,
+        "iframe_button_name" : "View Docs"
+      } ],
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
@@ -1419,6 +1609,20 @@
     "required" : false,
     "locked" : false,
     "children" : [ {
+      "id" : "30640988-ab36-ef2d-d83c-170b64e7b2fa",
+      "name" : "dynamic_company_property_display_type",
+      "label" : "Properties Display Type",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "grid", "Grid" ], [ "list", "List" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "grid"
+    }, {
       "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
       "name" : "text_color",
       "label" : "Text Color",
@@ -1449,6 +1653,7 @@
     "type" : "group",
     "display_width" : null,
     "default" : {
+      "dynamic_company_property_display_type" : "grid",
       "text_color" : {
         "color" : "#FFFFFF",
         "opacity" : 100
@@ -1726,6 +1931,7 @@
       }
     },
     "sidebar_styles" : {
+      "dynamic_company_property_display_type" : "grid",
       "text_color" : {
         "color" : "#FFFFFF",
         "opacity" : 100
