@@ -200,6 +200,7 @@ const DynamicComponent = ({
                 isLoadedFirstTime={isLoadedFirstTime}
                 iframePropertyName={objectUserProperties}
                 className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
+                usedInDynamicComponent={true}
               />
         </div>
       }

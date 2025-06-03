@@ -1609,6 +1609,20 @@
     "required" : false,
     "locked" : false,
     "children" : [ {
+      "id" : "30640988-ab36-ef2d-d83c-170b64e7b2fa",
+      "name" : "dynamic_company_property_display_type",
+      "label" : "Properties Display Type",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "grid", "Grid" ], [ "list", "List" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "grid"
+    }, {
       "id" : "a98ec0e3-770e-7258-b019-cedd200bc582",
       "name" : "text_color",
       "label" : "Text Color",
@@ -1639,6 +1653,7 @@
     "type" : "group",
     "display_width" : null,
     "default" : {
+      "dynamic_company_property_display_type" : "grid",
       "text_color" : {
         "color" : "#FFFFFF",
         "opacity" : 100
@@ -1916,6 +1931,7 @@
       }
     },
     "sidebar_styles" : {
+      "dynamic_company_property_display_type" : "grid",
       "text_color" : {
         "color" : "#FFFFFF",
         "opacity" : 100
