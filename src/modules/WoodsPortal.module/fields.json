@@ -387,7 +387,7 @@
     }, {
       "id" : "111780a2-3978-5023-64ad-f0082cf54a1a",
       "name" : "properties",
-      "label" : "Add  Properties",
+      "label" : "Add Primary Company Properties",
       "help_text" : "Added properties will be shown on the card.",
       "inline_help_text" : "If not displayed, please enable visibility in the admin panel for the property you have entered.",
       "required" : false,
@@ -399,20 +399,6 @@
         "default" : 1
       },
       "children" : [ {
-        "id" : "73b10fb2-9790-b03b-fadb-8347fb601e1e",
-        "name" : "property_type",
-        "label" : "Property Type",
-        "required" : false,
-        "locked" : false,
-        "display" : "select",
-        "choices" : [ [ "company", "Company" ], [ "contact", "Contact" ] ],
-        "multiple" : false,
-        "reordering_enabled" : true,
-        "preset" : null,
-        "type" : "choice",
-        "display_width" : null,
-        "default" : "company"
-      }, {
         "id" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "name" : "properties_value",
         "label" : "Property Internal Name",
@@ -464,8 +450,7 @@
       "default" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ]
     }, {
       "id" : "6ccf76f3-18f5-03ca-3fcb-5965874b8342",
@@ -492,8 +477,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "add_details_modal" : true
     }, {
@@ -504,8 +488,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "add_details_modal" : true
     } ]
@@ -742,8 +725,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "add_details_modal" : true
     }, {
@@ -754,8 +736,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "add_details_modal" : true
     } ],
@@ -1448,7 +1429,7 @@
   "children" : [ {
     "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
     "name" : "home_tab_styles",
-    "label" : "Dashboard",
+    "label" : "Home",
     "required" : false,
     "locked" : false,
     "children" : [ {
@@ -1519,7 +1500,7 @@
     }, {
       "id" : "bd783c72-42c6-cc91-d718-b3c441e4b369",
       "name" : "company_property_display_type",
-      "label" : "Properties Display Type",
+      "label" : "Company Property Display Type",
       "required" : false,
       "locked" : false,
       "display" : "select",

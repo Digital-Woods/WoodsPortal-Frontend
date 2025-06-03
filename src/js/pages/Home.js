@@ -159,8 +159,8 @@ const Home = ({
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
                         <HomeCompanyCard
                           companyDetailsModalOption={card?.add_details_modal}
-                          propertiesList={card?.properties}
-                          userData={userData?.response}
+                          companyPropertiesLists={card?.properties}
+                          userData={userData}
                           isLoading={isLoading}
                           isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
