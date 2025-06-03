@@ -1,4 +1,5 @@
-const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, companyPropertiesLists, iframePropertyName }) => {
+
+const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName, className, usedInDynamicComponent=false }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -7,6 +8,38 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
     const [iframeViewDialog, setIframeViewDialog] = useState(false);
     const [iframeUrls, setIframeUrls] = useState([]);
     const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
+
+
+    const directionValue = usedInDynamicComponent
+  ? moduleStylesOptions.homeTabStyles.companyProperties.directionDynamicComponent
+  : moduleStylesOptions.homeTabStyles.companyProperties.direction;
+
+    // Process the propertiesList to filter and organize data
+    const processProperties = (propertiesList, data) => {
+        if (!propertiesList || !Array.isArray(propertiesList)) return {};
+
+        const result = {};
+
+        propertiesList.forEach(item => {
+            const { properties_value, property_type } = item;
+
+            // Determine where to look for the property
+            let source;
+            if (property_type === "company") {
+                source = data?.associations?.COMPANY || {};
+            } else {
+                source = data || {};
+            }
+
+            // If the property exists in the source, add it to results
+            if (source[properties_value]) {
+                result[properties_value] = source[properties_value];
+            }
+        });
+
+        return result;
+    };
+
 
     useEffect(() => {
         if (userData?.response) {
@@ -96,7 +129,8 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
             {/* Associated Company Details */}
             {visibleAssociatedDetailsModal && (
                 <div className="w-full">
-                    <div className={`grid ${moduleStylesOptions.homeTabStyles.companyProperties.direction != 'list' ? 'grid-cols-2' : 'grid-cols-1'}  gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:pb-4 pb-3 md:px-4 px-3`}>
+
+                    <div className={`grid ${directionValue != 'list' ? 'grid-cols-2' : 'grid-cols-1'}  gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:pb-4 pb-3 md:px-4 px-3 ${className}`}>
                         {companyDetailsModalOption && visibleAssociatedDetailsModal.length > 0 ? (
                             <button onClick={() => setOpenModal(true)} className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
                                 <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
@@ -109,7 +143,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                             visibleAssociatedDetails.length > 0 ? (
                                 visibleAssociatedDetails.map(([key, value]) => (
                                     isIframeEnabled(key) ? (
-                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
+                                        <div key={key} className={`flex ${directionValue == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                             <span className="font-semibold">
                                                 {value?.label}:
                                             </span>
@@ -128,11 +162,10 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                                             </span>
                                         </div>
                                     ) : (
-                                        <div key={key} className="flex flex-col items-start gap-1 text-xs">
-                                            <span className="font-semibold">{value?.label}</span>
-                                            {renderCellContent(
-                                                // false, value?.value, value
-                                                {
+                                        <div key={key} className={`flex ${directionValue == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                            <span className="font-semibold">{value?.label}:</span>
+                                            <span>
+                                                {renderCellContent({
                                                     companyAsMediator: false,
                                                     value: value?.value,
                                                     column: { ...value, key },

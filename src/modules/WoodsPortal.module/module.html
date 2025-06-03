@@ -82,6 +82,7 @@
   {% do dynamicRouteList.append({
   label: item.list_object_name,
   objectDescription: item.object_description,
+  objectUserProperties: item.properties,
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
@@ -113,6 +114,7 @@
   {% do dynamicRouteList.append({
   label: item.list_object_name,
   objectDescription: item.object_description,
+  objectUserProperties: item.properties,
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
@@ -191,6 +193,7 @@
         },
         companyProperties: {
           direction: "{{ module.style.home_tab_styles.company_property_display_type }}",
+          directionDynamicComponent: "{{module.style.sidebar_styles.dynamic_company_property_display_type}}"
         }
       },
       sidebarStyles: {
