@@ -10,6 +10,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   const { setToaster } = useToaster();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const portalId = getPortal()?.portalId;
 
 
   const findObjectById = (data, id) => {
@@ -32,7 +33,13 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     return null;
   };
 
-  const portalId = getPortal()?.portalId;
+    useEffect(() => {
+    setCurrentFiles({ child: [] });
+    setFolderStack([]);
+    setCurrentPage(1);
+    setSearchTerm("");
+  }, [id, fileId, objectId]);
+  
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () =>
@@ -72,6 +79,10 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     }
   }, [sync]);
 
+  useEffect(() => {
+    refetch();
+  }, [id,fileId, objectId]);
+
   if (isLoading) {
     return <FilesSkeleton />;
   }
@@ -81,7 +92,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   }
 
   // Filter files based on search term
-  const filteredFiles = currentFiles.child
+  const filteredFiles = (currentFiles?.child || [])
     .filter((file) =>
       file.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -137,7 +148,6 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
       return;
     }
     const updatedFolderStack = updateFolderStack(folderStack, currentFiles);
-    console.log(updatedFolderStack, "updatedFolderStack");
     // setFolderStack(updatedFolderStack);
 
     const selectedFolder = folderStack[index];

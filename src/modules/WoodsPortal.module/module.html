@@ -169,6 +169,7 @@
   {# Home banner data #}
       const enableDashboardCards = "{{ module.home.enable_dashboard_cards }}";
       const dashboardCards = {{ module.home.dashboard_cards | tojson | safe }};
+      const homeTabsDataTypeFilter = {{ module.home.tabs_data_type | tojson | safe  }};
   {# End Home banner data #}
 
     {# Module Custom Styles #}
