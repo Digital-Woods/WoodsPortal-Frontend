@@ -153,7 +153,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                 {/* main content code start */}
                 <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                     <div className={``}>
-                        <div className={`flex md:flex-row flex-col md:items-center justify-between md:mb-0 my-4`}>
+                        <div className={`flex md:flex-row flex-col md:items-center justify-between my-4`}>
                         <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">
                             <Tabs
                                 activeTab={activeTab}
