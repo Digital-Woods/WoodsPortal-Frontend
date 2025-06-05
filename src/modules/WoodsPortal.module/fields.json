@@ -303,13 +303,13 @@
   }, {
     "id" : "2bb5942c-fc5f-ce7f-4200-63031a014406",
     "name" : "tabs_data_type",
-    "label" : "Tabs Data Type",
+    "label" : "Table Data Visibility Settings",
     "required" : false,
     "locked" : false,
     "children" : [ {
       "id" : "cd7fef3d-c7bc-e1a8-64e4-1b2c66cd4b92",
       "name" : "files",
-      "label" : "Files Data",
+      "label" : "Files Tab",
       "required" : false,
       "locked" : false,
       "display" : "select",
@@ -323,7 +323,7 @@
     }, {
       "id" : "90be7079-3bee-cff1-1b54-1a15f485aea7",
       "name" : "notes",
-      "label" : "Notes Data",
+      "label" : "Notes Tab",
       "required" : false,
       "locked" : false,
       "display" : "select",
@@ -337,7 +337,7 @@
     }, {
       "id" : "28e06fa3-59a6-0d45-6144-28948379d7cd",
       "name" : "tickets",
-      "label" : "Tickets Data",
+      "label" : "Tickets Tab",
       "required" : false,
       "locked" : false,
       "display" : "select",
