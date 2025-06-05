@@ -15,6 +15,7 @@ const Home = ({
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
+  const [userCompanyId, setUserCompanyId] = useState();
   const [userObjectId, setUserObjectId] = useState();
   const [cacheEnabled, setCacheEnabled] = useState(true);
   const portalId = getPortal()?.portalId;
@@ -36,6 +37,7 @@ const Home = ({
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
+        setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id.value)
       }
       setSync(false);
       setIsLoadedFirstTime(true);
@@ -183,7 +185,7 @@ const Home = ({
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
+            <UserDetails userCompanyId={userCompanyId} userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
 
           </div>
 
