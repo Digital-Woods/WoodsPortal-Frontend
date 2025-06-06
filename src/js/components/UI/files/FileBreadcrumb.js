@@ -1,6 +1,6 @@
 const FileBreadcrumb = ({ id, folderStack, onClick }) => (
   <nav className="text-xs">
-    <ol className="flex flex-wrap list-none">
+    <ol className="flex flex-wrap">
       {folderStack && folderStack.length > 0 ? (
         folderStack.map((folder, index) => {
           if (folder && folder.name) {

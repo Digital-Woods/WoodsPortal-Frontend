@@ -1,5 +1,5 @@
 
-const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime, userCompanyId }) => {
+const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime }) => {
     const [item, setItems] = useState([]);
     const [images, setImages] = useState([]);
     const [sortItems, setSortItems] = useState([]);
@@ -21,39 +21,9 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const { isLargeScreen } = useResponsive();
     const [userToggled, setUserToggled] = useState(false); // Track user interaction
     const [totalRecord, setTotalRecord] = useState(0);
-    const getInitialFilter = (type) => {
-    return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
-            homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
-            '0-1';
-    };
 
-    const [selectedFileDataFilter, setSelectedFileDataFilter] = useState(() => getInitialFilter('files'));
-    const [selectedNotesDataFilter, setSelectedNotesDataFilter] = useState(() => getInitialFilter('notes'));
-    const [selectedTicketsDataFilter, setSelectedTicketsDataFilter] = useState(() => getInitialFilter('tickets'));
-
-    const userDataFilter = [
-        { label: 'Contact', value: '0-1' },
-        { label: 'Company', value: '0-2' }
-    ];
-
-    const FilterDropdown = ({ 
-    value, 
-    onChange, 
-    className = "w-[180px] rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-    }) => (
-        <select
-            className={className}
-            value={value}
-            onChange={(e) => onChange(e.target?.value || "")}
-        >
-            {userDataFilter.map((filter) => (
-            <option key={filter.value} value={filter.value}>
-                {filter.label}
-            </option>
-            ))}
-        </select>
-    );
-
+    // console.log(path,'=path', objectId,"=objectId", id,'=id');
+    // Automatically adjust the sidebar based on screen size
     useEffect(() => {
         if (!userToggled) {
             setSidebarDetailsOpen(isLargeScreen);
@@ -121,6 +91,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
         portalId = getPortal()?.portalId;
     }
 
+
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
         stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
@@ -153,8 +124,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                 {/* main content code start */}
                 <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                     <div className={``}>
-                        <div className={`flex md:flex-row flex-col md:items-center justify-between my-4`}>
-                        <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">
+                        <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit my-4">
                             <Tabs
                                 activeTab={activeTab}
                                 setActiveTab={setActiveTabFucntion}
@@ -192,27 +162,6 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
                                 {/* <TabsContent value="photos"></TabsContent> */}
                             </Tabs>
-                             </div>
-                            {activeTab === "files" && homeTabsDataTypeFilter.files === 'all' && (
-                                <FilterDropdown 
-                                value={selectedFileDataFilter} 
-                                onChange={setSelectedFileDataFilter} 
-                                />
-                            )}
-
-                            {activeTab === "notes" && homeTabsDataTypeFilter.notes === 'all' && objectId && id && (
-                                <FilterDropdown 
-                                value={selectedNotesDataFilter} 
-                                onChange={setSelectedNotesDataFilter} 
-                                />
-                            )}
-
-                            {activeTab === "tickets" && homeTabsDataTypeFilter.tickets === 'all' && (
-                                <FilterDropdown 
-                                value={selectedTicketsDataFilter} 
-                                onChange={setSelectedTicketsDataFilter} 
-                                />
-                            )}
                         </div>
 
                         {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
@@ -227,11 +176,11 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
 )} */}
 
                         {activeTab === "files" && (
-                            <Files fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.fileManager : null} />
+                            <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
                         )}
 
                         {activeTab === "notes" && objectId && id && (
-                            <Notes item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.note : null} />
+                            <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
                         )}
 
                         {activeTab === "tickets" && (
@@ -256,7 +205,6 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 defPermissions={permissions ? permissions.ticket : null}
                                 editView={true}
                                 setTotalRecord={setTotalRecord}
-                                companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
                             />
                         )}
 

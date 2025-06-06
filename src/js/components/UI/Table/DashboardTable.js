@@ -487,10 +487,6 @@ const DashboardTable = ({
     }
   }, [sync]);
 
-    useEffect(() => {
-      getPipelines();
-  }, [companyAsMediator]);
-
   useEffect(() => {
     resetTableParam();
   }, []);
@@ -660,7 +656,7 @@ const DashboardTable = ({
                       </div>
                     </div>
                   ) : key === "iframe_file" ? (
-                    <div>{modalData[key].replace(";", ",")}</div>
+                    <div>Hello {modalData[key].replace(";", ",")}</div>
                   ) : (
                     ""
                   )}
