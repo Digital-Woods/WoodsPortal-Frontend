@@ -1,5 +1,5 @@
 
-const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName, className, usedInDynamicComponent=false }) => {
+const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName, className, usedInDynamicComponent=false,companyPropertiesLists }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
