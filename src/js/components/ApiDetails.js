@@ -155,6 +155,10 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData =
     if (sync) getData();
   }, [sync]);
 
+  const refetchGetData = () => {
+    setSync(true);
+  }
+
   const back = () => {
     let breadcrumbItems =
       JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
@@ -283,7 +287,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData =
                   item={item}
                   objectId={objectId}
                   id={id}
-                  refetch={getData}
+                  refetch={refetchGetData}
                   permissions={permissions ? permissions.object : null}
                   isLoading={isLoading}
                   urlParam={urlParam}
