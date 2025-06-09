@@ -15,6 +15,7 @@ const DynamicComponent = ({
   if (env.DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
   }
+  hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
