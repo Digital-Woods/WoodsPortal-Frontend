@@ -47,20 +47,20 @@ const DetailsAssociations = ({
   useEffect(() => {
     if(association) {
       const mViewUrl = `/association/${
-        associationData?.labels?.plural
+        association?.labels?.plural
       }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${
-        associationData?.labels?.plural
+        association?.labels?.plural
       }&objectTypeId=${
-        associationData?.objectTypeId
+        association?.objectTypeId
       }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${
         mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
       }&mediatorObjectRecordId=${
         mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId
       }&isPrimaryCompany=${companyAsMediator}`;
       
-      setAssociationData(association)
       setViewUrl(mViewUrl);
-      setPermissions(associationData?.configurations["object"]);
+      setPermissions(association?.configurations.object);
+      setAssociationData(association)
     }
   }, [association]);
 
