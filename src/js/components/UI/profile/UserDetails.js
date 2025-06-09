@@ -24,6 +24,39 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
 
     // console.log(path,'=path', objectId,"=objectId", id,'=id');
     // Automatically adjust the sidebar based on screen size
+    const getInitialFilter = (type) => {
+    return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
+            homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
+            '0-1';
+    };
+
+    const [selectedFileDataFilter, setSelectedFileDataFilter] = useState(() => getInitialFilter('files'));
+    const [selectedNotesDataFilter, setSelectedNotesDataFilter] = useState(() => getInitialFilter('notes'));
+    const [selectedTicketsDataFilter, setSelectedTicketsDataFilter] = useState(() => getInitialFilter('tickets'));
+
+    const userDataFilter = [
+        { label: 'Owned by organization', value: '0-2' },
+        { label: 'Owned by me', value: '0-1' },
+    ];
+
+    const FilterDropdown = ({ 
+    value, 
+    onChange, 
+    className = "w-[200px] rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
+    }) => (
+        <select
+            className={className}
+            value={value}
+            onChange={(e) => onChange(e.target?.value || "")}
+        >
+            {userDataFilter.map((filter) => (
+            <option key={filter.value} value={filter.value}>
+                {filter.label}
+            </option>
+            ))}
+        </select>
+    );
+
     useEffect(() => {
         if (!userToggled) {
             setSidebarDetailsOpen(isLargeScreen);

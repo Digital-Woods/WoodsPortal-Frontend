@@ -8,6 +8,8 @@ const DynamicComponent = ({
   pipeLineId,
   specPipeLine,
   objectDescription,
+  objectUserProperties,
+  objectUserPropertiesView
 }) => {
   const param = getQueryParamsFromCurrentUrl();
 

@@ -6,7 +6,8 @@ const Home = ({
   propertyName,
   companyAsMediator,
   pipeLineId,
-  specPipeLine
+  specPipeLine,
+  homeCardsView
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const param = getQueryParamsFromCurrentUrl();
@@ -136,7 +137,7 @@ const Home = ({
                 return (
                   <div
                     key={index}
-                    className={`${moduleStylesOptions.homeTabStyles.cards.direction != 'list' ? colSpan : 'col-span-12'} border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)] bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-dark-300 relative`}
+                    className={`${ homeCardsView != 'list' ? colSpan : 'col-span-12'} border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)] bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-dark-300 relative`}
                   >
                     <div
                       className={`absolute bottom-0 right-0 z-1 text-[${moduleStylesOptions.homeTabStyles.svgColor.color || '#0091ae'}] dark:text-gray-500`}
@@ -164,6 +165,7 @@ const Home = ({
                           isLoading={isLoading}
                           isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
+                          viewStyle={card?.view}
                         />
                     </div>
                   </div>
