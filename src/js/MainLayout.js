@@ -71,6 +71,8 @@ const MainLayout = ({ children }) => {
       specPipeLine: menuItem.specPipeLine,
       objectDescription:menuItem.objectDescription,
       objectUserProperties:menuItem.objectUserProperties,
+      homeCardsView:menuItem.homeCardsView,
+      objectUserPropertiesView:menuItem.objectUserPropertiesView,
       component: (
         <DynamicComponent
           key={index}
@@ -83,6 +85,8 @@ const MainLayout = ({ children }) => {
           specPipeLine={menuItem.specPipeLine}
           objectDescription={menuItem.objectDescription}
           objectUserProperties={menuItem.objectUserProperties}
+          homeCardsView={menuItem.homeCardsView}
+          objectUserPropertiesView={menuItem.objectUserPropertiesView}
         />
       ),
     }));
@@ -220,6 +224,8 @@ const MainLayout = ({ children }) => {
                       specPipeLine={routes[0].specPipeLine}
                       objectDescription={routes[0].objectDescription}
                       objectUserProperties={routes[0].objectUserProperties}
+                      objectUserPropertiesView={routes[0].objectUserPropertiesView}
+                      homeCardsView={routes[0].homeCardsView}
                     />
                   </React.Fragment>
                 )}
@@ -277,7 +283,9 @@ const MainLayout = ({ children }) => {
                   pipeLineId,
                   specPipeLine,
                   objectDescription,
-                  objectUserProperties
+                  objectUserProperties,
+                  objectUserPropertiesView,
+                  homeCardsView
                 }) => (
                   <PrivateRoute
                     key={path}
@@ -300,6 +308,7 @@ const MainLayout = ({ children }) => {
                             companyAsMediator={companyAsMediator}
                             pipeLineId={pipeLineId}
                             specPipeLine={specPipeLine}
+                            homeCardsView={homeCardsView}
                           />
                         ) : (
                           <DynamicComponent
@@ -313,6 +322,7 @@ const MainLayout = ({ children }) => {
                             specPipeLine={specPipeLine}
                             objectDescription={objectDescription}
                             objectUserProperties={objectUserProperties}
+                            objectUserPropertiesView={objectUserPropertiesView}
                           />
                         )}
                       </React.Fragment>
