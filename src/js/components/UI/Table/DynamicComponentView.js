@@ -23,6 +23,7 @@ const DynamicComponentView = ({
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   const [tableTitle, setTableTitle] = useState(null);
   const [singularTableTitle, setSingularTableTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // const [pageView, setPageView] = useState("table");
   const { sync, setSync } = useSync();
 
@@ -140,7 +141,8 @@ const DynamicComponentView = ({
       setRouteMenuConfig(routeMenuConfigs);
       setIsLoadingHoldData(false);
     },
-    onError: () => {
+    onError: (error) => {
+      setErrorMessage(error?.response?.data?.detailedMessage || "")
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
@@ -208,6 +210,11 @@ const DynamicComponentView = ({
 
   return (
     <div>
+      {errorMessage &&
+        <div className="flex items-center text center p-4 h-28">
+          {errorMessage}
+        </div>
+      }
       {pageView === "single" && (
         <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>
