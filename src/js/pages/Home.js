@@ -77,7 +77,8 @@ const Home = ({
     window.addEventListener("resize", resetOnResize);
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
-
+  
+  // console.log(enableDashboardCards,'enableDashboardCards hello')
   // const apis = {
   //   tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
   //   stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
@@ -118,22 +119,56 @@ const Home = ({
             ""
           )}
 
-          <div
-            className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto  md:py-4 py-3 
+          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto  md:py-4 py-3 
                 ${showSidebarListDataOption && isLargeScreen
-                ? "w-[calc(100%_-350px)]"
-                : "w-full"
-              } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}
-          >
-            <div className={`${companyDetailsCard == 'true' ? `flex ${moduleStylesOptions.homeTabStyles.cards.direction} items-stretch flex-col` : ' '}  md:gap-4 gap-3`}>
-              <div className="flex-1 grid">
-                <HomeBanner moduleBannerDetailsOption={moduleBannerDetailsOption} userData={userData} />
-              </div>
-              {companyDetailsCard == 'true' ? (
-                <div className="flex-1 grid">
-                  <HomeCompanyCard userData={userData} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
-                </div>
-              ) : null}
+              ? "w-[calc(100%_-350px)]"
+              : "w-full"
+            } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}>
+
+            <div className={`grid grid-cols-12 md:gap-4 gap-3`}>
+              {dashboardCards.map((card, index) => {
+                const isLast = index === dashboardCards.length - 1;
+                const isOdd = dashboardCards.length % 2 !== 0;
+                const isOnly = dashboardCards.length === 1;
+
+                const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'col-span-6';
+
+                return (
+                  <div
+                    key={index}
+                    className={`${moduleStylesOptions.homeTabStyles.cards.direction != 'list' ? colSpan : 'col-span-12'} border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)] bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-dark-300 relative`}
+                  >
+                    <div
+                      className={`absolute bottom-0 right-0 z-1 text-[${moduleStylesOptions.homeTabStyles.svgColor.color || '#0091ae'}] dark:text-gray-500`}
+                    >
+                      <svg width="151" height="125" viewBox="0 0 151 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clipPath="url(#clip0_7211_3894)">
+                          <circle cx="116" cy="116" r="116" fill="currentColor" opacity="0.1" />
+                          <circle cx="116" cy="116" r="77" fill="currentColor" opacity="0.3" />
+                          <circle cx="116" cy="116" r="35" fill="currentColor" opacity="0.5" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_7211_3894">
+                            <rect width="151" height="125" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+
+                    <div className="grid">
+                        <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
+                        <HomeCompanyCard
+                          companyDetailsModalOption={card?.add_details_modal}
+                          companyPropertiesLists={card?.properties}
+                          userData={userData}
+                          isLoading={isLoading}
+                          isLoadedFirstTime={isLoadedFirstTime}
+                          iframePropertyName={card?.properties}
+                        />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* <DashboardTable
@@ -185,10 +220,12 @@ const Home = ({
                     const sidebarDataApis = {
                       tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
                       stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
                       formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
                         }`,
                       createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+                      createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
+                      removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
                       updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
                     };
 

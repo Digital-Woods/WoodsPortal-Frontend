@@ -13,7 +13,7 @@ const DetailsViewEditor = ({
 }) => {
   const editorRef = useRef(null);
   const [expandDialog, setExpandDialog] = useState(false);
-  const [alert, setAlert] = useState(null);
+  const { setToaster } = useToaster();
   const [editorContent, setEditorContent] = useState(value);
   const menuConfig = {
     imageUploader: false,
@@ -45,11 +45,11 @@ const DetailsViewEditor = ({
     onSuccess: async (data) => {
       refetch();
       setEditRow(null)
-      setAlert({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data.statusMsg, type: "success" });
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
-      setAlert({ message: errorMessage, type: "error" });
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 
@@ -59,13 +59,6 @@ const DetailsViewEditor = ({
 
   return (
     <div>
-       {alert && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={() => setAlert(null)}
-        />
-      )}
       <Dialog
         open={openModal}
         onClose={setOpenModal}

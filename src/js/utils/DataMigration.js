@@ -315,11 +315,23 @@ const renderCellContent = ({
   };
   // End - Set associations url in cookie
 
+  if ( // if date then conver into date format
+    column &&
+    value != null &&
+    (column.type == "datetime" ||
+      column.key == "hs_createdate" ||
+      column.key == "hs_lastmodifieddate" ||
+      column.key == "createdate"
+    )
+  ) {
+    const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
+    return  truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
+  }
 
   if ( // if date then conver into date format
     column &&
     value != null &&
-    (column.fieldType == "date" ||
+    (column.type == "date" ||
       column.key == "hs_createdate" ||
       column.key == "hs_lastmodifieddate" ||
       column.key == "createdate"
@@ -342,6 +354,41 @@ const renderCellContent = ({
       </a>
     )
   }
+
+  if (
+    column &&
+    (type == "details" ||
+    type == "company" ||
+    type == "homeList") &&
+    value !== null &&
+    typeof value === 'string' &&
+    value.startsWith('https://')
+  ) {
+    const urls = value
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url.startsWith('https://'));
+
+    if (urls.length > 0) {
+      return (
+        <div className={`flex flex-wrap gap-1`}>
+          {urls.map((url, idx) => (
+            <a
+              key={idx}
+              href={url}
+              className="hover:underline flex items-center flex-wrap gap-1"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="break-all inline-block">{url}</span>
+              <OpenIcon />
+            </a>
+          ))}
+        </div>
+      );
+    }
+  }
+
 
   // if (
   //   column.key === "amount" && column.showCurrencySymbol
@@ -405,7 +452,7 @@ const renderCellContent = ({
   if ((type === "list" || type === "associations" || type === 'homeList') && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
-        {truncatedText(decodeAndStripHtml(value || ""))}
+        {truncatedText(decodeAndStripHtml(value || ""), 23)}
       </div>
     );
   }
@@ -416,6 +463,14 @@ const renderCellContent = ({
         {/* {isObject(value) ? value.label
             : ReactHtmlParser.default(DOMPurify.sanitize(value))} */}
         {decodeAndStripHtml(value || "")}
+      </div>
+    );
+  }
+
+  if (type === "details" && column?.key === "hubspot_owner_id" && value) {
+    return (
+      <div className="flex gap-1 relative justify-between">
+        {value?.firstname} {value?.lastname}
       </div>
     );
   }

@@ -481,6 +481,8 @@
   :root{
     --primary-color:{{primary_color}};
     --secondary-color:{{secondary_color}};
+    --primary-color-hover-bg:{{primary_color}}30;
+    --secondary-color-hover-bg:{{secondary_color}}30;
   }
 
   .spinner {
@@ -770,8 +772,12 @@ tfoot td {
   min-height:360px;
 }
 
+.create-object-editor .ProseMirror {
+  min-height: 180px;
+}
+
 .updateRichText .ProseMirror{
-  height:280px;
+  height:380px;
 }
 
 .ProseMirror {
@@ -854,7 +860,7 @@ img.ProseMirror-separator {
   border: 1px solid transparent;
   border-radius: 3px;
   /* height: 27px; */
-  padding:5px;
+  padding:2px;
   vertical-align: middle;
   transition: 150ms ease-out;
   display: flex; 
@@ -978,7 +984,7 @@ img.ProseMirror-separator {
 .ProseMirror-menubar {
   display: flex;
   background: transparent;
-  border-bottom: 1px solid #7fd1de;
+  border-bottom: 1px solid var(--secondary-color);
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   -moz-box-sizing: border-box;
@@ -1048,6 +1054,7 @@ img.ProseMirror-separator {
 .ProseMirror-icon {
   display: inline-block;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .ProseMirror-menu-disabled.ProseMirror-icon {
@@ -1304,3 +1311,32 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
 }
 
+.form-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.form-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 1.2rem;
+  width: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: white;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+
+.form-checkbox:checked {
+  background-color: white;
+  border-color: currentColor;
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='{{secondary_color}}' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -1,4 +1,7 @@
-const ProseMirrorLinkView = (mark, node, view, getPos) => {
+const ProseMirrorLinkView = (attrs, type) => {
+  const mark = attrs
+  const view = type
+
   const dom = document.createElement("a");
   
   // Set the link attributes
@@ -8,7 +11,8 @@ const ProseMirrorLinkView = (mark, node, view, getPos) => {
   dom.setAttribute("rel", "noopener noreferrer");
 
   // Set the text content of the link
-  dom.textContent = node.textContent;
+  // dom.textContent = node.textContent;
+  dom.textContent = mark.attrs.title;
 
   let isOpenLinkPopup = false;
   let linkPopupContainer = null;
@@ -22,9 +26,17 @@ const ProseMirrorLinkView = (mark, node, view, getPos) => {
   };
 
   const handleClickOutside = (event) => {
-    if (linkPopupContainer && !linkPopupContainer.contains(event.target)) {
-      closeLinkPopup();
+    // if (linkPopupContainer && !linkPopupContainer.contains(event.target)) {
+    //   closeLinkPopup();
+    // }
+
+    if (
+      (linkPopupContainer && linkPopupContainer.contains(event.target)) ||
+      (dom && dom.contains(event.target)) // <- this disables outside click for the <a> tag
+    ) {
+      return; // Ignore click
     }
+    closeLinkPopup();
   };
 
   dom.addEventListener("click", (event) => {
@@ -39,7 +51,7 @@ const ProseMirrorLinkView = (mark, node, view, getPos) => {
       }
 
       // Toggle popup visibility
-      if(!isOpenLinkPopup) isOpenLinkPopup = true;
+      isOpenLinkPopup = !isOpenLinkPopup;
 
       // Add event listener to close popup when clicking outside
       setTimeout(() => {

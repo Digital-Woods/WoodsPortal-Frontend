@@ -1,4 +1,5 @@
 const ProseMirrorMenuPopup = ({ children, open, setOpen }) => {
+  const containerRef = useRef(null);
   const dropdownMenuRef = useRef(null);
 
   const toggleDropdown = (event) => {
@@ -7,6 +8,12 @@ const ProseMirrorMenuPopup = ({ children, open, setOpen }) => {
   };
 
   const handleClickOutside = (event) => {
+    if (
+      containerRef.current &&
+      containerRef.current.contains(event.target) // Ignore clicks inside this container
+    ) {
+      return;
+    }
     if (
       dropdownMenuRef.current &&
       !dropdownMenuRef.current.contains(event.target)
@@ -28,7 +35,7 @@ const ProseMirrorMenuPopup = ({ children, open, setOpen }) => {
   }, [open]);
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" ref={containerRef}>
       {React.Children.map(children, (child) => {
         if (!React.isValidElement(child)) return child;
 
@@ -77,9 +84,9 @@ const ProseMirrorMenuButton = ({
         <div id={`${id}-icon`}>{children}</div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="20px"
+          height="15px"
           viewBox="0 -960 960 960"
-          width="20px"
+          width="15px"
           fill="#e8eaed"
         >
           <path d="M480-360 280-560h400L480-360Z" />
@@ -90,11 +97,73 @@ const ProseMirrorMenuButton = ({
 };
 
 const ProseMirrorMenuOption = ({ children, open, dropdownMenuRef }) => {
+  const [position, setPosition] = useState({ top: '100%', left: 0 });
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) {
+      setPosition({
+        top: '100%',
+        left: 0,
+        right: 'auto',
+      });
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (open && menuRef.current && dropdownMenuRef.current) {
+      const menuElement = menuRef.current;
+      const dropdownElement = dropdownMenuRef.current;
+
+      const modalContainer = menuElement.closest('.popup-modal') || document.body;
+      const containerRect = modalContainer.getBoundingClientRect();
+      const buttonRect = dropdownElement.getBoundingClientRect();
+
+      const relativeLeft = buttonRect.left - containerRect.left;
+
+      const menuWidth = menuElement.offsetWidth;
+      const availableSpaceRight = containerRect.width - (relativeLeft + menuWidth);
+
+      // Default position (below and aligned left)
+      let newPosition = {
+        top: '100%',
+        left: 0,
+        right: 'auto'
+      };
+
+      // If not enough space on right, try aligning right
+      if (availableSpaceRight < 0) {
+        newPosition = {
+          top: '100%',
+          left: 'auto',
+          right: 0
+        };
+
+        const availableSpaceLeft = relativeLeft;
+        if (availableSpaceLeft < menuWidth) {
+          newPosition = {
+            top: '100%',
+            left: -20,
+            right: 'auto'
+          };
+        }
+      }
+      setPosition(newPosition);
+    }
+  }, [open]);
+
+
   return (
     open && (
       <ul
-        ref={dropdownMenuRef}
-        className="absolute right-0 mt-1 transform border bg-white shadow-lg rounded-rounded overflow-hidden z-50 w-max"
+        ref={(node) => {
+          menuRef.current = node;
+          dropdownMenuRef.current = node;
+        }}
+        className={`absolute mt-1 border bg-white shadow-lg rounded-rounded overflow-hidden z-50 w-max transition-all duration-200 ease-in-out transform 
+          ${open ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}
+        `}
+        style={position}
       >
         {children}
       </ul>

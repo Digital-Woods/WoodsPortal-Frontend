@@ -1,7 +1,7 @@
 const DashboardTableHeader = ({
   title,
   componentName,
-  permissions,
+  // permissions,
   hubspotObjectTypeId,
   // activePipeline,
   setActiveTab,
@@ -15,6 +15,7 @@ const DashboardTableHeader = ({
   setShowAddDialog,
   // pageLimit,
   defPermissions,
+  specPipeLine
 }) => {
   const pageLimit = env.TABLE_PAGE_LIMIT;
   const {
@@ -25,6 +26,7 @@ const DashboardTableHeader = ({
     setSelectedPipeline,
     setPage,
     setLimit,
+    permissions
   } = useTable();
 
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
@@ -106,7 +108,7 @@ const DashboardTableHeader = ({
             </div>
           )}
 
-          {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+          {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && !specPipeLine &&
             (showPipelineFilter ? (
               <div className="w-[180px]">
                 <select
@@ -169,7 +171,8 @@ const DashboardTableHeader = ({
           )}
         </div>
       </div>
-
+      {/* {console.log('defPermissions', defPermissions)}
+      {console.log('permissions', permissions)} */}
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
         (componentName === "ticket"
           ? defPermissions?.create

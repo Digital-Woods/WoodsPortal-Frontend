@@ -172,18 +172,20 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }) => {
       <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
         <ProseMirrorMenuButton
           id="defaultEditorFontSize"
-          title="Text Alignment"
+          title="Font Size"
           isActive={defaultEditorFont}
           variant="outline"
         >
+          <span className="block text-[12px] min-w-[16px]">
           {defaultEditorFontSize ? defaultEditorFontSize?.label : font.label}
+          </span>
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
           <ul class="space-y-2 note-dd-Select-menu text-gray-500 list-none list-inside dark:text-gray-400">
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
-                className={`cursor-pointer note-dd-Select-menu-options min-w-[52px] hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
+                className={`cursor-pointer note-dd-Select-menu-options !text-[12px] min-w-[30px] hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
                   defaultEditorFontSize?.value === textFont.value
                     ? "bg-gray-100"
                     : ""
@@ -234,6 +236,7 @@ const fontSizeMenuItem = new MenuItem2({
     const activeFont = fontSizeSelectionPluginKey.getState(state) || true;
     // const selectedEditorFontSize = fontSizeSelectionPluginKey.getState(state);
     const selectedEditorFontSize = getFontSizeFromSelection(state);
+
     const fontSize = textFontSizes.find(
       (font) => font.value === selectedEditorFontSize
     );
@@ -241,6 +244,7 @@ const fontSizeMenuItem = new MenuItem2({
     defaultEditorFontSize = fontSize;
 
     const div = document.getElementById("defaultEditorFontSize-icon");
+    document.getElementById("defaultEditorFontSize-icon")?.classList.add(..."!text-[12px] min-w-[16px]".split(" "));
     if (div && selectedEditorFontSize) {
       div.textContent = fontSize?.label; // Change text content
       document

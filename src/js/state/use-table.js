@@ -146,7 +146,7 @@ function useTable() {
   };
   const { sync, setSync } = useSync();
 
-  const getTableParam = (companyAsMediator) => ({
+  const getTableParam = (companyAsMediator, currentPage = null) => ({
     // const param = {
     //   limit: itemsPerPage || pageLimit,
     //   page: currentPage,
@@ -161,8 +161,8 @@ function useTable() {
     //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
     //   view: activeCard ? "BOARD" : "LIST",
     // };
-    limit: limit,
-    page: page,
+    limit: 10,
+    page: currentPage || page,
     ...(after && after.length > 0 && { after }),
     sort: sort,
     search: search,

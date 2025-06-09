@@ -7,19 +7,10 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   const [newFolderName, setNewFolderName] = useState("");
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const { sync, setSync } = useSync();
-
+  const { setToaster } = useToaster();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const [alert, setAlert] = useState({ message: "", type: "", show: false });
-
-  // const [permissions, setPermissions] = useState(null);
-
-  const handleCloseAlert = () => {
-    setAlert({ message: "", type: "", show: false });
-  };
-
-  // console.log('currentFiles', currentFiles)
 
   const findObjectById = (data, id) => {
     // Base case: if the current object matches the id, return it
@@ -52,19 +43,22 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
         cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      setSync(false);
       // setPermissions(data.configurations.fileManager);
       if (data && data.data) {
         if (folderStack.length > 0 && currentFiles.name != id) {
           const foundObject = findObjectById(data.data, currentFiles.id);
           setCurrentFiles(foundObject);
-          const updatedFolderStack = updateFolderStack(folderStack, foundObject);
+          const updatedFolderStack = updateFolderStack(
+            folderStack,
+            foundObject
+          );
           setFolderStack(updatedFolderStack);
         } else {
           setCurrentFiles(data.data);
           setFolderStack([data.data]);
         }
       }
+      setSync(false);
     },
     onError: (error) => {
       setSync(false);
@@ -73,9 +67,10 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   });
 
   useEffect(() => {
-    if (sync){ refetch()};
+    if (sync) {
+      refetch();
+    }
   }, [sync]);
-
 
   if (isLoading) {
     return <FilesSkeleton />;
@@ -87,7 +82,9 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
 
   // Filter files based on search term
   const filteredFiles = currentFiles.child
-    .filter((file) => file.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((file) =>
+      file.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const totalFiles = filteredFiles.length;
@@ -103,18 +100,18 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     setCurrentPage(1);
   };
 
-  // Update folder stack 
+  // Update folder stack
   const updateFolderStack = (folderStack, currentFolder) => {
     // Recursive function to find and update the folder
     const updateRecursive = (folders) => {
-      return folders.map(folder => {
+      return folders.map((folder) => {
         if (folder.id === currentFolder.id) {
           // Update the folder that matches the currentFolder ID
           return {
             ...folder, // Copy the current folder properties
             name: currentFolder.name, // Update the name
             size: currentFolder.size, // Update the size
-            child: currentFolder.child || folder.child // Update the children if provided
+            child: currentFolder.child || folder.child, // Update the children if provided
           };
         }
 
@@ -122,7 +119,7 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
         if (folder.child && folder.child.length > 0) {
           return {
             ...folder,
-            child: updateRecursive(folder.child) // Recursively update children
+            child: updateRecursive(folder.child), // Recursively update children
           };
         }
 
@@ -135,13 +132,12 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
   };
 
   const handleBreadcrumbClick = (index) => {
-
     if (!Array.isArray(folderStack) || folderStack.length <= index) {
-      console.log('Hello hweekly');
+      console.log("Hello hweekly");
       return;
     }
     const updatedFolderStack = updateFolderStack(folderStack, currentFiles);
-    console.log(updatedFolderStack, 'updatedFolderStack');
+    console.log(updatedFolderStack, "updatedFolderStack");
     // setFolderStack(updatedFolderStack);
 
     const selectedFolder = folderStack[index];
@@ -149,7 +145,6 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     setCurrentPage(1);
     setCurrentFiles(selectedFolder);
     setFolderStack(folderStack.slice(0, index + 1));
-
   };
 
   const createFolder = (folderName) => {
@@ -281,18 +276,10 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
         folderId={getCurrentFolderId()}
         fileId={fileId}
         refetch={refetch}
-        setAlert={setAlert}
+        setToaster={setToaster}
         objectId={objectId}
         id={id}
       />
-      {alert.show && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={handleCloseAlert}
-          duration={3000}
-        />
-      )}
       <Dialog open={isDialogOpen} onClose={closeDialog}>
         <div id="dialog-overlay" onClick={handleOverlayClick}>
           <FileUpload
@@ -300,20 +287,12 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
             fileId={fileId}
             refetch={refetch}
             onClose={closeDialog}
-            setAlert={setAlert}
+            setToaster={setToaster}
             objectId={objectId}
             id={id}
           />
         </div>
       </Dialog>
-      {alert.show && (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          onClose={handleCloseAlert}
-          duration={3000}
-        />
-      )}
     </div>
   );
 };

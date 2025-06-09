@@ -1,7 +1,7 @@
-const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
+const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }) => {
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
-  const [sortItems, setSortItems] = useState([]);
+  const [info, setInfo] = useState(null);
   const [associations, setAssociations] = useState({});
   const { me } = useMe();
   const [configurations, setConfigurations] = useState({
@@ -10,7 +10,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     ticket: false,
   });
   const param = getParam("t");
-  const companyAsMediator = getParam("isPrimaryCompany");
+  const companyAsMediator = getParam("isPrimaryCompany") || false;
   // const [activeTab, setActiveTab] = useState(param || "overview");
   const [activeTab, setActiveTab] = useState("overview");
   const [permissions, setPermissions] = useState(null);
@@ -21,7 +21,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false); 
-  const [totalRecord, setTotalRecord] = useState(0);
+  const {
+    totalRecord
+  } = useTable();
+
+  const {isLoading: isLoadingList} = states
 
   // Automatically adjust the sidebar based on screen size
   useEffect(() => {
@@ -54,40 +58,29 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
   ].filter(Boolean);
 
   const setActiveTabFucntion = (active) => {
-    // setParam("t", active);
     setActiveTab(active);
-
-    const routeMenuConfig = {
-      key: objectId,
-      details: {
-        activeTab: active
-      },
-    };
-    setSelectRouteMenuConfig(routeMenuConfig);
+    setSelectRouteMenuConfig(objectId, active);
   };
 
   // Start Cookie RouteMenuConfig
-  const setSelectRouteMenuConfig = (routeMenuConfig) => {
-    let routeMenuConfigs = getRouteMenuConfig();
-    const { key, details } = routeMenuConfig;
-
-    if (routeMenuConfigs[key]) {
-        routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
+  const setSelectRouteMenuConfig = (key, activeTab) => {
+    const routeMenuConfigs = getRouteMenuConfig();
+    let detailsConfig = {
+      activeTab: activeTab,
+      overview: routeMenuConfigs[key]?.details?.overview ||  null
     }
-
-    // console.log('routeMenuConfigs', routeMenuConfigs)
+    routeMenuConfigs[key] = { ...routeMenuConfigs[key], details: detailsConfig};
     setRouteMenuConfig(routeMenuConfigs);
   };
 
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();
-
     if (
       routeMenuConfigs &&
       routeMenuConfigs.hasOwnProperty(objectId)
     ) {
       const activeTab = routeMenuConfigs[objectId]?.details?.activeTab;
-      setActiveTab(activeTab || "overview");
+      setActiveTab((activeTab === 'list' || !activeTab) ? "overview" : activeTab);
     } else {
       setActiveTab("overview");
     }
@@ -98,8 +91,26 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     portalId = getPortal()?.portalId;
   }
 
+  const setSuccessResponse = (data) => {
+    setSync(false);
+    const associations = data?.data?.associations;
+    setAssociations(associations);
+
+    const mConfigurations = data?.configurations;
+    setConfigurations(mConfigurations);
+
+    const mInfo = data?.info;
+    setInfo(mInfo);
+
+    const details = data?.data;
+    const sortedItems = sortData(details, "details");
+    setItems(sortedItems);
+    setPermissions(data.configurations);
+    setIsLoadedFirstTime(true);
+  }
+
   const {
-    mutate: getData,
+    mutate: getDetails,
     error,
     isLoading,
   } = useMutation({
@@ -114,18 +125,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
         cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      setSync(false);
-      const associations = data?.data?.associations;
-      setAssociations(associations);
-
-      const mConfigurations = data?.configurations;
-      setConfigurations(mConfigurations);
-
-      const details = data?.data;
-      const sortedItems = sortData(details, "details");
-      setItems(sortedItems);
-      setPermissions(data.configurations);
-      setIsLoadedFirstTime(true);
+      setSuccessResponse(data)
     },
     onError: (error) => {
       setSync(false);
@@ -134,9 +134,22 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
     },
   });
 
+  const getData = () => {
+    if(preData) {
+      setSuccessResponse(preData)
+    } else {
+      getDetails()
+    }
+  }
+
   useEffect(() => {
-    getData();
-  }, []);
+    let routeMenuConfigs = getRouteMenuConfig();
+    if(preData === null && routeMenuConfigs[objectId]?.details?.preData) {
+      getPreData()
+    } else {
+      getData();
+    }
+  }, [preData]);
 
   useEffect(() => {
     if (sync) getData();
@@ -276,7 +289,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   urlParam={urlParam}
                 />
               )}
-
               {activeTab === "files" && (
                 <Files
                   fileId={id}
@@ -307,7 +319,6 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   permissions={permissions ? permissions.ticket : null}
                   companyAsMediator={companyAsMediator}
                   title={permissions?.ticket?.display_label || "Tickets"}
-                  setTotalRecord={setTotalRecord}
                 />
               )}
 
@@ -317,6 +328,20 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                   setGalleryDialog={setGalleryDialog}
                 />
               )}
+
+              {preData && activeTab === "overview" && 
+                <div>
+                  {isLoadingList ?
+                    <div className="loader">
+                      <div className="loader-line"></div>
+                    </div>
+                  : 
+                    <hr className="w-full" />
+                  }
+                  <DetailsPagination objectId={objectId} states={states} />
+                </div>
+              }
+
             </div>
           </div>
           {/* main content code end */}
@@ -366,6 +391,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe }) => {
                       companyAsMediator={companyAsMediator}
                       urlParam={urlParam}
                       parentPermissions={permissions}
+                      info={info}
                     />
                   ))}
             </div>
