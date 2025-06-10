@@ -195,7 +195,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                             //     profileTicket={true}
                             // />
 
-                            <DashboardTable
+                            <DynamicComponentView
                                 hubspotObjectTypeId={'0-5'}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
@@ -205,6 +205,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 defPermissions={permissions ? permissions.ticket : null}
                                 editView={true}
                                 setTotalRecord={setTotalRecord}
+                                isShowTitle={false}
                             />
                         )}
 

@@ -274,7 +274,7 @@ const DashboardTable = ({
           componentName === "ticket"
             ? "mt-0"
             : "md:mt-4 mt-3"
-        } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
         <DashboardTableHeaderSkeleton
           hubspotObjectTypeId={hubspotObjectTypeId}
@@ -296,7 +296,7 @@ const DashboardTable = ({
         componentName === "ticket"
           ? "mt-0"
           : "md:mt-4 mt-3"
-      } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
