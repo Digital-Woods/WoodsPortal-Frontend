@@ -4,12 +4,12 @@ const HomeCompanyCardSkeleton = () => {
             {/* Associated Company Details */}
             <div className="w-full dark:border-gray-600">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:p-4 p-3">
-                    <button className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
+                    {/* <button className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
                         <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
                         <span className="text-secondary dark:text-white inline-block -rotate-45">
                             <Arrow />
                         </span>
-                    </button>
+                    </button> */}
 
                     {Array.from({ length: 4 }).map((_, i) => (
                         <div key={i} className="flex flex-col items-start gap-1 text-xs">
