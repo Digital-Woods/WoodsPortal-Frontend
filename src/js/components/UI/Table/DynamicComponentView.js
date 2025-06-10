@@ -411,3 +411,21 @@ const DynamicComponentView = ({
     </div>
   );
 };
+
+DynamicComponentView.propTypes = {
+  hubspotObjectTypeId: PropTypes.string.isRequired, // or PropTypes.number
+  path: PropTypes.string,
+  title: PropTypes.string,
+  showIframe: PropTypes.string,
+  propertyName: PropTypes.string,
+  companyAsMediator: PropTypes.bool,
+  pipeLineId: PropTypes.string,
+  specPipeLine: PropTypes.any,
+  objectDescription: PropTypes.any,
+  componentName: PropTypes.string,
+  defPermissions: PropTypes.any,
+  apis: PropTypes.object,
+  isShowTitle: PropTypes.bool,
+  objectUserProperties: PropTypes.any,
+  objectUserPropertiesView: PropTypes.any,
+};
