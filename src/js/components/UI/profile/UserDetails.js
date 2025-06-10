@@ -261,6 +261,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 editView={true}
                                 setTotalRecord={setTotalRecord}
                                 isShowTitle={false}
+                                companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
                             />
                         )}
 
