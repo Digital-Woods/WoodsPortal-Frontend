@@ -6,7 +6,8 @@ const Home = ({
   propertyName,
   companyAsMediator,
   pipeLineId,
-  specPipeLine
+  specPipeLine,
+  homeCardsView
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const param = getQueryParamsFromCurrentUrl();
@@ -15,6 +16,7 @@ const Home = ({
   const [userToggled, setUserToggled] = useState(false); // Track user interaction
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
+  const [userCompanyId, setUserCompanyId] = useState();
   const [userObjectId, setUserObjectId] = useState();
   const [cacheEnabled, setCacheEnabled] = useState(true);
   const portalId = getPortal()?.portalId;
@@ -36,6 +38,7 @@ const Home = ({
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
+        setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id.value)
       }
       setSync(false);
       setIsLoadedFirstTime(true);
@@ -136,7 +139,7 @@ const Home = ({
                 return (
                   <div
                     key={index}
-                    className={`${moduleStylesOptions.homeTabStyles.cards.direction != 'list' ? colSpan : 'col-span-12'} border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)] bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-dark-300 relative`}
+                    className={`${ homeCardsView != 'list' ? colSpan : 'col-span-12'} border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)] bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'} dark:bg-dark-300 relative`}
                   >
                     <div
                       className={`absolute bottom-0 right-0 z-1 text-[${moduleStylesOptions.homeTabStyles.svgColor.color || '#0091ae'}] dark:text-gray-500`}
@@ -159,11 +162,12 @@ const Home = ({
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
                         <HomeCompanyCard
                           companyDetailsModalOption={card?.add_details_modal}
-                          companyPropertiesLists={card?.properties}
-                          userData={userData}
+                          propertiesList={card?.properties}
+                          userData={userData?.response}
                           isLoading={isLoading}
                           isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
+                          viewStyle={card?.view}
                         />
                     </div>
                   </div>
@@ -183,7 +187,7 @@ const Home = ({
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
+            <UserDetails userCompanyId={userCompanyId} userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
 
           </div>
 
