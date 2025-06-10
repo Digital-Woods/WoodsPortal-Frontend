@@ -208,10 +208,24 @@
       "occurrence" : {
         "min" : null,
         "max" : null,
-        "sorting_label_field" : null,
+        "sorting_label_field" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "default" : 1
       },
       "children" : [ {
+        "id" : "73b10fb2-9790-b03b-fadb-8347fb601e1e",
+        "name" : "property_type",
+        "label" : "Property Type",
+        "required" : false,
+        "locked" : false,
+        "display" : "select",
+        "choices" : [ [ "contact", "Enable contact properties" ], [ "company", "Enable company properties" ] ],
+        "multiple" : false,
+        "reordering_enabled" : true,
+        "preset" : null,
+        "type" : "choice",
+        "display_width" : null,
+        "default" : "company"
+      }, {
         "id" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "name" : "properties_value",
         "label" : "Property Internal Name",
@@ -725,7 +739,7 @@
       "occurrence" : {
         "min" : null,
         "max" : null,
-        "sorting_label_field" : null,
+        "sorting_label_field" : "7e6b8c9d-ec3b-f245-0b25-bfa5ac249dd5",
         "default" : 1
       },
       "children" : [ {
@@ -1048,7 +1062,7 @@
       "occurrence" : {
         "min" : null,
         "max" : null,
-        "sorting_label_field" : null,
+        "sorting_label_field" : "68fa50a8-dea0-0a82-29ab-2e8fec20f774",
         "default" : 1
       },
       "children" : [ {
