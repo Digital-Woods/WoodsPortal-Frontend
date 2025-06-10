@@ -1,5 +1,5 @@
 
-const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime }) => {
+const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime, userCompanyId }) => {
     const [item, setItems] = useState([]);
     const [images, setImages] = useState([]);
     const [sortItems, setSortItems] = useState([]);
@@ -157,7 +157,8 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                 {/* main content code start */}
                 <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                     <div className={``}>
-                        <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit my-4">
+                        <div className={`flex md:flex-row flex-col md:items-center justify-between my-4`}>
+                        <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">
                             <Tabs
                                 activeTab={activeTab}
                                 setActiveTab={setActiveTabFucntion}
@@ -195,6 +196,27 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
                                 {/* <TabsContent value="photos"></TabsContent> */}
                             </Tabs>
+                             </div>
+                            {activeTab === "files" && homeTabsDataTypeFilter.files === 'all' && (
+                                <FilterDropdown 
+                                value={selectedFileDataFilter} 
+                                onChange={setSelectedFileDataFilter} 
+                                />
+                            )}
+
+                            {activeTab === "notes" && homeTabsDataTypeFilter.notes === 'all' && objectId && id && (
+                                <FilterDropdown 
+                                value={selectedNotesDataFilter} 
+                                onChange={setSelectedNotesDataFilter} 
+                                />
+                            )}
+
+                            {activeTab === "tickets" && homeTabsDataTypeFilter.tickets === 'all' && (
+                                <FilterDropdown 
+                                value={selectedTicketsDataFilter} 
+                                onChange={setSelectedTicketsDataFilter} 
+                                />
+                            )}
                         </div>
 
                         {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
@@ -209,11 +231,11 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
 )} */}
 
                         {activeTab === "files" && (
-                            <Files fileId={id} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.fileManager : null} />
+                            <Files fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.fileManager : null} />
                         )}
 
                         {activeTab === "notes" && objectId && id && (
-                            <Notes item={item} path={path} objectId={objectId} id={id} permissions={permissions ? permissions.note : null} />
+                            <Notes item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.note : null} />
                         )}
 
                         {activeTab === "tickets" && (

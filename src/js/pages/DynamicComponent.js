@@ -44,6 +44,8 @@ const DynamicComponent = ({
       specPipeLine={specPipeLine}
       objectDescription={objectDescription}
       apis={apis}
+      objectUserProperties={objectUserProperties}
+      objectUserPropertiesView={objectUserPropertiesView}
     />
   );
 };
