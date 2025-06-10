@@ -11,6 +11,7 @@ const DynamicComponentView = ({
   componentName = null,
   defPermissions = null,
   apis,
+  isShowTitle=true,
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -247,10 +248,10 @@ const DynamicComponentView = ({
       )}
       {pageView === "table" && (
         <div className="bg-sidelayoutColor dark:bg-dark-300">
-          <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
+          <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white`}>
             <div className="flex relative z-[2] gap-6">
               <div className="flex flex-col gap-2 flex-1">
-                {hubSpotUserDetails.sideMenu[0].tabName != title && (
+                {isShowTitle && hubSpotUserDetails.sideMenu[0].tabName != title && (
                   <span className="flex-1">
                     <ol className="flex dark:text-white flex-wrap">
                       {tableTitle &&
