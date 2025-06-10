@@ -32,14 +32,14 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const [selectedTicketsDataFilter, setSelectedTicketsDataFilter] = useState(() => getInitialFilter('tickets'));
 
     const userDataFilter = [
-        { label: 'Contact', value: '0-1' },
-        { label: 'Company', value: '0-2' }
+        { label: 'Owned by organization', value: '0-2' },
+        { label: 'Owned by me', value: '0-1' },
     ];
 
     const FilterDropdown = ({ 
     value, 
     onChange, 
-    className = "w-[180px] rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
+    className = "w-[200px] rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
     }) => (
         <select
             className={className}

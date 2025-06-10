@@ -20,7 +20,8 @@ const DynamicComponent = ({
   pipeLineId,
   specPipeLine,
   objectDescription,
-  objectUserProperties
+  objectUserProperties,
+  objectUserPropertiesView
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -201,6 +202,7 @@ const DynamicComponent = ({
                 iframePropertyName={objectUserProperties}
                 className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
                 usedInDynamicComponent={true}
+                viewStyle={objectUserPropertiesView}
               />
         </div>
       }
