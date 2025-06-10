@@ -49,3 +49,17 @@ const DynamicComponent = ({
     />
   );
 };
+
+DynamicComponent.propTypes = {
+  hubspotObjectTypeId: PropTypes.string.isRequired, // or PropTypes.number
+  path: PropTypes.string,
+  title: PropTypes.string,
+  showIframe: PropTypes.string,
+  propertyName: PropTypes.string,
+  companyAsMediator: PropTypes.bool,
+  pipeLineId: PropTypes.string,
+  specPipeLine: PropTypes.any,
+  objectDescription: PropTypes.any,
+  objectUserProperties: PropTypes.any,
+  objectUserPropertiesView: PropTypes.any,
+};

@@ -441,3 +441,23 @@ const DashboardTable = ({
     </div>
   );
 };
+
+DashboardTable.propTypes = {
+  hubspotObjectTypeId: PropTypes.string.isRequired, // or PropTypes.number
+  path: PropTypes.string,
+  inputValue: PropTypes.any,
+  title: PropTypes.string,
+  tableTitle: PropTypes.string,
+  apis: PropTypes.object,
+  detailsView: PropTypes.bool,
+  editView: PropTypes.bool,
+  viewName: PropTypes.string,
+  detailsUrl: PropTypes.string,
+  componentName: PropTypes.string,
+  defPermissions: PropTypes.any,
+  companyAsMediator: PropTypes.bool,
+  pipeLineId: PropTypes.string,
+  specPipeLine: PropTypes.any,
+  getData: PropTypes.func,
+  states: PropTypes.object,
+};
