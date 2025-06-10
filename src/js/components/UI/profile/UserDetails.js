@@ -21,6 +21,9 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const { isLargeScreen } = useResponsive();
     const [userToggled, setUserToggled] = useState(false); // Track user interaction
     const [totalRecord, setTotalRecord] = useState(0);
+
+    // console.log(path,'=path', objectId,"=objectId", id,'=id');
+    // Automatically adjust the sidebar based on screen size
     const getInitialFilter = (type) => {
     return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
             homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
@@ -120,6 +123,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     if (env.DATA_SOURCE_SET != true) {
         portalId = getPortal()?.portalId;
     }
+
 
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
@@ -246,7 +250,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                             //     profileTicket={true}
                             // />
 
-                            <DashboardTable
+                            <DynamicComponentView
                                 hubspotObjectTypeId={'0-5'}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
@@ -256,7 +260,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 defPermissions={permissions ? permissions.ticket : null}
                                 editView={true}
                                 setTotalRecord={setTotalRecord}
-                                companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
+                                isShowTitle={false}
                             />
                         )}
 

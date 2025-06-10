@@ -277,10 +277,6 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
     if (sync) refetch();
   }, [sync]);
 
-  useEffect(() => {
-    refetch();
-  }, [id]);
-
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
