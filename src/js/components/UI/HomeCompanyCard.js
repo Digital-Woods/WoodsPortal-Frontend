@@ -124,17 +124,16 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
             {visibleAssociatedDetailsModal && (
                 <div className="w-full">
                     <div className={`grid ${viewStyle != 'list' ? 'grid-cols-2' : 'grid-cols-1'}  gap-2 relative z-[2] text-xs dark:text-white transition-all duration-500 md:pb-4 pb-3 md:px-4 px-3 ${className}`}>
-                        {companyDetailsModalOption ? (
+                        {/* {companyDetailsModalOption ? (
                             <button onClick={() => setOpenModal(true)} className="absolute right-2 top-2 z-[4] p-3 rounded-full overflow-hidden">
                                 <div className="bg-secondary dark:bg-white opacity-20 absolute top-0 right-0 left-0 bottom-0"></div>
                                 <span className="text-secondary dark:text-white inline-block -rotate-45">
                                     <Arrow />
                                 </span>
                             </button>
-                        ) : null}
-                        {userAssociatedDetails?.name ? (
-                            visibleAssociatedDetails.length > 0 ? (
-                                visibleAssociatedDetails.map(([key, value]) => (
+                        ) : null} */}
+                        { Object.keys(visibleAssociatedDetails).length > 0 ? (
+                                Object.entries(visibleAssociatedDetails).map(([key, value]) => (
                                     isIframeEnabled(key) ? (
                                         <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                             <span className="font-semibold">
@@ -174,7 +173,8 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                     </div>
                 </div>
             )}
-            {companyDetailsModalOption ? (
+
+            {/* {companyDetailsModalOption ? (
                 <Dialog open={openModal} onClose={setOpenModal}
                     className={`!p-0 relative mx-auto bg-white overflow-y-auto max-h-[95vh] ${expandDialog ? 'lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]' : 'lg:w-[780px] md:w-[680px] w-[calc(100vw-28px)] '} `}
                 >
@@ -247,8 +247,8 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                             ))}
                         </div>
                     </div>
-                </Dialog>) : null}
-            {/* Iframe View Dialog Component */}
+                </Dialog>) : null} */}
+
             <IframeViewDialog
                 open={iframeViewDialog}
                 onClose={() => setIframeViewDialog(false)}

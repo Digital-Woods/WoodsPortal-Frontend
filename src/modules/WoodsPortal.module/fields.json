@@ -114,65 +114,6 @@
     "display_width" : null,
     "default" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>"
   }, {
-    "id" : "2bb5942c-fc5f-ce7f-4200-63031a014406",
-    "name" : "tabs_data_type",
-    "label" : "Tab Visibility",
-    "required" : false,
-    "locked" : false,
-    "children" : [ {
-      "id" : "cd7fef3d-c7bc-e1a8-64e4-1b2c66cd4b92",
-      "name" : "files",
-      "label" : "Files Tab",
-      "required" : false,
-      "locked" : false,
-      "display" : "select",
-      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
-      "multiple" : false,
-      "reordering_enabled" : true,
-      "preset" : null,
-      "type" : "choice",
-      "display_width" : null,
-      "default" : "contact"
-    }, {
-      "id" : "90be7079-3bee-cff1-1b54-1a15f485aea7",
-      "name" : "notes",
-      "label" : "Notes Tab",
-      "required" : false,
-      "locked" : false,
-      "display" : "select",
-      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
-      "multiple" : false,
-      "reordering_enabled" : true,
-      "preset" : null,
-      "type" : "choice",
-      "display_width" : null,
-      "default" : "contact"
-    }, {
-      "id" : "28e06fa3-59a6-0d45-6144-28948379d7cd",
-      "name" : "tickets",
-      "label" : "Tickets Tab",
-      "required" : false,
-      "locked" : false,
-      "display" : "select",
-      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
-      "multiple" : false,
-      "reordering_enabled" : true,
-      "preset" : null,
-      "type" : "choice",
-      "display_width" : null,
-      "default" : "contact"
-    } ],
-    "tab" : "CONTENT",
-    "expanded" : false,
-    "group_occurrence_meta" : null,
-    "type" : "group",
-    "display_width" : null,
-    "default" : {
-      "files" : "contact",
-      "notes" : "contact",
-      "tickets" : "contact"
-    }
-  }, {
     "id" : "4e85e78d-7bd9-7577-c39b-eba6bcfecb2e",
     "name" : "enable_dashboard_cards",
     "label" : "Enable Dashboard Cards",
@@ -374,6 +315,14 @@
     "label" : "View",
     "required" : false,
     "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "home.enable_dashboard_cards",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
     "display" : "select",
     "choices" : [ [ "grid", "Grid" ], [ "list", "List" ] ],
     "multiple" : false,
@@ -382,6 +331,65 @@
     "type" : "choice",
     "display_width" : null,
     "default" : "grid"
+  }, {
+    "id" : "2bb5942c-fc5f-ce7f-4200-63031a014406",
+    "name" : "tabs_data_type",
+    "label" : "Tab Visibility",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "cd7fef3d-c7bc-e1a8-64e4-1b2c66cd4b92",
+      "name" : "files",
+      "label" : "Files Tab",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "contact"
+    }, {
+      "id" : "90be7079-3bee-cff1-1b54-1a15f485aea7",
+      "name" : "notes",
+      "label" : "Notes Tab",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "contact"
+    }, {
+      "id" : "28e06fa3-59a6-0d45-6144-28948379d7cd",
+      "name" : "tickets",
+      "label" : "Tickets Tab",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "contact"
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "files" : "contact",
+      "notes" : "contact",
+      "tickets" : "contact"
+    }
   }, {
     "id" : "9f9761b5-6dac-a960-d962-5924e014b1dc",
     "name" : "add_right_sidebar",
@@ -596,11 +604,6 @@
   "default" : {
     "tab_name" : "Dashboard",
     "icon_svg_code" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>",
-    "tabs_data_type" : {
-      "files" : "contact",
-      "notes" : "contact",
-      "tickets" : "contact"
-    },
     "enable_dashboard_cards" : true,
     "dashboard_cards" : [ {
       "show_title" : true,
@@ -626,6 +629,11 @@
       "view" : "grid"
     } ],
     "view" : "grid",
+    "tabs_data_type" : {
+      "files" : "contact",
+      "notes" : "contact",
+      "tickets" : "contact"
+    },
     "add_right_sidebar" : true,
     "right_sidebar_object" : [ {
       "list_object_name" : "Ticket",
