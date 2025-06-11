@@ -96,12 +96,14 @@ const DynamicComponentView = ({
     mutationFn: async (props) => {
 
       let routeMenuConfigs = getRouteMenuConfig();
+      let currentPage;
+      let isPage;
+      if(routeMenuConfigs[hubspotObjectTypeId]){
       const details = routeMenuConfigs[hubspotObjectTypeId]?.details
-      const currentPage = details?.overview?.page || 1;
-
-      const isPage = details?.overview?.preData && currentPage > 1
-
-      const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
+      currentPage = details?.overview?.page || 1;
+      isPage = details?.overview?.preData && currentPage > 1
+    }
+    const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       if (defPermissions?.pipeline_id && componentName === "ticket")
         param.filterValue = defPermissions?.pipeline_id;
