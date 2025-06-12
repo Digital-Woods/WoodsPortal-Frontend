@@ -13,7 +13,8 @@ const DynamicComponentView = ({
   apis,
   isShowTitle=true,
   objectUserProperties,
-  objectUserPropertiesView
+  objectUserPropertiesView,
+  isHome = false
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -59,6 +60,7 @@ const DynamicComponentView = ({
     setNumOfPages,
     view,
     getTableParam,
+    resetTableParam
    } = useTable();
 
   const fetchUserProfile = async ({ portalId, cache }) => {
@@ -118,6 +120,8 @@ const DynamicComponentView = ({
     },
 
     onSuccess: (data) => {
+       const objectId = isHome ? 'home' : hubspotObjectTypeId
+
       const tableViewIsList = data?.configurations?.object?.list_view
       setPageView(tableViewIsList ? "table" : "single");
       setApiResponse(data);
@@ -128,17 +132,17 @@ const DynamicComponentView = ({
 
 
        if (
-        tableViewIsList && (routeMenuConfigs[hubspotObjectTypeId]?.listView === false)
+        tableViewIsList && (routeMenuConfigs[objectId]?.listView === false)
       ) {
-        routeMenuConfigs[hubspotObjectTypeId] = {
-          ...routeMenuConfigs[hubspotObjectTypeId],
+        routeMenuConfigs[objectId] = {
+          ...routeMenuConfigs[objectId],
           listView: tableViewIsList,
           details: null,
         };        
         getData();
       } else {
-        routeMenuConfigs[hubspotObjectTypeId] = {
-          ...routeMenuConfigs[hubspotObjectTypeId],
+        routeMenuConfigs[objectId] = {
+          ...routeMenuConfigs[objectId],
           listView: tableViewIsList
         };   
         if (data.statusCode === "200") {
@@ -238,6 +242,7 @@ const DynamicComponentView = ({
   }, [breadcrumbs]);
 
   useEffect(() => {
+    resetTableParam();
     setApiResponse(null);
     setPageView(null);
     getData();
@@ -402,6 +407,7 @@ const DynamicComponentView = ({
                     pageView,
                     setPageView}
                   }
+                  isHome={isHome}
                 />
               </div>
             </div>
@@ -428,4 +434,5 @@ DynamicComponentView.propTypes = {
   isShowTitle: PropTypes.bool,
   objectUserProperties: PropTypes.any,
   objectUserPropertiesView: PropTypes.any,
+  isHome: propTypes.bool
 };

@@ -43,6 +43,7 @@ const DashboardTable = ({
   specPipeLine,
   getData,
   states,
+  isHome
 }) => {
   const {
     setLimit,
@@ -88,10 +89,12 @@ const DashboardTable = ({
 
   useEffect(() => {
     if (specPipeLine) {
+       const objectId = isHome ? 'home' : hubspotObjectTypeId
+
       setSelectedPipeline(pipeLineId);
       setIsLoadingHoldData(true);
       const routeMenuConfig = {
-        [hubspotObjectTypeId]: {
+        [objectId]: {
           activePipeline: pipeLineId,
         },
       };
@@ -126,8 +129,9 @@ const DashboardTable = ({
     },
 
     onSuccess: (data) => {
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
       setPipelines(data.data);
-      setDefaultPipeline(data, hubspotObjectTypeId);
+      setDefaultPipeline(data, objectId);
       getData({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
@@ -225,15 +229,16 @@ const DashboardTable = ({
 
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();
+     const objectId = isHome ? 'home' : hubspotObjectTypeId
 
     if (
       routeMenuConfigs &&
-      routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)
+      routeMenuConfigs.hasOwnProperty(objectId)
     ) {
-      const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
+      const activeTab = routeMenuConfigs[objectId].activeTab;
       setIsLoadingHoldData(true);
       setView(activeTab === "grid" ? "BOARD" : "LIST");
-      setSelectedPipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
+      setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
     } else {
       setIsLoadingHoldData(true);
       setView("LIST");
@@ -256,9 +261,9 @@ const DashboardTable = ({
     }
   }, [sync]);
 
-  useEffect(() => {
-    resetTableParam();
-  }, []);
+  // useEffect(() => {
+  //   resetTableParam();
+  // }, []);
 
   useEffect(() => {
     if (!defPermissions?.pipeline_id) {
@@ -312,6 +317,7 @@ const DashboardTable = ({
         // pageLimit={pageLimit}
         defPermissions={defPermissions}
         specPipeLine={specPipeLine}
+        isHome={isHome}
       />
       {!isLoading &&
         !view != "BOARD" &&
