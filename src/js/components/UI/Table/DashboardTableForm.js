@@ -275,6 +275,9 @@ const DashboardTableForm = ({
       const payload = {
         addIds: formData[key].map((item) => Number(item.value)),
       };
+      // const payload = {
+      //   addIds: formData.map((item) => Number(item.value)),
+      // };
       addExistingData({ formData: payload });
     } else {
       const payload = formPaylod(data, formData);
@@ -564,6 +567,7 @@ const DashboardTableForm = ({
                   setAddAnother={setAddAnother}
                   submitLoading={submitExistingDataLoading}
                   onChangeSelect={onChangeSelect}
+                  title={title.includes('with') ? title.replace('with', '') : title}
                 />
               )}
             </div>

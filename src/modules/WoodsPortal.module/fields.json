@@ -277,8 +277,7 @@
       "default" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ]
     }, {
       "id" : "756bf391-5d4c-ec98-0b5f-34dcc928e49e",
@@ -308,8 +307,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "view" : "grid"
     }, {
@@ -629,8 +627,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "view" : "grid"
     }, {
@@ -641,8 +638,7 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "iframe_button_name" : "View Docs"
       } ],
       "view" : "grid"
     } ],
@@ -1373,7 +1369,7 @@
   "children" : [ {
     "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
     "name" : "home_tab_styles",
-    "label" : "Dashboard",
+    "label" : "Home",
     "required" : false,
     "locked" : false,
     "children" : [ {

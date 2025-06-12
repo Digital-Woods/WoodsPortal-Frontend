@@ -15,7 +15,8 @@ const DashboardTableHeader = ({
   setShowAddDialog,
   // pageLimit,
   defPermissions,
-  specPipeLine
+  specPipeLine,
+  isHome
 }) => {
   const pageLimit = env.TABLE_PAGE_LIMIT;
   const {
@@ -26,6 +27,7 @@ const DashboardTableHeader = ({
     setSelectedPipeline,
     setPage,
     setLimit,
+    // permissions
   } = useTable();
 
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
@@ -35,14 +37,14 @@ const DashboardTableHeader = ({
   }, [pipelines]);
 
   const handelPipeline = (value) => {
-    setSelectedPipeline(hubspotObjectTypeId, pipelines, value);
+    setSelectedPipeline(isHome ? 'home' : hubspotObjectTypeId, pipelines, value);
     handelChangePipeline(value);
     setPage(1);
   };
 
-  useEffect(() => {
-    if (!view) setActiveTab("LIST");
-  }, [view]);
+  // useEffect(() => {
+    // if (!view) setActiveTab("LIST");
+  // }, [view]);
 
   return (
     <div className="flex justify-between mb-6 md:items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
@@ -170,7 +172,8 @@ const DashboardTableHeader = ({
           )}
         </div>
       </div>
-
+      {/* {console.log('defPermissions', defPermissions)}
+      {console.log('permissions', permissions)} */}
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
         (componentName === "ticket"
           ? defPermissions?.create
