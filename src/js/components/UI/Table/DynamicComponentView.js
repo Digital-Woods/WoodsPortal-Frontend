@@ -333,7 +333,7 @@ const DynamicComponentView = ({
               </div>
             </div>
 
-            {objectUserProperties && 
+            {objectUserProperties && objectUserProperties.length > 0 && 
               <div className="mt-3">
                     <HomeCompanyCard
                       companyDetailsModalOption={false}
