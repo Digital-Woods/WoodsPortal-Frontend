@@ -38,7 +38,7 @@ const Home = ({
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
-        setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id.value)
+        setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id?.value)
       }
       setSync(false);
       setIsLoadedFirstTime(true);
@@ -160,6 +160,7 @@ const Home = ({
 
                     <div className="grid">
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
+                        {card?.properties && card?.properties.length > 0 && (
                         <HomeCompanyCard
                           companyDetailsModalOption={card?.add_details_modal}
                           propertiesList={card?.properties}
@@ -169,6 +170,7 @@ const Home = ({
                           iframePropertyName={card?.properties}
                           viewStyle={card?.view}
                         />
+                        )}
                     </div>
                   </div>
                 );

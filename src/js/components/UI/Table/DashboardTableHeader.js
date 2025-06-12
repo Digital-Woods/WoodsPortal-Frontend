@@ -1,7 +1,7 @@
 const DashboardTableHeader = ({
   title,
   componentName,
-  // permissions,
+  permissions,
   hubspotObjectTypeId,
   // activePipeline,
   setActiveTab,
@@ -27,7 +27,7 @@ const DashboardTableHeader = ({
     setSelectedPipeline,
     setPage,
     setLimit,
-    permissions
+    // permissions
   } = useTable();
 
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);

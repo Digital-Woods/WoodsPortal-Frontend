@@ -271,6 +271,10 @@ const DashboardTable = ({
     }
   }, [selectedPipeline]);
 
+  useEffect(() => {
+      getPipelines();
+  }, [companyAsMediator]);
+
   if (isLoadingHoldData === true) {
     return (
       <div
