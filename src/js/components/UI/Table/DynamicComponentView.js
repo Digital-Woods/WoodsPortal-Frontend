@@ -152,10 +152,11 @@ const DynamicComponentView = ({
         };   
         if (data.statusCode === "200") {
           setInfo(data.info);
+          const tableViewIsList = data?.configurations?.object?.list_view
 
-          const totalData = data?.configurations?.object?.list_view
-            ? data?.data?.total
-            : data?.pagination?.total;
+          const totalData = tableViewIsList  === false
+            ? data?.pagination?.total
+            : data?.data?.total;
 
           setTotalItems(totalData || 0);
           if (componentName != "ticket") {
@@ -168,9 +169,9 @@ const DynamicComponentView = ({
             const ItemsPerPage = limit;
             setLimit(ItemsPerPage);
 
-            const totalPage = data?.configurations?.object?.list_view
-              ? Math.ceil(totalData / ItemsPerPage)
-              : Math.ceil(totalData / 1);
+            const totalPage = tableViewIsList  === false
+              ? Math.ceil(totalData / 1)
+              : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
           if (defPermissions) {
