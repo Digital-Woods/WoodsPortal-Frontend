@@ -161,7 +161,7 @@ function useTable() {
     //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
     //   view: activeCard ? "BOARD" : "LIST",
     // };
-    limit: 10,
+    limit: limit,
     page: currentPage || page,
     ...(after && after.length > 0 && { after }),
     sort: sort,

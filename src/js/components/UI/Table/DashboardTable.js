@@ -217,9 +217,10 @@ const DashboardTable = ({
   };
 
   const setActiveTab = (selectView) => {
+    const objectId = isHome ? 'home' : hubspotObjectTypeId
     setIsLoadingHoldData(true);
     const routeMenuConfig = {
-      [hubspotObjectTypeId]: {
+      [objectId]: {
         activeTab: selectView === "BOARD" ? "grid" : "list",
       },
     };
@@ -229,7 +230,9 @@ const DashboardTable = ({
 
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();
-     const objectId = isHome ? 'home' : hubspotObjectTypeId
+    const objectId = isHome ? 'home' : hubspotObjectTypeId
+
+    console.log('routeMenuConfigs', routeMenuConfigs)
 
     if (
       routeMenuConfigs &&
@@ -266,6 +269,7 @@ const DashboardTable = ({
   // }, []);
 
   useEffect(() => {
+    console.log('selectedPipeline', selectedPipeline)
     if (!defPermissions?.pipeline_id) {
       getPipelines();
     }

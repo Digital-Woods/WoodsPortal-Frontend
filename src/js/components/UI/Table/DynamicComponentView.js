@@ -256,7 +256,10 @@ const DynamicComponentView = ({
   return (
     <div>
       {errorMessage &&
-        <div className="flex items-center text center p-4 h-28">
+        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4">
+          <span className="text-yellow-600">
+            <CautionCircle/>
+          </span>
           {errorMessage}
         </div>
       }
