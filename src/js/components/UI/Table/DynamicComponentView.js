@@ -128,7 +128,7 @@ const DynamicComponentView = ({
       const objectId = isHome ? 'home' : hubspotObjectTypeId
 
       const tableViewIsList = data?.configurations?.object?.list_view
-      setPageView(tableViewIsList ? "table" : "single");
+      setPageView(tableViewIsList === false ? "single" : "table");
       setApiResponse(data);
 
       setSync(false);
@@ -346,17 +346,17 @@ const DynamicComponentView = ({
 
             {objectUserProperties && objectUserProperties.length > 0 && 
               <div className="mt-3">
-                    <HomeCompanyCard
-                      companyDetailsModalOption={false}
-                      propertiesList={objectUserProperties}
-                      userData={userData?.response}
-                      isLoading={propertyIsLoading}
-                      isLoadedFirstTime={isLoadedFirstTime}
-                      iframePropertyName={objectUserProperties}
-                      className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
-                      usedInDynamicComponent={true}
-                      viewStyle={objectUserPropertiesView}
-                    />
+                <HomeCompanyCard
+                  companyDetailsModalOption={false}
+                  propertiesList={objectUserProperties}
+                  userData={userData?.response}
+                  isLoading={propertyIsLoading}
+                  isLoadedFirstTime={isLoadedFirstTime}
+                  iframePropertyName={objectUserProperties}
+                  className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
+                  usedInDynamicComponent={true}
+                  viewStyle={objectUserPropertiesView}
+                />
               </div>
             }
 
