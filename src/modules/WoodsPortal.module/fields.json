@@ -638,7 +638,8 @@
       "properties" : [ {
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "iframe_button_name" : "View Docs",
+        "property_type" : "company"
       } ],
       "view" : "grid"
     } ],
@@ -720,6 +721,29 @@
       "type" : "text",
       "display_width" : null,
       "default" : "Tickets"
+    }, {
+      "id" : "2bb1f861-ddb2-df74-c8e5-eb093519fad5",
+      "name" : "object_type_id",
+      "label" : "Select Object Type ID",
+      "help_text" : "Provide the unique Object Type ID",
+      "required" : true,
+      "locked" : false,
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "display" : "select",
+      "choices" : [ [ "0-1", "Contacts (0-1)" ], [ "0-2", "Companies (0-2)" ], [ "0-3", "Deals (0-3)" ], [ "0-5", "Tickets (0-5)" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "0-5"
     }, {
       "id" : "818b9fae-2921-5a4e-2887-6a502d56f1bb",
       "name" : "object_description",
@@ -908,29 +932,6 @@
       "display_width" : null,
       "default" : 4
     }, {
-      "id" : "2bb1f861-ddb2-df74-c8e5-eb093519fad5",
-      "name" : "object_type_id",
-      "label" : "Select Object Type ID",
-      "help_text" : "Provide the unique Object Type ID",
-      "required" : true,
-      "locked" : false,
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "hubspot_data_source",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "NOT_EQUAL",
-        "access" : null
-      },
-      "display" : "select",
-      "choices" : [ [ "0-1", "Contacts (0-1)" ], [ "0-2", "Companies (0-2)" ], [ "0-3", "Deals (0-3)" ], [ "0-5", "Tickets (0-5)" ] ],
-      "multiple" : false,
-      "reordering_enabled" : true,
-      "preset" : null,
-      "type" : "choice",
-      "display_width" : null,
-      "default" : "0-5"
-    }, {
       "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
       "name" : "icon_svg_code",
       "label" : "Icon SVG Code",
@@ -1043,6 +1044,27 @@
       "type" : "text",
       "display_width" : null,
       "default" : "Customers"
+    }, {
+      "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
+      "name" : "object_type_id",
+      "label" : "Object Type ID",
+      "help_text" : "Provide the unique Object Type ID",
+      "required" : true,
+      "locked" : false,
+      "validation_regex" : "",
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "hubspot_data_source",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "NOT_EQUAL",
+        "access" : null
+      },
+      "allow_new_line" : false,
+      "show_emoji_picker" : false,
+      "type" : "text",
+      "display_width" : null,
+      "default" : "0-0"
     }, {
       "id" : "7716b340-b61f-e735-54c9-eb0ee41a31c2",
       "name" : "object_description",
@@ -1228,27 +1250,6 @@
       "step" : 1,
       "type" : "number",
       "display_width" : null
-    }, {
-      "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
-      "name" : "object_type_id",
-      "label" : "Object Type ID",
-      "help_text" : "Provide the unique Object Type ID",
-      "required" : true,
-      "locked" : false,
-      "validation_regex" : "",
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "hubspot_data_source",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "NOT_EQUAL",
-        "access" : null
-      },
-      "allow_new_line" : false,
-      "show_emoji_picker" : false,
-      "type" : "text",
-      "display_width" : null,
-      "default" : "0-0"
     }, {
       "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
       "name" : "icon_svg_code",
