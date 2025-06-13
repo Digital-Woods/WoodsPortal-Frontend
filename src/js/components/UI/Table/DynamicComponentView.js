@@ -100,12 +100,15 @@ const DynamicComponentView = ({
       let routeMenuConfigs = getRouteMenuConfig();
       let currentPage;
       let isPage;
-      if(routeMenuConfigs[hubspotObjectTypeId]){
-      const details = routeMenuConfigs[hubspotObjectTypeId]?.details
-      currentPage = details?.overview?.page || 1;
-      isPage = details?.overview?.preData && currentPage > 1
-    }
-    const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
+
+      if(routeMenuConfigs[objectId]){
+        const details = routeMenuConfigs[objectId]?.details
+        currentPage = details?.overview?.page || 1;
+        isPage = details?.overview?.preData && currentPage > 1
+      }
+
+      const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       if (defPermissions?.pipeline_id && componentName === "ticket")
         param.filterValue = defPermissions?.pipeline_id;
@@ -122,7 +125,7 @@ const DynamicComponentView = ({
     },
 
     onSuccess: (data) => {
-       const objectId = isHome ? 'home' : hubspotObjectTypeId
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
 
       const tableViewIsList = data?.configurations?.object?.list_view
       setPageView(tableViewIsList ? "table" : "single");
@@ -243,11 +246,11 @@ const DynamicComponentView = ({
     }
   }, [breadcrumbs]);
 
-  useEffect(() => {
-    resetTableParam();
-    setApiResponse(null);
-    setPageView(null);
-    getData();
+  useEffect( async () => {
+    await resetTableParam();
+    await setApiResponse(null);
+    await setPageView(null);
+    await getData();
   }, []);
 
   return (
@@ -439,5 +442,5 @@ DynamicComponentView.propTypes = {
   isShowTitle: PropTypes.bool,
   objectUserProperties: PropTypes.any,
   objectUserPropertiesView: PropTypes.any,
-  isHome: propTypes.bool,
+  isHome: PropTypes.bool
 };
