@@ -253,7 +253,10 @@ const DynamicComponentView = ({
   return (
     <div>
       {errorMessage &&
-        <div className="flex items-center text center p-4 h-28">
+        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4 mt-[calc(var(--nav-height)-1px)]">
+          <span className="text-yellow-600">
+            <CautionCircle/>
+          </span>
           {errorMessage}
         </div>
       }
@@ -436,5 +439,5 @@ DynamicComponentView.propTypes = {
   isShowTitle: PropTypes.bool,
   objectUserProperties: PropTypes.any,
   objectUserPropertiesView: PropTypes.any,
-  isHome: propTypes.bool
+  isHome: propTypes.bool,
 };
