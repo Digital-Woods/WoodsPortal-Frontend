@@ -232,8 +232,6 @@ const DashboardTable = ({
     let routeMenuConfigs = getRouteMenuConfig();
     const objectId = isHome ? 'home' : hubspotObjectTypeId
 
-    console.log('routeMenuConfigs', routeMenuConfigs)
-
     if (
       routeMenuConfigs &&
       routeMenuConfigs.hasOwnProperty(objectId)
@@ -269,7 +267,6 @@ const DashboardTable = ({
   // }, []);
 
   useEffect(() => {
-    console.log('selectedPipeline', selectedPipeline)
     if (!defPermissions?.pipeline_id) {
       getPipelines();
     }
