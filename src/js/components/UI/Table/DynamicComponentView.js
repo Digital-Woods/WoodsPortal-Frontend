@@ -253,7 +253,7 @@ const DynamicComponentView = ({
   return (
     <div>
       {errorMessage &&
-        <div className="flex flex-col items-center text-center p-4 h-[calc(var(--nav-height)-100%)] justify-center gap-4 mt-[calc(var(--nav-height)-1px)]">
+        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4">
           <span className="text-yellow-600">
             <CautionCircle/>
           </span>
