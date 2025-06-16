@@ -11,6 +11,10 @@ const DynamicComponentView = ({
   componentName = null,
   defPermissions = null,
   apis,
+  isShowTitle=true,
+  objectUserProperties,
+  objectUserPropertiesView,
+  isHome = false
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -23,9 +27,12 @@ const DynamicComponentView = ({
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   const [tableTitle, setTableTitle] = useState(null);
   const [singularTableTitle, setSingularTableTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // const [pageView, setPageView] = useState("table");
   const { sync, setSync } = useSync();
-
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState(false);
+  const [cacheEnabled, setCacheEnabled] = useState(true);
+  const [userData, setUserData] = useState();
   // const [page, setPage] = useState(1);
   // const [view, setView] = useState(null);
   // // const [getTableParam, setGetTableParam] = useState(null);
@@ -53,17 +60,53 @@ const DynamicComponentView = ({
     setNumOfPages,
     view,
     getTableParam,
+    resetTableParam
    } = useTable();
+
+  const fetchUserProfile = async ({ portalId, cache }) => {
+    if (!portalId) return null;
+
+    const response = await Client.user.profile({ portalId, cache });
+    return response?.data;
+  };
+
+  const { data: userNewData, error, isLoading:propertyIsLoading, refetch } = useQuery({
+    queryKey: ['userProfilePage', portalId, cacheEnabled],
+    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
+    onSuccess: (data) => {
+      if (data) {
+        setUserData(data);
+      }
+      setSync(false);
+      setIsLoadedFirstTime(true);
+    },
+    onError: (error) => {
+      console.error("Error fetching profile:", error);
+      setSync(false);
+      setIsLoadedFirstTime(true);
+    }
+  });
+
+  useEffect(() => {
+    if (sync) {
+      refetch();
+    }
+  }, [sync]);
 
   const { mutate: getData, isLoading: isLoadingAPiData } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
 
       let routeMenuConfigs = getRouteMenuConfig();
-      const details = routeMenuConfigs[hubspotObjectTypeId]?.details
-      const currentPage = details?.overview?.page || 1;
+      let currentPage;
+      let isPage;
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
 
-      const isPage = details?.overview?.preData && currentPage > 1
+      if(routeMenuConfigs[objectId]){
+        const details = routeMenuConfigs[objectId]?.details
+        currentPage = details?.overview?.page || 1;
+        isPage = details?.overview?.preData && currentPage > 1
+      }
 
       const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
@@ -82,8 +125,10 @@ const DynamicComponentView = ({
     },
 
     onSuccess: (data) => {
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
+
       const tableViewIsList = data?.configurations?.object?.list_view
-      setPageView(tableViewIsList ? "table" : "single");
+      setPageView(tableViewIsList === false ? "single" : "table");
       setApiResponse(data);
 
       setSync(false);
@@ -92,25 +137,26 @@ const DynamicComponentView = ({
 
 
        if (
-        tableViewIsList && (routeMenuConfigs[hubspotObjectTypeId]?.listView === false)
+        tableViewIsList && (routeMenuConfigs[objectId]?.listView === false)
       ) {
-        routeMenuConfigs[hubspotObjectTypeId] = {
-          ...routeMenuConfigs[hubspotObjectTypeId],
+        routeMenuConfigs[objectId] = {
+          ...routeMenuConfigs[objectId],
           listView: tableViewIsList,
           details: null,
         };        
         getData();
       } else {
-        routeMenuConfigs[hubspotObjectTypeId] = {
-          ...routeMenuConfigs[hubspotObjectTypeId],
+        routeMenuConfigs[objectId] = {
+          ...routeMenuConfigs[objectId],
           listView: tableViewIsList
         };   
         if (data.statusCode === "200") {
           setInfo(data.info);
+          const tableViewIsList = data?.configurations?.object?.list_view
 
-          const totalData = data?.configurations?.object?.list_view
-            ? data?.data?.total
-            : data?.pagination?.total;
+          const totalData = tableViewIsList  === false
+            ? data?.pagination?.total
+            : data?.data?.total;
 
           setTotalItems(totalData || 0);
           if (componentName != "ticket") {
@@ -123,9 +169,9 @@ const DynamicComponentView = ({
             const ItemsPerPage = limit;
             setLimit(ItemsPerPage);
 
-            const totalPage = data?.configurations?.object?.list_view
-              ? Math.ceil(totalData / ItemsPerPage)
-              : Math.ceil(totalData / 1);
+            const totalPage = tableViewIsList  === false
+              ? Math.ceil(totalData / 1)
+              : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
           if (defPermissions) {
@@ -140,7 +186,8 @@ const DynamicComponentView = ({
       setRouteMenuConfig(routeMenuConfigs);
       setIsLoadingHoldData(false);
     },
-    onError: () => {
+    onError: (error) => {
+      setErrorMessage(error?.response?.data?.detailedMessage || "")
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
@@ -200,14 +247,23 @@ const DynamicComponentView = ({
     }
   }, [breadcrumbs]);
 
-  useEffect(() => {
-    setApiResponse(null);
-    setPageView(null);
-    getData();
+  useEffect( async () => {
+    await resetTableParam();
+    await setApiResponse(null);
+    await setPageView(null);
+    await getData();
   }, []);
 
   return (
     <div>
+      {errorMessage &&
+        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4">
+          <span className="text-yellow-600">
+            <CautionCircle/>
+          </span>
+          {errorMessage}
+        </div>
+      }
       {pageView === "single" && (
         <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>
@@ -240,10 +296,10 @@ const DynamicComponentView = ({
       )}
       {pageView === "table" && (
         <div className="bg-sidelayoutColor dark:bg-dark-300">
-          <div className="dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white md:pl-4 md:pt-4 md:pr-3 pl-3 pt-3 pr-3">
+          <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white`}>
             <div className="flex relative z-[2] gap-6">
               <div className="flex flex-col gap-2 flex-1">
-                {hubSpotUserDetails.sideMenu[0].tabName != title && (
+                {isShowTitle && hubSpotUserDetails.sideMenu[0].tabName != title && (
                   <span className="flex-1">
                     <ol className="flex dark:text-white flex-wrap">
                       {tableTitle &&
@@ -277,17 +333,33 @@ const DynamicComponentView = ({
                         <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
                       )}
                     </p>
-                    <pre className="dark:text-white ">
+                    <div className="dark:text-white ">
                       {objectDescription
                         ? ReactHtmlParser.default(
                             DOMPurify.sanitize(objectDescription)
                           )
                         : ""}
-                    </pre>
+                    </div>
                   </span>
                 )}
               </div>
             </div>
+
+            {objectUserProperties && objectUserProperties.length > 0 && 
+              <div className="mt-3">
+                <HomeCompanyCard
+                  companyDetailsModalOption={false}
+                  propertiesList={objectUserProperties}
+                  userData={userData?.response}
+                  isLoading={propertyIsLoading}
+                  isLoadedFirstTime={isLoadedFirstTime}
+                  iframePropertyName={objectUserProperties}
+                  className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
+                  usedInDynamicComponent={true}
+                  viewStyle={objectUserPropertiesView}
+                />
+              </div>
+            }
 
             <div className="flex gap-4 w-full overflow-hidden relative">
               {/* Main content container */}
@@ -344,6 +416,7 @@ const DynamicComponentView = ({
                     pageView,
                     setPageView}
                   }
+                  isHome={isHome}
                 />
               </div>
             </div>
@@ -352,4 +425,23 @@ const DynamicComponentView = ({
       )}
     </div>
   );
+};
+
+DynamicComponentView.propTypes = {
+  hubspotObjectTypeId: PropTypes.string.isRequired, // or PropTypes.number
+  path: PropTypes.string,
+  title: PropTypes.string,
+  showIframe: PropTypes.string,
+  propertyName: PropTypes.string,
+  companyAsMediator: PropTypes.bool,
+  pipeLineId: PropTypes.string,
+  specPipeLine: PropTypes.any,
+  objectDescription: PropTypes.any,
+  componentName: PropTypes.string,
+  defPermissions: PropTypes.any,
+  apis: PropTypes.object,
+  isShowTitle: PropTypes.bool,
+  objectUserProperties: PropTypes.any,
+  objectUserPropertiesView: PropTypes.any,
+  isHome: PropTypes.bool
 };

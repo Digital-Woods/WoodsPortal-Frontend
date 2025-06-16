@@ -43,6 +43,7 @@ const DashboardTable = ({
   specPipeLine,
   getData,
   states,
+  isHome
 }) => {
   const {
     setLimit,
@@ -88,10 +89,12 @@ const DashboardTable = ({
 
   useEffect(() => {
     if (specPipeLine) {
+       const objectId = isHome ? 'home' : hubspotObjectTypeId
+
       setSelectedPipeline(pipeLineId);
       setIsLoadingHoldData(true);
       const routeMenuConfig = {
-        [hubspotObjectTypeId]: {
+        [objectId]: {
           activePipeline: pipeLineId,
         },
       };
@@ -126,8 +129,9 @@ const DashboardTable = ({
     },
 
     onSuccess: (data) => {
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
       setPipelines(data.data);
-      setDefaultPipeline(data, hubspotObjectTypeId);
+      setDefaultPipeline(data, objectId);
       getData({
         filterPropertyName: "hs_pipeline",
         filterOperator: "eq",
@@ -213,9 +217,10 @@ const DashboardTable = ({
   };
 
   const setActiveTab = (selectView) => {
+    const objectId = isHome ? 'home' : hubspotObjectTypeId
     setIsLoadingHoldData(true);
     const routeMenuConfig = {
-      [hubspotObjectTypeId]: {
+      [objectId]: {
         activeTab: selectView === "BOARD" ? "grid" : "list",
       },
     };
@@ -225,15 +230,16 @@ const DashboardTable = ({
 
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();
+    const objectId = isHome ? 'home' : hubspotObjectTypeId
 
     if (
       routeMenuConfigs &&
-      routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId)
+      routeMenuConfigs.hasOwnProperty(objectId)
     ) {
-      const activeTab = routeMenuConfigs[hubspotObjectTypeId].activeTab;
+      const activeTab = routeMenuConfigs[objectId].activeTab;
       setIsLoadingHoldData(true);
       setView(activeTab === "grid" ? "BOARD" : "LIST");
-      setSelectedPipeline(routeMenuConfigs[hubspotObjectTypeId].activePipeline);
+      setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
     } else {
       setIsLoadingHoldData(true);
       setView("LIST");
@@ -256,15 +262,19 @@ const DashboardTable = ({
     }
   }, [sync]);
 
-  useEffect(() => {
-    resetTableParam();
-  }, []);
+  // useEffect(() => {
+  //   resetTableParam();
+  // }, []);
 
   useEffect(() => {
     if (!defPermissions?.pipeline_id) {
       getPipelines();
     }
   }, [selectedPipeline]);
+
+  useEffect(() => {
+      getPipelines();
+  }, [companyAsMediator]);
 
   if (isLoadingHoldData === true) {
     return (
@@ -274,7 +284,7 @@ const DashboardTable = ({
           componentName === "ticket"
             ? "mt-0"
             : "md:mt-4 mt-3"
-        } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
         <DashboardTableHeaderSkeleton
           hubspotObjectTypeId={hubspotObjectTypeId}
@@ -296,7 +306,7 @@ const DashboardTable = ({
         componentName === "ticket"
           ? "mt-0"
           : "md:mt-4 mt-3"
-      } rounded-md overflow-hidden mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
     >
       <DashboardTableHeader
         title={title}
@@ -312,6 +322,7 @@ const DashboardTable = ({
         // pageLimit={pageLimit}
         defPermissions={defPermissions}
         specPipeLine={specPipeLine}
+        isHome={isHome}
       />
       {!isLoading &&
         !view != "BOARD" &&
@@ -440,4 +451,24 @@ const DashboardTable = ({
       )}
     </div>
   );
+};
+
+DashboardTable.propTypes = {
+  hubspotObjectTypeId: PropTypes.string.isRequired, // or PropTypes.number
+  path: PropTypes.string,
+  inputValue: PropTypes.any,
+  title: PropTypes.string,
+  tableTitle: PropTypes.string,
+  apis: PropTypes.object,
+  detailsView: PropTypes.bool,
+  editView: PropTypes.bool,
+  viewName: PropTypes.string,
+  detailsUrl: PropTypes.string,
+  componentName: PropTypes.string,
+  defPermissions: PropTypes.any,
+  companyAsMediator: PropTypes.bool,
+  pipeLineId: PropTypes.string,
+  specPipeLine: PropTypes.any,
+  getData: PropTypes.func,
+  states: PropTypes.object,
 };

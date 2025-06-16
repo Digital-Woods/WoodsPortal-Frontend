@@ -38,33 +38,11 @@
   {% endif %}
   {#End  Home tab Right Sidebar  Add logic #}
   {# Main sidebar home tab logic #}
-  {% for item in module.home.home_tab %}
-      {% do iframeList.append({
-      label: item.list_object_name,
-      tabName: item.tab_name,
-      showIframe: item.show_iframe,
-      propertyName: item.property_name,
-      hubspotObjectTypeId: item.object_type_id,
-      }) %}
-      {% set objName = item.list_object_name | replace("p_","") %}
       {% do dynamicRouteList.append({
-      label: item.list_object_name,
-      tabName: item.tab_name,
-      showIframe: item.show_iframe,
-      propertyName: item.property_name,
-      icon: item.icon_svg_code,
-      listObjectName: item.list_object_name,
-      listObjectProperties: item.list_object_properties,
-      associateObjectName: item.association_object_name,
-      hubspotObjectId: item.association_object_type_id,
-      hubspotObjectTypeId: item.object_type_id,
-      associateObjectProperties: item.association_object_properties,
-      companyAsMediator: item.mediator_object_type_id,
-      pipeLineId: item.pipeline_id,
-      specPipeLine: item.add_specific_pipeline,
-      objectType: "HUBSPOT_DEFINED",
+      tabName: module.home.tab_name,
+      homeCardsView:module.home.view,
+      icon: module.home.icon_svg_code,
       }) %}
-    {% endfor %}
   {# Main sidebar home tab logic #}
   {% endif %}
   {# ======================Home Tab logic Ends Here ==================== #}
@@ -83,6 +61,7 @@
   label: item.list_object_name,
   objectDescription: item.object_description,
   objectUserProperties: item.properties,
+  objectUserPropertiesView: item.view,
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
@@ -115,6 +94,7 @@
   label: item.list_object_name,
   objectDescription: item.object_description,
   objectUserProperties: item.properties,
+  objectUserPropertiesView: item.view,
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
@@ -131,7 +111,7 @@
   }) %}
   {% endfor %}
   {% endif %}
-  
+
   {# ================== End Logic for Custom defined object ===========================#}
   <script>
   {# Declaring Global Variables to accessible in App #}
@@ -155,7 +135,7 @@
       buttonUrl: "{{ module.other_options.sidebar_cta_details.button_url.href|escape_url }}",
     };
   {#End Sidebar Cta data #}
-    
+
   {# Branding Data #}
     const baseCompanyOptions = {
       logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
@@ -165,10 +145,11 @@
       welcomeMessage: "{{ module.other_options.welcome_message }}"
     };
   {# end branding data #}
-    
+
   {# Home banner data #}
       const enableDashboardCards = "{{ module.home.enable_dashboard_cards }}";
-      const dashboardCards = {{ module.home.dashboard_cards | tojson | safe }};
+      const dashboardCards = {{ module.home.dashboard_cards | tojson | safe }}; 
+      const homeTabsDataTypeFilter = {{ module.home.tabs_data_type | tojson | safe  }};
   {# End Home banner data #}
 
     {# Module Custom Styles #}
@@ -187,13 +168,6 @@
        svgColor: {
           color: "{{ module.style.home_tab_styles.user_card_svg_color.color }}",
           opacity: "{{ module.style.home_tab_styles.user_card_svg_color.opacity }}",
-        },
-        cards: {
-          direction: "{{ module.style.home_tab_styles.cards_direction }}",
-        },
-        companyProperties: {
-          direction: "{{ module.style.home_tab_styles.company_property_display_type }}",
-          directionDynamicComponent: "{{module.style.sidebar_styles.dynamic_company_property_display_type}}"
         }
       },
       sidebarStyles: {

@@ -61,6 +61,7 @@ const Tickets = ({
       detailsUrl={detailsUrl}
       componentName="ticket"
       defPermissions={permissions}
+      isShowTitle={false}
     />
   );
   // return <div>Ticket 1</div>
