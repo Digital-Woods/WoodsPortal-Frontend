@@ -100,12 +100,15 @@ const DynamicComponentView = ({
       let routeMenuConfigs = getRouteMenuConfig();
       let currentPage;
       let isPage;
-      if(routeMenuConfigs[hubspotObjectTypeId]){
-      const details = routeMenuConfigs[hubspotObjectTypeId]?.details
-      currentPage = details?.overview?.page || 1;
-      isPage = details?.overview?.preData && currentPage > 1
-    }
-    const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
+
+      if(routeMenuConfigs[objectId]){
+        const details = routeMenuConfigs[objectId]?.details
+        currentPage = details?.overview?.page || 1;
+        isPage = details?.overview?.preData && currentPage > 1
+      }
+
+      const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       if (defPermissions?.pipeline_id && componentName === "ticket")
         param.filterValue = defPermissions?.pipeline_id;
@@ -122,10 +125,10 @@ const DynamicComponentView = ({
     },
 
     onSuccess: (data) => {
-       const objectId = isHome ? 'home' : hubspotObjectTypeId
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
 
       const tableViewIsList = data?.configurations?.object?.list_view
-      setPageView(tableViewIsList ? "table" : "single");
+      setPageView(tableViewIsList === false ? "single" : "table");
       setApiResponse(data);
 
       setSync(false);
@@ -149,10 +152,11 @@ const DynamicComponentView = ({
         };   
         if (data.statusCode === "200") {
           setInfo(data.info);
+          const tableViewIsList = data?.configurations?.object?.list_view
 
-          const totalData = data?.configurations?.object?.list_view
-            ? data?.data?.total
-            : data?.pagination?.total;
+          const totalData = tableViewIsList  === false
+            ? data?.pagination?.total
+            : data?.data?.total;
 
           setTotalItems(totalData || 0);
           if (componentName != "ticket") {
@@ -165,9 +169,9 @@ const DynamicComponentView = ({
             const ItemsPerPage = limit;
             setLimit(ItemsPerPage);
 
-            const totalPage = data?.configurations?.object?.list_view
-              ? Math.ceil(totalData / ItemsPerPage)
-              : Math.ceil(totalData / 1);
+            const totalPage = tableViewIsList  === false
+              ? Math.ceil(totalData / 1)
+              : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
           if (defPermissions) {
@@ -243,17 +247,20 @@ const DynamicComponentView = ({
     }
   }, [breadcrumbs]);
 
-  useEffect(() => {
-    resetTableParam();
-    setApiResponse(null);
-    setPageView(null);
-    getData();
+  useEffect( async () => {
+    await resetTableParam();
+    await setApiResponse(null);
+    await setPageView(null);
+    await getData();
   }, []);
 
   return (
     <div>
       {errorMessage &&
-        <div className="flex items-center text center p-4 h-28">
+        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4">
+          <span className="text-yellow-600">
+            <CautionCircle/>
+          </span>
           {errorMessage}
         </div>
       }
@@ -340,17 +347,17 @@ const DynamicComponentView = ({
 
             {objectUserProperties && objectUserProperties.length > 0 && 
               <div className="mt-3">
-                    <HomeCompanyCard
-                      companyDetailsModalOption={false}
-                      propertiesList={objectUserProperties}
-                      userData={userData?.response}
-                      isLoading={propertyIsLoading}
-                      isLoadedFirstTime={isLoadedFirstTime}
-                      iframePropertyName={objectUserProperties}
-                      className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
-                      usedInDynamicComponent={true}
-                      viewStyle={objectUserPropertiesView}
-                    />
+                <HomeCompanyCard
+                  companyDetailsModalOption={false}
+                  propertiesList={objectUserProperties}
+                  userData={userData?.response}
+                  isLoading={propertyIsLoading}
+                  isLoadedFirstTime={isLoadedFirstTime}
+                  iframePropertyName={objectUserProperties}
+                  className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
+                  usedInDynamicComponent={true}
+                  viewStyle={objectUserPropertiesView}
+                />
               </div>
             }
 
@@ -436,5 +443,5 @@ DynamicComponentView.propTypes = {
   isShowTitle: PropTypes.bool,
   objectUserProperties: PropTypes.any,
   objectUserPropertiesView: PropTypes.any,
-  isHome: propTypes.bool
+  isHome: PropTypes.bool
 };

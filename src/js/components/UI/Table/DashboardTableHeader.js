@@ -172,8 +172,6 @@ const DashboardTableHeader = ({
           )}
         </div>
       </div>
-      {/* {console.log('defPermissions', defPermissions)}
-      {console.log('permissions', permissions)} */}
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
         (componentName === "ticket"
           ? defPermissions?.create
