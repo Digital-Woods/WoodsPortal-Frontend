@@ -219,6 +219,8 @@ const NoteCard = ({
                 <div onClick={(e) => e.stopPropagation()}>
                   <Attachments
                     attachments={note.hs_attachment_ids || []}
+                    objectId={objectId}
+                    id={id}
                     remove={false}
                   />
                 </div>
