@@ -96,19 +96,19 @@ const DynamicComponentView = ({
   const { mutate: getData, isLoading: isLoadingAPiData } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
-
-      let routeMenuConfigs = getRouteMenuConfig();
-      let currentPage;
-      let isPage;
       const objectId = isHome ? 'home' : hubspotObjectTypeId
+      let routeMenuConfigs = getRouteMenuConfig();
+      let param;
 
-      if(routeMenuConfigs[objectId]){
+      if(routeMenuConfigs[objectId]?.details){
         const details = routeMenuConfigs[objectId]?.details
-        currentPage = details?.overview?.page || 1;
-        isPage = details?.overview?.preData && currentPage > 1
+        const currentPage = details?.overview?.page || 1;
+        const isPage = details?.overview?.preData && currentPage > 1
+        param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
+      } else {
+        param = getTableParam(companyAsMediator);
       }
 
-      const param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       if (defPermissions?.pipeline_id && componentName === "ticket")
         param.filterValue = defPermissions?.pipeline_id;
