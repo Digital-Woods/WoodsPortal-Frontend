@@ -111,7 +111,7 @@
   }) %}
   {% endfor %}
   {% endif %}
-  
+
   {# ================== End Logic for Custom defined object ===========================#}
   <script>
   {# Declaring Global Variables to accessible in App #}
@@ -135,7 +135,7 @@
       buttonUrl: "{{ module.other_options.sidebar_cta_details.button_url.href|escape_url }}",
     };
   {#End Sidebar Cta data #}
-    
+
   {# Branding Data #}
     const baseCompanyOptions = {
       logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
@@ -145,7 +145,7 @@
       welcomeMessage: "{{ module.other_options.welcome_message }}"
     };
   {# end branding data #}
-    
+
   {# Home banner data #}
       const enableDashboardCards = "{{ module.home.enable_dashboard_cards }}";
       const dashboardCards = {{ module.home.dashboard_cards | tojson | safe }}; 

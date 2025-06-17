@@ -109,7 +109,13 @@ const NoteCard = ({
               )}
             </div>
             <div className="flex justify-between items-center w-full">
-              <p className={`text-sm font-semibold  whitespace-nowrap ${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white`}>Note</p>
+              <p className={`text-sm font-semibold  whitespace-nowrap ${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white`}>Note
+                {note?.createdByName || note?.createdByEmail ? (
+                    <span className={`${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]`} dark:text-white font-normal ml-1 inline-block text-xs`}>
+                        by <span className=" border rounded-full px-2 py-1 text-xs ml-2 font-normal inline-block">{note?.createdByName || note?.createdByEmail}</span>
+                    </span>
+                ) : null}
+              </p>
               <div>
                 <p className={`${note?.createdBy === 'hubspot' ? `text-[${noteStyle.hsText}]` : `text-[${noteStyle.wpText}]` } dark:text-white text-xs`}>
                   <span className="mr-1">

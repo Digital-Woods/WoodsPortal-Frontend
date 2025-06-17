@@ -435,13 +435,13 @@ const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
-          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`/${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           --
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`/${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           <OpenIcon />
         </Link>
@@ -529,13 +529,13 @@ const renderCellContent = ({
       <div className="flex gap-1 min-w-[100px] relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           {truncatedText(isObject(value) ? value.label : value, '23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
         </Link>
@@ -552,13 +552,13 @@ const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           {truncatedText(isObject(value) ? value.label : value,'23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
         </Link>
@@ -793,8 +793,8 @@ const formatPath = (key) => {
 
 // format custom object name
 
-function formatCustomObjectLabel(label) {
-  return label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ");
+function formatCustomObjectLabel(label = "") {
+  return label ? label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ") : "";
 }
 
 // format column labels
