@@ -96,7 +96,7 @@ const Home = ({
   // const tableTitle = () => {
   //   return objectTypeName ? objectTypeName : title;
   // };
-console.log(enableDashboardCards,'enableDashboardCards');
+
   return (
     <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
       <div
