@@ -240,16 +240,19 @@
         "display_width" : null,
         "default" : "company"
       }, {
-        "id" : "8a79f54c-c73b-da0a-2c3f-bed54daea321",
-        "name" : "show_iframe",
-        "label" : "Enable Iframe",
-        "help_text" : "Display the property as a clickable button if it contains a valid URL. The link opens in an iframe popup.",
+        "id" : "809bd048-28ee-e6ea-c749-c5da2a7ca7cc",
+        "name" : "property_value_show_as",
+        "label" : "Property Value Display As",
         "required" : false,
         "locked" : false,
-        "display" : "toggle",
-        "type" : "boolean",
+        "display" : "select",
+        "choices" : [ [ "simpleText", "Simple Text" ], [ "iframe", "Iframe" ], [ "link", "Link" ], [ "button", "Button with Link" ] ],
+        "multiple" : false,
+        "reordering_enabled" : true,
+        "preset" : null,
+        "type" : "choice",
         "display_width" : null,
-        "default" : false
+        "default" : "simpleText"
       }, {
         "id" : "9e121abb-d2a6-2deb-f4b7-8942fb9e3c60",
         "name" : "iframe_button_name",
@@ -259,8 +262,8 @@
         "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
-          "controlling_field_path" : "home.dashboard_cards.properties.show_iframe",
-          "controlling_value_regex" : "true",
+          "controlling_field_path" : "home.dashboard_cards.properties.property_value_show_as",
+          "controlling_value_regex" : "iframe",
           "property" : null,
           "operator" : "EQUAL",
           "access" : null
@@ -269,7 +272,27 @@
         "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
-        "default" : "View Docs"
+        "default" : "View"
+      }, {
+        "id" : "42dd0071-e5a2-664c-ef56-fdf1050b24e5",
+        "name" : "button_name",
+        "label" : "Button Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "visibility" : {
+          "controlling_field" : null,
+          "controlling_field_path" : "home.dashboard_cards.properties.property_value_show_as",
+          "controlling_value_regex" : "button",
+          "property" : null,
+          "operator" : "EQUAL",
+          "access" : null
+        },
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "View"
       } ],
       "tab" : "CONTENT",
       "expanded" : false,
@@ -278,8 +301,10 @@
       "display_width" : null,
       "default" : [ {
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_type" : "company",
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View",
+        "button_name" : "View"
       } ]
     }, {
       "id" : "756bf391-5d4c-ec98-0b5f-34dcc928e49e",
@@ -309,8 +334,10 @@
       "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_type" : "company",
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View",
+        "button_name" : "View"
       } ],
       "view" : "grid"
     }, {
@@ -320,9 +347,10 @@
       "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "property_type" : "company",
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View",
+        "button_name" : "View"
       } ],
       "view" : "grid"
     } ]
@@ -632,8 +660,10 @@
       "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_type" : "company",
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View",
+        "button_name" : "View"
       } ],
       "view" : "grid"
     }, {
@@ -643,9 +673,10 @@
       "description" : "<p data-start=\"247\" data-end=\"336\">**firstname**, Replace this placeholder text with a description that fits your needs.</p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
       "properties" : [ {
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs",
-        "property_type" : "company"
+        "property_type" : "company",
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View",
+        "button_name" : "View"
       } ],
       "view" : "grid"
     } ],
@@ -801,16 +832,19 @@
         "display_width" : null,
         "default" : "Property Name"
       }, {
-        "id" : "a37a5a3b-52d9-9093-39e8-4808a9b891e6",
-        "name" : "show_iframe",
-        "label" : "Enable Iframe",
-        "help_text" : "Makes the property a clickable button that opens its URL in an iframe popup.",
+        "id" : "e2520aa6-6149-222c-54d9-df2f2b32f0e9",
+        "name" : "property_value_show_as",
+        "label" : "Property Value Display As",
         "required" : false,
         "locked" : false,
-        "display" : "toggle",
-        "type" : "boolean",
+        "display" : "select",
+        "choices" : [ [ "simpleText", "Simple Text" ], [ "iframe", "Iframe" ], [ "link", "Link" ], [ "button", "Button with Link" ] ],
+        "multiple" : false,
+        "reordering_enabled" : true,
+        "preset" : null,
+        "type" : "choice",
         "display_width" : null,
-        "default" : false
+        "default" : "simpleText"
       }, {
         "id" : "9ae18736-ad9d-2096-9989-0a1b665ebc6b",
         "name" : "iframe_button_name",
@@ -820,8 +854,8 @@
         "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
-          "controlling_field_path" : "menu_options.objects.properties.show_iframe",
-          "controlling_value_regex" : "true",
+          "controlling_field_path" : "menu_options.objects.properties.property_value_show_as",
+          "controlling_value_regex" : "iframe",
           "property" : null,
           "operator" : "EQUAL",
           "access" : null
@@ -831,6 +865,26 @@
         "type" : "text",
         "display_width" : null,
         "default" : "View Docs"
+      }, {
+        "id" : "1597559e-9252-81bb-dc3e-b0e908bcaf4e",
+        "name" : "button_name",
+        "label" : "Button Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "visibility" : {
+          "controlling_field" : null,
+          "controlling_field_path" : "menu_options.objects.properties.property_value_show_as",
+          "controlling_value_regex" : "button",
+          "property" : null,
+          "operator" : "EQUAL",
+          "access" : null
+        },
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "View"
       } ],
       "tab" : "CONTENT",
       "expanded" : false,
@@ -840,8 +894,9 @@
       "default" : [ {
         "property_type" : "company",
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View Docs",
+        "button_name" : "View"
       } ]
     }, {
       "id" : "107606be-c4e1-2ac9-2ece-42239c633f90",
@@ -994,11 +1049,14 @@
     "display_width" : null,
     "default" : [ {
       "list_object_name" : "Tickets",
+      "object_type_id" : "0-5",
       "properties" : [ {
         "property_type" : "company",
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View Docs",
+        "button_name" : "View"
       } ],
       "view" : "grid",
       "list_object_properties" : "dealname,dealstage,amount",
@@ -1006,7 +1064,6 @@
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
-      "object_type_id" : "0-5",
       "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ]
@@ -1126,16 +1183,19 @@
         "display_width" : null,
         "default" : "Property Name"
       }, {
-        "id" : "7f1972e7-b953-e317-9cf6-76f31097802c",
-        "name" : "show_iframe",
-        "label" : "Enable Iframe",
-        "help_text" : "Makes the property a clickable button that opens its URL in an iframe popup.",
+        "id" : "8f3d9bd1-03e6-6606-5836-8a1c4c5e1cc5",
+        "name" : "property_value_show_as",
+        "label" : "Property Value Display As",
         "required" : false,
         "locked" : false,
-        "display" : "toggle",
-        "type" : "boolean",
+        "display" : "select",
+        "choices" : [ [ "simpleText", "Simple Text" ], [ "iframe", "Iframe" ], [ "link", "Link" ], [ "button", "Button with Link" ] ],
+        "multiple" : false,
+        "reordering_enabled" : true,
+        "preset" : null,
+        "type" : "choice",
         "display_width" : null,
-        "default" : false
+        "default" : "simpleText"
       }, {
         "id" : "d9ad8d40-97f3-a6b2-fd3f-040ec5e625e6",
         "name" : "iframe_button_name",
@@ -1145,8 +1205,8 @@
         "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
-          "controlling_field_path" : "menu_options.hubspot_custom_objects.properties.show_iframe",
-          "controlling_value_regex" : "true",
+          "controlling_field_path" : "menu_options.hubspot_custom_objects.properties.property_value_show_as",
+          "controlling_value_regex" : "iframe",
           "property" : null,
           "operator" : "EQUAL",
           "access" : null
@@ -1156,6 +1216,26 @@
         "type" : "text",
         "display_width" : null,
         "default" : "View Docs"
+      }, {
+        "id" : "8ef138ce-e9e9-e45f-303d-79270dab4c1f",
+        "name" : "button_name",
+        "label" : "Button Name",
+        "required" : false,
+        "locked" : false,
+        "validation_regex" : "",
+        "visibility" : {
+          "controlling_field" : null,
+          "controlling_field_path" : "menu_options.hubspot_custom_objects.properties.property_value_show_as",
+          "controlling_value_regex" : "button",
+          "property" : null,
+          "operator" : "EQUAL",
+          "access" : null
+        },
+        "allow_new_line" : false,
+        "show_emoji_picker" : false,
+        "type" : "text",
+        "display_width" : null,
+        "default" : "View"
       } ],
       "tab" : "CONTENT",
       "expanded" : false,
@@ -1165,8 +1245,9 @@
       "default" : [ {
         "property_type" : "company",
         "properties_value" : "Property Name",
-        "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View Docs",
+        "button_name" : "View"
       } ]
     }, {
       "id" : "30640988-ab36-ef2d-d83c-170b64e7b2fa",
@@ -1317,17 +1398,19 @@
     "display_width" : null,
     "default" : [ {
       "list_object_name" : "Customers",
+      "object_type_id" : "0-0",
       "properties" : [ {
         "property_type" : "company",
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View Docs",
+        "button_name" : "View"
       } ],
       "view" : "grid",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
-      "object_type_id" : "0-0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
@@ -1341,11 +1424,14 @@
     "hubspot_defined_object" : true,
     "objects" : [ {
       "list_object_name" : "Tickets",
+      "object_type_id" : "0-5",
       "properties" : [ {
         "property_type" : "company",
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View Docs",
+        "button_name" : "View"
       } ],
       "view" : "grid",
       "list_object_properties" : "dealname,dealstage,amount",
@@ -1353,24 +1439,25 @@
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
       "association_object_type_id" : 4,
-      "object_type_id" : "0-5",
       "icon_svg_code" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>",
       "show_iframe" : false
     } ],
     "hubspot_custom_object" : false,
     "hubspot_custom_objects" : [ {
       "list_object_name" : "Customers",
+      "object_type_id" : "0-0",
       "properties" : [ {
         "property_type" : "company",
         "properties_value" : "Property Name",
         "show_iframe" : false,
-        "iframe_button_name" : "View Docs"
+        "property_value_show_as" : "simpleText",
+        "iframe_button_name" : "View Docs",
+        "button_name" : "View"
       } ],
       "view" : "grid",
       "mediator_object_type_id" : false,
       "add_specific_pipeline" : false,
       "pipeline_id" : "0",
-      "object_type_id" : "0-0",
       "icon_svg_code" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>",
       "show_iframe" : false
     } ]
