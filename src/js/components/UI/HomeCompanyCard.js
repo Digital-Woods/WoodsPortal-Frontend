@@ -62,14 +62,96 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
 
     const iframeSettings = Array.isArray(iframePropertyName) ? iframePropertyName : [];
 
-    const isIframeEnabled = (key) => {
+    const getDisplayType = (key) => {
         const setting = iframeSettings.find(setting => setting.properties_value === key);
-        return setting?.show_iframe;
+        // Return the display type, default to 'simpleText' if not specified
+        return setting?.property_value_show_as || 'simpleText';
     };
 
-    const getIframeButtonName = (key) => {
+    const isIframeEnabled = (key) => {
+        const displayType = getDisplayType(key);
+        return displayType === 'iframe';
+    };
+
+    const isButtonEnabled = (key) => {
+        const displayType = getDisplayType(key);
+        return displayType === 'button';
+    };
+
+    const isLinkEnabled = (key) => {
+        const displayType = getDisplayType(key);
+        return displayType === 'link';
+    };
+
+    const isValidUrl = (url) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    const getPropertyValueType = (key, value = '') => {
         const setting = iframeSettings.find(setting => setting.properties_value === key);
-        return setting?.iframe_button_name || 'View';
+        const displayType = getDisplayType(key);
+
+        if (!value) {
+            return "--";
+        }
+
+        if (displayType === 'iframe') {
+            return setting?.iframe_button_name || 'View';
+        }
+
+        if (displayType === 'button') {
+            const isValid = isValidUrl(value);
+            return (
+                <span className="text-sm dark:text-white">
+                    {isValid ? (
+                        <Button className="" size="xsm">
+                            <a target="_blank" href={value} rel="noopener noreferrer">
+                                {setting?.button_name || 'Button'}
+                            </a>
+                        </Button>
+                    ) : (
+                        <div className="dark:text-white flex gap-1 relative items-center">
+                            <span className="text-yellow-600">
+                                <CautionCircle width='14px' height='14px' />
+                            </span>
+                            <span className="text-red-700 text-xs">Please add a valid link</span>
+                        </div>
+                    )}
+                </span>
+            );
+        }
+
+        if (displayType === 'link') {
+            const isValid = isValidUrl(value);
+            return (
+                <span className="text-sm dark:text-white">
+                    {isValid ? (
+                        <a
+                            target="_blank"
+                            href={value}
+                            rel="noopener noreferrer"
+                            className="text-secondary text-xsdark:text-white flex gap-1 relative items-center"
+                        >
+                            {value} <OpenIcon />
+                        </a>
+                    ) : (
+                        <div className="dark:text-white flex gap-1 relative items-center">
+                            <span className="text-yellow-600">
+                                <CautionCircle width='14px' height='14px' />
+                            </span>
+                            <span className="text-red-700 text-xs">Please add a valid link</span>
+                        </div>
+                    )}
+                </span>
+            );
+        }
+
+        return null;
     };
 
     const isImageUrl = (url) => {
@@ -115,42 +197,69 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                                 </span>
                             </button>
                         ) : null} */}
-                        { Object.keys(visibleAssociatedDetails).length > 0 ? (
-                                Object.entries(visibleAssociatedDetails).map(([key, value]) => (
-                                    isIframeEnabled(key) ? (
-                                        <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
-                                            <span className="font-semibold">
-                                                {value?.label}:
-                                            </span>
-                                            <span className="text-sm dark:text-white ">
-                                                {value?.value ? (
-                                                    <Button
-                                                        className=""
-                                                        size="xsm"
-                                                        onClick={() => handleViewClick(value?.value)}
-                                                    >
-                                                        {getIframeButtonName(key)}
-                                                    </Button>
-                                                ) : (
-                                                    "--"
-                                                )}
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
-                                            <span className="font-semibold">{value?.label}:</span>
-                                            <span>
-                                                {renderCellContent({
-                                                    companyAsMediator: false,
-                                                    value: value?.value,
-                                                    column: { ...value, key },
-                                                    type: 'company'
-                                                })}
-                                            </span>
-                                        </div>)
-                                ))) : (
-                                <div className="text-xs dark:text-white">Please enable visibility in the admin panel for the property you entered.</div>
-                            )}
+                        {Object.entries(visibleAssociatedDetails).map(([key, value]) => {
+                            const displayType = getDisplayType(key);
+
+                            if (isIframeEnabled(key)) {
+                                return (
+                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                        <span className="font-semibold">{value?.label}:</span>
+                                        <span className="text-sm dark:text-white ">
+                                            {value?.value ? (
+                                                <Button
+                                                    className=""
+                                                    size="xsm"
+                                                    onClick={() => handleViewClick(value?.value)}
+                                                >
+                                                    {getPropertyValueType(key, value?.value)}
+                                                </Button>
+                                            ) : (
+                                                "--"
+                                            )}
+                                        </span>
+                                    </div>
+                                );
+                            }
+                            else if (isButtonEnabled(key)) {
+                                return (
+                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                        <span className="font-semibold">{value?.label}:</span>
+                                        {value?.value ? (
+                                            getPropertyValueType(key, value?.value)
+                                        ) : (
+                                            "--"
+                                        )}
+                                    </div>
+                                );
+                            }
+                            else if (isLinkEnabled(key)) {
+                                return (
+                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                        <span className="font-semibold">{value?.label}:</span>
+                                        {value?.value ? (
+                                            getPropertyValueType(key, value?.value)
+                                        ) : (
+                                            "--"
+                                        )}
+                                    </div>
+                                );
+                            }
+                            else {
+                                return (
+                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                        <span className="font-semibold">{value?.label}:</span>
+                                        <span>
+                                            {renderCellContent({
+                                                companyAsMediator: false,
+                                                value: value?.value,
+                                                column: { ...value, key },
+                                                type: 'company'
+                                            })}
+                                        </span>
+                                    </div>
+                                );
+                            }
+                        })}
                     </div>
                 </div>
             )}
