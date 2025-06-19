@@ -168,8 +168,11 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData =
 
   if (error) {
     return (
-      <div className="w-full h-[calc(100vh_-110px)] flex flex-col items-center justify-center dark:text-white text-dark-300 bg-cleanWhite dark:bg-dark-200 md:text-2xl text-base font-semibold">
-        Error fetching data
+      <div className="flex flex-col items-center text-center p-4  h-[calc(100%-var(--nav-height))] justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        {error?.response?.data?.detailedMessage || ""}
       </div>
     );
   }

@@ -1,10 +1,14 @@
-const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
+const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, clientSiteUrl }) => {
   const [resend, setIsResend] = useState(true);
 
   const [serverError, setServerError] = useState(null);
   const { setToaster } = useToaster();
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const hasUserData = loginData?.firstName || loginData?.email;
+  const userPortals = loginData?.portals || [];
+  const matchingPortal = userPortals.find(portal => portal.portalUrl === clientSiteUrl);
+  const portalLabel = matchingPortal?.label.replace(' ', '-') || userPortals[0]?.label.replace(' ', '-');
 
   const enterEmailValidationSchema = z
     .object({
@@ -141,6 +145,11 @@ const ExistingUserRegister = ({ setActiveState, entredEmail }) => {
                 onSubmit={onSubmit}
                 validationSchema={enterEmailValidationSchema}
                 serverError={serverError}
+                formName={
+                  hasUserData && userPortals.length > 0
+                    ? `${loginData?.firstName || loginData?.email}-registered-to-${portalLabel}-portal`
+                    : 'Existing-user-registered-form-submitted'
+                }
                 className="dark:bg-dark-200"
               >
                 {({ register, formState: { errors } }) => (

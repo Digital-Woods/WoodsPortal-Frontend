@@ -8,6 +8,7 @@ const Form = ({
   serverError,
   resetFields,
   initialValues = {},
+  formName = '',
   ...formProps
 }) => {
   const zodResolver = (schema) => async (data) => {
@@ -54,7 +55,7 @@ const Form = ({
       noValidate
       onSubmit={methods.handleSubmit(onSubmit)}
       // {...formProps}
-      className="m-0"
+      id={`${formName}`}
     >
       {children(methods)}
     </form>
