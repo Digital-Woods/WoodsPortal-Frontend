@@ -19,7 +19,7 @@
   "show_emoji_picker" : false,
   "type" : "text",
   "display_width" : null,
-  "default" : "https://app.demo.digitalwoods.io"
+  "default" : "https://woodsportal.digitalwoods.io"
 }, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
@@ -1187,7 +1187,7 @@
       }, {
         "id" : "8f3d9bd1-03e6-6606-5836-8a1c4c5e1cc5",
         "name" : "property_value_show_as",
-        "label" : "Property Value Display As",
+        "label" : "Display Value As",
         "help_text" : "Display property value as text, a link, or a button that opens the URL in an iframe or a new tab.",
         "required" : false,
         "locked" : false,

@@ -1,7 +1,9 @@
 {% import './tools/_macros.css' %}
 
 
-
+form{
+  margin:0;
+}
 /* Loader */
 .loader-line {
   width: 100%;

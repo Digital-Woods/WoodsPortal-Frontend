@@ -82,12 +82,16 @@ const EditIcon2 = () => (
   </svg>
 );
 
-const FinalLogin = ({ setActiveState, entredEmail }) => {
+const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }) => {
   const { useSetRecoilState } = Recoil;
   const [serverError, setServerError] = useState(null);
   const { setToaster } = useToaster();
   const [showPassword, setShowPassword] = useState(false);
   const { routes, setRoutes } = useRoute();
+  const hasUserData = loginData?.firstName || loginData?.email;
+  const userPortals = loginData?.portals || [];
+  const matchingPortal = userPortals.find(portal => portal.portalUrl === clientSiteUrl);
+  const portalLabel = matchingPortal?.label.replace(' ', '-') || userPortals[0]?.label.replace(' ', '-');
 
   const loginUserValidationSchema = z.object({
     // email: z.string().email(),
@@ -210,6 +214,11 @@ const FinalLogin = ({ setActiveState, entredEmail }) => {
             onSubmit={onSubmit}
             validationSchema={loginUserValidationSchema}
             serverError={serverError}
+            formName={
+              hasUserData && userPortals.length > 0
+                ? `${loginData?.firstName || loginData?.email}-logged-in-to-${portalLabel}-portal`
+                : 'Existing-user-logged-in-form-submitted'
+            }
             className="dark:bg-dark-200"
           >
             {({ register, formState: { errors } }) => (
