@@ -249,12 +249,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
                                         <span>
-                                            {renderCellContent({
-                                                companyAsMediator: false,
-                                                value: value?.value,
-                                                column: { ...value, key },
-                                                type: 'company'
-                                            })}
+                                            {value?.value}
                                         </span>
                                     </div>
                                 );
