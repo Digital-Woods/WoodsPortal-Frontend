@@ -126,6 +126,7 @@ const DynamicComponentView = ({
 
     onSuccess: (data) => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
+      setErrorMessage('')
 
       const tableViewIsList = data?.configurations?.object?.list_view
       setPageView(tableViewIsList === false ? "single" : "table");
@@ -188,6 +189,7 @@ const DynamicComponentView = ({
     },
     onError: (error) => {
       setErrorMessage(error?.response?.data?.detailedMessage || "")
+      setApiResponse(null)
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
@@ -251,19 +253,25 @@ const DynamicComponentView = ({
     await resetTableParam();
     await setApiResponse(null);
     await setPageView(null);
-    await getData();
+    if(!isHome) getData();
   }, []);
 
-  return (
-    <div>
-      {errorMessage &&
-        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4">
+  
+  useEffect(() => {
+      getData();
+  }, [companyAsMediator]);
+
+        if(errorMessage){
+       return( <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
           <span className="text-yellow-600">
             <CautionCircle/>
           </span>
           {errorMessage}
-        </div>
+        </div>)
       }
+
+  return (
+    <div>
       {pageView === "single" && (
         <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>
