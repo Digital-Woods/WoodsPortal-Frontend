@@ -128,10 +128,11 @@ const DashboardTable = ({
       });
     },
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
-      setPipelines(data.data);
-      setDefaultPipeline(data, objectId);
+      await setPipelines(data.data);
+      await setDefaultPipeline(data, objectId);
+      await getData();
     },
     onError: () => {
       setPipelines([]);
@@ -183,16 +184,16 @@ const DashboardTable = ({
     getData();
   };
   
-  useEffect(() => {
+  useEffect(async () => {
     if (view != null) {
-      getPipelines();
-      setLimit(pageLimit);
+      await setLimit(pageLimit);
+      await getPipelines();
     }
   }, [view]);
 
-  useEffect(() => {
+  useEffect( async () => {
     if (sync) {
-      getPipelines();
+      await getPipelines();
     }
   }, [sync]);
 
