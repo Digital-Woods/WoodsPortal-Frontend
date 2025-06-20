@@ -122,12 +122,12 @@ const Home = ({
             ""
           )}
 
-          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto  md:py-4 py-3 
+          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto ${enableDashboardCards ? ' md:py-4 py-3':' md:pb-4 pb-3'}
                 ${showSidebarListDataOption && isLargeScreen
               ? "w-[calc(100%_-350px)]"
               : "w-full"
             } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}>
-
+            {enableDashboardCards && 
             <div className={`grid grid-cols-12 md:gap-4 gap-3`}>
               {dashboardCards.map((card, index) => {
                 const isLast = index === dashboardCards.length - 1;
@@ -175,8 +175,7 @@ const Home = ({
                   </div>
                 );
               })}
-            </div>
-
+            </div>}
             {/* <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}

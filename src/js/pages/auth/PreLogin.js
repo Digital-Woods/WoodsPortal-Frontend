@@ -1,4 +1,4 @@
-const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
+const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData }) => {
   const [serverError, setServerError] = useState(null);
   const { setToaster } = useToaster();
 
@@ -21,8 +21,8 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
       }
     },
     onSuccess: async (data) => {
-
       setEntredEmail(data.data.email)
+      setloginData(data?.data)
       if (data.data.activeStatus === "ACTIVE" && data.data.emailVerified === true) {
         // window.location.hash = "/login";
         setActiveState('final-login')
@@ -83,6 +83,7 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail }) => {
             validationSchema={enterEmailValidationSchema}
             serverError={serverError}
             className="dark:bg-dark-200"
+            formName={`login-form-submited`}
           >
             {({ register, formState: { errors } }) => (
               <div className="text-gray-800 dark:text-gray-200">
