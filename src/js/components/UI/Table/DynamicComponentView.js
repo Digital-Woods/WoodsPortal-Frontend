@@ -100,13 +100,13 @@ const DynamicComponentView = ({
       let routeMenuConfigs = getRouteMenuConfig();
       let param;
 
-      if(routeMenuConfigs[objectId]?.details){
+      if(routeMenuConfigs[objectId]?.details === true){
         const details = routeMenuConfigs[objectId]?.details
         const currentPage = details?.overview?.page || 1;
         const isPage = details?.overview?.preData && currentPage > 1
         param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       } else {
-        param = getTableParam(companyAsMediator);
+        param = getTableParam(companyAsMediator, null);
       }
 
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
@@ -117,6 +117,7 @@ const DynamicComponentView = ({
       if (componentName != "ticket") {
         setIsLoading(true);
       }
+
       setUrlParam(param);
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -261,14 +262,16 @@ const DynamicComponentView = ({
       getData();
   }, [companyAsMediator]);
 
-        if(errorMessage){
-       return( <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
-          <span className="text-yellow-600">
-            <CautionCircle/>
-          </span>
-          {errorMessage}
-        </div>)
-      }
+  if(errorMessage){
+    return( 
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        {errorMessage}
+      </div>
+    )
+  }
 
   return (
     <div>
