@@ -60,7 +60,8 @@ const DynamicComponentView = ({
     setNumOfPages,
     view,
     getTableParam,
-    resetTableParam
+    resetTableParam,
+    selectedPipeline
    } = useTable();
 
   const fetchUserProfile = async ({ portalId, cache }) => {
@@ -116,6 +117,23 @@ const DynamicComponentView = ({
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
       // console.log("activePipeline", activePipeline)
       // param.filterValue = activePipeline
+
+      // console.log("selectedPipeline", selectedPipeline)
+      // console.log("activePipeline", activePipeline)
+      // console.log("hubspotObjectTypeId", hubspotObjectTypeId)
+      // console.log("hubspotObjectTypeId", hubspotObjectTypeId)
+
+      // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
+      // console.log("activePipeline", activePipeline)
+      if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
+        param.filterValue = selectedPipeline
+      }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+        console.log(111)
+        param.filterValue = ''
+      }
+
+      // console.log("param", param)
+
       
       // if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
 

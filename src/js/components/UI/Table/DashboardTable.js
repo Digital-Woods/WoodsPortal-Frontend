@@ -187,13 +187,13 @@ const DashboardTable = ({
   useEffect(async () => {
     if (view != null) {
       await setLimit(pageLimit);
-      await getPipelines();
+      await hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5" ? getPipelines() : getData();
     }
   }, [view]);
 
   useEffect( async () => {
     if (sync) {
-      await getPipelines();
+      await hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5" ? getPipelines() : getData();
     }
   }, [sync]);
 
