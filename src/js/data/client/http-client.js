@@ -60,6 +60,7 @@ Axios.interceptors.response.use(
   },
   (error) => {
     numberOfAjaxCAllPending = Math.max(0, numberOfAjaxCAllPending - 1);
+    updateSyncDisableState(false);
     if (
       (error.response && error.response.status === 401) ||
       // (error.response && error.response.status === 403) ||
