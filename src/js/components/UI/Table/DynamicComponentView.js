@@ -60,7 +60,8 @@ const DynamicComponentView = ({
     setNumOfPages,
     view,
     getTableParam,
-    resetTableParam
+    resetTableParam,
+    selectedPipeline
    } = useTable();
 
   const fetchUserProfile = async ({ portalId, cache }) => {
@@ -100,23 +101,47 @@ const DynamicComponentView = ({
       let routeMenuConfigs = getRouteMenuConfig();
       let param;
 
-      if(routeMenuConfigs[objectId]?.details){
+      if(routeMenuConfigs[objectId]?.details === true){
         const details = routeMenuConfigs[objectId]?.details
         const currentPage = details?.overview?.page || 1;
         const isPage = details?.overview?.preData && currentPage > 1
         param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
       } else {
-        param = getTableParam(companyAsMediator);
+        param = getTableParam(companyAsMediator, null);
       }
 
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       if (defPermissions?.pipeline_id && componentName === "ticket")
         param.filterValue = defPermissions?.pipeline_id;
 
+      // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
+      // console.log("activePipeline", activePipeline)
+      // param.filterValue = activePipeline
+
+      // console.log("selectedPipeline", selectedPipeline)
+      // console.log("activePipeline", activePipeline)
+      // console.log("hubspotObjectTypeId", hubspotObjectTypeId)
+      // console.log("hubspotObjectTypeId", hubspotObjectTypeId)
+
+      // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
+      // console.log("activePipeline", activePipeline)
+      if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
+        param.filterValue = selectedPipeline
+      }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+        console.log(111)
+        param.filterValue = ''
+      }
+
+      // console.log("param", param)
+
+      
+      // if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
+
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
       if (componentName != "ticket") {
         setIsLoading(true);
       }
+
       setUrlParam(param);
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -126,6 +151,7 @@ const DynamicComponentView = ({
 
     onSuccess: (data) => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
+      setErrorMessage('')
 
       const tableViewIsList = data?.configurations?.object?.list_view
       setPageView(tableViewIsList === false ? "single" : "table");
@@ -188,6 +214,7 @@ const DynamicComponentView = ({
     },
     onError: (error) => {
       setErrorMessage(error?.response?.data?.detailedMessage || "")
+      setApiResponse(null)
       setSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
@@ -251,19 +278,27 @@ const DynamicComponentView = ({
     await resetTableParam();
     await setApiResponse(null);
     await setPageView(null);
-    await getData();
+    if(!isHome) getData();
   }, []);
+
+  
+  useEffect(() => {
+      getData();
+  }, [companyAsMediator]);
+
+  if(errorMessage){
+    return( 
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        {errorMessage}
+      </div>
+    )
+  }
 
   return (
     <div>
-      {errorMessage &&
-        <div className="flex flex-col items-center text-center p-4 h-full justify-center gap-4">
-          <span className="text-yellow-600">
-            <CautionCircle/>
-          </span>
-          {errorMessage}
-        </div>
-      }
       {pageView === "single" && (
         <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>

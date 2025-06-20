@@ -87,17 +87,23 @@ const Attachments = ({
       <div className="flex items-start">
         <ul class={`list-none ${attachments.length > 0 ? 'p-1' : ''} flex flex-wrap gap-2 max-w-full`}>
           {attachments.map((attachment) => (
-            <li className="p-2 bg-[#f5f8fa] dark:bg-dark-300 dark:text-white border dark:border-gray-600 rounded-sm flex gap-1 text-sm items-center">
-              <FileIcon />
-              <div class="flex gap-2">
-                <span
-                  onClick={() => setSelectedFileId(attachment.id)}
-                  class="cursor-pointer font-semibold text-xs text-lightblue text-[#5f6368] dark:text-white hover:underline"
-                  target="_blank"
-                >
-                  {getFileName(attachment.name)}
-                </span>
-                <span className="text-xs font-normal">({attachment.size})</span>
+            <li className="w-full p-2 bg-[#f5f8fa] dark:bg-dark-300 dark:text-white border dark:border-gray-600 rounded-sm text-sm">
+              <div class="flex gap-2 items-center">
+                <div class="w-[20px]">
+                  <FileIcon />
+                </div>
+                <div className="[calc(90%_-_100px)]">
+                  <span
+                    onClick={() => setSelectedFileId(attachment.id)}
+                    class="cursor-pointer font-semibold text-xs text-lightblue text-[#5f6368] dark:text-white hover:underline"
+                    target="_blank"
+                  >
+                    {getFileName(attachment.name)}
+                  </span>
+                </div>
+                <div class="w-[80px]">
+                  <span className="text-xs font-normal">({attachment.size})</span>
+                </div>
               </div>
               {/* {remove && (
                 <div onClick={() => removeAttachment(attachment)}>X</div>

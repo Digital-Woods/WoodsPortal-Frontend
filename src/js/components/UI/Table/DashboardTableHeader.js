@@ -36,9 +36,9 @@ const DashboardTableHeader = ({
     if (!defPermissions?.pipeline_id) setShowPippelineFilter(pipelines?.length === 1 ? false : true);
   }, [pipelines]);
 
-  const handelPipeline = (value) => {
-    setSelectedPipeline(isHome ? 'home' : hubspotObjectTypeId, pipelines, value);
-    handelChangePipeline(value);
+  const handelPipeline = async (value) => {
+    await setSelectedPipeline(isHome ? 'home' : hubspotObjectTypeId, pipelines, value);
+    await handelChangePipeline(value);
     setPage(1);
   };
 
