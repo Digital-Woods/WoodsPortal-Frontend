@@ -262,7 +262,7 @@ const DynamicComponentView = ({
   }, [companyAsMediator]);
 
         if(errorMessage){
-       return( <div className="flex flex-col items-center text-center p-4 min-h-[300px] mzx-h-[400px]  justify-center gap-4">
+       return( <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
           <span className="text-yellow-600">
             <CautionCircle/>
           </span>
