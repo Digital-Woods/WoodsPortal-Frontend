@@ -132,81 +132,12 @@ const DashboardTable = ({
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       setPipelines(data.data);
       setDefaultPipeline(data, objectId);
-      getData({
-        filterPropertyName: "hs_pipeline",
-        filterOperator: "eq",
-        filterValue: selectedPipeline,
-      });
     },
     onError: () => {
       setPipelines([]);
-      // setIsLoadingHoldData(false);
     },
   });
 
-  // Get List And Card Data
-  // const { mutate: getData, isLoading } = useMutation({
-  //   mutationKey: ["TableData"],
-  //   mutationFn: async (props) => {
-  //     const param = getTableParam(companyAsMediator);
-  //     if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
-  //     if (defPermissions?.pipeline_id && componentName === "ticket")
-  //       param.filterValue = defPermissions?.pipeline_id;
-
-  //     const API_ENDPOINT = removeAllParams(apis.tableAPI);
-  //     if (componentName != "ticket") {
-  //       setIsLoading(true);
-  //     }
-  //     setUrlParam(param);
-  //     return await Client.objects.all({
-  //       API_ENDPOINT: API_ENDPOINT,
-  //       param: updateParamsFromUrl(apis.tableAPI, param),
-  //     });
-  //   },
-
-  //   onSuccess: (data) => {
-  //     setPageView(data?.configurations?.object?.list_view ? 'table' : 'single')
-  //     setApiResponse(data);
-
-  //     setSync(false);
-  //     if (data.statusCode === "200") {
-  //       setInfo(data.info);
-
-  //       const totalData = data?.configurations?.object?.list_view ? data?.data?.total : data?.pagination?.total;
-
-  //       setTotalItems(totalData || 0);
-  //       if (componentName != "ticket") {
-  //         setIsLoading(false);
-  //       }
-  //       setTotalRecord(totalData || 0);
-  //       if (view === "BOARD") {
-  //         setActiveCardData(data?.data);
-  //       } else {
-  //         const ItemsPerPage = limit;
-  //         setLimit(ItemsPerPage);
-
-  //         const totalPage = data?.configurations?.object?.list_view ? Math.ceil(totalData / ItemsPerPage) : Math.ceil(totalData / 1)
-  //         setNumOfPages(totalPage);
-  //       }
-  //       if (defPermissions === null) {
-  //         setPermissions(data?.configurations[componentName]);
-  //       } else {
-  //         setPermissions(data?.configurations["object"]);
-  //       }
-  //     } else {
-  //       setPermissions(null);
-  //     }
-  //     setIsLoadingHoldData(false);
-  //   },
-  //   onError: () => {
-  //     setSync(false);
-  //     setPermissions(null);
-  //     setIsLoadingHoldData(false);
-  //     if (componentName != "ticket") {
-  //       setIsLoading(false);
-  //     }
-  //   },
-  // });
 
   const handleRowHover = (row) => {
     setHoverRow(row);
@@ -248,7 +179,10 @@ const DashboardTable = ({
   // End Cookie RouteMenuConfig
 
   // CHange Pipeline
-  const handelChangePipeline = async (pipeLineId) => {};
+  const handelChangePipeline = async (pipeLineId) => {
+    getData();
+  };
+  
   useEffect(() => {
     if (view != null) {
       getPipelines();
@@ -261,16 +195,6 @@ const DashboardTable = ({
       getPipelines();
     }
   }, [sync]);
-
-  // useEffect(() => {
-  //   resetTableParam();
-  // }, []);
-
-  useEffect(() => {
-    if (!defPermissions?.pipeline_id) {
-      getPipelines();
-    }
-  }, [selectedPipeline]);
 
   if (isLoadingHoldData === true) {
     return (

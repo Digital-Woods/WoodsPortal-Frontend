@@ -113,6 +113,11 @@ const DynamicComponentView = ({
       if (defPermissions?.pipeline_id && componentName === "ticket")
         param.filterValue = defPermissions?.pipeline_id;
 
+      const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
+      param.filterValue = activePipeline
+      
+      if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
+
       const API_ENDPOINT = removeAllParams(apis.tableAPI);
       if (componentName != "ticket") {
         setIsLoading(true);
