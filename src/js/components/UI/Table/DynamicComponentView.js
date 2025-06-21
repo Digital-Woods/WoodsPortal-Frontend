@@ -281,6 +281,12 @@ const DynamicComponentView = ({
     if(!isHome) getData();
   }, []);
 
+  useEffect( async () => {
+    if (sync && errorMessage) {
+      await getData();
+    }
+  }, [sync]);
+
   
   useEffect(() => {
       getData();
