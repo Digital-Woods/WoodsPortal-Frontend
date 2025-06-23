@@ -241,7 +241,7 @@ const NoteCard = ({
   );
 };
 
-const Notes = ({ item, path, objectId, id, permissions }) => {
+const Notes = ({tabName='', item, path, objectId, id, permissions }) => {
   const [showDialog, setShowDialog] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const { me } = useMe();
@@ -286,9 +286,6 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
     if (sync) refetch();
   }, [sync]);
 
-  useEffect(() => {
-    refetch();
-  }, [id]);
 
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
     mutationKey: ["TableFormData"],
@@ -334,14 +331,40 @@ const Notes = ({ item, path, objectId, id, permissions }) => {
       `${env.API_BASE_URL}/api/${hubId}/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`
     );
   }, []);
+  
+  useEffect(() => {
+    return () => {
+      queryClient.cancelQueries(["data"]);
+    };
+  }, [objectId, id]);
+
+  useEffect(() => {
+    refetch();
+  }, [id, objectId ]);
+
+
+  if(error && !id && objectId == '0-2' && tabName === 'home' ){
+    return( 
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        Primary Company not found.
+      </div>
+    )
+  }
 
   if (error) {
-    return (
-      <div className="flex items-center text center p-4 h-28">
-        Error fetching notes: {error.message}
+        return( 
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        {error?.response?.data?.detailedMessage}
       </div>
-    );
+    )
   }
+  
   const results = data && data.data && data.data.results;
   const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);

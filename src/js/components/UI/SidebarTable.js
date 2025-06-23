@@ -25,6 +25,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
   const { me } = useMe();
   const [permissions, setPermissions] = useState(null);
   const [urlParam, setUrlParam] = useState(null);
+  const [singularModalTitle, setSingularModalTitle] = useState(null);
 
 
   useEffect(() => {
@@ -147,6 +148,14 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
     setHoverRow(row)
   };
 
+  useEffect(()=>{
+    setSingularModalTitle(
+      title.endsWith("s")
+        ? title.slice(0, -1)
+        : title
+      )
+  },[title])
+
   return (
     <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
@@ -256,7 +265,7 @@ const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specP
           }
         </React.Fragment>
       )}
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={title} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} urlParam={urlParam} />}
+      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={singularModalTitle} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} urlParam={urlParam} />}
     </div>
   );
 };
