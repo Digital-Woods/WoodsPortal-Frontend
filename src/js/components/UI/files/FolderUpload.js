@@ -65,6 +65,11 @@ const FolderUpload = ({
     createFolderMutation.mutate(payload);
   };
 
+  const isValidFolderName = (name) => {
+    const regex = /^[a-zA-Z0-9 ]+$/;
+    return regex.test(name);
+  }
+
   return (
     <Dialog
       open={isOpen}
@@ -85,6 +90,9 @@ const FolderUpload = ({
             className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
             placeholder="Folder Name"
           />
+          {newFolderName && !isValidFolderName(newFolderName) &&
+            <span className="mt-2 text-sm text-red-600 dark:text-red-500">Only allow letters, numbers, and spaces</span>
+          }
           <div className="mt-4 flex items-center gap-3 justify-end">
             <Button
               className='dark:text-white'
@@ -97,7 +105,7 @@ const FolderUpload = ({
             <Button
               onClick={handleCreateFolder}
               disabled={
-                createFolderMutation.isLoading || newFolderName.trim() === ""
+                createFolderMutation.isLoading || newFolderName.trim() === "" || !isValidFolderName(newFolderName)
               }
               isLoading={createFolderMutation.isLoading}
             >
