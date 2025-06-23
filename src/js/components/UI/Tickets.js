@@ -7,6 +7,7 @@ const Tickets = ({
   permissions,
   companyAsMediator,
   title,
+  ticketTableTitle,
 }) => {
   const hubspotObjectTypeId = "0-5";
 
@@ -54,7 +55,7 @@ const Tickets = ({
     <DynamicComponentView
       hubspotObjectTypeId={hubspotObjectTypeId}
       path={path}
-      tableTitle={title}
+      ticketTableTitle={ticketTableTitle}
       title={title}
       apis={apis}
       viewName="ticket"

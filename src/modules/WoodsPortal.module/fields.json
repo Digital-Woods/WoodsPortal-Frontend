@@ -6,7 +6,6 @@
   "inline_help_text" : "",
   "required" : false,
   "locked" : false,
-  "validation_regex" : "",
   "visibility" : {
     "controlling_field" : null,
     "controlling_field_path" : "hubspot_data_source",
@@ -16,7 +15,6 @@
     "access" : null
   },
   "allow_new_line" : false,
-  "show_emoji_picker" : false,
   "type" : "text",
   "display_width" : null,
   "default" : "https://woodsportal.digitalwoods.io"
@@ -93,9 +91,7 @@
     "help_text" : "Display name shown in the sidebar navigation menu.",
     "required" : true,
     "locked" : false,
-    "validation_regex" : "",
     "allow_new_line" : false,
-    "show_emoji_picker" : false,
     "type" : "text",
     "display_width" : null,
     "default" : "Dashboard"
@@ -107,9 +103,7 @@
     "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
     "required" : false,
     "locked" : true,
-    "validation_regex" : "",
     "allow_new_line" : false,
-    "show_emoji_picker" : false,
     "type" : "text",
     "display_width" : null,
     "default" : "    <svg      viewBox=\"0 0 1024 1024\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 00-44.4 0L77.5 505a63.9 63.9 0 00-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0018.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z\" />    </svg>"
@@ -163,7 +157,6 @@
       "inline_help_text" : "",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "home.dashboard_cards.show_title",
@@ -173,7 +166,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : ""
@@ -219,9 +211,7 @@
         "help_text" : "Copy labels from <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "Property Name"
@@ -260,7 +250,6 @@
         "label" : "Iframe Button Name",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
           "controlling_field_path" : "home.dashboard_cards.properties.property_value_show_as",
@@ -270,7 +259,6 @@
           "access" : null
         },
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "View"
@@ -280,7 +268,6 @@
         "label" : "Button Name",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
           "controlling_field_path" : "home.dashboard_cards.properties.property_value_show_as",
@@ -290,7 +277,6 @@
           "access" : null
         },
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "View"
@@ -477,9 +463,7 @@
       "help_text" : "Set the title shown above the object cards in the sidebar.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "Ticket"
@@ -491,7 +475,6 @@
       "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "hubspot_data_source",
@@ -501,7 +484,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "0-5"
@@ -534,7 +516,6 @@
       "help_text" : "Enter the pipeline ID to filter the data.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "home.right_sidebar_object.add_specific_pipeline",
@@ -544,7 +525,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "0"
@@ -554,7 +534,6 @@
       "label" : "Object Properties",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "hubspot_data_source",
@@ -564,7 +543,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "subject,hs_pipeline_stage,hs_pipeline"
@@ -606,7 +584,6 @@
       "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "home.right_sidebar_object.show_iframe",
@@ -616,7 +593,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null
     } ],
@@ -753,9 +729,7 @@
       "help_text" : "Display name shown in the sidebar menu and as the page title.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "Tickets"
@@ -812,9 +786,7 @@
         "help_text" : "Copy labels from\n<a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or\n<a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "Property Name"
@@ -853,7 +825,6 @@
         "label" : "Iframe Button Name",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
           "controlling_field_path" : "menu_options.objects.properties.property_value_show_as",
@@ -863,7 +834,6 @@
           "access" : null
         },
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "View Docs"
@@ -873,7 +843,6 @@
         "label" : "Button Name",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
           "controlling_field_path" : "menu_options.objects.properties.property_value_show_as",
@@ -883,7 +852,6 @@
           "access" : null
         },
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "View"
@@ -921,7 +889,6 @@
       "label" : "Object Properties",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "hubspot_data_source",
@@ -931,7 +898,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "dealname,dealstage,amount"
@@ -964,7 +930,6 @@
       "help_text" : "Enter the pipeline ID to filter the data.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "menu_options.objects.add_specific_pipeline",
@@ -974,7 +939,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "0"
@@ -1005,9 +969,7 @@
       "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "    <svg      xmlns=\"http://www.w3.org/2000/svg\"      viewBox=\"0 0 16 16\"      width=\"1em\"      height=\"1em\"      {...props}    >      <path        fill=\"none\"        stroke=\"currentColor\"        strokeLinejoin=\"round\"        d=\"M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M13.5 5v8.5H3M2.5 11V2.5H12\"      ></path>    </svg>"
@@ -1030,7 +992,6 @@
       "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "menu_options.objects.show_iframe",
@@ -1040,7 +1001,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null
     } ],
@@ -1107,9 +1067,7 @@
       "help_text" : "Display name shown in the sidebar menu and as the page title.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "Customers"
@@ -1129,7 +1087,6 @@
       "help_text" : "Format: 2-xxx. <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Custom\" target=\"_blank\">Copy custom object IDs here</a>.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "hubspot_data_source",
@@ -1139,7 +1096,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "0-0"
@@ -1164,9 +1120,7 @@
         "help_text" : "Copy labels from <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "Property Name"
@@ -1205,7 +1159,6 @@
         "label" : "Iframe Button Name",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
           "controlling_field_path" : "menu_options.hubspot_custom_objects.properties.property_value_show_as",
@@ -1215,7 +1168,6 @@
           "access" : null
         },
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "View Docs"
@@ -1225,7 +1177,6 @@
         "label" : "Button Name",
         "required" : false,
         "locked" : false,
-        "validation_regex" : "",
         "visibility" : {
           "controlling_field" : null,
           "controlling_field_path" : "menu_options.hubspot_custom_objects.properties.property_value_show_as",
@@ -1235,7 +1186,6 @@
           "access" : null
         },
         "allow_new_line" : false,
-        "show_emoji_picker" : false,
         "type" : "text",
         "display_width" : null,
         "default" : "View"
@@ -1273,7 +1223,6 @@
       "label" : "Object Properties",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "hubspot_data_source",
@@ -1283,7 +1232,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null
     }, {
@@ -1315,7 +1263,6 @@
       "help_text" : "Enter the pipeline ID to filter the data.",
       "required" : true,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "menu_options.hubspot_custom_objects.add_specific_pipeline",
@@ -1325,7 +1272,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "0"
@@ -1355,9 +1301,7 @@
       "inline_help_text" : "You can search SVG <a href=\"https://reactsvgicons.com/\"> Here</a> and copy only the SVG start to end and paste it here.",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "    <svg      viewBox=\"0 0 24 24\"      fill=\"currentColor\"      height=\"1em\"      width=\"1em\"      {...props}    >      <path d=\"M20.315 4.319l-8.69 8.719-3.31-3.322-2.069 2.076 5.379 5.398 10.76-10.796zM5.849 14.689L0 19.682h24l-5.864-4.991h-3.2l-1.024.896h3.584l3.072 2.815H3.417l3.072-2.815h2.688l-.896-.896z\" />    </svg>"
@@ -1380,7 +1324,6 @@
       "inline_help_text" : "Enter the internal property name.",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "menu_options.hubspot_custom_objects.show_iframe",
@@ -1390,7 +1333,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null
     } ],
@@ -2050,18 +1992,17 @@
       "name" : "show_company_name",
       "label" : "Show Company Name",
       "required" : false,
-      "locked" : false,
+      "locked" : true,
       "display" : "checkbox",
       "type" : "boolean",
       "display_width" : null,
-      "default" : true
+      "default" : false
     }, {
       "id" : "6deba33a-0ad3-265a-1fb2-913295dca4f1",
       "name" : "company_name",
       "label" : "Company name",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "visibility" : {
         "controlling_field" : null,
         "controlling_field_path" : "other_options.company_options.show_company_name",
@@ -2071,7 +2012,6 @@
         "access" : null
       },
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "CompanyName"
@@ -2112,7 +2052,7 @@
         "max_width" : 868,
         "max_height" : 129
       },
-      "show_company_name" : true,
+      "show_company_name" : false,
       "company_name" : "CompanyName"
     }
   }, {
@@ -2146,9 +2086,7 @@
       "label" : "Title",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "Get early access to our best apps, themes, and modules"
@@ -2158,9 +2096,7 @@
       "label" : "Button text",
       "required" : false,
       "locked" : false,
-      "validation_regex" : "",
       "allow_new_line" : false,
-      "show_emoji_picker" : false,
       "type" : "text",
       "display_width" : null,
       "default" : "Click Me"
@@ -2199,9 +2135,7 @@
     "label" : "Welcome Message",
     "required" : false,
     "locked" : false,
-    "validation_regex" : "",
     "allow_new_line" : false,
-    "show_emoji_picker" : false,
     "type" : "text",
     "display_width" : null,
     "default" : ""
@@ -2243,7 +2177,7 @@
         "max_width" : 868,
         "max_height" : 129
       },
-      "show_company_name" : true,
+      "show_company_name" : false,
       "company_name" : "CompanyName"
     },
     "show_sidebar_cta" : false,

@@ -156,7 +156,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                 {/* main content code start */}
                 <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                     <div className={``}>
-                        <div className={`flex md:flex-row flex-col md:items-center justify-between my-4`}>
+                        <div className={`flex md:flex-row flex-col md:items-center justify-between my-4 gap-3`}>
                         <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">
                             <Tabs
                                 activeTab={activeTab}
@@ -230,11 +230,11 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
 )} */}
 
                         {activeTab === "files" && (
-                            <Files fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.fileManager : null} />
+                            <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.fileManager : null} />
                         )}
 
                         {activeTab === "notes" && objectId && id && (
-                            <Notes item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.note : null} />
+                            <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.note : null} />
                         )}
 
                         {activeTab === "tickets" && (
@@ -253,7 +253,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                                 hubspotObjectTypeId={'0-5'}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
-                                tableTitle={permissions?.ticket?.display_label || "Tickets"}
+                                ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
                                 apis={apis}
                                 componentName="ticket"
                                 defPermissions={permissions ? permissions.ticket : null}
