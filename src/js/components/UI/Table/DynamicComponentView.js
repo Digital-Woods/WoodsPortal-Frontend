@@ -128,7 +128,6 @@ const DynamicComponentView = ({
       if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
         param.filterValue = selectedPipeline
       }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
-        console.log(111)
         param.filterValue = ''
       }
 
