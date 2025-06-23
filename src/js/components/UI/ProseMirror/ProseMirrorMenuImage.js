@@ -61,7 +61,6 @@ const EditorImageUploadMenu = ({
 
     const image = new Image();
     image.src = URL.createObjectURL(file);
-    console.log("image", image);
 
     image.onload = async () => {
       const maxWidth = 1000; // Maximum width
