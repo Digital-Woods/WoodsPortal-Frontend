@@ -8,7 +8,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, clientSi
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
   const matchingPortal = userPortals.find(portal => portal.portalUrl === clientSiteUrl);
-  const portalLabel = matchingPortal?.label.replace(' ', '-') || userPortals[0]?.label.replace(' ', '-');
+  const portalUrl = matchingPortal?.portalUrl.replace('https://','') || userPortals[0]?.portalUrl.replace('https://','');
 
   const enterEmailValidationSchema = z
     .object({
@@ -147,7 +147,7 @@ const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, clientSi
                 serverError={serverError}
                 formName={
                   hasUserData && userPortals.length > 0
-                    ? `${loginData?.firstName || loginData?.email}-registered-to-${portalLabel}-portal`
+                    ? `${portalUrl}-Login-Credential-Approval`
                     : 'Existing-user-registered-form-submitted'
                 }
                 className="dark:bg-dark-200"

@@ -326,6 +326,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData =
                   permissions={permissions ? permissions.ticket : null}
                   companyAsMediator={companyAsMediator}
                   title={permissions?.ticket?.display_label || "Tickets"}
+                  ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
                 />
               )}
 

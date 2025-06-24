@@ -1,8 +1,8 @@
 const FileDetailsModal = ({ file, onClose }) => {
-  const [expandDialog, setExpandDialog] = useState(true);
-  const toggleExpandDialog = () => {
-    setExpandDialog(!expandDialog);
-  };
+  // const [expandDialog, setExpandDialog] = useState(true);
+  // const toggleExpandDialog = () => {
+  //   setExpandDialog(!expandDialog);
+  // };
   const handleCopyLink = () => {
     navigator.clipboard
       .writeText(file.data.url)
@@ -23,16 +23,11 @@ const FileDetailsModal = ({ file, onClose }) => {
     <Dialog
       open={file !== null}
       onClose={onClose}
-      className={`!p-0 relative mx-auto !bg-white overflow-y-auto transition-all  duration-500 ease-in-out ${
-        expandDialog
-          ? "lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] min-h-[85vh] h-auto"
-          : "lg:w-[780px]  md:w-[680px] w-[calc(100vw-28px)] h-auto"
-      }`}
-    >
+      className={`!p-0 relative mx-auto !bg-white overflow-y-auto transition-all  duration-500 ease-in-out lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] min-h-[85vh] h-auto`}>
       <div className="flex justify-between items-center bg-[#516f90] p-4">
         <h2 className="text-white font-medium text-lg break-all mb-0">{file?.data.name}</h2>
         <div className="flex gap-2 items-center">
-          <button
+          {/* <button
             onClick={toggleExpandDialog}
             className="text-white font-bold text-lg flex items-center"
           >
@@ -41,7 +36,7 @@ const FileDetailsModal = ({ file, onClose }) => {
             ) : (
               <ExpandIcon width="22px" height="22px" />
             )}
-          </button>
+          </button> */}
           <button onClick={onClose} className="text-xl font-bold text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,23 +52,15 @@ const FileDetailsModal = ({ file, onClose }) => {
       </div>
       {file ? (
         <div
-          className={`rounded-lg ${
-            expandDialog ? "p-4" : "p-0"
-          } bg-white flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6`}
+          className={`rounded-lg p-4 bg-white grid md:grid-cols-12 grid-cols-2 gap-4 max-h-[82vh] overflow-auto`}
         >
           {/* Left Section: File Preview */}
-          <div
-            className={`w-full ${
-              expandDialog ? "md:w-4/5  md:h-[74vh]" : "md:w-1/2"
-            }   p-4 flex justify-center`}
-          >
+          <div className={`md:col-span-9 col-span-12  md:h-[74vh] flex justify-center`}>
             <FileViewer file={file} />
           </div>
 
           {/* Right Section: File Details */}
-          <div
-            className={`w-full ${expandDialog ? "md:w-1/5" : "md:w-1/2"}   p-4`}
-          >
+          <div className={`md:col-span-3 col-span-12 p-4`}>
             <div className=" text-secondary font-semibold break-all text-lg mb-2">
               {file?.data?.name}
             </div>
