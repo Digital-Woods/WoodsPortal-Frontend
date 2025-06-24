@@ -157,7 +157,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
     const isImageUrl = (url) => {
         const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
         const hasImageExtension = imageExtensions.some((ext) =>
-            url.toLowerCase().endsWith(ext)
+            url.toLowerCase()?.endsWith(ext)
         );
         const containsImagePattern =
             url.includes("images.unsplash.com") || url.includes("photo");

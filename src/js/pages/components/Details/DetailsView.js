@@ -19,7 +19,7 @@ const DetailsView = ({
 
     // Check if the URL ends with an image extension
     const hasImageExtension = imageExtensions.some((ext) =>
-      url.toLowerCase().endsWith(ext)
+      url?.toLowerCase()?.endsWith(ext)
     );
 
     // Check if the URL contains known patterns for image URLs
