@@ -100,6 +100,10 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
                         placeholder="Email"
                         defaultValue={entredEmail}
                         {...register("email")}
+                        onChange={(e) => {
+                          e.target.value = e.target.value.toLowerCase();
+                          register('email').onChange(e);
+                        }}
                       />
                     </div>
                   </FormControl>
