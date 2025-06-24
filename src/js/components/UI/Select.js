@@ -14,6 +14,7 @@ const Select = ({
   apiEndPoint = null,
   optionlabel = "label",
   optionValue = "value",
+  disabled = false,
   ...props
 }) => {
   const getValue = (value) => {
@@ -30,6 +31,12 @@ const Select = ({
       setValue(filled.name, mValue);
     }
   };
+
+  useEffect(() => {
+    if (disabled && options.length === 1) {
+      handleChange(options[0].value)
+    }
+  }, []);
 
   const heightClasses = {
     small: "p-1.5 text-xs",
@@ -65,6 +72,7 @@ const Select = ({
               heightClasses[size],
               className
             )}
+            disabled={disabled}
           >
             <option
               value=""
