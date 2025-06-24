@@ -127,7 +127,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     const apis = {
         tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
         stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
-        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param ? param + `&parentObjectTypeId=${objectId}` : `?parentObjectTypeId=${objectId}`
+        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param ? param + `&parentObjectTypeId=${selectedTicketsDataFilter}` : `?parentObjectTypeId=${selectedTicketsDataFilter}`
             }`,
         formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
             }`,
