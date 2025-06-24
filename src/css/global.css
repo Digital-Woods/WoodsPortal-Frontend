@@ -1342,3 +1342,10 @@ h1, h2, h3, h4, h5, h6 {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.full-height-fix {
+  height: 85vh;
+  height: calc(85vh - constant(safe-area-inset-top)); /* iOS 11 support */
+  height: calc(85vh - env(safe-area-inset-top));      /* Modern iOS support */
+  overflow-y: auto;
+}
