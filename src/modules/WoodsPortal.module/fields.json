@@ -1587,6 +1587,92 @@
       }
     }
   }, {
+    "id" : "ae870381-45d7-58c2-4816-9d0d1daf1769",
+    "name" : "sidebar_cta",
+    "label" : "Sidebar CTA",
+    "required" : false,
+    "locked" : false,
+    "visibility" : {
+      "controlling_field" : null,
+      "controlling_field_path" : "other_options.show_sidebar_cta",
+      "controlling_value_regex" : "true",
+      "property" : null,
+      "operator" : "EQUAL",
+      "access" : null
+    },
+    "children" : [ {
+      "id" : "ffbc3412-23a8-cdd7-749b-411dedccff3b",
+      "name" : "background_color",
+      "label" : "Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#3d4d5e",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "19c2c38e-866e-ff8b-959c-42356ae013ef",
+      "name" : "text_color",
+      "label" : "Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "107ffb3d-8863-c2ce-41ef-30dc61403206",
+      "name" : "button_background_color",
+      "label" : "Button Background Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#14BBA4",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "8cce8e6a-d0aa-a325-dd94-c24b0e6c4073",
+      "name" : "button_text_color",
+      "label" : "Button Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "background_color" : {
+        "color" : "#3d4d5e",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      },
+      "button_background_color" : {
+        "color" : "#14BBA4",
+        "opacity" : 100
+      },
+      "button_text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    }
+  }, {
     "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
     "name" : "details_page_styles",
     "label" : "Details Page",
@@ -1858,6 +1944,24 @@
       },
       "sidebar_background_color" : {
         "color" : "#2d3e50",
+        "opacity" : 100
+      }
+    },
+    "sidebar_cta" : {
+      "background_color" : {
+        "color" : "#3d4d5e",
+        "opacity" : 100
+      },
+      "text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      },
+      "button_background_color" : {
+        "color" : "#14BBA4",
+        "opacity" : 100
+      },
+      "button_text_color" : {
+        "color" : "#FFFFFF",
         "opacity" : 100
       }
     },

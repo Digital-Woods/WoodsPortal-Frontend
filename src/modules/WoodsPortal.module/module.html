@@ -197,5 +197,13 @@
           wpText:"{{ module.style.note_cards.wp_note_ts_text_color.color }}",
         }
     }
+    const sidebarCtaStyles = {
+        backgroundColor:"{{ module.style.sidebar_cta.background_color.rgba }}",
+        textColor: "{{ module.style.sidebar_cta.text_color.rgba }}",
+        buttonBackgroundColor:"{{ module.sidebar_cta.button_background_color.rgba }}",
+        buttonTextColor: "{{ module.style.sidebar_cta.button_text_color.rgba }}"
+    }
+    
+    console.log(sidebarCtaStyles,'sidebarCtaStyles')
   {# Module Custom Styles #}
   </script>
