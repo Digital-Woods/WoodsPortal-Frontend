@@ -264,7 +264,7 @@ const DynamicComponentView = ({
     if (breadcrumbs && breadcrumbs.length > 0 ) {
       const last = breadcrumbs[breadcrumbs.length - 1];
       const previous = breadcrumbs[breadcrumbs.length - 2];
-      const singularLastName = last.name.endsWith("s")
+      const singularLastName = last?.name?.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
       setAssociatedtableTitleSingular(singularLastName);

@@ -320,7 +320,7 @@ const DashboardTableForm = ({
       setObjectName(title);
       setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title} for ${nameTrancate(last.name)}`: `Associate an Existing ${title} with ${nameTrancate(last.name)}`}`);
     } else {
-      const singularLastName = last.name.endsWith("s")
+      const singularLastName = last?.name?.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
       setObjectName(singularLastName);

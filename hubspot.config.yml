@@ -1,0 +1,15 @@
+defaultPortal: DevTestv1
+portals:
+  - name: DevTestv1
+    portalId: 48715351
+    env: prod
+    authType: personalaccesskey
+    auth:
+      tokenInfo:
+        accessToken: >-
+          CJKemoz6MhIpQlNQMl8kQEwrAhwACAkCARMXAQEBAgECAQIBDQMKAQIDBxsBAQEBQgEY16ydFyCDnbcdKO7pDDIUR5Oo9FX30nFGq-fZqL4gm2ByU7Y6VkJTUDJfJEBMKwJJAAgTBgYdAQEBUSscAQEBAQ8BAQQFAQEBAQQBBQEBAQgBBgIDARAEDwEIBAEBAQEBBAEFARIJAwExAQEBBAEBAQEBAQEBQQEHWhoBQhS-Hd7oQx7zs2CocBUYMF8GVIoOUkoDbmExUgBaAGABaABwAA
+        expiresAt: '2025-06-24T10:40:39.734Z'
+    accountType: DEVELOPER_TEST
+    personalAccessKey: >-
+      CiRuYTEtMDdmOS02OTM0LTQxNzktOWM2ZC1hZmZlMThhYzFhMWYQ16ydFxiDnbcdKhkABeaRgmFHkuHgpSqAV3TY8eIuOo9U7JJ1SgNuYTE
+    parentAccountId: 45986199
