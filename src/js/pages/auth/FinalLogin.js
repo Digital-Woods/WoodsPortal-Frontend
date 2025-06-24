@@ -91,7 +91,7 @@ const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }) =
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
   const matchingPortal = userPortals.find(portal => portal.portalUrl === clientSiteUrl);
-  const portalLabel = matchingPortal?.label.replace(' ', '-') || userPortals[0]?.label.replace(' ', '-');
+  const portalUrl = matchingPortal?.portalUrl.replace('https://','') || userPortals[0]?.portalUrl('https://','');
 
   const loginUserValidationSchema = z.object({
     // email: z.string().email(),
@@ -216,7 +216,7 @@ const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }) =
             serverError={serverError}
             formName={
               hasUserData && userPortals.length > 0
-                ? `${loginData?.firstName || loginData?.email}-logged-in-to-${portalLabel}-portal`
+                ? `${portalUrl}-Login–User-Verification`
                 : 'Existing-user-logged-in-form-submitted'
             }
             className="dark:bg-dark-200"

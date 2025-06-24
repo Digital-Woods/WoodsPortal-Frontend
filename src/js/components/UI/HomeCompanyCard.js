@@ -1,4 +1,4 @@
-const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName, className, usedInDynamicComponent=false, viewStyle }) => {
+const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoadedFirstTime, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle }) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -68,10 +68,16 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
         return setting?.property_value_show_as || 'simpleText';
     };
 
-    const isIframeEnabled = (key) => {
-        const displayType = getDisplayType(key);
-        return displayType === 'iframe';
+    const getActionType = (key) => {
+        const setting = iframeSettings.find(setting => setting.properties_value === key);
+        // Return the display type, default to 'simpleText' if not specified
+        return setting?.on_click_action || 'showIframe';
     };
+
+    // const isIframeEnabled = (key) => {
+    //     const displayType = getDisplayType(key);
+    //     return displayType === 'iframe';
+    // };
 
     const isButtonEnabled = (key) => {
         const displayType = getDisplayType(key);
@@ -95,32 +101,58 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
     const getPropertyValueType = (key, value = '') => {
         const setting = iframeSettings.find(setting => setting.properties_value === key);
         const displayType = getDisplayType(key);
+        const actionType = getActionType(key);
 
         if (!value) {
             return "--";
         }
 
-        if (displayType === 'iframe') {
-            return setting?.iframe_button_name || 'View';
-        }
+        // if (displayType === 'iframe') {
+        //     // return setting?.iframe_button_name || 'View';
+        //     return (
+        //         <span className="text-sm dark:text-white ">
+        //             {value ? (
+        //                 <Button
+        //                     className=""
+        //                     size="xsm"
+        //                     onClick={() => handleViewClick(value)}
+        //                 >
+        //                     {setting?.iframe_button_name || view}
+        //                 </Button>
+        //             ) : (
+        //                 "--"
+        //             )}
+        //         </span>
+        //     );
+        // }
 
         if (displayType === 'button') {
             const isValid = isValidUrl(value);
             return (
                 <span className="text-sm dark:text-white">
-                    {isValid ? (
-                        <Button className="" size="xsm">
-                            <a target="_blank" href={value} rel="noopener noreferrer">
-                                {setting?.button_name || 'Button'}
-                            </a>
+                    {actionType === 'showIframe' ? (
+                        <Button
+                            className=" break-all"
+                            size="xsm"
+                            onClick={() => handleViewClick(value)}
+                        >
+                            {setting?.button_name || 'View'}
                         </Button>
                     ) : (
-                        <div className="dark:text-white flex gap-1 relative items-center">
-                            <span className="text-yellow-600">
-                                <CautionCircle width='14px' height='14px' />
-                            </span>
-                            <span className="text-red-700 text-xs">Please add a valid link</span>
-                        </div>
+                        isValid ? (
+                            <Button className="" size="xsm">
+                                <a target="_blank" href={value} rel="noopener noreferrer" className=" break-all">
+                                    {setting?.button_name || 'View'}
+                                </a>
+                            </Button>
+                        ) : (
+                            <div className="dark:text-white flex gap-1 relative items-center">
+                                <span className="text-yellow-600">
+                                    <CautionCircle width='14px' height='14px' />
+                                </span>
+                                <span className="text-red-700 text-xs">Please add a valid link</span>
+                            </div>
+                        )
                     )}
                 </span>
             );
@@ -130,23 +162,34 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
             const isValid = isValidUrl(value);
             return (
                 <span className="text-sm dark:text-white">
-                    {isValid ? (
-                        <a
-                            target="_blank"
-                            href={value}
-                            rel="noopener noreferrer"
-                            className="text-secondary text-xsdark:text-white flex gap-1 relative items-center"
-                        >
-                            {value} <OpenIcon />
-                        </a>
-                    ) : (
-                        <div className="dark:text-white flex gap-1 relative items-center">
-                            <span className="text-yellow-600">
-                                <CautionCircle width='14px' height='14px' />
+                    {
+                        actionType === 'showIframe' ? (
+                            <span
+                                className="text-secondary text-xs dark:text-white flex gap-1 relative items-center cursor-pointer break-all hover:underline"
+                                onClick={() => handleViewClick(value)}
+                            >
+                                {value} <IframeIcon />
                             </span>
-                            <span className="text-red-700 text-xs">Please add a valid link</span>
-                        </div>
-                    )}
+                        ) : (
+                            isValid ? (
+                                <a
+                                    target="_blank"
+                                    href={value}
+                                    rel="noopener noreferrer"
+                                    className="text-secondary text-xs dark:text-white flex gap-1 relative items-center break-all"
+                                >
+                                    {value} <OpenIcon />
+                                </a>
+                            ) : (
+                                <div className="dark:text-white flex gap-1 relative items-center">
+                                    <span className="text-yellow-600">
+                                        <CautionCircle width='14px' height='14px' />
+                                    </span>
+                                    <span className="text-red-700 text-xs">Please add a valid link</span>
+                                </div>
+
+                            )
+                        )}
                 </span>
             );
         }
@@ -157,7 +200,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
     const isImageUrl = (url) => {
         const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
         const hasImageExtension = imageExtensions.some((ext) =>
-            url.toLowerCase().endsWith(ext)
+            url.toLowerCase()?.endsWith(ext)
         );
         const containsImagePattern =
             url.includes("images.unsplash.com") || url.includes("photo");
@@ -198,29 +241,29 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                             </button>
                         ) : null} */}
                         {Object.entries(visibleAssociatedDetails).map(([key, value]) => {
-                            const displayType = getDisplayType(key);
-
-                            if (isIframeEnabled(key)) {
-                                return (
-                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
-                                        <span className="font-semibold">{value?.label}:</span>
-                                        <span className="text-sm dark:text-white ">
-                                            {value?.value ? (
-                                                <Button
-                                                    className=""
-                                                    size="xsm"
-                                                    onClick={() => handleViewClick(value?.value)}
-                                                >
-                                                    {getPropertyValueType(key, value?.value)}
-                                                </Button>
-                                            ) : (
-                                                "--"
-                                            )}
-                                        </span>
-                                    </div>
-                                );
-                            }
-                            else if (isButtonEnabled(key)) {
+                            // const displayType = getDisplayType(key);
+                            // if (isIframeEnabled(key)) {
+                            //     return (
+                            //         <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                            //             <span className="font-semibold">{value?.label}:</span>
+                            //             <span className="text-sm dark:text-white ">
+                            //                 {value?.value ? (
+                            //                     <Button
+                            //                         className=""
+                            //                         size="xsm"
+                            //                         onClick={() => handleViewClick(value?.value)}
+                            //                     >
+                            //                         {getPropertyValueType(key, value?.value)}
+                            //                     </Button>
+                            //                 ) : (
+                            //                     "--"
+                            //                 )}
+                            //             </span>
+                            //         </div>
+                            //     );
+                            // }
+                            // else
+                            if (isButtonEnabled(key)) {
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
@@ -248,7 +291,7 @@ const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading, isLoa
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
-                                        <span>
+                                        <span className=" break-all">
                                             {value?.value}
                                         </span>
                                     </div>

@@ -171,16 +171,16 @@ const Drawer = ({ className }) => {
                   showSidebarCtaOption === true && (
                     !sidebarCollapsed && (
                       <div className="mt-2">
-                        <div className="bg-custom-gradient text-detailsBannerTextColor text-sm p-4 border-1 border border-gray-600 text-md text-center font-medium rounded-md">
+                        <div className={`bg-ctaBackgroundColor text-ctaTextColor text-sm p-4 text-md text-center dark:bg-dark-500 dark:text-white font-medium rounded-md`}>
                           <p>{sideBarOptions.title}</p>
-                          <a href={sideBarOptions.buttonUrl}>
                             <Button
-                              className="bg-secondary dark:bg-white hover:bg-white hover:text-secondary dark:text-secondary text-white mt-4"
+                              className={`!bg-ctaButtonBackgroundColor text-ctaButtonTextColor dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
                               size="sm"
                             >
-                              {sideBarOptions.buttonText}
+                              <a target="_blank" href={sideBarOptions.buttonUrl}>
+                                  {sideBarOptions.buttonText}
+                              </a>
                             </Button>
-                          </a>
                         </div>
                       </div>
                     )

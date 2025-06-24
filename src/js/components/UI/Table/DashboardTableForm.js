@@ -213,6 +213,7 @@ const DashboardTableForm = ({
           ? { ...property, options: response.data }
           : property
       );
+      console.log('updatedProperties', updatedProperties)
       setData(updatedProperties);
     },
     onError: (error) => {
@@ -310,17 +311,21 @@ const DashboardTableForm = ({
     }
   };
 
+  const nameTrancate = (name) =>{
+   return name.length > 30 ? `${name.slice(0,30)+'...'}` : name;
+  }
+
   useEffect(() => {
     const last = breadcrumbs[breadcrumbs.length - 1];
     if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
       setObjectName(title);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a New ${title} for ${last.name}`: `Associate an Existing ${title} with ${last.name}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title} for ${nameTrancate(last.name)}`: `Associate an Existing ${title} with ${nameTrancate(last.name)}`}`);
     } else {
-      const singularLastName = last.name.endsWith("s")
+      const singularLastName = last?.name?.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
       setObjectName(singularLastName);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a New ${title.includes('with') ? title.replace('with', 'for') : title}` : `Associate an Existing ${title}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title.includes('with') ? nameTrancate(title.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
     }
   }, [breadcrumbs, activeTab]);
 
@@ -439,6 +444,8 @@ const DashboardTableForm = ({
                                             control={control}
                                             filled={filled}
                                             onChangeSelect={onChangeSelect}
+                                            disabled={filled?.hidden}
+                                            setValue={filled?.hidden ? setValue : null}
                                           />
                                         ) : filled.fieldType === "textarea" ? (
                                           <Textarea
