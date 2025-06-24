@@ -213,6 +213,7 @@ const DashboardTableForm = ({
           ? { ...property, options: response.data }
           : property
       );
+      console.log('updatedProperties', updatedProperties)
       setData(updatedProperties);
     },
     onError: (error) => {
@@ -443,6 +444,8 @@ const DashboardTableForm = ({
                                             control={control}
                                             filled={filled}
                                             onChangeSelect={onChangeSelect}
+                                            disabled={filled?.hidden}
+                                            setValue={filled?.hidden ? setValue : null}
                                           />
                                         ) : filled.fieldType === "textarea" ? (
                                           <Textarea
