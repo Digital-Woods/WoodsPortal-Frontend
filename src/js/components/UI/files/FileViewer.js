@@ -49,7 +49,12 @@ const FileViewer = ({ file }) => {
     return (
       <div className="w-full flex justify-center ">
         {loading && <LoadingIcon />}
-        <video controls className="w-auto relative" onLoadedData={handleLoad}>
+        <video
+          playsInline
+          webkit-playsinline
+          controls
+          className="w-auto relative"
+          onLoadedData={handleLoad}>
           <source src={file?.data?.url} type="video/mp4" />
           Your browser does not support the video element.
         </video>
@@ -66,15 +71,18 @@ const FileViewer = ({ file }) => {
     fileExtension === "xlsx"
   ) {
     return (
-      <div className="w-full flex justify-center relative">
+      <>
         {loading && <LoadingIcon />}
         <iframe
           src={officeViewerUrl}
-          className="w-full"
+          className="w-full h-full"
           onLoad={handleLoad}
           allowFullScreen
+          allow="autoplay; fullscreen"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-presentation"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
-      </div>
+      </>
     );
   }
 
@@ -96,22 +104,25 @@ const FileViewer = ({ file }) => {
           alt={file?.data?.name}
           className="h-full w-auto object-contain"
           onLoad={handleLoad}
+          allowFullScreen
+          allow="autoplay; fullscreen"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-presentation"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>
     );
   }
 
   if (fileExtension === "pdf") {
-    return (
-      <div className="w-full flex justify-center relative ">
-        {loading && <LoadingIcon />}
-        <iframe
-          src={file?.data?.url}
-          className="w-full"
-          onLoad={handleLoad}
-          allowFullScreen
-        />
-      </div>
+    return (<>
+      {loading && <LoadingIcon />}
+      <iframe
+        src={file?.data?.url}
+        className="w-full"
+        onLoad={handleLoad}
+        allowFullScreen
+      />
+    </>
     );
   }
 
