@@ -32,10 +32,14 @@ const IframeViewDialog = ({
               width="100%"
               height="100%"
               title={`iframe-${currentIframeIndex}`}
+              allowFullScreen
+              allow="autoplay; fullscreen"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-presentation"
+              referrerPolicy="strict-origin-when-cross-origin"
             ></iframe>
           </div>
         )}
-        <div className="flex items-center gap-3 pt-4 justify-between">
+        <div className="flex items-center gap-3 pt-4 justify-between  bg-cleanWhite dark:bg-dark-200 sticky bottom-0 w-full">
           <Button
             variant='outline'
             size="sm"
