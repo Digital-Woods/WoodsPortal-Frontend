@@ -68,7 +68,7 @@ const HomeBanner = ({ moduleBannerDetailsOption, userData }) => {
   }
 
   return (
-      <div className={` h-full w-full flex justify-center flex-col items-start md:p-4 p-3 z-2 relative`}>
+      <div className={`flex justify-center flex-col items-start md:p-4 p-3 z-2 relative`}>
         <div className="w-full">
           <div className={`${moduleBannerDetailsOption.show_title || moduleBannerDetailsOption?.show_date ? 'mb-6' : 'mb-0'  }`}>
             {moduleBannerDetailsOption.show_title && 
@@ -86,7 +86,7 @@ const HomeBanner = ({ moduleBannerDetailsOption, userData }) => {
             <p className={`opacity-70 text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>
             }
           </div>
-          <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm`}>
+          <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm break-all`}>
             {ReactHtmlParser.default(
               DOMPurify.sanitize(updatedDescription)
             )}

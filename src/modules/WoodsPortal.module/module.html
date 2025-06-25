@@ -13,6 +13,7 @@
     tabName: item.tab_name,
     showIframe: item.show_iframe,
     propertyName: item.property_name,
+    iframeProperties: item.iframe_properties,
     hubspotObjectTypeId: item.object_type_id,
     }) %}
     {# End Iframe popup Logic #}
@@ -23,6 +24,7 @@
     icon: item.icon_svg_code,
     showIframe: item.show_iframe,
     propertyName: item.property_name,
+    iframeProperties: item.iframe_properties,
     listObjectName: item.list_object_name,
     listObjectProperties: item.list_object_properties,
     associateObjectName: item.association_object_name,
@@ -54,6 +56,7 @@
   tabName: item.tab_name,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   hubspotObjectTypeId: item.object_type_id,
   }) %}
   {% set objName = item.list_object_name | replace("p_","") %}
@@ -65,6 +68,7 @@
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   listObjectName: item.list_object_name,
   listObjectProperties: item.list_object_properties,
   associateObjectName: item.association_object_name,
@@ -87,6 +91,7 @@
   tabName: item.tab_name,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   hubspotObjectTypeId: item.object_type_id,
   }) %}
   {% set objName = item.list_object_name | replace("p_","") %}
@@ -98,6 +103,7 @@
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   listObjectName: item.list_object_name,
   listObjectProperties: item.list_object_properties,
   associateObjectName: item.association_object_name,
