@@ -15,17 +15,52 @@ const FileDetailsModal = ({ file, onClose }) => {
       });
   };
   const [copyMessage, setCopyMessage] = useState("");
-  const handleDownload = () => {
-    window.open(file.data.url, "_blank");
-  };
-
+  // const handleDownload = () => {
+  //   window.open(file.data.url, "_blank");
+  // };
+const handleDownload = async (url, filename) => {
+  try {
+    const downloadFilename = filename || url.split('/').pop().split('?')[0] || 'download';
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = downloadFilename;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(a);
+      }, 100);
+    } catch (fetchError) {
+      console.log('Fetch failed, using alternative method:', fetchError);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadFilename;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  } catch (error) {
+    console.error('Download failed:', error);
+    window.open(url, '_blank');
+  }
+};
   return (
     <Dialog
       open={file !== null}
       onClose={onClose}
       className={`!p-0 relative mx-auto !bg-white overflow-y-auto transition-all  duration-500 ease-in-out lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] min-h-[85vh] h-auto`}>
       <div className="flex justify-between items-center bg-[#516f90] p-4">
-        <h2 className="text-white font-medium text-lg break-all mb-0">{file?.data.name}</h2>
+        <h2 className="text-white font-medium text-lg break-all mb-0">{file?.data.name.length > 25 ? `${file?.data.name.slice(0,25)+'...'}` : file?.data.name}</h2>
         <div className="flex gap-2 items-center">
           {/* <button
             onClick={toggleExpandDialog}
@@ -51,16 +86,14 @@ const FileDetailsModal = ({ file, onClose }) => {
         </div>
       </div>
       {file ? (
-        <div
-          className={`rounded-lg p-4 bg-white grid md:grid-cols-12 grid-cols-2 gap-4 max-h-[82vh] overflow-auto`}
-        >
+        <div className={`rounded-lg p-4 bg-white flex md:flex-row flex-col justify-between gap-4`}>
           {/* Left Section: File Preview */}
-          <div className={`md:col-span-9 col-span-12  md:h-[74vh] flex justify-center`}>
+          <div className={`md:w-8/12 w-full flex justify-center md:h-[76vh] h-[47vh]`}>
             <FileViewer file={file} />
           </div>
 
           {/* Right Section: File Details */}
-          <div className={`md:col-span-3 col-span-12 p-4`}>
+          <div className={`md:w-4/12 w-full py-4 pr-4`}>
             <div className=" text-secondary font-semibold break-all text-lg mb-2">
               {file?.data?.name}
             </div>
@@ -92,7 +125,7 @@ const FileDetailsModal = ({ file, onClose }) => {
                 {copyMessage ? "Copied!" : "Copy Link"}
               </Button>
               <Button
-                onClick={handleDownload}
+                onClick={() => handleDownload(file?.data?.url, file?.data?.name)}
                 className="flex items-center"
                 size="sm"
               >

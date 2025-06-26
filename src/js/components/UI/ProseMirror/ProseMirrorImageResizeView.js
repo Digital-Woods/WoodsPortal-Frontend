@@ -96,8 +96,8 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
       }] h-[${size?.height}] ${
         imageResize ? "border-[#00d0e4]" : "border-transparent"
       }`}
-      onClick={() => setImageResize(true)}
-      onMouseDown={handleImageClick}
+      // onClick={() => setImageResize(true)}
+      // onMouseDown={handleImageClick}
       ref={imgResizeRef}
     >
       <img
@@ -106,9 +106,8 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
         height={size?.height}
         alt={`img-${1}`}
       />
-      {imageResize && (
+      {/* {imageResize && (
         <React.Fragment>
-          {/* <!-- Corner Handles --> */}
           <div
             class="w-2 h-2 bg-[#00d0e4] absolute top-[-4px] left-[-4px] cursor-nwse-resize"
             onMouseDown={(e) => handleResize(e, "top-left")}
@@ -126,7 +125,7 @@ const ProseMirrorImage = ({ node, view, getPos }) => {
             onMouseDown={(e) => handleResize(e, "bottom-right")}
           ></div>
         </React.Fragment>
-      )}
+      )} */}
     </div>
   );
 };
