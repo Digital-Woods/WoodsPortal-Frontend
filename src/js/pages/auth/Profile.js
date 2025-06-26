@@ -59,9 +59,9 @@ const Profile = ({ title, path }) => {
           className={` md:pt-4 pt-3`}
         >
           <UserProfileCard userData={userData} isLoading={isLoading} />
-          <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden md:mb-4 mb-3`}>
+          <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden md:my-4 my-3`}>
             <div className={``}>
-              <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit  my-4">
+              {/* <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit  my-4">
                 <Tabs
                   activeTab={activeTab}
                   setActiveTab={setActiveTabFucntion}
@@ -77,9 +77,9 @@ const Profile = ({ title, path }) => {
                   </TabsContent>
                 </Tabs>
               </div>
-              {activeTab === "password" && (
+              {activeTab === "password" && ( */}
                 <ChangePassword />
-              )}
+              {/* // )} */}
             </div>
           </div>
         </div>

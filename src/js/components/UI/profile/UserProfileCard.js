@@ -18,6 +18,8 @@ const UserProfileCard = ({ userData, isLoading }) => {
     // const [iframeViewDialog, setIframeViewDialog] = useState(false);
     // const [iframeUrls, setIframeUrls] = useState([]);
     // const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
+    const { me, getMe } = useMe();
+    const loggedInDetails = useRecoilValue(userDetailsAtom);
 
     useEffect(() => {
         if (userData?.response) {
@@ -30,8 +32,41 @@ const UserProfileCard = ({ userData, isLoading }) => {
         return <SkeletonLoader items={1} profile={true} />;
     }
 
-    const firstName = userDetails?.firstname?.value || "";
-    const lastName = userDetails?.lastname?.value || "";
+    // const firstName = userDetails?.firstname?.value || "";
+    // const lastName = userDetails?.lastname?.value || "";
+    const firstName = getFirstName(loggedInDetails, me);
+    const lastName = getLastName(loggedInDetails, me);
+    const email = getEmail(loggedInDetails, me);
+
+    function getFirstName(loggedInDetails, me) {
+        if (loggedInDetails && loggedInDetails.firstName) {
+            return loggedInDetails.firstName;
+        } else if (me && me.firstName) {
+            return me.firstName;
+        } else {
+            return "";
+        }
+    }
+
+    function getLastName(loggedInDetails, me) {
+        if (loggedInDetails && loggedInDetails.lastName) {
+            return loggedInDetails.lastName;
+        } else if (me && me.lastName) {
+            return me.lastName;
+        } else {
+            return "";
+        }
+    }
+
+    function getEmail(loggedInDetails, me) {
+        if (loggedInDetails && loggedInDetails.email) {
+            return loggedInDetails.email;
+        } else if (me && me.email) {
+            return me.email;
+        } else {
+            return "";
+        }
+    }
     const initials = profileInitial(firstName, lastName);
     // const propertyName = companyCardIframeList.propertyName ? companyCardIframeList.propertyName.split(',') : [];
     // const showIframe = companyCardIframeList.showIframe || false;
@@ -85,7 +120,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
     return (
         <div>
             <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
-                <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'}  dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[90px]`}></div>
+                <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'}  dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[80px]`}></div>
 
                 {/* Profile Initials */}
                 <div className="flex items-center justify-center relative z-2">
@@ -96,19 +131,19 @@ const UserProfileCard = ({ userData, isLoading }) => {
 
                 {/* User Details */}
                 <div className="relative w-full z-2">
-                    <div className="flex flex-col md:flex-row gap-4 pb-4 mb-4">
+                    <div className="flex flex-col md:flex-row gap-2 pb-3">
                         <div className="flex-1">
-                            <h2 className="text-xl font-semibold  dark:text-white dark:opacity-70 text-secondary">
+                            <h2 className="text-xl font-semibold  dark:text-white dark:opacity-70 text-secondary mb-1">
                                 {firstName} {lastName}
                             </h2>
                             <p className="text-xs dark:text-white">
-                                {userDetails?.email?.value || "--"} • {userDetails?.phone?.value || "--"}
+                                {email}{userDetails?.phone?.value ? ` • ${userDetails?.phone?.value}` : ''}
                             </p>
                         </div>
                     </div>
 
                     {/* User Info Grid */}
-                    <div className="">
+                    {/* <div className="">
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all duration-500">
                             {visibleDetails.map(([key, value]) => (
                                 <div key={key} className="flex flex-col items-start gap-1 text-xs">
@@ -143,16 +178,16 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                 {showMoreDetails ? "Show Less" : "Show More"}
                             </Button>
                         )}
-                    </div>
+                    </div> */}
 
                     {/* Associated Company Details */}
                     {visibleAssociatedDetails && (
-                        <div className="mt-6 pt-4 border-t dark:border-gray-600">
-                            <h3 className="text-lg font-semibold  dark:text-white dark:opacity-70">
+                        <div className="">
+                            <h3 className="text-lg font-semibold  dark:text-white dark:opacity-70 mb-0">
                                 {userAssociatedDetails?.name?.value || "--"}
                             </h3>
 
-                            <div className="">
+                            {/* <div className="">
                                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">
                                     {(userDetails?.associations?.COMPANY?.name) ? (
                                         (visibleAssociatedDetails?.length ?? 0) > 0 ? (
@@ -213,13 +248,13 @@ const UserProfileCard = ({ userData, isLoading }) => {
                                         {showMoreAssociated ? "Show Less" : "Show More"}
                                     </Button>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
                     )}
                 </div>
             </div>
-                        {/* Iframe View Dialog Component */}
-             {/* <IframeViewDialog
+            {/* Iframe View Dialog Component */}
+            {/* <IframeViewDialog
                 open={iframeViewDialog}
                 onClose={() => setIframeViewDialog(false)}
                 iframeUrls={iframeUrls}
