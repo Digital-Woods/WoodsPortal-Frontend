@@ -12,6 +12,7 @@ const DetailsView = ({
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
   const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
+  console.log(propertyName,'propertyName');
 
   const iframeSettings = Array.isArray(propertyName) ? propertyName : [];
 
@@ -152,6 +153,7 @@ const DetailsView = ({
       prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
   };
+                console.log(item,'item');
 
   if (isLoading && !item) {
     return (

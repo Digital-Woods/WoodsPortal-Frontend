@@ -582,6 +582,14 @@
         "sorting_label_field" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "default" : 1
       },
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "home.right_sidebar_object.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
       "children" : [ {
         "id" : "7bb7a5ee-84f3-4a27-9e87-a4f2080b0f90",
         "name" : "properties_value",
@@ -661,25 +669,6 @@
         "on_click_action" : "showIframe",
         "button_name" : "View"
       } ]
-    }, {
-      "id" : "859678db-7601-5a54-66e2-605338e6c8c8",
-      "name" : "property_name",
-      "label" : "Property Name",
-      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
-      "inline_help_text" : "Enter the internal property name.",
-      "required" : false,
-      "locked" : false,
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "home.right_sidebar_object.show_iframe",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "EQUAL",
-        "access" : null
-      },
-      "allow_new_line" : false,
-      "type" : "text",
-      "display_width" : null
     } ],
     "tab" : "CONTENT",
     "expanded" : false,
@@ -1087,6 +1076,14 @@
         "sorting_label_field" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "default" : 1
       },
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.objects.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
+      },
       "children" : [ {
         "id" : "64ea60e5-8d21-7b47-df24-d3b2dfc0b750",
         "name" : "properties_value",
@@ -1166,25 +1163,6 @@
         "on_click_action" : "showIframe",
         "button_name" : "View"
       } ]
-    }, {
-      "id" : "7bf9300a-0fb9-719d-782a-d516a38908de",
-      "name" : "property_name",
-      "label" : "Property Name",
-      "help_text" : " To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
-      "inline_help_text" : "Enter the internal property name.",
-      "required" : false,
-      "locked" : false,
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "menu_options.objects.show_iframe",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "EQUAL",
-        "access" : null
-      },
-      "allow_new_line" : false,
-      "type" : "text",
-      "display_width" : null
     }, {
       "id" : "a25824f7-9f18-7e5f-c837-1ed22c8e3d1a",
       "name" : "icon_svg_code",
@@ -1512,7 +1490,7 @@
       "id" : "34327824-78c6-4226-7ffa-a4104f7e4457",
       "name" : "iframe_properties",
       "label" : "Iframe Properties",
-      "help_text" : "  Copy labels from \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
+      "help_text" : "",
       "inline_help_text" : "",
       "required" : false,
       "locked" : false,
@@ -1521,6 +1499,14 @@
         "max" : null,
         "sorting_label_field" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "default" : 1
+      },
+      "visibility" : {
+        "controlling_field" : null,
+        "controlling_field_path" : "menu_options.hubspot_custom_objects.show_iframe",
+        "controlling_value_regex" : "true",
+        "property" : null,
+        "operator" : "EQUAL",
+        "access" : null
       },
       "children" : [ {
         "id" : "59e4e3cf-e359-b6cf-f6fd-e198f14378b8",
@@ -1601,25 +1587,6 @@
         "on_click_action" : "showIframe",
         "button_name" : "View"
       } ]
-    }, {
-      "id" : "92e405a9-bd74-b68f-3120-99750fe843a5",
-      "name" : "property_name",
-      "label" : "Property Name",
-      "help_text" : "To display multiple values in the iframe, please separate the URLs with a comma in HubSpot.",
-      "inline_help_text" : "Enter the internal property name.",
-      "required" : false,
-      "locked" : false,
-      "visibility" : {
-        "controlling_field" : null,
-        "controlling_field_path" : "menu_options.hubspot_custom_objects.show_iframe",
-        "controlling_value_regex" : "true",
-        "property" : null,
-        "operator" : "EQUAL",
-        "access" : null
-      },
-      "allow_new_line" : false,
-      "type" : "text",
-      "display_width" : null
     }, {
       "id" : "08c6b7e1-deba-c653-1190-d7589bc2dd3e",
       "name" : "icon_svg_code",

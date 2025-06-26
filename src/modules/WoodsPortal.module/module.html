@@ -9,8 +9,8 @@
   {% for item in module.home.right_sidebar_object %}
     {# Iframe popup Logic #}
     {% do iframeList.append({
-    label: item.list_object_name,
-    tabName: item.tab_name,
+    label: module.home.tab_name,
+    tabName: module.home.tab_name,
     showIframe: item.show_iframe,
     propertyName: item.property_name,
     iframeProperties: item.iframe_properties,

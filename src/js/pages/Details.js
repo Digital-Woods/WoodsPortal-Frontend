@@ -28,7 +28,6 @@ const Details = ({ path, objectId, id, title }) => {
 
   const matchedObject = moduleIframeListOptions.find((item) => item.hubspotObjectTypeId === objectId && item.label === tabName) || {};
   // const matchedObject = moduleIframeListOptions.find((item) => item.hubspotObjectTypeId === objectId && item.label === tabName) || {};
-  console.log(matchedObject.iframeProperties,'matchedObject.iframeProperties');
   // console.log(moduleIframeListOptions,'moduleIframeListOptions');
   // Extract propertyName and showIframe from the matched object
   // const propertyName = matchedObject.properties_value ? matchedObject.properties_value.split(',') : [];
