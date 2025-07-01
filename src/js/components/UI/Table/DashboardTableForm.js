@@ -126,7 +126,8 @@ const DashboardTableForm = ({
         //   filterOperator: "eq",
         //   filterValue: ""
         // });
-        refetch(response);
+        // refetch(response);
+        setSync(true);
       }
       if (!variables.addAnother) {
         setOpenModal(false);

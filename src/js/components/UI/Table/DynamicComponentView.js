@@ -371,7 +371,8 @@ const DynamicComponentView = ({
   }, []);
 
   useEffect( async () => {
-    if (sync && errorMessage) {
+    // if (sync && errorMessage) {
+    if (sync) {
       await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     }
   }, [sync]);
