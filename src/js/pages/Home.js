@@ -134,7 +134,7 @@ const Home = ({
                 const isOdd = dashboardCards.length % 2 !== 0;
                 const isOnly = dashboardCards.length === 1;
 
-                const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'col-span-6';
+                const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
 
                 return (
                   <div
