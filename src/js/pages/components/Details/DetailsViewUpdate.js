@@ -16,8 +16,8 @@ const DetailsViewUpdateDD = ({
 
   const { mutate: getStags, isLoading } = useMutation({
     mutationKey: ["getStageData1"],
-    mutationFn: async (pipelineId) => {
-      // console.log("im getting called");
+    mutationFn: async (props) => {
+      const {pipelineId, isNewValue } = props
       try {
         const response = await Client.details.stages({
           params: {
@@ -41,7 +41,6 @@ const DetailsViewUpdateDD = ({
   });
 
   useEffect(() => {
-    // console.log(data);
     if (
       !optionData.apidata &&
       (optionData?.key === "dealstage" ||
@@ -54,7 +53,7 @@ const DetailsViewUpdateDD = ({
       const found = dataLoop.find(
         (item) => item.key === "hs_pipeline" || item.key === "pipeline"
       );
-      if (found) getStags(getValue(found.value, "value"));
+      if (found) getStags({pipelineId: getValue(found.value, "value"), isNewValue: true, setValue: null});
     } else {
       // console.log("comes here in else");
       // console.log(optionData.options);
@@ -106,7 +105,8 @@ const DetailsViewUpdateDialog = ({
 
   const { mutate: getStags, isLoading: sdfsf } = useMutation({
     mutationKey: ["getStageData1"],
-    mutationFn: async (pipelineId) => {
+    mutationFn: async (props) => {
+      const {pipelineId, isNewValue, setValue } = props
       try {
         const response = await Client.details.stages({
           params: {
@@ -114,26 +114,37 @@ const DetailsViewUpdateDialog = ({
             pipelineId,
           },
         });
-        return response;
+        return { response, pipelineId, isNewValue, setValue };
       } catch (error) {
         throw error;
       }
     },
-    onSuccess: async (response) => {
-      // console.log(response);
+    onSuccess: async ({ response, pipelineId, isNewValue, setValue }) => {
       // let stagesM = stages;
       // stagesM.options = response.data;
+      const key = isDealEdit ? "dealstage" : "hs_pipeline_stage"
       setStages({
         options: response.data,
         // "isSecondaryDisplayProperty":true,
         // "label":"Ticket status",
-        value: { label: "New", value: "987017750" },
+        // value: { label: "New", value: "987017750" },
         // "isEditableField":true,
         // "fieldType":"select",
         // "isPrimaryDisplayProperty":false,
-        key: isDealEdit ? "dealstage" : "hs_pipeline_stage",
+        key: key,
         apidata: true,
       });
+
+
+      if(isNewValue) {
+        // let defValue = {};
+        // defValue['hs_pipeline'] = pipelineId;
+        // defValue[key] = "";
+        // console.log("defValue", defValue)
+        // setInitialValues(defValue);
+        setValue(key, "")
+      }
+
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -234,9 +245,8 @@ const DetailsViewUpdateDialog = ({
     saveData(data);
   };
 
-  const onChangeSelect = (filled, value) => {
-    // console.log(filled);
-    getStags(value);
+  const onChangeSelect = (value, setValue) => {
+    getStags({pipelineId: value, isNewValue: true, setValue});
 
     // const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
     // const filterStage = dataLoop.find(
@@ -275,6 +285,7 @@ const DetailsViewUpdateDialog = ({
                 control,
                 watch,
                 formState: { errors },
+                setValue
               }) => (
                 <div>
                   {/* {JSON.stringify(getValues())} */}
@@ -293,7 +304,7 @@ const DetailsViewUpdateDialog = ({
                               control={control}
                               data={data}
                               objectTypeId={objectId}
-                              onChangeSelect={onChangeSelect}
+                              onChangeSelect={(fvalue, value) => onChangeSelect(value, setValue)}
                             />
                           </FormControl>
 
