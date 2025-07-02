@@ -137,12 +137,9 @@ const DetailsViewUpdateDialog = ({
 
 
       if(isNewValue) {
-        // let defValue = {};
-        // defValue['hs_pipeline'] = pipelineId;
-        // defValue[key] = "";
-        // console.log("defValue", defValue)
-        // setInitialValues(defValue);
-        setValue(key, "")
+        const defaultItem = response.data.find(item => item.defaultItem === true);
+        console.log("defaultItem", defaultItem)
+        setValue(key, defaultItem?.value || "")
       }
 
     },
