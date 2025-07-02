@@ -73,6 +73,8 @@ const DynamicComponentView = ({
     let routeMenuConfigs = getRouteMenuConfig();
     const objectId = isHome ? 'home' : hubspotObjectTypeId
 
+    console.log("routeMenuConfigs", routeMenuConfigs)
+
     if (
       routeMenuConfigs &&
       routeMenuConfigs.hasOwnProperty(objectId)
@@ -134,8 +136,15 @@ const DynamicComponentView = ({
       }
 
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
-      if (defPermissions?.pipeline_id && componentName === "ticket")
-        param.filterValue = defPermissions?.pipeline_id;
+      if (defPermissions?.pipeline_id && componentName === "ticket") {
+         param.filterValue = defPermissions?.pipeline_id;
+      } else {
+        if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
+          param.filterValue = selectedPipeline
+        }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+          param.filterValue = ''
+        }
+      }
 
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
       // console.log("activePipeline", activePipeline)
@@ -148,12 +157,7 @@ const DynamicComponentView = ({
 
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
       // console.log("activePipeline", activePipeline)
-      if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
-        param.filterValue = selectedPipeline
-      }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
-        param.filterValue = ''
-      }
-
+     
       
       // if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
 
