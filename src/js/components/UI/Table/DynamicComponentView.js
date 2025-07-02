@@ -75,8 +75,6 @@ const DynamicComponentView = ({
     let routeMenuConfigs = getRouteMenuConfig();
     const objectId = isHome ? 'home' : hubspotObjectTypeId
 
-    console.log("routeMenuConfigs", routeMenuConfigs)
-
     if (
       routeMenuConfigs &&
       routeMenuConfigs.hasOwnProperty(objectId)
