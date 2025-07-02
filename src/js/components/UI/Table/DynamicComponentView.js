@@ -68,7 +68,7 @@ const DynamicComponentView = ({
     setSelectedPipeline,
     selectedPipeline,
     setDefaultPipeline,
-    setPage
+    setPage,
     setSelectRouteMenuConfig
 
    } = useTable();
