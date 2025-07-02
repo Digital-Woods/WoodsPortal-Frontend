@@ -66,6 +66,7 @@ const DynamicComponentView = ({
     setSelectedPipeline,
     selectedPipeline,
     setDefaultPipeline,
+    setSelectRouteMenuConfig
    } = useTable();
 
    useEffect(() => {
