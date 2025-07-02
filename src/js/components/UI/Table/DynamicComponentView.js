@@ -68,6 +68,7 @@ const DynamicComponentView = ({
     setSelectedPipeline,
     selectedPipeline,
     setDefaultPipeline,
+    setPage
    } = useTable();
 
    useEffect(() => {
@@ -393,6 +394,11 @@ const DynamicComponentView = ({
       await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     }
   }, [sync]);
+
+  useEffect(async () => {
+      setPage(1);
+      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  }, [companyAsMediator]);
 
   const changeTab = async (view) => {
     // if(!isHome) {

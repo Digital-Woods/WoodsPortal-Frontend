@@ -335,11 +335,13 @@ const Notes = ({tabName='', item, path, objectId, id, permissions }) => {
   useEffect(() => {
     return () => {
       queryClient.cancelQueries(["data"]);
+      setPage(1);
     };
   }, [objectId, id]);
 
   useEffect(() => {
     refetch();
+    setPage(1);
   }, [id, objectId ]);
 
 
