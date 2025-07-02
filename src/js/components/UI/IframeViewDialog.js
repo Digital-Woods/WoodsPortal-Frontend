@@ -10,7 +10,7 @@ const IframeViewDialog = ({
 }) => {
   return (
     <Dialog open={open}>
-      <div className="relative bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-between flex w-[90vw] lg:h-[90vh] h-[90vh]">
+      <div className="relative bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-between flex w-[90vw] full-height-fix" >
         {/* Render image or iframe based on the URL extension */}
         {iframeUrls.length > 0 && isImageUrl(iframeUrls[0]) ? (
           <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 w-full h-auto overflow-auto">
@@ -32,10 +32,14 @@ const IframeViewDialog = ({
               width="100%"
               height="100%"
               title={`iframe-${currentIframeIndex}`}
+              allowFullScreen
+              allow="autoplay; fullscreen"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-presentation"
+              referrerPolicy="strict-origin-when-cross-origin"
             ></iframe>
           </div>
         )}
-        <div className="flex items-center gap-3 pt-4 justify-between">
+        <div className="flex items-center gap-3 pt-4 justify-between  bg-cleanWhite dark:bg-dark-200 sticky bottom-0 w-full">
           <Button
             variant='outline'
             size="sm"

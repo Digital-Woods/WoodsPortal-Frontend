@@ -1,4 +1,4 @@
-const Files = ({ fileId, path, objectId, id, permissions }) => {
+const Files = ({ tabName='', fileId, path, objectId, id, permissions }) => {
   const [currentFiles, setCurrentFiles] = useState({ child: [] });
   const [folderStack, setFolderStack] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -87,8 +87,28 @@ const Files = ({ fileId, path, objectId, id, permissions }) => {
     return <FilesSkeleton />;
   }
 
+
+  if(error && !id && objectId == '0-2' && tabName === 'home' && !fileId ){
+    return( 
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        Primary Company not found.
+      </div>
+    )
+  }
+
+
   if (error) {
-    return <div>Error loading files.</div>;
+        return( 
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle/>
+        </span>
+        {error?.response?.data?.detailedMessage}
+      </div>
+    )
   }
 
   // Filter files based on search term

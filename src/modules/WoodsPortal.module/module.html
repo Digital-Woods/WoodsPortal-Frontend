@@ -9,10 +9,11 @@
   {% for item in module.home.right_sidebar_object %}
     {# Iframe popup Logic #}
     {% do iframeList.append({
-    label: item.list_object_name,
-    tabName: item.tab_name,
+    label: module.home.tab_name,
+    tabName: module.home.tab_name,
     showIframe: item.show_iframe,
     propertyName: item.property_name,
+    iframeProperties: item.iframe_properties,
     hubspotObjectTypeId: item.object_type_id,
     }) %}
     {# End Iframe popup Logic #}
@@ -23,6 +24,7 @@
     icon: item.icon_svg_code,
     showIframe: item.show_iframe,
     propertyName: item.property_name,
+    iframeProperties: item.iframe_properties,
     listObjectName: item.list_object_name,
     listObjectProperties: item.list_object_properties,
     associateObjectName: item.association_object_name,
@@ -54,6 +56,7 @@
   tabName: item.tab_name,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   hubspotObjectTypeId: item.object_type_id,
   }) %}
   {% set objName = item.list_object_name | replace("p_","") %}
@@ -65,6 +68,7 @@
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   listObjectName: item.list_object_name,
   listObjectProperties: item.list_object_properties,
   associateObjectName: item.association_object_name,
@@ -87,6 +91,7 @@
   tabName: item.tab_name,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   hubspotObjectTypeId: item.object_type_id,
   }) %}
   {% set objName = item.list_object_name | replace("p_","") %}
@@ -98,6 +103,7 @@
   icon: item.icon_svg_code,
   showIframe: item.show_iframe,
   propertyName: item.property_name,
+  iframeProperties: item.iframe_properties,
   listObjectName: item.list_object_name,
   listObjectProperties: item.list_object_properties,
   associateObjectName: item.association_object_name,
@@ -196,6 +202,12 @@
           wpBg:"{{ module.style.note_cards.wp_note_card_bg_color.color }}",
           wpText:"{{ module.style.note_cards.wp_note_ts_text_color.color }}",
         }
+    }
+    const sidebarCtaStyles = {
+        backgroundColor:"{{ module.style.sidebar_cta.background_color.rgba }}",
+        textColor: "{{ module.style.sidebar_cta.text_color.rgba }}",
+        buttonBackgroundColor:"{{ module.sidebar_cta.button_background_color.rgba }}",
+        buttonTextColor: "{{ module.style.sidebar_cta.button_text_color.rgba }}"
     }
   {# Module Custom Styles #}
   </script>

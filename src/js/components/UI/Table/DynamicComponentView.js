@@ -14,7 +14,8 @@ const DynamicComponentView = ({
   isShowTitle=true,
   objectUserProperties,
   objectUserPropertiesView,
-  isHome = false
+  isHome = false,
+  ticketTableTitle=null,
 }) => {
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
@@ -27,6 +28,7 @@ const DynamicComponentView = ({
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   const [tableTitle, setTableTitle] = useState(null);
   const [singularTableTitle, setSingularTableTitle] = useState("");
+  const [associatedtableTitleSingular, setAssociatedtableTitleSingular] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   // const [pageView, setPageView] = useState("table");
   const { sync, setSync } = useSync();
@@ -281,20 +283,32 @@ const DynamicComponentView = ({
   }, []);
 
   useEffect(() => {
-    if (breadcrumbs && breadcrumbs.length > 0) {
+    if (breadcrumbs && breadcrumbs.length > 0 ) {
       const last = breadcrumbs[breadcrumbs.length - 1];
       const previous = breadcrumbs[breadcrumbs.length - 2];
       const singularLastName = last?.name?.endsWith("s")
         ? last.name.slice(0, -1)
         : last.name;
+      setAssociatedtableTitleSingular(singularLastName);
+      if( componentName!="ticket"){
+        setTableTitle(
+          previous?.name ? { last: last, previous: previous } : { last: last }
+        );
+        setSingularTableTitle(
+          previous?.name
+          ? `${singularLastName} with ${previous?.name}`
+          : singularLastName
+        );}else{
+        const ticketTableTitleSingular = ticketTableTitle.endsWith("s")?ticketTableTitle.slice(0, -1):ticketTableTitle;
       setTableTitle(
-        previous?.name ? { last: last, previous: previous } : { last: last }
+        {last:{name:title}}
       );
       setSingularTableTitle(
         previous?.name
-          ? `${singularLastName} with ${previous?.name}`
-          : singularLastName
-      );
+          ? `${ticketTableTitleSingular} with ${singularLastName} `
+          : ticketTableTitleSingular
+      )
+    }
     }
   }, [breadcrumbs]);
 
@@ -494,7 +508,7 @@ const DynamicComponentView = ({
                         <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
                       )}
                     </p>
-                    <div className="dark:text-white ">
+                    <div className="dark:text-white break-all">
                       {objectDescription
                         ? ReactHtmlParser.default(
                             DOMPurify.sanitize(objectDescription)
@@ -544,7 +558,7 @@ const DynamicComponentView = ({
                   key={hubspotObjectTypeId}
                   hubspotObjectTypeId={hubspotObjectTypeId}
                   path={path}
-                  title={title || hubSpotUserDetails.sideMenu[0].label}
+                  title={title == 'Association' ? associatedtableTitleSingular : (title || hubSpotUserDetails.sideMenu[0].label)}
                   tableTitle={
                     singularTableTitle || hubSpotUserDetails.sideMenu[0].label
                   }
