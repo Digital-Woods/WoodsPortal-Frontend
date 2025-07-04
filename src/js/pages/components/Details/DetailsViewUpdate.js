@@ -16,8 +16,8 @@ const DetailsViewUpdateDD = ({
 
   const { mutate: getStags, isLoading } = useMutation({
     mutationKey: ["getStageData1"],
-    mutationFn: async (pipelineId) => {
-      // console.log("im getting called");
+    mutationFn: async (props) => {
+      const {pipelineId, isNewValue } = props
       try {
         const response = await Client.details.stages({
           params: {
@@ -41,7 +41,6 @@ const DetailsViewUpdateDD = ({
   });
 
   useEffect(() => {
-    // console.log(data);
     if (
       !optionData.apidata &&
       (optionData?.key === "dealstage" ||
@@ -54,7 +53,7 @@ const DetailsViewUpdateDD = ({
       const found = dataLoop.find(
         (item) => item.key === "hs_pipeline" || item.key === "pipeline"
       );
-      if (found) getStags(getValue(found.value, "value"));
+      if (found) getStags({pipelineId: getValue(found.value, "value"), isNewValue: true, setValue: null});
     } else {
       // console.log("comes here in else");
       // console.log(optionData.options);
@@ -92,6 +91,7 @@ const DetailsViewUpdateDialog = ({
   data,
   saveData,
   isLoading,
+  setEditRowKey,
 }) => {
   const [initialValues, setInitialValues] = useState(null);
   const [pipelines, setPipelines] = useState(null);
@@ -106,7 +106,8 @@ const DetailsViewUpdateDialog = ({
 
   const { mutate: getStags, isLoading: sdfsf } = useMutation({
     mutationKey: ["getStageData1"],
-    mutationFn: async (pipelineId) => {
+    mutationFn: async (props) => {
+      const {pipelineId, isNewValue, setValue } = props
       try {
         const response = await Client.details.stages({
           params: {
@@ -114,26 +115,34 @@ const DetailsViewUpdateDialog = ({
             pipelineId,
           },
         });
-        return response;
+        return { response, pipelineId, isNewValue, setValue };
       } catch (error) {
         throw error;
       }
     },
-    onSuccess: async (response) => {
-      // console.log(response);
+    onSuccess: async ({ response, pipelineId, isNewValue, setValue }) => {
       // let stagesM = stages;
       // stagesM.options = response.data;
+      const key = isDealEdit ? "dealstage" : "hs_pipeline_stage"
       setStages({
         options: response.data,
         // "isSecondaryDisplayProperty":true,
         // "label":"Ticket status",
-        value: { label: "New", value: "987017750" },
+        // value: { label: "New", value: "987017750" },
         // "isEditableField":true,
         // "fieldType":"select",
         // "isPrimaryDisplayProperty":false,
-        key: isDealEdit ? "dealstage" : "hs_pipeline_stage",
+        key: key,
         apidata: true,
       });
+
+
+      if(isNewValue) {
+        const defaultItem = response.data.find(item => item.defaultItem === true);
+        // console.log("defaultItem", defaultItem)
+        setValue(key, defaultItem?.value || "")
+      }
+
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -234,9 +243,8 @@ const DetailsViewUpdateDialog = ({
     saveData(data);
   };
 
-  const onChangeSelect = (filled, value) => {
-    // console.log(filled);
-    getStags(value);
+  const onChangeSelect = (value, setValue) => {
+    getStags({pipelineId: value, isNewValue: true, setValue});
 
     // const dataLoop = (typeof data === "object" && !Array.isArray(data)) ? Object.keys(data) : data
     // const filterStage = dataLoop.find(
@@ -275,6 +283,7 @@ const DetailsViewUpdateDialog = ({
                 control,
                 watch,
                 formState: { errors },
+                setValue
               }) => (
                 <div>
                   {/* {JSON.stringify(getValues())} */}
@@ -293,7 +302,7 @@ const DetailsViewUpdateDialog = ({
                               control={control}
                               data={data}
                               objectTypeId={objectId}
-                              onChangeSelect={onChangeSelect}
+                              onChangeSelect={(fvalue, value) => onChangeSelect(value, setValue)}
                             />
                           </FormControl>
 
@@ -341,6 +350,7 @@ const DetailsViewUpdateDialog = ({
                       onClick={() => {
                         setPipelineDialog(false);
                         setEditRow(null);
+                        setEditRowKey(null);
                       }}
                     >
                       Cancel
@@ -368,6 +378,10 @@ const DetailsViewUpdate = ({
   value,
   item,
   urlParam,
+  isUpdating,
+  setIsUpdating,
+  editRowKey,
+  setEditRowKey,
 }) => {
   const [editRow, setEditRow] = useState(null);
   const { setToaster } = useToaster();
@@ -435,13 +449,21 @@ const DetailsViewUpdate = ({
       // setSync(true);
       refetch();
       setToaster({ message: data.statusMsg, type: "success" });
+      setIsUpdating(false);
+      setEditRowKey(null);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
       setToaster({ message: errorMessage, type: "error" });
+      setIsUpdating(false);
+      setEditRowKey(null);
     },
   });
-
+  useEffect(() => {
+      if (setIsUpdating){
+        setIsUpdating(isLoading);
+      };
+  }, [isLoading,setIsUpdating]);
   // useEffect(() => {
   //   const filterStage = data.find(
   //     (item) =>
@@ -641,6 +663,7 @@ const DetailsViewUpdate = ({
                       size="hubSpot"
                       isLoading={isLoading}
                       onClick={() => onSubmit()}
+                      disabled={isLoading && isUpdating}
                     >
                       <span className="text-secondary dark:text-white">
                         <IconTickSmall />
@@ -649,7 +672,10 @@ const DetailsViewUpdate = ({
                     <Button
                       variant="hubSpot"
                       size="hubSpot"
-                      onClick={() => setEditRow(null)}
+                      onClick={() => {
+                        setEditRow(null);
+                        setEditRowKey(null);
+                      }}
                       disabled={isLoading}
                     >
                       <span className="text-secondary dark:text-white">
@@ -670,7 +696,11 @@ const DetailsViewUpdate = ({
               <Button
                 variant="hubSpot"
                 size="hubSpot"
-                onClick={() => setEditRowValueFunction(value)}
+                onClick={() => {
+                  setEditRowValueFunction(value);
+                  setEditRowKey(value.key);
+                }}
+                disabled={isUpdating || editRowKey && editRowKey !== value.key}
               >
                 <span className="text-secondary dark:text-white">
                   <EditIcon />
@@ -692,6 +722,7 @@ const DetailsViewUpdate = ({
           data={data}
           saveData={saveData}
           isLoading={isLoading}
+          setEditRowKey={setEditRowKey}
         />
       )}
     </div>

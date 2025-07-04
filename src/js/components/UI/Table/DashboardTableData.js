@@ -88,7 +88,7 @@ const DashboardTableData = ({
     setTableData(results);
     setTotalItems(data.data.total || 0);
     // setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
-    setLimit(results.length > 0 ? limit : 0);
+    // setLimit(results.length > 0 ? limit : 0);
     setCurrentItems(results.length);
     setTableHeader(sortData(columns));
   };

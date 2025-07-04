@@ -12,7 +12,8 @@ const DetailsView = ({
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
   const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
-  console.log(propertyName,'propertyName');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [editRowKey, setEditRowKey] = useState(null);
 
   const iframeSettings = Array.isArray(propertyName) ? propertyName : [];
 
@@ -153,7 +154,7 @@ const DetailsView = ({
       prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
   };
-                console.log(item,'item');
+                // console.log(item,'item');
 
   if (isLoading && !item) {
     return (
@@ -214,6 +215,10 @@ const DetailsView = ({
                           objectId={objectId}
                           item={item}
                           urlParam={urlParam}
+                          isUpdating={isUpdating}
+                          setIsUpdating={setIsUpdating}
+                          editRowKey={editRowKey}
+                          setEditRowKey={setEditRowKey}
                         />
                       ) : (
                         renderCellContent({
