@@ -558,7 +558,7 @@ const DetailsViewUpdate = ({
       saveData(data);
     }
   };
-console.log(editRow,'editRow');
+
   return (
     <div className="">
       <div className="gap-2">
