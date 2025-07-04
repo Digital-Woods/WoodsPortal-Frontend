@@ -48,6 +48,7 @@ const DynamicComponentView = ({
   const [isLoading, setIsLoading] = useState(null);
   const [urlParam, setUrlParam] = useState(null);
   const [apiResponse, setApiResponse] = useState(null);
+  const [pipelines, setPipelines] = useState([]);
   const [info, setInfo] = useState(null);
   const [totalRecord, setTotalRecord] = useState(null);
   const [activeCardData, setActiveCardData] = useState(null);
@@ -60,11 +61,35 @@ const DynamicComponentView = ({
     setLimit,
     setTotalItems,
     setNumOfPages,
+    setView,
     view,
     getTableParam,
     resetTableParam,
-    selectedPipeline
+    setSelectedPipeline,
+    selectedPipeline,
+    setDefaultPipeline,
+    setPage,
+    setSelectRouteMenuConfig
+
    } = useTable();
+
+   useEffect(() => {
+    let routeMenuConfigs = getRouteMenuConfig();
+    const objectId = isHome ? 'home' : hubspotObjectTypeId
+
+    if (
+      routeMenuConfigs &&
+      routeMenuConfigs.hasOwnProperty(objectId)
+    ) {
+      const activeTab = routeMenuConfigs[objectId].activeTab;
+      setIsLoadingHoldData(true);
+      setView(activeTab === "grid" ? "BOARD" : "LIST");
+      setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
+    } else {
+      setIsLoadingHoldData(true);
+      setView("LIST");
+    }
+  }, []);
 
   const fetchUserProfile = async ({ portalId, cache }) => {
     if (!portalId) return null;
@@ -113,8 +138,15 @@ const DynamicComponentView = ({
       }
 
       if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
-      if (defPermissions?.pipeline_id && componentName === "ticket")
-        param.filterValue = defPermissions?.pipeline_id;
+      if (defPermissions?.pipeline_id && componentName === "ticket") {
+         param.filterValue = defPermissions?.pipeline_id;
+      } else {
+        if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
+          param.filterValue = selectedPipeline
+        }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+          param.filterValue = ''
+        }
+      }
 
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
       // console.log("activePipeline", activePipeline)
@@ -127,17 +159,7 @@ const DynamicComponentView = ({
 
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
       // console.log("activePipeline", activePipeline)
-      if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
-        param.filterValue = selectedPipeline
-      }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
-
-        // console.log(111)
-
-        param.filterValue = ''
-      }
-
-      // console.log("param", param)
-
+     
       
       // if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
 
@@ -290,23 +312,124 @@ const DynamicComponentView = ({
     }
   }, [breadcrumbs]);
 
+  // useEffect( async () => {
+  //   await setErrorMessage('')
+  //   await resetTableParam();
+  //   await setApiResponse(null);
+  //   await setPageView(null);
+  //   // if(!isHome) getData();
+  // }, []);
+
+  // useEffect( async () => {
+  //   if (sync && errorMessage) {
+  //     await getData();
+  //   }
+  // }, [sync]);
+
+  
+  // useEffect(() => {
+  //     getData();
+  // }, [companyAsMediator]);
+
+  // useEffect(() => {
+  //   setErrorMessage("");
+  // }, []);
+
+
+    // Get Pipelines
+  const { mutate: getPipelines, isLoadingPipelines } = useMutation({
+    mutationKey: ["PipelineData"],
+    mutationFn: async () => {
+      return await Client.Deals.pipelines({
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
+        param: {
+          cache: sync ? false : true,
+        },
+      });
+    },
+
+    onSuccess: async (data) => {
+      const objectId = isHome ? 'home' : hubspotObjectTypeId
+      await setPipelines(data.data);
+      await setDefaultPipeline(data, objectId);
+      await getData();
+    },
+    onError: () => {
+      setPipelines([]);
+    },
+  });
+
+  useEffect(() => {
+    if (specPipeLine) {
+       const objectId = isHome ? 'home' : hubspotObjectTypeId
+
+      setSelectedPipeline(pipeLineId);
+      setIsLoadingHoldData(true);
+      const routeMenuConfig = {
+        [objectId]: {
+          activePipeline: pipeLineId,
+        },
+      };
+      setSelectRouteMenuConfig(routeMenuConfig);
+      setUrlParam({
+        filterPropertyName: "hs_pipeline",
+        filterOperator: "eq",
+        filterValue: pipeLineId,
+      });
+    }
+  }, [specPipeLine]);
+
   useEffect( async () => {
+    await setErrorMessage('')
     await resetTableParam();
     await setApiResponse(null);
     await setPageView(null);
-    if(!isHome) getData();
+    // if(!isHome) {
+      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+    // }
   }, []);
 
   useEffect( async () => {
-    if (sync && errorMessage) {
-      await getData();
+    // if (sync && errorMessage) {
+    if (sync) {
+      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     }
   }, [sync]);
 
-  
-  useEffect(() => {
-      getData();
+  useEffect(async () => {
+      setPage(1);
+      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
   }, [companyAsMediator]);
+
+  const changeTab = async (view) => {
+    // if(!isHome) {
+      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+    // }
+  }
+
+
+  if (isLoadingAPiData === true) {
+    return (
+      <div
+        className={` ${
+          hubSpotUserDetails.sideMenu[0].tabName === title ||
+          componentName === "ticket"
+            ? "mt-0"
+            : "md:mt-4 mt-3"
+        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      >
+        <DashboardTableHeaderSkeleton
+          hubspotObjectTypeId={hubspotObjectTypeId}
+          title={title}
+        />
+        {view === "BOARD" && activeCardData ? (
+          <BoardViewSkeleton />
+        ) : (
+          <TableSkeleton />
+        )}
+      </div>
+    );
+  }
 
   if(errorMessage){
     return( 
@@ -474,6 +597,9 @@ const DynamicComponentView = ({
                     setPageView}
                   }
                   isHome={isHome}
+                  pipelines={pipelines}
+                  isLoadingPipelines={isLoadingPipelines}
+                  changeTab={changeTab}
                 />
               </div>
             </div>

@@ -43,7 +43,10 @@ const DashboardTable = ({
   specPipeLine,
   getData,
   states,
-  isHome
+  isHome,
+  pipelines,
+  isLoadingPipelines = false,
+  changeTab = null,
 }) => {
   const {
     setLimit,
@@ -80,32 +83,32 @@ const DashboardTable = ({
   const [hoverRow, setHoverRow] = useState(null);
   // const [info, setInfo] = useState(null);
   // Pipelines
-  const [pipelines, setPipelines] = useState([]);
+  // const [pipelines, setPipelines] = useState([]);
   // added for card view
   // const [isLoadingHoldData, setIsLoadingHoldData] = useState(null);
   // const [activeCardData, setActiveCardData] = useState([]);
 
   const { sync, setSync } = useSync();
 
-  useEffect(() => {
-    if (specPipeLine) {
-       const objectId = isHome ? 'home' : hubspotObjectTypeId
+  // useEffect(() => {
+  //   if (specPipeLine) {
+  //      const objectId = isHome ? 'home' : hubspotObjectTypeId
 
-      setSelectedPipeline(pipeLineId);
-      setIsLoadingHoldData(true);
-      const routeMenuConfig = {
-        [objectId]: {
-          activePipeline: pipeLineId,
-        },
-      };
-      setSelectRouteMenuConfig(routeMenuConfig);
-      setUrlParam({
-        filterPropertyName: "hs_pipeline",
-        filterOperator: "eq",
-        filterValue: pipeLineId,
-      });
-    }
-  }, [specPipeLine]);
+  //     setSelectedPipeline(pipeLineId);
+  //     setIsLoadingHoldData(true);
+  //     const routeMenuConfig = {
+  //       [objectId]: {
+  //         activePipeline: pipeLineId,
+  //       },
+  //     };
+  //     setSelectRouteMenuConfig(routeMenuConfig);
+  //     setUrlParam({
+  //       filterPropertyName: "hs_pipeline",
+  //       filterOperator: "eq",
+  //       filterValue: pipeLineId,
+  //     });
+  //   }
+  // }, [specPipeLine]);
 
   const isPrimaryCompany = getParam("isPrimaryCompany");
   const parentObjectTypeId = getParam("parentObjectTypeId");
@@ -116,28 +119,28 @@ const DashboardTable = ({
     portalId = getPortal()?.portalId;
   }
 
-  // Get Pipelines
-  const { mutate: getPipelines, isLoadingPipelines } = useMutation({
-    mutationKey: ["PipelineData"],
-    mutationFn: async () => {
-      return await Client.Deals.pipelines({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
-        param: {
-          cache: sync ? false : true,
-        },
-      });
-    },
+  // // Get Pipelines
+  // const { mutate: getPipelines, isLoadingPipelines } = useMutation({
+  //   mutationKey: ["PipelineData"],
+  //   mutationFn: async () => {
+  //     return await Client.Deals.pipelines({
+  //       API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
+  //       param: {
+  //         cache: sync ? false : true,
+  //       },
+  //     });
+  //   },
 
-    onSuccess: async (data) => {
-      const objectId = isHome ? 'home' : hubspotObjectTypeId
-      await setPipelines(data.data);
-      await setDefaultPipeline(data, objectId);
-      await getData();
-    },
-    onError: () => {
-      setPipelines([]);
-    },
-  });
+  //   onSuccess: async (data) => {
+  //     const objectId = isHome ? 'home' : hubspotObjectTypeId
+  //     await setPipelines(data.data);
+  //     await setDefaultPipeline(data, objectId);
+  //     await getData();
+  //   },
+  //   onError: () => {
+  //     setPipelines([]);
+  //   },
+  // });
 
 
   const handleRowHover = (row) => {
@@ -145,6 +148,7 @@ const DashboardTable = ({
   };
 
   const handleSearch = () => {
+    // console.log("handleSearch", true)
     getData();
   };
 
@@ -158,67 +162,69 @@ const DashboardTable = ({
     };
     setSelectRouteMenuConfig(routeMenuConfig);
     setView(selectView);
+    changeTab(selectView)
   };
 
-  useEffect(() => {
-    let routeMenuConfigs = getRouteMenuConfig();
-    const objectId = isHome ? 'home' : hubspotObjectTypeId
+  // useEffect(() => {
+  //   let routeMenuConfigs = getRouteMenuConfig();
+  //   const objectId = isHome ? 'home' : hubspotObjectTypeId
 
-    if (
-      routeMenuConfigs &&
-      routeMenuConfigs.hasOwnProperty(objectId)
-    ) {
-      const activeTab = routeMenuConfigs[objectId].activeTab;
-      setIsLoadingHoldData(true);
-      setView(activeTab === "grid" ? "BOARD" : "LIST");
-      setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
-    } else {
-      setIsLoadingHoldData(true);
-      setView("LIST");
-    }
-  }, []);
+  //   if (
+  //     routeMenuConfigs &&
+  //     routeMenuConfigs.hasOwnProperty(objectId)
+  //   ) {
+  //     const activeTab = routeMenuConfigs[objectId].activeTab;
+  //     setIsLoadingHoldData(true);
+  //     setView(activeTab === "grid" ? "BOARD" : "LIST");
+  //     setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
+  //   } else {
+  //     setIsLoadingHoldData(true);
+  //     setView("LIST");
+  //   }
+  // }, []);
   // End Cookie RouteMenuConfig
 
   // CHange Pipeline
   const handelChangePipeline = async (pipeLineId) => {
+    // console.log("handelChangePipeline", handelChangePipeline)
     getData();
   };
   
-  useEffect(async () => {
-    if (view != null) {
-      await setLimit(pageLimit);
-      await hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5" ? getPipelines() : getData();
-    }
-  }, [view]);
+  // useEffect(async () => {
+  //   if (view != null) {
+  //     await setLimit(pageLimit);
+  //     await hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5" ? getPipelines() : getData();
+  //   }
+  // }, [view]);
 
-  useEffect( async () => {
-    if (sync) {
-      await hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5" ? getPipelines() : getData();
-    }
-  }, [sync]);
+  // useEffect( async () => {
+  //   if (sync) {
+  //     await hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5" ? getPipelines() : getData();
+  //   }
+  // }, [sync]);
 
-  if (isLoadingHoldData === true) {
-    return (
-      <div
-        className={` ${
-          hubSpotUserDetails.sideMenu[0].tabName === title ||
-          componentName === "ticket"
-            ? "mt-0"
-            : "md:mt-4 mt-3"
-        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
-      >
-        <DashboardTableHeaderSkeleton
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          title={title}
-        />
-        {view === "BOARD" && activeCardData ? (
-          <BoardViewSkeleton />
-        ) : (
-          <TableSkeleton />
-        )}
-      </div>
-    );
-  }
+  // if (isLoadingHoldData === true) {
+  //   return (
+  //     <div
+  //       className={` ${
+  //         hubSpotUserDetails.sideMenu[0].tabName === title ||
+  //         componentName === "ticket"
+  //           ? "mt-0"
+  //           : "md:mt-4 mt-3"
+  //       } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+  //     >
+  //       <DashboardTableHeaderSkeleton
+  //         hubspotObjectTypeId={hubspotObjectTypeId}
+  //         title={title}
+  //       />
+  //       {view === "BOARD" && activeCardData ? (
+  //         <BoardViewSkeleton />
+  //       ) : (
+  //         <TableSkeleton />
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -392,4 +398,6 @@ DashboardTable.propTypes = {
   specPipeLine: PropTypes.any,
   getData: PropTypes.func,
   states: PropTypes.object,
+  pipelines: PropTypes.any,
+  changeTab: PropTypes.any,
 };

@@ -643,6 +643,7 @@ const ProseMirrorEditor = ({
         id={id}
         isLoadingUoloading={isLoadingUoloading}
         uploadProgress={uploadProgress}
+        preview={false}
       />
     </div>
   );

@@ -6,6 +6,7 @@ const Attachments = ({
   isLoadingUoloading,
   uploadProgress,
   remove = true,
+  preview = true,
 }) => {
   const [selectedFileId, setSelectedFileId] = useState(null);
 
@@ -111,7 +112,7 @@ const Attachments = ({
             </li>
           ))}
         </ul>
-        {selectedFileId && (
+        {preview && selectedFileId && (
           <FileDetailsModal
             file={fileDetails}
             onClose={closeModal}
