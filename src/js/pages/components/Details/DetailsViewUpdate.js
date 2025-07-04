@@ -91,6 +91,7 @@ const DetailsViewUpdateDialog = ({
   data,
   saveData,
   isLoading,
+  setEditRowKey,
 }) => {
   const [initialValues, setInitialValues] = useState(null);
   const [pipelines, setPipelines] = useState(null);
@@ -138,7 +139,7 @@ const DetailsViewUpdateDialog = ({
 
       if(isNewValue) {
         const defaultItem = response.data.find(item => item.defaultItem === true);
-        console.log("defaultItem", defaultItem)
+        // console.log("defaultItem", defaultItem)
         setValue(key, defaultItem?.value || "")
       }
 
@@ -349,6 +350,7 @@ const DetailsViewUpdateDialog = ({
                       onClick={() => {
                         setPipelineDialog(false);
                         setEditRow(null);
+                        setEditRowKey(null);
                       }}
                     >
                       Cancel
@@ -376,6 +378,10 @@ const DetailsViewUpdate = ({
   value,
   item,
   urlParam,
+  isUpdating,
+  setIsUpdating,
+  editRowKey,
+  setEditRowKey,
 }) => {
   const [editRow, setEditRow] = useState(null);
   const { setToaster } = useToaster();
@@ -443,13 +449,21 @@ const DetailsViewUpdate = ({
       // setSync(true);
       refetch();
       setToaster({ message: data.statusMsg, type: "success" });
+      setIsUpdating(false);
+      setEditRowKey(null);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
       setToaster({ message: errorMessage, type: "error" });
+      setIsUpdating(false);
+      setEditRowKey(null);
     },
   });
-
+  useEffect(() => {
+      if (setIsUpdating){
+        setIsUpdating(isLoading);
+      };
+  }, [isLoading,setIsUpdating]);
   // useEffect(() => {
   //   const filterStage = data.find(
   //     (item) =>
@@ -649,6 +663,7 @@ const DetailsViewUpdate = ({
                       size="hubSpot"
                       isLoading={isLoading}
                       onClick={() => onSubmit()}
+                      disabled={isLoading && isUpdating}
                     >
                       <span className="text-secondary dark:text-white">
                         <IconTickSmall />
@@ -657,7 +672,10 @@ const DetailsViewUpdate = ({
                     <Button
                       variant="hubSpot"
                       size="hubSpot"
-                      onClick={() => setEditRow(null)}
+                      onClick={() => {
+                        setEditRow(null);
+                        setEditRowKey(null);
+                      }}
                       disabled={isLoading}
                     >
                       <span className="text-secondary dark:text-white">
@@ -678,7 +696,11 @@ const DetailsViewUpdate = ({
               <Button
                 variant="hubSpot"
                 size="hubSpot"
-                onClick={() => setEditRowValueFunction(value)}
+                onClick={() => {
+                  setEditRowValueFunction(value);
+                  setEditRowKey(value.key);
+                }}
+                disabled={isUpdating || editRowKey && editRowKey !== value.key}
               >
                 <span className="text-secondary dark:text-white">
                   <EditIcon />
@@ -700,6 +722,7 @@ const DetailsViewUpdate = ({
           data={data}
           saveData={saveData}
           isLoading={isLoading}
+          setEditRowKey={setEditRowKey}
         />
       )}
     </div>
