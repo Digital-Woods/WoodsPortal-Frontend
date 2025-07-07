@@ -2522,33 +2522,6 @@
     "type" : "text",
     "display_width" : null,
     "default" : ""
-  }, {
-    "id" : "e4a86b9b-80d4-4403-dbc9-73e1a0511943",
-    "name" : "show_create_an_account_link",
-    "label" : "Show Create an Account Link",
-    "required" : false,
-    "locked" : false,
-    "display" : "toggle",
-    "type" : "boolean",
-    "display_width" : null,
-    "default" : false
-  }, {
-    "id" : "0640f57a-fe42-9808-1b10-a7e32e55267d",
-    "name" : "create_an_account_link",
-    "label" : "Account Creation Link",
-    "required" : false,
-    "locked" : false,
-    "visibility" : {
-      "controlling_field" : null,
-      "controlling_field_path" : "other_options.show_create_an_account_link",
-      "controlling_value_regex" : "true",
-      "property" : null,
-      "operator" : "EQUAL",
-      "access" : null
-    },
-    "allow_new_line" : false,
-    "type" : "text",
-    "display_width" : null
   } ],
   "tab" : "CONTENT",
   "expanded" : false,
@@ -2600,8 +2573,7 @@
         "type" : "EXTERNAL"
       }
     },
-    "welcome_message" : "",
-    "show_create_an_account_link" : false
+    "welcome_message" : ""
   }
 }, {
   "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",
