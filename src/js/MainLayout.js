@@ -104,7 +104,6 @@ const MainLayout = ({ children }) => {
     }
   }, [routes]);
 
-console.log(routes,'routes[0].path');
   if (isLoading) {
     return (
       <div className="text-center p-10 w-full h-screen flex items-center justify-center">
