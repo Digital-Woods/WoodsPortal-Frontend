@@ -4,7 +4,7 @@ const { useMutation, useQuery } = ReactQuery;
 const MainLayout = ({ children }) => {
   const { routes, setRoutes } = useRoute();
   const { sidebarCollapsed } = useCollapsible();
-  const { Switch, Route, Redirect } = ReactRouterDOM;
+  const { Switch, Route, Redirect} = ReactRouterDOM;
   const [showPortalMessage, setShowPortalMessage] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const { logout, error } = useLogout();
@@ -94,6 +94,15 @@ const MainLayout = ({ children }) => {
     setIsLoading(false);
     setDashboardTabName(sideMenu[0]?.children[0]?.tabName ? formatPath(sideMenu[0]?.children[0]?.tabName):'');
   }, []);
+
+  useEffect(() => {
+    const path = window.location.hash.replace(/^#/, '').split('?')[0];
+    const hasQuery = window.location.hash.includes('?');
+
+    if ((path === '' || path === '/') && hasQuery && routes.length > 0) {
+      window.location.hash = `#${routes[0].path}`;
+    }
+  }, [routes]);
 
   if (isLoading) {
     return (
@@ -330,6 +339,10 @@ const MainLayout = ({ children }) => {
                   />
                 )
               )}
+{/* 
+              {location.pathname === '/' && routes[0] && (
+                <Redirect exact from="/" to={routes[0].path} />
+              )} */}
 
               <Redirect to="/login" />
             </Switch>

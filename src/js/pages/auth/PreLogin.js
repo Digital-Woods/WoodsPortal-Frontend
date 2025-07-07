@@ -125,6 +125,9 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
               </div>
             )}
           </Form>
+          {baseCompanyOptions?.createAccountBool &&
+            <p className="mt-6 mb-0 text-xs">Don't have an Account? <a className="text-secondary hover:underline" href={baseCompanyOptions?.createAccountLink} target="_blank">Sign up</a></p>
+          }
         </div>
       </div>
     </div>
