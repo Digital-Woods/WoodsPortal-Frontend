@@ -133,7 +133,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
               </div>
             )}
           </Form>
-<<<<<<< HEAD
 
 
           {baseCompanyOptions?.createAccountBool &&
@@ -144,10 +143,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
                 <span className="text-gray-400 cursor-not-allowed">Sign up</span>
               )}
             </p>
-=======
-          {baseCompanyOptions?.createAccountBool &&
-            <p className="mt-6 mb-0 text-xs">Don't have an Account? <a className="text-secondary hover:underline" href={baseCompanyOptions?.createAccountLink} target="_blank">Sign up</a></p>
->>>>>>> e2bc5c4 (1.Add account creation link option added. 2.If empty path then Redirect to route[0] path)
           }
         </div>
       </div>
