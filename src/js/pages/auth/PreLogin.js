@@ -55,14 +55,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
   // const togglePasswordVisibility = () => {
   //   setShowPassword((prevState) => !prevState);
   // };
-  const isValidUrl = (url) => {
-    try {
-      new URL(url);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   return (
@@ -133,8 +125,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
               </div>
             )}
           </Form>
-
-
           {baseCompanyOptions?.createAccountBool &&
             <p className="mt-6 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">Don't have an Account? 
               {isValidUrl(baseCompanyOptions?.createAccountLink) ? (
