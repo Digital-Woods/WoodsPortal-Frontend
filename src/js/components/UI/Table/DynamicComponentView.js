@@ -415,7 +415,7 @@ const DynamicComponentView = ({
           hubSpotUserDetails.sideMenu[0].tabName === title ||
           componentName === "ticket"
             ? "mt-0"
-            : "mt-[calc(var(--nav-height)-1px)]"
+            : "md:mt-4 mt-3"
         } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
         <DashboardTableHeaderSkeleton
