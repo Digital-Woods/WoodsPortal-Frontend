@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285ba87f-0365-49e4-aaf5-6dfee4df3329" name="Changes" comment="" />
+    <list default="true" id="285ba87f-0365-49e4-aaf5-6dfee4df3329" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/MainLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/MainLayout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/components/UI/IframeViewDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/components/UI/IframeViewDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/components/UI/Table/DynamicComponentView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/components/UI/Table/DynamicComponentView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/pages/auth/PreLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/pages/auth/PreLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/WoodsPortal.module/fields.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/WoodsPortal.module/fields.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/WoodsPortal.module/module.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/WoodsPortal.module/module.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,19 +32,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/manabroy/localhost/digitalwoods/products/microservices/digitalwoods.io/digitalwoods.io-membership-customer-frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Cherry-picking in dev",
+    "last_opened_file_path": "/Users/manabroy/localhost/digitalwoods/products/microservices/digitalwoods.io/digitalwoods.io-membership-customer-frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -59,6 +67,7 @@
       <workItem from="1735915286788" duration="2516000" />
       <workItem from="1736582398702" duration="1740000" />
       <workItem from="1736771951463" duration="6334000" />
+      <workItem from="1751954458703" duration="319000" />
     </task>
     <servers />
   </component>
