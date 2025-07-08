@@ -55,14 +55,6 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData })
   // const togglePasswordVisibility = () => {
   //   setShowPassword((prevState) => !prevState);
   // };
-  const isValidUrl = (url) => {
-    try {
-      new URL(url);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   return (
