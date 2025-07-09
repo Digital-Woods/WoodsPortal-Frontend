@@ -86,7 +86,7 @@ const HomeBanner = ({ moduleBannerDetailsOption, userData }) => {
             <p className={`opacity-70 text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>
             }
           </div>
-          <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm break-all`}>
+          <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white  words-break`}>
             {ReactHtmlParser.default(
               DOMPurify.sanitize(updatedDescription)
             )}
