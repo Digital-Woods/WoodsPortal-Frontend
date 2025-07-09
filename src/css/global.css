@@ -4,6 +4,9 @@
 form{
   margin:0;
 }
+.words-break {
+    word-break: break-word;
+}
 /* Loader */
 .loader-line {
   width: 100%;

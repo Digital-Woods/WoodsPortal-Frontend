@@ -48,6 +48,7 @@ const DateTimeInput = React.forwardRef(
       defaultValue = "",
       dateFormat = "dd-mm-yyyy",
       setValue,
+      time = true, // New prop to control time picker visibility
       ...rest
     },
     ref
@@ -63,10 +64,14 @@ const DateTimeInput = React.forwardRef(
       if (defaultValue) {
         const formatedDateTime = formatTimestampIST(defaultValue);
         setInputValueDate(formatedDateTime.date);
-        setInputValueTime(formatedDateTime.time);
-        setInputValue(formatedDateTime?.time ? `${formatedDateTime.date} ${formatedDateTime.time}` : formatedDateTime.date);
+        if (time) {
+          setInputValueTime(formatedDateTime.time);
+          setInputValue(formatedDateTime?.time ? `${formatedDateTime.date} ${formatedDateTime.time}` : formatedDateTime.date);
+        } else {
+          setInputValue(formatedDateTime.date);
+        }
       }
-    }, [defaultValue]);
+    }, [defaultValue, time]);
 
     useEffect(() => {
       const value = parseISTToTimestamp(inputValue).toString();
@@ -74,9 +79,13 @@ const DateTimeInput = React.forwardRef(
     }, [inputValue]);
 
     const handelChangeDate = (date) => {
-      const newDateTime = inputValueTime ? `${date} ${inputValueTime}` : date;
+      if (time) {
+        const newDateTime = inputValueTime ? `${date} ${inputValueTime}` : date;
+        setInputValue(newDateTime);
+      } else {
+        setInputValue(date);
+      }
       setInputValueDate(date);
-      setInputValue(newDateTime);
     };
 
     const handelChangeTime = (time) => {
@@ -111,7 +120,7 @@ const DateTimeInput = React.forwardRef(
 
     return (
       <div>
-        <div className={type === "datetime" ? "flex max-sm:flex-col gap-2" : ""}>
+        <div className={time ? "flex max-sm:flex-col gap-2" : ""}>
           <input
             className="hidden"
             value={inputValue}
@@ -133,19 +142,11 @@ const DateTimeInput = React.forwardRef(
               </div>
             )}
             <input
-              placeholder="MM:DD:YYYY"
+              placeholder={dateFormat.toUpperCase()}
               className={rootClassName}
               value={inputValueDate}
-              // ref={ref}
-              // {...Object.fromEntries(
-              //   Object.entries(rest).filter(
-              //     ([key]) =>
-              //       key !== "dateFormat" &&
-              //       key !== "type" &&
-              //       key !== "defaultValue"
-              //   )
-              // )}
               onClick={() => setOpenDatePicker(!openDatePicker)}
+              readOnly
             />
             <div className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} right-0 z-50`} ref={positionRef}>
             <DatePicker
@@ -157,38 +158,30 @@ const DateTimeInput = React.forwardRef(
             />
             </div>
           </div>
+          {time && (
           <div className="relative dark:bg-dark-300 flex items-center rounded-lg w-full">
             {Icon && (
               <div className="absolute left-2 top-1/2 -translate-y-1/2">
                 <Icon className="h-6 w-6 text-gray-500" />
               </div>
             )}
-            {type === "datetime" && (
               <input
                 placeholder="HH:MM"
                 className={rootClassName}
                 value={inputValueTime}
-                // ref={ref}
-                // {...Object.fromEntries(
-                //   Object.entries(rest).filter(
-                //     ([key]) =>
-                //       key !== "dateFormat" &&
-                //       key !== "type" &&
-                //       key !== "defaultValue"
-                //   )
-                // )}
-                onClick={() => setOpenTimePicker(!openDatePicker)}
+                onClick={() => setOpenTimePicker(!openTimePicker)}
+                readOnly
               />
-            )}
-            <div className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} right-0 z-50`} ref={positionRef}>
+          <div className={`absolute ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} right-0 z-50`} ref={positionRef}>
             <TimePicker
               defaultValue={defaultValue}
               setOpenTimePicker={setOpenTimePicker}
               openTimePicker={openTimePicker}
               handelChangeTime={handelChangeTime}
             />
-            </div>
           </div>
+          </div>
+          )}
         </div>
       </div>
     );

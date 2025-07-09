@@ -174,7 +174,7 @@ const Drawer = ({ className }) => {
                         <div className={`bg-ctaBackgroundColor text-ctaTextColor text-sm p-4 text-md text-center dark:bg-dark-500 dark:text-white font-medium rounded-md`}>
                           <p>{sideBarOptions.title}</p>
                             <Button
-                              className={`!bg-ctaButtonBackgroundColor text-ctaButtonTextColor dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
+                              className={`!bg-ctaButtonBackgroundColor !text-ctaButtonTextColor dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
                               size="sm"
                             >
                               <a target="_blank" href={sideBarOptions.buttonUrl}>
