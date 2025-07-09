@@ -13,7 +13,9 @@ const DashboardTableForm = ({
   parentObjectTypeId,
   parentObjectRowId,
   info,
-  isShowExistingRecord=false
+  isShowExistingRecord=false,
+  specPipeLine,
+  pipeLineId,
 }) => {
   // const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState("addNew");
@@ -34,7 +36,6 @@ const DashboardTableForm = ({
   const [serverError, setServerError] = useState(null);
   const { z } = Zod;
   const resetRef = useRef(null);
-
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
@@ -433,7 +434,7 @@ const DashboardTableForm = ({
                             {data.map((filled) => (
                               <div key={filled.name}>
                                 {filled.fieldRole === "PROPERTIES" ? (
-                                  <FormItem className="">
+                                  <FormItem className={`${filled?.hidden ? 'hidden':'visible'}`}>
                                     <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                                       {filled.customLabel}
                                     </FormLabel>
@@ -450,7 +451,9 @@ const DashboardTableForm = ({
                                           <Select
                                             label={`Select ${filled.customLabel}`}
                                             name={filled.name}
-                                            options={filled.options}
+                                            options = {(filled.name === "hs_pipeline" || filled.name === "pipeline") && specPipeLine
+                                              ? filled.options.filter(option => option.value === pipeLineId)
+                                              : filled.options}
                                             control={control}
                                             filled={filled}
                                             onChangeSelect={onChangeSelect}
