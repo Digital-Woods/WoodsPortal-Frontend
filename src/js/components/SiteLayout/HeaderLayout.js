@@ -139,7 +139,7 @@ const HeaderLayout = (props) => {
                     {initials}
                   </div>
                   <div className=" flex items-start flex-col">
-                    <div className="font-semibold dark:text-white break-all">
+                    <div className="font-semibold dark:text-white words-break">
                       {firstName}
                     </div>
                     <p className="text-xs text-secondary dark:text-gray-400 break-all">
