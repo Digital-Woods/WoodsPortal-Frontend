@@ -360,6 +360,8 @@ const DashboardTable = ({
           parentObjectTypeId={parentObjectTypeId}
           parentObjectRowId={parentObjectRecordId}
           info={info}
+          specPipeLine={specPipeLine}
+          pipeLineId={pipeLineId}
         />
       )}
       {showEditDialog && (
