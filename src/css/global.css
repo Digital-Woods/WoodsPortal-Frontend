@@ -7,6 +7,9 @@ form{
 .words-break {
     word-break: break-word;
 }
+.words-break-a a {
+    word-break: break-word;
+}
 /* Loader */
 .loader-line {
   width: 100%;
