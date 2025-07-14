@@ -2485,18 +2485,23 @@
       "display_width" : null,
       "default" : "Click Me"
     }, {
-      "id" : "61637da3-86f7-7afb-9e61-1680c08bad86",
+      "id" : "531d66a7-ad69-3a53-a8dd-04d6394c1455",
       "name" : "button_url",
       "label" : "Button Url",
       "required" : false,
       "locked" : false,
-      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "BLOG", "PAYMENT" ],
-      "type" : "url",
+      "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG", "PHONE_NUMBER", "WHATSAPP_NUMBER", "PAYMENT" ],
+      "show_advanced_rel_options" : false,
+      "type" : "link",
       "display_width" : null,
       "default" : {
-        "content_id" : null,
-        "href" : "https://hub.digitalwoods.io",
-        "type" : "EXTERNAL"
+        "url" : {
+          "content_id" : null,
+          "type" : "EXTERNAL",
+          "href" : ""
+        },
+        "open_in_new_tab" : false,
+        "no_follow" : false
       }
     } ],
     "tab" : "CONTENT",
@@ -2508,9 +2513,13 @@
       "title" : "Get early access to our best apps, themes, and modules",
       "button_text" : "Click Me",
       "button_url" : {
-        "content_id" : null,
-        "href" : "https://hub.digitalwoods.io",
-        "type" : "EXTERNAL"
+        "url" : {
+          "content_id" : null,
+          "type" : "EXTERNAL",
+          "href" : ""
+        },
+        "open_in_new_tab" : false,
+        "no_follow" : false
       }
     }
   }, {
@@ -2596,9 +2605,13 @@
       "title" : "Get early access to our best apps, themes, and modules",
       "button_text" : "Click Me",
       "button_url" : {
-        "content_id" : null,
-        "href" : "https://hub.digitalwoods.io",
-        "type" : "EXTERNAL"
+        "url" : {
+          "content_id" : null,
+          "type" : "EXTERNAL",
+          "href" : ""
+        },
+        "open_in_new_tab" : false,
+        "no_follow" : false
       }
     },
     "welcome_message" : "",

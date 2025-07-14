@@ -118,6 +118,8 @@
   {% endfor %}
   {% endif %}
 
+
+
   {# ================== End Logic for Custom defined object ===========================#}
   <script>
   {# Declaring Global Variables to accessible in App #}
@@ -133,12 +135,35 @@
   const moduleIframeListOptions = {{ iframeList | tojson | safe }}; {# Setting Iframe logic data #}
   const sidebarListDataOption = {{ dynamicSidebarList | tojson | safe }}; {# Setting home tab right sidebar list data #}
   const showSidebarListDataOption = {{ module.home.add_right_sidebar }}; {# Boolean for home tab right sidebar list data  #}
-
+  
+    let CTA = `
+    {% set href = module.other_options.sidebar_cta_details.button_url.url.href %}
+    {% if module.other_options.sidebar_cta_details.button_url.url.type is equalto "EMAIL_ADDRESS" %}
+      {% set href = "mailto:" + href %}
+    {% elif module.other_options.sidebar_cta_details.button_url.url.type is equalto "PHONE_NUMBER" %}
+      {% set href = "tel:" + href %}
+    {% endif %}
+    <a
+      {% if module.other_options.sidebar_cta_details.button_url.url.type is equalto "CALL_TO_ACTION"  %}
+        href="{{ href }}" {# The href here is not escaped as it is not editable and functions as a JavaScript call to the associated CTA #}
+      {% else %}
+        href="{{ href|escape_url }}"
+      {% endif %}
+      {% if module.other_options.sidebar_cta_details.button_url.open_in_new_tab %}
+        target="_blank"
+      {% endif %}
+      {% if module.other_options.sidebar_cta_details.button_url.rel %}
+        rel="{{ module.other_options.sidebar_cta_details.button_url.rel|escape_attr }}"
+      {% endif %}
+      >
+      {{ module.other_options.sidebar_cta_details.button_text }}
+    </a>
+    `;
+    
   {# Sidebar Cta data #}
       const sidebarCtaDetails = {
       title: "{{ module.other_options.sidebar_cta_details.title }}",
-      buttonText: "{{ module.other_options.sidebar_cta_details.button_text }}",
-      buttonUrl: "{{ module.other_options.sidebar_cta_details.button_url.href|escape_url }}",
+      htmlForCta: CTA ,
     };
   {#End Sidebar Cta data #}
 
