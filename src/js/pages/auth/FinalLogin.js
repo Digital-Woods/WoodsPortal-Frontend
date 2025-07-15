@@ -91,7 +91,7 @@ const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }) =
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
   const matchingPortal = userPortals.find(portal => portal.portalUrl === clientSiteUrl);
-  const portalUrl = matchingPortal?.portalUrl.replace('https://','') || userPortals[0]?.portalUrl('https://','');
+  const portalUrl = matchingPortal?.portalUrl.replace('https://','') || userPortals[0]?.portalUrl.replace('https://','');
 
   const loginUserValidationSchema = z.object({
     // email: z.string().email(),
