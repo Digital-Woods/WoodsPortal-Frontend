@@ -281,6 +281,11 @@ const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }) =
                     </FormMessage>
                   )}
                 </FormItem>
+                <NavLink to="/forget-password">
+                <p className="mt-2 mb-0 text-xs dark:text-white text-secondary hover:underline text-end">
+                  Forgot password?
+                </p>
+               </NavLink>
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button className="w-full  " isLoading={isLoading}>
                     Login
