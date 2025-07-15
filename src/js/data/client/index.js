@@ -10,8 +10,8 @@ class Client {
     Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT),
     changePassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USERS_CHANGE_PASSWORD, data),
-    forgetPassword: (data) =>
-      HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
+    forgetPassword: (data, hub_id) =>
+      HttpClient.post(`${API_ENDPOINTS.USERS_FORGET_PASSWORD}?portal=portal_client&hubId=${hub_id}`, data),
     resetPassword: (data) =>
       HttpClient.post(API_ENDPOINTS.USER_RESET_PASSWORD, data),
     resendEmail: (data) => HttpClient.post(API_ENDPOINTS.RESEND_EMAIL, data),

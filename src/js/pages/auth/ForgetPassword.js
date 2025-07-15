@@ -36,7 +36,7 @@ const ForgetPassword = () => {
       try {
         const response = await Client.authentication.forgetPassword({
           email: input.email,
-        });
+        }, hubId);
         return response;
       } catch (error) {
         throw error;
@@ -61,7 +61,7 @@ const ForgetPassword = () => {
   });
 
   const onSubmit = (data) => {
-    resetPassword(data);
+    resetPassword(data, hubId);
   };
 
   return (
@@ -110,16 +110,11 @@ const ForgetPassword = () => {
                     </FormMessage>
                   )}
                 </FormItem>
-                <div className="flex justify-end items-center">
-                  <div>
                     <NavLink to="/login">
-                      <p className="text-black text-xs dark:text-gray-300">
+                      <p className="mb-0 text-xs dark:text-white text-secondary hover:underline text-end">
                         Back to Login?
                       </p>
                     </NavLink>
-                  </div>
-                </div>
-
                 <div className="mt-4 flex flex-col justify-center items-center">
                   <Button
                     disabled={isLoading}
