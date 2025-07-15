@@ -2543,7 +2543,7 @@
     "display_width" : null,
     "default" : false
   }, {
-    "id" : "0640f57a-fe42-9808-1b10-a7e32e55267d",
+    "id" : "6201ccaa-c25b-5a0c-1135-11f1c38232ed",
     "name" : "create_an_account_link",
     "label" : "Account Creation Link",
     "required" : false,
@@ -2556,9 +2556,19 @@
       "operator" : "EQUAL",
       "access" : null
     },
-    "allow_new_line" : false,
-    "type" : "text",
-    "display_width" : null
+    "supported_types" : [ "EXTERNAL", "CONTENT" ],
+    "show_advanced_rel_options" : false,
+    "type" : "link",
+    "display_width" : null,
+    "default" : {
+      "url" : {
+        "content_id" : null,
+        "type" : "EXTERNAL",
+        "href" : ""
+      },
+      "open_in_new_tab" : false,
+      "no_follow" : false
+    }
   } ],
   "tab" : "CONTENT",
   "expanded" : false,
@@ -2615,7 +2625,16 @@
       }
     },
     "welcome_message" : "",
-    "show_create_an_account_link" : false
+    "show_create_an_account_link" : false,
+    "create_an_account_link" : {
+      "url" : {
+        "content_id" : null,
+        "type" : "EXTERNAL",
+        "href" : ""
+      },
+      "open_in_new_tab" : false,
+      "no_follow" : false
+    }
   }
 }, {
   "id" : "22f63a27-fcb6-4649-2bae-e4d81aa51954",

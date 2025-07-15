@@ -167,6 +167,30 @@
     };
   {#End Sidebar Cta data #}
 
+  let createAccountCta = `
+    {% set href = module.other_options.create_an_account_link.url.href %}
+    {% if module.other_options.create_an_account_link.url.type is equalto "EMAIL_ADDRESS" %}
+      {% set href = "mailto:" + href %}
+    {% elif module.other_options.create_an_account_link.url.type is equalto "PHONE_NUMBER" %}
+      {% set href = "tel:" + href %}
+    {% endif %}
+    <a
+      {% if module.other_options.create_an_account_link.url.type is equalto "CALL_TO_ACTION"  %}
+        href="{{ href }}" {# The href here is not escaped as it is not editable and functions as a JavaScript call to the associated CTA #}
+      {% else %}
+        href="{{ href|escape_url }}"
+      {% endif %}
+      {% if module.other_options.create_an_account_link.open_in_new_tab %}
+        target="_blank"
+      {% endif %}
+      {% if module.other_options.create_an_account_link.rel %}
+        rel="{{ module.other_options.create_an_account_link.rel|escape_attr }}"
+      {% endif %}
+      >
+      Sign up
+    </a>
+  `
+
   {# Branding Data #}
     const baseCompanyOptions = {
       logoImg: "{{ module.other_options.company_options.logo.src|escape_url }}",
@@ -175,10 +199,10 @@
       authPopupFormLogo: "{{ module.other_options.company_options.auth_popup_form_logo.src|escape_url }}",
       welcomeMessage: "{{ module.other_options.welcome_message }}",
       createAccountBool:{{ module.other_options.show_create_an_account_link }},
-      createAccountLink:"{{ module.other_options.create_an_account_link }}",
+      createAccountLink:createAccountCta,
     };
   {# end branding data #}
-
+    
   {# Home banner data #}
       const enableDashboardCards = {{ module.home.enable_dashboard_cards }};
       const dashboardCards = {{ module.home.dashboard_cards | tojson | safe }}; 
