@@ -390,7 +390,7 @@ const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData =
                       key={key}
                       association={association}
                       isActive={true}
-                      parentObjectTypeName={path}
+                      parentObjectTypeName={sanitizeForBase64(path)}
                       parentObjectTypeId={objectId}
                       parentObjectRowId={id}
                       refetch={getData}
