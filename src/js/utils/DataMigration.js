@@ -317,7 +317,7 @@ const renderCellContent = ({
       const newPath = path.replace(/^\/+/, "");
       setItemAsync(env.ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
         name: newPath,
-        path: sanitizeForBase64(associationPath),
+        path: associationPath,
         routeName: `/association/${newPath}`})
       );
     }
