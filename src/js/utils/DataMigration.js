@@ -276,6 +276,22 @@ function decodeAndStripHtml(html) {
   return doc.body.textContent.trim(); // Return only plain text
 }
 
+function sanitizeForBase64(str) {
+  const sanitized = str
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\u2026/g, '...')
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x00-\x7F]/g, '')
+    .replace(/[\/+*=%#]/g, '-')
+    .replace(/[^a-zA-Z0-9\s\-@#&!$%^()_.,':;]/g, '');
+
+  return sanitized;
+  // return btoa(unescape(encodeURIComponent(sanitized)));
+}
+
 const renderCellContent = ({
   companyAsMediator = false,
   value,
@@ -435,13 +451,13 @@ const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           --
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           <OpenIcon />
         </Link>
@@ -529,13 +545,13 @@ const renderCellContent = ({
       <div className="flex gap-1 min-w-[100px] relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           {truncatedText(isObject(value) ? value.label : value, '23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
         </Link>
@@ -552,13 +568,13 @@ const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           {truncatedText(isObject(value) ? value.label : value,'23')}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
         </Link>
