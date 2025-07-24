@@ -1,0 +1,56 @@
+[ {
+  "id" : "team_member_name",
+  "name" : "team_member_name",
+  "label" : "Team member name",
+  "required" : false,
+  "locked" : false,
+  "allow_new_line" : false,
+  "type" : "text",
+  "display_width" : null,
+  "default" : "Joshua Beck"
+}, {
+  "id" : "40e3e694-12a1-a010-7674-40a13756d483",
+  "name" : "pages_list",
+  "label" : "Pages List",
+  "required" : false,
+  "locked" : false,
+  "occurrence" : {
+    "min" : 1,
+    "max" : null,
+    "sorting_label_field" : "c336a896-3db3-ed30-4d5a-5a5a4ea809a7",
+    "default" : 1
+  },
+  "children" : [ {
+    "id" : "c336a896-3db3-ed30-4d5a-5a5a4ea809a7",
+    "name" : "page_title",
+    "label" : "Title",
+    "required" : false,
+    "locked" : false,
+    "allow_new_line" : false,
+    "type" : "text",
+    "display_width" : null
+  }, {
+    "id" : "32180f1b-5f5e-bad7-a776-7c37671f5f44",
+    "name" : "page_slug",
+    "label" : "Slug",
+    "required" : false,
+    "locked" : false,
+    "allow_new_line" : false,
+    "type" : "text",
+    "display_width" : null
+  }, {
+    "id" : "db3e031e-b59c-5e58-04c1-48b1401510d9",
+    "name" : "page_content",
+    "label" : "Page Content",
+    "required" : false,
+    "locked" : false,
+    "type" : "richtext",
+    "display_width" : null
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : [ { } ]
+} ]

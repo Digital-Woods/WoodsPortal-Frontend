@@ -12,13 +12,26 @@ export default defineConfig({
     viteReact(),
     tailwindcss(),
   ],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
     },
+  },
+  build: {
+    outDir: 'dist/newbutton.module',
+    lib: {
+      entry: 'src/main.tsx',
+      name: 'ReactButtonModule',
+      fileName: () => 'module.js',
+      formats: ['iife'],
+    },
+    rollupOptions: {
+      external: [],
+      output: {
+        globals: {},
+        assetFileNames: 'module.css',
+      },
+    },
+    minify: false
   },
 })
