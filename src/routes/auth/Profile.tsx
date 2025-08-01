@@ -93,7 +93,7 @@ const Profile = () => {
 
 export default Profile
 
-export const Route = createFileRoute('/auth/profile')({
+export const Route = createFileRoute('/auth/Profile')({
   component: Profile,
   beforeLoad: () => {
     return {

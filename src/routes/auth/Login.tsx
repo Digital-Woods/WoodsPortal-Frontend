@@ -25,7 +25,7 @@ const Login = () => {
 
 export default Login
 
-export const Route = createFileRoute('/auth/login')({
+export const Route = createFileRoute('/auth/Login')({
   component: Login,
   beforeLoad: () => {
     return {
