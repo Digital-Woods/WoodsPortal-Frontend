@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react';
-import PreLogin from '@/routes/auth/PreLogin';
-import FinalLogin from '@/routes/auth/FinalLogin';
-import ExistingUserRegister from '@/routes/auth/ExistingUserRegister';
+import PreLogin from '@/routes/_auth/PreLogin';
+import FinalLogin from '@/routes/_auth/FinalLogin';
+import ExistingUserRegister from '@/routes/_auth/ExistingUserRegister';
 
 const Login = () => {
   const [activeState, setActiveState] = useState("pre-login");
@@ -25,7 +25,7 @@ const Login = () => {
 
 export default Login
 
-export const Route = createFileRoute('/auth/Login')({
+export const Route = createFileRoute('/_auth/login')({
   component: Login,
   beforeLoad: () => {
     return {

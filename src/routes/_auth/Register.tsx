@@ -103,7 +103,7 @@ const Register = () => {
 
 export default Register
 
-export const Route = createFileRoute('/auth/Register')({
+export const Route = createFileRoute('/_auth/Register')({
   component: Register,
   beforeLoad: () => {
     return {

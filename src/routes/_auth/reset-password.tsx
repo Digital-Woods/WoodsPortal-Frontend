@@ -197,7 +197,7 @@ const ResetPassword = () => {
 
 export default ResetPassword
 
-export const Route = createFileRoute('/auth/reset-password')({
+export const Route = createFileRoute('/_auth/reset-password')({
   component: ResetPassword,
   beforeLoad: () => {
     return {

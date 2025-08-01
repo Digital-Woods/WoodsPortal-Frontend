@@ -94,7 +94,7 @@ function VerifyEmail() {
 
 export default VerifyEmail
 
-export const Route = createFileRoute('/auth/verify-email')({
+export const Route = createFileRoute('/_auth/verify-email')({
   component: VerifyEmail,
   beforeLoad: () => {
     return {

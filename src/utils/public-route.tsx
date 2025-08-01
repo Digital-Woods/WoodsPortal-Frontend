@@ -1,6 +1,6 @@
 import React from 'react';
-import { useRouter } from '@tanstack/react-router';
-import { getAuthCredentials, isAuthenticated } from './auth-utils';
+import { useRouter, useRouterState } from '@tanstack/react-router';
+import { getAuthCredentials, isAuthenticated } from '@/data/client/auth-utils';
 import Loader from '@/components/ui/loader/loader';
 import { Routes } from '@/config/routes';
 
@@ -8,31 +8,31 @@ const PublicRoute: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
   const router = useRouter();
-  const { token } = getAuthCredentials();
+  const token = getAuthCredentials();
+  const routeState = useRouterState();
+  const currentRoute = routeState.location.pathname;
 
   React.useEffect(() => {
-    const currentPath = location.pathname;
-
     const isPublicPath = [
       Routes.login,
-      Routes.twoFa,
       Routes.register,
       Routes.forgotPassword,
       Routes.resetPassword,
       Routes.verifyEmail,
       Routes.ResendEmail,
-    ].includes(currentPath);
+    ].includes(currentRoute);
 
-    if (!isAuthenticated({ token }) && !isPublicPath) {
+
+    if (!isAuthenticated() && !isPublicPath) {
       router.history.replace(Routes.login);
     }
 
-    if (isAuthenticated({ token }) && isPublicPath) {
-      router.history.replace(Routes.app); // or Routes.dashboard or whatever is your main app route
+    if (isAuthenticated() && isPublicPath) {
+      router.history.replace(Routes.app);
     }
-  }, [token, router]);
+  }, [token, router, isAuthenticated]);
 
-  if (!isAuthenticated({ token })) {
+  if (!isAuthenticated()) {
     return <>{children}</>;
   }
 

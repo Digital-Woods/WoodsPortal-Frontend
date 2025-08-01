@@ -39,7 +39,7 @@ export const setRouteMenuConfig = async (data: any) => {
 
 // Get
 export const getAuthCredentials = () => {
-  return JSON.parse(getCookie(env.VITE_AUTH_TOKEN_KEY));
+  return getCookie(env.VITE_AUTH_TOKEN_KEY);
 };
 
 export const getLoggedInDetails = () => {
@@ -77,17 +77,13 @@ export const getPortal = () => {
 //   if (parts.length === 2) return parts.pop().split(";").shift();
 // }
 
-// export const removeAllCookies = () => {
-//   const cookies = document.cookie.split("; ");
-//   cookies.forEach((cookie) => {
-//     const name = cookie.split("=")[0];
-//     removeCookie(name);
-//   });
-// };
-
-// export function removeCookie(name: any) {
-//   setCookie(name, "", -1);
-// }
+export const removeAllCookies = () => {
+  const cookies = document.cookie.split("; ");
+  cookies.forEach((cookie) => {
+    const name = cookie.split("=")[0];
+    removeCookie(name);
+  });
+};
 
 export function checkHasAuthToken() {
   const token = getCookie(env.VITE_AUTH_TOKEN_KEY);

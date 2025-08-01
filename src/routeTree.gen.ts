@@ -9,172 +9,166 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
-import { Route as DemoStoreRouteImport } from './routes/demo.store'
-import { Route as AuthVerifyEmailRouteImport } from './routes/auth/verify-email'
-import { Route as AuthTwoFaRouteImport } from './routes/auth/two-fa'
-import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
-import { Route as AuthNotVerifiedEmailRouteImport } from './routes/auth/not-verified-email'
-import { Route as AuthForgetPasswordRouteImport } from './routes/auth/forget-password'
-import { Route as AuthRegisterRouteImport } from './routes/auth/Register'
-import { Route as AuthProfileRouteImport } from './routes/auth/Profile'
-import { Route as AuthLoginRouteImport } from './routes/auth/Login'
+import { Route as AuthVerifyEmailRouteImport } from './routes/_auth/verify-email'
+import { Route as AuthTwoFaRouteImport } from './routes/_auth/two-fa'
+import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
+import { Route as AuthNotVerifiedEmailRouteImport } from './routes/_auth/not-verified-email'
+import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AuthForgetPasswordRouteImport } from './routes/_auth/forget-password'
+import { Route as AuthRegisterRouteImport } from './routes/_auth/Register'
+import { Route as AuthProfileRouteImport } from './routes/_auth/Profile'
 
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStoreRoute = DemoStoreRouteImport.update({
-  id: '/demo/store',
-  path: '/demo/store',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthVerifyEmailRoute = AuthVerifyEmailRouteImport.update({
-  id: '/auth/verify-email',
-  path: '/auth/verify-email',
+  id: '/_auth/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthTwoFaRoute = AuthTwoFaRouteImport.update({
-  id: '/auth/two-fa',
-  path: '/auth/two-fa',
+  id: '/_auth/two-fa',
+  path: '/two-fa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
-  id: '/auth/reset-password',
-  path: '/auth/reset-password',
+  id: '/_auth/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthNotVerifiedEmailRoute = AuthNotVerifiedEmailRouteImport.update({
-  id: '/auth/not-verified-email',
-  path: '/auth/not-verified-email',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
-  id: '/auth/forget-password',
-  path: '/auth/forget-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRegisterRoute = AuthRegisterRouteImport.update({
-  id: '/auth/Register',
-  path: '/auth/Register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthProfileRoute = AuthProfileRouteImport.update({
-  id: '/auth/Profile',
-  path: '/auth/Profile',
+  id: '/_auth/not-verified-email',
+  path: '/not-verified-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
-  id: '/auth/Login',
-  path: '/auth/Login',
+  id: '/_auth/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
+  id: '/_auth/forget-password',
+  path: '/forget-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/_auth/Register',
+  path: '/Register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthProfileRoute = AuthProfileRouteImport.update({
+  id: '/_auth/Profile',
+  path: '/Profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth/Login': typeof AuthLoginRoute
-  '/auth/Profile': typeof AuthProfileRoute
-  '/auth/Register': typeof AuthRegisterRoute
-  '/auth/forget-password': typeof AuthForgetPasswordRoute
-  '/auth/not-verified-email': typeof AuthNotVerifiedEmailRoute
-  '/auth/reset-password': typeof AuthResetPasswordRoute
-  '/auth/two-fa': typeof AuthTwoFaRoute
-  '/auth/verify-email': typeof AuthVerifyEmailRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/home': typeof HomeRoute
+  '/Profile': typeof AuthProfileRoute
+  '/Register': typeof AuthRegisterRoute
+  '/forget-password': typeof AuthForgetPasswordRoute
+  '/login': typeof AuthLoginRoute
+  '/not-verified-email': typeof AuthNotVerifiedEmailRoute
+  '/reset-password': typeof AuthResetPasswordRoute
+  '/two-fa': typeof AuthTwoFaRoute
+  '/verify-email': typeof AuthVerifyEmailRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth/Login': typeof AuthLoginRoute
-  '/auth/Profile': typeof AuthProfileRoute
-  '/auth/Register': typeof AuthRegisterRoute
-  '/auth/forget-password': typeof AuthForgetPasswordRoute
-  '/auth/not-verified-email': typeof AuthNotVerifiedEmailRoute
-  '/auth/reset-password': typeof AuthResetPasswordRoute
-  '/auth/two-fa': typeof AuthTwoFaRoute
-  '/auth/verify-email': typeof AuthVerifyEmailRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/home': typeof HomeRoute
+  '/Profile': typeof AuthProfileRoute
+  '/Register': typeof AuthRegisterRoute
+  '/forget-password': typeof AuthForgetPasswordRoute
+  '/login': typeof AuthLoginRoute
+  '/not-verified-email': typeof AuthNotVerifiedEmailRoute
+  '/reset-password': typeof AuthResetPasswordRoute
+  '/two-fa': typeof AuthTwoFaRoute
+  '/verify-email': typeof AuthVerifyEmailRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/auth/Login': typeof AuthLoginRoute
-  '/auth/Profile': typeof AuthProfileRoute
-  '/auth/Register': typeof AuthRegisterRoute
-  '/auth/forget-password': typeof AuthForgetPasswordRoute
-  '/auth/not-verified-email': typeof AuthNotVerifiedEmailRoute
-  '/auth/reset-password': typeof AuthResetPasswordRoute
-  '/auth/two-fa': typeof AuthTwoFaRoute
-  '/auth/verify-email': typeof AuthVerifyEmailRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/home': typeof HomeRoute
+  '/_auth/Profile': typeof AuthProfileRoute
+  '/_auth/Register': typeof AuthRegisterRoute
+  '/_auth/forget-password': typeof AuthForgetPasswordRoute
+  '/_auth/login': typeof AuthLoginRoute
+  '/_auth/not-verified-email': typeof AuthNotVerifiedEmailRoute
+  '/_auth/reset-password': typeof AuthResetPasswordRoute
+  '/_auth/two-fa': typeof AuthTwoFaRoute
+  '/_auth/verify-email': typeof AuthVerifyEmailRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/auth/Login'
-    | '/auth/Profile'
-    | '/auth/Register'
-    | '/auth/forget-password'
-    | '/auth/not-verified-email'
-    | '/auth/reset-password'
-    | '/auth/two-fa'
-    | '/auth/verify-email'
-    | '/demo/store'
-    | '/demo/tanstack-query'
+    | '/home'
+    | '/Profile'
+    | '/Register'
+    | '/forget-password'
+    | '/login'
+    | '/not-verified-email'
+    | '/reset-password'
+    | '/two-fa'
+    | '/verify-email'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth/Login'
-    | '/auth/Profile'
-    | '/auth/Register'
-    | '/auth/forget-password'
-    | '/auth/not-verified-email'
-    | '/auth/reset-password'
-    | '/auth/two-fa'
-    | '/auth/verify-email'
-    | '/demo/store'
-    | '/demo/tanstack-query'
+    | '/home'
+    | '/Profile'
+    | '/Register'
+    | '/forget-password'
+    | '/login'
+    | '/not-verified-email'
+    | '/reset-password'
+    | '/two-fa'
+    | '/verify-email'
   id:
     | '__root__'
     | '/'
-    | '/auth/Login'
-    | '/auth/Profile'
-    | '/auth/Register'
-    | '/auth/forget-password'
-    | '/auth/not-verified-email'
-    | '/auth/reset-password'
-    | '/auth/two-fa'
-    | '/auth/verify-email'
-    | '/demo/store'
-    | '/demo/tanstack-query'
+    | '/home'
+    | '/_auth/Profile'
+    | '/_auth/Register'
+    | '/_auth/forget-password'
+    | '/_auth/login'
+    | '/_auth/not-verified-email'
+    | '/_auth/reset-password'
+    | '/_auth/two-fa'
+    | '/_auth/verify-email'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthLoginRoute: typeof AuthLoginRoute
+  HomeRoute: typeof HomeRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
+  AuthLoginRoute: typeof AuthLoginRoute
   AuthNotVerifiedEmailRoute: typeof AuthNotVerifiedEmailRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthTwoFaRoute: typeof AuthTwoFaRoute
   AuthVerifyEmailRoute: typeof AuthVerifyEmailRoute
-  DemoStoreRoute: typeof DemoStoreRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -182,74 +176,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/store': {
-      id: '/demo/store'
-      path: '/demo/store'
-      fullPath: '/demo/store'
-      preLoaderRoute: typeof DemoStoreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/verify-email': {
-      id: '/auth/verify-email'
-      path: '/auth/verify-email'
-      fullPath: '/auth/verify-email'
+    '/_auth/verify-email': {
+      id: '/_auth/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
       preLoaderRoute: typeof AuthVerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/two-fa': {
-      id: '/auth/two-fa'
-      path: '/auth/two-fa'
-      fullPath: '/auth/two-fa'
+    '/_auth/two-fa': {
+      id: '/_auth/two-fa'
+      path: '/two-fa'
+      fullPath: '/two-fa'
       preLoaderRoute: typeof AuthTwoFaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/reset-password': {
-      id: '/auth/reset-password'
-      path: '/auth/reset-password'
-      fullPath: '/auth/reset-password'
+    '/_auth/reset-password': {
+      id: '/_auth/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
       preLoaderRoute: typeof AuthResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/not-verified-email': {
-      id: '/auth/not-verified-email'
-      path: '/auth/not-verified-email'
-      fullPath: '/auth/not-verified-email'
+    '/_auth/not-verified-email': {
+      id: '/_auth/not-verified-email'
+      path: '/not-verified-email'
+      fullPath: '/not-verified-email'
       preLoaderRoute: typeof AuthNotVerifiedEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/forget-password': {
-      id: '/auth/forget-password'
-      path: '/auth/forget-password'
-      fullPath: '/auth/forget-password'
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/forget-password': {
+      id: '/_auth/forget-password'
+      path: '/forget-password'
+      fullPath: '/forget-password'
       preLoaderRoute: typeof AuthForgetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/Register': {
-      id: '/auth/Register'
-      path: '/auth/Register'
-      fullPath: '/auth/Register'
+    '/_auth/Register': {
+      id: '/_auth/Register'
+      path: '/Register'
+      fullPath: '/Register'
       preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/Profile': {
-      id: '/auth/Profile'
-      path: '/auth/Profile'
-      fullPath: '/auth/Profile'
+    '/_auth/Profile': {
+      id: '/_auth/Profile'
+      path: '/Profile'
+      fullPath: '/Profile'
       preLoaderRoute: typeof AuthProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/Login': {
-      id: '/auth/Login'
-      path: '/auth/Login'
-      fullPath: '/auth/Login'
-      preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -257,16 +237,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthLoginRoute: AuthLoginRoute,
+  HomeRoute: HomeRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   AuthForgetPasswordRoute: AuthForgetPasswordRoute,
+  AuthLoginRoute: AuthLoginRoute,
   AuthNotVerifiedEmailRoute: AuthNotVerifiedEmailRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthTwoFaRoute: AuthTwoFaRoute,
   AuthVerifyEmailRoute: AuthVerifyEmailRoute,
-  DemoStoreRoute: DemoStoreRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

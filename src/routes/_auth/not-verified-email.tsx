@@ -89,7 +89,7 @@ const NotVerifiedEmail = () => {
 
 export default NotVerifiedEmail
 
-export const Route = createFileRoute('/auth/not-verified-email')({
+export const Route = createFileRoute('/_auth/not-verified-email')({
   component: NotVerifiedEmail,
   beforeLoad: () => {
     return {

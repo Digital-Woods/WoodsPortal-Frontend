@@ -14,7 +14,7 @@ import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'
 import { toast } from 'sonner';
 import { hubSpotUserDetails } from '@/data/hubSpotData';
-import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/authUtils";
+import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
 
 const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {

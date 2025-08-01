@@ -8,6 +8,8 @@ import type { QueryClient } from '@tanstack/react-query'
 import { Toaster } from 'sonner';
 import { RecoilRoot } from 'recoil';
 
+import AppLayoutWrapper from '@/components/Layouts/AppLayoutWrapper';
+
 interface MyRouterContext {
   queryClient: QueryClient
 }
@@ -16,7 +18,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <>
       <RecoilRoot>
-        <Outlet />
+        <AppLayoutWrapper />
       </RecoilRoot>
 
       <Toaster
