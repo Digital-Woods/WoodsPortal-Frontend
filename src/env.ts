@@ -14,6 +14,20 @@ export const env = createEnv({
 
   client: {
     VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_PUBLIC_REST_API_ENDPOINT: z.string().url(),
+    VITE_LOGIN_DETAILS: z.string(),
+    VITE_TWO_FA: z.string(),
+    VITE_PORTAL: z.string(),
+    VITE_AUTH_TOKEN_KEY: z.string(),
+    VITE_AUTH_USER_KEY: z.string(),
+    VITE_AUTH_PORTAL_KEY: z.string(),
+    VITE_ROUTE_MENU_CONFIG_KEY: z.string(),
+    VITE_ASSOCIATION_VIEW_URL_KEY: z.string(),
+    VITE_COOKIE_EXPIRE: z.string(),
+    VITE_DATA_SOURCE_SET: z.string(),
+    VITE_NOTE_INTERVAL_TIME: z.string(),
+    VITE_TABLE_PAGE_LIMIT: z.string(),
+    VITE_HUBSPOT_DEFAULT_OBJECT_IDS: z.any(),
   },
 
   /**
