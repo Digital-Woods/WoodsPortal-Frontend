@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-  :root{
-    --primary-color:#ff7a59;
-    --secondary-color:#0091ae;
-    --primary-color-hover-bg:#ff7a5930;
-    --secondary-color-hover-bg:#0091ae30;
-  }
+:root{
+  --primary-color:#ff7a59;
+  --secondary-color:#0091ae;
+  --primary-color-hover-bg:#0d7a4730;
+  --secondary-color-hover-bg:#0091ae30;
+}
 
 form{
   margin:0;
@@ -94,28 +94,27 @@ form{
   opacity: 1;
 }
 
-.scrollbox {
+/* .scrollbox {
   overflow-y: auto;
-
   &::-webkit-scrollbar {
     background-color: transparent;
     width: 0px;
   }
-}
+} */
 
-.scrollbox:hover {
+/* .scrollbox:hover {
   &::-webkit-scrollbar {
     width: 8px;
   }
-}
+} */
 
-@media (hover: none) {
+/* @media (hover: none) {
   .scrollbox {
     &::-webkit-scrollbar {
       width: 8px;
     }
   }
-}
+} */
 
 .dialog-overlay {
   position: fixed;

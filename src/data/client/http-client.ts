@@ -16,13 +16,13 @@ const Axios = axios.create({
 });
 
 // Change request data/error
-const AUTH_TOKEN_KEY = env.VITE_PUBLIC_AUTH_TOKEN_KEY ?? 'authToken';
+const AUTH_TOKEN_KEY = env.VITE_AUTH_TOKEN_KEY ?? 'authToken';
 Axios.interceptors.request.use((config: any) => {
   const cookies = Cookies.get(AUTH_TOKEN_KEY);
-  let token = '';
-  if (cookies) {
-    token = JSON.parse(cookies)['token'];
-  }
+  let token = cookies;
+  // if (cookies) {
+  //   token = JSON.parse(cookies)['token'];
+  // }
   config.headers = token
     ? { ...config.headers, Authorization: `Bearer ${token}` }
     : { ...config.headers };

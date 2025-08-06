@@ -1,25 +1,32 @@
-function useMe() {
-  if (isLivePreview()) {
-    return {
-      me: hubSpotUserDetails,
-      isLoading: false,
-      error: null,
-      isAuthorized: null,
-      getMe: null,
-    };
-  }else if (env.DATA_SOURCE_SET === true) {
-    return {
-      me: hubSpotUserDetails,
-      isLoading: false,
-      error: null,
-      isAuthorized: null,
-      getMe: null,
-    };
-  } else {
+import { Client } from '@/data/client/index'
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { hubId } from '@/defaultData'
+import { setCookie } from "@/utils/cookie";
+import { env } from "@/env";
+import { useAuth } from "@/state/use-auth";
+
+export function useMe() {
+  // if (isLivePreview()) {
+  //   return {
+  //     me: hubSpotUserDetails,
+  //     isLoading: false,
+  //     error: null,
+  //     isAuthorized: null,
+  //     getMe: null,
+  //   };
+  // }else if (env.DATA_SOURCE_SET === true) {
+  //   return {
+  //     me: hubSpotUserDetails,
+  //     isLoading: false,
+  //     error: null,
+  //     isAuthorized: null,
+  //     getMe: null,
+  //   };
+  // } else {
     const { isAuthorized } = useAuth();
     let response = null;
 
-    const { data, isLoading, error, refetch } = ReactQuery.useQuery({
+    const { data, isLoading, error, refetch } : any = useQuery({
       queryKey: ["me_data"],
       queryFn: () => Client.users.me(hubId),
       staleTime: 10000,
@@ -35,11 +42,10 @@ function useMe() {
       response = data.data;
       const portalSettings = response.portalSettings;
       setCookie(
-        env.AUTH_PORTAL_KEY,
+        env.VITE_AUTH_PORTAL_KEY,
         JSON.stringify(portalSettings),
-        env.COOKIE_EXPIRE
       );
-      setCookie(env.AUTH_USER_KEY, JSON.stringify(response), env.COOKIE_EXPIRE);
+      setCookie(env.VITE_AUTH_USER_KEY, JSON.stringify(response));
     }
 
     return {
@@ -49,20 +55,18 @@ function useMe() {
       isAuthorized,
       getMe,
     };
-  }
+  // }
 }
 
 
-function useLogout() {
-  const setAuthorization = Recoil.useSetRecoilState(authorizationAtom);
-  const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
+export function useLogout() {
+  const { unauthorize, setLogoutDialog } = useAuth();
 
-  const mutation = ReactQuery.useMutation({
+  const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
       window.location.hash = "/login";
-      removeAllCookies();
-      setAuthorization(null);
+      unauthorize();
       setLogoutDialog(false);
     },
     onError: (err) => {

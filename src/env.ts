@@ -24,7 +24,7 @@ export const env = createEnv({
     VITE_ROUTE_MENU_CONFIG_KEY: z.string(),
     VITE_ASSOCIATION_VIEW_URL_KEY: z.string(),
     VITE_COOKIE_EXPIRE: z.string(),
-    VITE_DATA_SOURCE_SET: z.string(),
+    VITE_DATA_SOURCE_SET: z.any(),
     VITE_NOTE_INTERVAL_TIME: z.string(),
     VITE_TABLE_PAGE_LIMIT: z.string(),
     VITE_HUBSPOT_DEFAULT_OBJECT_IDS: z.any(),

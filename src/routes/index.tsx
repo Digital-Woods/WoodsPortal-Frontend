@@ -13,7 +13,7 @@ export const Route = createFileRoute('/')({
   component: App,
   beforeLoad: () => {
     return {
-      layout: "AuthLayout",
+      layout: "MainLayout",
       requiresAuth: true,
     }
   },

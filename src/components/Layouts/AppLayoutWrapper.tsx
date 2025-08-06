@@ -10,21 +10,15 @@ export default function AppLayoutWrapper() {
   const component: any =
     [...matches].reverse().find((m: any) => m.context?.layout);
 
-  const LayoutComponent = layoutMap[component?.context?.layout] || layoutMap.DefaultLayout;
   const requiresAuth = component?.context?.requiresAuth || false;
+  const RoteComponent = requiresAuth ? PrivateRoute : PublicRoute;
+  const LayoutComponent = layoutMap[component?.context?.layout] || layoutMap.DefaultLayout;
 
   return (
-    requiresAuth ?
-      <PrivateRoute>
-        < LayoutComponent >
-          <Outlet />
-        </LayoutComponent >
-      </PrivateRoute >
-      :
-      <PublicRoute>
-        <LayoutComponent>
-          <Outlet />
-        </LayoutComponent>
-      </PublicRoute>
+    <RoteComponent>
+      < LayoutComponent >
+        <Outlet />
+      </LayoutComponent >
+    </RoteComponent >
   );
 }

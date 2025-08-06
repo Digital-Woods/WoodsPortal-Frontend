@@ -1,13 +1,12 @@
-const breadcrumbState = Recoil.atom({
-  key: "breadcrumbState",
-  default: [],
-});
+import { useAtom } from 'jotai';
+import { breadcrumbState } from '@/state/store';
 
-function useBreadcrumb() {
-  const [breadcrumbs, setBreadcrumbs] = Recoil.useRecoilState(breadcrumbState);
+
+export function useBreadcrumb() {
+  const [breadcrumbs, setBreadcrumbs] = useAtom(breadcrumbState);
 
   return {
     breadcrumbs,
-    setBreadcrumbs
+    setBreadcrumbs,
   };
 }

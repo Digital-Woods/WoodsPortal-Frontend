@@ -11,12 +11,7 @@ const Home = () => {
   }
   return (
     <>
-      <div className="text-center">
-        Main Layout
-      </div>
-      <div className="text-center">
-        <button onClick={() => logOut()}>Logout</button>
-      </div>
+      Welcome Home
     </>
   )
 }
@@ -27,7 +22,7 @@ export const Route = createFileRoute('/home')({
   component: Home,
   beforeLoad: () => {
     return {
-      layout: "AuthLayout",
+      layout: "MainLayout",
       requiresAuth: true,
     }
   },

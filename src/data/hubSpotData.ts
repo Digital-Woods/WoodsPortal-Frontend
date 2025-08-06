@@ -1,5 +1,4 @@
 import { userData, baseCompanyOptions, primarycolor, secondarycolor, sidebarMenuOptions, sidebarCtaDetails, objectList } from '@/defaultData'
-
 export const hubSpotUserDetails = {
   userId: (userData && userData.id) ? userData.id : 1,
   firstName: userData && userData.firstname ? userData.firstname : 'No firstname',
