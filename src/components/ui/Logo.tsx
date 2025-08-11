@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getParam } from '@/utils/param';
 import { hubSpotUserDetails } from '@/data/hubSpotData'
+import { useMe } from '@/data/user';
 
 export const Logo = ({ className }: any) => {
   const { me } = useMe();

@@ -1,10 +1,8 @@
-const toasterState = Recoil.atom({
-  key: "toasterState",
-  default: null,
-});
+import { useAtom } from "jotai";
+import { toasterState} from '@/state/store';
 
-function useToaster() {
-  const [toaster, setToaster] = Recoil.useRecoilState(toasterState);
+export function useToaster() {
+  const [toaster, setToaster] = useAtom(toasterState);
 
   return {
     toaster,

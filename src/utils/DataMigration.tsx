@@ -632,11 +632,11 @@ export function getEmail() {
   }
 }
 
-export function wait(ms) {
+export function wait(ms: any) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const getIconType = (filename) => {
+export const getIconType = (filename: any) => {
   const extension = filename.split(".").pop().toLowerCase();
 
   switch (extension) {
@@ -815,7 +815,7 @@ export function formatCustomObjectLabel(label = "") {
 
 // format column labels
 
-export function formatColumnLabel(label) {
+export function formatColumnLabel(label: any) {
   return typeof label === "string" ? label.replace(/_/g, " ") : "";
 }
 
@@ -845,10 +845,10 @@ export function sortFormData(data) {
 }
 
 
-export const escapeHTML = (str) => {
+export const escapeHTML = (str: any) => {
   return str.replace(/'/g, "\\'");
 }
-export const formatAmount = (amount, locale = "en-US") => {
+export const formatAmount = (amount: any, locale = "en-US") => {
   if (isNaN(amount)) return "Invalid amount";
 
   return new Intl.NumberFormat(locale, {

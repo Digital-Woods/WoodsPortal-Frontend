@@ -1,6 +1,7 @@
-import classNames from 'classnames';
+import React, { forwardRef } from "react";
+import classNames from "classnames";
 
-export const Dialog = (props: any, ref: any) => {
+export const Dialog = forwardRef<HTMLDivElement, any>((props, ref) => {
   const classes = {
     root: "bg-cleanWhite p-4 sm:p-6 dark:bg-dark-200",
     normal: "",
@@ -10,12 +11,8 @@ export const Dialog = (props: any, ref: any) => {
 
   const classesName2 = classNames(classes.root, className);
 
-  delete rest.className;
-
   const showOverlay = () => {
-    if (!open) {
-      return null;
-    }
+    if (!open) return null;
 
     return (
       <div
@@ -25,20 +22,16 @@ export const Dialog = (props: any, ref: any) => {
         aria-modal="true"
       >
         <div
-          className="fixed  inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition-opacity"
+          className="fixed inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition-opacity"
           aria-hidden="true"
-        ></div>
-
-        <div
-          className="fixed inset-0 z-20  w-screen flex items-center justify-center overflow-y-auto"
-        // onClick={() => onClose && onClose(false)}
-        >
+        />
+        <div className="fixed inset-0 z-20 w-screen flex items-center justify-center overflow-y-auto">
           <div className="sm:p-0 min-h-[90vh] overflow-x-auto flex items-center popup-modal">
             <div
-              className={`relative transform overflow-hidden rounded-lg`}
+              className="relative transform overflow-hidden rounded-lg"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={classesName2} {...rest} />
+              <div className={classesName2} ref={ref} {...rest} />
             </div>
           </div>
         </div>
@@ -46,5 +39,5 @@ export const Dialog = (props: any, ref: any) => {
     );
   };
 
-  return <div ref={ref}>{showOverlay()}</div>;
-};
+  return <>{showOverlay()}</>;
+});

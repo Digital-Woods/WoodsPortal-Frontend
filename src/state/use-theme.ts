@@ -1,15 +1,12 @@
-// const { atom } = Recoil;
+import { useAtom } from "jotai";
+import { themeModeState} from '@/state/store';
 
-const themeModeState = Recoil.atom({
-  key: "themeModeState",
-  default: localStorage.theme,
-});
 
-function useTheme() {
-  const [themeMode, setThemeMode] = Recoil.useRecoilState(themeModeState);
+export function useTheme() {
+  const [themeMode, setThemeMode] = useAtom(themeModeState);
 
   return {
     themeMode,
-    setThemeMode
+    setThemeMode,
   };
 }

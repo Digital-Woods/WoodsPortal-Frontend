@@ -1,51 +1,27 @@
-const fontState = Recoil.atom({
-  key: "fontState",
-  default: "Select",
-});
+import { useAtom } from "jotai";
+import { fontState, isLoadingUploadingState , uploadProgressState , attachmentsState , linkDataState  } from '@/state/store';
 
-const isLoadingUoloadingState = Recoil.atom({
-  key: "isLoadingUoloadingState",
-  default: false,
-});
-
-const uploadProgressState = Recoil.atom({
-  key: "uploadProgressState",
-  default: 0,
-});
-
-const attachmentsState = Recoil.atom({
-  key: "attachmentsState",
-  default: [],
-});
-
-const linkDataState = Recoil.atom({
-  key: "linkDataState",
-  default: null,
-});
-
-
-function useEditor() {
-  const [font, setFont] = Recoil.useRecoilState(fontState);
-  const [isLoadingUoloading, setisLoadingUoloading] = Recoil.useRecoilState(isLoadingUoloadingState);
-  const [uploadProgress, setUploadProgress] = Recoil.useRecoilState(uploadProgressState);
-  const [uploadedAttachments, setUploadedAttachments] = Recoil.useRecoilState(attachmentsState);
-  const [linkData, setLinkDataState] = Recoil.useRecoilState(linkDataState);
+export function useEditor() {
+  const [font, setFont] = useAtom(fontState);
+  const [isLoadingUploading, setIsLoadingUploading] = useAtom(isLoadingUploadingState);
+  const [uploadProgress, setUploadProgress] = useAtom(uploadProgressState);
+  const [uploadedAttachments, setUploadedAttachments] = useAtom(attachmentsState);
+  const [linkData, setLinkDataState] = useAtom(linkDataState);
 
   return {
     font,
     setFont,
-    isLoadingUoloading,
-    setisLoadingUoloading,
+    isLoadingUploading,
+    setIsLoadingUploading,
     uploadProgress,
     setUploadProgress,
     uploadedAttachments,
     setUploadedAttachments,
     linkData,
-    setLinkDataState
+    setLinkDataState,
   };
 }
 
-function getLinkData() {
-  const snapshot = Recoil.snapshot_UNSTABLE();
-  return snapshot.getLoadable(linkDataState).valueOrThrow();
+export function getLinkData(get: typeof import("jotai").getDefaultStore()["get"]) {
+  return get(linkDataState);
 }

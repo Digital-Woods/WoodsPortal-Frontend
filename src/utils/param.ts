@@ -87,7 +87,7 @@ export const setParamHash = (string: any) => {
 //     return isNotEmptyObject(mParams) ? `?${mParams}` : '';
 // }
 
-const getQueryParamsFromCurrentUrl = () => {
+export const getQueryParamsFromCurrentUrl = () => {
   // Get the current URL
   const currentUrl = window.location.href;
 
@@ -120,7 +120,7 @@ const getQueryParamsFromCurrentUrl = () => {
   return filteredParams.toString() ? `?${filteredParams.toString()}` : "";
 };
 
-const toQueryString = (params) => {
+export const toQueryString = (params: any) => {
   const searchParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
@@ -171,7 +171,7 @@ function getQueryParamsToObject(url) {
 }
 
 
-function updateParamsFromUrl(apiUrl, params) {
+export function updateParamsFromUrl(apiUrl: any, params: any) {
     const url = new URL(apiUrl, "http://example.com"); // Base URL to parse query params
     const searchParams = new URLSearchParams(url.search);
 
@@ -183,7 +183,7 @@ function updateParamsFromUrl(apiUrl, params) {
     return params;
 }
 
-function removeAllParams(apiUrl) {
+export function removeAllParams(apiUrl: any) {
     const url = new URL(apiUrl, "http://example.com"); // Base URL to resolve relative paths
     return url.pathname; // Return only the path without query parameters
 }

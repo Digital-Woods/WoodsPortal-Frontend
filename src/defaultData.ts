@@ -305,3 +305,5 @@ export const apiRoutes: any = sideMenu[0].children.map((menuItem: any) => ({
 }));
 
 // Side Menu Item End
+
+export const recorBtnCustom = false;

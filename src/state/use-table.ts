@@ -1,133 +1,51 @@
-const pageLimit = env.TABLE_PAGE_LIMIT;
+import { useAtom } from "jotai";
+import {
+  tableSortState,
+  tableLimitState,
+  tableAfterState,
+  tablePageState,
+  tableTotalItemsState,
+  tableNumOfPagesState,
+  tableCurrentPageState,
+  tableSearchState,
+  tableFilterPropertyNameState,
+  tableFilterPropertyOperatorState,
+  tableFilterPropertyValueState,
+  tableIsPrimaryCompanyState,
+  tableViewState,
+  tableSelectedPipelineState,
+  tableParamState,
+  gridDataState,
+} from "@/state/store";
+import { useSync } from "@/state/use-sync";
+import { getRouteMenuConfig, setRouteMenuConfig } from "@/data/client/auth-utils";
+import { env } from "@/env";
 
-const tableSortState = Recoil.atom({
-  key: "tableSortState",
-  default: "-hs_createdate",
-});
+const pageLimit = env.VITE_TABLE_PAGE_LIMIT;
 
-const tableLimitState = Recoil.atom({
-  key: "tableLimitState",
-  default: pageLimit,
-});
+export function useTable() {
+  const [data, setData] = useAtom(gridDataState);
+  const [sort, setSort] = useAtom(tableSortState);
+  const [limit, setLimit] = useAtom(tableLimitState);
+  const [after, setAfter] = useAtom(tableAfterState);
+  const [page, setPage] = useAtom(tablePageState);
+  const [totalItems, setTotalItems] = useAtom(tableTotalItemsState);
+  const [numOfPages, setNumOfPages] = useAtom(tableNumOfPagesState);
+  const [currentPage, setCurrentPage] = useAtom(tableCurrentPageState);
+  const [search, setSearch] = useAtom(tableSearchState);
+  const [filterPropertyName, setFilterPropertyName] = useAtom(tableFilterPropertyNameState);
+  const [filterOperator, setFilterOperator] = useAtom(tableFilterPropertyOperatorState);
+  const [filterValue, setFilterValue] = useAtom(tableFilterPropertyValueState);
+  const [isPrimaryCompany, setIsPrimaryCompany] = useAtom(tableIsPrimaryCompanyState);
+  const [view, changeView] = useAtom(tableViewState);
+  const [selectedPipeline, changePipeline] = useAtom(tableSelectedPipelineState);
+  const [tableParam, setTableFilterData] = useAtom(tableParamState);
+  const { sync } = useSync();
 
-const tableAfterState = Recoil.atom({
-  key: "tableAfterState",
-  default: "",
-});
-
-const tablePageState = Recoil.atom({
-  key: "tablePageState",
-  default: 1,
-});
-
-const tableTotalItemsState = Recoil.atom({
-  key: "tableTotalItemsState",
-  default: 1,
-});
-
-const tableNumOfPagesState = Recoil.atom({
-  key: "tableNumOfPagesState",
-  default: 1,
-});
-
-const tableCurrentPageState = Recoil.atom({
-  key: "tableCurrentPageState",
-  default: 1,
-});
-
-const tableSearchState = Recoil.atom({
-  key: "tableSearchState",
-  default: "",
-});
-
-const tableFilterPropertyNameState = Recoil.atom({
-  key: "tableFilterPropertyNameState",
-  default: "hs_pipeline",
-});
-
-const tableFilterPropertyOperatorState = Recoil.atom({
-  key: "tableFilterPropertyOperatorState",
-  default: "eq",
-});
-
-const tableFilterPropertyValueState = Recoil.atom({
-  key: "tableFilterPropertyValueState",
-  default: "",
-});
-
-const tableIsPrimaryCompanyState = Recoil.atom({
-  key: "tableIsPrimaryCompanyState",
-  default: null,
-});
-
-const tableViewState = Recoil.atom({
-  key: "tableViewState",
-  default: null,
-});
-
-const tableSelectedPipelineState = Recoil.atom({
-  key: "tableSelectedPipelineState",
-  default: "",
-});
-
-const tableParamState = Recoil.atom({
-  key: "tableParamState",
-  default: {},
-});
-
-const gridDataState = Recoil.atom({
-  key: "gridDataState",
-  default: [],
-});
-
-function useTable() {
-  const [data, setData] = Recoil.useRecoilState(gridDataState);
-
-  const [sort, setSort] = Recoil.useRecoilState(tableSortState);
-  const [limit, setLimit] = Recoil.useRecoilState(tableLimitState);
-  const [after, setAfter] = Recoil.useRecoilState(tableAfterState);
-  const [page, setPage] = Recoil.useRecoilState(tablePageState);
-  const [totalItems, setTotalItems] =
-    Recoil.useRecoilState(tableTotalItemsState);
-  const [numOfPages, setNumOfPages] =
-    Recoil.useRecoilState(tableNumOfPagesState);
-  const [currentPage, setCurrentPage] = Recoil.useRecoilState(
-    tableCurrentPageState
-  );
-  const [search, setSearch] = Recoil.useRecoilState(tableSearchState);
-  const [filterPropertyName, setFilterPropertyName] = Recoil.useRecoilState(
-    tableFilterPropertyNameState
-  );
-  const [filterOperator, setFilterOperator] = Recoil.useRecoilState(
-    tableFilterPropertyOperatorState
-  );
-  const [filterValue, setFilterValue] = Recoil.useRecoilState(
-    tableFilterPropertyValueState
-  );
-  const [isPrimaryCompany, setIsPrimaryCompany] = Recoil.useRecoilState(
-    tableIsPrimaryCompanyState
-  );
-  const [view, changeView] = Recoil.useRecoilState(tableViewState);
-
-  const [selectedPipeline, changePipeline] = Recoil.useRecoilState(
-    tableSelectedPipelineState
-  );
-
-  const [tableParam, setTableFilterData] =
-    Recoil.useRecoilState(tableParamState);
-
-  // Filter Data
-
-  // const handleSearch = async (type, deals) => {
-  //   setFilterPropertyName("hs_pipeline")
-  //   filterOperator: "eq",
-  //   filterValue: activePipeline || filterValue,
-  // };
-
-  const setView = (mView) => {
-    setPage(1)
-    changeView(mView)
-  }
+  const setView = (mView: string | null) => {
+    setPage(1);
+    changeView(mView);
+  };
 
   const resetTableParam = () => {
     setSort("-hs_createdate");
@@ -144,25 +62,10 @@ function useTable() {
     setIsPrimaryCompany(null);
     changePipeline("");
   };
-  const { sync, setSync } = useSync();
 
-  const getTableParam = (companyAsMediator, currentPage = null) => ({
-    // const param = {
-    //   limit: itemsPerPage || pageLimit,
-    //   page: currentPage,
-    //   ...(after && after.length > 0 && { after }),
-    //   sort: sortConfig,
-    //   search: searchTerm,
-    //   filterPropertyName: props?.filterPropertyName || filterPropertyName,
-    //   filterOperator: props?.filterOperator || filterOperator,
-    //   filterValue:
-    //     props?.filterValue || filterValue || (specPipeLine ? pipeLineId : ""),
-    //   cache: sync ? false : true,
-    //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-    //   view: activeCard ? "BOARD" : "LIST",
-    // };
+  const getTableParam = (companyAsMediator?: boolean, currentPageOverride?: number) => ({
     limit: limit,
-    page: currentPage || page,
+    page: currentPageOverride || page,
     ...(after && after.length > 0 && { after }),
     sort: sort,
     search: search,
@@ -174,40 +77,22 @@ function useTable() {
     view: view,
   });
 
-  const setDefaultPipeline = async (
-    data,
-    hubspotObjectTypeId,
-    companyAsMediator
-  ) => {
+  const setDefaultPipeline = async (data: any, hubspotObjectTypeId: string, companyAsMediator?: boolean) => {
     if (data) {
       const routeMenuConfigs = getRouteMenuConfig();
       let mFilterValue = "";
-
       const defaultPipeline = data?.data?.find(
-        (pipeline) => pipeline.pipelineId === data.data[0].pipelineId
+        (pipeline: any) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
-      if ( // if already set pipeline
+      if (
         routeMenuConfigs &&
         routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) &&
         routeMenuConfigs[hubspotObjectTypeId].activePipeline
       ) {
         mFilterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline;
       } else {
-        // if (activeCard && !activePipeline) {
-        //   mFilterValue = defaultPipeline.pipelineId;
-        // setActivePipeline(defaultPipeline.pipelineId);
-        // const routeMenuConfig = {
-        //   [hubspotObjectTypeId]: {
-        //     activePipeline: defaultPipeline.pipelineId,
-        //   },
-        // };
-        // setSelectRouteMenuConfig(routeMenuConfig);
-        // } else {
-        //   mFilterValue =
-        //     data.data.length === 1 ? pipelineSingle.pipelineId : activePipeline;
-        // }
-        if (view === "BOARD" && !selectedPipeline) { // if view is BOARD then selected pipeline is null 
+        if (view === "BOARD" && !selectedPipeline) {
           mFilterValue = defaultPipeline.pipelineId;
           const routeMenuConfig = {
             [hubspotObjectTypeId]: {
@@ -228,7 +113,7 @@ function useTable() {
     }
   };
 
-  const setSelectedPipeline = (hubspotObjectTypeId, pipelines, pipeLineId) => {
+  const setSelectedPipeline = (hubspotObjectTypeId: string, pipelines: any[], pipeLineId?: string) => {
     let filterValue = "";
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
@@ -238,13 +123,11 @@ function useTable() {
       setFilterOperator("eq");
       filterValue = pipelineSingle.pipelineId;
       setFilterValue(filterValue);
-      // setActivePipeline(pipelineSingle.pipelineId);
     } else {
       setFilterPropertyName("hs_pipeline");
       setFilterOperator("eq");
       filterValue = "";
       setFilterValue(filterValue);
-      // setActivePipeline(null);
     }
 
     const routeMenuConfig = {
@@ -256,9 +139,8 @@ function useTable() {
     setSelectRouteMenuConfig(routeMenuConfig);
   };
 
-  const setSelectRouteMenuConfig = (routeMenuConfig) => {
+  const setSelectRouteMenuConfig = (routeMenuConfig: Record<string, any>) => {
     let routeMenuConfigs = getRouteMenuConfig();
-
     Object.keys(routeMenuConfig).forEach((key) => {
       if (!routeMenuConfigs) routeMenuConfigs = {};
       if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
@@ -277,14 +159,13 @@ function useTable() {
     setRouteMenuConfig(routeMenuConfigs);
   };
 
-  // Grid Data
-  const setGridData = async (type, deals) => {
+  const setGridData = async (type: string, deals: any[]) => {
     if (type === "reset") return setData([]);
     if (type === "directly") return setData(deals);
 
-    let finalData = deals.map((deal) => {
+    const finalData = deals.map((deal) => {
       const cards =
-        deal?.data?.results?.rows?.map((row) => ({
+        deal?.data?.results?.rows?.map((row: any) => ({
           id: row?.hs_object_id,
           ...row,
           hubspotObjectTypeId: type === "deals" ? "0-3" : "0-5",
@@ -295,7 +176,7 @@ function useTable() {
         name: deal.label,
         count: deal?.data?.total,
         ...deal,
-        cards: cards,
+        cards,
       };
     });
 
@@ -303,40 +184,23 @@ function useTable() {
   };
 
   return {
-    // Filter props
-    sort,
-    setSort,
-    limit,
-    setLimit,
-    after,
-    setAfter,
-    page,
-    setPage,
-    totalItems,
-    setTotalItems,
-    numOfPages,
-    setNumOfPages,
-    currentPage,
-    setCurrentPage,
-    search,
-    setSearch,
-    filterPropertyName,
-    setFilterPropertyName,
-    filterOperator,
-    setFilterOperator,
-    filterValue,
-    setFilterValue,
-    isPrimaryCompany,
-    setIsPrimaryCompany,
-    view,
-    setView,
-    tableParam,
-    selectedPipeline,
-    setSelectedPipeline,
+    sort, setSort,
+    limit, setLimit,
+    after, setAfter,
+    page, setPage,
+    totalItems, setTotalItems,
+    numOfPages, setNumOfPages,
+    currentPage, setCurrentPage,
+    search, setSearch,
+    filterPropertyName, setFilterPropertyName,
+    filterOperator, setFilterOperator,
+    filterValue, setFilterValue,
+    isPrimaryCompany, setIsPrimaryCompany,
+    view, setView,
+    tableParam, setTableFilterData,
+    selectedPipeline, setSelectedPipeline,
     setDefaultPipeline,
-    // changePipeline,
     setSelectRouteMenuConfig,
-    // Data Props
     resetTableParam,
     getTableParam,
     gridData: data,

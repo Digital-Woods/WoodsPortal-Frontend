@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HomeRouteImport } from './routes/home'
+import { Route as DynamicComponentRouteImport } from './routes/$dynamicComponent'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthVerifyEmailRouteImport } from './routes/_auth/verify-email'
 import { Route as AuthTwoFaRouteImport } from './routes/_auth/two-fa'
@@ -23,6 +24,11 @@ import { Route as AuthProfileRouteImport } from './routes/_auth/Profile'
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DynamicComponentRoute = DynamicComponentRouteImport.update({
+  id: '/$dynamicComponent',
+  path: '/$dynamicComponent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -73,6 +79,7 @@ const AuthProfileRoute = AuthProfileRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$dynamicComponent': typeof DynamicComponentRoute
   '/home': typeof HomeRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$dynamicComponent': typeof DynamicComponentRoute
   '/home': typeof HomeRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$dynamicComponent': typeof DynamicComponentRoute
   '/home': typeof HomeRoute
   '/_auth/Profile': typeof AuthProfileRoute
   '/_auth/Register': typeof AuthRegisterRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$dynamicComponent'
     | '/home'
     | '/Profile'
     | '/Register'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$dynamicComponent'
     | '/home'
     | '/Profile'
     | '/Register'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$dynamicComponent'
     | '/home'
     | '/_auth/Profile'
     | '/_auth/Register'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DynamicComponentRoute: typeof DynamicComponentRoute
   HomeRoute: typeof HomeRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$dynamicComponent': {
+      id: '/$dynamicComponent'
+      path: '/$dynamicComponent'
+      fullPath: '/$dynamicComponent'
+      preLoaderRoute: typeof DynamicComponentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -237,6 +257,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DynamicComponentRoute: DynamicComponentRoute,
   HomeRoute: HomeRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
