@@ -11,7 +11,7 @@ import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Button } from '@/components/ui/Button'
 
 
-const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
+export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
   const [serverError, setServerError] = useState(null);
 
   const enterEmailValidationSchema = z.object({
@@ -142,5 +142,3 @@ const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } 
     </div>
   );
 };
-
-export default PreLogin
