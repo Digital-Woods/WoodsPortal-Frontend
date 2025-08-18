@@ -17,7 +17,7 @@ import { hubSpotUserDetails } from '@/data/hubSpotData';
 import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
 
-const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
+export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
   const [serverError, setServerError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const hasUserData = loginData?.firstName || loginData?.email;
@@ -226,5 +226,3 @@ const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: a
     </div>
   );
 };
-
-export default FinalLogin

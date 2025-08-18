@@ -312,5 +312,3 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
     </div>
   );
 };
-
-export default ExistingUserRegister
