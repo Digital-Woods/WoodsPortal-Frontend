@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {Plugin as ProseMirrorPlugin2, PluginKey as ProseMirrorPluginKey2} from "prosemirror-state"
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { AlfabateIcon } from '@/assets/icons/AlfabateIcon';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 import { ColorPicker } from '../ColorPicker';
 
@@ -128,7 +128,8 @@ const DropdownColorMenu = ({ editorView, icon }: any) => {
 
 const renderReactComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<DropdownColorMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<DropdownColorMenu editorView={editorView} />);
   return container;
 };
 export const textColor = new MenuItem2({

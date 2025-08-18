@@ -3,7 +3,7 @@ import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { ImageIcon } from '@/assets/icons/ImageIcon';
 import { getAuthToken } from '@/data/client/auth-utils';
 import axios from 'axios';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 // const insertImage = (view, src, width, height) => {
 //   const { state, dispatch } = view;
@@ -151,14 +151,14 @@ const renderReactImageUploadComponent = (
   setUploadProgress: any
 ) => {
   const container = document.createElement("div");
-  ReactDOM.render(
+  const root = createRoot(container);
+  root.render(
     <EditorImageUploadMenu
       editorView={editorView}
       imageUploadUrl={imageUploadUrl}
       setisLoadingUoloading={setisLoadingUoloading}
       setUploadProgress={setUploadProgress}
-    />,
-    container
+    />
   );
   return container;
 };

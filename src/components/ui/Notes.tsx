@@ -23,6 +23,9 @@ import { Dialog } from './Dialog';
 import { NoteSkeleton } from './skeletons/NoteSkeleton';
 import ReactHtmlParser from 'react-html-parser';
 import DOMPurify from 'dompurify';
+import { useToaster } from '@/state/use-toaster';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 
 const NoteCard = ({
   note,
@@ -82,6 +85,8 @@ const NoteCard = ({
 
     {
       onSuccess: (res: any) => {
+        const queryClient = new QueryClient();
+
         queryClient.invalidateQueries(["data"]);
         refetch();
         // setSync(true);
@@ -231,7 +236,7 @@ const NoteCard = ({
                         ADD_ATTR: ['target'],
                       })
                     )} */}
-                    {ReactHtmlParser.default(
+                    {ReactHtmlParser(
                       DOMPurify.sanitize(note.hs_note_body, noteViewConfig)
                     )}
                   </span>
@@ -359,6 +364,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   }, []);
   
   useEffect(() => {
+    const queryClient = new QueryClient();
     return () => {
       queryClient.cancelQueries(["data"]);
       setPage(1);

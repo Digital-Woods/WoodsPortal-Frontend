@@ -5,7 +5,8 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import { DisassociateButton } from '@/components/ui/DisassociateButton';
 import { Pagination } from '@/components/ui/Pagination';
 import { toQueryString } from '@/utils/param';
-
+import { useTable } from '@/state/use-table';
+import { env } from "@/env";
 
 const formatKey = (key: any) => {
   return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
@@ -195,7 +196,7 @@ export const DashboardTableData = ({
           <TableBody>
             {tableData.map((item: any, index: any) => (
               <TableRow
-                key={item.id}
+                key={index}
                 onMouseEnter={() => handleRowHover(item)}
                 onMouseLeave={() => handleRowHover(null)}
                 className="relative"

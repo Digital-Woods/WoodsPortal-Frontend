@@ -1,5 +1,5 @@
 import { userData, baseCompanyOptions, primarycolor, secondarycolor, sidebarMenuOptions, sidebarCtaDetails, objectList } from '@/defaultData'
-export const hubSpotUserDetails = {
+export const hubSpotUserDetails: any = {
   userId: (userData && userData.id) ? userData.id : 1,
   firstName: userData && userData.firstname ? userData.firstname : 'No firstname',
   lastName: userData && userData.lastname ? userData.lastname : 'No lastname',
@@ -36,3 +36,8 @@ export const hubSpotTableData = {
   },
   statusMsg: "Record(s) has been successfully retrieved.",
 };
+
+
+export const moduleIframeListOptions = []
+
+export const homeTabsDataTypeFilter: any = null;

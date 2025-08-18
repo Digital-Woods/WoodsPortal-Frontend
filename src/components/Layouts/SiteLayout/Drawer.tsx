@@ -284,7 +284,7 @@ export const Drawer = ({ className }: any) => {
             >
               Keep Me Logged In
             </Button>
-            {env.VITE_DATA_SOURCE_SET === false ? (
+            {env.VITE_DATA_SOURCE_SET === 'false' ? (
               <Button
                 variant="outline"
                 className="dark:text-white"
@@ -298,7 +298,7 @@ export const Drawer = ({ className }: any) => {
                 {isLoading ? "Logging out..." : "Logout"}
               </Button>
             ) : (
-              <a href="/_hcms/mem/logout" className="dark:text-white">
+              <a href="/#/logout" className="dark:text-white">
                 <Button
                   variant="outline"
                   className="dark:text-white"

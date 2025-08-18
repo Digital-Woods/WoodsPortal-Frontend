@@ -132,7 +132,7 @@ export const toQueryString = (params: any) => {
   return searchParams.toString() ? `?${searchParams.toString()}` : "";
 };
 
-const addParam = (url, params = {}) => {
+export const addParam = (url: any, params = {}) => {
   // Convert params to query string
   const queryString = new URLSearchParams(params).toString();
 
@@ -159,9 +159,9 @@ const addParam = (url, params = {}) => {
 //   return mergedObj;
 // }
 
-function getQueryParamsToObject(url) {
+export function getQueryParamsToObject(url: any) {
   const params = new URLSearchParams(url);
-  let obj = {};
+  let obj: any = {};
   
   params.forEach((value, key) => {
       obj[key] = value;

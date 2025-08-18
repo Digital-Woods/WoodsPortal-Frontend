@@ -96,7 +96,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
             }
           </div>
           <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white  words-break`}>
-            {ReactHtmlParser.default(
+            {ReactHtmlParser(
               DOMPurify.sanitize(updatedDescription)
             )}
           </p>

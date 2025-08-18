@@ -56,7 +56,6 @@ export const getTwoFa = () => {
 
 export const getPortal = () => {
   const portal = getCookie(env.VITE_PORTAL);
-  console.log("portal", portal)
   return portal ? JSON.parse(getCookie(env.VITE_PORTAL)) : null;
 };
 

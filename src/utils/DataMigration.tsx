@@ -1,5 +1,12 @@
 import { useMe } from '@/data/user';
 import { useAuth } from '@/state/use-auth';
+import { Link } from '@/components/ui/link';
+import { OpenIcon } from '@/assets/icons/OpenIcon';
+import { env } from "@/env";
+import { setCookie } from './cookie';
+import { Currency } from './Currency';
+import { getUserDetails } from '@/data/client/auth-utils';
+import { formatTimestampIST } from './DateTime';
 
 export function profileInitial(firstName: any, lastName: any) {
   const initials =
@@ -13,7 +20,7 @@ export function profileInitial(firstName: any, lastName: any) {
   return initials;
 }
 
-export function isDate(dateString) {
+export function isDate(dateString: any) {
   // Regular expression to match the expected date format
   const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
   if (!regex.test(dateString)) {
@@ -26,7 +33,7 @@ export function isDate(dateString) {
   return isValid;
 }
 
-export const formatDateString = (date) => {
+export const formatDateString = (date: any) => {
   const options = {
     day: "2-digit",
     month: "2-digit",
@@ -38,7 +45,7 @@ export const formatDateString = (date) => {
   return date.toLocaleString("en-GB", options);
 };
 
-export const formatDate = (data, type = "date") => {
+export const formatDate = (data: any, type = "date") => {
   // Handle invalid or falsy date inputs
   if (!data || isNaN(new Date(data).getTime())) {
     return ""; // Return an empty string for invalid dates
@@ -57,24 +64,24 @@ export const formatDate = (data, type = "date") => {
   return `${day}-${month}-${year} ${timePart.toLowerCase()}`;
 };
 
-export function isNull(data) {
+export function isNull(data: any) {
   return !!(data === undefined || data === null || data === "");
 }
 
-export function isObject(data) {
+export function isObject(data: any) {
   if (data == null) return false;
   return typeof data === "object";
 }
-export function isArray(data) {
+export function isArray(data: any) {
   if (!Array.isArray(data)) return false;
   return data.every(item => typeof item === "object" && item !== null);
 }
 
-export function isEmptyObject(data) {
+export function isEmptyObject(data: any) {
   return Object.keys(data).length === 0;
 }
 
-export const truncateString = (str, MAX_LENGTH = 40) => {
+export const truncateString = (str: any, MAX_LENGTH = 40) => {
   if (str.length > MAX_LENGTH) {
     return {
       truncated: str.substring(0, MAX_LENGTH) + "...",
@@ -84,12 +91,12 @@ export const truncateString = (str, MAX_LENGTH = 40) => {
   return { truncated: str, isTruncated: false };
 };
 
-export function isImage(value, key = "") {
+export function isImage(value: any, key = "") {
   const imageExtensions = /\.(png|jpeg|jpg|gif|bmp|svg|webp|tiff|ico)$/i;
   return imageExtensions.test(value) || key.includes("image");
 }
 
-export const keysToSkipList = (key) => {
+export const keysToSkipList = (key: any) => {
   return !!(
     key.includes("id") ||
     key.includes("archived") ||
@@ -102,7 +109,7 @@ export const keysToSkipList = (key) => {
   );
 };
 
-export const keysToSkipDetails = (key) => {
+export const keysToSkipDetails = (key: any) => {
   return !!(
     key.includes("id") ||
     key.includes("archived") ||
@@ -115,7 +122,7 @@ export const keysToSkipDetails = (key) => {
   );
 };
 
-export const keysToSkipAssociations = (key) => {
+export const keysToSkipAssociations = (key: any) => {
   return !!(
     key.includes("id") ||
     key.includes("archived") ||
@@ -128,13 +135,13 @@ export const keysToSkipAssociations = (key) => {
   );
 };
 
-export const checkEquipments = (value, title) => {
+export const checkEquipments = (value: any, title: any) => {
   if (title == "Equipments" || title == "Equipment" || title == "/assets")
     return value.replace("Asset", "Equipment");
   return value;
 };
 
-export const checkEquipmentsName = (value, title) => {
+export const checkEquipmentsName = (value: any, title: any) => {
   if (title == "Equipment")
     if (value == "Asset Name")
       return value.replace("Asset Name", "Equipment Name");
@@ -143,10 +150,10 @@ export const checkEquipmentsName = (value, title) => {
   return value;
 };
 
-export const filterAssociationsData = (obj) => {
+export const filterAssociationsData = (obj: any) => {
   const filtered = Object.fromEntries(
     Object.entries(obj).filter(
-      ([key, value]) =>
+      ([key, value]: any) =>
         value.isPrimaryDisplayProperty === true ||
         value.isSecondaryDisplayProperty === true
     )
@@ -154,13 +161,13 @@ export const filterAssociationsData = (obj) => {
   return filtered;
 };
 
-export const objectToQueryParams = (params) => {
+export const objectToQueryParams = (params: any) => {
   if (!params || typeof params !== "object") {
     return ""; // Return an empty string if params is null, undefined, or not an object
   }
 
   return Object.entries(params)
-    .map(([key, value]) =>
+    .map(([key, value]: any) =>
       `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     )
     .join("&");
@@ -227,37 +234,37 @@ export const objectToQueryParams = (params) => {
 // };
 
 
-export const sortData = (list, type = "list") => {
+export const sortData = (list: any, type = "list") => {
   if (type == "list" || type == "details") delete list.associations;
   const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate", "associations"];
   let data = list
 
   if (type === "list") {
-    data = data.filter(item => !excludeKeys.includes(item.key));
-    return data.sort((a, b) => a.tableDisplayOrder - b.tableDisplayOrder);
+    data = data.filter((item: any) => !excludeKeys.includes(item.key));
+    return data.sort((a: any, b: any) => a.tableDisplayOrder - b.tableDisplayOrder);
   }
 
   data = Object.entries(list)
-    .filter(([key]) => !excludeKeys.includes(key))
-    .map(([key, value]) => ({
+    .filter(([key]: any) => !excludeKeys.includes(key))
+    .map(([key, value]: any) => ({
       ...value,
       key
     }));
 
-  return data.sort((a, b) => a.overviewDisplayOrder - b.overviewDisplayOrder);
+  return data.sort((a: any, b: any) => a.overviewDisplayOrder - b.overviewDisplayOrder);
 }
 
-export const replaceQuestionMarkToRegex = (text) => {
+export const replaceQuestionMarkToRegex = (text: any) => {
   const replacedText = (text && typeof text === "string") ? text?.replace(/\?/g, "!") : text;
   return replacedText;
 }
 
-export const replaceRegexToQuestionMark = (text) => {
+export const replaceRegexToQuestionMark = (text: any) => {
   const replacedText = text?.replace(/\?/g, "!");
   return replacedText;
 }
 
-export const truncatedText = (text, maxLength = 30) => {
+export const truncatedText = (text: any, maxLength = 30) => {
   if (text) {
     const truncatedText =
       text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -267,7 +274,7 @@ export const truncatedText = (text, maxLength = 30) => {
   return <span>{text}</span>;
 };
 
-export function decodeAndStripHtml(html) {
+export function decodeAndStripHtml(html: any) {
   // Create a temporary element to decode HTML entities
   const tempElement = document.createElement("div");
   tempElement.innerHTML = html; // Decodes &lt; and &gt; into < and >
@@ -277,6 +284,40 @@ export function decodeAndStripHtml(html) {
   const doc = parser.parseFromString(tempElement.textContent, "text/html");
 
   return doc.body.textContent.trim(); // Return only plain text
+}
+
+export function sanitizeForBase64(str = "") {
+  const sanitized = (str && typeof str === "string") ? str
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\u2026/g, '...')
+    .replace(/[\u00A0\u00AD]/g, ' ')
+    .replace(/[\u202A-\u202E]/g, '')
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x00-\x7F]/g, '')
+    .replace(/[\/+*=%#]/g, '-')
+    .replace(/[^a-zA-Z0-9\s\-@#&!$%^()_.,':;]/g, '')
+    .trim() : "";
+
+  return sanitized;
+  // return btoa(unescape(encodeURIComponent(sanitized))); // if needed
+}
+
+
+export function replaceFirstSegmentInPath(hashPath: any) {
+  if (!hashPath) return '';
+  const [pathPart, queryString] = hashPath.split('?');
+  const segments = pathPart.split('/');
+  if (segments.length === 0) return hashPath;
+  const decodedFirst = decodeURIComponent(segments[0]);
+  const sanitized = sanitizeForBase64(decodedFirst);
+  const encodedSanitized = encodeURIComponent(sanitized);
+  segments[0] = encodedSanitized;
+  const updatedPath = segments.join('/');
+  return queryString ? `${updatedPath}?${queryString}` : updatedPath;
 }
 
 export const renderCellContent = ({
@@ -292,7 +333,7 @@ export const renderCellContent = ({
   hoverRow,
   item,
   urlParam = null
-}) => {
+}: any) => {
   if (column.hidden) return null;
   if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
     return "--";
@@ -302,7 +343,7 @@ export const renderCellContent = ({
   const changeRoute = () => {
     if(type == "associations") {
       const newPath = path.replace(/^\/+/, "");
-      setItemAsync(env.ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
+      setItemAsync(env.VITE_ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
         name: newPath,
         path: associationPath,
         routeName: `/association/${newPath}`})
@@ -310,9 +351,9 @@ export const renderCellContent = ({
     }
   }
 
-  const setItemAsync = (key, value, days = env.COOKIE_EXPIRE) => {
+  const setItemAsync = (key: any, value: any, days: any = env.VITE_COOKIE_EXPIRE) => {
     return new Promise((resolve) => {
-      setCookie(key, value, days);
+      setCookie(key, value);
       resolve();
     });
   };
@@ -464,7 +505,7 @@ export const renderCellContent = ({
     return (
       <div className="flex gap-1 relative justify-between">
         {/* {isObject(value) ? value.label
-            : ReactHtmlParser.default(DOMPurify.sanitize(value))} */}
+            : ReactHtmlParser(DOMPurify.sanitize(value))} */}
         {decodeAndStripHtml(value || "")}
       </div>
     );
@@ -534,7 +575,7 @@ export const renderCellContent = ({
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          {truncatedText(isObject(value) ? value.label : value, '23')}
+          {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
@@ -557,7 +598,7 @@ export const renderCellContent = ({
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          {truncatedText(isObject(value) ? value.label : value,'23')}
+          {truncatedText(isObject(value) ? value.label : value,23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
@@ -569,22 +610,22 @@ export const renderCellContent = ({
     );
   }
   if (isArray(value) && value.length > 0) {
-    const labels = value.map((item) => item.label).join(", ");
+    const labels = value.map((item: any) => item.label).join(", ");
     return (
       // <Tooltip content={labels}>
-      <span className="dark:text-white">{truncatedText(labels,'23')}</span>
+      <span className="dark:text-white">{truncatedText(labels,23)}</span>
       // </Tooltip>
     );
   }
 
-  if (isObject(value)) return truncatedText(value.label,'23') || "--";
+  if (isObject(value)) return truncatedText(value.label,23) || "--";
 
-  const { truncated, isTruncated } = truncateString(value || "");
+  const { truncated, isTruncated }: any = truncateString(value || "");
 
   if (type === 'list' || type === 'homeList') {
     return (
       // <Tooltip content={value}>
-      <span className="dark:text-white">{truncatedText(value,'23')}</span>
+      <span className="dark:text-white">{truncatedText(value,23)}</span>
       // </Tooltip>
     );
   } else {
@@ -733,7 +774,7 @@ export const getIconType = (filename: any) => {
   }
 };
 
-export const getFileDetails = async (urlArray) => {
+export const getFileDetails = async (urlArray: any) => {
   const fileDetails = await Promise.all(
     urlArray.map(async (url) => {
       const name = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1));
@@ -819,10 +860,10 @@ export function formatColumnLabel(label: any) {
   return typeof label === "string" ? label.replace(/_/g, " ") : "";
 }
 
-export function sortFormData(data) {
-  return data.sort((a, b) => {
+export function sortFormData(data: any) {
+  return data.sort((a: any, b: any) => {
     // Define priority scores for sorting
-    const getPriority = (item) => {
+    const getPriority = (item: any) => {
       if (item.customLabel.toLowerCase().includes("name")) return 1; // First
       if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
       if (item.name === "hs_pipeline") return 3; // Third

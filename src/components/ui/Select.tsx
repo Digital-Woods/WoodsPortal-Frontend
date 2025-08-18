@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
 import { useMutation } from "@tanstack/react-query";
 import { Client } from '@/data/client/index'
+import { useToaster } from '@/state/use-toaster';
 
 export const Select = ({
   label,
@@ -48,6 +49,9 @@ export const Select = ({
     medium: "p-2 text-sm",
     large: "py-5",
   };
+
+  console.log("label", label)
+  console.log("control", control)
 
   return (
     <Controller
@@ -358,7 +362,7 @@ export const Options = React.forwardRef(({ children, className, right }: any, re
 export const Option = React.forwardRef(({ children, className }: any, ref: any) => {
   return (
     <div
-      as="button"
+      // as="button"
       className={classNames("w-full rounded-md text-center py-2", className)}
       ref={ref}
     >

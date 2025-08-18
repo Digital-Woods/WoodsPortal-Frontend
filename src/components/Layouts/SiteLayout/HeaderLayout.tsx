@@ -165,7 +165,7 @@ export const HeaderLayout = (props: any) => {
               </div>
               <hr className="border-t border-gray-200 dark:border-gray-600" />
               <div className="flex flex-col gap-y-1  p-2">
-                {env.VITE_DATA_SOURCE_SET === false &&
+                {env.VITE_DATA_SOURCE_SET === 'false' &&
                   <Link
                     to="/profile"
                     className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"

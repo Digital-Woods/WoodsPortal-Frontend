@@ -34,7 +34,7 @@ export const DashboardTableExistingForm = ({
       }
     },
     onSuccess: async (response: any) => {
-      const transformed = response?.data?.results.map(({ label, ID }) => ({
+      const transformed = response?.data?.results.map(({ label, ID }: any) => ({
         label,
         value: ID,
       }));

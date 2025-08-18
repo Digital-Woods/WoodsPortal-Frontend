@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { env } from "@/env";
-import { getQueryParamsFromCurrentUrl, getParam, removeAllParams, updateParamsFromUrl } from '@/utils/param'
+import { getQueryParamsFromCurrentUrl, getParam, removeAllParams, updateParamsFromUrl, getParamHash } from '@/utils/param'
 import { getPortal, getRouteMenuConfig, setRouteMenuConfig } from '@/data/client/auth-utils'
 import { hubId } from '@/defaultData'
 import { useResponsive } from '@/utils/UseResponsive'
@@ -10,6 +10,20 @@ import { Client } from '@/data/client/index'
 import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { hubSpotUserDetails } from '@/data/hubSpotData'
+import { useTable } from '@/state/use-table';
+import { DashboardTableHeaderSkeleton } from '../skeletons/DashboardTableHeaderSkeleton';
+import { BoardViewSkeleton } from '../skeletons/BoardViewSkeleton';
+import { TableSkeleton } from '../skeletons/TableSkeleton';
+import { CautionCircle } from '@/assets/icons/CautionCircle';
+import { TableDetails } from '@/components/Details/TableDetails';
+import { Link } from '@/components/ui/link';
+import { formatCustomObjectLabel } from '@/utils/DataMigration';
+import { HomeCompanyCard } from '../HomeCompanyCard';
+import { DetailsIcon } from '@/assets/icons/detailsIcon';
+import ReactHtmlParser from 'react-html-parser';
+import DOMPurify from 'dompurify';
+import { DashboardTable } from './DashboardTable';
+
 
 export const DynamicComponentView = ({
   hubspotObjectTypeId,
@@ -112,7 +126,7 @@ export const DynamicComponentView = ({
   };
 
   const { data: userNewData, error, isLoading:propertyIsLoading, refetch } : any = useQuery({
-    queryKey: ['userProfilePage', portalId, cacheEnabled],
+    queryKey: ['userProfilePage', cacheEnabled],
     queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
     onSuccess: (data) => {
       if (data) {
@@ -134,12 +148,15 @@ export const DynamicComponentView = ({
     }
   }, [sync]);
 
-  const { mutate: getData, isLoading: isLoadingAPiData } = useMutation({
+  const { mutate: getData, isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async () => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       let routeMenuConfigs = getRouteMenuConfig();
       let param;
+
+      console.log("routeMenuConfigs", routeMenuConfigs)
+      console.log("objectId", objectId)
 
       if(routeMenuConfigs[objectId]?.details === true){
         const details = routeMenuConfigs[objectId]?.details
@@ -392,27 +409,93 @@ export const DynamicComponentView = ({
     }
   }, [specPipeLine]);
 
-  useEffect( async () => {
-    await setErrorMessage('')
-    await resetTableParam();
-    await setApiResponse(null);
-    await setPageView(null);
-    // if(!isHome) {
-      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-    // }
+  // useEffect(() => {
+  //   await setErrorMessage('')
+  //   await resetTableParam();
+  //   await setApiResponse(null);
+  //   await setPageView(null);
+  //   // if(!isHome) {
+  //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  //   // }
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await setErrorMessage('');
+      await resetTableParam();
+      await setApiResponse(null);
+      await setPageView(null);
+
+      // if(!isHome) {
+      if (
+        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        !defPermissions?.pipeline_id
+      ) {
+        await getPipelines();
+      } else {
+        console.log(123)
+        // getData();
+      }
+      // }
+    };
+
+    fetchData();
   }, []);
 
-  useEffect( async () => {
-    // if (sync && errorMessage) {
-    if (sync) {
-      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-    }
-  }, [sync]);
 
-  useEffect(async () => {
+  // useEffect( async () => {
+  //   // if (sync && errorMessage) {
+  //   if (sync) {
+  //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  //   }
+  // }, [sync]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (sync) {
+        if (
+          (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+          !defPermissions?.pipeline_id
+        ) {
+          await getPipelines();
+        } else {
+          getData();
+        }
+      }
+    };
+
+    fetchData();
+  }, [sync, hubspotObjectTypeId, defPermissions]);
+
+
+  // useEffect(async () => {
+  //     setPage(1);
+  //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  // }, [companyAsMediator]);
+
+  useEffect(() => {
+    const fetchData = async () => {
       setPage(1);
-      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-  }, [companyAsMediator]);
+
+      if (
+        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        !defPermissions?.pipeline_id
+      ) {
+        await getPipelines();
+      } else {
+        console.log(456)
+
+      try {
+        await getData();
+      } catch (err) {
+        console.error("Error running getData", err);
+      }
+      }
+    };
+
+    fetchData();
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
+
 
   const changeTab = async (view) => {
     // if(!isHome) {
@@ -497,7 +580,7 @@ export const DynamicComponentView = ({
                     <ol className="flex dark:text-white flex-wrap">
                       {tableTitle &&
                         Object.entries(tableTitle).map(
-                          ([key, value], index, array) => {
+                          ([key, value]: any, index: any, array: any) => {
                             return (
                               <li key={key} className="flex items-center">
                                 <Link
@@ -528,7 +611,7 @@ export const DynamicComponentView = ({
                     </p>
                     <div className="dark:text-white words-break">
                       {objectDescription
-                        ? ReactHtmlParser.default(
+                        ? ReactHtmlParser(
                             DOMPurify.sanitize(objectDescription)
                           )
                         : ""}
@@ -621,23 +704,4 @@ export const DynamicComponentView = ({
       )}
     </div>
   );
-};
-
-DynamicComponentView.propTypes = {
-  hubspotObjectTypeId: PropTypes.string.isRequired, // or PropTypes.number
-  path: PropTypes.string,
-  title: PropTypes.string,
-  showIframe: PropTypes.string,
-  propertyName: PropTypes.string,
-  companyAsMediator: PropTypes.bool,
-  pipeLineId: PropTypes.string,
-  specPipeLine: PropTypes.any,
-  objectDescription: PropTypes.any,
-  componentName: PropTypes.string,
-  defPermissions: PropTypes.any,
-  apis: PropTypes.object,
-  isShowTitle: PropTypes.bool,
-  objectUserProperties: PropTypes.any,
-  objectUserPropertiesView: PropTypes.any,
-  isHome: PropTypes.bool
 };

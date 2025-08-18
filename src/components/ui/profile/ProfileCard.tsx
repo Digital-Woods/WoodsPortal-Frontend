@@ -1,8 +1,11 @@
-const { useRecoilValue } = Recoil;
+import { useMe } from "@/data/user";
+import { hubSpotUserDetails } from "@/defaultData";
+import { useAuth } from "@/state/use-auth";
+import { getFirstName, getLastName, profileInitial } from "@/utils/DataMigration";
 
-const ProfileCard = () => {
+export const ProfileCard = () => {
   const { me } = useMe();
-  const loggedInDetails = useRecoilValue(userDetailsAtom);
+  const {profileDetails: loggedInDetails} = useAuth();
 
   let email = "no-email@example.com";
   let brandName = hubSpotUserDetails.hubspotPortals.portalSettings.brandName;

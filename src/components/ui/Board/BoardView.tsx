@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Client } from '@/data/client/index'
 import { hubId } from '@/defaultData'
 import { Button } from '@/components/ui/Button'
+import { useToaster } from '@/state/use-toaster';
 
 export const BoardView = ({
   hubspotObjectTypeId,

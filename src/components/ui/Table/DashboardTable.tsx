@@ -8,9 +8,12 @@ import { DashboardTableData } from '@/components/ui/Table/DashboardTableData'
 import { Dialog } from '@/components/ui/Dialog'
 import { EmptyMessageCard } from '@/components/ui/EmptyMessageCard'
 import { BoardView } from '@/components/ui/Board/BoardView'
+import { useTable } from '@/state/use-table';
+import { DashboardTableForm } from './DashboardTableForm';
+import { Button } from '../Button';
 
-const formatKey = (key: any) => {
-  return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+export const formatKey = (key: any) => {
+  return key.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase());
 };
 
 const priorityOrder: any = {
@@ -32,11 +35,11 @@ const getPriority = (key: any) => {
   return priorityOrder[extractedKey] || Number.MAX_VALUE;
 };
 
-const sortedHeaders = (headers: any) => {
+export const sortedHeaders = (headers: any) => {
   return headers.sort((a: any, b: any) => getPriority(a.name) - getPriority(b.name));
 };
 
-const DashboardTable: any = ({
+export const DashboardTable: any = ({
   hubspotObjectTypeId,
   path,
   inputValue,
@@ -126,7 +129,7 @@ const DashboardTable: any = ({
   const parentObjectRecordId = getParam("parentObjectRecordId");
 
   let portalId;
-  if (env.DATA_SOURCE_SET != true) {
+  if (env.VITE_DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
   }
 
@@ -376,7 +379,7 @@ const DashboardTable: any = ({
         />
       )}
       {showEditDialog && (
-        <DashboardTableEditForm
+        <DashboardTableForm
           openModal={showEditDialog}
           setOpenModal={setShowEditDialog}
           title={tableTitle}

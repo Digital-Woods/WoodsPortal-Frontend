@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { BoldIcon } from '@/assets/icons/BoldIcon';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 const isBoldMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
@@ -54,7 +54,8 @@ const EditorBoldMenu = ({ editorView }: any) => {
 
 const renderReactBoldComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<EditorBoldMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<EditorBoldMenu editorView={editorView} />);
   return container;
 };
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {Plugin as ProseMirrorPlugin2, PluginKey as ProseMirrorPluginKey2} from "prosemirror-state"
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { HighlightIcon } from '@/assets/icons/HighlightIcon';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ColorPicker } from '../ColorPicker';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
@@ -127,12 +127,12 @@ const DropdownColorMenu2 = ({ editorView, icon }: any) => {
 
 const renderReactComponent2 = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(
+  const root = createRoot(container);
+  root.render(
     <DropdownColorMenu2
       editorView={editorView}
       icon={`<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#666666"><path d="M80 0v-160h800V0H80Zm140-280 210-560h100l210 560h-96l-50-144H368l-52 144h-96Zm176-224h168l-82-232h-4l-82 232Z"/></svg>`}
-    />,
-    container
+    />
   );
   return container;
 };

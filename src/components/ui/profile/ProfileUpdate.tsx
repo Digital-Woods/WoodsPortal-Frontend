@@ -1,3 +1,13 @@
+import { Client } from "@/data/client";
+import { useMe } from "@/data/user";
+import { useToaster } from "@/state/use-toaster";
+import { getFirstName, getLastName } from "@/utils/DataMigration";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import z from "zod";
+import { Button } from "../Button";
+import { Form, FormItem, FormLabel, FormControl, Input } from "../Form";
+
 const FirstNameIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +44,7 @@ const EmailIcon = () => (
   </svg>
 );
 
-const EditButton = ({ onClick }) => (
+const EditButton = ({ onClick }: any) => (
   <Button
     variant="outline"
     size="sm"
@@ -45,7 +55,7 @@ const EditButton = ({ onClick }) => (
   </Button>
 );
 
-const SaveButton = ({ onClick }) => (
+export const SaveButton = ({ onClick }: any) => (
   <Button
     variant="outline"
     size="sm"
@@ -56,7 +66,7 @@ const SaveButton = ({ onClick }) => (
   </Button>
 );
 
-const ProfileUpdate = () => {
+export const ProfileUpdate = () => {
   const [isEditPersonalInfo, setIsEditPersonalInfo] = useState(false);
   const { setToaster } = useToaster();
   const { me, getMe } = useMe();
@@ -78,7 +88,7 @@ const ProfileUpdate = () => {
     error,
   } = useMutation({
     mutationFn: (data) => Client.profile.update(data),
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       getMe();
       setToaster({
         message: response.statusMsg || "Profile updated successfully",
@@ -94,8 +104,8 @@ const ProfileUpdate = () => {
     },
   });
 
-  const handleSaveChanges = (data) => {
-    const payload = {
+  const handleSaveChanges = (data: any) => {
+    const payload: any = {
       firstName: data.firstName,
       lastName: data.lastName,
     };
@@ -114,7 +124,7 @@ const ProfileUpdate = () => {
   return (
     <div>
       <Form onSubmit={handleSaveChanges} validationSchema={validationSchema}>
-        {({ register, formState: { errors } }) => (
+        {({ register, formState: { errors } }: any) => (
           <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md dark:text-white">
             <div className="flex justify-between">
               <h1 className="text-xl font-semibold dark:text-white pb-4">

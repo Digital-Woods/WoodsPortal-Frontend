@@ -12,6 +12,9 @@ import { DashboardTableExistingForm } from '@/components/ui/Table/DashboardTable
 import { Select } from '@/components/ui/Select'
 import { DateTimeInput } from '@/components/ui/DateTime/DateTimeInput'
 import { hubId } from '@/defaultData'
+import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl } from '@/utils/param';
+import { useToaster } from '@/state/use-toaster';
+import { DashboardTableEditor } from './DashboardTableEditor';
 
 export const DashboardTableForm = ({
   type = "create",
@@ -248,7 +251,7 @@ export const DashboardTableForm = ({
       .map((item: any) => item.name);
     const objects = data1.filter((item: any) => item.fieldRole === "OBJECTS");
 
-    const objectTypeMap = objects.reduce((acc, obj) => {
+    const objectTypeMap = objects.reduce((acc: any, obj: any) => {
       acc[obj.name] = obj.objectTypeId;
       return acc;
     }, {});

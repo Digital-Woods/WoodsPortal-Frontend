@@ -1,7 +1,28 @@
 export const primarycolor = "";
 export const secondarycolor = "";
 export const hubId = 48715351;
-export const sidebarMenuOptions = [];
+export const sidebarMenuOptions = [
+    {
+        label: 'Leads',
+        hubspotObjectTypeId: '2-38796726',
+        tabName: 'leads',
+        icon: null,
+        companyAsMediator: false,
+        pipeLineId: 'pipeline-2',
+        specPipeLine: 'custom',
+        objectDescription: 'Leads from campaigns',
+        objectUserProperties: {
+            name: 'Lead Name',
+            source: 'Lead Source',
+        },
+        objectUserPropertiesView: {
+            name: true,
+            source: false,
+        },
+        homeCardsView: ['conversion', 'history'],
+    }
+];
+
 export const sidebarCtaDetails = [
     {
         title: "Test 1",
@@ -204,6 +225,7 @@ export const userData: any = {
 // Side Menu Item Start
 
 import { formatPath, formatCustomObjectLabel } from '@/utils/DataMigration';
+import { getRouteMenuConfig, setRouteMenuConfig } from './data/client/auth-utils';
 
 const menuIcon = `<svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em"><path fill="none" d="M0 0h24v24H0z"></path><path d="M19 7h5v2h-5V7zm-2 5h7v2h-7v-2zm3 5h4v2h-4v-2zM2 22a8 8 0 1116 0h-2a6 6 0 10-12 0H2zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"></path></svg>`
 
@@ -229,7 +251,7 @@ const sideMenu: any = [
         children: [
             {
                 label: 'Home',
-                hubspotObjectTypeId: '0-2',
+                hubspotObjectTypeId: '0-1',
                 tabName: 'home',
                 icon: menuIcon,
                 companyAsMediator: false,
@@ -248,7 +270,7 @@ const sideMenu: any = [
             },
             {
                 label: 'Leads',
-                hubspotObjectTypeId: '0-2',
+                hubspotObjectTypeId: '2-38796726',
                 tabName: 'leads',
                 icon: menuIcon,
                 companyAsMediator: false,
@@ -303,6 +325,11 @@ export const apiRoutes: any = sideMenu[0].children.map((menuItem: any) => ({
     homeCardsView: menuItem.homeCardsView,
     objectUserPropertiesView: menuItem.objectUserPropertiesView,
 }));
+
+const configs = getRouteMenuConfig() || {};
+const key = sideMenu[0]?.children[1]?.tabName ? 'home' : sideMenu[0]?.children[1]?.hubspotObjectTypeId;
+configs[key] = { ...configs[key], details: null };
+setRouteMenuConfig(configs);
 
 // Side Menu Item End
 

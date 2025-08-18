@@ -6,7 +6,7 @@ import { getPortal } from "@/data/client/auth-utils";
 import { recorBtnCustom } from "@/defaultData";
 import { useSync } from "@/state/use-sync";
 import { useQuery } from "@tanstack/react-query";
-import { Input } from "postcss";
+
 import { useState, useEffect } from "react";
 import { Button } from "../Button";
 import { Dialog } from "../Dialog";
@@ -16,6 +16,8 @@ import { FileBreadcrumb } from "./FileBreadcrumb";
 import { FileUpload } from "./FileUpload";
 import { FolderUpload } from "./FolderUpload";
 import { FileTable } from "./FileTable";
+import { useToaster } from "@/state/use-toaster";
+import { Input } from "../Form";
 
 export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: any) => {
   const [currentFiles, setCurrentFiles] = useState<any>({ child: [] });
@@ -135,7 +137,9 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
     .filter((file: any) =>
       file.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
+    // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
+    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() );
+
 
   const totalFiles = filteredFiles.length;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -240,7 +244,7 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
             placeholder="Search..."
             height="semiMedium"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => setSearchTerm(e.target.value)}
             icon={SearchIcon}
           />
           {permissions && permissions.create && (

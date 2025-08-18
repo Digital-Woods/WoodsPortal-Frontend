@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { Button } from '../Button';
+import { Button } from '../Button';
 import { Input } from '@/components/ui/Form';
 import { Checkbox } from '../Checkbox';
 

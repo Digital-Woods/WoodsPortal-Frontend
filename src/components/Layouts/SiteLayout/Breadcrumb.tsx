@@ -27,7 +27,7 @@ export const Breadcrumb = (props: any) => {
 
   const getParentObjectUrl = () => {
     const parentObjectUrl = getCookie(env.VITE_ASSOCIATION_VIEW_URL_KEY)
-    return JSON.parse(parentObjectUrl)
+    return parentObjectUrl
   };
   
   useEffect(() => {
@@ -58,14 +58,14 @@ export const Breadcrumb = (props: any) => {
       : breadcrumbs;
 
     let index = breadcrumbItems.findIndex(
-      (breadcrumb: any) => breadcrumb.routeName === match?.url
+      (breadcrumb: any) => breadcrumb?.routeName === match?.url
     );
 
     let updatedBreadcrumbs =
       index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems;
 
     let foundBreadcrumb = updatedBreadcrumbs.find(
-      (breadcrumb: any) => breadcrumb.routeName === match?.url
+      (breadcrumb: any) => breadcrumb?.routeName === match?.url
     );
 
     if (!foundBreadcrumb) {
@@ -97,9 +97,9 @@ export const Breadcrumb = (props: any) => {
                     ? "text-sidelayoutTextColor"
                     : "text-sidelayoutTextColor/90"
                 } hover:text-sidelayoutTextColor/90 dark:text-white hover:text-white/90`}
-                to={breadcrumb.path}
+                to={breadcrumb?.path}
               >
-                {getParamHash(formatCustomObjectLabel(breadcrumb.name))}
+                {getParamHash(formatCustomObjectLabel(breadcrumb?.name))}
               </Link>
               {index < breadcrumbs.length - 1 && (
                 <span className="mx-1 text-sidelayoutTextColor dark:text-white">

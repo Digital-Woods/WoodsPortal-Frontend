@@ -1,7 +1,14 @@
-const sortProperties = (data) => {
+import { useMe } from "@/data/user";
+import { moduleStylesOptions } from "@/defaultData";
+import { profileInitial } from "@/utils/DataMigration";
+import { useState, useEffect } from "react";
+import { SkeletonLoader } from "../skeletons/SkeletonLoader";
+import { useAuth } from "@/state/use-auth";
+
+const sortProperties = (data: any) => {
     return Object.entries(data)
-        .filter(([key, value]) => value?.label) // Exclude unwanted keys
-        .sort(([, a], [, b]) => {
+        .filter(([key, value]: any) => value?.label) // Exclude unwanted keys
+        .sort(([, a]: any, [, b]: any) => {
             if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
             if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
             if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty) return -1;
@@ -10,16 +17,16 @@ const sortProperties = (data) => {
         });
 };
 
-const UserProfileCard = ({ userData, isLoading }) => {
-    const [userDetails, setUserDetails] = useState({});
-    const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
-    const [showMoreDetails, setShowMoreDetails] = useState(false);
-    const [showMoreAssociated, setShowMoreAssociated] = useState(false);
+export const UserProfileCard = ({ userData, isLoading }: any) => {
+    const [userDetails, setUserDetails] = useState<any>({});
+    const [userAssociatedDetails, setUserAssociatedDetails] = useState<any>({});
+    const [showMoreDetails, setShowMoreDetails] = useState<any>(false);
+    const [showMoreAssociated, setShowMoreAssociated] = useState<any>(false);
     // const [iframeViewDialog, setIframeViewDialog] = useState(false);
     // const [iframeUrls, setIframeUrls] = useState([]);
     // const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
     const { me, getMe } = useMe();
-    const loggedInDetails = useRecoilValue(userDetailsAtom);
+    const {profileDetails: loggedInDetails}: any = useAuth();
 
     useEffect(() => {
         if (userData?.response) {
@@ -29,7 +36,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
     }, [userData]);
 
     if (isLoading) {
-        return <SkeletonLoader items={1} profile={true} />;
+        return <SkeletonLoader />;
     }
 
     // const firstName = userDetails?.firstname?.value || "";
@@ -38,7 +45,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
     const lastName = getLastName(loggedInDetails, me);
     const email = getEmail(loggedInDetails, me);
 
-    function getFirstName(loggedInDetails, me) {
+    function getFirstName(loggedInDetails: any, me: any) {
         if (loggedInDetails && loggedInDetails.firstName) {
             return loggedInDetails.firstName;
         } else if (me && me.firstName) {
@@ -48,7 +55,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
         }
     }
 
-    function getLastName(loggedInDetails, me) {
+    function getLastName(loggedInDetails: any, me: any) {
         if (loggedInDetails && loggedInDetails.lastName) {
             return loggedInDetails.lastName;
         } else if (me && me.lastName) {
@@ -58,7 +65,7 @@ const UserProfileCard = ({ userData, isLoading }) => {
         }
     }
 
-    function getEmail(loggedInDetails, me) {
+    function getEmail(loggedInDetails: any, me: any) {
         if (loggedInDetails && loggedInDetails.email) {
             return loggedInDetails.email;
         } else if (me && me.email) {
@@ -72,14 +79,14 @@ const UserProfileCard = ({ userData, isLoading }) => {
     // const showIframe = companyCardIframeList.showIframe || false;
     // Filter and sort user details
     const filteredDetails = Object.entries(userDetails).filter(
-        ([key, value]) => value?.label && !["firstname", "lastname", "email", "company", "phone", "associations", "hs_object_id"].includes(key)
+        ([key, value]: any) => value?.label && !["firstname", "lastname", "email", "company", "phone", "associations", "hs_object_id"].includes(key)
     );
     const sortedDetails = sortProperties(Object.fromEntries(filteredDetails));
     const visibleDetails = showMoreDetails ? sortedDetails : sortedDetails.slice(0, 4);
 
     // Filter and sort associated company details
     const filteredAssociatedDetails = Object.entries(userAssociatedDetails).filter(
-        ([key, value]) => value?.label && !["configurations", "objectTypeId", "labels", 'name', "hs_object_id"].includes(key)
+        ([key, value]: any) => value?.label && !["configurations", "objectTypeId", "labels", 'name', "hs_object_id"].includes(key)
     );
     const sortedAssociatedDetails = sortProperties(Object.fromEntries(filteredAssociatedDetails));
     const visibleAssociatedDetails = showMoreAssociated ? sortedAssociatedDetails : sortedAssociatedDetails.slice(0, 4);

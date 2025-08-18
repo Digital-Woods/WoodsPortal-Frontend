@@ -1,18 +1,21 @@
-const ExistingObjectsSelect = ({
+import { Pagination } from "../Pagination";
+import { Table, TableBody, TableRow, TableCell } from "../Table";
+
+export const ExistingObjectsSelect = ({
     optionObjects,
     selectedObjects,
     handleCheckboxChange,
     pagination = false,
-}) => {
+}: any) => {
 
     return (
         <div>
             <Table className="w-full dark:!bg-transparent">
                 <TableBody>
-                    {optionObjects?.map((item) => (
+                    {optionObjects?.map((item: any) => (
                         <TableRow key={item.value} className='dark:!bg-transparent'>
                             <TableCell className="flex items-center px-4 !py-2 !border-none dark:text-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-dark-400">
-                                <div class="flex items-center">
+                                <div className="flex items-center">
                                     <input
                                         id={item.value}
                                         name={item.value}

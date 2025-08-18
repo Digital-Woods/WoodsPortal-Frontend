@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { LinkIcon } from '@/assets/icons/LinkIcon';
 import { Input } from '@/components/ui/Form';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Button } from '../Button';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 import { Checkbox } from '../Checkbox';
@@ -177,9 +177,9 @@ const PopupInsertLinkMenu = ({ editorView, href, title }: any) => {
 };
 
 const renderReactInsertLinkComponent = (editorView: any) => {
-  // console.log("renderReactInsertLinkComponent", true)
   const container = document.createElement("div");
-  ReactDOM.render(<PopupInsertLinkMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<PopupInsertLinkMenu editorView={editorView} />);
   return container;
 };
 

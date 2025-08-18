@@ -3,7 +3,7 @@ import {NodeSelection} from "prosemirror-state"
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 import { SvgRenderer } from '@/utils/SvgRenderer';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 const alignments = [
   {
@@ -158,7 +158,8 @@ const DropdownAlightMenu = ({ editorView }: any) => {
 
 const renderReactAlignComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<DropdownAlightMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<DropdownAlightMenu editorView={editorView} />);
   return container;
 };
 

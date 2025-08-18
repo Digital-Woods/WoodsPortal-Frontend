@@ -33,28 +33,30 @@ export const Tickets = ({
     mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId
   }&isForm=false&isPrimaryCompany=${companyAsMediator}`;
 
+  const defaultObjectIds = JSON.parse(env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS);
+
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${
-      env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets
+      defaultObjectIds.tickets
     }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
       mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
     }&mediatorObjectRecordId=${
       mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId
     }&isPrimaryCompany=${companyAsMediator}`,
     // tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}/${id}`,
-    stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields?isPrimaryCompany=${companyAsMediator}&parentObjectTypeId=${parentObjectTypeId}`,
+    stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${defaultObjectIds.tickets}/`, // concat pipelineId
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields?isPrimaryCompany=${companyAsMediator}&parentObjectTypeId=${parentObjectTypeId}`,
     formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${
-      env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets
+      defaultObjectIds.tickets
     }/:objectId?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
       mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
     }&mediatorObjectRecordId=${
       mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId
     }&isForm=true&isPrimaryCompany=${companyAsMediator}`,
-    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields${param}`,
     createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
     removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
-    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields/:formId${param}`, // concat ticketId
   };
 
   return (
@@ -71,5 +73,4 @@ export const Tickets = ({
       isShowTitle={false}
     />
   );
-  // return <div>Ticket 1</div>
 };

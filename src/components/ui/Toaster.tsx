@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { CloseIcon } from '@/assets/icons/closeIcon';
 import { SuccessMessage } from '@/assets/icons/SuccessMessage';
 import { ErrorMessage } from '@/assets/icons/ErrorMessage';
+import { useToaster } from '@/state/use-toaster';
 
 export const Toaster = ({ duration = 2000 }) => {
   const [progress, setProgress] = useState(100);

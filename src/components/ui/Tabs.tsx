@@ -52,7 +52,7 @@ export const Tabs = ({ children, activeTab, setActiveTab = null, className }: an
   );
 };
 
-const TabsList = ({ children, className }: any) => (
+export const TabsList = ({ children, className }: any) => (
   <ul
     className={`flex flex-wrap p-1 text-sm font-medium text-center list-none text-gray-500 dark:text-gray-400 TabsList ${className}`}
   >
@@ -60,7 +60,7 @@ const TabsList = ({ children, className }: any) => (
   </ul>
 );
 
-const TabsTrigger = ({ value, isActive, onClick, children }: any) => (
+export const TabsTrigger = ({ value, isActive, onClick, children }: any) => (
   <li
     className={`TabsTrigger ${isActive ? "active" : ""}`}
     role="tab"
@@ -93,7 +93,7 @@ const TabsTrigger = ({ value, isActive, onClick, children }: any) => (
   </li>
 );
 
-const TabsContent = ({ value, hidden, children }: any) => (
+export const TabsContent = ({ value, hidden, children }: any) => (
   <div
     className={`TabsContent ${hidden ? "hidden" : ""}`}
     role="tabpanel"

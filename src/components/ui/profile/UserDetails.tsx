@@ -1,29 +1,43 @@
+import { DetailsGallery } from "@/components/Details/DetailsGallery";
+import { getRouteMenuConfig, setRouteMenuConfig, getPortal } from "@/data/client/auth-utils";
+import { hubId } from "@/defaultData";
+import { getQueryParamsFromCurrentUrl } from "@/utils/param";
+import { useResponsive } from "@/utils/UseResponsive";
+import { env } from "@/env";
+import { useState, useEffect } from "react";
+import { Dialog } from "../Dialog";
+import { Notes } from "./ui/Editor";
+import { Files } from "../files/Files";
+import { DetailsSkeleton } from "../skeletons/DetailsSkeleton";
+import { DynamicComponentView } from "../Table/DynamicComponentView";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../Tabs";
+import { homeTabsDataTypeFilter } from "@/data/hubSpotData";
 
-const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime, userCompanyId }) => {
-    const [item, setItems] = useState([]);
-    const [images, setImages] = useState([]);
-    const [sortItems, setSortItems] = useState([]);
-    const [associations, setAssociations] = useState({});
-    const { me } = useMe();
-    const [configurations, setConfigurations] = useState({
+export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime, userCompanyId }: any) => {
+    const [item, setItems] = useState<any>([]);
+    const [images, setImages] = useState<any>([]);
+    // const [sortItems, setSortItems] = useState<any>([]);
+    // const [associations, setAssociations] = useState<any>({});
+    // const { me } = useMe();
+    const [configurations, setConfigurations] = useState<any>({
         fileManager: false,
         note: false,
         ticket: false
     });
     // const param = getParam("t");
     const param = getQueryParamsFromCurrentUrl();
-    const [activeTab, setActiveTab] = useState("files");
-    const [permissions, setPermissions] = useState(userPermissions);
+    const [activeTab, setActiveTab] = useState<any>("files");
+    const [permissions, setPermissions] = useState<any>(userPermissions);
     const urlParam = getQueryParamsFromCurrentUrl();
-    const [galleryDialog, setGalleryDialog] = useState(false);
-    const { sync, setSync } = useSync();
-    const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState(false);
+    const [galleryDialog, setGalleryDialog] = useState<any>(false);
+    // const { sync, setSync } = useSync();
+    const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState<any>(false);
     const { isLargeScreen } = useResponsive();
-    const [userToggled, setUserToggled] = useState(false); // Track user interaction
-    const [totalRecord, setTotalRecord] = useState(0);
+    const [userToggled, setUserToggled] = useState<any>(false); // Track user interaction
+    const [totalRecord, setTotalRecord] = useState<any>(0);
 
     // Automatically adjust the sidebar based on screen size
-    const getInitialFilter = (type) => {
+    const getInitialFilter = (type: any) => {
     return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
             homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
             '0-1';
@@ -42,7 +56,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     value, 
     onChange, 
     className = "w-[200px] rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-    }) => (
+    }: any) => (
         <select
             className={className}
             value={value}
@@ -65,7 +79,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     // Function to toggle sidebar manually
     const toggleSidebar = () => {
         setUserToggled(true); // Mark as user-initiated
-        setSidebarDetailsOpen((prev) => !prev);
+        setSidebarDetailsOpen((prev: any) => !prev);
     };
 
     // Reset user preference when screen size changes significantly
@@ -83,7 +97,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
         setPermissions(userPermissions);
     }, [userPermissions]);
 
-    const setActiveTabFucntion = (active) => {
+    const setActiveTabFucntion = (active: any) => {
         // setParam("t", active);
         setActiveTab(active);
 
@@ -97,7 +111,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     };
 
     // Start Cookie RouteMenuConfig
-    const setSelectRouteMenuConfig = (routeMenuConfig) => {
+    const setSelectRouteMenuConfig = (routeMenuConfig: any) => {
         let routeMenuConfigs = getRouteMenuConfig() || {};
         const { key, details } = routeMenuConfig;
         routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
@@ -119,22 +133,22 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
     }, []);
 
     let portalId;
-    if (env.DATA_SOURCE_SET != true) {
+    if (env.VITE_DATA_SOURCE_SET != true) {
         portalId = getPortal()?.portalId;
     }
 
 
     const apis = {
-        tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
-        stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
-        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param ? param + `&parentObjectTypeId=${selectedTicketsDataFilter}` : `?parentObjectTypeId=${selectedTicketsDataFilter}`
+        tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
+        stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
+        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param ? param + `&parentObjectTypeId=${selectedTicketsDataFilter}` : `?parentObjectTypeId=${selectedTicketsDataFilter}`
             }`,
-        formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+        formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
             }`,
-        createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
+        createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
         createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
         removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
-        updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
+        updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
     };
 
     if (!isLoadedFirstTime) {
@@ -283,7 +297,7 @@ const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedF
                 >
                     <div className=" bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
                         <div className="grid grid-cols-2 gap-4">
-                            {images.map((url, index) => (
+                            {images.map((url: any, index: any) => (
                                 <img
                                     key={index}
                                     src={url}

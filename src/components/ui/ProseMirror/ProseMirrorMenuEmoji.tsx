@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { Picker } from 'emoji-mart'
 import { EmojiIcon } from '@/assets/icons/EmojiIcon';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 const Emoji = ({applyEmoji}: any) => {
   const pickerContainerRef = useRef<any>(null);
@@ -107,7 +107,8 @@ const PopupInsertEmojiMenu = ({ editorView, href, title }: any) => {
 
 const renderReactEmojiComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<PopupInsertEmojiMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<PopupInsertEmojiMenu editorView={editorView} />);
   return container;
 };
 

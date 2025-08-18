@@ -17,7 +17,7 @@ import { hubId } from "@/defaultData";
 import { useSync } from "@/state/use-sync";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { env } from "process";
+import { env } from "@/env";
 import { useState } from "react";
 import { Button } from "../Button";
 import { getIcon } from "@/utils/GetIcon";

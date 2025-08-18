@@ -10,6 +10,7 @@ import { TableRow, TableCell, Table, TableHeader, TableHead, TableBody } from ".
 import { Tooltip } from "../Tooltip";
 import { FileDetailsModal } from "./FileDetailsModal";
 import { getIcon } from "@/utils/GetIcon";
+import { useToaster } from "@/state/use-toaster";
 
 export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId, id }: any) => {
   const [selectedFileId, setSelectedFileId] = useState<any>(null);

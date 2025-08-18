@@ -7,6 +7,7 @@ export function useEditor() {
   const [uploadProgress, setUploadProgress] = useAtom(uploadProgressState);
   const [uploadedAttachments, setUploadedAttachments] = useAtom(attachmentsState);
   const [linkData, setLinkDataState] = useAtom(linkDataState);
+  const [getLinkData] = useAtom(linkDataState);
 
   return {
     font,
@@ -19,9 +20,6 @@ export function useEditor() {
     setUploadedAttachments,
     linkData,
     setLinkDataState,
+    getLinkData
   };
-}
-
-export function getLinkData(get: typeof import("jotai").getDefaultStore()["get"]) {
-  return get(linkDataState);
 }

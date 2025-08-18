@@ -27,7 +27,7 @@ import { useState, useRef } from 'react';
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { UnderlineIcon } from '@/assets/icons/UnderlineIcon';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 const isUnderlineMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
@@ -79,7 +79,8 @@ const EditorUnderlineMenu = ({ editorView }: any) => {
 
 const renderReactUnderlineComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<EditorUnderlineMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<EditorUnderlineMenu editorView={editorView} />);
   return container;
 };
 

@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HomeRouteImport } from './routes/home'
-import { Route as DynamicComponentRouteImport } from './routes/$dynamicComponent'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DynamicPageListComponentRouteImport } from './routes/_dynamicPage/$listComponent'
 import { Route as AuthVerifyEmailRouteImport } from './routes/_auth/verify-email'
 import { Route as AuthTwoFaRouteImport } from './routes/_auth/two-fa'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
@@ -20,15 +20,12 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/_auth/forget-password'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/Register'
 import { Route as AuthProfileRouteImport } from './routes/_auth/Profile'
+import { Route as DynamicPageAssociationNameRouteImport } from './routes/_dynamicPage/association/$name'
+import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './routes/_dynamicPage/$objectName/$object_id/$id/index'
 
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DynamicComponentRoute = DynamicComponentRouteImport.update({
-  id: '/$dynamicComponent',
-  path: '/$dynamicComponent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -36,6 +33,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DynamicPageListComponentRoute =
+  DynamicPageListComponentRouteImport.update({
+    id: '/_dynamicPage/$listComponent',
+    path: '/$listComponent',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthVerifyEmailRoute = AuthVerifyEmailRouteImport.update({
   id: '/_auth/verify-email',
   path: '/verify-email',
@@ -76,10 +79,21 @@ const AuthProfileRoute = AuthProfileRouteImport.update({
   path: '/Profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DynamicPageAssociationNameRoute =
+  DynamicPageAssociationNameRouteImport.update({
+    id: '/_dynamicPage/association/$name',
+    path: '/association/$name',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DynamicPageObjectNameObject_idIdIndexRoute =
+  DynamicPageObjectNameObject_idIdIndexRouteImport.update({
+    id: '/_dynamicPage/$objectName/$object_id/$id/',
+    path: '/$objectName/$object_id/$id/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$dynamicComponent': typeof DynamicComponentRoute
   '/home': typeof HomeRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
@@ -89,10 +103,12 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof AuthResetPasswordRoute
   '/two-fa': typeof AuthTwoFaRoute
   '/verify-email': typeof AuthVerifyEmailRoute
+  '/$listComponent': typeof DynamicPageListComponentRoute
+  '/association/$name': typeof DynamicPageAssociationNameRoute
+  '/$objectName/$object_id/$id': typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$dynamicComponent': typeof DynamicComponentRoute
   '/home': typeof HomeRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
@@ -102,11 +118,13 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordRoute
   '/two-fa': typeof AuthTwoFaRoute
   '/verify-email': typeof AuthVerifyEmailRoute
+  '/$listComponent': typeof DynamicPageListComponentRoute
+  '/association/$name': typeof DynamicPageAssociationNameRoute
+  '/$objectName/$object_id/$id': typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/$dynamicComponent': typeof DynamicComponentRoute
   '/home': typeof HomeRoute
   '/_auth/Profile': typeof AuthProfileRoute
   '/_auth/Register': typeof AuthRegisterRoute
@@ -116,12 +134,14 @@ export interface FileRoutesById {
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/two-fa': typeof AuthTwoFaRoute
   '/_auth/verify-email': typeof AuthVerifyEmailRoute
+  '/_dynamicPage/$listComponent': typeof DynamicPageListComponentRoute
+  '/_dynamicPage/association/$name': typeof DynamicPageAssociationNameRoute
+  '/_dynamicPage/$objectName/$object_id/$id/': typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/$dynamicComponent'
     | '/home'
     | '/Profile'
     | '/Register'
@@ -131,10 +151,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/two-fa'
     | '/verify-email'
+    | '/$listComponent'
+    | '/association/$name'
+    | '/$objectName/$object_id/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/$dynamicComponent'
     | '/home'
     | '/Profile'
     | '/Register'
@@ -144,10 +166,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/two-fa'
     | '/verify-email'
+    | '/$listComponent'
+    | '/association/$name'
+    | '/$objectName/$object_id/$id'
   id:
     | '__root__'
     | '/'
-    | '/$dynamicComponent'
     | '/home'
     | '/_auth/Profile'
     | '/_auth/Register'
@@ -157,11 +181,13 @@ export interface FileRouteTypes {
     | '/_auth/reset-password'
     | '/_auth/two-fa'
     | '/_auth/verify-email'
+    | '/_dynamicPage/$listComponent'
+    | '/_dynamicPage/association/$name'
+    | '/_dynamicPage/$objectName/$object_id/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DynamicComponentRoute: typeof DynamicComponentRoute
   HomeRoute: typeof HomeRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -171,6 +197,9 @@ export interface RootRouteChildren {
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthTwoFaRoute: typeof AuthTwoFaRoute
   AuthVerifyEmailRoute: typeof AuthVerifyEmailRoute
+  DynamicPageListComponentRoute: typeof DynamicPageListComponentRoute
+  DynamicPageAssociationNameRoute: typeof DynamicPageAssociationNameRoute
+  DynamicPageObjectNameObject_idIdIndexRoute: typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -182,18 +211,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$dynamicComponent': {
-      id: '/$dynamicComponent'
-      path: '/$dynamicComponent'
-      fullPath: '/$dynamicComponent'
-      preLoaderRoute: typeof DynamicComponentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_dynamicPage/$listComponent': {
+      id: '/_dynamicPage/$listComponent'
+      path: '/$listComponent'
+      fullPath: '/$listComponent'
+      preLoaderRoute: typeof DynamicPageListComponentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/verify-email': {
@@ -252,12 +281,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_dynamicPage/association/$name': {
+      id: '/_dynamicPage/association/$name'
+      path: '/association/$name'
+      fullPath: '/association/$name'
+      preLoaderRoute: typeof DynamicPageAssociationNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_dynamicPage/$objectName/$object_id/$id/': {
+      id: '/_dynamicPage/$objectName/$object_id/$id/'
+      path: '/$objectName/$object_id/$id'
+      fullPath: '/$objectName/$object_id/$id'
+      preLoaderRoute: typeof DynamicPageObjectNameObject_idIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DynamicComponentRoute: DynamicComponentRoute,
   HomeRoute: HomeRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
@@ -267,6 +309,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthTwoFaRoute: AuthTwoFaRoute,
   AuthVerifyEmailRoute: AuthVerifyEmailRoute,
+  DynamicPageListComponentRoute: DynamicPageListComponentRoute,
+  DynamicPageAssociationNameRoute: DynamicPageAssociationNameRoute,
+  DynamicPageObjectNameObject_idIdIndexRoute:
+    DynamicPageObjectNameObject_idIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

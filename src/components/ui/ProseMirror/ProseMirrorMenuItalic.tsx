@@ -26,7 +26,7 @@ import { useState, useRef } from 'react';
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { ItalicIcon } from '@/assets/icons/ItalicIcon';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 const isItalicMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
@@ -78,7 +78,8 @@ const EditorItalicMenu = ({ editorView }: any) => {
 
 const renderReactItalicComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<EditorItalicMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<EditorItalicMenu editorView={editorView} />);
   return container;
 };
 

@@ -4,6 +4,7 @@ import DOMPurify from 'dompurify';
 import { EmptyDeal } from '@/assets/icons/EmptyDeal';
 import { EmptyIcon } from '@/assets/icons/EmptyIcon';
 import { EmptyThree } from '@/assets/icons/EmptyThree';
+import { bulletPointData } from '@/data/fakeData';
 
 export const EmptyMessageCard = ({
   name = "item",
@@ -69,7 +70,7 @@ export const EmptyMessageCard = ({
                 key={index}
                 className={type === "row" ? "text-start" : "text-start"}
               >
-                {ReactHtmlParser.default(DOMPurify.sanitize(point))}
+                {ReactHtmlParser(DOMPurify.sanitize(point))}
               </li>
             ))}
           </ul>

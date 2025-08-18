@@ -1,3 +1,14 @@
+import { EyeIcon } from "@/assets/icons/EyeIcon";
+import { EyeOffIcon } from "@/assets/icons/EyeOffIcon";
+import { Client } from "@/data/client";
+import { recorBtnCustom } from "@/defaultData";
+import { useToaster } from "@/state/use-toaster";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import z from "zod";
+import { Button } from "../Button";
+import { Form, FormItem, FormLabel, FormControl, Input } from "../Form";
+
 const CurrentpassIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +33,7 @@ const ConfirmandCurrentPassIcon = () => (
   </svg>
 );
 
-const ChangePassword = () => {
+export const ChangePassword = () => {
   const { setToaster } = useToaster();
 
   // State variables to manage form input values
@@ -67,14 +78,14 @@ const ChangePassword = () => {
     error,
   } = useMutation({
     mutationFn: (data) => Client.authentication.changePassword(data),
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       setToaster({ message: response.statusMsg || "Password updated successfully", type: "success" });
       // Clear input fields on success
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       let errorMessage = "Error updating password";
       if (
         error.response &&
@@ -90,7 +101,7 @@ const ChangePassword = () => {
   });
 
   const handleSubmit = () => {
-    const payload = {
+    const payload: any = {
       currentPassword: String(currentPassword),
       newPassword: String(newPassword),
       confirmPassword: String(confirmPassword),
@@ -114,7 +125,7 @@ const ChangePassword = () => {
   return (
     <div>
       <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
-        {({ register, formState: { errors } }) => (
+        {({ register, formState: { errors } }: any) => (
           <div className="p-4 max-sm:p-2 dark:bg-dark-300 bg-cleanWhite rounded-md border dark:border-none dark:text-white">
             <div className="flex justify-between items-center mb-4">
               <h5 className="text-xl max-sm:text-lg font-semibold dark:text-white">

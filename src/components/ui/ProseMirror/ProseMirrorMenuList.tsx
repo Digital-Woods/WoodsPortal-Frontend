@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { wrapInList, liftListItem} from "prosemirror-schema-list"
 import { SvgRenderer } from '@/utils/SvgRenderer';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
 const listTypes = [
@@ -101,7 +101,8 @@ const DropdownListMenu = ({ editorView }: any) => {
 
 const renderReactListComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<DropdownListMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<DropdownListMenu editorView={editorView} />);
   return container;
 };
 

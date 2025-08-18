@@ -17,7 +17,7 @@ export const Form = ({
     try {
       const values = schema.parse(data);
       return { values, errors: {} };
-    } catch (e) {
+    } catch (e: any) {
       return {
         values: {},
         errors: e.errors.reduce((acc: any, error: any) => {

@@ -1,6 +1,6 @@
 import { IncreaseIndentIcon } from "@/assets/icons/IncreaseIndentIcon";
 import {MenuItem as MenuItem2} from "prosemirror-menu"
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 
 const IncreaseIndentMenu = ({ editorView }: any) => {
 
@@ -61,7 +61,8 @@ const IncreaseIndentMenu = ({ editorView }: any) => {
 
 const renderReactIncreaseIndentComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<IncreaseIndentMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<IncreaseIndentMenu editorView={editorView} />);
   return container;
 };
 

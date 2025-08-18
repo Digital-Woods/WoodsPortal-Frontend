@@ -3,10 +3,11 @@ import { env } from "@/env";
 import { getQueryParamsFromCurrentUrl, getParam } from '@/utils/param'
 import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/defaultData'
+import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 
 const DynamicComponent = () => {
 
-  let hubspotObjectTypeId: any = "0-2"
+  let hubspotObjectTypeId: any = "2-38796726"
   let path: any = ""
   let title: any = ""
   let showIframe: any = ""
@@ -60,7 +61,7 @@ const DynamicComponent = () => {
 
 export default DynamicComponent
 
-export const Route = createFileRoute('/$dynamicComponent')({
+export const Route = createFileRoute('/_dynamicPage/$listComponent')({
   component: DynamicComponent,
   beforeLoad: () => {
     return {

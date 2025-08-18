@@ -1,4 +1,32 @@
-const DashboardTableEditForm = ({
+import { Client } from "@/data/client";
+import { useToaster } from "@/state/use-toaster";
+import { updateParamsFromUrl, removeAllParams, addParam } from "@/utils/param";
+import { useMutation } from "@tanstack/react-query";
+import { env } from "@/env";
+import { useState, useEffect } from "react";
+import { Button } from "../Button";
+import { DateTimeInput } from "../DateTime/DateTimeInput";
+import { Dialog } from "../Dialog";
+import { Form, FormItem, FormLabel, FormControl, Textarea, FormMessage, Input } from "../Form";
+import { Select } from "../Select";
+import { DashboardTableEditor } from "./DashboardTableEditor";
+import { z } from 'zod';
+
+type FormProps = {
+  onSubmit: (data: any) => void;
+  validationSchema?: any;
+  serverError?: any;
+  initialValues?: any;
+  className?: string;
+  children: (methods: {
+    register: any;
+    control: any;
+    setValue: any;
+    formState: { errors: any };
+  }) => React.ReactNode; // ✅ Allow render function
+};
+
+export const DashboardTableEditForm = ({
   openModal,
   setOpenModal,
   title,
@@ -9,14 +37,13 @@ const DashboardTableEditForm = ({
   showEditData,
   refetch,
   urlParam,
-}) => {
-  const [isSata, setisData] = useState(false);
-  const [defaultValues, setDefaultValues] = useState(null);
-  const [data, setData] = useState([]);
-  const [initialValues, setInitialValues] = useState(false);
-  const [serverError, setServerError] = useState(null);
+}: any) => {
+  const [isSata, setisData] = useState<any>(false);
+  const [defaultValues, setDefaultValues] = useState<any>(null);
+  const [data, setData] = useState<any>([]);
+  const [initialValues, setInitialValues] = useState<any>(false);
+  const [serverError, setServerError] = useState<any>(null);
   const { setToaster } = useToaster();
-  const { z } = Zod;
 
   const { mutate: getFormData, isLoading: stageLoadingFormData } = useMutation({
     mutationKey: ["getFormData"],
@@ -29,10 +56,10 @@ const DashboardTableEditForm = ({
         },
       });
     },
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       if (response.statusCode === "200") {
         const mapData = Object.fromEntries(
-          Object.entries(response.data).map(([key, value]) => {
+          Object.entries(response.data).map(([key, value]: any) => {
             // if (key === "hs_pipeline" || key === "pipeline") {
             //   getStags(value.value.value);
             // }
@@ -79,9 +106,9 @@ const DashboardTableEditForm = ({
   //   },
   // });
 
-  const createValidationSchema = (data) => {
-    const schemaShape = {};
-    data.forEach((field) => {
+  const createValidationSchema = (data: any) => {
+    const schemaShape: any = {};
+    data.forEach((field: any) => {
       if (field.requiredField || field.primaryProperty) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${field.customLabel || field.label} is required.`,
@@ -107,9 +134,9 @@ const DashboardTableEditForm = ({
         throw error;
       }
     },
-    onSuccess: async (response) => {
+    onSuccess: async (response: any) => {
       // console.log('stage data', data)
-      const updatedProperties = data.map((property) =>
+      const updatedProperties: any = data.map((property: any) =>
         property.name === "hs_pipeline_stage"
           ? { ...property, options: response.data }
           : property
@@ -118,7 +145,7 @@ const DashboardTableEditForm = ({
 
       setData(updatedProperties);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
       setToaster({ message: errorMessage, type: "error" });
     },
@@ -131,7 +158,7 @@ const DashboardTableEditForm = ({
       return await Client.form.fields({ API: apis.formAPI });
     },
 
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       if (response.statusCode === "200") {
         // console.log('getData', response.data.properties)
         // setData(sortFormData(response.data.properties))
@@ -166,7 +193,7 @@ const DashboardTableEditForm = ({
         throw error;
       }
     },
-    onSuccess: async (response) => {
+    onSuccess: async (response: any) => {
       setToaster({ message: response.statusMsg, type: "success" });
       refetch({
         filterPropertyName: "hs_pipeline",
@@ -177,7 +204,7 @@ const DashboardTableEditForm = ({
       setOpenModal(false);
     },
 
-    onError: (error) => {
+    onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
       if (error.response && error.response.data) {
@@ -193,11 +220,11 @@ const DashboardTableEditForm = ({
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     editData(data);
   };
 
-  const onChangeSelect = (filled, selectedValue) => {
+  const onChangeSelect = (filled: any, selectedValue: any) => {
     if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
       getStags(selectedValue);
     }
@@ -232,8 +259,8 @@ const DashboardTableEditForm = ({
   useEffect(() => {
     if (isSata) {
       // console.log('defaultValues', defaultValues)
-      const mapData = Object.fromEntries(
-        Object.entries(defaultValues).map(([key, value]) => {
+      const mapData: any = Object.fromEntries(
+        Object.entries(defaultValues).map(([key, value]: any) => {
           if (key === "hs_pipeline" || key === "pipeline") {
             getStags(value.value.value);
           }
@@ -270,7 +297,7 @@ const DashboardTableEditForm = ({
                 initialValues={initialValues}
                 className="dark:bg-dark-200 !m-0"
               >
-                {({ register, control, setValue, formState: { errors } }) => (
+                {({ register, control, setValue, formState: { errors } }: any) => (
                   <div>
                     <div className="text-gray-800 dark:text-gray-200">
                       {data.map((filled) => (
@@ -309,7 +336,7 @@ const DashboardTableEditForm = ({
                                 (filled.name == "dealstage" &&
                                   filled.fieldType == "radio" &&
                                   hubspotObjectTypeId ===
-                                    env.HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
+                                    env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.deals) ? (
                                   <Select
                                     label={`Select ${filled.customLabel}`}
                                     name={filled.name}

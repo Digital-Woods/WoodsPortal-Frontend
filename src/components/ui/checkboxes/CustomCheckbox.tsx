@@ -1,15 +1,15 @@
 import { Checkbox } from "../Checkbox";
-import { Select, Options } from "../Select";
+import { CustomCheckboxSelect, Options } from "../Select";
 
 export const CustomCheckbox = ({children, buttonText, spanText, showSpan }: any) => {
   return (
     <div>
-      <Select buttonText={buttonText} spanText={spanText} showSpan={showSpan}>
+      <CustomCheckboxSelect buttonText={buttonText} spanText={spanText} showSpan={showSpan}>
         <Options>
           <h1 className="py-3 font-[500] text-lg">Client Filter</h1>
           <hr className="py-1" />
           <div className="flex gap-x-3 py-2">
-            <p className="text-xs text-secondary cursor-pointer">select all</p>
+            <p className="text-xs text-secondary cursor-pointer">CustomCheckboxSelect all</p>
             <p className="text-xs text-secondary cursor-pointer">clear all</p>
           </div>
           <Option>
@@ -19,7 +19,7 @@ export const CustomCheckbox = ({children, buttonText, spanText, showSpan }: any)
             <Checkbox label="Yokshire new house" />
           </Option>
         </Options>
-      </Select>
+      </CustomCheckboxSelect>
     </div>
   );
 };

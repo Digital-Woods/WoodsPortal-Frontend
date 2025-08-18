@@ -3,7 +3,7 @@ import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { AttachmentIcon } from '@/assets/icons/AttachmentIcon';
 import { getAuthToken } from '@/data/client/auth-utils';
 import axios from 'axios';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 
 // const attachmentUpload = async (file) => {
@@ -173,7 +173,8 @@ const renderReactAttachmentUploadComponent = (
   setAttachmentId: any
 ) => {
   const container = document.createElement("div");
-  ReactDOM.render(
+  const root = createRoot(container);
+  root.render(
     <EditorAttachmentUploadMenu
       editorView={editorView}
       attachmentUploadUrl={attachmentUploadUrl}
@@ -182,8 +183,7 @@ const renderReactAttachmentUploadComponent = (
       setisLoadingUoloading={setisLoadingUoloading}
       setUploadProgress={setUploadProgress}
       setAttachmentId={setAttachmentId}
-    />,
-    container
+    />
   );
   return container;
 };

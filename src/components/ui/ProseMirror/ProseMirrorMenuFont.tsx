@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Plugin as ProseMirrorPlugin2, PluginKey as ProseMirrorPluginKey2} from "prosemirror-state"
 import {MenuItem as MenuItem2} from "prosemirror-menu"
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
 const textFonts: any = [
@@ -201,7 +201,8 @@ const DropdownFontMenu = ({ editorView, activeFont2 }: any) => {
 
 const renderReactFontComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<DropdownFontMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<DropdownFontMenu editorView={editorView} />);
   return container;
 };
 

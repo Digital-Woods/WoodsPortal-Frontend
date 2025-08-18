@@ -28,6 +28,7 @@ import { italicItem } from '@/components/ui/ProseMirror/ProseMirrorMenuItalic';
 import { listMenuItem } from '@/components/ui/ProseMirror/ProseMirrorMenuList';
 import { underlineMenuItem } from '@/components/ui/ProseMirror/ProseMirrorMenuUnderline';
 import { clearFormattingNoteMenuItem } from './ProseMirrorMenuClearFormatting';
+import { useEditor } from '@/state/use-editor';
 
 export const ProseMirrorEditor = ({
   initialData = "",

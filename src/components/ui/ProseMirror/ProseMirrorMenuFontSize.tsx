@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Plugin as ProseMirrorPlugin2, PluginKey as ProseMirrorPluginKey2} from "prosemirror-state"
 import {MenuItem as MenuItem2} from "prosemirror-menu"
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
 const textFontSizes = [
@@ -184,7 +184,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }: any) => {
           </span>
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <ul class="space-y-2 note-dd-Select-menu text-gray-500 list-none list-inside dark:text-gray-400">
+          <ul className="space-y-2 note-dd-Select-menu text-gray-500 list-none list-inside dark:text-gray-400">
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
@@ -214,7 +214,8 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }: any) => {
 
 const renderReactFontSizeComponent = (editorView: any) => {
   const container = document.createElement("div");
-  ReactDOM.render(<DropdownFontSizeMenu editorView={editorView} />, container);
+  const root = createRoot(container);
+  root.render(<DropdownFontSizeMenu editorView={editorView} />);
   return container;
 };
 

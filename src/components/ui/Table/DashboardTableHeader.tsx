@@ -8,6 +8,7 @@ import { EnterIcon } from '@/assets/icons/EnterIcon'
 import { IconPlus } from '@/assets/icons/IconPlus'
 import { Input } from '@/components/ui/Form'
 import { recorBtnCustom } from '@/defaultData'
+import { useTable } from '@/state/use-table';
 
 export const DashboardTableHeader = ({
   title,
