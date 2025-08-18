@@ -33,7 +33,7 @@ export const getParam = (key: any) => {
   const hash = url.split("#")[1];
 
   // Extract query part from the hash
-  const queryString = hash.split("?")[1];
+  const queryString = hash ? hash.split("?")[1] : "";
 
   // Parse parameters from the query string
   const searchParams = new URLSearchParams(queryString);
@@ -97,7 +97,7 @@ export const getQueryParamsFromCurrentUrl = () => {
   if (!queryString) return ""; // Return empty string if no query parameters
 
   const params = new URLSearchParams(queryString);
-  const paramsObject = {};
+  const paramsObject: any = {};
 
   // Convert query parameters to an object
   params.forEach((value, key) => {
@@ -123,7 +123,7 @@ export const getQueryParamsFromCurrentUrl = () => {
 export const toQueryString = (params: any) => {
   const searchParams = new URLSearchParams();
 
-  Object.entries(params).forEach(([key, value]) => {
+  Object.entries(params).forEach(([key, value]: any) => {
     if (value !== undefined && value !== null && value !== "") {
       searchParams.append(key, value);
     }
