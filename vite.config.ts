@@ -21,7 +21,7 @@ export default defineConfig({
     process: JSON.stringify({ env: {} }),
   },
   build: {
-    outDir: 'dist/newbutton.module',
+    outDir: 'dist/digitalwoods-react.module',
     lib: {
       entry: 'src/main.tsx',
       name: 'ReactButtonModule',
