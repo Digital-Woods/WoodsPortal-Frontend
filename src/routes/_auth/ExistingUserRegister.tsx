@@ -11,7 +11,7 @@ import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'
 import { toast } from 'sonner';
 import { z } from 'zod';
-import Link from '@/components/ui/link';
+import { Link } from '@/components/ui/link';
 
 
 export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {

@@ -1,3 +1,5 @@
+import { useToaster } from "@/state/use-toaster";
+
 const Tick = () => {
   return (
     <svg

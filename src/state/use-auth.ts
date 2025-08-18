@@ -1,18 +1,17 @@
-// const { atom } = Recoil;
+import { useAtom } from 'jotai';
+import { authorizationState, logoutDialogState, profileState } from '@/state/store';
+import { setAuthToken, getAuthToken, removeAuthToken  } from '@/data/client/auth-utils';
 
-const authorizationAtom = Recoil.atom({
-  key: "authorizationAtom",
-  default: checkHasAuthToken(),
-});
-
-function useAuth() {
-  const [isAuthorized, setAuthorized] = Recoil.useRecoilState(authorizationAtom);
+export function useAuth() {
+  const [isAuthorized, setAuthorized] = useAtom(authorizationState);
+  const [logoutDialog, setLogoutDialog] = useAtom(logoutDialogState);
+  const [profileDetails, setProfileDetails] = useAtom(profileState);
 
   return {
     setToken: setAuthToken,
     getToken: getAuthToken,
     isAuthorized,
-    authorize(token) {
+    authorize(token: any) {
       setAuthToken(token);
       setAuthorized(true);
     },
@@ -20,10 +19,9 @@ function useAuth() {
       setAuthorized(false);
       removeAuthToken();
     },
+    profileDetails,
+    setProfileDetails,
+    logoutDialog, 
+    setLogoutDialog
   };
 }
-
-const userDetailsAtom = atom({
-  key: "userDetailsAtom",
-  default: null,
-});

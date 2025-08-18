@@ -61,7 +61,7 @@ const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: a
         return;
       }
 
-      const currentDomain = window.location.origin;
+      const currentDomain = env.VITE_DEV ? env.VITE_PORTAL_URL : window.location.origin;
       const portal = data.data.loggedInDetails.portals.find(
         (item: any) => item.portalUrl === currentDomain
       );

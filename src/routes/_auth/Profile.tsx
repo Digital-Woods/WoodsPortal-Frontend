@@ -1,35 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useState, useEffect } from 'react';
 import { Client } from '@/data/client/index'
-import { useRecoilState } from 'recoil';
+import { getPortal } from "@/data/client/auth-utils";
+import { useSync } from "@/state/use-sync";
+import { useQuery } from "@tanstack/react-query";
+import { ChangePassword } from "@/components/ui/profile/ChangePassword";
+import { UserProfileCard } from "@/components/ui/profile/UserProfileCard";
+import { useAuth } from "@/state/use-auth";
 
 const Profile = () => {
-  const [personalInfo, setPersonalInfo] = useRecoilState(profileState);
-  const [userData, setUserData] = useState();
-  const [userId, setUserId] = useState();
-  const [userObjectId, setUserObjectId] = useState();
-  const [cacheEnabled, setCacheEnabled] = useState(true); 
+  const {profileDetails: personalInfo, setProfileDetails: setPersonalInfo} = useAuth();
+  const [userData, setUserData] = useState<any>();
+  const [userId, setUserId] = useState<any>();
+  const [userObjectId, setUserObjectId] = useState<any>();
+  const [cacheEnabled, setCacheEnabled] = useState<any>(true); 
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
 
-  const [activeTab, setActiveTab] = useState("password");
+  const [activeTab, setActiveTab] = useState<any>("password");
 
 
-  const handlePersonalInfoChange = (e) => {
+  const handlePersonalInfoChange = (e: any) => {
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
   };
 
-  const fetchUserProfile = async ({ portalId, cache }) => {
+  const fetchUserProfile = async ({ portalId, cache }: any) => {
     if (!portalId) return null;
   
-    const response = await Client.user.profile({ portalId, cache });
+    const response: any = await Client.user.profile({ portalId, cache });
     return response?.data;
   };
   
   const { data: userNewData, error, isLoading, refetch } = useQuery({
     queryKey: ['userProfilePage', portalId, cacheEnabled],
     queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }), 
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       if (data) {
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
@@ -37,7 +42,7 @@ const Profile = () => {
       }
       setSync(false);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Error fetching profile:", error);
       setSync(false);
     }
@@ -49,7 +54,7 @@ const Profile = () => {
     }
   }, [sync]);
   
-  const setActiveTabFucntion = (active) => {
+  const setActiveTabFucntion = (active: any) => {
     // setParam("t", active);
     setActiveTab(active);
   };
@@ -97,8 +102,8 @@ export const Route = createFileRoute('/_auth/Profile')({
   component: Profile,
   beforeLoad: () => {
     return {
-      layout: "AuthLayout",
-      requiresAuth: false,
+      layout: "MainLayout",
+      requiresAuth: true,
     }
   },
 })

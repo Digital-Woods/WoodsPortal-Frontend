@@ -8,7 +8,7 @@ import { hubSpotUserDetails } from '@/defaultData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'
-import Link from '@/components/ui/link';
+import { Link } from '@/components/ui/link';
 import { env } from "@/env";
 
 const TwoFa = () => {

@@ -1,13 +1,8 @@
+import { useAtom } from "jotai";
+import { nameState} from '@/state/store';
 
-// const { atom } = Recoil;
-
-const nameState = Recoil.atom({
-  key: "nameState",
-  default: "",
-});
-
-function useName() {
-  const [yourName, setYourName] = Recoil.useRecoilState(nameState);
+export function useName() {
+  const [yourName, setYourName] = useAtom(nameState);
 
   return {
     yourName,

@@ -3,7 +3,7 @@ import React from 'react'
 
 type RouterLinkProps = React.ComponentProps<typeof RouterLink>
 
-const Link: React.FC<
+export const Link: React.FC<
   RouterLinkProps & {
     className?: string
     title?: string
@@ -17,5 +17,3 @@ const Link: React.FC<
     </RouterLink>
   )
 }
-
-export default Link

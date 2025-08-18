@@ -34,7 +34,7 @@ const sizeClasses : any = {
   hubSpot: "p-1",
 };
 
-export const Button = forwardRef((props, ref) => {
+export const Button = forwardRef((props: any, ref: any) => {
   const {
     className,
     variant = "default",

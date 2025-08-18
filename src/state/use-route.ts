@@ -1,12 +1,8 @@
-// const { atom } = Recoil;
+import { useAtom } from 'jotai';
+import { routeState } from '@/state/store';
 
-const routeState = Recoil.atom({
-  key: "routeState",
-  default: [],
-});
-
-function useRoute() {
-  const [routes, setRoutes] = Recoil.useRecoilState(routeState);
+export function useRoute() {
+  const [routes, setRoutes] = useAtom(routeState);
 
   return {
     routes,

@@ -53,6 +53,13 @@ export default {
         richRed: "#FF0000",
         lightblue: "#005fad",
         defaultPrimary: "var(--primary-color)",
+        rsbackground: `${"#2d3e5014"}`,
+        rstextcolor: `${"#2d3e50"}`,
+        rscardbackhround: `${"#2d3e5030"}`,
+        ctaBackgroundColor: `${'#3d4d5e'}`,
+        ctaTextColor: `${'#FFFFFF'}`,
+        ctaButtonBackgroundColor: `${'#14BBA4'}`,
+        ctaButtonTextColor: `${'#FFFFFF'}`,
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
         primaryBgHover: "var(--primary-color-hover-bg)",
@@ -60,11 +67,20 @@ export default {
         flatGray: "#F6F6F6", // Flat grey
         midGray: "#DFDFF2", // Mid grey
         darkerGray: "#1C1C1F",
+        sidelayoutColor: "#2D3E50",
+        sidelayoutTextColor: `${"#ffffff"}`,
+        detailsBannerTextColor: `${"#ffffff"}`,
+        activeState: `${"#ffffff"}20`, // Darker grey
         brand: {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
         },
-
+        backgroundOpacity: ['active'],
+        backgroundOpacity: {
+          '10': '0.1',
+          '20': '0.2',
+          '95': '0.95',
+        },
         light: {
           base: "#646464",
           100: "#f9f9f9",
