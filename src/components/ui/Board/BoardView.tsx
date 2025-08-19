@@ -8,6 +8,7 @@ import { Client } from '@/data/client/index'
 import { hubId } from '@/data/hubSpotData'
 import { Button } from '@/components/ui/Button'
 import { useToaster } from '@/state/use-toaster';
+import { useTable } from '@/state/use-table';
 
 export const BoardView = ({
   hubspotObjectTypeId,
