@@ -844,8 +844,8 @@ export const fetchFileSize = async (url, name, type) => {
 
 // format path
 
-export const formatPath = (key) => {
-  return key.replace(/\s+/g, "-").replace(/\b\w/g, (l) => l.toLowerCase());
+export const formatPath = (key: any) => {
+  return key.replace(/\s+/g, "-").replace(/\b\w/g, (l: any) => l.toLowerCase());
 };
 
 // format custom object name

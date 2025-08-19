@@ -1,7 +1,7 @@
 import { EyeIcon } from "@/assets/icons/EyeIcon";
 import { EyeOffIcon } from "@/assets/icons/EyeOffIcon";
 import { Client } from "@/data/client";
-import { recorBtnCustom } from "@/defaultData";
+import { recorBtnCustom } from "@/data/hubSpotData";
 import { useToaster } from "@/state/use-toaster";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";

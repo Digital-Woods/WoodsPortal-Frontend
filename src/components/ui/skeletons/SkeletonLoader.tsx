@@ -1,4 +1,4 @@
-import { moduleStylesOptions } from '@/defaultData';
+import { moduleStylesOptions } from '@/data/hubSpotData';
 
 export const SkeletonLoader = () => {
     return (

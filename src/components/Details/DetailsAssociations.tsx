@@ -1,7 +1,7 @@
 import { Chevron } from "@/assets/icons/Chevron";
 import { IconPlus } from "@/assets/icons/IconPlus";
 import { getPortal } from "@/data/client/auth-utils";
-import { hubId } from "@/defaultData";
+import { hubId } from "@/data/hubSpotData";
 import { sortData, renderCellContent, replaceQuestionMarkToRegex, isObject } from "@/utils/DataMigration";
 import { getParam, setParamHash } from "@/utils/param";
 import { Link } from "@tanstack/react-router";

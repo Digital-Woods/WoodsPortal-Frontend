@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
-import { hubSpotUserDetails } from '@/defaultData'
+import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EyeIcon } from '@/assets/icons/EyeIcon'
 import { EyeOffIcon } from '@/assets/icons/EyeOffIcon'

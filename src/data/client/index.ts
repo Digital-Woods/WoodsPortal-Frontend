@@ -1,7 +1,7 @@
 import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from '@/data/client/http-client';
 import { generateApiUrl } from '@/utils/generateApiUrl';
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 
 export const Client = {
   authentication : {

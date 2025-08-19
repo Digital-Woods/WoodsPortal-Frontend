@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { env } from "@/env";
 import { getQueryParamsFromCurrentUrl, getParam, removeAllParams, updateParamsFromUrl, getParamHash } from '@/utils/param'
 import { getPortal, getRouteMenuConfig, setRouteMenuConfig } from '@/data/client/auth-utils'
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { useBreadcrumb } from '@/state/use-breadcrumb';
 import { useSync } from '@/state/use-sync';
@@ -154,9 +154,6 @@ export const DynamicComponentView = ({
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       let routeMenuConfigs = getRouteMenuConfig();
       let param;
-
-      console.log("routeMenuConfigs", routeMenuConfigs)
-      console.log("objectId", objectId)
 
       if(routeMenuConfigs[objectId]?.details === true){
         const details = routeMenuConfigs[objectId]?.details
@@ -433,7 +430,7 @@ export const DynamicComponentView = ({
       ) {
         await getPipelines();
       } else {
-        console.log(123)
+        // console.log(123)
         // getData();
       }
       // }
@@ -483,7 +480,7 @@ export const DynamicComponentView = ({
       ) {
         await getPipelines();
       } else {
-        console.log(456)
+        // console.log(456)
 
       try {
         await getData();

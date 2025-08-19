@@ -9,7 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as HomeRouteImport } from './routes/home'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DynamicPageListComponentRouteImport } from './routes/_dynamicPage/$listComponent'
 import { Route as AuthVerifyEmailRouteImport } from './routes/_auth/verify-email'
@@ -23,9 +23,9 @@ import { Route as AuthProfileRouteImport } from './routes/_auth/Profile'
 import { Route as DynamicPageAssociationNameRouteImport } from './routes/_dynamicPage/association/$name'
 import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './routes/_dynamicPage/$objectName/$object_id/$id/index'
 
-const HomeRoute = HomeRouteImport.update({
-  id: '/home',
-  path: '/home',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -94,7 +94,7 @@ const DynamicPageObjectNameObject_idIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/dashboard': typeof DashboardRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
   '/forget-password': typeof AuthForgetPasswordRoute
@@ -109,7 +109,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/dashboard': typeof DashboardRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
   '/forget-password': typeof AuthForgetPasswordRoute
@@ -125,7 +125,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/dashboard': typeof DashboardRoute
   '/_auth/Profile': typeof AuthProfileRoute
   '/_auth/Register': typeof AuthRegisterRoute
   '/_auth/forget-password': typeof AuthForgetPasswordRoute
@@ -142,7 +142,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/home'
+    | '/dashboard'
     | '/Profile'
     | '/Register'
     | '/forget-password'
@@ -157,7 +157,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/home'
+    | '/dashboard'
     | '/Profile'
     | '/Register'
     | '/forget-password'
@@ -172,7 +172,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/home'
+    | '/dashboard'
     | '/_auth/Profile'
     | '/_auth/Register'
     | '/_auth/forget-password'
@@ -188,7 +188,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  HomeRoute: typeof HomeRoute
+  DashboardRoute: typeof DashboardRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
@@ -204,11 +204,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -300,7 +300,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  HomeRoute: HomeRoute,
+  DashboardRoute: DashboardRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   AuthForgetPasswordRoute: AuthForgetPasswordRoute,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { env } from "@/env";
-import { showCompanyNameOption, showSidebarCtaOption } from '@/defaultData'
-import { hubSpotUserDetails } from '@/data/hubSpotData'
+import { showCompanyNameOption, showSidebarCtaOption, hubSpotUserDetails } from '@/data/hubSpotData'
 import { getParam } from '@/utils/param';
 import { formatPath } from '@/utils/DataMigration';
 import { useResponsive } from '@/utils/UseResponsive'

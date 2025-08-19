@@ -1,6 +1,6 @@
 import { DetailsGallery } from "@/components/Details/DetailsGallery";
 import { getRouteMenuConfig, setRouteMenuConfig, getPortal } from "@/data/client/auth-utils";
-import { hubId } from "@/defaultData";
+import { hubId } from "@/data/hubSpotData";
 import { getQueryParamsFromCurrentUrl } from "@/utils/param";
 import { useResponsive } from "@/utils/UseResponsive";
 import { env } from "@/env";

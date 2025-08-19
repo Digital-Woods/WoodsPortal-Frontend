@@ -1,3 +1,6 @@
+import { apiRoutes } from "@/data/hubSpotData";
+import { formatPath } from "./DataMigration";
+
 export const setParam = (paramName: any, paramValue: any) => {
   // Get the current URL
   const currentUrl = new URL(window.location.href);
@@ -204,3 +207,9 @@ export function removeAllParams(apiUrl: any) {
 //     // Return the updated URL without the base URL
 //     return url.pathname + url.search;
 // }
+
+
+
+export const getRouteMenu = (path: any) => {
+  return apiRoutes.find((menu: any) =>  menu.path === `/${path}`);
+}

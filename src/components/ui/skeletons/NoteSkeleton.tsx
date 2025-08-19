@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { IconPlus } from '@/assets/icons/IconPlus'
-import { recorBtnCustom } from '@/defaultData'
+import { recorBtnCustom } from '@/data/hubSpotData'
 
 export const NoteSkeleton = () => {
     return (

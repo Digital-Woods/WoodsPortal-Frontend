@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Form'
 import { IconPlus } from '@/assets/icons/IconPlus'
 import { SearchIcon } from '@/assets/icons/SearchIcon'
-import { recorBtnCustom } from '@/defaultData'
+import { recorBtnCustom } from '@/data/hubSpotData'
 
 export const DashboardTableHeaderSkeleton = ({
   title,

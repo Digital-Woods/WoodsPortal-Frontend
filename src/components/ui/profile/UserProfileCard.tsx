@@ -1,5 +1,5 @@
 import { useMe } from "@/data/user";
-import { moduleStylesOptions } from "@/defaultData";
+import { moduleStylesOptions } from "@/data/hubSpotData";
 import { profileInitial } from "@/utils/DataMigration";
 import { useState, useEffect } from "react";
 import { SkeletonLoader } from "../skeletons/SkeletonLoader";

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { useSetRecoilState } from 'recoil';
 import { setCookie } from "@/utils/cookie";
-import { hubSpotUserDetails } from '@/defaultData'
+import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'

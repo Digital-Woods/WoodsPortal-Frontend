@@ -1,5 +1,5 @@
 import { useMe } from "@/data/user";
-import { hubSpotUserDetails } from "@/defaultData";
+import { hubSpotUserDetails } from "@/data/hubSpotData";
 import { useAuth } from "@/state/use-auth";
 import { getFirstName, getLastName, profileInitial } from "@/utils/DataMigration";
 

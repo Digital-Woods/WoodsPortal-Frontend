@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { env } from "@/env";
 import { z } from 'zod';
-import { baseCompanyOptions, hubId } from '@/defaultData'
+import { baseCompanyOptions, hubId } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
@@ -87,7 +87,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         // } else {
         //   window.location.hash = "/no-routes";
         // }
-        window.location.hash = "/home";
+        window.location.hash = "/dashboard";
         // console.log('home', true)
       }
       toast.error(data.statusMsg);

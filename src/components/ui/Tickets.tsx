@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import { getParam } from '@/utils/param';
 import { getPortal } from '@/data/client/auth-utils';
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView'
 
 export const Tickets = ({

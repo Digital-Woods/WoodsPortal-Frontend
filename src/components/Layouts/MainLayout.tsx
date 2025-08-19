@@ -3,7 +3,7 @@ import { Drawer } from '@/components/Layouts/SiteLayout/Drawer';
 import { useCollapsible } from '@/state/use-collapsible';
 import { HeaderLayout } from '@/components/Layouts/SiteLayout/HeaderLayout';
 import { useRoute } from '@/state/use-route';
-import { apiRoutes } from '@/defaultData';
+import { apiRoutes } from '@/data/hubSpotData';
 
 const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { sidebarCollapsed } = useCollapsible();

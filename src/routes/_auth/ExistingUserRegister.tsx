@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { useResponsive } from '@/utils/UseResponsive'
-import { hubSpotUserDetails, baseCompanyOptions } from '@/defaultData'
+import { hubSpotUserDetails, baseCompanyOptions } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { EyeIcon } from '@/assets/icons/EyeIcon'

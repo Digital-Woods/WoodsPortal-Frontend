@@ -13,7 +13,7 @@
 import { Client } from "@/data/client";
 import { getPortal, getAuthToken } from "@/data/client/auth-utils";
 import { useMe } from "@/data/user";
-import { hubId } from "@/defaultData";
+import { hubId } from "@/data/hubSpotData";
 import { useSync } from "@/state/use-sync";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";

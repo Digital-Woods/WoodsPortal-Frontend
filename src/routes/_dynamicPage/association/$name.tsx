@@ -1,23 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { env } from "@/env";
-import { getQueryParamsFromCurrentUrl, getParam } from '@/utils/param'
+import { getQueryParamsFromCurrentUrl, getParam, getRouteMenu } from '@/utils/param'
 import { getPortal } from '@/data/client/auth-utils'
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 
 const DynamicComponent = () => {
 
-  let hubspotObjectTypeId: any = "2-38796726"
-  let path: any = ""
-  let title: any = ""
+  const { name: path } = Route.useParams();
+  
+  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(path)
   let showIframe: any = ""
   let propertyName: any = ""
-  let companyAsMediator: any = ""
-  let pipeLineId: any = ""
-  let specPipeLine: any = ""
-  let objectDescription: any = ""
-  let objectUserProperties: any = ""
-  let objectUserPropertiesView: any = ""
 
   const param = getQueryParamsFromCurrentUrl();
 

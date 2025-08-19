@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import classNames from 'classnames';
-import { moduleStylesOptions } from '@/defaultData'
+import { moduleStylesOptions } from '@/data/hubSpotData'
 import { AnimatedCircles } from '@/assets/icons/animateCircles'
 
 const classes = {

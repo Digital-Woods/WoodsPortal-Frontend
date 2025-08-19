@@ -4,9 +4,9 @@ import { toast } from 'sonner';
 import { z } from 'zod'
 import { Client } from '@/data/client/index'
 import { useResponsive } from '@/utils/UseResponsive'
-import { baseCompanyOptions } from '@/defaultData'
+import { baseCompanyOptions } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
-import { hubSpotUserDetails } from '@/defaultData'
+import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Button } from '@/components/ui/Button'
 

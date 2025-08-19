@@ -4,7 +4,7 @@ import { DetailsIcon } from "@/assets/icons/detailsIcon";
 import { Client } from "@/data/client";
 import { getRouteMenuConfig, setRouteMenuConfig, getPortal } from "@/data/client/auth-utils";
 import { useMe } from "@/data/user";
-import { hubId } from "@/defaultData";
+import { hubId } from "@/data/hubSpotData";
 import { useSync } from "@/state/use-sync";
 import { useTable } from "@/state/use-table";
 import { sanitizeForBase64, sortData } from "@/utils/DataMigration";

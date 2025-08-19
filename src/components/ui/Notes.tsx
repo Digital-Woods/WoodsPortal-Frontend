@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button'
 import { Pagination } from '@/components/ui/Pagination'
 import { Chevron } from '@/assets/icons/Chevron'
 import { IconPlus } from '@/assets/icons/IconPlus'
-import { hubId, moduleStylesOptions, recorBtnCustom } from '@/defaultData'
+import { hubId, moduleStylesOptions, recorBtnCustom } from '@/data/hubSpotData'
 import { ProseMirrorEditor } from '@/components/ui/ProseMirror/ProseMirrorEditor'
 import { escapeHTML, isObject } from '@/utils/DataMigration';
 import { CautionCircle } from '@/assets/icons/CautionCircle';
