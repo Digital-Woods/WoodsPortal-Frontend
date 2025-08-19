@@ -656,7 +656,7 @@ export const DynamicComponentView = ({
                   key={hubspotObjectTypeId}
                   hubspotObjectTypeId={hubspotObjectTypeId}
                   path={path}
-                  title={title == 'Association' ? associatedtableTitleSingular : (title || hubSpotUserDetails.sideMenu[0].label)}
+                  title={title == 'Association' ? associatedtableTitleSingular : (title || hubSpotUserDetails.sideMenu[0]?.label)}
                   tableTitle={
                     singularTableTitle || hubSpotUserDetails.sideMenu[0].label
                   }

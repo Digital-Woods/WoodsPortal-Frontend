@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { env } from "@/env";
 import { getQueryParamsFromCurrentUrl, getParam, getRouteMenu } from '@/utils/param'
 import { getPortal } from '@/data/client/auth-utils'
@@ -8,8 +8,10 @@ import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView
 const DynamicComponent = () => {
 
   const { name: path } = Route.useParams();
+  const router = useRouter()
+  const { pathname } = router.state.location
   
-  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(path)
+  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(pathname)
   let showIframe: any = ""
   let propertyName: any = ""
 

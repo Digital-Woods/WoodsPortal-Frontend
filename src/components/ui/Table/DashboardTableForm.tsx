@@ -344,7 +344,7 @@ export const DashboardTableForm = ({
         ? last.name.slice(0, -1)
         : last.name;
       setObjectName(singularLastName);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title.includes('with') ? nameTrancate(title.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title?.includes('with') ? nameTrancate(title.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
     }
   }, [breadcrumbs, activeTab]);
 

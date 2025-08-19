@@ -3,13 +3,19 @@ import { env } from "@/env";
 import { useRoute } from '@/state/use-route';
 import { Link } from '@/components/ui/link';
 import { getCookie } from '@/utils/cookie';
-import { getParam, setParam, getParamHash } from '@/utils/param';
+import { getParam, setParam, getParamHash, getRouteMenu } from '@/utils/param';
 import { Chevron } from '@/assets/icons/Chevron';
 import { formatCustomObjectLabel } from '@/utils/DataMigration';
 import { useBreadcrumb } from '@/state/use-breadcrumb';
+import { useRouter } from '@tanstack/react-router'
 
 export const Breadcrumb = (props: any) => {
-  const { id, title, path, location, match } = props;
+  const router = useRouter()
+  const location = router.state.location
+  const { pathname, searchStr, hash } = router.state.location
+  // const { id, title, path, match } = props;
+
+  // console.log("title", title)
 
   const { routes, setRoutes } = useRoute();
 
@@ -30,60 +36,59 @@ export const Breadcrumb = (props: any) => {
     return parentObjectUrl
   };
   
-  useEffect(() => {
-    let item= [];
-    if(getParam('parentObjectName')) {
-      item.push(getParentObjectUrl())
-    }
-    item.push({
-      name: path === "/association" ? match?.params?.name : title,
-      path: `${location?.pathname}${location?.search || ""}`,
-      routeName: match?.url,
-    });
+ useEffect(() => {
+  console.log(true)
+  let routeMenu = getRouteMenu(pathname)
+  const segments = pathname.split('/')
 
-    // let item = [
-    //   {
-    //     name: path === "/association" ? match?.params?.name : title,
-    //     path: `${location?.pathname}${location?.search || ""}`,
-    //     routeName: match?.url,
-    //   },
-    // ];
+  let item: any[] = []
+  if (getParam('parentObjectName')) {
+    item.push(getParentObjectUrl())
+  }
+  item.push({
+    name:
+      pathname === '/association'
+        ? pathname
+        : segments.length > 1
+        ? segments[1]
+        : routeMenu?.title,
+    path: `${pathname}${searchStr || ''}`,
+    routeName: pathname,
+  })
 
-    const mRoute = routes.find((route: any) => route.path === match?.url);
+  const mRoute = routes.find((route: any) => route.path === pathname)
 
-    let breadcrumb = getParam("b");
+  let breadcrumb = getParam('b')
+  let breadcrumbItems = breadcrumb
+    ? JSON.parse(decodeToBase64(breadcrumb))
+    : breadcrumbs
 
-    let breadcrumbItems = breadcrumb
-      ? JSON.parse(decodeToBase64(breadcrumb))
-      : breadcrumbs;
+  let index = breadcrumbItems.findIndex(
+    (breadcrumb: any) => breadcrumb?.routeName === pathname,
+  )
 
-    let index = breadcrumbItems.findIndex(
-      (breadcrumb: any) => breadcrumb?.routeName === match?.url
-    );
+  let updatedBreadcrumbs =
+    index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems
 
-    let updatedBreadcrumbs =
-      index !== -1 ? breadcrumbItems.slice(0, index + 1) : breadcrumbItems;
+  let foundBreadcrumb = updatedBreadcrumbs.find(
+    (breadcrumb: any) => breadcrumb?.routeName === pathname,
+  )
 
-    let foundBreadcrumb = updatedBreadcrumbs.find(
-      (breadcrumb: any) => breadcrumb?.routeName === match?.url
-    );
+  if (!foundBreadcrumb) {
+    updatedBreadcrumbs = updatedBreadcrumbs
+      ? [...updatedBreadcrumbs, ...item]
+      : []
+  }
 
-    if (!foundBreadcrumb) {
-      updatedBreadcrumbs = updatedBreadcrumbs
-        ? [...updatedBreadcrumbs, ...item]
-        : [];
-    }
+  const nextBreadcrumbs = mRoute ? item : updatedBreadcrumbs
 
-    if (mRoute) {
-      const base64 = convertToBase64(JSON.stringify(item));
-      setParam("b", base64);
-      setBreadcrumbs(item);
-    } else {
-      const base64 = convertToBase64(JSON.stringify(updatedBreadcrumbs));
-      setParam("b", base64);
-      setBreadcrumbs(updatedBreadcrumbs);
-    }
-  }, [routes]);
+  // ✅ Compare JSON instead of Base64
+  if (JSON.stringify(nextBreadcrumbs) !== JSON.stringify(breadcrumbItems)) {
+    const newBase64 = convertToBase64(JSON.stringify(nextBreadcrumbs))
+    setParam('b', newBase64)
+    setBreadcrumbs(nextBreadcrumbs)
+  }
+}, [routes, location.pathname])
 
   return (
     <div className="text-xs">

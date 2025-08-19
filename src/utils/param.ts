@@ -211,5 +211,5 @@ export function removeAllParams(apiUrl: any) {
 
 
 export const getRouteMenu = (path: any) => {
-  return apiRoutes.find((menu: any) =>  menu.path === `/${path}`);
+  return apiRoutes.find((menu: any) =>  menu.path === path);
 }

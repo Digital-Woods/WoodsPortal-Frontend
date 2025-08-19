@@ -439,9 +439,9 @@ const sidebarMenuOptions = [
         "specPipeLine": false
     }
 ];
-const moduleIframeListOptions = null
-const sidebarListDataOption = null
-const showSidebarListDataOption = null
+const moduleIframeListOptions: any = []
+const sidebarListDataOption: any = []
+const showSidebarListDataOption: any = []
 
 
 const sidebarCtaDetails = [
