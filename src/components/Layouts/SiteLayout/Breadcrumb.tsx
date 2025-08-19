@@ -37,7 +37,6 @@ export const Breadcrumb = (props: any) => {
   };
   
  useEffect(() => {
-  console.log(true)
   let routeMenu = getRouteMenu(pathname)
   const segments = pathname.split('/')
 
