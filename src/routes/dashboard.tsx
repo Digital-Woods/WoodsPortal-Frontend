@@ -18,7 +18,7 @@ const Home = () => {
 
 export default Home
 
-export const Route = createFileRoute('/home')({
+export const Route = createFileRoute('/dashboard')({
   component: Home,
   beforeLoad: () => {
     return {

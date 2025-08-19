@@ -5,7 +5,7 @@ import { getPortal } from '@/data/client/auth-utils';
 import { renderCellContent, objectToQueryParams } from '@/utils/DataMigration';
 import { useMutation } from "@tanstack/react-query";
 import { Client } from '@/data/client/index'
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 import { Button } from '@/components/ui/Button'
 import { useToaster } from '@/state/use-toaster';
 

@@ -1,6 +1,6 @@
 import { Client } from '@/data/client/index'
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 import { setCookie } from "@/utils/cookie";
 import { env } from "@/env";
 import { useAuth } from "@/state/use-auth";

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { Client } from '@/data/client/index'
-import { hubSpotUserDetails } from '@/defaultData'
+import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Link } from '@/components/ui/link';
 import { Button } from '@/components/ui/Button'
 import { z } from 'zod';

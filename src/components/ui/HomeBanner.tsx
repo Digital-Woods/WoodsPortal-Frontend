@@ -1,5 +1,5 @@
 import { useMe } from "@/data/user";
-import { hubSpotUserDetails, moduleStylesOptions } from "@/defaultData";
+import { hubSpotUserDetails, moduleStylesOptions } from "@/data/hubSpotData";
 import { useAuth } from "@/state/use-auth";
 import { getFirstName, getLastName } from "@/utils/DataMigration";
 import { useState, useEffect } from "react";

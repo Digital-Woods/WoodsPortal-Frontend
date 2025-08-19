@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 
 export const generateApiUrl = ({
   route,

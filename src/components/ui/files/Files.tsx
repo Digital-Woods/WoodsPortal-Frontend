@@ -3,7 +3,7 @@ import { IconPlus } from "@/assets/icons/IconPlus";
 import { SearchIcon } from "@/assets/icons/SearchIcon";
 import { Client } from "@/data/client";
 import { getPortal } from "@/data/client/auth-utils";
-import { recorBtnCustom } from "@/defaultData";
+import { recorBtnCustom } from "@/data/hubSpotData";
 import { useSync } from "@/state/use-sync";
 import { useQuery } from "@tanstack/react-query";
 

@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import Home from '@/routes/home'
+import Home from '@/routes/dashboard'
 
 const App = () => {
   return (

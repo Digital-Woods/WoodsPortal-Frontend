@@ -4,7 +4,7 @@ import { Client } from '@/data/client/index'
 import { Form, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/Form'
 import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 
 export const DashboardTableExistingForm = ({
   resetRef,

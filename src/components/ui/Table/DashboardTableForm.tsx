@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/Button'
 import { DashboardTableExistingForm } from '@/components/ui/Table/DashboardTableExistingForm'
 import { Select } from '@/components/ui/Select'
 import { DateTimeInput } from '@/components/ui/DateTime/DateTimeInput'
-import { hubId } from '@/defaultData'
+import { hubId } from '@/data/hubSpotData'
 import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl } from '@/utils/param';
 import { useToaster } from '@/state/use-toaster';
 import { DashboardTableEditor } from './DashboardTableEditor';
@@ -344,7 +344,7 @@ export const DashboardTableForm = ({
         ? last.name.slice(0, -1)
         : last.name;
       setObjectName(singularLastName);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title.includes('with') ? nameTrancate(title.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title?.includes('with') ? nameTrancate(title.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
     }
   }, [breadcrumbs, activeTab]);
 
