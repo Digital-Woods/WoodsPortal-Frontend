@@ -213,3 +213,7 @@ export function removeAllParams(apiUrl: any) {
 export const getRouteMenu = (path: any) => {
   return apiRoutes.find((menu: any) =>  menu.path === path);
 }
+
+export const getRouteMenuByObjectTypeId = (objectTypeId: any) => {
+  return apiRoutes.find((menu: any) =>  menu.hubspotObjectTypeId === objectTypeId);
+}

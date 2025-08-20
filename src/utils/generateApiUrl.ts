@@ -1,5 +1,6 @@
 import { env } from "@/env";
 import { hubId } from '@/data/hubSpotData'
+import { getPortal } from "@/data/client/auth-utils";
 
 export const generateApiUrl = ({
   route,
