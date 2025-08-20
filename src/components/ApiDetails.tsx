@@ -26,6 +26,7 @@ import { DetailsGallery } from "./Details/DetailsGallery";
 import { DetailsHeaderCard } from "./Details/DetailsHeaderCard";
 import { DetailsPagination } from "./Details/DetailsPagination";
 import { DetailsView } from "./Details/DetailsView";
+import { useRouter } from "@tanstack/react-router";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
   const [item, setItems] = useState([]);
@@ -56,6 +57,9 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
   const {isLoading: isLoadingList} = states
 
+  const router = useRouter()
+  const { pathname } = router.state.location
+
   // Automatically adjust the sidebar based on screen size
   useEffect(() => {
     if (!userToggled) {
@@ -77,7 +81,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
     window.addEventListener("resize", resetOnResize);
     return () => window.removeEventListener("resize", resetOnResize);
-  }, []);
+  }, [pathname]);
 
   const availableTabs: any = [
     "overview",
@@ -113,7 +117,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     } else {
       setActiveTab("overview");
     }
-  }, []);
+    getData();
+  }, [pathname]);
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -164,21 +169,22 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   });
 
   const getData = () => {
-    if(preData) {
-      setSuccessResponse(preData)
-    } else {
-      getDetails()
-    }
+    // if(preData) {
+    //   setSuccessResponse(preData)
+    // } else {
+    //   getDetails()
+    // }
+    getDetails()
   }
 
-  useEffect(() => {
-    let routeMenuConfigs = getRouteMenuConfig();
-    if(preData === null && routeMenuConfigs[objectId]?.details?.preData) {
-      getPreData()
-    } else {
-      getData();
-    }
-  }, [preData]);
+  // useEffect(() => {
+  //   let routeMenuConfigs = getRouteMenuConfig();
+  //   if(preData === null && routeMenuConfigs[objectId]?.details?.preData) {
+  //     getPreData()
+  //   } else {
+  //     getData();
+  //   }
+  // }, [preData]);
 
   useEffect(() => {
     if (sync) getData();
@@ -188,12 +194,12 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     setSync(true);
   }
 
-  const back = () => {
-    let breadcrumbItems =
-      JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
-    let path = breadcrumbItems[breadcrumbItems.length - 1];
-    return path.path;
-  };
+  // const back = () => {
+  //   let breadcrumbItems =
+  //     JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
+  //   let path = breadcrumbItems[breadcrumbItems.length - 1];
+  //   return path.path;
+  // };
 
   if (error) {
     return (
