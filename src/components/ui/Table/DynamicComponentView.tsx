@@ -23,6 +23,7 @@ import { DetailsIcon } from '@/assets/icons/detailsIcon';
 import ReactHtmlParser from 'react-html-parser';
 import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
+import { useRouter } from '@tanstack/react-router';
 
 
 export const DynamicComponentView = ({
@@ -148,7 +149,7 @@ export const DynamicComponentView = ({
     }
   }, [sync]);
 
-  const { mutate: getData, isLoadingAPiData }: any = useMutation({
+  const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async () => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
@@ -416,28 +417,28 @@ export const DynamicComponentView = ({
   //   // }
   // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await setErrorMessage('');
-      await resetTableParam();
-      await setApiResponse(null);
-      await setPageView(null);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await setErrorMessage('');
+  //     await resetTableParam();
+  //     await setApiResponse(null);
+  //     await setPageView(null);
 
-      // if(!isHome) {
-      if (
-        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-        !defPermissions?.pipeline_id
-      ) {
-        await getPipelines();
-      } else {
-        // console.log(123)
-        // getData();
-      }
-      // }
-    };
+  //     // if(!isHome) {
+  //     if (
+  //       (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+  //       !defPermissions?.pipeline_id
+  //     ) {
+  //       await getPipelines();
+  //     } else {
+  //       // console.log(123)
+  //       // getData();
+  //     }
+  //     // }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
 
   // useEffect( async () => {
@@ -447,22 +448,22 @@ export const DynamicComponentView = ({
   //   }
   // }, [sync]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (sync) {
-        if (
-          (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          !defPermissions?.pipeline_id
-        ) {
-          await getPipelines();
-        } else {
-          getData();
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (sync) {
+  //       if (
+  //         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+  //         !defPermissions?.pipeline_id
+  //       ) {
+  //         await getPipelines();
+  //       } else {
+  //         getData();
+  //       }
+  //     }
+  //   };
 
-    fetchData();
-  }, [sync, hubspotObjectTypeId, defPermissions]);
+  //   fetchData();
+  // }, [sync, hubspotObjectTypeId, defPermissions]);
 
 
   // useEffect(async () => {
@@ -470,36 +471,61 @@ export const DynamicComponentView = ({
   //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
   // }, [companyAsMediator]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setPage(1);
+
+  //     if (
+  //       (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+  //       !defPermissions?.pipeline_id
+  //     ) {
+  //       await getPipelines();
+  //     } else {
+  //       // console.log(456)
+
+  //     try {
+  //       await getData();
+  //     } catch (err) {
+  //       console.error("Error running getData", err);
+  //     }
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
+
+  const router = useRouter()
+  const { pathname } = router.state.location
+  
+  useEffect( () => {
+    // console.log("useEffect", true)
+    setErrorMessage('')
+    resetTableParam();
+    setApiResponse(null);
+    setPageView(null);
+    // if(!isHome) {
+      ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+    // }
+  }, [pathname]);
+
+  useEffect( () => {
+    // if (sync && errorMessage) {
+    if (sync) {
+      ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+    }
+  }, [sync]);
+
   useEffect(() => {
-    const fetchData = async () => {
       setPage(1);
-
-      if (
-        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-        !defPermissions?.pipeline_id
-      ) {
-        await getPipelines();
-      } else {
-        // console.log(456)
-
-      try {
-        await getData();
-      } catch (err) {
-        console.error("Error running getData", err);
-      }
-      }
-    };
-
-    fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
+      ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  }, [companyAsMediator]);
 
 
-  const changeTab = async (view) => {
+  const changeTab = async (view: any) => {
     // if(!isHome) {
       await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     // }
   }
-
 
   if (isLoadingAPiData === true) {
     return (

@@ -4,13 +4,16 @@ import { getQueryParamsFromCurrentUrl, getParam, getRouteMenu } from '@/utils/pa
 import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
+import { useEffect } from 'react';
 
-const DynamicComponent = () => {
-
+const ListComponent = () => {
   const { listComponent: path } = Route.useParams();
   const router = useRouter()
   const { pathname } = router.state.location
 
+  useEffect(() => {
+    console.log("useEffect triggered on route change", path, pathname)
+  }, [path, pathname]) // rerun when param or pathname changes
 
   let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(pathname)
   let showIframe: any = ""
@@ -56,10 +59,10 @@ const DynamicComponent = () => {
   )
 }
 
-export default DynamicComponent
+export default ListComponent
 
 export const Route = createFileRoute('/_dynamicPage/$listComponent')({
-  component: DynamicComponent,
+  component: ListComponent,
   beforeLoad: () => {
     return {
       layout: "MainLayout",

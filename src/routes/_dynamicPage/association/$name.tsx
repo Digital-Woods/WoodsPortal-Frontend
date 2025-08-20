@@ -1,17 +1,17 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { env } from "@/env";
-import { getQueryParamsFromCurrentUrl, getParam, getRouteMenu } from '@/utils/param'
+import { getQueryParamsFromCurrentUrl, getParam, getRouteMenuByObjectTypeId } from '@/utils/param'
 import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 
-const DynamicComponent = () => {
+const AssociationComponent = () => {
+  const router = useRouter()
+  const { search } = router.state.location
 
   const { name: path } = Route.useParams();
-  const router = useRouter()
-  const { pathname } = router.state.location
   
-  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(pathname)
+  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenuByObjectTypeId(search?.parentObjectTypeId)
   let showIframe: any = ""
   let propertyName: any = ""
 
@@ -55,10 +55,10 @@ const DynamicComponent = () => {
   )
 }
 
-export default DynamicComponent
+export default AssociationComponent
 
 export const Route = createFileRoute('/_dynamicPage/association/$name')({
-  component: DynamicComponent,
+  component: AssociationComponent,
   beforeLoad: () => {
     return {
       layout: "MainLayout",

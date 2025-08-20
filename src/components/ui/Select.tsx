@@ -50,9 +50,6 @@ export const Select = ({
     large: "py-5",
   };
 
-  console.log("label", label)
-  console.log("control", control)
-
   return (
     <Controller
       control={control}

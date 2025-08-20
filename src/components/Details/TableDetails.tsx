@@ -1,6 +1,6 @@
 import { useSync } from "@/state/use-sync";
 import { useTable } from "@/state/use-table";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ApiDetails } from "../ApiDetails";
 
 export const TableDetails = ({ objectId, getData, states }: any) => {
@@ -25,11 +25,15 @@ export const TableDetails = ({ objectId, getData, states }: any) => {
     }
   }, [sync]);
 
+  const prevAfter = useRef<any>("");
   useEffect(() => {
-    getData();
+    if (prevAfter.current !== after) {
+      getData(after);
+      prevAfter.current = after;
+    }
   }, [after]);
 
-  return apiResponse ? (
+  return apiResponse && apiResponse?.data ? (
     <ApiDetails
       objectId={objectId}
       path={""}
