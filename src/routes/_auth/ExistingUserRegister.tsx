@@ -23,7 +23,7 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
   const matchingPortal = userPortals.find((portal: any) => portal.portalUrl === clientSiteUrl);
-  const portalUrl = matchingPortal?.portalUrl.replace('https://','') || userPortals[0]?.portalUrl.replace('https://','');
+  const portalUrl = matchingPortal?.portalUrl?.replace('https://','') || userPortals[0]?.portalUrl?.replace('https://','');
 
   const enterEmailValidationSchema = z
     .object({

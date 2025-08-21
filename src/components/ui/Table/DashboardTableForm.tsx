@@ -331,7 +331,7 @@ export const DashboardTableForm = ({
   };
 
   const nameTrancate = (name: any) =>{
-   return name.length > 30 ? `${name.slice(0,30)+'...'}` : name;
+   return name.length > 30 ? `${name?.slice(0,30)+'...'}` : name;
   }
 
   useEffect(() => {
@@ -341,10 +341,10 @@ export const DashboardTableForm = ({
       setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title} for ${nameTrancate(last.name)}`: `Associate an Existing ${title} with ${nameTrancate(last.name)}`}`);
     } else {
       const singularLastName = last?.name?.endsWith("s")
-        ? last.name.slice(0, -1)
-        : last.name;
+        ? last?.name.slice(0, -1)
+        : last?.name;
       setObjectName(singularLastName);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title?.includes('with') ? nameTrancate(title.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title.includes('with') ? nameTrancate(title?.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
     }
   }, [breadcrumbs, activeTab]);
 

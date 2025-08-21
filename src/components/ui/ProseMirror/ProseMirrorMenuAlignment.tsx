@@ -41,7 +41,7 @@ const updateImageAlignment = (node: any, view: any, getPos: any, alignment: any)
       return;
     }
 
-    let tr = state.tr;
+    let tr = state?.tr;
 
     if (node.attrs.wrap) {
       // If the node is already wrapped, update the wrapping style for alignment
@@ -50,7 +50,7 @@ const updateImageAlignment = (node: any, view: any, getPos: any, alignment: any)
         wrap: true, // Maintain wrap attribute
         style: `text-align: ${alignment};`,
       };
-      tr = tr.setNodeMarkup(pos, null, newAttrs);
+      tr = tr?.setNodeMarkup(pos, null, newAttrs);
     } else {
       // If not wrapped, wrap with a <div> and add style: text-align attribute
       const wrapperAttrs = {
@@ -66,7 +66,7 @@ const updateImageAlignment = (node: any, view: any, getPos: any, alignment: any)
       );
     }
 
-    tr = tr.setSelection(NodeSelection.create(tr.doc, pos)); // Keep selection in sync
+    tr = tr?.setSelection(NodeSelection.create(tr.doc, pos)); // Keep selection in sync
 
     if (tr.docChanged) {
       dispatch(tr);

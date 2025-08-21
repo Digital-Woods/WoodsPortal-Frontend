@@ -137,16 +137,16 @@ export const keysToSkipAssociations = (key: any) => {
 
 export const checkEquipments = (value: any, title: any) => {
   if (title == "Equipments" || title == "Equipment" || title == "/assets")
-    return value.replace("Asset", "Equipment");
+    return (value && typeof value === "string") ? value.replace("Asset", "Equipment") : "";
   return value;
 };
 
 export const checkEquipmentsName = (value: any, title: any) => {
   if (title == "Equipment")
     if (value == "Asset Name")
-      return value.replace("Asset Name", "Equipment Name");
+      return (value && typeof value === "string") ? value.replace("Asset Name", "Equipment Name") : "";
   if (value == "Asset Type")
-    return value.replace("Asset Type", "Equipment Type");
+    return (value && typeof value === "string") ? value.replace("Asset Type", "Equipment Type") : "";
   return value;
 };
 
@@ -260,7 +260,7 @@ export const replaceQuestionMarkToRegex = (text: any) => {
 }
 
 export const replaceRegexToQuestionMark = (text: any) => {
-  const replacedText = text?.replace(/\?/g, "!");
+  const replacedText = (text && typeof text === "string") ? text?.replace(/\?/g, "!") : text;
   return replacedText;
 }
 
@@ -287,8 +287,8 @@ export function decodeAndStripHtml(html: any) {
 }
 
 export function sanitizeForBase64(str = "") {
-  const sanitized = (str && typeof str === "string") ? str
-    .replace(/[\u2018\u2019]/g, "'")
+  const strConvert = str != null ? String(str) : "";
+  return strConvert.replace(/[\u2018\u2019]/g, "'")
     .replace(/[\u201C\u201D]/g, '"')
     .replace(/[\u2013\u2014]/g, '-')
     .replace(/\u2026/g, '...')
@@ -300,9 +300,7 @@ export function sanitizeForBase64(str = "") {
     .replace(/[^\x00-\x7F]/g, '')
     .replace(/[\/+*=%#]/g, '-')
     .replace(/[^a-zA-Z0-9\s\-@#&!$%^()_.,':;]/g, '')
-    .trim() : "";
-
-  return sanitized;
+    .trim();
   // return btoa(unescape(encodeURIComponent(sanitized))); // if needed
 }
 
@@ -341,12 +339,13 @@ export const renderCellContent = ({
 
   // Start - Set associations url in cookie
   const changeRoute = () => {
-    if(type == "associations") {
+    if (type == "associations") {
       const newPath = path.replace(/^\/+/, "");
       setItemAsync(env.VITE_ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
         name: newPath,
-        path: associationPath,
-        routeName: `/association/${newPath}`})
+        path: replaceFirstSegmentInPath(associationPath),
+        routeName: `/association/${replaceFirstSegmentInPath(newPath)}`
+      })
       );
     }
   }
@@ -369,7 +368,7 @@ export const renderCellContent = ({
     )
   ) {
     const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
-    return  truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
+    return truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
   }
 
   if ( // if date then conver into date format
@@ -402,8 +401,8 @@ export const renderCellContent = ({
   if (
     column &&
     (type == "details" ||
-    type == "company" ||
-    type == "homeList") &&
+      type == "company" ||
+      type == "homeList") &&
     value !== null &&
     typeof value === 'string' &&
     value.startsWith('https://')
@@ -450,19 +449,19 @@ export const renderCellContent = ({
     column.key === "amount" && column.showCurrencySymbol
   ) {
     let find_currency_code;
-    
+
     if (type == 'details') {
       find_currency_code = Array.isArray(item) ? item.find(i => i.key === "deal_currency_code") : null;
     } else {
       find_currency_code = item && item.deal_currency_code ? item.deal_currency_code : null;
     }
-  
+
     if (find_currency_code && find_currency_code.value) {
       const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value;
       return `${Currency(currency)} ${formatAmount(value)}`;
     }
   }
-  
+
   if (column.showCurrencySymbol) { // if value is a currency symbol
     const myCurrency = getUserDetails()?.companyCurrency
     return `${Currency(myCurrency)} ${formatAmount(value)}`;
@@ -479,13 +478,13 @@ export const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           --
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
         >
           <OpenIcon />
         </Link>
@@ -550,13 +549,13 @@ export const renderCellContent = ({
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           onClick={changeRoute}
-          to={associationPath}
+          to={replaceFirstSegmentInPath(associationPath)}
         >
           {truncatedText(isObject(value) ? value.label : value, "23")}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={associationPath}
+          to={replaceFirstSegmentInPath(associationPath)}
         >
           <OpenIcon />
         </Link>
@@ -573,13 +572,13 @@ export const renderCellContent = ({
       <div className="flex gap-1 min-w-[100px] relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
         </Link>
@@ -596,13 +595,13 @@ export const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
-          {truncatedText(isObject(value) ? value.label : value,23)}
+          {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${path}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
         >
           <OpenIcon />
         </Link>
@@ -613,19 +612,19 @@ export const renderCellContent = ({
     const labels = value.map((item: any) => item.label).join(", ");
     return (
       // <Tooltip content={labels}>
-      <span className="dark:text-white">{truncatedText(labels,23)}</span>
+      <span className="dark:text-white">{truncatedText(labels, 23)}</span>
       // </Tooltip>
     );
   }
 
-  if (isObject(value)) return truncatedText(value.label,23) || "--";
+  if (isObject(value)) return truncatedText(value.label, 23) || "--";
 
   const { truncated, isTruncated }: any = truncateString(value || "");
 
   if (type === 'list' || type === 'homeList') {
     return (
       // <Tooltip content={value}>
-      <span className="dark:text-white">{truncatedText(value,23)}</span>
+      <span className="dark:text-white">{truncatedText(value, 23)}</span>
       // </Tooltip>
     );
   } else {
@@ -636,7 +635,7 @@ export const renderCellContent = ({
 
 export function getFirstName() {
   const { me } = useMe();
-  const {profileDetails} = useAuth();
+  const { profileDetails } = useAuth();
 
   if (profileDetails && profileDetails.firstName) {
     return profileDetails.firstName;
@@ -649,7 +648,7 @@ export function getFirstName() {
 
 export function getLastName() {
   const { me } = useMe();
-  const {profileDetails} = useAuth();
+  const { profileDetails } = useAuth();
 
   if (profileDetails && profileDetails.lastName) {
     return profileDetails.lastName;
@@ -662,7 +661,7 @@ export function getLastName() {
 
 export function getEmail() {
   const { me } = useMe();
-  const {profileDetails} = useAuth();
+  const { profileDetails } = useAuth();
 
   if (profileDetails && profileDetails.email) {
     return profileDetails.email;
@@ -774,9 +773,10 @@ export const getIconType = (filename: any) => {
   }
 };
 
-export const getFileDetails = async (urlArray: any) => {
+export const  getFileDetails = async (urlArray:any) => {
   const fileDetails = await Promise.all(
-    urlArray.map(async (url) => {
+    urlArray.map(async (url:any) => {
+    try {
       const name = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1));
       const type = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
 
@@ -796,7 +796,6 @@ export const getFileDetails = async (urlArray: any) => {
           size: "N/A",
         };
       } else if (url.includes("dropbox.com")) {
-        // Dropbox share links need modification for direct download
         const directUrl = url.replace(
           "www.dropbox.com",
           "dl.dropboxusercontent.com"
@@ -811,8 +810,17 @@ export const getFileDetails = async (urlArray: any) => {
         };
       }
 
-      // Default case: Attempt to get file size with a HEAD request
       return await fetchFileSize(url, name, type);
+    } catch (error:any) {
+      console.error(`Error processing URL ${url}:`, error);
+      return {
+        url,
+        name: "Unknown",
+        type: "Unknown",
+        size: "N/A",
+        error: error.message
+      };
+    }
     })
   );
 
@@ -845,19 +853,19 @@ export const fetchFileSize = async (url, name, type) => {
 // format path
 
 export const formatPath = (key: any) => {
-  return key.replace(/\s+/g, "-").replace(/\b\w/g, (l: any) => l.toLowerCase());
+  (key && typeof key === "string") ? key.replace(/\s+/g, "-").replace(/\b\w/g, (l: any) => l.toLowerCase()) : "";
 };
 
 // format custom object name
 
 export function formatCustomObjectLabel(label = "") {
-  return label ? label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ") : "";
+  return (label && typeof label === "string") ? label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ") : "";
 }
 
 // format column labels
 
 export function formatColumnLabel(label: any) {
-  return typeof label === "string" ? label.replace(/_/g, " ") : "";
+  return (label && typeof label === "string") ? label.replace(/_/g, " ") : "";
 }
 
 export function sortFormData(data: any) {
@@ -887,7 +895,7 @@ export function sortFormData(data: any) {
 
 
 export const escapeHTML = (str: any) => {
-  return str.replace(/'/g, "\\'");
+  return (str && typeof str === "string") ? str.replace(/'/g, "\\'") : "";
 }
 export const formatAmount = (amount: any, locale = "en-US") => {
   if (isNaN(amount)) return "Invalid amount";

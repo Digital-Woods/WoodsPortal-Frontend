@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
   const router = useRouter()
-  const { pathname } = router.state.location
+  const { pathname } = router?.state?.location
   let { hubspotObjectTypeId, homeCardsView }: any = getRouteMenu(pathname)
 
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");

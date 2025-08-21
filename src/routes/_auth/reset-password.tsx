@@ -51,7 +51,7 @@ const ResetPassword = () => {
     let token = params.get("token");
 
     if (token) {
-      token = token.replace(/ /g, "+");
+      token = (token && typeof token === "string") ? token.replace(/ /g, "+") : "";
       return decodeURIComponent(token);
     }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { env } from "@/env";
@@ -16,15 +16,16 @@ import { toast } from 'sonner';
 import { hubSpotUserDetails } from '@/data/hubSpotData';
 import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
+import { Link } from '@/components/ui/link';
 
 export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
   const [serverError, setServerError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
-  const matchingPortal = userPortals.find((portal : any) => portal.portalUrl === clientSiteUrl);
-  const portalUrl = matchingPortal?.portalUrl.replace('https://','') || ( userPortals.leggth > 0 ? userPortals[0]?.portalUrl('https://','') : "");
-
+  const matchingPortal = userPortals.find((portal: any) => portal.portalUrl === clientSiteUrl);
+  const portalUrl = matchingPortal?.portalUrl?.replace('https://', '') || (userPortals.leggth > 0 ? userPortals[0]?.portalUrl?.replace('https://', '') : "");
+  const developerMode = false;
   const loginUserValidationSchema = z.object({
     // email: z.string().email(),
     password: z.string().nonempty({
@@ -153,73 +154,90 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
             }
             className="dark:bg-dark-200"
           >
-            {({ register, formState: { errors } }: any) => (
-              <div className="text-gray-800 dark:text-gray-200">
-                <FormItem>
-                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <div>
+            {({ register, setValue, formState: { errors } }: any) => {
+
+              useEffect(() => {
+                if (developerMode) {
+                  setValue("password", "Demo@user1");
+                }
+              }, [developerMode, setValue]);
+
+              return (
+                <div className="text-gray-800 dark:text-gray-200">
+                  <FormItem>
+                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <div>
+                        <div className="relative">
+                          <Input
+                            height="medium"
+                            icon={EmailIcon}
+                            placeholder="Email"
+                            {...register("email")}
+                            defaultValue={entredEmail}
+                            disabled
+                            readOnly
+                          />
+                          <span
+                            className="absolute right-2 top-3 text-secondary cursor-pointer"
+                            onClick={() => setActiveState("pre-login")}
+                          >
+                            <EditIcon2 />
+                          </span>
+                        </div>
+                      </div>
+                    </FormControl>
+                    {errors.username && (
+                      <FormMessage className="text-red-600 dark:text-red-400">
+                        {errors.username.message}
+                      </FormMessage>
+                    )}
+                  </FormItem>
+                  <FormItem>
+                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                      Password
+                    </FormLabel>
+                    <FormControl>
                       <div className="relative">
                         <Input
-                          height="medium"
-                          icon={EmailIcon}
-                          placeholder="Email"
-                          {...register("email")}
-                          defaultValue={entredEmail}
-                          disabled
-                          readOnly
+                          autoFocus
+                          placeholder="Password"
+                          icon={PasswordIcon}
+                          type={showPassword ? "text" : "password"}
+                          {...register("password")}
+                          disabled={developerMode}
                         />
-                        <span
-                          className="absolute right-2 top-3 text-secondary cursor-pointer"
-                          onClick={() => setActiveState("pre-login")}
-                        >
-                          <EditIcon2 />
-                        </span>
+                        {!developerMode &&
+                          <span
+                            className="absolute right-2 top-3 cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                          >
+                            {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                          </span>
+                        }
                       </div>
-                    </div>
-                  </FormControl>
-                  {errors.username && (
-                    <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.username.message}
-                    </FormMessage>
-                  )}
-                </FormItem>
-                <FormItem>
-                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                    Password
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        autoFocus
-                        placeholder="Password"
-                      icon={PasswordIcon}
-                        type={showPassword ? "text" : "password"}
-                        {...register("password")}
-                      />
-                      <span
-                        className="absolute right-2 top-3 cursor-pointer"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                      </span>
-                    </div>
-                  </FormControl>
-                  {errors.password && (
-                    <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.password.message}
-                    </FormMessage>
-                  )}
-                </FormItem>
-                <div className="mt-4 flex flex-col justify-center items-center">
-                  <Button className="w-full" isLoading={isLoading}>
-                    Login
-                  </Button>
+                    </FormControl>
+                    {errors.password && (
+                      <FormMessage className="text-red-600 dark:text-red-400">
+                        {errors.password.message}
+                      </FormMessage>
+                    )}
+                  </FormItem>
+                  <Link to="/forget-password">
+                    <p className="mt-2 mb-0 text-xs dark:text-white text-secondary hover:underline text-end">
+                      Forgot password?
+                    </p>
+                  </Link>
+                  <div className="mt-4 flex flex-col justify-center items-center">
+                    <Button className="w-full" isLoading={isLoading}>
+                      Login
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            }}
           </Form>
         </div>
       </div>

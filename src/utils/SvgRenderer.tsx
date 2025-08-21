@@ -4,7 +4,7 @@ export const SvgRenderer = ({ svgContent }: any) => {
   // Clean the SVG string by removing JSX-specific syntax
   const cleanSvgContent = (svgString: any) => {
     // Remove {...props} or any unsupported JSX syntax
-    return svgString.replace(/{.*?}/g, '');
+     return (svgString && typeof svgString === "string") ? svgString?.replace(/{.*?}/g, '') : "";
   };
 
   // Convert the cleaned SVG string to a DOM element
