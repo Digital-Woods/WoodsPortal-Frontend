@@ -6,12 +6,12 @@ import { useResponsive } from "@/utils/UseResponsive";
 import { env } from "@/env";
 import { useState, useEffect } from "react";
 import { Dialog } from "../Dialog";
-import { Notes } from "./ui/Editor";
 import { Files } from "../files/Files";
 import { DetailsSkeleton } from "../skeletons/DetailsSkeleton";
 import { DynamicComponentView } from "../Table/DynamicComponentView";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../Tabs";
 import { homeTabsDataTypeFilter } from "@/data/hubSpotData";
+import { Notes } from "../Notes";
 
 export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
@@ -38,6 +38,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, is
 
     // Automatically adjust the sidebar based on screen size
     const getInitialFilter = (type: any) => {
+        console.log("homeTabsDataTypeFilter", homeTabsDataTypeFilter)
     return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
             homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
             '0-1';

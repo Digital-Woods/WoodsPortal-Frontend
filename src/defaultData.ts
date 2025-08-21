@@ -440,8 +440,57 @@ const sidebarMenuOptions = [
     }
 ];
 const moduleIframeListOptions: any = []
-const sidebarListDataOption: any = []
-const showSidebarListDataOption: any = []
+const sidebarListDataOption: any = [
+    {
+        "associateObjectName": null,
+        "associateObjectProperties": null,
+        "companyAsMediator": true,
+        "hubspotObjectId": 15,
+        "hubspotObjectTypeId": "0-3",
+        "icon": null,
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Deals Direct",
+        "listObjectName": "Deals Direct",
+        "listObjectProperties": "subject,hs_pipeline_stage,hs_pipeline",
+        "objectType": "HUBSPOT_DEFINED",
+        "pipeLineId": "0",
+        "propertyName": null,
+        "showIframe": false,
+        "specPipeLine": false
+    },
+    {
+        "associateObjectName": null,
+        "associateObjectProperties": null,
+        "companyAsMediator": false,
+        "hubspotObjectId": 15,
+        "hubspotObjectTypeId": "0-3",
+        "icon": null,
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Deals Normal",
+        "listObjectName": "Deals Normal",
+        "listObjectProperties": "subject,hs_pipeline_stage,hs_pipeline",
+        "objectType": "HUBSPOT_DEFINED",
+        "pipeLineId": "0",
+        "propertyName": null,
+        "showIframe": false,
+        "specPipeLine": false
+    }
+]
+const showSidebarListDataOption: any = true
 
 
 const sidebarCtaDetails = [
@@ -461,49 +510,50 @@ const baseCompanyOptions = {
 };
 
 const moduleStylesOptions = {
-    homeTabStyles: {
-        headingColor: "{{ module.style.home_tab_styles.home_tab_banner_text_color.color }}",
-        descriptionColor: "{{ module.style.home_tab_styles.description_color.color }}",
-        buttonStyles: {
-            backgroundColor: "{{ module.style.home_tab_styles.button_styles.background_color.color }}",
-            textColor: "{{ module.style.home_tab_styles.button_styles.text_color.color }}",
+    "homeTabStyles": {
+        "headingColor": "#2a2a2a",
+        "descriptionColor": "#2a2a2a",
+        "buttonStyles": {
+            "backgroundColor": "",
+            "textColor": ""
         },
-        overlayer: {
-            color: "{{ module.style.home_tab_styles.banner_overlayer_color.color }}",
-            opacity: "{{ module.style.home_tab_styles.banner_overlayer_color.opacity }}",
+        "overlayer": {
+            "color": "",
+            "opacity": "0"
         },
-        svgColor: {
-            color: "{{ module.style.home_tab_styles.user_card_svg_color.color }}",
-            opacity: "{{ module.style.home_tab_styles.user_card_svg_color.opacity }}",
+        "svgColor": {
+            "color": "",
+            "opacity": "100"
         }
     },
-    sidebarStyles: {
-        textColor: "{{ module.style.sidebar_styles.text_color.color }}",
-        backgroundColor: "{{ module.style.sidebar_styles.sidebar_background_color.color }}",
+    "sidebarStyles": {
+        "textColor": "#FFFFFF",
+        "backgroundColor": "#2d3e50"
     },
-    detailsPageStyles: {
-        textColor: "{{ module.style.details_page_styles.text_color.color }}",
-        bannerColors: {
-            color1: "{{ module.style.details_page_styles.banner_background_options.banner_color_1.color }}",
-            color2: "{{ module.style.details_page_styles.banner_background_options.banner_color_2.color }}",
+    "detailsPageStyles": {
+        "textColor": "#FFFFFF",
+        "bannerColors": {
+            "color1": "#2d3e50",
+            "color2": "#fc5b36"
         }
     },
-    creatButtonStyles: {
-        backgroundColor: "{{ module.style.table_record_creation_button.background_color.color }}",
-        textColor: "{{ module.style.table_record_creation_button.text_color.color }}",
+    "creatButtonStyles": {
+        "backgroundColor": "",
+        "textColor": ""
     },
-    rightTables: {
-        backgroundColor: "{{ module.style.d_h_sidebar.background_color.rgba }}",
-        cardBackgroundColor: "{{ module.style.d_h_sidebar.card_background_color.rgba }}",
-        textColor: "{{ module.style.d_h_sidebar.text_color.rgba }}",
+    "rightTables": {
+        "backgroundColor": "rgba(45, 62, 80, 0.08)",
+        "cardBackgroundColor": "rgba(45, 62, 80, 0.13)",
+        "textColor": "rgba(45, 62, 80, 1)"
     },
-    noteStyle: {
-        hsBg: "{{ module.style.note_cards.hs_note_card_bg_color.color }}",
-        hsText: "{{ module.style.note_cards.hs_note_ts_text_color.color }}",
-        wpBg: "{{ module.style.note_cards.wp_note_card_bg_color.color }}",
-        wpText: "{{ module.style.note_cards.wp_note_ts_text_color.color }}",
+    "noteStyle": {
+        "hsBg": "#efefef",
+        "hsText": "#2a2a2a",
+        "wpBg": "#FAFAFA",
+        "wpText": "#999999"
     }
 }
+
 const sidebarCtaStyles = {
     backgroundColor: "{{ module.style.sidebar_cta.background_color.rgba }}",
     textColor: "{{ module.style.sidebar_cta.text_color.rgba }}",
@@ -529,9 +579,30 @@ const hubSpotUserDetails = {
 }
 
 const recorBtnCustom = false;
-const enableDashboardCards = false;
-const dashboardCards: any = [];
-const homeTabsDataTypeFilter = null;
+const enableDashboardCards = true;
+const dashboardCards: any = [
+    {
+        "description": "<p data-start=\"247\" data-end=\"336\"><strong data-stringify-type=\"bold\">Welcome</strong><span>&nbsp;</span><strong data-stringify-type=\"bold\">to your Customer Portal Dashboard</strong></p>\n<p data-start=\"247\" data-end=\"336\"><span aria-label=\"&nbsp;\" data-stringify-type=\"paragraph-break\"></span><span>Use this portal to manage support tickets and coordinate any custom work with our team.</span></p>\n<p data-start=\"340\" data-end=\"424\">&nbsp;</p>",
+        "properties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_type": "company",
+                "property_value_show_as": "simpleText"
+            }
+        ],
+        "show_date": true,
+        "show_title": true,
+        "title": "",
+        "view": "grid"
+    }
+];
+const homeTabsDataTypeFilter = {
+    "files": "contact",
+    "notes": "contact",
+    "tickets": "contact"
+};
 
 export const defaultData = {
     dataSourceSet,

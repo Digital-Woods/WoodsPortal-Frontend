@@ -30,7 +30,7 @@ export const BoardView = ({
   detailsUrl,
   defPermissions
 }: any) => {
-  const { setPage, setAfter, limit, setLimit, selectedPipeline } = useTable();
+  const { setPage, setAfter, limit, setLimit, selectedPipeline }: any = useTable();
 
   // console.log('TrelloCards', true)
   const { gridData: data, setGridData: setData } = useTable();
@@ -138,7 +138,7 @@ export const BoardView = ({
     const { dragItem, dragType, setDrop, drop, onDrop }: any =
       useContext(DragContext);
 
-    function handleDragOver(e) {
+    function handleDragOver(e: any) {
       if (e.preventDefault) {
         e.preventDefault();
       }
@@ -332,9 +332,10 @@ Main Component Starts Here
     }
   }, [activeCardData, isLoading]);
 
-  const { mutate: updateDealsByPipeline } = useMutation({
+  const { mutate: updateDealsByPipeline }: any = useMutation({
     mutationKey: ["updateDealsDataByPipeline"],
     mutationFn: async ({ recordId, stageId }: any) => {
+      console.log("stageId", stageId)
       return await Client.Deals.updatePipelineDeal({
         API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}?${objectToQueryParams(
           urlParam
@@ -372,7 +373,7 @@ Main Component Starts Here
       let newData = structuredClone(data); // deep clone
       // find the current positions
       let oldCardPosition: any;
-      let oldListPosition = data.findIndex((list: any) => {
+      let oldListPosition = data.findIndex((list) => {
         oldCardPosition = list.cards.findIndex((card: any) => card.id === dragItem);
         return oldCardPosition >= 0;
       });
@@ -427,7 +428,7 @@ Main Component Starts Here
       <Drag handleDrop={handleDrop}>
         {({ activeItem, activeType, isDragging }: any) => (
           <Drag.DropZone className="flex overflow-x-auto flex-1 self-start">
-            {data.map((list: any, listPosition: any) => {
+            {data.map((list, listPosition) => {
               return (
                 <React.Fragment key={list.id}>
                   <Drag.DropZone
