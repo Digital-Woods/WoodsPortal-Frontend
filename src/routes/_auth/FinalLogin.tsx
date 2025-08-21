@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { env } from "@/env";
 import { z } from 'zod';
-import { baseCompanyOptions, hubId } from '@/data/hubSpotData'
+import { baseCompanyOptions, developerMode, hubId } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
@@ -25,7 +25,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
   const userPortals = loginData?.portals || [];
   const matchingPortal = userPortals.find((portal: any) => portal.portalUrl === clientSiteUrl);
   const portalUrl = matchingPortal?.portalUrl?.replace('https://', '') || (userPortals.leggth > 0 ? userPortals[0]?.portalUrl?.replace('https://', '') : "");
-  const developerMode = false;
+  const developerModeOn = developerMode;
   const loginUserValidationSchema = z.object({
     // email: z.string().email(),
     password: z.string().nonempty({
@@ -157,10 +157,10 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
             {({ register, setValue, formState: { errors } }: any) => {
 
               useEffect(() => {
-                if (developerMode) {
-                  setValue("password", "Demo@user1");
+                if (developerModeOn) {
+                  setValue("password", "Krish@12345");
                 }
-              }, [developerMode, setValue]);
+              }, [developerModeOn, setValue]);
 
               return (
                 <div className="text-gray-800 dark:text-gray-200">
@@ -207,9 +207,9 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                           icon={PasswordIcon}
                           type={showPassword ? "text" : "password"}
                           {...register("password")}
-                          disabled={developerMode}
+                          disabled={developerModeOn}
                         />
-                        {!developerMode &&
+                        {!developerModeOn &&
                           <span
                             className="absolute right-2 top-3 cursor-pointer"
                             onClick={togglePasswordVisibility}

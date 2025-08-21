@@ -74,7 +74,7 @@ const ClientSession = () => {
             } else {
                 await setItemAsync(AUTH_USER_KEY, JSON.stringify(data.data));
                 await setItemAsync(AUTH_TOKEN_KEY, data.data.tokenData.token);
-                router.history.replace(`${formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)}`);
+                router.history.replace(`/dashboard`);
             }
             setToaster({ message: "Logged in successfull!", type: "success" });
         },

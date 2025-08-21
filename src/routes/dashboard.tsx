@@ -18,9 +18,8 @@ import { useState, useEffect } from 'react';
 const Dashboard = () => {
   const router = useRouter()
   const { pathname } = router?.state?.location
-  let { hubspotObjectTypeId, homeCardsView }: any = getRouteMenu(pathname)
+  let { homeCardsView }: any = getRouteMenu(pathname)
 
-  hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const param = getQueryParamsFromCurrentUrl();
   const [sidebarRightOpen, setSidebarRightOpen] = useState<any>(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();

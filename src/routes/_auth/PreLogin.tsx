@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { any, z } from 'zod'
 import { Client } from '@/data/client/index'
 import { useResponsive } from '@/utils/UseResponsive'
-import { baseCompanyOptions } from '@/data/hubSpotData'
+import { baseCompanyOptions, developerMode } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
@@ -14,8 +14,8 @@ import ReactHtmlParser from 'react-html-parser';
 
 export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
   const [serverError, setServerError] = useState(null);
-  const developerMode = false;
-
+  const developerModeOn = developerMode;
+console.log(developerModeOn,'developerModeOn');
   const enterEmailValidationSchema = z.object({
     email: z.string().email().nonempty({
       message: "Email is required.",
@@ -103,10 +103,10 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
               const emailValue = watch("email");
 
               useEffect(() => {
-                if (developerMode) {
-                  setValue("email", "demo-user@digitalwoods.io");
+                if (developerModeOn) {
+                  setValue("email", "krishna@digitalwoods.net");
                 }
-              }, [developerMode, setValue]);
+              }, [developerModeOn, setValue]);
 
               return (
               <div className="text-gray-800 dark:text-gray-200">
@@ -122,7 +122,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
                         icon={EmailIcon}
                         placeholder="Email"
                         defaultValue={entredEmail}
-                        disabled={developerMode}
+                        disabled={developerModeOn}
                           {...register("email", {
                             onChange: (e : any) =>
                               setValue("email", e.target.value.toLowerCase()),

@@ -35,7 +35,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, is
     const { isLargeScreen } = useResponsive();
     const [userToggled, setUserToggled] = useState<any>(false); // Track user interaction
     const [totalRecord, setTotalRecord] = useState<any>(0);
-
+const hubspotObjectTypeId = "0-5";
     // Automatically adjust the sidebar based on screen size
     const getInitialFilter = (type: any) => {
         console.log("homeTabsDataTypeFilter", homeTabsDataTypeFilter)
@@ -138,18 +138,17 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, is
         portalId = getPortal()?.portalId;
     }
 
-
     const apis = {
-        tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}${param}`,
-        stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/`, // concat pipelineId
-        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param ? param + `&parentObjectTypeId=${selectedTicketsDataFilter}` : `?parentObjectTypeId=${selectedTicketsDataFilter}`
+        tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+        stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
+        formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param ? param + `&parentObjectTypeId=${selectedTicketsDataFilter}` : `?parentObjectTypeId=${selectedTicketsDataFilter}`
             }`,
-        formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+        formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
             }`,
-        createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields${param}`,
+        createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
         createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
         removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
-        updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/fields/:formId${param}`, // concat ticketId
+        updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
     };
 
     if (!isLoadedFirstTime) {
@@ -266,7 +265,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, is
                             // />
 
                             <DynamicComponentView
-                                hubspotObjectTypeId={'0-5'}
+                                hubspotObjectTypeId={hubspotObjectTypeId}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
                                 ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
