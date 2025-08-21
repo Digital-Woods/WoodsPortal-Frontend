@@ -12,7 +12,7 @@ const ListComponent = () => {
   const { pathname } = router.state.location
 
   useEffect(() => {
-    console.log("useEffect triggered on route change", path, pathname)
+    // console.log("useEffect triggered on route change", path, pathname)
   }, [path, pathname]) // rerun when param or pathname changes
 
   let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(pathname)
