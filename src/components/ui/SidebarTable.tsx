@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { env } from "@/env";
 import { useSync } from '@/state/use-sync';
-import { sortData, renderCellContent } from '@/utils/DataMigration';
+import { sortData, renderCellContent, wait } from '@/utils/DataMigration';
 import { getParam } from '@/utils/param';
 import { getPortal } from '@/data/client/auth-utils';
 import { useMutation } from "@tanstack/react-query";
