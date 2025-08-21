@@ -502,11 +502,11 @@ const sidebarCtaDetails = [
 ];
 
 const baseCompanyOptions = {
-    logoImg: "https://www.koppert.com/content/_processed_/b/c/csm_Cherry-34_bf99ee21f6.jpg",
-    companyName: "Test",
-    smallLogo: "https://www.koppert.com/content/_processed_/b/c/csm_Cherry-34_bf99ee21f6.jpg",
-    authPopupFormLogo: "https://www.koppert.com/content/_processed_/b/c/csm_Cherry-34_bf99ee21f6.jpg",
-    welcomeMessage: "Tests Message"
+    logoImg: "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+    companyName: "Digital Woods",
+    smallLogo: "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+    authPopupFormLogo: "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+    welcomeMessage: ""
 };
 
 const moduleStylesOptions = {
