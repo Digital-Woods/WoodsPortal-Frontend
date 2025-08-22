@@ -57,7 +57,8 @@ export const apiRoutes: any = sideMenu[0].children.map((menuItem: any) => ({
 }));
 
 const configs = getRouteMenuConfig() || {};
-const key = sideMenu[0]?.children[1]?.tabName ? 'home' : sideMenu[0]?.children[1]?.hubspotObjectTypeId;
+// const key = sideMenu[0]?.children[1]?.tabName ? 'home' : sideMenu[0]?.children[1]?.hubspotObjectTypeId;
+const key = sideMenu[0]?.children[1]?.label && !addHomeTabOption ? sideMenu[0]?.children[1]?.label : sideMenu[0]?.children[1]?.tabName
 configs[key] = { ...configs[key], details: null };
 setRouteMenuConfig(configs);
 // Side Menu Item End
