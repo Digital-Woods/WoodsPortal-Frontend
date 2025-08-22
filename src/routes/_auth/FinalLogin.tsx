@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { env } from "@/env";
 import { z } from 'zod';
-import { baseCompanyOptions, developerMode, hubId } from '@/data/hubSpotData'
+import { addHomeTabOption, baseCompanyOptions, developerMode, hubId } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
@@ -17,6 +17,7 @@ import { hubSpotUserDetails } from '@/data/hubSpotData';
 import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
 import { Link } from '@/components/ui/link';
+import { formatPath } from '@/utils/DataMigration';
 
 export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
   const [serverError, setServerError] = useState(null);
@@ -88,7 +89,9 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         // } else {
         //   window.location.hash = "/no-routes";
         // }
-        window.location.hash = "/dashboard";
+
+        window.location.hash = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName);
+
         // console.log('home', true)
       }
       toast.error(data.statusMsg);

@@ -78,8 +78,6 @@ export const Breadcrumb = (props: any) => {
 
     const nextBreadcrumbs = mRoute ? item : updatedBreadcrumbs
 
-    console.log("nextBreadcrumbs", nextBreadcrumbs)
-
     if (JSON.stringify(nextBreadcrumbs) !== JSON.stringify(breadcrumbItems)) {
       const newBase64 = convertToBase64(JSON.stringify(nextBreadcrumbs))
       setParam('b', newBase64)
