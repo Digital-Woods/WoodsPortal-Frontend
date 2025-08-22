@@ -167,7 +167,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     formData.append("file", file); // Append the selected file to FormData
 
     const parentFolder = folderId === fileId ? "obj-root" : folderId;
-    const url = env.API_BASE_URL+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
+    const url = env.VITE_PUBLIC_REST_API_ENDPOINT+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
 
     try {
       const response = await axios.post(url, formData, {

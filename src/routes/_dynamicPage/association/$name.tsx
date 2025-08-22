@@ -10,8 +10,14 @@ const AssociationComponent = () => {
   const { search } = router.state.location
 
   const { name: path } = Route.useParams();
+
+  const routeMenu: any = getRouteMenuByObjectTypeId(search?.parentObjectTypeId)
   
-  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenuByObjectTypeId(search?.parentObjectTypeId)
+  if(!routeMenu) {
+    return <h1 className='text-center'>{search?.parentObjectTypeId} 404 Not Found</h1>
+  }
+  
+  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = routeMenu
   let showIframe: any = ""
   let propertyName: any = ""
 

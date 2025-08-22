@@ -95,11 +95,13 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
             <p className={`opacity-70 text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>
             }
           </div>
-          <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white  words-break`}>
-            {ReactHtmlParser(
-              DOMPurify.sanitize(updatedDescription)
-            )}
-          </p>
+          <div>
+            <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white  words-break`}>
+              {ReactHtmlParser(
+                DOMPurify.sanitize(updatedDescription)
+              )}
+            </p>
+          </div>
         </div>
       </div>
   );

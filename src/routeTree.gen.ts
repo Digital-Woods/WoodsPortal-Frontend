@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ClientSessionRouteImport } from './routes/client-session'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DynamicPageListComponentRouteImport } from './routes/_dynamicPage/$listComponent'
@@ -24,11 +23,6 @@ import { Route as AuthProfileRouteImport } from './routes/_auth/Profile'
 import { Route as DynamicPageAssociationNameRouteImport } from './routes/_dynamicPage/association/$name'
 import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './routes/_dynamicPage/$objectName/$object_id/$id/index'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ClientSessionRoute = ClientSessionRouteImport.update({
   id: '/client-session',
   path: '/client-session',
@@ -101,7 +95,6 @@ const DynamicPageObjectNameObject_idIdIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
-  '/dashboard': typeof DashboardRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
   '/forget-password': typeof AuthForgetPasswordRoute
@@ -117,7 +110,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
-  '/dashboard': typeof DashboardRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
   '/forget-password': typeof AuthForgetPasswordRoute
@@ -134,7 +126,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
-  '/dashboard': typeof DashboardRoute
   '/_auth/Profile': typeof AuthProfileRoute
   '/_auth/Register': typeof AuthRegisterRoute
   '/_auth/forget-password': typeof AuthForgetPasswordRoute
@@ -152,7 +143,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/client-session'
-    | '/dashboard'
     | '/Profile'
     | '/Register'
     | '/forget-password'
@@ -168,7 +158,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/client-session'
-    | '/dashboard'
     | '/Profile'
     | '/Register'
     | '/forget-password'
@@ -184,7 +173,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/client-session'
-    | '/dashboard'
     | '/_auth/Profile'
     | '/_auth/Register'
     | '/_auth/forget-password'
@@ -201,7 +189,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ClientSessionRoute: typeof ClientSessionRoute
-  DashboardRoute: typeof DashboardRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
@@ -217,13 +204,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/client-session': {
       id: '/client-session'
       path: '/client-session'
@@ -321,7 +301,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ClientSessionRoute: ClientSessionRoute,
-  DashboardRoute: DashboardRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   AuthForgetPasswordRoute: AuthForgetPasswordRoute,

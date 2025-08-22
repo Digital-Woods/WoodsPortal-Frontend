@@ -5,6 +5,7 @@ import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 import { useEffect } from 'react';
+import Dashboard from '../dashboard';
 
 const ListComponent = () => {
   const { listComponent: path } = Route.useParams();
@@ -15,7 +16,18 @@ const ListComponent = () => {
     // console.log("useEffect triggered on route change", path, pathname)
   }, [path, pathname]) // rerun when param or pathname changes
 
-  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = getRouteMenu(pathname)
+  const routeMenu: any = getRouteMenu(pathname)
+
+  // check if homaepage
+  if(!routeMenu) { 
+    return <h1 className='text-center'>{pathname} 404 Not Found</h1>
+  }
+
+  if(routeMenu?.homeCardsView){
+    return <Dashboard/>
+  }
+
+  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = routeMenu
   let showIframe: any = ""
   let propertyName: any = ""
 

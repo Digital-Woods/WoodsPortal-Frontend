@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { env } from "@/env";
 import { z } from 'zod';
-import { baseCompanyOptions, developerMode, hubId } from '@/data/hubSpotData'
+import { addHomeTabOption, baseCompanyOptions, developerMode, hubId } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
@@ -17,8 +17,11 @@ import { hubSpotUserDetails } from '@/data/hubSpotData';
 import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
 import { Link } from '@/components/ui/link';
+import { formatPath } from '@/utils/DataMigration';
+import { useRouter } from '@tanstack/react-router';
 
 export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
+  const router = useRouter()
   const [serverError, setServerError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const hasUserData = loginData?.firstName || loginData?.email;
@@ -62,10 +65,12 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         return;
       }
 
-      const currentDomain = env.VITE_DEV ? env.VITE_PORTAL_URL : window.location.origin;
+      const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
       const portal = data.data.loggedInDetails.portals.find(
         (item: any) => item.portalUrl === currentDomain
       );
+      console.log("portal", portal)
+
       setPortal(portal);
       if (
         data.data.loggedInDetails &&
@@ -88,7 +93,10 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         // } else {
         //   window.location.hash = "/no-routes";
         // }
-        window.location.hash = "/dashboard";
+
+        const path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+        router.navigate({to: `/${path}`});
+
         // console.log('home', true)
       }
       toast.error(data.statusMsg);
