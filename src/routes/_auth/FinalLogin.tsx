@@ -18,8 +18,10 @@ import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-util
 import { setCookie } from "@/utils/cookie";
 import { Link } from '@/components/ui/link';
 import { formatPath } from '@/utils/DataMigration';
+import { useRouter } from '@tanstack/react-router';
 
 export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
+  const router = useRouter()
   const [serverError, setServerError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const hasUserData = loginData?.firstName || loginData?.email;
@@ -63,10 +65,12 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         return;
       }
 
-      const currentDomain = env.VITE_DEV ? env.VITE_PORTAL_URL : window.location.origin;
+      const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
       const portal = data.data.loggedInDetails.portals.find(
         (item: any) => item.portalUrl === currentDomain
       );
+      console.log("portal", portal)
+
       setPortal(portal);
       if (
         data.data.loggedInDetails &&
@@ -90,7 +94,8 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         //   window.location.hash = "/no-routes";
         // }
 
-        window.location.hash = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName);
+        const path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+        router.navigate({to: `/${path}`});
 
         // console.log('home', true)
       }
