@@ -22,7 +22,7 @@ const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
           }`}
       >
         <HeaderLayout />
-        <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
+        <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>
             {children}
           </div>

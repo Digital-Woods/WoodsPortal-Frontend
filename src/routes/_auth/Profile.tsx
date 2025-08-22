@@ -60,7 +60,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
+    <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
       <div
         className={`dark:bg-dark-200 hide-scrollbar overflow-y-auto  h-[calc(100vh-var(--nav-height))] bg-cleanWhite dark:text-white md:px-4 px-3 `} >
         <div

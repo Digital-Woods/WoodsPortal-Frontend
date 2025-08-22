@@ -24,8 +24,6 @@ export default {
     },
     extend: {
       backgroundImage: {
-        "custom-gradient":
-          `linear-gradient(194deg, var(--details-page-banner-color2) 0%, var(--details-page-banner-color1) 72%)`,
         "custom-bg":
           "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop')",
       },

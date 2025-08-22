@@ -113,7 +113,7 @@ export const DetailsAssociations = ({
     <React.Fragment>
       {associationData &&
         <div
-          className="mb-6 px-4 text-rstextcolor bg-rsbackground rounded-lg w-full max-w-md dark:bg-dark-300"
+          className="mb-6 px-4 text-[var(--right-tables-text-color)] bg-[var(--right-tables-background-color)] rounded-lg w-full max-w-md dark:bg-dark-300"
           // isActive={isActive}
         >
           <div className="flex items-center justify-between w-full text-sm font-medium py-4">
@@ -188,26 +188,26 @@ export const DetailsAssociations = ({
                 name={associationData?.labels?.plural}
                 type="col"
                 imgWidth="110px"
-                className="p-4 dark:bg-[#3e3e3e] bg-rscardbackhround rounded-md text-xs font-semibold dark:text-white !mt-0"
+                className="p-4 dark:bg-[#3e3e3e] bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:text-white !mt-0"
               />
             ) : (
               associationData.data &&
               associationData.data.length > 0 && (
-                <div className="flex-col flex lg:gap-6 gap-3 rounded-md text-rstextcolor dark:text-white">
+                <div className="flex-col flex lg:gap-6 gap-3 rounded-md text-[var(--right-tables-text-color)] dark:text-white">
                   {associationData.data.map((item: any, index: any) => (
                     <div
                       key={index}
-                      className="border dark:border-gray-600 p-2 rounded-md bg-rscardbackhround dark:bg-dark-500 overflow-y-auto hide-scrollbar"
+                      className="border dark:border-gray-600 p-2 rounded-md bg-[var(--right-tables-card-background-color)] dark:bg-dark-500 overflow-y-auto hide-scrollbar"
                     >
-                      <table className="!bg-transparent text-rstextcolor">
+                      <table className="!bg-transparent text-[var(--right-tables-text-color)]">
                         <tbody>
                           {item &&
                             sortData(item, "associations").map((value: any, index: any) => (
                             <tr key={index}>
-                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-rstextcolor whitespace-wrap md:w-[90px] w-[80px]  align-center dark:text-white">
+                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-[var(--right-tables-text-color)] whitespace-wrap md:w-[90px] w-[80px]  align-center dark:text-white">
                                 {value.label}:
                               </td>
-                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-rstextcolor align-center dark:text-white">
+                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  text-[var(--right-tables-text-color)] align-center dark:text-white">
                                 {value?.isEditableField &&
                                 associationData?.configurations?.object
                                   ?.update ? (

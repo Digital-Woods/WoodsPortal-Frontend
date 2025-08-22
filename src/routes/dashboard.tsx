@@ -90,7 +90,7 @@ const Dashboard = () => {
     window.addEventListener("resize", resetOnResize);
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
-
+  
   // console.log(enableDashboardCards,'enableDashboardCards hello')
   // const apis = {
   //   tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -108,7 +108,7 @@ const Dashboard = () => {
   // };
 
   return (
-    <div className="bg-sidelayoutColor h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
+    <div className="bg-[var(--sidebar-background-color)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
       <div
         className={`dark:bg-dark-200 mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] bg-cleanWhite dark:text-white md:pl-4 
       ${isLargeScreen
@@ -122,7 +122,7 @@ const Dashboard = () => {
           {showSidebarListDataOption && !isLargeScreen && !sidebarRightOpen ? (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] lg:top-[10px] md:top-[60px] top-[10px]">
               <button
-                className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
+                className="rounded-full p-2 dark:bg-cleanWhite bg-[var(--sidebar-background-color)] text-[var(--sidebar-text-color)] dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                 onClick={toggleSidebar}
               >
                 <DetailsIcon />
@@ -132,19 +132,19 @@ const Dashboard = () => {
             ""
           )}
 
-          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto ${enableDashboardCards ? ' md:py-4 py-3' : ' md:pb-4 pb-3'}
+          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto ${enableDashboardCards ? ' md:py-4 py-3':' md:pb-4 pb-3'}
                 ${showSidebarListDataOption && isLargeScreen
               ? "w-[calc(100%_-350px)]"
               : "w-full"
             } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}>
-            {enableDashboardCards &&
-              <div className={`grid grid-cols-12 md:gap-4 gap-3`}>
-                {dashboardCards.map((card: any, index: any) => {
-                  const isLast = index === dashboardCards.length - 1;
-                  const isOdd = dashboardCards.length % 2 !== 0;
-                  const isOnly = dashboardCards.length === 1;
+            {enableDashboardCards && 
+            <div className={`grid grid-cols-12 md:gap-4 gap-3`}>
+              {dashboardCards.map((card: any, index: any) => {
+                const isLast = index === dashboardCards.length - 1;
+                const isOdd = dashboardCards.length % 2 !== 0;
+                const isOnly = dashboardCards.length === 1;
 
-                  const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
+                const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
 
                 return (
                   <div
@@ -169,23 +169,24 @@ const Dashboard = () => {
                       </svg>
                     </div>
 
-                      <div className="">
+                    <div className="">
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
                         {card?.properties && card?.properties.length > 0 && (
-                          <HomeCompanyCard
-                            propertiesList={card?.properties}
-                            userData={userData?.response}
-                            isLoading={isLoading}
-                            isLoadedFirstTime={isLoadedFirstTime}
-                            iframePropertyName={card?.properties}
-                            viewStyle={card?.view}
-                          />
+                        <HomeCompanyCard
+                          companyDetailsModalOption={card?.add_details_modal}
+                          propertiesList={card?.properties}
+                          userData={userData?.response}
+                          isLoading={isLoading}
+                          isLoadedFirstTime={isLoadedFirstTime}
+                          iframePropertyName={card?.properties}
+                          viewStyle={card?.view}
+                        />
                         )}
-                      </div>
                     </div>
-                  );
-                })}
-              </div>}
+                  </div>
+                );
+              })}
+            </div>}
             {/* <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
@@ -219,7 +220,7 @@ const Dashboard = () => {
                 showSidebarListDataOption && (
                   <div className="absolute z-[59] right-[9px] top-[60px]">
                     <button
-                      className="rounded-full p-2 bg-sidelayoutColor dark:bg-cleanWhite text-sidelayoutTextColor dark:text-dark-200  animate-pulseEffect dark:animate-pulseEffectDark"
+                      className="rounded-full p-2 bg-[var(--sidebar-background-color)] dark:bg-cleanWhite text-[var(--sidebar-text-color)] dark:text-dark-200  animate-pulseEffect dark:animate-pulseEffectDark"
                       onClick={toggleSidebar}
                     >
                       <Arrow />

@@ -47,7 +47,7 @@ const Details = () => {
   const showIframe = matchedObject.showIframe || false;
 
   return (
-    <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
+    <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
     <div className={`bg-cleanWhite dark:bg-dark-200`}>
       {env.VITE_DATA_SOURCE_SET !== true ? (
         <ApiDetails objectId={objectId} path={path} id={id} propertyName={propertyName} showIframe={showIframe} />

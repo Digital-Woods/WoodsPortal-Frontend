@@ -5,7 +5,7 @@ export const SyncButton = () => {
 
   return (
     <div
-      className={`text-sidelayoutTextColor dark:text-white  p-3 text-center
+      className={`text-[var(--sidebar-text-color)] dark:text-white  p-3 text-center
         ${isSyncLoading || isSyncDisable
           ? "cursor-not-allowed "
           : "cursor-pointer"

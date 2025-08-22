@@ -5,7 +5,7 @@ export const HamburgerMenu = (props: any) => {
             height="24px"
             viewBox="0 -960 960 960"
             width="24px"
-            className="dark:fill-white fill-sidelayoutTextColor"
+            className="dark:fill-white fill-[var(--sidebar-text-color)]"
             {...props}
         >
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />

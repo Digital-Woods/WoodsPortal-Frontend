@@ -110,7 +110,7 @@ export const Drawer = ({ className }: any) => {
 
       <div className={`${className} relative`}>
         <div
-          className={`h-[100vh] z-[55] sidebar bg-sidelayoutColor dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          className={`h-[100vh] z-[55] sidebar bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
         ${sidebarCollapsed ? "p-3" : "p-4"}
         `}
@@ -130,7 +130,7 @@ export const Drawer = ({ className }: any) => {
                   </div>}
 
                 {showCompanyNameOption === true ?
-                  <h1 className={`text-sm font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-sidelayoutTextColor dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
+                  <h1 className={`text-sm font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-[var(--sidebar-text-color)] dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
                     {shouldShowTooltip ? (
                       <div>
                         {brandName.slice(0, 15)}
@@ -142,7 +142,7 @@ export const Drawer = ({ className }: any) => {
                   </h1> : ''}
               </div>
               <div
-                className=" rounded-lg cursor-pointer text-sidelayoutTextColor dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-0"
+                className=" rounded-lg cursor-pointer text-[var(--sidebar-text-color)] dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-0"
                 onClick={() => setSidebarOpen(false)}
               >
                 <CloseIcon />
@@ -156,12 +156,12 @@ export const Drawer = ({ className }: any) => {
                       <div
                         key={path}
                         // to={path}
-                        className={`cursor-pointer block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'px-3 py-[0.55rem]'} rounded-md no-underline ${activeRoute === path ? "bg-activeState" : ""
+                        className={`cursor-pointer block hover:bg-[#ffffff]/20 dark:hover:bg-[#ffffff]/20 dark:hover:text-white ${sidebarCollapsed ? 'py-3 px-0' : 'px-3 py-[0.55rem]'} rounded-md no-underline ${activeRoute === path ? "bg-[#ffffff]/20" : ""
                           }`}
                         onClick={() => handleSetActiveRoute(path)}
                       >
                         <div
-                          className={`flex items-center text-sidelayoutTextColor dark:text-white gap-x-3 gap-y-1 ${sidebarCollapsed
+                          className={`flex items-center text-[var(--sidebar-text-color)] dark:text-white gap-x-3 gap-y-1 ${sidebarCollapsed
                             ? "justify-center"
                             : "justify-start"
                             }`}
@@ -175,7 +175,7 @@ export const Drawer = ({ className }: any) => {
                             className={`${sidebarCollapsed
                               ? "hidden opacity-0"
                               : "opacity-100"
-                              } text-sidelayoutTextColor dark:text-white text-sm font-medium transition-opacity capitalize duration-500 opacity-0 ml-2`}
+                              } text-[var(--sidebar-text-color)] dark:text-white text-sm font-medium transition-opacity capitalize duration-500 opacity-0 ml-2`}
                           >
                             {`${title}`}
                           </p>
@@ -184,7 +184,7 @@ export const Drawer = ({ className }: any) => {
                     ))}
                   {routes.length > 7 && (
                     <div className="sticky -bottom-[2] left-0 right-0 h-6 pointer-events-none">
-                      <div className="w-full h-full bg-gradient-to-t from-sidelayoutColor dark:from-dark-300 to-transparent"></div>
+                      <div className="w-full h-full bg-gradient-to-t from-[var(--sidebar-background-color)] dark:from-dark-300 to-transparent"></div>
                     </div>
                   )}
                 </div>
@@ -192,10 +192,10 @@ export const Drawer = ({ className }: any) => {
                   showSidebarCtaOption === true && (
                     !sidebarCollapsed && (
                       <div className="mt-2">
-                        <div className={`bg-ctaBackgroundColor text-ctaTextColor text-sm p-4 text-md text-center dark:bg-dark-500 dark:text-white font-medium rounded-md`}>
+                        <div className={`bg-[var(--sidebarCta-background-color)] text-[var(--sidebarCta-text-color)] text-sm p-4 text-md text-center dark:bg-dark-500 dark:text-white font-medium rounded-md`}>
                           <p>{sideBarOptions.title}</p>
                             <Button
-                              className={`!bg-ctaButtonBackgroundColor text-ctaButtonTextColor dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
+                              className={`!bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
                               size="sm"
                             >
                               <a target="_blank" href={sideBarOptions.buttonUrl}>
@@ -212,8 +212,8 @@ export const Drawer = ({ className }: any) => {
                   {/* <NavLink
                   key={"/notifications"}
                   to={"/notifications"}
-                  className="block hover:bg-activeState dark:hover:bg-activeState dark:hover:text-white p-3 rounded-md no-underline"
-                  activeClassName="dark:bg-dark-600 dark:text-white bg-activeState"
+                  className="block hover:bg-[#ffffff]/20 dark:hover:bg-[#ffffff]/20 dark:hover:text-white p-3 rounded-md no-underline"
+                  activeClassName="dark:bg-dark-600 dark:text-white bg-[#ffffff]/20"
                 >
                   <div
                     className={`flex items-center gap-x-3 gap-y-1 ${
@@ -245,8 +245,8 @@ export const Drawer = ({ className }: any) => {
                     className={` dark:hover:text-white hidden lg:block `}
                   >
                     <div className={`flex items-center gap-x-3 gap-y-1 ${sidebarCollapsed ? "justify-center" : "justify-end"}`}>
-                      <div onClick={() => toggleSidebar()} className={`flex items-center justify-center hover:bg-activeState dark:hover:bg-activeState ${sidebarCollapsed ? 'py-3 px-0 w-full' : 'px-3 py-[0.55rem]'} rounded-md no-underline cursor-pointer`}>
-                        <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-sidelayoutTextColor dark:text-white flex`}>
+                      <div onClick={() => toggleSidebar()} className={`flex items-center justify-center hover:bg-[#ffffff]/20 dark:hover:bg-[#ffffff]/20 ${sidebarCollapsed ? 'py-3 px-0 w-full' : 'px-3 py-[0.55rem]'} rounded-md no-underline cursor-pointer`}>
+                        <div className={`cursor-pointer ${isSecondIcon ? "rotate-180" : "rotate-0"} items-center  text-[var(--sidebar-text-color)] dark:text-white flex`}>
                           <SidebarTogglerIcon />
                         </div>
                       </div>

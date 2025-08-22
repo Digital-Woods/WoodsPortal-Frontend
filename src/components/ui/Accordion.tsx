@@ -24,7 +24,7 @@ export const Accordion = ({ children, className, isActive }: any) => {
   return (
     <div
       className={twMerge(
-        "rounded overflow-hidden border dark:border-gray-600 bg-rsbackground dark:bg-dark-300 dark:text-white mb-4",
+        "rounded overflow-hidden border dark:border-gray-600 bg-[var(--right-tables-background-color)] dark:bg-dark-300 dark:text-white mb-4",
         className
       )}
     >
@@ -54,7 +54,7 @@ export const AccordionSummary = ({ children, active, id, handleToggle }: any) =>
         </span>
         <h5 className="font-medium text-sm flex items-center justify-between gap-x-2 flex-1 ">{children}</h5>
 
-      {/* {active === id ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />} */}
+      {/* {active === id ? <IconMinus className='font-semibold fill-[var(--right-tables-text-color)] dark:fill-white' /> : <IconPlus className='font-semibold fill-[var(--right-tables-text-color)] dark:fill-white' />} */}
     </div>
   );
 };

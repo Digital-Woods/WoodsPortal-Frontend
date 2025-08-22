@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --primary-color: #ff7a59;
   --secondary-color: #0091ae;
   --primary-color-hover-bg: #0d7a4730;
   --secondary-color-hover-bg: #0091ae30;
   --banner-overlayer-color:#ff7a5910;
-}
+} */
 
 form {
   margin: 0;
