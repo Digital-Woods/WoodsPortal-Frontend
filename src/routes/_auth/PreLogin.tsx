@@ -9,7 +9,7 @@ import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/co
 import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Button } from '@/components/ui/Button'
-import ReactHtmlParser from 'react-html-parser';
+import { HtmlParser } from '@/components/HtmlParser';
 
 
 export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
@@ -152,7 +152,7 @@ console.log(developerModeOn,'developerModeOn');
             <p className="mt-6 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">
               Don't have an Account?
               <span className="text-secondary hover:underline">
-                {ReactHtmlParser.default(baseCompanyOptions?.createAccountLink)}
+                <HtmlParser html={baseCompanyOptions?.createAccountLink} />
               </span>
             </p>
           }

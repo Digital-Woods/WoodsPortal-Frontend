@@ -506,7 +506,9 @@ const baseCompanyOptions = {
     companyName: "Digital Woods",
     smallLogo: "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
     authPopupFormLogo: "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
-    welcomeMessage: ""
+    welcomeMessage: "",
+    createAccountBool: true,
+    createAccountLink: `<a href={href} target="_blank" rel="noopener noreferrer">Signup</a>`
 };
 
 const moduleStylesOptions = {
