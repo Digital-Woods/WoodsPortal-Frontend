@@ -17,12 +17,12 @@ export const Breadcrumb = (props: any) => {
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
 
   const convertToBase64 = (str: any = []) => {
-    const base64 = btoa(str);
+    const base64 = btoa(unescape(encodeURIComponent(str)));
     return base64;
   };
 
   const decodeToBase64 = (base64: any) => {
-    const decodedStr = atob(base64);
+    const decodedStr = decodeURIComponent(escape(atob(base64)));
     return decodedStr;
   };
 

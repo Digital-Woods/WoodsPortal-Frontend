@@ -9,7 +9,7 @@ import { useTable } from '@/state/use-table';
 import { env } from "@/env";
 
 const formatKey = (key: any) => {
-  return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+  return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
 };
 
 const priorityOrder: any = {

@@ -1,19 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { z } from 'zod'
+import { any, z } from 'zod'
 import { Client } from '@/data/client/index'
 import { useResponsive } from '@/utils/UseResponsive'
-import { baseCompanyOptions } from '@/data/hubSpotData'
+import { baseCompanyOptions, developerMode } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Button } from '@/components/ui/Button'
+import ReactHtmlParser from 'react-html-parser';
 
 
 export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
   const [serverError, setServerError] = useState(null);
-
+  const developerModeOn = developerMode;
+console.log(developerModeOn,'developerModeOn');
   const enterEmailValidationSchema = z.object({
     email: z.string().email().nonempty({
       message: "Email is required.",
@@ -97,7 +99,16 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
             className="dark:bg-dark-200"
             formName={`login-form-submited`}
           >
-            {({ register, formState: { errors } } : any) => (
+            {({ register, setValue, watch, formState: { errors } } : any) => {
+              const emailValue = watch("email");
+
+              useEffect(() => {
+                if (developerModeOn) {
+                  setValue("email", "krishna@digitalwoods.net");
+                }
+              }, [developerModeOn, setValue]);
+
+              return (
               <div className="text-gray-800 dark:text-gray-200">
                 <FormItem>
                   <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
@@ -111,11 +122,11 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
                         icon={EmailIcon}
                         placeholder="Email"
                         defaultValue={entredEmail}
-                        {...register("email")}
-                        onChange={(e: any) => {
-                          e.target.value = e.target.value.toLowerCase();
-                          register('email').onChange(e);
-                        }}
+                        disabled={developerModeOn}
+                          {...register("email", {
+                            onChange: (e : any) =>
+                              setValue("email", e.target.value.toLowerCase()),
+                          })}
                       />
                     </div>
                   </FormControl>
@@ -135,8 +146,16 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
                   </Button>
                 </div>
               </div>
-            )}
+)}}
           </Form>
+          {baseCompanyOptions?.createAccountBool &&
+            <p className="mt-6 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">
+              Don't have an Account?
+              <span className="text-secondary hover:underline">
+                {ReactHtmlParser.default(baseCompanyOptions?.createAccountLink)}
+              </span>
+            </p>
+          }
         </div>
       </div>
     </div>

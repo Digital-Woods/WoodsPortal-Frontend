@@ -25,6 +25,7 @@ export const homeTabsDataTypeFilter = isDevelopment ? defaultData.homeTabsDataTy
 export const moduleStylesOptions = isDevelopment ? defaultData.moduleStylesOptions : window?.hubSpotData?.moduleStylesOptions
 export const recorBtnCustom = isDevelopment ? defaultData.recorBtnCustom : window?.hubSpotData?.recorBtnCustom
 export const sidebarCtaStyles = isDevelopment ? defaultData.sidebarCtaStyles : window?.hubSpotData?.sidebarCtaStyles
+export const developerMode = isDevelopment ? defaultData.developerMode : window?.hubSpotData?.developerModeModule
 
 // Side Menu Item Start
 const sideMenu = [

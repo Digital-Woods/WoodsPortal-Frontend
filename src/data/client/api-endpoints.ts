@@ -18,7 +18,7 @@ export const API_ENDPOINTS = {
   PROFILE_UPDATE: "api/users",
   GET_PROFILE_DETAILS: "/api/auth/me",
   USERS_ME: "/api/auth/me",
-
+  CLIENT_SESSION: "/api/auth/client-session",
   DETAILS_SAVE: "/api/:hubId/:portalId/hubspot-object-forms/:objectTypeId/properties/:recordId",
   STAGES: "/api/:hubId/:portalId/hubspot-object-pipelines/:objectTypeId/:pipelineId/stages",
 

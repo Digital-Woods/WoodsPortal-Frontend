@@ -261,8 +261,8 @@
         buttonBackgroundColor:"{{ module.style.sidebar_cta.button_background_color.color }}",
         buttonTextColor: "{{ module.style.sidebar_cta.button_text_color.rgba }}"
     }
-    const developerMode = {{ module.developerMode }};
-    
+    const developerModeModule = {{ module.developerMode }};
+
   {# Module Custom Styles #}
   </script>
 
@@ -288,6 +288,7 @@
         moduleStylesOptions,
         recorBtnCustom,
         sidebarCtaStyles,
+        developerModeModule,
     }
   </script>
 <div id="app"></div>

@@ -1188,3 +1188,6 @@ h1, h2, h3, h4, h5, h6 {
   height: calc(85vh - env(safe-area-inset-top));      /* Modern iOS support */
   overflow-y: auto;
 }
+#app{
+  width:100vw;
+}

@@ -20,7 +20,7 @@ export const generateApiUrl = ({
 
   params = { ...defaultParams, ...params };
 
-  const url = route.replace(/:([a-zA-Z]+)/g, (_: any, key: any) => {
+  const url = route?.replace(/:([a-zA-Z]+)/g, (_: any, key: any) => {
     if (key in params) {
       return encodeURIComponent(params[key]);
     }

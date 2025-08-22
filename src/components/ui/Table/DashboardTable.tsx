@@ -13,7 +13,7 @@ import { DashboardTableForm } from './DashboardTableForm';
 import { Button } from '../Button';
 
 export const formatKey = (key: any) => {
-  return key.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase());
+  return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
 };
 
 const priorityOrder: any = {
@@ -346,7 +346,7 @@ export const DashboardTable: any = ({
                       </div>
                     </div>
                   ) : key === "iframe_file" ? (
-                    <div>Hello {modalData[key].replace(";", ",")}</div>
+                    <div>{modalData[key]?.replace(";", ",")}</div>
                   ) : (
                     ""
                   )}

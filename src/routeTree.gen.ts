@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ClientSessionRouteImport } from './routes/client-session'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DynamicPageListComponentRouteImport } from './routes/_dynamicPage/$listComponent'
 import { Route as AuthVerifyEmailRouteImport } from './routes/_auth/verify-email'
@@ -26,6 +27,11 @@ import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './rou
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClientSessionRoute = ClientSessionRouteImport.update({
+  id: '/client-session',
+  path: '/client-session',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -94,6 +100,7 @@ const DynamicPageObjectNameObject_idIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/client-session': typeof ClientSessionRoute
   '/dashboard': typeof DashboardRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/client-session': typeof ClientSessionRoute
   '/dashboard': typeof DashboardRoute
   '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
@@ -125,6 +133,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/client-session': typeof ClientSessionRoute
   '/dashboard': typeof DashboardRoute
   '/_auth/Profile': typeof AuthProfileRoute
   '/_auth/Register': typeof AuthRegisterRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/client-session'
     | '/dashboard'
     | '/Profile'
     | '/Register'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/client-session'
     | '/dashboard'
     | '/Profile'
     | '/Register'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/client-session'
     | '/dashboard'
     | '/_auth/Profile'
     | '/_auth/Register'
@@ -188,6 +200,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClientSessionRoute: typeof ClientSessionRoute
   DashboardRoute: typeof DashboardRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -209,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/client-session': {
+      id: '/client-session'
+      path: '/client-session'
+      fullPath: '/client-session'
+      preLoaderRoute: typeof ClientSessionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -300,6 +320,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClientSessionRoute: ClientSessionRoute,
   DashboardRoute: DashboardRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
