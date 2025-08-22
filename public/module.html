@@ -265,7 +265,42 @@
 
   {# Module Custom Styles #}
   </script>
+  <style>
+  :root {
+    --home-tab-heading-color:  {{ module.style.home_tab_styles.home_tab_banner_text_color.color }} ;
+    --home-tab-description-color:  {{ module.style.home_tab_styles.description_color.color }} ;
+    --home-tab-button-background-color:  {{ module.style.home_tab_styles.button_styles.background_color.color }} ;
+    --home-tab-button-text-color:  {{ module.style.home_tab_styles.button_styles.text_color.color }} ;
+    --home-tab-overlayer-color:  {{ module.style.home_tab_styles.banner_overlayer_color.rgba }} ;
+    --home-tab-overlayer-opacity:  {{ module.style.home_tab_styles.banner_overlayer_color.opacity }} ;
+    --home-tab-svg-color:   {{ module.style.home_tab_styles.user_card_svg_color.color }} ;
+    --home-tab-svg-opacity:  {{ module.style.home_tab_styles.user_card_svg_color.opacity }} ;
 
+    --sidebar-text-color:  {{ module.style.sidebar_styles.text_color.color }} ;
+    --sidebar-background-color:  {{ module.style.sidebar_styles.sidebar_background_color.color }} ;
+
+    --details-page-text-color:  {{ module.style.details_page_styles.text_color.color }} ;
+    --details-page-banner-color1:  {{ module.style.details_page_styles.banner_background_options.banner_color_1.color }} ;
+    --details-page-banner-color2:  {{ module.style.details_page_styles.banner_background_options.banner_color_2.color }} ;
+
+    --create-button-background-color:  {{ module.style.table_record_creation_button.background_color.color }} ;
+    --create-button-text-color:  {{ module.style.table_record_creation_button.text_color.color }} ;
+
+    --right-tables-background-color:   {{ module.style.d_h_sidebar.background_color.rgba }} ;
+    --right-tables-card-background-color:  {{ module.style.d_h_sidebar.card_background_color.rgba }} ;
+    --right-tables-text-color:   {{ module.style.d_h_sidebar.text_color.rgba }} ;
+
+    --note-hs-bg:  {{ module.style.note_cards.hs_note_card_bg_color.color }} ;
+    --note-hs-text:  {{ module.style.note_cards.hs_note_ts_text_color.color }} ;
+    --note-wp-bg:  {{ module.style.note_cards.wp_note_card_bg_color.color }} ;
+    --note-wp-text:  {{ module.style.note_cards.wp_note_ts_text_color.color }} ;
+
+    --sidebarCta-background-color:  {{ module.style.sidebar_cta.background_color.rgba }} ;
+    --sidebarCta-text-color:   {{ module.style.sidebar_cta.text_color.rgba }} ;
+    --sidebarCta-button-background-color:  {{ module.style.sidebar_cta.button_background_color.color }} ;
+    --sidebarCta-button-text-color: {{ module.style.sidebar_cta.button_text_color.rgba }} ;
+  }
+</style>
   <script>
     window.hubSpotData = {
         dataSourceSet,

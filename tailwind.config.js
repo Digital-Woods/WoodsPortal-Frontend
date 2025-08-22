@@ -8,10 +8,9 @@ function withOpacity(variableName) {
   };
 }
 
-
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: "class", // or 'media' or 'class'
+  darkMode: "class",
   theme: {
     screens: {
       xs: "480px",
@@ -26,9 +25,9 @@ export default {
     extend: {
       backgroundImage: {
         "custom-gradient":
-          `linear-gradient(194deg, 72% )`,
+          `linear-gradient(194deg, var(--details-page-banner-color2) 0%, var(--details-page-banner-color1) 72%)`,
         "custom-bg":
-          "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          "url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1932&auto=format&fit=crop')",
       },
       keyframes: {
         pulseEffect: {
@@ -53,24 +52,24 @@ export default {
         richRed: "#FF0000",
         lightblue: "#005fad",
         defaultPrimary: "var(--primary-color)",
-        rsbackground: `${"#2d3e5014"}`,
-        rstextcolor: `${"#2d3e50"}`,
-        rscardbackhround: `${"#2d3e5030"}`,
-        ctaBackgroundColor: `${'#3d4d5e'}`,
-        ctaTextColor: `${'#FFFFFF'}`,
-        ctaButtonBackgroundColor: `${'#14BBA4'}`,
-        ctaButtonTextColor: `${'#FFFFFF'}`,
+        rsbackground: "var(--right-tables-background-color)",
+        rstextcolor: `var(--right-tables-text-color)`,
+        rscardbackhround: `var(--right-tables-card-background-color)`,
+        ctaBackgroundColor: `var(--sidebarCta-background-color)`,
+        ctaTextColor: `var(--sidebarCta-text-color)`,
+        ctaButtonBackgroundColor: `var(--sidebarCta-button-background-color)`,
+        ctaButtonTextColor: `var(--sidebarCta-button-text-color)`,
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
         primaryBgHover: "var(--primary-color-hover-bg)",
         secondaryBgHover: "var(--secondary-color-hover-bg)",
-        flatGray: "#F6F6F6", // Flat grey
-        midGray: "#DFDFF2", // Mid grey
+        flatGray: "#F6F6F6",
+        midGray: "#DFDFF2",
         darkerGray: "#1C1C1F",
-        sidelayoutColor: "#2D3E50",
-        sidelayoutTextColor: `${"#ffffff"}`,
-        detailsBannerTextColor: `${"#ffffff"}`,
-        activeState: `${"#ffffff"}20`, // Darker grey
+        sidelayoutColor: `var(--sidebar-background-color)`,
+        sidelayoutTextColor: `var(--sidebar-text-color)`,
+        detailsBannerTextColor: `var(--details-page-text-color)`,
+        activeState: `var(--details-page-text-color)20`,
         brand: {
           DEFAULT: "#0289A4",
           dark: "#0091AE",
@@ -138,8 +137,4 @@ export default {
       },
     },
   },
-  // plugins: [
-  //   require('@tailwindcss/typography'),
-  //   require('@tailwindcss/forms'),
-  // ],
 };

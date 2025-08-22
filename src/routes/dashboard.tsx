@@ -146,28 +146,28 @@ const Dashboard = () => {
 
                   const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
 
-                  return (
+                return (
+                  <div
+                    key={index}
+                    className={`${ homeCardsView != 'list' ? colSpan : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
+                      ${moduleStylesOptions.homeTabStyles.overlayer.color != '' ? `bg-[var(--home-tab-overlayer-color)]`:'bg-[var(--banner-overlayer-color)]'} dark:bg-dark-300 relative`}
+                  >
                     <div
-                      key={index}
-                      className={`${homeCardsView != 'list' ? colSpan : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
-                      ${moduleStylesOptions?.homeTabStyles?.overlayer?.color != '' ? `bg-[${moduleStylesOptions?.homeTabStyles?.overlayer?.color}]/${moduleStylesOptions?.homeTabStyles?.overlayer?.opacity}` : 'bg-[var(--banner-overlayer-color)]'} dark:bg-dark-300 relative`}
+                      className={`absolute bottom-0 right-0 z-1 ${moduleStylesOptions.homeTabStyles.svgColor.color  != '' ? `text-[var(--home-tab-svg-color)]`:'text-[var(--primary-color)]'} dark:text-gray-500`}
                     >
-                      <div
-                        className={`absolute bottom-0 right-0 z-1 ${moduleStylesOptions?.homeTabStyles?.svgColor?.color != '' ? `text-[${moduleStylesOptions?.homeTabStyles?.svgColor?.color}]` : 'text-[var(--primary-color)]'} dark:text-gray-500`}
-                      >
-                        <svg width="151" height="125" viewBox="0 0 151 125" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <g clipPath="url(#clip0_7211_3894)">
-                            <circle cx="116" cy="116" r="116" fill="currentColor" opacity="0.1" />
-                            <circle cx="116" cy="116" r="77" fill="currentColor" opacity="0.3" />
-                            <circle cx="116" cy="116" r="35" fill="currentColor" opacity="0.5" />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_7211_3894">
-                              <rect width="151" height="125" fill="white" />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </div>
+                      <svg width="151" height="125" viewBox="0 0 151 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clipPath="url(#clip0_7211_3894)">
+                          <circle cx="116" cy="116" r="116" fill="currentColor" opacity="0.1" />
+                          <circle cx="116" cy="116" r="77" fill="currentColor" opacity="0.3" />
+                          <circle cx="116" cy="116" r="35" fill="currentColor" opacity="0.5" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_7211_3894">
+                            <rect width="151" height="125" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
 
                       <div className="">
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
