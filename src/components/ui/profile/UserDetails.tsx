@@ -38,7 +38,6 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, is
 const hubspotObjectTypeId = "0-5";
     // Automatically adjust the sidebar based on screen size
     const getInitialFilter = (type: any) => {
-        console.log("homeTabsDataTypeFilter", homeTabsDataTypeFilter)
     return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
             homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
             '0-1';

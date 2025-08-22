@@ -301,7 +301,11 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
                                         <span className=" break-all">
-                                            {value?.value}
+                                            {value?.value ? (
+                                                getPropertyValueType(key, value?.value)
+                                            ) : (
+                                                "--"
+                                            )}
                                         </span>
                                     </div>
                                 );
