@@ -90,7 +90,7 @@ const Dashboard = () => {
     window.addEventListener("resize", resetOnResize);
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
-  
+
   // console.log(enableDashboardCards,'enableDashboardCards hello')
   // const apis = {
   //   tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -132,61 +132,60 @@ const Dashboard = () => {
             ""
           )}
 
-          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto ${enableDashboardCards ? ' md:py-4 py-3':' md:pb-4 pb-3'}
+          <div className={` h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto ${enableDashboardCards ? ' md:py-4 py-3' : ' md:pb-4 pb-3'}
                 ${showSidebarListDataOption && isLargeScreen
               ? "w-[calc(100%_-350px)]"
               : "w-full"
             } ${!showSidebarListDataOption && isLargeScreen ? 'md:pr-4 pr-3 ' : ''}`}>
-            {enableDashboardCards && 
-            <div className={`grid grid-cols-12 md:gap-4 gap-3`}>
-              {dashboardCards.map((card: any, index: any) => {
-                const isLast = index === dashboardCards.length - 1;
-                const isOdd = dashboardCards.length % 2 !== 0;
-                const isOnly = dashboardCards.length === 1;
+            {enableDashboardCards &&
+              <div className={`grid grid-cols-12 md:gap-4 gap-3`}>
+                {dashboardCards.map((card: any, index: any) => {
+                  const isLast = index === dashboardCards.length - 1;
+                  const isOdd = dashboardCards.length % 2 !== 0;
+                  const isOnly = dashboardCards.length === 1;
 
-                const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
+                  const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
 
-                return (
-                  <div
-                    key={index}
-                    className={`${ homeCardsView != 'list' ? colSpan : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
-                      ${moduleStylesOptions.homeTabStyles.overlayer.color != '' ? `bg-[${moduleStylesOptions.homeTabStyles.overlayer.color}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity}`:'bg-[var(--banner-overlayer-color)]'} dark:bg-dark-300 relative`}
-                  >
+                  return (
                     <div
-                      className={`absolute bottom-0 right-0 z-1 ${moduleStylesOptions.homeTabStyles.svgColor.color  != '' ? `text-[${moduleStylesOptions.homeTabStyles.svgColor.color}]`:'text-[var(--primary-color)]'} dark:text-gray-500`}
+                      key={index}
+                      className={`${homeCardsView != 'list' ? colSpan : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
+                      ${moduleStylesOptions?.homeTabStyles?.overlayer?.color != '' ? `bg-[${moduleStylesOptions?.homeTabStyles?.overlayer?.color}]/${moduleStylesOptions?.homeTabStyles?.overlayer?.opacity}` : 'bg-[var(--banner-overlayer-color)]'} dark:bg-dark-300 relative`}
                     >
-                      <svg width="151" height="125" viewBox="0 0 151 125" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clipPath="url(#clip0_7211_3894)">
-                          <circle cx="116" cy="116" r="116" fill="currentColor" opacity="0.1" />
-                          <circle cx="116" cy="116" r="77" fill="currentColor" opacity="0.3" />
-                          <circle cx="116" cy="116" r="35" fill="currentColor" opacity="0.5" />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_7211_3894">
-                            <rect width="151" height="125" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </div>
+                      <div
+                        className={`absolute bottom-0 right-0 z-1 ${moduleStylesOptions?.homeTabStyles?.svgColor?.color != '' ? `text-[${moduleStylesOptions?.homeTabStyles?.svgColor?.color}]` : 'text-[var(--primary-color)]'} dark:text-gray-500`}
+                      >
+                        <svg width="151" height="125" viewBox="0 0 151 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <g clipPath="url(#clip0_7211_3894)">
+                            <circle cx="116" cy="116" r="116" fill="currentColor" opacity="0.1" />
+                            <circle cx="116" cy="116" r="77" fill="currentColor" opacity="0.3" />
+                            <circle cx="116" cy="116" r="35" fill="currentColor" opacity="0.5" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_7211_3894">
+                              <rect width="151" height="125" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
 
-                    <div className="">
+                      <div className="">
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
                         {card?.properties && card?.properties.length > 0 && (
-                        <HomeCompanyCard
-                          companyDetailsModalOption={card?.add_details_modal}
-                          propertiesList={card?.properties}
-                          userData={userData?.response}
-                          isLoading={isLoading}
-                          isLoadedFirstTime={isLoadedFirstTime}
-                          iframePropertyName={card?.properties}
-                          viewStyle={card?.view}
-                        />
+                          <HomeCompanyCard
+                            propertiesList={card?.properties}
+                            userData={userData?.response}
+                            isLoading={isLoading}
+                            isLoadedFirstTime={isLoadedFirstTime}
+                            iframePropertyName={card?.properties}
+                            viewStyle={card?.view}
+                          />
                         )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>}
+                  );
+                })}
+              </div>}
             {/* <DashboardTable
               hubspotObjectTypeId={hubspotObjectTypeId}
               path={path}
