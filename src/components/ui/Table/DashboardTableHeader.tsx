@@ -140,7 +140,7 @@ export const DashboardTableHeader = ({
             ) : null)}
         </div>
         <div className=" md:flex md:items-center md:gap-2">
-          <Tooltip content="Press enter to search " className="relative">
+          <Tooltip id={"searchInput"} content="Press enter to search" place='right'>
             <Input
               placeholder="Search..."
               height="semiMedium"

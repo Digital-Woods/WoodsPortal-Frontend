@@ -38,7 +38,7 @@ export const ThemeSwitcher = () => {
   };
 
   return (
-    <Tooltip content={`Switch to ${theme === "dark" ? "light" : "dark"}`}>
+    <Tooltip id={"themeSwitcher"} content={`Switch to ${theme === "dark" ? "light" : "dark"}`}>
       <div
         className="text-[var(--sidebar-text-color)] dark:text-white p-3 text-center cursor-pointer"
         onClick={() => toggleTheme()}

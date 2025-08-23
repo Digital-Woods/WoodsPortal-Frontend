@@ -122,7 +122,7 @@ export const DetailsAssociations = ({
             </span> */}
             <div className="flex items-center gap-x-2">
               <div onClick={toggleContent} className="cursor-pointer ">
-                <Tooltip content={isExpanded ? "Shrink" : "Expand"}>
+                <Tooltip id={"toggleButton"} content={isExpanded ? "Shrink" : "Expand"}>
                   <span className="text-secondary dark:text-white">
                     {isExpanded ? (
                       <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
