@@ -3,7 +3,7 @@ import { hubSpotUserDetails, moduleStylesOptions } from "@/data/hubSpotData";
 import { useAuth } from "@/state/use-auth";
 import { getFirstName, getLastName } from "@/utils/DataMigration";
 import { useState, useEffect } from "react";
-import ReactHtmlParser from 'react-html-parser';
+import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 
 const getGreeting = () => {
@@ -96,9 +96,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
             }
           </div>
           <p className={`text-[var(--home-tab-description-color)] dark:text-white  words-break`}>
-            {ReactHtmlParser(
-              DOMPurify.sanitize(updatedDescription)
-            )}
+            <HtmlParser html={DOMPurify.sanitize(updatedDescription)} />
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ReactHtmlParser from 'react-html-parser';
+import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { EmptyDeal } from '@/assets/icons/EmptyDeal';
 import { EmptyIcon } from '@/assets/icons/EmptyIcon';
@@ -70,7 +70,7 @@ export const EmptyMessageCard = ({
                 key={index}
                 className={type === "row" ? "text-start" : "text-start"}
               >
-                {ReactHtmlParser(DOMPurify.sanitize(point))}
+                <HtmlParser html={DOMPurify.sanitize(point)} />
               </li>
             ))}
           </ul>

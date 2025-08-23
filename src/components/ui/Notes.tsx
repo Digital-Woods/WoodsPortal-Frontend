@@ -21,7 +21,7 @@ import { useMe } from '@/data/user';
 import { Attachments } from './Attachments';
 import { Dialog } from './Dialog';
 import { NoteSkeleton } from './skeletons/NoteSkeleton';
-import ReactHtmlParser from 'react-html-parser';
+import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { useToaster } from '@/state/use-toaster';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -231,14 +231,7 @@ const NoteCard = ({
               >
                 <div className="break-words">
                   <span>
-                    {/* {ReactHtmlParser.default(
-                      DOMPurify.sanitize(note.hs_note_body, {
-                        ADD_ATTR: ['target'],
-                      })
-                    )} */}
-                    {ReactHtmlParser(
-                      DOMPurify.sanitize(note.hs_note_body, noteViewConfig)
-                    )}
+                    <HtmlParser html={DOMPurify.sanitize(note.hs_note_body, noteViewConfig)} />
                   </span>
                 </div>
                 {permissions.update === true && note?.createdBy != 'Hubspot' ? (
