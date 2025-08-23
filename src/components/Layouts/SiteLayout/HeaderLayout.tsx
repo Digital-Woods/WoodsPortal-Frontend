@@ -111,7 +111,7 @@ export const HeaderLayout = (props: any) => {
           <div className="flex gap-2 items-center">
 
             <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
-              <Tooltip content={`Clear cache`}>
+              <Tooltip id='clearCacheTooltip' content={`Clear cache`}>
                 <SyncButton />
               </Tooltip>
             </div>
@@ -127,7 +127,7 @@ export const HeaderLayout = (props: any) => {
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >
-              <Tooltip position='left' content={`My profile`}>
+              <Tooltip id={'profileBtn'} place='left' content={`My profile`}>
                 <div className="flex gap-2 items-center">
                   <div className="rounded-full h-[30px] w-[30px] flex items-center justify-center bg-gray-400 text-white text-xs font-medium">
                     {initials}

@@ -158,7 +158,7 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
           </TableCell>
 
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-xs dark:text-white">
-            <Tooltip content={file.name}>
+            <Tooltip id={"fileNane"} content={file.name}>
               <div className="dark:text-white">{truncatedText(file.name, '100')}</div>
             </Tooltip>
           </TableCell>
