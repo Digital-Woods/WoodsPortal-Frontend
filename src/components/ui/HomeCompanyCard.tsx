@@ -111,8 +111,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading
         const setting = iframeSettings.find(setting => setting.properties_value === key);
         const displayType = getDisplayType(key);
         const actionType = getActionType(key);
-console.log(setting,'setting setting setting');
-console.log(value,'Value Value Value');
         if (!value) {
             return "--";
         }
@@ -281,7 +279,7 @@ console.log(value,'Value Value Value');
                                         <span className="font-semibold">{value?.label}:</span>
                                         <span className=" break-all">
                                             {value?.value ? (
-                                                value?.value
+                                                getPropertyValueType(key, value?.value)
                                             ) : (
                                                 "--"
                                             )}
