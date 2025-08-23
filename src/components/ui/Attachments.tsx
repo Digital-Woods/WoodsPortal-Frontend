@@ -9,7 +9,7 @@ export const Attachments = ({
   attachments = [],
   objectId,
   id,
-  isLoadingUoloading,
+  isLoadingUploading,
   uploadProgress,
   remove = true,
   preview = true,
@@ -73,10 +73,10 @@ export const Attachments = ({
       {/* Progress Bar */}
       <div
         className={`transition-all w-[100%] duration-300 ${
-          isLoadingUoloading ? "opacity-100" : "opacity-0"
+          isLoadingUploading ? "opacity-100" : "opacity-0"
         } overflow-hidden`}
       >
-        {isLoadingUoloading && uploadProgress < 90 ? (
+        {isLoadingUploading && uploadProgress < 90 ? (
           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
             <div
               className={`h-3 bg-secondary transition-all duration-300 w-[${
@@ -85,7 +85,7 @@ export const Attachments = ({
             ></div>
           </div>
         ) : null}
-        {isLoadingUoloading && uploadProgress > 90 ? (
+        {isLoadingUploading && uploadProgress > 90 ? (
           <div className="meter">
             <span></span>
           </div>

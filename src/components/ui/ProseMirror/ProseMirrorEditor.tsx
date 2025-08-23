@@ -91,8 +91,8 @@ export const ProseMirrorEditor = ({
   }
 
   const {
-    isLoadingUoloading,
-    setisLoadingUoloading,
+    isLoadingUploading,
+    setIsLoadingUploading,
     uploadProgress,
     setUploadProgress,
     uploadedAttachments,
@@ -472,7 +472,7 @@ export const ProseMirrorEditor = ({
     const imageUploader = () => {
       return customMenuItemImage(
         imageUploadUrl,
-        setisLoadingUoloading,
+        setIsLoadingUploading,
         setUploadProgress
       );
     };
@@ -482,7 +482,7 @@ export const ProseMirrorEditor = ({
         attachmentUploadUrl,
         attachmentUploadMethod,
         setUploadedAttachments,
-        setisLoadingUoloading,
+        setIsLoadingUploading,
         setUploadProgress,
         setAttachmentId
       );
@@ -649,6 +649,7 @@ export const ProseMirrorEditor = ({
 
   return (
     <div>
+      {console.log("editor", true)}
       <div
         ref={editorRef}
         id="prosemirror-editor"
@@ -660,7 +661,7 @@ export const ProseMirrorEditor = ({
         attachments={uploadedAttachments}
         objectId={objectId}
         id={id}
-        isLoadingUoloading={isLoadingUoloading}
+        isLoadingUploading={isLoadingUploading}
         uploadProgress={uploadProgress}
         preview={false}
       />
