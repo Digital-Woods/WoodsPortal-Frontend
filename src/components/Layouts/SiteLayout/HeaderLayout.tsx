@@ -94,7 +94,7 @@ export const HeaderLayout = (props: any) => {
   const initials = profileInitial(firstName, lastName);
 
   return (
-    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] before:dark:bg-dark-300 after:bg-[var(--sidebar-background-color)] after:dark:bg-dark-300 after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 dark:bg-dark-200 z-[49] duration-300 fixed top-0 right-0 w-full nav-rounded ${sidebarCollapsed ? "lg:w-[calc(100%_-_75px)]" : "lg:w-[calc(100%_-_250px)]"
+    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] before:dark:bg-dark-300 after:bg-[var(--sidebar-background-color)] after:dark:bg-dark-300 after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 z-[49] duration-200 fixed top-0 right-0 w-full nav-rounded ${sidebarCollapsed ? "lg:w-[calc(100%_-_75px)]" : "lg:w-[calc(100%_-_250px)]"
       }`}>
       <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
