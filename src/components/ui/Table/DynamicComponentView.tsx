@@ -20,7 +20,7 @@ import { Link } from '@/components/ui/link';
 import { formatCustomObjectLabel } from '@/utils/DataMigration';
 import { HomeCompanyCard } from '../HomeCompanyCard';
 import { DetailsIcon } from '@/assets/icons/detailsIcon';
-import ReactHtmlParser from 'react-html-parser';
+import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
@@ -634,9 +634,7 @@ export const DynamicComponentView = ({
                     </p>
                     <div className="dark:text-white words-break">
                       {objectDescription
-                        ? ReactHtmlParser(
-                            DOMPurify.sanitize(objectDescription)
-                          )
+                        ? <HtmlParser html={DOMPurify.sanitize(objectDescription)} />
                         : ""}
                     </div>
                   </span>

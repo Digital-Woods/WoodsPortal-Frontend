@@ -503,8 +503,6 @@ export const renderCellContent = ({
   if (type === "details" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
-        {/* {isObject(value) ? value.label
-            : ReactHtmlParser(DOMPurify.sanitize(value))} */}
         {decodeAndStripHtml(value || "")}
       </div>
     );
