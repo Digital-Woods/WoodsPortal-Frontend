@@ -125,8 +125,9 @@ const GridColorPicker = ({ onColorChange }: any) => {
       <div className="grid grid-cols-9 gap-2 p-4 ">
         {colors.map((color, index) => (
           <div
+            style={{ 'backgroundColor': color }}
             key={index}
-            className={`w-5 h-5 rounded shadow-md cursor-pointer border border-gray-300 bg-[${color}]`}
+            className={`w-5 h-5 rounded shadow-md cursor-pointer border border-gray-300`}
             title={color}
             onClick={() => onColorChange(color, false)}
           ></div>

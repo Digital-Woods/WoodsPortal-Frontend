@@ -75,7 +75,7 @@ export const DashboardTableHeaderSkeleton = ({
           )}
         </div>
         <div className=" md:flex md:items-center md:gap-2">
-          <Tooltip content="Press enter to search " className="relative">
+          <Tooltip id={'searchInputSkeleton'} content="Press enter to search ">
             <Input
               placeholder="Search..."
               height="semiMedium"
