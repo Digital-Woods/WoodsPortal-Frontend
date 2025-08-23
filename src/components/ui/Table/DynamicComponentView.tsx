@@ -71,7 +71,8 @@ export const DynamicComponentView = ({
   // const [totalItems, setTotalItems] = useState<any>(1);
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
-
+  const router = useRouter()
+  const { pathname } = router.state.location
 
   const [isLoading, setIsLoading] = useState<any>(null);
   const [urlParam, setUrlParam] = useState<any>(null);
@@ -417,28 +418,28 @@ export const DynamicComponentView = ({
   //   // }
   // }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await setErrorMessage('');
-  //     await resetTableParam();
-  //     await setApiResponse(null);
-  //     await setPageView(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      await setErrorMessage('');
+      await resetTableParam();
+      await setApiResponse(null);
+      await setPageView(null);
 
-  //     // if(!isHome) {
-  //     if (
-  //       (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-  //       !defPermissions?.pipeline_id
-  //     ) {
-  //       await getPipelines();
-  //     } else {
-  //       // console.log(123)
-  //       // getData();
-  //     }
-  //     // }
-  //   };
+      // if(!isHome) {
+      if (
+        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        !defPermissions?.pipeline_id
+      ) {
+        await getPipelines();
+      } else {
+        // console.log(123)
+        // getData();
+      }
+      // }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
 
   // useEffect( async () => {
@@ -448,22 +449,22 @@ export const DynamicComponentView = ({
   //   }
   // }, [sync]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (sync) {
-  //       if (
-  //         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-  //         !defPermissions?.pipeline_id
-  //       ) {
-  //         await getPipelines();
-  //       } else {
-  //         getData();
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (sync) {
+        if (
+          (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+          !defPermissions?.pipeline_id
+        ) {
+          await getPipelines();
+        } else {
+          getData();
+        }
+      }
+    };
 
-  //   fetchData();
-  // }, [sync, hubspotObjectTypeId, defPermissions]);
+    fetchData();
+  }, [sync, hubspotObjectTypeId, defPermissions]);
 
 
   // useEffect(async () => {
@@ -471,54 +472,51 @@ export const DynamicComponentView = ({
   //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
   // }, [companyAsMediator]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setPage(1);
-
-  //     if (
-  //       (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-  //       !defPermissions?.pipeline_id
-  //     ) {
-  //       await getPipelines();
-  //     } else {
-  //       // console.log(456)
-
-  //     try {
-  //       await getData();
-  //     } catch (err) {
-  //       console.error("Error running getData", err);
-  //     }
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
-
-  const router = useRouter()
-  const { pathname } = router.state.location
-  
-  useEffect( () => {
-    // console.log("useEffect", true)
-    setErrorMessage('')
-    resetTableParam();
-    setApiResponse(null);
-    setPageView(null);
-    // if(!isHome) {
-      ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-    // }
-  }, [pathname]);
-
-  useEffect( () => {
-    // if (sync && errorMessage) {
-    if (sync) {
-      ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-    }
-  }, [sync]);
-
   useEffect(() => {
+    const fetchData = async () => {
       setPage(1);
-      ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-  }, [companyAsMediator]);
+
+      if (
+        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        !defPermissions?.pipeline_id
+      ) {
+        await getPipelines();
+      } else {
+        // console.log(456)
+
+      try {
+        await getData();
+      } catch (err) {
+        console.error("Error running getData", err);
+      }
+      }
+    };
+
+    fetchData();
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
+  
+  // useEffect( () => {
+  //   // console.log("useEffect", true)
+  //   setErrorMessage('')
+  //   resetTableParam();
+  //   setApiResponse(null);
+  //   setPageView(null);
+  //   // if(!isHome) {
+  //     ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  //   // }
+  // }, []);
+
+  // useEffect( () => {
+  //   // if (sync && errorMessage) {
+  //   if (sync) {
+  //     ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  //   }
+  // }, [sync]);
+
+  // useEffect(() => {
+  //     setPage(1);
+  //     ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+  // }, [companyAsMediator]);
 
 
   const changeTab = async (view: any) => {
@@ -567,6 +565,7 @@ export const DynamicComponentView = ({
         <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>
             <TableDetails
+              key={pathname}
               objectId={hubspotObjectTypeId}
               getData={getData}
               states={
@@ -594,7 +593,7 @@ export const DynamicComponentView = ({
         </div>
       )}
       {pageView === "table" && (
-        <div className="bg-[var(--sidebar-background-color)] dark:bg-dark-300">
+        <div className="bg-[var(--sidebar-background-color)] dark:bg-dark-300" key={pathname}>
           <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white`}>
             <div className="flex relative z-[2] gap-6">
               <div className="flex flex-col gap-2 flex-1">
@@ -645,6 +644,7 @@ export const DynamicComponentView = ({
             {objectUserProperties && objectUserProperties.length > 0 && 
               <div className="mt-3">
                 <HomeCompanyCard
+                  key={pathname}
                   companyDetailsModalOption={false}
                   propertiesList={objectUserProperties}
                   userData={userData?.response}
@@ -677,7 +677,7 @@ export const DynamicComponentView = ({
 
               <div className="w-full" key={hubspotObjectTypeId}>
                 <DashboardTable
-                  key={hubspotObjectTypeId}
+                  key={pathname}
                   hubspotObjectTypeId={hubspotObjectTypeId}
                   path={path}
                   title={title == 'Association' ? associatedtableTitleSingular : (title || hubSpotUserDetails.sideMenu[0]?.label)}

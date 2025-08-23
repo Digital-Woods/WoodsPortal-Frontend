@@ -55,6 +55,7 @@ const ListComponent = () => {
 
   return (
     <DynamicComponentView
+      key={path}
       hubspotObjectTypeId={hubspotObjectTypeId}
       path={path}
       title={title}
