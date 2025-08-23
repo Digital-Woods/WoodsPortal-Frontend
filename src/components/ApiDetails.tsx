@@ -249,7 +249,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
           {associations && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
-                className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
+                className="rounded-full p-2 dark:bg-cleanWhite bg-[var(--sidebar-background-color)] text-[var(--sidebar-text-color)] dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                 onClick={toggleSidebar}
               >
                 <DetailsIcon />
@@ -404,7 +404,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
             {!isLargeScreen && sidebarDetailsOpen && (
               <div className="rounded-full dark:bg-dark-200 z-50 absolute right-[10px] top-[60px]">
                 <button
-                  className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
+                  className="rounded-full p-2 dark:bg-cleanWhite bg-[var(--sidebar-background-color)] text-[var(--sidebar-text-color)] dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                   onClick={() => setSidebarDetailsOpen(false)}
                 >
                   <Arrow />

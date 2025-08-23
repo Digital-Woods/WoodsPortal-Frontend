@@ -81,7 +81,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
         <div className="w-full">
           <div className={`${moduleBannerDetailsOption.show_title || moduleBannerDetailsOption?.show_date ? 'mb-6' : 'mb-0'  }`}>
             {moduleBannerDetailsOption.show_title && 
-            <h2 className={`text-xl md:text-2xl font-bold text-[${moduleStylesOptions.homeTabStyles.headingColor || '#2a2a2a'}] dark:text-white mb-1`}>
+            <h2 className={`text-xl md:text-2xl font-bold text-[var(--home-tab-heading-color)] dark:text-white mb-1`}>
               {moduleBannerDetailsOption && moduleBannerDetailsOption.title ? (
                 updatedHeader
               ) : (
@@ -92,16 +92,14 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
             </h2>
             }
             {moduleBannerDetailsOption?.show_date &&
-            <p className={`opacity-70 text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>
+            <p className={`opacity-70 text-[var(--home-tab-description-color)] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>
             }
           </div>
-          <div>
-            <p className={`text-[${moduleStylesOptions.homeTabStyles.descriptionColor || '#2a2a2a'}] dark:text-white  words-break`}>
-              {ReactHtmlParser(
-                DOMPurify.sanitize(updatedDescription)
-              )}
-            </p>
-          </div>
+          <p className={`text-[var(--home-tab-description-color)] dark:text-white  words-break`}>
+            {ReactHtmlParser(
+              DOMPurify.sanitize(updatedDescription)
+            )}
+          </p>
         </div>
       </div>
   );

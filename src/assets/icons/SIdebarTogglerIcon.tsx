@@ -1,7 +1,7 @@
 export const SidebarTogglerIcon = (props: any) => {
   return (
     <svg
-      className={`text-sidelayoutTextColor dark:text-white transform transition-transform duration-300 `}
+      className={`text-[var(--sidebar-text-color)] dark:text-white transform transition-transform duration-300 `}
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"

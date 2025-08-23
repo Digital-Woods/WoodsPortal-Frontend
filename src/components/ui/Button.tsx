@@ -11,7 +11,7 @@ const classes = {
 const variantClasses : any = {
   default:
     "bg-primary text-white dark:border dark:bg-dark-400 shadow hover:bg-primary/90",
-  create: `!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}] hover:!bg-[${moduleStylesOptions.creatButtonStyles.backgroundColor}]/80 !text-[${moduleStylesOptions.creatButtonStyles.textColor}]`,
+  create: `!bg-[var(--create-button-background-color)] hover:!bg-[var(--create-button-background-color)]/80 !text-[var(--create-button-text-color)]`,
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline:

@@ -2,16 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-  --primary-color:#ff7a59;
-  --secondary-color:#0091ae;
-  --primary-color-hover-bg:#0d7a4730;
-  --secondary-color-hover-bg:#0091ae30;
+/* :root {
+  --primary-color: #ff7a59;
+  --secondary-color: #0091ae;
+  --primary-color-hover-bg: #0d7a4730;
+  --secondary-color-hover-bg: #0091ae30;
+  --banner-overlayer-color:#ff7a5910;
+} */
+
+form {
+  margin: 0;
 }
 
-form{
-  margin:0;
-}
 /* Loader */
 .loader-line {
   width: 100%;
@@ -216,13 +218,14 @@ form{
   background-color: #2a2a2a;
 }
 
-.dark .ck.ck-editor__main > .ck-editor__editable {
+.dark .ck.ck-editor__main>.ck-editor__editable {
   background: #2a2a2a !important;
   border-radius: 0;
   color: #fdfdfd !important;
 }
 
-.dark .ck.ck-button:not(.ck-disabled):hover,.dark a.ck.ck-button:not(.ck-disabled):hover {
+.dark .ck.ck-button:not(.ck-disabled):hover,
+.dark a.ck.ck-button:not(.ck-disabled):hover {
   background: #212121;
 }
 
@@ -231,6 +234,7 @@ form{
   border: 1px solid var(--ck-color-toolbar-border);
   padding: 0 var(--ck-spacing-small);
 }
+
 /* Fileupload styles  */
 .kb-data-box {
   flex: 1;
@@ -380,6 +384,7 @@ form{
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 50px 50px;
   }
@@ -401,12 +406,12 @@ form{
 }
 
 .hide-scrollbar {
-  overflow-y: scroll; 
-  scrollbar-width: none; 
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 
@@ -415,7 +420,7 @@ form{
 
 
 th {
-  padding:8px 24px 8px 24px;
+  padding: 8px 24px 8px 24px;
   color: #33475b;
 }
 
@@ -433,18 +438,18 @@ tfoot td {
   color: #525259;
 }
 
-.rotate{
+.rotate {
   animation: rotation infinite 3s linear;
 }
 
-@keyframes rotation{
- from{
-   transform:rotate(0deg);
- }
- 
- to{
-   transform:rotate(360deg);
- }
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
@@ -482,9 +487,12 @@ tfoot td {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
-  backdrop-filter: blur(5px); /* Blur effect */
-  display: none; /* Initially hidden */
+  background: rgba(0, 0, 0, 0.4);
+  /* Semi-transparent background */
+  backdrop-filter: blur(5px);
+  /* Blur effect */
+  display: none;
+  /* Initially hidden */
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -503,23 +511,24 @@ tfoot td {
   gap: 12px;
 }
 
-.window-error-modal-title{
+.window-error-modal-title {
   font-weight: 600;
 }
-.window-error-modal-title>span{
-  color:#b61515;
+
+.window-error-modal-title>span {
+  color: #b61515;
 }
 
-.window-error-modal-button-ct{
+.window-error-modal-button-ct {
   display: flex;
   align-items: center;
   gap: 12px;
   justify-content: space-between;
-  width:100%;
+  width: 100%;
 }
 
-.lay-height-container{
-  min-height: -webkit-fill-available !important; 
+.lay-height-container {
+  min-height: -webkit-fill-available !important;
 }
 
 .window-error-modal-button-button {
@@ -535,17 +544,18 @@ tfoot td {
 /* File Upload Prgress Bar */
 
 .meter {
-    border-radius: 0px;
-    box-shadow: inset 0 -1px 1px hsla(0, 0%, 100%, .3);
-    box-sizing: content-box;
-    height: 0.75rem;
-    margin-top: 0.5rem;
-    /* margin: 10px 0 20px; */
-    /* padding: 10px; */
-    position: relative;
-    width: 100%;
+  border-radius: 0px;
+  box-shadow: inset 0 -1px 1px hsla(0, 0%, 100%, .3);
+  box-sizing: content-box;
+  height: 0.75rem;
+  margin-top: 0.5rem;
+  /* margin: 10px 0 20px; */
+  /* padding: 10px; */
+  position: relative;
+  width: 100%;
 }
-.meter > span {
+
+.meter>span {
   display: block;
   height: 100%;
   border-top-right-radius: 0.125rem;
@@ -556,30 +566,30 @@ tfoot td {
     inset 0 -2px 6px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
-  width:100%;
+  width: 100%;
 }
-.dark .meter > span {
+
+.dark .meter>span {
   background-color: #2a2a2a;
-  background-image: linear-gradient(center bottom,#2a2a2a 37%,#2a2a2a 69%);
+  background-image: linear-gradient(center bottom, #2a2a2a 37%, #2a2a2a 69%);
 }
-.meter > span:after,
-.animate > span > span {
+
+.meter>span:after,
+.animate>span>span {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-image: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
-  );
+  background-image: linear-gradient(-45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent);
   z-index: 1;
   background-size: 50px 50px;
   animation: move 2s linear infinite;
@@ -590,7 +600,7 @@ tfoot td {
   overflow: hidden;
 }
 
-.animate > span:after {
+.animate>span:after {
   display: none;
 }
 
@@ -606,19 +616,19 @@ tfoot td {
 }
 
 .modal-editor .ProseMirror {
-  height:360px;
+  height: 360px;
 }
 
 .edit-note .ProseMirror {
-  min-height:360px;
+  min-height: 360px;
 }
 
 .create-object-editor .ProseMirror {
   min-height: 180px;
 }
 
-.updateRichText .ProseMirror{
-  height:380px;
+.updateRichText .ProseMirror {
+  height: 380px;
 }
 
 .ProseMirror {
@@ -627,7 +637,8 @@ tfoot td {
   white-space: break-spaces;
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
-  font-feature-settings: "liga" 0; /* the above doesn't seem to work in Edge */
+  font-feature-settings: "liga" 0;
+  /* the above doesn't seem to work in Edge */
 }
 
 .ProseMirror pre {
@@ -638,18 +649,28 @@ tfoot td {
   position: relative;
 }
 
-.advance-color-picker > div{
+.advance-color-picker>div {
   width: 100% !important;
   box-shadow: none !important;
   border-radius: 0px !important;
 }
 
-.ProseMirror-hideselection *::selection { background: transparent; }
-.ProseMirror-hideselection *::-moz-selection { background: transparent; }
-.ProseMirror-hideselection { caret-color: transparent; }
+.ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection *::-moz-selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection {
+  caret-color: transparent;
+}
 
 /* See https://github.com/ProseMirror/prosemirror/issues/1421#issuecomment-1759320191 */
-.ProseMirror [draggable][contenteditable=false] { user-select: text }
+.ProseMirror [draggable][contenteditable=false] {
+  user-select: text
+}
 
 .ProseMirror-selectednode {
   /* outline: 2px solid #8cf; */
@@ -665,7 +686,9 @@ li.ProseMirror-selectednode:after {
   content: "";
   position: absolute;
   left: -32px;
-  right: -2px; top: -2px; bottom: -2px;
+  right: -2px;
+  top: -2px;
+  bottom: -2px;
   border: 2px solid #8cf;
   pointer-events: none;
 }
@@ -677,6 +700,7 @@ img.ProseMirror-separator {
   border: none !important;
   margin: 0 !important;
 }
+
 .ProseMirror-textblock-dropdown {
   min-width: 3em;
 }
@@ -701,10 +725,10 @@ img.ProseMirror-separator {
   border: 1px solid transparent;
   border-radius: 3px;
   /* height: 27px; */
-  padding:2px;
+  padding: 2px;
   vertical-align: middle;
   transition: 150ms ease-out;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -722,7 +746,7 @@ img.ProseMirror-separator {
   border-radius: 3px;
   vertical-align: middle;
   transition: 150ms ease-out;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -735,7 +759,8 @@ img.ProseMirror-separator {
   display: inline-block;
 }
 
-.ProseMirror-menu-dropdown, .ProseMirror-menu-dropdown-menu {
+.ProseMirror-menu-dropdown,
+.ProseMirror-menu-dropdown-menu {
   font-size: 90%;
   white-space: nowrap;
 }
@@ -764,7 +789,8 @@ img.ProseMirror-separator {
   top: calc(50% - 2px);
 }
 
-.ProseMirror-menu-dropdown-menu, .ProseMirror-menu-submenu {
+.ProseMirror-menu-dropdown-menu,
+.ProseMirror-menu-submenu {
   position: absolute;
   background: white;
   color: #666;
@@ -818,7 +844,8 @@ img.ProseMirror-separator {
   opacity: .3;
 }
 
-.ProseMirror-menu-submenu-wrap:hover .ProseMirror-menu-submenu, .ProseMirror-menu-submenu-wrap-active .ProseMirror-menu-submenu {
+.ProseMirror-menu-submenu-wrap:hover .ProseMirror-menu-submenu,
+.ProseMirror-menu-submenu-wrap-active .ProseMirror-menu-submenu {
   display: block;
 }
 
@@ -841,10 +868,10 @@ img.ProseMirror-separator {
   z-index: 10;
   align-items: center;
   gap: 2px;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
 }
 
-.note-font-dropdown-menu{
+.note-font-dropdown-menu {
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
@@ -875,16 +902,16 @@ img.ProseMirror-separator {
   color: #506e91;
 }
 
-.note-dd-Select-menu{
+.note-dd-Select-menu {
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
   max-height: 262px;
   padding-bottom: 8px;
   padding-top: 8px;
-  overflow:auto;
+  overflow: auto;
 }
 
-.note-dd-Select-menu-options{
+.note-dd-Select-menu-options {
   font-size: 13px;
   min-height: auto;
   padding: 3px 6px;
@@ -909,6 +936,7 @@ img.ProseMirror-separator {
 .ProseMirror-icon span {
   vertical-align: text-top;
 }
+
 .ProseMirror-gapcursor {
   display: none;
   pointer-events: none;
@@ -934,6 +962,7 @@ img.ProseMirror-separator {
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
 }
+
 /* Add space around the hr to make clicking it easier */
 
 .ProseMirror-example-setup-style hr {
@@ -950,14 +979,16 @@ img.ProseMirror-separator {
   line-height: 2px;
 }
 
-.ProseMirror ul, .ProseMirror ol {
+.ProseMirror ul,
+.ProseMirror ol {
   padding-left: 30px;
 }
 
 .ProseMirror blockquote {
   padding-left: 1em;
   border-left: 3px solid #eee;
-  margin-left: 0; margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .ProseMirror-example-setup-style img {
@@ -994,9 +1025,12 @@ img.ProseMirror-separator {
 
 .ProseMirror-prompt-close {
   position: absolute;
-  left: 2px; top: 1px;
+  left: 2px;
+  top: 1px;
   color: #666;
-  border: none; background: transparent; padding: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
 }
 
 .ProseMirror-prompt-close:after {
@@ -1017,7 +1051,9 @@ img.ProseMirror-separator {
   margin-top: 5px;
   display: none;
 }
-#editor, .editor {
+
+#editor,
+.editor {
   background: white;
   color: black;
   background-clip: padding-box;
@@ -1052,15 +1088,17 @@ img.ProseMirror-separator {
   -webkit-box-orient: vertical;
 }
 
-menu, ul {
+menu,
+ul {
   list-style: initial;
 }
 
-menu, ol {
+menu,
+ol {
   list-style: auto;
 }
 
-.ProseMirror > ul {
+.ProseMirror>ul {
   display: block;
   list-style-type: disc;
   margin-block-start: 1em;
@@ -1070,31 +1108,34 @@ menu, ol {
   padding-inline-start: 40px;
 }
 
-.ProseMirror > ul ul {
+.ProseMirror>ul ul {
   list-style-type: circle;
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
 
-.ProseMirror > ul ul ul {
+.ProseMirror>ul ul ul {
   list-style-type: square;
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
 
-.ProseMirror a , .EditorView a {
+.ProseMirror a,
+.EditorView a {
   color: #0091ae;
   cursor: pointer;
   font-weight: 600;
 }
 
-.ProseMirror a:hover, .EditorView a:hover {
+.ProseMirror a:hover,
+.EditorView a:hover {
   color: #0091ae;
   text-decoration: underline;
   text-decoration-color: black;
 }
 
-.ProseMirror p, .EditorView p {
+.ProseMirror p,
+.EditorView p {
   line-height: 1.5;
 }
 
@@ -1125,7 +1166,12 @@ figure {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: unset;
   margin-bottom: 16px;
   margin-top: 0;
@@ -1142,12 +1188,16 @@ h1, h2, h3, h4, h5, h6 {
   height: revert-layer;
 }
 
-.EditorView ol, .EditorView ul {
+.EditorView ol,
+.EditorView ul {
   margin: revert-layer;
   padding: revert-layer;
 }
 
-.ProseMirror ol, .ProseMirror ul, .EditorView ol, .EditorView ul {
+.ProseMirror ol,
+.ProseMirror ul,
+.EditorView ol,
+.EditorView ul {
   margin-bottom: 16px;
   margin-top: 0;
 }
@@ -1184,10 +1234,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .full-height-fix {
   height: 85vh;
-  height: calc(85vh - constant(safe-area-inset-top)); /* iOS 11 support */
-  height: calc(85vh - env(safe-area-inset-top));      /* Modern iOS support */
+  height: calc(85vh - constant(safe-area-inset-top));
+  /* iOS 11 support */
+  height: calc(85vh - env(safe-area-inset-top));
+  /* Modern iOS support */
   overflow-y: auto;
 }
-#app{
-  width:100vw;
+
+#app {
+  width: 100vw;
 }

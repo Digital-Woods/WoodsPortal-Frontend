@@ -94,12 +94,12 @@ export const HeaderLayout = (props: any) => {
   const initials = profileInitial(firstName, lastName);
 
   return (
-    <nav ref={navRef} className={`before:bg-sidelayoutColor before:dark:bg-dark-300 after:bg-sidelayoutColor after:dark:bg-dark-300 after:hidden max-lg:after:block bg-sidelayoutColor dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 dark:bg-dark-200 z-[49] duration-300 fixed top-0 right-0 w-full nav-rounded ${sidebarCollapsed ? "lg:w-[calc(100%_-_75px)]" : "lg:w-[calc(100%_-_250px)]"
+    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] before:dark:bg-dark-300 after:bg-[var(--sidebar-background-color)] after:dark:bg-dark-300 after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 dark:bg-dark-200 z-[49] duration-300 fixed top-0 right-0 w-full nav-rounded ${sidebarCollapsed ? "lg:w-[calc(100%_-_75px)]" : "lg:w-[calc(100%_-_250px)]"
       }`}>
       <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
           <div className="cursor-pointer" onClick={toggleDrawer}>
-            <p className="text-sidelayoutTextColor font-semibold  dark:text-white">
+            <p className="text-[var(--sidebar-text-color)] font-semibold  dark:text-white">
               <HamburgerMenu />
             </p>
           </div>
@@ -110,20 +110,20 @@ export const HeaderLayout = (props: any) => {
         <div>
           <div className="flex gap-2 items-center">
 
-            <div className="text-sidelayoutTextColor  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
+            <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
               <Tooltip content={`Clear cache`}>
                 <SyncButton />
               </Tooltip>
             </div>
 
-            <div className="text-sidelayoutTextColor  dark:border-white dark:text-white  rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
+            <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white  rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
               <ThemeSwitcher />
             </div>
 
             <div className="w-px h-6 bg-gray-600 dark:bg-dark-400"></div>
 
             <div
-              className=" px-3 py-1 text-sidelayoutTextColor  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section mr-1"
+              className=" px-3 py-1 text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section mr-1"
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >

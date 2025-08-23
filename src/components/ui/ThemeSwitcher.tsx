@@ -40,7 +40,7 @@ export const ThemeSwitcher = () => {
   return (
     <Tooltip content={`Switch to ${theme === "dark" ? "light" : "dark"}`}>
       <div
-        className="text-sidelayoutTextColor dark:text-white p-3 text-center cursor-pointer"
+        className="text-[var(--sidebar-text-color)] dark:text-white p-3 text-center cursor-pointer"
         onClick={() => toggleTheme()}
       >
         <span className={theme === "dark" ? "hidden" : "block"}>

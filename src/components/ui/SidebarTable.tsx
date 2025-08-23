@@ -175,7 +175,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   },[title])
 
   return (
-    <div className="bg-rsbackground rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
+    <div className="bg-[var(--right-tables-background-color)] rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
       <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
         <div className="flex items-center gap-x-2">
           <div onClick={toggleContent} className="cursor-pointer ">
@@ -196,7 +196,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
             </span>
           </span>
         </div>
-        {/* {isExpanded ? <IconMinus className='font-semibold fill-rstextcolor dark:fill-white' /> : <IconPlus className='font-semibold fill-rstextcolor dark:fill-white' />} */}
+        {/* {isExpanded ? <IconMinus className='font-semibold fill-[var(--right-tables-text-color)] dark:fill-white' /> : <IconPlus className='font-semibold fill-[var(--right-tables-text-color)] dark:fill-white' />} */}
         {(permissions?.create) && (
           <div className="text-end cursor-pointer ">
             <Button className='font-semibold text-xs' variant="link" size='link' onClick={() => setShowAddDialog(true)}>
@@ -222,49 +222,47 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       {!isLoading && tableData.length > 0 && (
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-auto" : "max-h-[270px] overflow-y-auto hide-scrollbar"}`}>
-            {tableData.map((item: any, key: any) => (
-              <table key={key} className="flex items-start text-rstextcolor bg-rscardbackhround dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
-                <tbody>
-                  {tableHeader.map((column: any) => (
-                    <tr
-                      key={column.value}
-                      className=""
-                      onMouseEnter={() => handleRowHover(item)}
-                      onMouseLeave={() => handleRowHover(null)}
-                    >
-                      <td className="pr-1 text-xs whitespace-wrap md:w-[120px] w-[100px] align-top dark:text-white text-rstextcolor !p-[3px]">{column.value}: </td>
+            {tableData.map((item: any) => (
+              <table key={item.id} className="flex items-start text-[var(--right-tables-text-color)] bg-[var(--right-tables-card-background-color)] dark:text-white dark:bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
+                {tableHeader.map((column: any) => (
+                  <tr
+                    key={column.value}
+                    className=""
+                    onMouseEnter={() => handleRowHover(item)}
+                    onMouseLeave={() => handleRowHover(null)}
+                  >
+                    <td className="pr-1 text-xs whitespace-wrap md:w-[120px] w-[100px] align-top dark:text-white text-[var(--right-tables-text-color)] !p-[3px]">{column.value}: </td>
 
-                      <td className="dark:text-white text-xs whitespace-wrap  text-rstextcolor break-all  !p-[3px]">
-                        {renderCellContent(
-                          // companyAsMediator,
-                          // item[column.key],
-                          // column,
-                          // item.hs_object_id,
-                          // path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
-                          // path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                          // 'homeList',
-                          // path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                          // detailsView,
-                          // hoverRow
-                          {
-                            companyAsMediator: companyAsMediator,
-                            value: item[column.key],
-                            column: column,
-                            itemId: item.hs_object_id,
-                            path: path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
-                            hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
-                            type: "homeList",
-                            associationPath: path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
-                            detailsView: detailsView,
-                            hoverRow: hoverRow,
-                            item: item,
-                            urlParam: null,
-                          }
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                    <td className="dark:text-white text-xs whitespace-wrap  text-[var(--right-tables-text-color)] break-all  !p-[3px]">
+                      {renderCellContent(
+                        // companyAsMediator,
+                        // item[column.key],
+                        // column,
+                        // item.hs_object_id,
+                        // path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                        // path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                        // 'homeList',
+                        // path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                        // detailsView,
+                        // hoverRow
+                        {
+                          companyAsMediator: companyAsMediator,
+                          value: item[column.key],
+                          column: column,
+                          itemId: item.hs_object_id,
+                          path: path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                          hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
+                          type: "homeList",
+                          associationPath: path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                          detailsView: detailsView,
+                          hoverRow: hoverRow,
+                          item: item,
+                          urlParam: null,
+                        }
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </table>
 
             ))}

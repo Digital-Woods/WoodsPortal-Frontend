@@ -78,20 +78,20 @@ export const DetailsHeaderCard = ({
     <div
       className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient"
     >
-      <div className="relative flex flex-col justify-center p-4 text-detailsBannerTextColor z-10">
+      <div className="relative flex flex-col justify-center p-4 text-[var(--details-page-text-color)] z-10">
         <p className="text-2xl font-semibold mb-2">{displayData?.primary}</p>
         {displayData?.secondary && (
-          <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
+          <p className="text-xs font-normal text-[var(--details-page-text-color)] line-clamp-2">
             {displayData?.secondary}
           </p>
         )}
         {displayData?.amount && (
-          <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
+          <p className="text-xs font-normal text-[var(--details-page-text-color)] line-clamp-2">
             {displayData?.amount}
           </p>
         )}
         {displayData?.domain && (
-          <p className="text-xs font-normal text-detailsBannerTextColor line-clamp-2">
+          <p className="text-xs font-normal text-[var(--details-page-text-color)] line-clamp-2">
             <a href={displayData?.domain ? `https://${displayData.domain}` : ''} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
               <span>
                 {displayData?.domain}
@@ -101,10 +101,10 @@ export const DetailsHeaderCard = ({
           </p>
         )}
         {displayData?.date && (
-          <p className="text-xs text-detailsBannerTextColor mt-1">{displayData?.date}</p>
+          <p className="text-xs text-[var(--details-page-text-color)] mt-1">{displayData?.date}</p>
         )}
         {displayData?.stage && (
-          <p className="text-xs text-detailsBannerTextColor mt-1">{displayData?.stage}</p>
+          <p className="text-xs text-[var(--details-page-text-color)] mt-1">{displayData?.stage}</p>
         )}
       </div>
     </div>

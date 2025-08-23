@@ -564,7 +564,7 @@ export const DynamicComponentView = ({
   return (
     <div>
       {pageView === "single" && (
-        <div className="bg-sidelayoutColor mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
+        <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
           <div className={`bg-cleanWhite dark:bg-dark-200`}>
             <TableDetails
               objectId={hubspotObjectTypeId}
@@ -594,7 +594,7 @@ export const DynamicComponentView = ({
         </div>
       )}
       {pageView === "table" && (
-        <div className="bg-sidelayoutColor dark:bg-dark-300">
+        <div className="bg-[var(--sidebar-background-color)] dark:bg-dark-300">
           <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white`}>
             <div className="flex relative z-[2] gap-6">
               <div className="flex flex-col gap-2 flex-1">
@@ -667,7 +667,7 @@ export const DynamicComponentView = ({
               !sidebarRightOpen ? (
                 <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
                   <button
-                    className="rounded-full p-2 dark:bg-cleanWhite bg-sidelayoutColor text-sidelayoutTextColor dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
+                    className="rounded-full p-2 dark:bg-cleanWhite bg-[var(--sidebar-background-color)] text-[var(--sidebar-text-color)] dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
                     onClick={toggleSidebar}
                   >
                     <DetailsIcon />
