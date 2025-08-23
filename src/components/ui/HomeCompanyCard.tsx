@@ -279,7 +279,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading
                                         <span className="font-semibold">{value?.label}:</span>
                                         <span className=" break-all">
                                             {value?.value ? (
-                                                getPropertyValueType(key, value?.value)
+                                             value?.value
                                             ) : (
                                                 "--"
                                             )}
