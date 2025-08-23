@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import {EditorState} from "prosemirror-state"
-import {EditorView as EditorView} from "prosemirror-view"
-import {Schema, DOMParser, DOMSerializer} from "prosemirror-model"
-import {keymap} from "prosemirror-keymap"
-import {history, undo, redo} from "prosemirror-history"
-import {menuBar} from "prosemirror-menu"
-import {addListNodes, liftListItem, sinkListItem} from "prosemirror-schema-list"
-import {schema as baseSchema} from "prosemirror-schema-basic"
-import {lift, baseKeymap, chainCommands, exitCode, splitBlock} from "prosemirror-commands"
-import {Attachments} from "@/components/ui/Attachments"
-import {ProseMirrorLinkView} from "@/components/ui/ProseMirror/ProseMirrorLinkView"
-import {ProseMirrorImageResizeView} from "@/components/ui/ProseMirror/ProseMirrorImageResizeView"
+import { EditorState } from "prosemirror-state"
+import { EditorView as EditorView } from "prosemirror-view"
+import { Schema, DOMParser, DOMSerializer } from "prosemirror-model"
+import { keymap } from "prosemirror-keymap"
+import { history, undo, redo } from "prosemirror-history"
+import { menuBar } from "prosemirror-menu"
+import { addListNodes, liftListItem, sinkListItem } from "prosemirror-schema-list"
+import { schema as baseSchema } from "prosemirror-schema-basic"
+import { lift, baseKeymap, chainCommands, exitCode, splitBlock } from "prosemirror-commands"
+import { Attachments } from "@/components/ui/Attachments"
+import { ProseMirrorLinkView } from "@/components/ui/ProseMirror/ProseMirrorLinkView"
+import { ProseMirrorImageResizeView } from "@/components/ui/ProseMirror/ProseMirrorImageResizeView"
 import { alignmentDropdown } from '@/components/ui/ProseMirror/ProseMirrorMenuAlignment';
 import { customMenuItemAttachment } from '@/components/ui/ProseMirror/ProseMirrorMenuAttachment';
 import { blockquoteItem } from '@/components/ui/ProseMirror/ProseMirrorMenuBlockquote';
@@ -311,8 +311,8 @@ export const ProseMirrorEditor = ({
           getAttrs: (dom: any) => ({
             align: dom?.style?.textAlign || null,
             paddingLeft: dom?.style?.paddingLeft
-            ? parseInt(dom.style.paddingLeft, 10) // Extract padding value as an integer
-            : 0,
+              ? parseInt(dom.style.paddingLeft, 10) // Extract padding value as an integer
+              : 0,
           }),
         },
       ],
@@ -488,7 +488,7 @@ export const ProseMirrorEditor = ({
       );
     };
 
-    const menuBarContent =  [
+    const menuBarContent = [
       [
         editorMenuConfig.boldItem && boldItem,
         editorMenuConfig.italicItem && italicItem,
@@ -531,7 +531,7 @@ export const ProseMirrorEditor = ({
     ]
 
     const menu = menuBar({
-      content:menuBarContent,
+      content: menuBarContent,
     });
 
     const customEnterHandler = (state: any, dispatch: any) => {
