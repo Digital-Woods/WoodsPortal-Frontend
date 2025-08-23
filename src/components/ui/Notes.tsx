@@ -339,6 +339,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
         type: "success",
       });
       setExpandDialog(false);
+      setAttachmentId('');
     },
     onError: (error: any) => {
       console.error("Error creating note:", error);
@@ -346,6 +347,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
         message: error.response.data.errorMessage,
         type: "error",
       });
+      setAttachmentId('');
     },
   });
 
@@ -533,6 +535,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
               onClick={() => {
                 setShowDialog(false);
                 setExpandDialog(false);
+                setAttachmentId('');
               }}
               className={`dark:!text-white`}
             >

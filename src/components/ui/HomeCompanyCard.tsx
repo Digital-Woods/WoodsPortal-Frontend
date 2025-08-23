@@ -65,8 +65,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, userData, isLoading
     // Sort properties for display
     const visibleAssociatedDetails = userAssociatedDetails;
 
-    console.log(visibleAssociatedDetails,'visibleAssociatedDetails');
-
     const expandToggleButton = () => {
         setExpandDialog(!expandDialog);
     }
