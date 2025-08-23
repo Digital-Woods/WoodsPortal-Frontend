@@ -16,9 +16,9 @@ export default function AppLayoutWrapper() {
 
   return (
     <RoteComponent>
-      < LayoutComponent >
+      <LayoutComponent>
         <Outlet />
-      </LayoutComponent >
+      </LayoutComponent>
     </RoteComponent >
   );
 }

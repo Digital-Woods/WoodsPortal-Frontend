@@ -45,7 +45,7 @@ const insertImage = (view: any, src: any, width: any, height: any) => {
 const EditorImageUploadMenu = ({
   editorView,
   imageUploadUrl,
-  setisLoadingUoloading,
+  setIsLoadingUploading,
   setUploadProgress,
 }: any) => {
   const token = getAuthToken();
@@ -57,7 +57,11 @@ const EditorImageUploadMenu = ({
 
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
-    if (!file) return;
+     if (!file) {
+    // Reset the input if canceled
+    event.target.value = "";
+    return;
+  }
 
     // Prepare the form data
     const formData = new FormData();
@@ -89,7 +93,7 @@ const EditorImageUploadMenu = ({
   };
 
   const uploadImageToAPI = async (pmView: any, formData: any, width: any, height: any) => {
-    setisLoadingUoloading(true);
+    setIsLoadingUploading(true);
     try {
       const response = await axios({
         method: "POST",
@@ -113,11 +117,11 @@ const EditorImageUploadMenu = ({
       insertImage(pmView, imageUrl, width, height);
 
       setUploadProgress(0);
-      setisLoadingUoloading(false);
+      setIsLoadingUploading(false);
       // setIsUploading(false);
       // if (refetch) refetch();
     } catch (error) {
-      setisLoadingUoloading(false);
+      setIsLoadingUploading(false);
       // setIsUploading(false);
     }
   };
@@ -147,7 +151,7 @@ const EditorImageUploadMenu = ({
 const renderReactImageUploadComponent = (
   editorView: any,
   imageUploadUrl: any,
-  setisLoadingUoloading: any,
+  setIsLoadingUploading: any,
   setUploadProgress: any
 ) => {
   const container = document.createElement("div");
@@ -156,7 +160,7 @@ const renderReactImageUploadComponent = (
     <EditorImageUploadMenu
       editorView={editorView}
       imageUploadUrl={imageUploadUrl}
-      setisLoadingUoloading={setisLoadingUoloading}
+      setIsLoadingUploading={setIsLoadingUploading}
       setUploadProgress={setUploadProgress}
     />
   );
@@ -165,7 +169,7 @@ const renderReactImageUploadComponent = (
 
 export const customMenuItemImage = (
   imageUploadUrl: any,
-  setisLoadingUoloading: any,
+  setIsLoadingUploading: any,
   setUploadProgress: any
 ) =>
   new MenuItem2({
@@ -178,7 +182,7 @@ export const customMenuItemImage = (
       renderReactImageUploadComponent(
         editorView,
         imageUploadUrl,
-        setisLoadingUoloading,
+        setIsLoadingUploading,
         setUploadProgress
       ),
   });

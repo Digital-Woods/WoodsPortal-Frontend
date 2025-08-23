@@ -1,32 +1,39 @@
 import { createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
 import TanStackQueryLayout from '../integrations/tanstack-query/layout.tsx'
-
-import type { QueryClient } from '@tanstack/react-query'
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner';
-import { RecoilRoot } from 'recoil';
-
 import AppLayoutWrapper from '@/components/Layouts/AppLayoutWrapper';
 
-interface MyRouterContext {
-  queryClient: QueryClient
-}
 
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+// ✅ configure queryClient here
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // 👈 disable refetch on tab focus
+      refetchOnReconnect: false,   // (optional) disable refetch on network reconnect
+      retry: false,                // (optional) stop auto-retry if failing
+    },
+  },
+})
+
+// interface MyRouterContext {
+//   queryClient: queryClient
+// }
+// export const Route = createRootRouteWithContext<MyRouterContext>()({
+
+export const Route = createRootRouteWithContext()({
   component: () => (
     <>
-      <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
         <AppLayoutWrapper />
-      </RecoilRoot>
+        <Toaster
+          position="top-center"
+        />
+        <TanStackRouterDevtools />
 
-      <Toaster
-        position="top-center"
-      />
-      <TanStackRouterDevtools />
-
-      <TanStackQueryLayout />
+        <TanStackQueryLayout />
+      </QueryClientProvider>
     </>
   ),
 })
