@@ -95,9 +95,9 @@ export const Breadcrumb = (props: any) => {
             <li key={index} className="flex items-center">
               <Link
                 className={`capitalize hover:underline ${index == 0
-                    ? "text-[var(--sidebar-text-color)]"
-                    : "text-[var(--sidebar-text-color)]/90"
-                  } hover:text-[var(--sidebar-text-color)]/90 dark:text-white hover:text-white/90`}
+                    ? "!text-[var(--sidebar-text-color)]"
+                    : "!text-[var(--sidebar-text-color)] opacity-90"
+                  } hover:text-[var(--sidebar-text-color)] opacity-90 dark:text-white hover:text-white hover:opacity-90`}
                 to={breadcrumb?.path}
               >
                 {getParamHash(formatCustomObjectLabel(breadcrumb?.name))}

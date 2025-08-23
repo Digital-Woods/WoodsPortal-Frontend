@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { env } from "@/env";
-import { showCompanyNameOption, showSidebarCtaOption, hubSpotUserDetails } from '@/data/hubSpotData'
+import { showCompanyNameOption, showSidebarCtaOption, hubSpotUserDetails, sidebarMenuOptions, sidebarCtaDetails } from '@/data/hubSpotData'
 import { getParam } from '@/utils/param';
 import { formatPath } from '@/utils/DataMigration';
 import { useResponsive } from '@/utils/UseResponsive'
@@ -15,6 +15,7 @@ import { useCollapsible } from '@/state/use-collapsible'
 import { useMe, useLogout } from '@/data/user';
 import { useRoute } from '@/state/use-route';
 import { useAuth } from '@/state/use-auth';
+import { HtmlParser } from '@/components/HtmlParser';
 
 
 
@@ -198,9 +199,7 @@ export const Drawer = ({ className }: any) => {
                               className={`!bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
                               size="sm"
                             >
-                              <a target="_blank" href={sideBarOptions.buttonUrl}>
-                                  {sideBarOptions.buttonText}
-                              </a>
+                             <HtmlParser html={sideBarOptions.htmlForCta} />
                             </Button>
                         </div>
                       </div>
