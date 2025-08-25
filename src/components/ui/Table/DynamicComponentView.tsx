@@ -526,7 +526,7 @@ export const DynamicComponentView = ({
       await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     // }
   }
-   console.log(pipeLineId,specPipeLine,"pipeLineId specPipeLine");
+
   if (isLoadingAPiData === true) {
     return (
       <div
