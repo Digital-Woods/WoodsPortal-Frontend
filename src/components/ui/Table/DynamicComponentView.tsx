@@ -179,7 +179,10 @@ export const DynamicComponentView = ({
       } else {
         if (selectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
           param.filterValue = selectedPipeline
-        }else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+        }else if(specPipeLine && pipeLineId){
+          param.filterValue = pipeLineId
+        }
+        else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
           param.filterValue = ''
         }
       }
@@ -401,7 +404,6 @@ export const DynamicComponentView = ({
   useEffect(() => {
     if (specPipeLine) {
        const objectId = isHome ? 'home' : hubspotObjectTypeId
-
       setSelectedPipeline(pipeLineId);
       setIsLoadingHoldData(true);
       const routeMenuConfig = {
