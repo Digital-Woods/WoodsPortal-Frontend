@@ -2,6 +2,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+}
+
 @theme {
   /* Breakpoints */
   --breakpoint-xs: 480px;
