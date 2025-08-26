@@ -11,7 +11,6 @@ import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Button } from '@/components/ui/Button'
 import { HtmlParser } from '@/components/HtmlParser';
 
-
 export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
   const [serverError, setServerError] = useState(null);
   

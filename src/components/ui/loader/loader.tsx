@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import styles from './loader.module.css';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   className?: string;
@@ -14,13 +14,12 @@ const Loader = (props: Props) => {
   return (
     <>
       {simple ? (
-        <div className={cn(className, styles.simple_loading)} />
+        <div className={classNames(className, styles.simple_loading)} />
       ) : (
         <div
           className={twMerge(
-            cn('w-full flex flex-col items-center justify-center', className),
+            classNames('w-full flex flex-col items-center justify-center h-[calc(100vh-200px)]', className),
           )}
-          style={{ height: 'calc(100vh - 200px)' }}
         >
           <div className={styles.loading} />
 
