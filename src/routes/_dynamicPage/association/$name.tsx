@@ -28,7 +28,7 @@ const AssociationComponent = () => {
     portalId = getPortal()?.portalId;
   }
   
-  hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
+  hubspotObjectTypeId = getParam("objectTypeId");
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
