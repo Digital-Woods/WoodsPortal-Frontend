@@ -20,7 +20,7 @@ import { useToaster } from "@/state/use-toaster";
 import { Input } from "../Form";
 import { useAuth } from "@/state/use-auth";
 
-export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: any) => {
+export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }: any) => {
   const [currentFiles, setCurrentFiles] = useState<any>({ child: [] });
   const [folderStack, setFolderStack] = useState<any>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<any>(false);
@@ -55,13 +55,13 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
     return null;
   };
 
-    useEffect(() => {
+  useEffect(() => {
     setCurrentFiles({ child: [] });
     setFolderStack([]);
     setCurrentPage(1);
     setSearchTerm("");
   }, [id, fileId, objectId]);
-  
+
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["FilesData", fileId],
     queryFn: async () =>
@@ -103,18 +103,18 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
 
   useEffect(() => {
     refetch();
-  }, [id,fileId, objectId]);
+  }, [id, fileId, objectId]);
 
   if (isLoading) {
     return <FilesSkeleton />;
   }
 
 
-  if(error && !id && objectId == '0-2' && tabName === 'home' && !fileId ){
-    return( 
+  if (error && !id && objectId == '0-2' && tabName === 'home' && !fileId) {
+    return (
       <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
         <span className="text-yellow-600">
-          <CautionCircle/>
+          <CautionCircle />
         </span>
         Primary Company not found.
       </div>
@@ -123,10 +123,10 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
 
 
   if (error) {
-        return( 
+    return (
       <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
         <span className="text-yellow-600">
-          <CautionCircle/>
+          <CautionCircle />
         </span>
         {error?.response?.data?.detailedMessage}
       </div>
@@ -139,7 +139,7 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
       file.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
-    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() );
+    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
 
   const totalFiles = filteredFiles.length;
@@ -237,7 +237,7 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
     return (currentFiles && currentFiles.id) || "obj-root";
   };
 
-  const onChangeSearch = (e: any) => {c
+  const onChangeSearch = (e: any) => {
     setSearchTerm(e.target.value)
     setCurrentPage(1)
   };
@@ -246,13 +246,17 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0">
         <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
-          <Input
-            placeholder="Search..."
-            height="semiMedium"
-            value={searchTerm}
-            onChange={(e: any) => onChangeSearch(e)}
-            icon={SearchIcon}
-          />
+          {subscriptionType != 'FREE' ? (
+            <Input
+              placeholder="Search..."
+              height="semiMedium"
+              value={searchTerm}
+              onChange={(e: any) => onChangeSearch(e)}
+              icon={SearchIcon}
+            />
+          ) : (
+            <div></div>
+          )}
           {permissions && permissions.create && (
             <div className="flex justify-end space-x-2">
               <Button
