@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
+dist
 dist-ssr
 *.local
 count.txt
@@ -11,3 +12,4 @@ count.txt
 hubspot.config.yml
 .env.development
 .env.production
+dist
