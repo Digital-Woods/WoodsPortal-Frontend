@@ -649,7 +649,6 @@ export const ProseMirrorEditor = ({
 
   return (
     <div>
-      {console.log("editor", true)}
       <div
         ref={editorRef}
         id="prosemirror-editor"

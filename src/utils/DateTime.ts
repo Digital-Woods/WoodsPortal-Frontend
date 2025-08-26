@@ -64,7 +64,6 @@ export const formatDateTime = (data: any, type: any = "date") => {
     timeZone: "Asia/Kolkata",
     hour12: true,
   };
-  console.log("data", data);
 
   const date = new Date(data);
 

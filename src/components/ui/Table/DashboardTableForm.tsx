@@ -232,7 +232,6 @@ export const DashboardTableForm = ({
           ? { ...property, options: response.data }
           : property
       );
-      console.log('updatedProperties', updatedProperties)
       setData(updatedProperties);
     },
     onError: (error: any) => {

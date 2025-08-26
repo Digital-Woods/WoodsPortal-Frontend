@@ -18,7 +18,6 @@ import { useEffect, useState } from 'react';
 const ClientSession = () => {
     const { setToaster } = useToaster();
     const accessToken = getParam("accessToken");
-    console.log(accessToken,'accessToken');
     const [progressMessage, setProgressMessage] = useState('');
     const router = useRouter();
     const setItemAsync = async (key: any, value: any, days = COOKIE_EXPIRE) => {

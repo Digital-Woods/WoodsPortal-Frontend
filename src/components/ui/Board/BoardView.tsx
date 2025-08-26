@@ -335,7 +335,6 @@ Main Component Starts Here
   const { mutate: updateDealsByPipeline }: any = useMutation({
     mutationKey: ["updateDealsDataByPipeline"],
     mutationFn: async ({ recordId, stageId }: any) => {
-      console.log("stageId", stageId)
       return await Client.Deals.updatePipelineDeal({
         API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}?${objectToQueryParams(
           urlParam

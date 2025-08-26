@@ -114,30 +114,30 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       let param: any = {};
 
       const baseParams: any = {
-             sort: sortConfig,
-            filterPropertyName: 'hs_pipeline',
-            filterOperator: 'eq',
-            filterValue: specPipeLine ? pipeLineId : '',
-            cache: sync ? false : true,
-            isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-          };
-      
-          if (subscriptionType === "FREE") {
-            param = {
-              ...baseParams,
-              ...({after: currentPage}),
-            };
-          } else {
-            param = {
-              ...baseParams,
-              ...({
-                limit: itemsPerPage || 10,
-                page: currentPage,
-                ...(after && after.length > 0 && { after }),
-              }),
-            };
-          }
-      
+        sort: sortConfig,
+        filterPropertyName: 'hs_pipeline',
+        filterOperator: 'eq',
+        filterValue: specPipeLine ? pipeLineId : '',
+        cache: sync ? false : true,
+        isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+      };
+
+      if (subscriptionType === "FREE") {
+        param = {
+          ...baseParams,
+          ...({ after: currentPage }),
+        };
+      } else {
+        param = {
+          ...baseParams,
+          ...({
+            limit: itemsPerPage || 10,
+            page: currentPage,
+            ...(after && after.length > 0 && { after }),
+          }),
+        };
+      }
+
       setUrlParam(param);
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2';
       return await Client.objects.all({
@@ -195,13 +195,13 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
     setHoverRow(row)
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setSingularModalTitle(
       title.endsWith("s")
         ? title.slice(0, -1)
         : title
-      )
-  },[title])
+    )
+  }, [title])
 
   return (
     <div className="bg-[var(--right-tables-background-color)] rounded-lg px-4 pt-2 w-full max-w-md dark:bg-dark-300">
