@@ -24,6 +24,7 @@ import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
+import { useAuth } from '@/state/use-auth';
 
 
 export const DynamicComponentView = ({
@@ -58,6 +59,7 @@ export const DynamicComponentView = ({
   const [singularTableTitle, setSingularTableTitle] = useState<any>("");
   const [associatedtableTitleSingular, setAssociatedtableTitleSingular] = useState<any>("");
   const [errorMessage, setErrorMessage] = useState<any>("");
+  const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
   const { sync, setSync } = useSync();
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
@@ -85,6 +87,8 @@ export const DynamicComponentView = ({
   const [isLoadingHoldData, setIsLoadingHoldData] = useState<any>(null);
   const [pageView, setPageView] = useState<any>(null);
 
+  const { subscriptionType }: any = useAuth();
+
   const { 
     limit,
     setLimit,
@@ -102,7 +106,10 @@ export const DynamicComponentView = ({
 
    }: any = useTable();
 
+    const { setPagination }: any = useAuth();
+
    useEffect(() => {
+    setPagination([])
     let routeMenuConfigs = getRouteMenuConfig();
     const objectId = isHome ? 'home' : hubspotObjectTypeId
 
@@ -207,6 +214,7 @@ export const DynamicComponentView = ({
     onSuccess: (data: any) => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       setErrorMessage('')
+      setErrorMessageCategory('')
 
       const tableViewIsList = data?.configurations?.object?.list_view
       setPageView(tableViewIsList === false ? "single" : "table");
@@ -268,7 +276,9 @@ export const DynamicComponentView = ({
       setIsLoadingHoldData(false);
     },
     onError: (error: any) => {
+      setPageView("table");
       setErrorMessage(error?.response?.data?.detailedMessage || "")
+      setErrorMessageCategory(error?.response?.data?.category || "")
       setApiResponse(null)
       setSync(false);
       setPermissions(null);
@@ -421,6 +431,7 @@ export const DynamicComponentView = ({
   useEffect(() => {
     const fetchData = async () => {
       await setErrorMessage('');
+      await setErrorMessageCategory('');
       await resetTableParam();
       await setApiResponse(null);
       await setPageView(null);
@@ -548,7 +559,7 @@ export const DynamicComponentView = ({
     );
   }
 
-  if(errorMessage){
+  if(errorMessage && errorMessageCategory !== 'ACCESS'){
     return( 
       <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
         <span className="text-yellow-600">
@@ -592,6 +603,7 @@ export const DynamicComponentView = ({
           </div>
         </div>
       )}
+      
       {pageView === "table" && (
         <div className="bg-[var(--sidebar-background-color)] dark:bg-dark-300" key={pathname}>
           <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white`}>
@@ -625,10 +637,12 @@ export const DynamicComponentView = ({
                     </ol>
 
                     <p className="dark:text-white leading-5 text-sm flex items-center">
-                      {!isLoading ? (
-                        `${totalRecord} records`
-                      ) : (
-                        <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
+                      {subscriptionType != 'FREE' && (
+                        !isLoading ? (
+                          `${totalRecord} records`
+                        ) : (
+                          <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
+                        )
                       )}
                     </p>
                     <div className="dark:text-white words-break">
@@ -717,6 +731,7 @@ export const DynamicComponentView = ({
                   pipelines={pipelines}
                   isLoadingPipelines={isLoadingPipelines}
                   changeTab={changeTab}
+                  errorMessage={errorMessage}
                 />
               </div>
             </div>

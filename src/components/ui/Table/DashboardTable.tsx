@@ -11,6 +11,8 @@ import { BoardView } from '@/components/ui/Board/BoardView'
 import { useTable } from '@/state/use-table';
 import { DashboardTableForm } from './DashboardTableForm';
 import { Button } from '../Button';
+import { useAuth } from '@/state/use-auth';
+import { CautionCircle } from '@/assets/icons/CautionCircle';
 
 export const formatKey = (key: any) => {
   return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
@@ -61,6 +63,7 @@ export const DashboardTable: any = ({
   pipelines,
   isLoadingPipelines = false,
   changeTab = null,
+  errorMessage
 }: any) => {
   const {
     setLimit,
@@ -127,6 +130,8 @@ export const DashboardTable: any = ({
   const isPrimaryCompany = getParam("isPrimaryCompany");
   const parentObjectTypeId = getParam("parentObjectTypeId");
   const parentObjectRecordId = getParam("parentObjectRecordId");
+
+  const { subscriptionType }: any = useAuth();
 
   let portalId;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -265,133 +270,145 @@ export const DashboardTable: any = ({
         specPipeLine={specPipeLine}
         isHome={isHome}
       />
-      {!isLoading &&
-        !view != "BOARD" &&
-        (apiResponse?.data?.total === 0 ||
-          apiResponse?.data?.total == null) && (
-          <div className="text-center pb-4">
-            <EmptyMessageCard
-              name={
-                hubSpotUserDetails.sideMenu[0].tabName === title
-                  ? "item"
-                  : title
-              }
-            />
-            {permissions && permissions.association && (
-              <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
-                {permissions.associationMessage}
-              </p>
+
+      {errorMessage ?
+        <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+          <span className="text-yellow-600">
+            <CautionCircle/>
+          </span>
+          {errorMessage}
+        </div>
+        :
+        <>
+          {!isLoading &&
+            !view != "BOARD" &&
+            ((subscriptionType === "FREE" && apiResponse?.data?.results?.rows.length === 0) && (apiResponse?.data?.total === 0 ||
+              apiResponse?.data?.total == null)) && (
+              <div className="text-center pb-4">
+                <EmptyMessageCard
+                  name={
+                    hubSpotUserDetails.sideMenu[0].tabName === title
+                      ? "item"
+                      : title
+                  }
+                />
+                {permissions && permissions.association && (
+                  <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
+                    {permissions.associationMessage}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-      {view === "BOARD" &&
-        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-          <BoardView
-            hubspotObjectTypeId={hubspotObjectTypeId}
-            activeCardData={activeCardData}
-            pipelines={pipelines}
-            isLoadingPipelines={isLoadingPipelines}
-            urlParam={urlParam}
-            companyAsMediator={companyAsMediator}
-            getData={getData}
-            isLoading={isLoading}
-            path={path}
-            viewName={viewName}
-            detailsUrl={detailsUrl}
-            defPermissions={defPermissions}
-          />
-        )}
+          {view === "BOARD" &&
+            (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
+              <BoardView
+                hubspotObjectTypeId={hubspotObjectTypeId}
+                activeCardData={activeCardData}
+                pipelines={pipelines}
+                isLoadingPipelines={isLoadingPipelines}
+                urlParam={urlParam}
+                companyAsMediator={companyAsMediator}
+                getData={getData}
+                isLoading={isLoading}
+                path={path}
+                viewName={viewName}
+                detailsUrl={detailsUrl}
+                defPermissions={defPermissions}
+              />
+            )}
 
-      {!isLoading && view === "LIST" && apiResponse?.data?.total > 0 && (
-        <DashboardTableData
-          getData={getData}
-          apiResponse={apiResponse}
-          numOfPages={numOfPages}
-          viewName={viewName}
-          companyAsMediator={companyAsMediator}
-          path={path}
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          detailsView={detailsView}
-          hoverRow={hoverRow}
-          urlParam={urlParam}
-          handleRowHover={handleRowHover}
-          componentName={componentName}
-          detailsUrl={detailsUrl}
-          apis={apis}
-        />
-      )}
+          {!isLoading && view === "LIST" && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.results?.rows.length != 0)) && (
+            <DashboardTableData
+              getData={getData}
+              apiResponse={apiResponse}
+              numOfPages={numOfPages}
+              viewName={viewName}
+              companyAsMediator={companyAsMediator}
+              path={path}
+              hubspotObjectTypeId={hubspotObjectTypeId}
+              detailsView={detailsView}
+              hoverRow={hoverRow}
+              urlParam={urlParam}
+              handleRowHover={handleRowHover}
+              componentName={componentName}
+              detailsUrl={detailsUrl}
+              apis={apis}
+            />
+          )}
 
-      {env.VITE_DATA_SOURCE_SET === true && (
-        <Dialog
-          open={openModal}
-          onClose={setOpenModal}
-          className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[430px]"
-        >
-          <div className="rounded-md flex-col gap-6 flex">
-            <h3 className="text-start text-xl font-semibold">Details</h3>
-            {modalData &&
-              Object.keys(modalData).map((key) => (
-                <div
-                  key={key}
-                  className="flex justify-between items-center w-full gap-1 border-b"
-                >
-                  {key !== "iframe_file" && key !== "id" ? (
-                    <div className="w-full">
-                      <div className="text-start dark:text-white">
-                        {formatKey(key)} -
-                      </div>
-                      <div className="dark:text-white text-end">
-                        {modalData[key]}
-                      </div>
+          {env.VITE_DATA_SOURCE_SET === true && (
+            <Dialog
+              open={openModal}
+              onClose={setOpenModal}
+              className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[430px]"
+            >
+              <div className="rounded-md flex-col gap-6 flex">
+                <h3 className="text-start text-xl font-semibold">Details</h3>
+                {modalData &&
+                  Object.keys(modalData).map((key) => (
+                    <div
+                      key={key}
+                      className="flex justify-between items-center w-full gap-1 border-b"
+                    >
+                      {key !== "iframe_file" && key !== "id" ? (
+                        <div className="w-full">
+                          <div className="text-start dark:text-white">
+                            {formatKey(key)} -
+                          </div>
+                          <div className="dark:text-white text-end">
+                            {modalData[key]}
+                          </div>
+                        </div>
+                      ) : key === "iframe_file" ? (
+                        <div>{modalData[key]?.replace(";", ",")}</div>
+                      ) : (
+                        ""
+                      )}
                     </div>
-                  ) : key === "iframe_file" ? (
-                    <div>{modalData[key]?.replace(";", ",")}</div>
-                  ) : (
-                    ""
-                  )}
+                  ))}
+                <div className="pt-3 text-end">
+                  <Button onClick={() => setOpenModal(false)}>Close</Button>
                 </div>
-              ))}
-            <div className="pt-3 text-end">
-              <Button onClick={() => setOpenModal(false)}>Close</Button>
-            </div>
-          </div>
-        </Dialog>
-      )}
-      {showAddDialog && (
-        <DashboardTableForm
-          type={parentObjectTypeId ? "association_new" : ""}
-          openModal={showAddDialog}
-          setOpenModal={setShowAddDialog}
-          title={tableTitle}
-          path={path}
-          portalId={portalId}
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          apis={apis}
-          refetch={getData}
-          companyAsMediator={companyAsMediator || isPrimaryCompany}
-          urlParam={urlParam}
-          parentObjectTypeId={parentObjectTypeId}
-          parentObjectRowId={parentObjectRecordId}
-          info={info}
-          specPipeLine={specPipeLine}
-          pipeLineId={pipeLineId}
-        />
-      )}
-      {showEditDialog && (
-        <DashboardTableForm
-          openModal={showEditDialog}
-          setOpenModal={setShowEditDialog}
-          title={tableTitle}
-          path={path}
-          portalId={portalId}
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          apis={apis}
-          showEditData={showEditData}
-          refetch={getData}
-          urlParam={urlParam}
-        />
-      )}
+              </div>
+            </Dialog>
+          )}
+          {showAddDialog && (
+            <DashboardTableForm
+              type={parentObjectTypeId ? "association_new" : ""}
+              openModal={showAddDialog}
+              setOpenModal={setShowAddDialog}
+              title={tableTitle}
+              path={path}
+              portalId={portalId}
+              hubspotObjectTypeId={hubspotObjectTypeId}
+              apis={apis}
+              refetch={getData}
+              companyAsMediator={companyAsMediator || isPrimaryCompany}
+              urlParam={urlParam}
+              parentObjectTypeId={parentObjectTypeId}
+              parentObjectRowId={parentObjectRecordId}
+              info={info}
+              specPipeLine={specPipeLine}
+              pipeLineId={pipeLineId}
+            />
+          )}
+          {showEditDialog && (
+            <DashboardTableForm
+              openModal={showEditDialog}
+              setOpenModal={setShowEditDialog}
+              title={tableTitle}
+              path={path}
+              portalId={portalId}
+              hubspotObjectTypeId={hubspotObjectTypeId}
+              apis={apis}
+              showEditData={showEditData}
+              refetch={getData}
+              urlParam={urlParam}
+            />
+          )}
+        </>
+      }
     </div>
   );
 };

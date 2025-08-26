@@ -24,7 +24,7 @@ const ListComponent = () => {
   }
 
   if(routeMenu?.homeCardsView){
-    return <Dashboard/>
+    return <Dashboard key={path} />
   }
 
   let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = routeMenu

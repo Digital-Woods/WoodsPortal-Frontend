@@ -18,7 +18,7 @@ import {
   gridDataState,
 } from "@/state/store";
 import { useSync } from "@/state/use-sync";
-import { getRouteMenuConfig, setRouteMenuConfig } from "@/data/client/auth-utils";
+import { getAuthSubscriptionType, getRouteMenuConfig, setRouteMenuConfig } from "@/data/client/auth-utils";
 import { env } from "@/env";
 
 const pageLimit = env.VITE_TABLE_PAGE_LIMIT;
@@ -63,19 +63,49 @@ export function useTable() {
     changePipeline("");
   };
 
-  const getTableParam = (companyAsMediator?: boolean, currentPageOverride?: number) => ({
-    limit: limit,
-    page: currentPageOverride || page,
-    ...(after && after.length > 0 && { after }),
-    sort: sort,
-    search: search,
-    filterPropertyName: filterPropertyName,
-    filterOperator: filterOperator,
-    filterValue: selectedPipeline,
-    cache: sync ? false : true,
-    isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-    view: view,
-  });
+  // const getTableParam = (companyAsMediator?: boolean, currentPageOverride?: number) => ({
+  //   limit: limit,
+  //   page: currentPageOverride || page,
+  //   ...(after && after.length > 0 && { after }),
+  //   sort: sort,
+  //   search: search,
+  //   filterPropertyName: filterPropertyName,
+  //   filterOperator: filterOperator,
+  //   filterValue: selectedPipeline,
+  //   cache: sync ? false : true,
+  //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+  //   view: view,
+  // });
+
+  const getTableParam = (
+    companyAsMediator?: boolean,
+    currentPageOverride?: number
+  ) => {
+    const baseParams: any = {
+      sort,
+      search,
+      filterPropertyName,
+      filterOperator,
+      filterValue: selectedPipeline,
+      cache: sync ? false : true,
+      isPrimaryCompany: companyAsMediator || false,
+      view,
+    };
+
+    if (getAuthSubscriptionType() === "FREE") {
+      return {
+        ...baseParams,
+        ...({after: page}),
+      };
+    }
+
+    return {
+      ...baseParams,
+      limit,
+      page: currentPageOverride || page,
+      ...(after && after.length > 0 && { after }),
+    };
+  };
 
   const setDefaultPipeline = async (data: any, hubspotObjectTypeId: string, companyAsMediator?: boolean) => {
     if (data) {

@@ -19,6 +19,7 @@ import { setCookie } from "@/utils/cookie";
 import { Link } from '@/components/ui/link';
 import { formatPath } from '@/utils/DataMigration';
 import { useRouter } from '@tanstack/react-router';
+import { useAuth } from '@/state/use-auth';
 
 export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteUrl }: any) => {
   const router = useRouter()
@@ -35,6 +36,8 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       message: "Password is required.",
     }),
   });
+
+  const { setSubscriptionType }: any = useAuth();
 
   // const { getMe } = useMe();
   // const setUserDetails = useSetRecoilState(userDetailsAtom);
@@ -69,18 +72,23 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       const portal = data.data.loggedInDetails.portals.find(
         (item: any) => item.portalUrl === currentDomain
       );
-      console.log("portal", portal)
 
       setPortal(portal);
+
+      const SubscriptionType = data?.data?.loggedInDetails?.subscriptionType || "FREE";
+      setSubscriptionType(SubscriptionType);
+
       if (
         data.data.loggedInDetails &&
         data.data.loggedInDetails.hubspot &&
         data.data.loggedInDetails.hubspot.twoFa
       ) {
         setLoggedInDetails(data.data);
+
         setTwoFa({ twoFa: data.data.loggedInDetails.hubspot.twoFa });
         window.location.hash = "/login/tow-fa";
       } else {
+
         // setLoggedInDetails(data.data);
         // setAuthCredentials(data.data.tokenData.token);
         await setItemAsync(env.VITE_AUTH_USER_KEY, JSON.stringify(data.data));

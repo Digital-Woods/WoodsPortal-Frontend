@@ -18,6 +18,7 @@ import { FolderUpload } from "./FolderUpload";
 import { FileTable } from "./FileTable";
 import { useToaster } from "@/state/use-toaster";
 import { Input } from "../Form";
+import { useAuth } from "@/state/use-auth";
 
 export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: any) => {
   const [currentFiles, setCurrentFiles] = useState<any>({ child: [] });
@@ -32,7 +33,7 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
   const [currentPage, setCurrentPage] = useState<any>(1);
   const itemsPerPage = 10;
   const portalId = getPortal()?.portalId;
-
+  const { subscriptionType }: any = useAuth();
 
   const findObjectById = (data: any, id: any) => {
     // Base case: if the current object matches the id, return it
@@ -236,6 +237,11 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
     return (currentFiles && currentFiles.id) || "obj-root";
   };
 
+  const onChangeSearch = (e: any) => {c
+    setSearchTerm(e.target.value)
+    setCurrentPage(1)
+  };
+
   return (
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0">
@@ -244,7 +250,7 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
             placeholder="Search..."
             height="semiMedium"
             value={searchTerm}
-            onChange={(e: any) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => onChangeSearch(e)}
             icon={SearchIcon}
           />
           {permissions && permissions.create && (
@@ -303,19 +309,23 @@ export const Files = ({ tabName='', fileId, path, objectId, id, permissions }: a
             <span className="border dark:text-white border-secondary font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
               {Math.min(endIndex, totalFiles)}
             </span>
-            <span className="dark:text-white">/</span>
-            <span className="rounded-md dark:text-white font-medium">
-              {totalFiles}
-            </span>
-            <p className="text-secondary font-normal text-sm dark:text-gray-300">
-              Results
-            </p>
+            {subscriptionType != 'FREE' && (
+              <>
+                <span className="dark:text-white">/</span>
+                <span className="rounded-md dark:text-white font-medium">
+                  {totalFiles}
+                </span>
+                <p className="text-secondary font-normal text-sm dark:text-gray-300">
+                  Results
+                </p>
+              </>
+            )}
           </div>
-
           <Pagination
             numOfPages={numOfPages}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            isFile={true}
           />
         </div>
       </div>

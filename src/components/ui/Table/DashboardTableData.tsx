@@ -7,6 +7,7 @@ import { Pagination } from '@/components/ui/Pagination';
 import { toQueryString } from '@/utils/param';
 import { useTable } from '@/state/use-table';
 import { env } from "@/env";
+import { useAuth } from '@/state/use-auth';
 
 const formatKey = (key: any) => {
   return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
@@ -70,7 +71,6 @@ export const DashboardTableData = ({
     numOfPages
   } = useTable();
 
-
   // console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
     Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
@@ -91,6 +91,8 @@ export const DashboardTableData = ({
   // const [itemsPerPage, setItemsPerPage] = useState(0);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [sortConfig, setSortConfig] = useState("-hs_createdate");
+
+  const { subscriptionType }: any = useAuth();
 
   const mapResponseData = (data: any) => {
     const results = data.data.results.rows || [];
@@ -130,13 +132,7 @@ export const DashboardTableData = ({
   const handlePageChange = async (page: any) => {
     await setPage(page);
     await setAfter((page - 1) * limit);
-    // getData({
-    //   filterPropertyName: "hs_pipeline",
-    //   filterOperator: "eq",
-    //   filterValue: ""
-    // });
     getData()
-    // console.log("call get data", currentPage)
   };
 
   return (
@@ -322,16 +318,21 @@ export const DashboardTableData = ({
           <span className="border border-secondary dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {currentItems || 0}
           </span>
-          <span className="text-secondary dark:text-gray-300">/</span>
-          <span className="rounded-md font-medium dark:text-gray-300">
-            {totalItems}
-          </span>
-          <p className="text-secondary font-normal text-sm dark:text-gray-300">
-            Results
-          </p>
+          {subscriptionType != 'FREE' && (
+            <>
+              <span className="text-secondary dark:text-gray-300">/</span>
+              <span className="rounded-md font-medium dark:text-gray-300">
+                {totalItems}
+              </span>
+              <p className="text-secondary font-normal text-sm dark:text-gray-300">
+                Results
+              </p>
+            </>
+          )}
         </div>
         <div className="flex justify-end">
           <Pagination
+            apiResponse={apiResponse}
             numOfPages={numOfPages || 1}
             currentPage={page}
             setCurrentPage={handlePageChange}
