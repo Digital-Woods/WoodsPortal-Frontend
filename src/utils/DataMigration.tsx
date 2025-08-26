@@ -304,6 +304,21 @@ export function sanitizeForBase64(str = "") {
   // return btoa(unescape(encodeURIComponent(sanitized))); // if needed
 }
 
+function formatValue(value: any) {
+  const rawValue = isObject(value) ? value.label : value;
+
+  const isDateLike = typeof rawValue === "string" 
+
+  if (!isDateLike) {
+    const formatedDateTime = formatTimestampIST(rawValue);
+    return truncatedText(
+      decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}`),
+      20
+    );
+  }
+
+  return isObject(value) ? value.label : value;
+}
 
 export function replaceFirstSegmentInPath(hashPath: any) {
   if (!hashPath) return '';
@@ -367,8 +382,9 @@ export const renderCellContent = ({
       column.key == "createdate"
     )
   ) {
-    const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
-    return truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
+    // const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
+    // return truncatedText(decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}` || ""), 20)
+    return formatValue(value)
   }
 
   if ( // if date then conver into date format

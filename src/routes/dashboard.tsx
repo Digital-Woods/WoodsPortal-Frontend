@@ -7,6 +7,7 @@ import { SidebarTable } from '@/components/ui/SidebarTable';
 import { Client } from '@/data/client';
 import { getPortal } from '@/data/client/auth-utils';
 import { showSidebarListDataOption, enableDashboardCards, dashboardCards, moduleStylesOptions, sidebarListDataOption, hubId } from '@/data/hubSpotData';
+import { useAuth } from '@/state/use-auth';
 import { useSync } from '@/state/use-sync';
 import { formatPath } from '@/utils/DataMigration';
 import { getParam, getQueryParamsFromCurrentUrl, getRouteMenu } from '@/utils/param';
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const router = useRouter()
   const { pathname } = router?.state?.location
   let { homeCardsView }: any = getRouteMenu(pathname)
+  
 
   const param = getQueryParamsFromCurrentUrl();
   const [sidebarRightOpen, setSidebarRightOpen] = useState<any>(false);
@@ -32,6 +34,12 @@ const Dashboard = () => {
   const portalId = getPortal()?.portalId;
   const { sync, setSync } = useSync();
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
+
+  const { setPagination }: any = useAuth();
+  
+  useEffect(() => {
+    setPagination([])
+  }, []);
 
   const fetchUserProfile = async ({ portalId, cache }: any) => {
     if (!portalId) return null;

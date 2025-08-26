@@ -19,6 +19,8 @@ export const env = createEnv({
     VITE_PORTAL_URL: z.string().url(),
     VITE_PUBLIC_REST_API_ENDPOINT: z.string().url(),
     VITE_LOGIN_DETAILS: z.string(),
+    VITE_SUBSCRIPTION_TYPE: z.string(),
+    VITE_PAGINATION_DATA: z.string(),
     VITE_TWO_FA: z.string(),
     VITE_PORTAL: z.string(),
     VITE_AUTH_TOKEN_KEY: z.string(),

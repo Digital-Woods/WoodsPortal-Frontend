@@ -16,6 +16,7 @@ import { HomeSidebarSkeleton } from '@/components/ui/skeletons/HomeSidebarSkelet
 import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Chevron } from '@/assets/icons/Chevron'
 import { IconPlus } from '@/assets/icons/IconPlus'
+import { useAuth } from '@/state/use-auth';
 
 
 export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, companyAsMediator, apis, detailsView = true, editView = false }: any) => {
@@ -44,7 +45,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   const [permissions, setPermissions] = useState<any>(null);
   const [urlParam, setUrlParam] = useState<any>(null);
   const [singularModalTitle, setSingularModalTitle] = useState<any>(null);
-
+  const { subscriptionType }: any = useAuth();
 
   useEffect(() => {
     setNumOfPages(Math.ceil(totalItems / itemsPerPage));
@@ -98,17 +99,45 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   const { mutate: getData, data: tableAPiData, isLoading } = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (props) => {
-      const param: any = {
-        limit: itemsPerPage || 10,
-        page: currentPage,
-        ...(after && after.length > 0 && { after }),
-        sort: sortConfig,
-        filterPropertyName: 'hs_pipeline',
-        filterOperator: 'eq',
-        filterValue: specPipeLine ? pipeLineId : '',
-        cache: sync ? false : true,
-        isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
-      };
+
+      // const param: any = {
+      //   limit: itemsPerPage || 10,
+      //   page: currentPage,
+      //   ...(after && after.length > 0 && { after }),
+      //   sort: sortConfig,
+      //   filterPropertyName: 'hs_pipeline',
+      //   filterOperator: 'eq',
+      //   filterValue: specPipeLine ? pipeLineId : '',
+      //   cache: sync ? false : true,
+      //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+      // };
+      let param: any = {};
+
+      const baseParams: any = {
+             sort: sortConfig,
+            filterPropertyName: 'hs_pipeline',
+            filterOperator: 'eq',
+            filterValue: specPipeLine ? pipeLineId : '',
+            cache: sync ? false : true,
+            isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
+          };
+      
+          if (subscriptionType === "FREE") {
+            param = {
+              ...baseParams,
+              ...({after: currentPage}),
+            };
+          } else {
+            param = {
+              ...baseParams,
+              ...({
+                limit: itemsPerPage || 10,
+                page: currentPage,
+                ...(after && after.length > 0 && { after }),
+              }),
+            };
+          }
+      
       setUrlParam(param);
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2';
       return await Client.objects.all({
@@ -275,6 +304,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
                 }
               </div> */}
               <Pagination
+                apiResponse={tableAPiData}
                 numOfPages={numOfPages || 0}
                 currentPage={currentPage}
                 setCurrentPage={handlePageChange}

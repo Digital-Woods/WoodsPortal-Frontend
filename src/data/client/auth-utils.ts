@@ -16,6 +16,20 @@ export const setLoggedInDetails = async (data: any) => {
   });
 };
 
+export const setAuthSubscriptionType = async (data: any) => {
+  return new Promise((resolve: any) => {
+    setCookie(env.VITE_SUBSCRIPTION_TYPE, data);
+    resolve();
+  });
+};
+
+export const setPaginationData = async (data: any) => {
+  return new Promise((resolve: any) => {
+    setCookie(env.VITE_PAGINATION_DATA, JSON.stringify(data));
+    resolve();
+  });
+};
+
 export const setTwoFa = async (data: any) => {
   return new Promise((resolve: any) => {
     setCookie(env.VITE_TWO_FA, JSON.stringify(data));
@@ -56,7 +70,7 @@ export const getTwoFa = () => {
 
 export const getPortal = () => {
   const portal = getCookie(env.VITE_PORTAL);
-  return portal ? JSON.parse(getCookie(env.VITE_PORTAL)) : null;
+  return portal ? JSON.parse(portal) : null;
 };
 
 // Reuse functions
@@ -92,6 +106,15 @@ export function checkHasAuthToken() {
 
 export function getAuthToken() {
   return getCookie(env.VITE_AUTH_TOKEN_KEY);
+}
+
+export function getAuthSubscriptionType() {
+  return getCookie(env.VITE_SUBSCRIPTION_TYPE);
+}
+
+export function getPaginationData() {
+  const paginationData = getCookie(env.VITE_PAGINATION_DATA);
+  return paginationData ? JSON.parse(paginationData) : [];
 }
 
 export function removeAuthToken() {

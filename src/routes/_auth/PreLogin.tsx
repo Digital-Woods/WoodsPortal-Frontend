@@ -14,8 +14,7 @@ import { HtmlParser } from '@/components/HtmlParser';
 
 export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
   const [serverError, setServerError] = useState(null);
-  const developerModeOn = developerMode;
-console.log(developerModeOn,'developerModeOn');
+  
   const enterEmailValidationSchema = z.object({
     email: z.string().email().nonempty({
       message: "Email is required.",
@@ -103,10 +102,10 @@ console.log(developerModeOn,'developerModeOn');
               const emailValue = watch("email");
 
               useEffect(() => {
-                if (developerModeOn) {
+                if (developerMode) {
                   setValue("email", "krishna@digitalwoods.net");
                 }
-              }, [developerModeOn, setValue]);
+              }, [developerMode, setValue]);
 
               return (
               <div className="text-gray-800 dark:text-gray-200">
@@ -122,7 +121,7 @@ console.log(developerModeOn,'developerModeOn');
                         icon={EmailIcon}
                         placeholder="Email"
                         defaultValue={entredEmail}
-                        disabled={developerModeOn}
+                        disabled={developerMode}
                           {...register("email", {
                             onChange: (e : any) =>
                               setValue("email", e.target.value.toLowerCase()),

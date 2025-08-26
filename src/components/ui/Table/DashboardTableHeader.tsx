@@ -9,6 +9,7 @@ import { IconPlus } from '@/assets/icons/IconPlus'
 import { Input } from '@/components/ui/Form'
 import { recorBtnCustom } from '@/data/hubSpotData'
 import { useTable } from '@/state/use-table';
+import { useAuth } from '@/state/use-auth';
 
 export const DashboardTableHeader = ({
   title,
@@ -41,6 +42,8 @@ export const DashboardTableHeader = ({
     setLimit,
     // permissions
   } = useTable();
+
+  const { subscriptionType }: any = useAuth();
 
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
 
@@ -121,7 +124,7 @@ export const DashboardTableHeader = ({
             </div>
           )}
 
-          {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && !specPipeLine &&
+          {(subscriptionType !== 'FREE' && ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && !specPipeLine)) &&
             (showPipelineFilter ? (
               <div className="w-[180px]">
                 <select
@@ -139,50 +142,52 @@ export const DashboardTableHeader = ({
               </div>
             ) : null)}
         </div>
-        <div className=" md:flex md:items-center md:gap-2">
-          <Tooltip id={"searchInput"} content="Press enter to search" place='right'>
-            <Input
-              placeholder="Search..."
-              height="semiMedium"
-              icon={SearchIcon}
-              value={search}
-              onChange={async (e) => {
-                await setSearch(e.target.value);
-                if (e.target.value === "") handleSearch();
-              }}
-              onKeyDown={async (e) => {
-                if (e.key === "Enter") {
+        {subscriptionType !== 'FREE' && 
+          <div className=" md:flex md:items-center md:gap-2">
+            <Tooltip id={"searchInput"} content="Press enter to search" place='right'>
+              <Input
+                placeholder="Search..."
+                height="semiMedium"
+                icon={SearchIcon}
+                value={search}
+                onChange={async (e) => {
+                  await setSearch(e.target.value);
+                  if (e.target.value === "") handleSearch();
+                }}
+                onKeyDown={async (e) => {
+                  if (e.key === "Enter") {
+                    await setPage(1);
+                    await setLimit(pageLimit);
+                    handleSearch(); // Trigger search when Enter is pressed
+                  }
+                }}
+                className="pr-12"
+              />
+              {search && (
+                <div
+                  className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={handleSearch} // Trigger search on button click
+                >
+                  <EnterIcon />
+                </div>
+              )}
+            </Tooltip>
+            {search && (
+              <Button
+                onClick={async () => {
+                  await setSearch("");
                   await setPage(1);
                   await setLimit(pageLimit);
-                  handleSearch(); // Trigger search when Enter is pressed
-                }
-              }}
-              className="pr-12"
-            />
-            {search && (
-              <div
-                className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={handleSearch} // Trigger search on button click
+                  handleSearch();
+                }}
+                variant="link"
+                size="link"
               >
-                <EnterIcon />
-              </div>
+                Clear All
+              </Button>
             )}
-          </Tooltip>
-          {search && (
-            <Button
-              onClick={async () => {
-                await setSearch("");
-                await setPage(1);
-                await setLimit(pageLimit);
-                handleSearch();
-              }}
-              variant="link"
-              size="link"
-            >
-              Clear All
-            </Button>
-          )}
-        </div>
+          </div>
+        }
       </div>
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
         (componentName === "ticket"
