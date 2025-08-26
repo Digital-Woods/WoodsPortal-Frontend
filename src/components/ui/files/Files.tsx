@@ -246,17 +246,13 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
     <div onClick={closeContextMenu}>
       <div className="rounded-lg mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0">
         <div className="flex justify-between mb-6 items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
-          {subscriptionType != 'FREE' ? (
-            <Input
-              placeholder="Search..."
-              height="semiMedium"
-              value={searchTerm}
-              onChange={(e: any) => onChangeSearch(e)}
-              icon={SearchIcon}
-            />
-          ) : (
-            <div></div>
-          )}
+          <Input
+            placeholder="Search..."
+            height="semiMedium"
+            value={searchTerm}
+            onChange={(e: any) => onChangeSearch(e)}
+            icon={SearchIcon}
+          />
           {permissions && permissions.create && (
             <div className="flex justify-end space-x-2">
               <Button
