@@ -39,7 +39,6 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     note: false,
     ticket: false,
   });
-  const param = getParam("t");
   const companyAsMediator = getParam("isPrimaryCompany") || false;
   // const [activeTab, setActiveTab] = useState(param || "overview");
   const [activeTab, setActiveTab] = useState<any>("overview");
@@ -51,9 +50,6 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState<any>(false); // Track user interaction
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false); 
-  const {
-    totalItems: totalRecord
-  } = useTable();
 
   const {isLoading: isLoadingList} = states
 

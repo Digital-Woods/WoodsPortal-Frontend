@@ -55,7 +55,6 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage, setCur
   }
 
   const onClickPreviousButton = () => {
-    console.log("onClickPreviousButton", true)
     isFreeSubscription
       ? setBefore()
       : currentPage > 1 && setCurrentPage(currentPage - 1)

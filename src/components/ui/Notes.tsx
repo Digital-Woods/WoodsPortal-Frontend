@@ -25,6 +25,7 @@ import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { useToaster } from '@/state/use-toaster';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuth } from '@/state/use-auth';
 
 
 const NoteCard = ({
@@ -277,24 +278,47 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const [attachmentId, setAttachmentId] = useState("");
   const { sync, setSync } = useSync();
   const [expandDialog, setExpandDialog] = useState(false);
+  const { setPagination, subscriptionType }: any = useAuth();
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
   }
 
+  useEffect(() => {
+    setPagination([])
+  }, []);
+
   const limit = 10;
   const { data, error, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["data", page],
-    queryFn: async () =>
-      await Client.notes.all({
+    queryFn: async () => {
+      let param: any = {};
+
+      const baseParams: any = {
         objectId: objectId,
         id: id,
-        limit: limit,
-        page: page,
         portalId: portalId,
         cache: sync ? false : true,
-      }),
+      };
+
+      if (subscriptionType === "FREE") {
+        param = {
+          ...baseParams,
+          ...({ after: page }),
+        };
+      } else {
+        param = {
+          ...baseParams,
+          ...({
+            limit: limit,
+            page: page,
+          }),
+        };
+      }
+
+      return await Client.notes.all(param)
+    },
     onSuccess: (data: any) => {
       // setPermissions(data.configurations.note);
       setSync(false);
@@ -452,8 +476,10 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       ) : (
         <EmptyMessageCard name="note" />
       )}
-      {totalNotes > limit && (
+
+      {((subscriptionType === 'FREE') || (subscriptionType != 'FREE' && totalNotes > limit)) && (
         <Pagination
+          apiResponse={data}
           numOfPages={numOfPages}
           currentPage={page}
           setCurrentPage={setPage}
