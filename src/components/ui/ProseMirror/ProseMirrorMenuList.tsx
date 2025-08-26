@@ -72,7 +72,7 @@ const DropdownListMenu = ({ editorView }: any) => {
           <SvgRenderer svgContent={textList?.icon} />
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <ul className="space-y-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
+          <ul className="space-y-2 note-dd-Select-menu !list-none list-inside dark:text-gray-400">
             {listTypes.map((listType) => (
               <li
                 key={listType.key}

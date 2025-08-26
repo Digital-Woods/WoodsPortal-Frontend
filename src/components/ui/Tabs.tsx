@@ -54,7 +54,7 @@ export const Tabs = ({ children, activeTab, setActiveTab = null, className }: an
 
 export const TabsList = ({ children, className }: any) => (
   <ul
-    className={`flex flex-wrap p-1 text-sm font-medium text-center list-none text-gray-500 dark:text-gray-400 TabsList ${className}`}
+    className={`flex flex-wrap p-1 text-sm font-medium text-center !list-none text-gray-500 dark:text-gray-400 TabsList ${className}`}
   >
     {children}
   </ul>

@@ -68,7 +68,7 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage, setCur
 
   return (
     <div className="flex justify-end items-center py-6 px-2">
-      <ul className="flex items-center space-x-2 list-none">
+      <ul className="flex items-center space-x-2 !list-none">
         <div className="dark:bg-dark-500 bg-gray-200 p-2 rounded-md">
           <li
             className={`dark:text-white text-secondary ${((isFreeSubscription && getPagination.length === 0) || (!isFreeSubscription && currentPage === 1)) ? "cursor-not-allowed" : "cursor-pointer"

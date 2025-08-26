@@ -184,7 +184,7 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }: any) => {
           </span>
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <ul className="space-y-2 note-dd-Select-menu text-gray-500 list-none list-inside dark:text-gray-400">
+          <ul className="space-y-2 note-dd-Select-menu text-gray-500 !list-none list-inside dark:text-gray-400">
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}

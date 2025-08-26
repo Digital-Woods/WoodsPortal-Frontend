@@ -131,7 +131,7 @@ const DropdownAlightMenu = ({ editorView }: any) => {
           <SvgRenderer svgContent={textAlign?.icon} />
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <ul className="space-y-2 note-dd-Select-menu list-none list-inside dark:text-gray-400">
+          <ul className="space-y-2 note-dd-Select-menu !list-none list-inside dark:text-gray-400">
             {alignments.map((alignment) => (
               <li
                 key={alignment.value}
