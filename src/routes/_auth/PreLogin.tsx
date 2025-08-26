@@ -110,7 +110,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
               return (
               <div className="text-gray-800 dark:text-gray-200">
                 <FormItem>
-                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600 bg-[#008000]">
                     Enter Email
                   </FormLabel>
                   <FormControl>
