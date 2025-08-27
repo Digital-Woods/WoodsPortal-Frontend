@@ -31,9 +31,9 @@ export const FilesSkeleton = () => {
                     Home
                 </div>
 
-                <h1 className="text-xl font-semibold mb-4 dark:text-white">
+                <div className="text-xl font-semibold mb-4 dark:text-white">
                     Home
-                </h1>
+                </div>
                 <div className="w-full">
                     <div className="table-container  overflow-auto  rounded-md ">
                         <Table className="w-full dark:bg-[#2a2a2a]">

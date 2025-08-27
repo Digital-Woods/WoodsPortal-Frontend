@@ -11,14 +11,14 @@ const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   setRoutes(apiRoutes)
 
   return (
-    <div className="dark:bg-dark-200 bg-cleanWhite lg:flex-col flex lg:h-[100vh] h-[100vh]">
+    <div className="dark:bg-dark-200 bg-cleanWhite lg:flex-col flex lg:h-[100vh] h-[100vh] relative">
       <Drawer
-        className={`relative lg:fixed min-h-screen w-full inset-0 ${sidebarCollapsed ? "lg:w-[75px]" : "lg:w-[250px]"
+        className={`relative lg:absolute min-h-screen w-full inset-0 ${sidebarCollapsed ? "lg:w-[75px]" : "lg:w-[250px]"
           }`}
       />
 
       <div
-        className={`dark:bg-dark-200  lg:h-[100vh] h-[100vh] bg-cleanWhite ml-auto w-full ${sidebarCollapsed ? "lg:w-[calc(100%_-_75px)]" : "lg:w-[calc(100%_-_250px)]"
+        className={`dark:bg-dark-200 relative lg:h-[100vh] h-[100vh] bg-cleanWhite ml-auto w-full ${sidebarCollapsed ? "lg:w-[calc(100%_-_75px)]" : "lg:w-[calc(100%_-_250px)]"
           }`}
       >
         <HeaderLayout />

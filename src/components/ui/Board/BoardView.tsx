@@ -290,9 +290,9 @@ export const BoardView = ({
           }`}
       >
         <div className="flex items-center justify-between px-3 py-2 border-b dark:border-b-gray-600 sticky top-0 z-[2] bg-[#f5f8fa] dark:bg-dark-500">
-          <h2 className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
+          <div className="font-medium text-xs my-1 uppercase text-gray-700 dark:text-white">
             {name}
-          </h2>
+          </div>
           <span className="text-sm">{count}</span>
         </div>
         {children}
