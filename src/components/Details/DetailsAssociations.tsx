@@ -123,7 +123,7 @@ export const DetailsAssociations = ({
             <div className="flex items-center gap-x-2">
               <div onClick={toggleContent} className="cursor-pointer ">
                 <Tooltip id={"toggleButton"} content={isExpanded ? "Shrink" : "Expand"}>
-                  <span className="text-secondary dark:text-white">
+                  <span className="text-secondary dark:!text-white">
                     {isExpanded ? (
                       <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
                     ) : (
@@ -133,7 +133,7 @@ export const DetailsAssociations = ({
                 </Tooltip>
               </div>
               <Link
-                className="font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+                className="font-bold border-input rounded-md text-xs dark:!text-white whitespace-nowrap"
                 // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
                 //   }&objectTypeId=${association?.objectTypeId
                 //   }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
@@ -144,7 +144,7 @@ export const DetailsAssociations = ({
                 to={viewUrl}
               >
                 <span>
-                  <span className="text-secondary  hover:underline underline-offset-4  dark:text-white">
+                  <span className="text-secondary  hover:underline underline-offset-4  dark:!text-white">
                     {associationData?.labels?.plural}
                   </span>
                   <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
@@ -188,12 +188,12 @@ export const DetailsAssociations = ({
                 name={associationData?.labels?.plural}
                 type="col"
                 imgWidth="110px"
-                className="p-4 dark:bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:text-white !mt-0"
+                className="p-4 dark:bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:!text-white !mt-0"
               />
             ) : (
               associationData.data &&
               associationData.data.length > 0 && (
-                <div className="flex-col flex lg:gap-6 gap-3 rounded-md !text-[var(--right-tables-text-color)] dark:text-white">
+                <div className="flex-col flex lg:gap-6 gap-3 rounded-md !text-[var(--right-tables-text-color)] dark:!text-white">
                   {associationData.data.map((item: any, index: any) => (
                     <div
                       key={index}
@@ -204,10 +204,10 @@ export const DetailsAssociations = ({
                           {item &&
                             sortData(item, "associations").map((value: any, index: any) => (
                             <tr key={index}>
-                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0  !text-[var(--right-tables-text-color)] whitespace-wrap md:w-[90px] w-[80px]  align-center dark:text-white">
+                              <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0  !text-[var(--right-tables-text-color)] whitespace-wrap md:w-[90px] w-[80px]  align-center dark:!text-white">
                                 {value.label}:
                               </td>
-                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  !text-[var(--right-tables-text-color)] align-center dark:text-white">
+                              <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  !text-[var(--right-tables-text-color)] align-center dark:!text-white">
                                 {value?.isEditableField &&
                                 associationData?.configurations?.object
                                   ?.update ? (
@@ -310,7 +310,7 @@ export const DetailsAssociations = ({
           {/* {association.hasMore && */}
           <div className="text-right py-6">
             <Link
-              className="text-secondary hover:underline font-bold border-input rounded-md text-xs dark:text-white whitespace-nowrap"
+              className="text-secondary hover:underline font-bold border-input rounded-md text-xs dark:!text-white whitespace-nowrap"
               // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
               //   }&objectTypeId=${association?.objectTypeId
               //   }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
