@@ -188,7 +188,7 @@ export const DetailsAssociations = ({
                 name={associationData?.labels?.plural}
                 type="col"
                 imgWidth="110px"
-                className="p-4 dark:bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:!text-white !mt-0"
+                className="p-4 dark:!bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:!text-white !mt-0"
               />
             ) : (
               associationData.data &&
@@ -197,7 +197,7 @@ export const DetailsAssociations = ({
                   {associationData.data.map((item: any, index: any) => (
                     <div
                       key={index}
-                      className="border dark:border-gray-600 p-2 rounded-md !bg-[var(--right-tables-card-background-color)] dark:bg-dark-500 overflow-y-auto hide-scrollbar"
+                      className="border dark:border-gray-600 p-2 rounded-md !bg-[var(--right-tables-card-background-color)] dark:!bg-dark-500 overflow-y-auto hide-scrollbar"
                     >
                       <table className="!bg-transparent !text-[var(--right-tables-text-color)]">
                         <tbody>

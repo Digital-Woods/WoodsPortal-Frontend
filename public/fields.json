@@ -1707,7 +1707,7 @@
       "type" : "color",
       "display_width" : null,
       "default" : {
-        "color" : "#9f25b2",
+        "color" : "#FF7A59",
         "opacity" : 100
       }
     }, {
@@ -1719,7 +1719,7 @@
       "type" : "color",
       "display_width" : null,
       "default" : {
-        "color" : "#073763",
+        "color" : "#2797AF",
         "opacity" : 100
       }
     } ],
@@ -1730,11 +1730,11 @@
     "display_width" : null,
     "default" : {
       "primary_color" : {
-        "color" : "#9f25b2",
+        "color" : "#FF7A59",
         "opacity" : 100
       },
       "secondary_color" : {
-        "color" : "#073763",
+        "color" : "#2797AF",
         "opacity" : 100
       }
     }
@@ -2240,11 +2240,11 @@
   "default" : {
     "module_global_colors" : {
       "primary_color" : {
-        "color" : "#9f25b2",
+        "color" : "#FF7A59",
         "opacity" : 100
       },
       "secondary_color" : {
-        "color" : "#073763",
+        "color" : "#2797AF",
         "opacity" : 100
       }
     },

@@ -312,12 +312,11 @@
  {% require_css %}
   <style>
   {% scope_css %}
-  p{
-    margin: 0 !important;
-  }
+  p:not([class]) {
+  margin: 0;
+}
   ul, ol {
     margin: 0;
-    padding: 0;
 }
   {% end_scope_css %}
     </style>

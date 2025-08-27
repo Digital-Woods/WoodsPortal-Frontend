@@ -9,6 +9,7 @@ import { EyeOffIcon } from '@/assets/icons/EyeOffIcon'
 import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'
 import { z } from 'zod';
+import { useToaster } from "@/state/use-toaster";
 
 const ResetPassword = () => {
   const [serverError, setServerError] = useState(null);
