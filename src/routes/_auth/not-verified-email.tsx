@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { Button } from '@/components/ui/Button'
 import { useRecoilValue } from 'recoil';
+import { useToaster } from '@/state/use-toaster';
 
 const NotVerifiedEmail = () => {
   const { me } = useMe();

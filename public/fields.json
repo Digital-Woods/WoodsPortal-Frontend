@@ -1693,6 +1693,52 @@
   "required" : false,
   "locked" : false,
   "children" : [ {
+    "id" : "8fd59311-838c-0449-a7f0-a206023112c3",
+    "name" : "module_global_colors",
+    "label" : "Module Global Colors",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "b3a5cd5f-5478-0d3f-ae88-e5553ca4403a",
+      "name" : "primary_color",
+      "label" : "Primary Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FF7A59",
+        "opacity" : 100
+      }
+    }, {
+      "id" : "589a18b4-b90c-2107-3165-1949f1989621",
+      "name" : "secondary_color",
+      "label" : "Secondary Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#2797AF",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "primary_color" : {
+        "color" : "#FF7A59",
+        "opacity" : 100
+      },
+      "secondary_color" : {
+        "color" : "#2797AF",
+        "opacity" : 100
+      }
+    }
+  }, {
     "id" : "6ad49fee-79e1-2ec2-0435-e2f548398546",
     "name" : "home_tab_styles",
     "label" : "Home",
@@ -2192,6 +2238,16 @@
   "type" : "group",
   "display_width" : null,
   "default" : {
+    "module_global_colors" : {
+      "primary_color" : {
+        "color" : "#FF7A59",
+        "opacity" : 100
+      },
+      "secondary_color" : {
+        "color" : "#2797AF",
+        "opacity" : 100
+      }
+    },
     "home_tab_styles" : {
       "home_tab_banner_text_color" : {
         "color" : "#2a2a2a",

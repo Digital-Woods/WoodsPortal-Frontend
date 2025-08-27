@@ -97,7 +97,7 @@ export const Breadcrumb = (props: any) => {
                 className={`capitalize hover:underline ${index == 0
                     ? "!text-[var(--sidebar-text-color)]"
                     : "!text-[var(--sidebar-text-color)] opacity-90"
-                  } hover:text-[var(--sidebar-text-color)] opacity-90 dark:text-white hover:text-white hover:opacity-90`}
+                  } hover:text-[var(--sidebar-text-color)] opacity-90 dark:!text-white hover:opacity-90`}
                 to={breadcrumb?.path}
               >
                 {getParamHash(formatCustomObjectLabel(breadcrumb?.name))}

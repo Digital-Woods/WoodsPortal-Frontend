@@ -133,6 +133,19 @@
 
 /* Main styles Start */
 
+.dark table{
+  background-color: #2a2a2a !important;
+}
+
+.dark td,.dark tr{
+  color: #fdfdfd !important;
+}
+
+.dark th, .dark thead{
+  background-color: #3e3e3e !important;
+  color: #fdfdfd !important;
+}
+
 form {
   margin: 0;
 }

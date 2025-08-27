@@ -8,6 +8,7 @@ import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Link } from '@/components/ui/link';
 import { Button } from '@/components/ui/Button'
 import { z } from 'zod';
+import { useToaster } from '@/state/use-toaster';
 
 const ForgetPassword = () => {
   const [serverError, setServerError] = useState(null);
@@ -99,7 +100,7 @@ const ForgetPassword = () => {
                 <div className="flex justify-end items-center">
                   <div>
                     <Link to="/login">
-                      <p className="text-black text-xs dark:text-gray-300">
+                      <p className="text-secondary hover:underline text-xs dark:text-gray-300">
                         Back to Login?
                       </p>
                     </Link>

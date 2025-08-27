@@ -5,6 +5,7 @@ import { Client } from '@/data/client/index'
 import { Button } from '@/components/ui/Button'
 import { TickIcon } from '@/assets/icons/tickIcon'
 import { toast } from 'sonner';
+import { useToaster } from "@/state/use-toaster";
 
 function VerifyEmail() {
   const [isVerifying, setIsVerifying] = useState(true);
