@@ -40,13 +40,13 @@ export const EmptyMessageCard = ({
       </div>
       <div className="flex flex-col gap-2">
         {/* Title */}
-        <h2
+        <div
           className={`md:text-xl ${
             type === "row" ? "text-start max-sm:text-center" : "text-center"
           } text-lg font-semibold dark:text-white capitalize`}
         >
           {name} not found
-        </h2>
+        </div>
         {/* Message */}
         <p
           className={`md:text-xs ${

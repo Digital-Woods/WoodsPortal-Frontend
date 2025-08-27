@@ -285,9 +285,9 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
           />
         </div>
 
-        <h1 className="text-xl font-semibold mb-4 dark:text-white">
+        <div className="text-xl font-semibold mb-4 dark:text-white">
           {currentFiles && currentFiles.name != id ? currentFiles.name : "Home"}
-        </h1>
+        </div>
 
         <FileTable
           fileId={fileId}

@@ -109,7 +109,7 @@ export const Drawer = ({ className }: any) => {
         </div>
       )}
 
-      <div className={`${className} relative`}>
+      <div className={`${className}`}>
         <div
           className={`h-[100vh] z-[55] sidebar bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }

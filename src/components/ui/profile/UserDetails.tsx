@@ -180,23 +180,23 @@ const hubspotObjectTypeId = "0-5";
                                 <TabsList>
                                     {permissions && permissions?.fileManager?.display && (
                                         <TabsTrigger className="rounded-md" value="files">
-                                            <p className="text-black dark:text-white">Files</p>
+                                            <div className="text-black dark:text-white">Files</div>
                                         </TabsTrigger>
                                     )}
                                     {permissions && permissions?.note?.display && (
                                         <TabsTrigger className="rounded-md" value="notes">
-                                            <p className="text-black dark:text-white">Notes</p>
+                                            <div className="text-black dark:text-white">Notes</div>
                                         </TabsTrigger>
                                     )}
                                     {permissions && permissions?.ticket?.display && (
                                         <TabsTrigger className="rounded-md" value="tickets">
-                                            <p className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
+                                            <div className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
                                                 {totalRecord > 0 && (
                                                     <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
                                                         {totalRecord}
                                                     </span>
                                                 )}
-                                            </p>
+                                            </div>
                                         </TabsTrigger>
                                     )}
                                     {/* <TabsTrigger className="rounded-md" value="photos">

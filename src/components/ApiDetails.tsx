@@ -276,21 +276,21 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                 >
                   <TabsList>
                     <TabsTrigger className="rounded-md" value="overview">
-                      <p className="text-black dark:text-white">Overview</p>
+                      <div className="text-black dark:text-white">Overview</div>
                     </TabsTrigger>
                     {permissions && permissions?.fileManager?.display && (
                       <TabsTrigger className="rounded-md" value="files">
-                        <p className="text-black dark:text-white">Files</p>
+                        <div className="text-black dark:text-white">Files</div>
                       </TabsTrigger>
                     )}
                     {permissions && permissions?.note?.display && (
                       <TabsTrigger className="rounded-md" value="notes">
-                        <p className="text-black dark:text-white">Notes</p>
+                        <div className="text-black dark:text-white">Notes</div>
                       </TabsTrigger>
                     )}
                     {permissions && permissions?.ticket?.display && (
                       <TabsTrigger className="rounded-md" value="tickets">
-                        <p className="text-black dark:text-white">
+                        <div className="text-black dark:text-white">
                           {permissions?.ticket?.display_label
                             ? permissions?.ticket?.display_label
                             : "Tickets"}
@@ -304,7 +304,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                               {totalRecord}
                             </span>
                           )} */}
-                        </p>
+                        </div>
                       </TabsTrigger>
                     )}
                   </TabsList>
@@ -391,10 +391,10 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
             className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
             lg:h-[calc(100vh-var(--nav-height))] h-full hide-scrollbar overflow-visible max-lg:z-[52] lg:mt-[1px]
             ${isLargeScreen
-                ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
-                : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
+                ? "w-[330px] right-0 static rounded-md dark:bg-dark-200  lg:translate-x-0"
+                : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"
               } 
-            ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
+            ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : "translate-x-full"}`}
           >
             {/* Close Button for Small Devices */}
             {!isLargeScreen && sidebarDetailsOpen && (
