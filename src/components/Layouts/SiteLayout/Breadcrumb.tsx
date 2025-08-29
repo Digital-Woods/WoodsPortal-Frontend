@@ -32,14 +32,9 @@ export const Breadcrumb = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(pathname,'pathname');
     let routeMenu = getRouteMenu(pathname)
     const segments = pathname.split('/')
     const decodePathName = decodeURIComponent(pathname)
-console.log(decodePathName,'decodePathName');
-console.log(routeMenu,'routeMenu');
-console.log(routes,'routes');
-console.log(segments,'segments');
     let item: any[] = []
     if (getParam('parentObjectName')) {
       const parentObjectUrl = JSON.parse(getParentObjectUrl())
