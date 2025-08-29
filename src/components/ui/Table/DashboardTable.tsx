@@ -282,7 +282,7 @@ export const DashboardTable: any = ({
         <>
           {!isLoading &&
             !view != "BOARD" &&
-            ((subscriptionType === "FREE" && apiResponse?.data?.results?.rows.length === 0) && (apiResponse?.data?.total === 0 ||
+            ((subscriptionType === "FREE" && apiResponse?.data?.total === 0) && (apiResponse?.data?.total === 0 ||
               apiResponse?.data?.total == null)) && (
               <div className="text-center pb-4">
                 <EmptyMessageCard
@@ -318,7 +318,7 @@ export const DashboardTable: any = ({
               />
             )}
 
-          {!isLoading && view === "LIST" && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.results?.rows.length != 0)) && (
+          {!isLoading && view === "LIST" && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.total != 0)) && (
             <DashboardTableData
               getData={getData}
               apiResponse={apiResponse}

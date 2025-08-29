@@ -639,13 +639,15 @@ export const DynamicComponentView = ({
                     </ol>
 
                     <p className="dark:text-white leading-5 text-sm flex items-center">
-                      {subscriptionType != 'FREE' && (
+                      {
+                      // subscriptionType != 'FREE' && (
                         !isLoading ? (
                           `${totalRecord} records`
                         ) : (
                           <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
                         )
-                      )}
+                      // )
+                      }
                     </p>
                     <div className="dark:text-white words-break">
                       {objectDescription

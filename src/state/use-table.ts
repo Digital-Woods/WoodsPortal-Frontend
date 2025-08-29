@@ -43,7 +43,7 @@ export function useTable() {
   const { sync } = useSync();
 
   const setView = (mView: string | null) => {
-    setPage(1);
+    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
     changeView(mView);
   };
 
@@ -51,7 +51,7 @@ export function useTable() {
     setSort("-hs_createdate");
     setLimit(pageLimit);
     setAfter("");
-    setPage(1);
+    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
     setTotalItems(1);
     setNumOfPages(1);
     setCurrentPage(1);

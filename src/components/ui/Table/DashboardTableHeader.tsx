@@ -143,7 +143,7 @@ export const DashboardTableHeader = ({
               </div>
             ) : null)}
         </div>
-        {subscriptionType !== 'FREE' && 
+        {/* {subscriptionType !== 'FREE' &&  */}
           <div className=" md:flex md:items-center md:gap-2">
             <Tooltip id={"searchInput"} content="Press enter to search" place='right'>
               <Input
@@ -188,7 +188,7 @@ export const DashboardTableHeader = ({
               </Button>
             )}
           </div>
-        }
+        {/* } */}
       </div>
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
         (componentName === "ticket"

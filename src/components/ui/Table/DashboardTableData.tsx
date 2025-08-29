@@ -134,7 +134,7 @@ export const DashboardTableData = ({
     await setAfter((page - 1) * limit);
     getData()
   };
-
+  
   return (
     <React.Fragment>
       <div className="overflow-x-auto relative rounded-md  dark:bg-dark-300">
@@ -318,7 +318,7 @@ export const DashboardTableData = ({
           <span className="border border-secondary dark:text-gray-300 font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
             {currentItems || 0}
           </span>
-          {subscriptionType != 'FREE' && (
+          {/* {subscriptionType != 'FREE' && ( */}
             <>
               <span className="text-secondary dark:text-gray-300">/</span>
               <span className="rounded-md font-medium dark:text-gray-300">
@@ -328,7 +328,7 @@ export const DashboardTableData = ({
                 Results
               </p>
             </>
-          )}
+          {/* )} */}
         </div>
         <div className="flex justify-end">
           <Pagination
