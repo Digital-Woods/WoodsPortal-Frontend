@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { checkHasAuthToken } from '@/data/client/auth-utils';
+import { checkHasAuthToken, getAuthSubscriptionType } from '@/data/client/auth-utils';
 import { env } from "@/env";
 
 // Interfaces for Jotai atoms
@@ -63,7 +63,7 @@ const pageLimit = env.VITE_TABLE_PAGE_LIMIT;
 export const tableSortState = atom<string>("-hs_createdate");
 export const tableLimitState = atom<number>(pageLimit);
 export const tableAfterState = atom<string>("");
-export const tablePageState = atom<number>(1);
+export const tablePageState = atom<number>(getAuthSubscriptionType() === "FREE" ?  ' ' : 1);
 export const tableTotalItemsState = atom<number>(1);
 export const tableNumOfPagesState = atom<number>(1);
 export const tableCurrentPageState = atom<number>(1);

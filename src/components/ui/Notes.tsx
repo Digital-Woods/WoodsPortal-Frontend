@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { env } from "@/env";
 import { useSync } from '@/state/use-sync';
-import { getPortal } from '@/data/client/auth-utils';
+import { getAuthSubscriptionType, getPortal } from '@/data/client/auth-utils';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Client } from '@/data/client/index'
 import { EmptyMessageCard } from '@/components/ui/EmptyMessageCard'
@@ -273,7 +273,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const [editorContent, setEditorContent] = useState("");
   const [imageUploadUrl, setImageUploadUrl] = useState("");
   const [attachmentUploadUrl, setAttachmentUploadUrl] = useState("");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
   const { setToaster } = useToaster();
   const [attachmentId, setAttachmentId] = useState("");
   const { sync, setSync } = useSync();
@@ -386,13 +386,13 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     const queryClient = new QueryClient();
     return () => {
       queryClient.cancelQueries(["data"]);
-      setPage(1);
+      setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
     };
   }, [objectId, id]);
 
   useEffect(() => {
     refetch();
-    setPage(1);
+    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
   }, [id, objectId ]);
 
 

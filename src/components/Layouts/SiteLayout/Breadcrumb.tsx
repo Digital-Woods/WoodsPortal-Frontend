@@ -49,7 +49,7 @@ export const Breadcrumb = (props: any) => {
       path: `${decodePathName}${searchStr || ''}`,
       routeName: decodePathName,
     })
-    console.log(item,'item');
+    // console.log(item,'item');
 
     const mRoute = routes.find((route: any) => route.path === decodePathName)
 
