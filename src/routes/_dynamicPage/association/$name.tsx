@@ -14,7 +14,7 @@ const AssociationComponent = () => {
   const routeMenu: any = getRouteMenuByObjectTypeId(search?.parentObjectTypeId)
   
   if(!routeMenu) {
-    return <h1 className='text-center'>{search?.parentObjectTypeId} 404 Not Found</h1>
+    return <div className='text-2xl font-bold text-center dark:!text-white pt-6'>{search?.parentObjectTypeId} 404 Not Found</div>
   }
   
   let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = routeMenu

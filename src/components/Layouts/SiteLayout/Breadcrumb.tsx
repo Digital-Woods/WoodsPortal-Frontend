@@ -35,22 +35,21 @@ export const Breadcrumb = (props: any) => {
     let routeMenu = getRouteMenu(pathname)
     const segments = pathname.split('/')
     const decodePathName = decodeURIComponent(pathname)
-
     let item: any[] = []
     if (getParam('parentObjectName')) {
       const parentObjectUrl = JSON.parse(getParentObjectUrl())
       item.push(parentObjectUrl)
     }
     item.push({
-      name:
-        decodePathName === '/association'
-          ? decodePathName
-          : segments.length > 1
-            ? segments[1]
-            : routeMenu?.title,
+      name: decodePathName.includes('/association')
+        ? segments[segments.indexOf('association') + 1] || 'association'
+        : segments.length > 1
+          ? segments[1]
+          : routeMenu?.title,
       path: `${decodePathName}${searchStr || ''}`,
       routeName: decodePathName,
     })
+    console.log(item,'item');
 
     const mRoute = routes.find((route: any) => route.path === decodePathName)
 
