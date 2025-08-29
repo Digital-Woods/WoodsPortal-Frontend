@@ -11,18 +11,20 @@ import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher'
 import { Link } from '@/components/ui/link';
 import { NewAvater } from '@/assets/icons/NewAvater'
 import { LogOutIcon } from '@/assets/icons/LogOutIcon'
+import { useResponsive } from '@/utils/UseResponsive';
 
 let globalNavHeight = 0;
 export const HeaderLayout = (props: any) => {
   // const { title, path, id = null } = props;
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [navIndex, setNavIndex] = useState(49);
   const dropdownRef = useRef<any | null>(null);
   const toggleButtonRef = useRef<any | null>(null);
   const navRef = useRef<any | null>(null);
   const { sidebarOpen, setSidebarOpen, sidebarCollapsed } = useCollapsible();
   const { logoutDialog, setLogoutDialog } = useAuth();
-
+  const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   
   // const [logoutDialog, setLogoutDialog] = Recoil.useRecoilState(logoutDialogState);
   // const [personalInfo, setPersonalInfo] = Recoil.useRecoilState(profileState);
@@ -52,6 +54,13 @@ export const HeaderLayout = (props: any) => {
   //     return "";
   //   }
   // }
+  useEffect(() => {
+    if (dropdownOpen){
+      setNavIndex(51);
+    }else{
+      setNavIndex(49);
+    }
+  }, [dropdownOpen]);
 
   useEffect(() => {
     if (navRef.current) {
@@ -59,9 +68,9 @@ export const HeaderLayout = (props: any) => {
     }
     document.documentElement.style.setProperty(
       "--nav-height",
-      `${globalNavHeight}px`
+      `${globalNavHeight + 1}px`
     );
-  }, [globalNavHeight]);
+  }, [globalNavHeight, isLargeScreen, isMediumScreen, isSmallScreen]);
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -94,7 +103,7 @@ export const HeaderLayout = (props: any) => {
   const initials = profileInitial(firstName, lastName);
 
   return (
-    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] before:dark:!bg-dark-300 after:!bg-[var(--sidebar-background-color)] after:dark:!bg-dark-300 after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 z-[49] duration-200 absolute top-0 right-0 w-full nav-rounded
+    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] before:dark:!bg-dark-300 after:!bg-[var(--sidebar-background-color)] after:dark:!bg-dark-300 after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 z-[${navIndex}] duration-200 absolute top-0 right-0 w-full nav-rounded
       }`}>
       <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
@@ -111,7 +120,7 @@ export const HeaderLayout = (props: any) => {
           <div className="flex gap-2 items-center">
 
             <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
-              <Tooltip id='clearCacheTooltip' content={`Clear cache`}>
+              <Tooltip place='right' id='clearCacheTooltip' content={`Clear cache`}>
                 <SyncButton />
               </Tooltip>
             </div>
