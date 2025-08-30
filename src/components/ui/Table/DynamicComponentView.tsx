@@ -506,8 +506,8 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
-  
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions, selectedPipeline]);
+
   // useEffect( () => {
   //   // console.log("useEffect", true)
   //   setErrorMessage('')
@@ -533,6 +533,7 @@ export const DynamicComponentView = ({
 
 
   const changeTab = async (view: any) => {
+    console.log(view,'view');
     // if(!isHome) {
       await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     // }
