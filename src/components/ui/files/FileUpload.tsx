@@ -254,7 +254,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
               <div className="kb-data-box lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start">
                 <div className="kb-modal-data-title">
                   <div className="kb-data-title">
-                    <h3 className="text-lg text-start font-semibold dark:text-white">File Upload</h3>
+                    <div className="text-lg text-start font-semibold dark:text-white">File Upload</div>
                   </div>
                 </div>
                 <form onSubmit={fileUploadSubmit} className={`max-w-screen !mb-0  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>

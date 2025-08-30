@@ -16,10 +16,10 @@ export const SkeletonLoader = () => {
             <div className="relative w-full z-50 mt-2">
                 <div className="flex flex-col md:flex-row gap-4 pb-4 mb-4">
                     <div className="flex-1">
-                        <h2 className=" flex items-center flex-wrap gap-2 text-xl font-semibold dark:text-secondary text-secondary mb-2">
+                        <div className=" flex items-center flex-wrap gap-2 text-xl font-semibold dark:text-secondary text-secondary mb-2">
                             {/* {firstName} {lastName} */}
                             <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[150px] inline-block "></span>
-                        </h2>
+                        </div>
                         <p className="text-xs flex items-center flex-wrap gap-1 dark:text-white">
                             <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
                             •
@@ -55,9 +55,9 @@ export const SkeletonLoader = () => {
 
                 {/* Associated Company Details */}
                 <div className="mt-6 pt-4 border-t dark:border-gray-600">
-                    <h3 className="text-lg font-semibold dark:text-white mb-4">
+                    <div className="text-lg font-semibold dark:text-white mb-4">
                         <span className="h-6 bg-gray-300 dark:bg-dark-white rounded-sm w-[100px] inline-block"></span>
-                    </h3>
+                    </div>
 
                     <div className="">
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">

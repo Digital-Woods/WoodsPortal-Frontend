@@ -307,7 +307,8 @@ Main Component Starts Here
 =================================================================*/
   const { setToaster } = useToaster();
 
-  const handlePageChange = async (mLimit: any) => {
+  const handlePageChange = async (mLimit: number) => {
+    console.log(mLimit,'mLimit');
     await setPage(1);
     await setLimit(mLimit);
     await setAfter((1 - 1) * limit);
@@ -532,7 +533,7 @@ Main Component Starts Here
                     {data[listPosition]?.data?.hasMore ? (
                       <div className="bg-[#f5f8fa] dark:bg-dark-500 flex items-center justify-center p-2 sticky bottom-0">
                         <Button
-                          onClick={() => handlePageChange(limit + 10)}
+                          onClick={() => handlePageChange(Number(limit) + 10)}
                           size="sm"
                           isLoading={isLoading}
                           variant={'secondary'}

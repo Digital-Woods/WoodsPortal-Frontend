@@ -52,7 +52,7 @@ export const AccordionSummary = ({ children, active, id, handleToggle }: any) =>
             <Chevron className="rotate-180 origin-center -webkit-transform" />
           )}
         </span>
-        <h5 className="font-medium text-sm flex items-center justify-between gap-x-2 flex-1 ">{children}</h5>
+        <div className="font-medium text-sm flex items-center justify-between gap-x-2 flex-1 ">{children}</div>
 
       {/* {active === id ? <IconMinus className='font-semibold fill-[var(--right-tables-text-color)] dark:fill-white' /> : <IconPlus className='font-semibold fill-[var(--right-tables-text-color)] dark:fill-white' />} */}
     </div>

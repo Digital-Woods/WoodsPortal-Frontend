@@ -128,9 +128,9 @@ export const ChangePassword = () => {
         {({ register, formState: { errors } }: any) => (
           <div className="p-4 max-sm:p-2 dark:bg-dark-300 bg-cleanWhite rounded-md border dark:border-none dark:text-white">
             <div className="flex justify-between items-center mb-4">
-              <h5 className="text-xl max-sm:text-lg font-semibold dark:text-white">
+              <div className="text-xl max-sm:text-lg font-semibold dark:text-white">
                 Change Password
-              </h5>
+              </div>
               <Button
                 variant={!recorBtnCustom ? 'default' : 'create'}
                 disabled={isLoading}

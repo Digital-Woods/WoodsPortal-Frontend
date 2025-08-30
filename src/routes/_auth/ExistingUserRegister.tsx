@@ -271,9 +271,9 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center w-full">
-            <h1 className="text-xl font-bold mb-4">
+            <div className="text-xl font-bold mb-4">
               Verify your email address
-            </h1>
+            </div>
             <p className=" text-sm text-muted-gray ">
               A verification link has been sent to
             </p>

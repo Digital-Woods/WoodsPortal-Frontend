@@ -281,9 +281,9 @@ const DetailsViewUpdateDialog = ({
       className=""
     >
       <div className="rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]  flex-col gap-6 flex">
-        <h3 className="text-start text-xl dark:text-white font-semibold">
+        <div className="text-start text-xl dark:text-white font-semibold">
           Select Pipeline
-        </h3>
+        </div>
         {/* {JSON.stringify(initialValues)} */}
         <div>
           {initialValues && (

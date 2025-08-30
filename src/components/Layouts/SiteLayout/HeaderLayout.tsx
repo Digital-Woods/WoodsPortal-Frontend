@@ -103,8 +103,12 @@ export const HeaderLayout = (props: any) => {
   const initials = profileInitial(firstName, lastName);
 
   return (
-    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] before:dark:!bg-dark-300 after:!bg-[var(--sidebar-background-color)] after:dark:!bg-dark-300 after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 z-[${navIndex}] duration-200 absolute top-0 right-0 w-full nav-rounded
-      }`}>
+    <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 z-[${navIndex}] duration-200 absolute top-0 right-0 w-full nav-rounded
+      after:content-[''] 
+  after:!bg-[var(--sidebar-background-color)] 
+  dark:after:!bg-dark-300
+  before:content-[''] 
+  dark:before:!bg-dark-300`}>
       <div className="flex justify-between text-end items-center">
         <div className="lg:hidden">
           <div className="cursor-pointer" onClick={toggleDrawer}>

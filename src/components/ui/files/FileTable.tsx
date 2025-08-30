@@ -204,7 +204,7 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
         className="w-full max-w-lg"
       >
         <div className="p-4">
-          <h3 className="text-2xl font-semibold mb-4">Confirm Deletion</h3>
+          <div className="text-2xl font-semibold mb-4">Confirm Deletion</div>
           <p className="mb-4">
             Type <strong className="text-richRed">Delete Me</strong> to confirm
             the deletion of the file.

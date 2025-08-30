@@ -344,7 +344,7 @@ export const DashboardTable: any = ({
               className="bg-cleanWhite dark:bg-dark-200  rounded-md sm:min-w-[430px]"
             >
               <div className="rounded-md flex-col gap-6 flex">
-                <h3 className="text-start text-xl font-semibold">Details</h3>
+                <div className="text-start text-xl font-semibold">Details</div>
                 {modalData &&
                   Object.keys(modalData).map((key) => (
                     <div

@@ -174,7 +174,7 @@ export const ProseMirrorMenuInsertLinkPopUp = ({
       style={popupPosition}
     >
       <div className="space-y-2 px-2 note-dd-Select-menu !list-none list-inside dark:text-gray-400">
-        <h2 className="text-sm">Edit Link</h2>
+        <div className="text-sm">Edit Link</div>
         <div>
           <label className="text-sm">Link text</label>
           <Input

@@ -67,7 +67,7 @@ const NotVerifiedEmail = () => {
             d="M16 12l-4-4-4 4m8-4l-4 4m-4 4v1a1 1 0 001 1h10a1 1 0 001-1v-1M5 11V5a2 2 0 012-2h10a2 2 0 012 2v6"
           />
         </svg>
-        <h1 className="text-2xl font-bold mb-4">Please Verify Your Email</h1>
+        <div className="text-2xl font-bold mb-4">Please Verify Your Email</div>
         <p className="text-base mb-6">
           Click <span className="font-semibold cursor-pointer">Resend</span> to
           send the link to your email:

@@ -81,7 +81,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
         <div className="w-full">
           <div className={`${moduleBannerDetailsOption.show_title || moduleBannerDetailsOption?.show_date ? 'mb-6' : 'mb-0'  }`}>
             {moduleBannerDetailsOption.show_title && 
-            <h2 className={`text-xl md:text-2xl font-bold text-[var(--home-tab-heading-color)] dark:text-white mb-1`}>
+            <div className={`text-xl md:text-2xl font-bold text-[var(--home-tab-heading-color)] dark:text-white mb-1`}>
               {moduleBannerDetailsOption && moduleBannerDetailsOption.title ? (
                 updatedHeader
               ) : (
@@ -89,7 +89,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
                   {getGreeting()}, <span className="text-primary dark:text-white dark:opacity-70">{getFirstName() || ''} {getLastName() || ''}</span>
                 </span>
               )}
-            </h2>
+            </div>
             }
             {moduleBannerDetailsOption?.show_date &&
             <p className={`opacity-70 text-[var(--home-tab-description-color)] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>

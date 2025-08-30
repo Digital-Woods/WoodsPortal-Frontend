@@ -131,7 +131,7 @@ export const Drawer = ({ className }: any) => {
                   </div>}
 
                 {showCompanyNameOption === true ?
-                  <h1 className={`text-sm font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-[var(--sidebar-text-color)] dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
+                  <div className={`text-sm font-semibold pr-4 pl-1 break-al ease-in-out duration-500 tra text-[var(--sidebar-text-color)] dark:text-white ${sidebarCollapsed ? "hidden" : "block"}`}>
                     {shouldShowTooltip ? (
                       <div>
                         {brandName.slice(0, 15)}
@@ -140,7 +140,7 @@ export const Drawer = ({ className }: any) => {
                     ) : (
                       brandName
                     )}
-                  </h1> : ''}
+                  </div> : ''}
               </div>
               <div
                 className=" rounded-lg cursor-pointer text-[var(--sidebar-text-color)] dark:text-white bg-gray-600 px-2 py-1 lg:hidden absolute right-[-10px] top-0"

@@ -63,9 +63,9 @@ function VerifyEmail() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-2xl font-bold mb-4 text-center">
+      <div className="text-2xl font-bold mb-4 text-center">
         {isVerified ? "Your Email Has Been Successfully Verified" : "Verify your email"}
-      </h1>
+      </div>
       <p className="text-lg text-gray-600 mb-8 text-center">
         {isVerified ? "Your email is now verified. Enjoy full access to your account!" : "confirm verify"}
       </p>
