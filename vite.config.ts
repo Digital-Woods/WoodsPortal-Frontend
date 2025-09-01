@@ -6,12 +6,15 @@ import { resolve } from 'node:path'
 
 import tailwindcss from '@tailwindcss/vite'
 
+import tailwindPrefixPlugin from './prefix-plugin';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     TanStackRouterVite({ autoCodeSplitting: true }),
     viteReact(),
-    tailwindcss(),
+    tailwindcss({content: ['./temp/**/*.{ts,tsx,js,jsx}']}),
+    tailwindPrefixPlugin('tw:'),
   ],
   resolve: {
     alias: {

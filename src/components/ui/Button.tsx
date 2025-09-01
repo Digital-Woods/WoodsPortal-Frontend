@@ -2,12 +2,12 @@ import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { AnimatedCircles } from '@/assets/icons/animateCircles'
 
-const classes = {
+const classesDynamicClassName = {
   root: "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   normal: "",
 };
 
-const variantClasses : any = {
+const variantDynamicClassName : any = {
   default:
     "bg-primary text-white dark:border dark:bg-dark-400 dark:hover:bg-dark-400 shadow hover:bg-primary/90",
   create: `!bg-[var(--create-button-background-color)] hover:!bg-[var(--create-button-background-color)]/80 !text-[var(--create-button-text-color)]`,
@@ -23,7 +23,7 @@ const variantClasses : any = {
     "text-primary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
 };
 
-const sizeClasses : any = {
+const sizeDynamicClassName : any = {
   default: "h-10 px-6 py-3",
   xsm: "h-6 rounded-md px-2 text-xs",
   sm: "h-8 rounded-md px-3 text-xs",
@@ -46,9 +46,9 @@ export const Button = forwardRef((props: any, ref: any) => {
   } : any = props;
 
   const classesName = classNames(
-    classes.root, // Base classes
-    variantClasses[variant], // Dynamic variant classes
-    sizeClasses[size], // Dynamic size classes
+    classesDynamicClassName.root, // Base classes
+    variantDynamicClassName[variant], // Dynamic variant classes
+    sizeDynamicClassName[size], // Dynamic size classes
     className // User-defined classes (last for priority)
   );
 

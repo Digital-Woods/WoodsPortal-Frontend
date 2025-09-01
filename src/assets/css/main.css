@@ -1,10 +1,10 @@
-@import "tailwindcss";
+@import "tailwindcss" prefix(tw);
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   * {
-    @apply border-gray-200;
+    @apply tw:border-gray-200;
   }
 }
 
@@ -1223,7 +1223,7 @@ img.ProseMirror-separator {
 /* .ProseMirror p { margin-bottom: 1em } */
 
 .line-clamp-2 {
-  @apply overflow-hidden text-ellipsis;
+  @apply tw:overflow-hidden tw:text-ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

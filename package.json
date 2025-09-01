@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "node prefix-plugin-prebuild.js",
     "build": "vite build && hs upload dist/digitalwoods-react.module WoodsPortal-react/modules/WoodsPortal.module",
     "auth": "hs auth",
     "upload": "hs upload dist/digitalwoods-react.module WoodsPortal-react/modules/WoodsPortal.module",

@@ -2,14 +2,14 @@ import React, { forwardRef } from "react";
 import classNames from "classnames";
 
 export const Dialog = forwardRef<HTMLDivElement, any>((props, ref) => {
-  const classes = {
+  const classesDynamicClassName = {
     root: "bg-cleanWhite p-4 sm:p-6 dark:bg-dark-200",
     normal: "",
   };
 
   const { open, onClose = null, className, ...rest } = props;
 
-  const classesName2 = classNames(classes.root, className);
+  const classesName2 = classNames(classesDynamicClassName.root, className);
 
   const showOverlay = () => {
     if (!open) return null;
