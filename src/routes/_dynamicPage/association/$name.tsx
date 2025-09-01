@@ -22,6 +22,8 @@ const AssociationComponent = () => {
   }
   
   const hubspotObjectTypeId = search?.objectTypeId;
+  const title = search?.objectTypeName;
+
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -40,7 +42,7 @@ const AssociationComponent = () => {
     <DynamicComponentView
       hubspotObjectTypeId={hubspotObjectTypeId}
       path={path}
-      title={null}
+      title={title}
       showIframe={showIframe}
       propertyName={propertyName}
       companyAsMediator={null}
