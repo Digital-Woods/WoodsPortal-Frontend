@@ -11,13 +11,6 @@ const AssociationComponent = () => {
 
   const { name: path } = Route.useParams();
 
-  const routeMenu: any = getRouteMenuByObjectTypeId(search?.parentObjectTypeId)
-  
-  if(!routeMenu) {
-    return <div className='text-2xl font-bold text-center dark:!text-white pt-6'>{search?.parentObjectTypeId} 404 Not Found</div>
-  }
-  
-  let { hubspotObjectTypeId, title, pipeLineId, companyAsMediator, specPipeLine, objectDescription, objectUserProperties, objectUserPropertiesView}: any = routeMenu
   let showIframe: any = ""
   let propertyName: any = ""
 
@@ -28,7 +21,7 @@ const AssociationComponent = () => {
     portalId = getPortal()?.portalId;
   }
   
-  hubspotObjectTypeId = getParam("objectTypeId");
+  const hubspotObjectTypeId = search?.objectTypeId;
 
   const apis = {
     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
@@ -47,16 +40,16 @@ const AssociationComponent = () => {
     <DynamicComponentView
       hubspotObjectTypeId={hubspotObjectTypeId}
       path={path}
-      title={title}
+      title={null}
       showIframe={showIframe}
       propertyName={propertyName}
-      companyAsMediator={companyAsMediator}
-      pipeLineId={pipeLineId}
-      specPipeLine={specPipeLine}
-      objectDescription={objectDescription}
+      companyAsMediator={null}
+      pipeLineId={null}
+      specPipeLine={null}
+      objectDescription={null}
       apis={apis}
-      objectUserProperties={objectUserProperties}
-      objectUserPropertiesView={objectUserPropertiesView}
+      objectUserProperties={null}
+      objectUserPropertiesView={null}
     />
   )
 }
