@@ -38,8 +38,8 @@ export const ProfileCard = () => {
         </div>
 
         <div className="flex flex-col justify-center space-y-1">
-          <h1 className="text-2xl font-semibold dark:text-white">{`${getFirstName() || "N/A"
-            } ${getLastName() || "N/A"}`}</h1>
+          <div className="text-2xl font-semibold dark:text-white">{`${getFirstName() || "N/A"
+            } ${getLastName() || "N/A"}`}</div>
           <p className="text-secondary dark:text-white font-medium text-sm">
             User, {brandName}
           </p>

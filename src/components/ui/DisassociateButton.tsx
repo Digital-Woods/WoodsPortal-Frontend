@@ -111,9 +111,9 @@ useEffect(() => {
         className="bg-cleanWhite dark:bg-dark-200 rounded-md sm:max-w-[450px] mx-2"
       >
           <div className="mb-4">
-            <h3 className="text-start text-xl font-semibold dark:text-white mb-2 whitespace-normal break-words">
+            <div className="text-start text-xl font-semibold dark:text-white mb-2 whitespace-normal break-words">
              { `Are you sure you want to disassociate this ${objectTypeNameSingular}?`}
-            </h3>
+            </div>
             <p className="whitespace-normal break-words dark:text-white">
               This will remove the {objectTypeNameSingular} from the <span className="font-semibold">{parentObjectTypeNameSingular}</span> {parentObjectname}. 
               The {objectTypeNameSingular} will remain available, but it will no longer be linked to this {parentObjectname}.

@@ -356,9 +356,9 @@ export const DashboardTableForm = ({
       >
         <div>
           <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15]">
-            <h3 className="text-start text-xl dark:text-white font-semibold ">
+            <div className="text-start text-xl dark:text-white font-semibold ">
               {dialogTitle}
-            </h3>
+            </div>
             {(type === "association" || type === "association_new") && (isShowExistingRecord) && (
               // <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
               //   <Tabs
@@ -443,9 +443,9 @@ export const DashboardTableForm = ({
                         <div className="text-gray-800 dark:text-gray-200">
                           {/* {data.map((group) => ( */}
                           <div className="mb-4">
-                            {/* <h2 className="text-[15px] font-bold">
+                            {/* <div className="text-[15px] font-bold">
                                 {group.groupName}
-                              </h2> */}
+                              </div> */}
 
                             {data.map((filled: any) => (
                               <div key={filled.name}>

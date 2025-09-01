@@ -496,9 +496,9 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       >
       <div className="sticky top-0 z-50">
          <div className="flex justify-between items-center bg-[#516f90] p-4 sticky top-0 z-50">
-          <h2 className="text-lg font-semibold text-white dark:text-white mb-0">
+          <div className="text-lg font-semibold text-white dark:text-white mb-0">
             Note
-          </h2>
+          </div>
           <div className="flex gap-2 items-center">
             <button
               disabled={isPosting || isUploading}

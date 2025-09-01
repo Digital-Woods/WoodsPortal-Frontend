@@ -533,6 +533,7 @@ export const DynamicComponentView = ({
 
 
   const changeTab = async (view: any) => {
+    await setLimit(10);
     // if(!isHome) {
       await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
     // }

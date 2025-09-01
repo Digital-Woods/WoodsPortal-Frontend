@@ -140,9 +140,9 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
                 <div className="relative w-full z-2">
                     <div className="flex flex-col md:flex-row gap-2 pb-3">
                         <div className="flex-1">
-                            <h2 className="text-xl font-semibold  dark:text-white dark:opacity-70 text-secondary mb-1">
+                            <div className="text-xl font-semibold  dark:text-white dark:opacity-70 text-secondary mb-1">
                                 {firstName} {lastName}
-                            </h2>
+                            </div>
                             <p className="text-xs dark:text-white">
                                 {email}{userDetails?.phone?.value ? ` • ${userDetails?.phone?.value}` : ''}
                             </p>
@@ -190,9 +190,9 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
                     {/* Associated Company Details */}
                     {visibleAssociatedDetails && (
                         <div className="">
-                            <h3 className="text-lg font-semibold  dark:text-white dark:opacity-70 mb-0">
+                            <div className="text-lg font-semibold  dark:text-white dark:opacity-70 mb-0">
                                 {userAssociatedDetails?.name?.value || "--"}
-                            </h3>
+                            </div>
 
                             {/* <div className="">
                                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 text-xs dark:text-white transition-all mt-2 duration-500">

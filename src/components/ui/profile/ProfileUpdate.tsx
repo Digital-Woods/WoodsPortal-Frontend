@@ -127,9 +127,9 @@ export const ProfileUpdate = () => {
         {({ register, formState: { errors } }: any) => (
           <div className="p-5 dark:bg-dark-300 bg-cleanWhite rounded-md dark:text-white">
             <div className="flex justify-between">
-              <h1 className="text-xl font-semibold dark:text-white pb-4">
+              <div className="text-xl font-semibold dark:text-white pb-4">
                 Personal Information
-              </h1>
+              </div>
               {/* {isEditPersonalInfo ? (
                 <SaveButton onClick={handleButtonClick} isLoading={isLoading} />
               ) : (

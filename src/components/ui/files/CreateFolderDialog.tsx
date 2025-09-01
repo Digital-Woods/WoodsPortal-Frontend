@@ -25,7 +25,7 @@ export const CreateFolderDialog = ({
       onClose={() => setIsCreateFolderOpen(false)}
     >
       <div className="lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start">
-        <h3 className="text-lg text-start font-semibold mb-4 dark:text-white">New Folder</h3>
+        <div className="text-lg text-start font-semibold mb-4 dark:text-white">New Folder</div>
         <input
           className="dark:text-white"
           type="text"

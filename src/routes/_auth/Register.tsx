@@ -44,9 +44,9 @@ const Register = () => {
         {({ register, formState: { errors } }: any) => (
           <div>
             <div className="text-dark dark:text-white">
-              <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+              <div className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
                 Register
-              </h2>
+              </div>
               <p className="mt-1 text-sm leading-6 text-gray-600  dark:text-white">
                 Use a permanent address where you can receive mail.
               </p>
