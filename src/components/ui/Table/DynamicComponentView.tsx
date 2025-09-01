@@ -86,6 +86,7 @@ export const DynamicComponentView = ({
   const [permissions, setPermissions] = useState<any>(null);
   const [isLoadingHoldData, setIsLoadingHoldData] = useState<any>(null);
   const [pageView, setPageView] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState<any>(null);
 
   const { subscriptionType }: any = useAuth();
 
@@ -227,8 +228,9 @@ export const DynamicComponentView = ({
 
       let routeMenuConfigs = getRouteMenuConfig();
 
+      setCurrentPage(data?.pagination)
 
-       if (
+      if (
         tableViewIsList && (routeMenuConfigs[objectId]?.listView === false)
       ) {
         routeMenuConfigs[objectId] = {
@@ -582,6 +584,7 @@ export const DynamicComponentView = ({
               key={pathname}
               objectId={hubspotObjectTypeId}
               getData={getData}
+              currentPage={currentPage}
               states={
                 {isLoading,
                 setIsLoading,
