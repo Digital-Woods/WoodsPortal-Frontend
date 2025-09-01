@@ -180,7 +180,7 @@ export const DetailsView = ({
             .filter((item: any) => !item.hidden)
             .map((value: any, index: any) => {
               const key = value.key;
-              const propertyConfig = propertyName.find(p => p.properties_value === key);
+              const propertyConfig = propertyName && propertyName.find((p: any) => p.properties_value === key);
 
               if (showIframe && propertyConfig) {
                 // Show special rendering for properties in propertyName array

@@ -3,9 +3,9 @@ import { useTable } from "@/state/use-table";
 import { useEffect, useRef } from "react";
 import { ApiDetails } from "../ApiDetails";
 
-export const TableDetails = ({ objectId, getData, states }: any) => {
+export const TableDetails = ({ objectId, currentPage, getData, states }: any) => {
   const { sync, setSync } = useSync();
-  const { after } = useTable();
+  const { page } = useTable();
 
   const {
     setIsLoading,
@@ -25,13 +25,11 @@ export const TableDetails = ({ objectId, getData, states }: any) => {
     }
   }, [sync]);
 
-  const prevAfter = useRef<any>("");
   useEffect(() => {
-    if (prevAfter.current !== after) {
-      getData(after);
-      prevAfter.current = after;
+    if (currentPage?.page !== page) {
+      getData();
     }
-  }, [after]);
+  }, [page]);
 
   return apiResponse && apiResponse?.data ? (
     <ApiDetails
