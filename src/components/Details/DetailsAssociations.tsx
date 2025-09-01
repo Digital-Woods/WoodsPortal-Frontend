@@ -2,7 +2,7 @@ import { Chevron } from "@/assets/icons/Chevron";
 import { IconPlus } from "@/assets/icons/IconPlus";
 import { getPortal } from "@/data/client/auth-utils";
 import { hubId } from "@/data/hubSpotData";
-import { sortData, renderCellContent, replaceQuestionMarkToRegex, isObject } from "@/utils/DataMigration";
+import { sortData, renderCellContent, replaceQuestionMarkToRegex, isObject, sanitizeForBase64 } from "@/utils/DataMigration";
 import { getParam, setParamHash } from "@/utils/param";
 import { Link } from "@tanstack/react-router";
 import React, { useState, useEffect } from "react";
@@ -227,8 +227,8 @@ export const DetailsAssociations = ({
                                               replaceQuestionMarkToRegex(
                                                 isObject(value.value) &&
                                                   value.value.label
-                                                  ? value.value.label
-                                                  : value.value
+                                                  ? sanitizeForBase64(value.value.label)
+                                                  : sanitizeForBase64(value.value)
                                               )
                                             )}/${associationData?.objectTypeId}/${
                                               item.hs_object_id.value

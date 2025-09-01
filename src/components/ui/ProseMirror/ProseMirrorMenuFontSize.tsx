@@ -123,23 +123,23 @@ export const fontSizeSelectionPlugin = new ProseMirrorPlugin2({
   state: {
     init(_config: any, state: any) {
       // Calculate the initial font value from the selection (if any).
-      return getFontSizeFromSelection(state) || null;
+      return getFontSizeFromSelection(state) || "12pt";
     },
     apply(tr: any, value: any, oldState: any, newState: any) {
       // When the document changes or selection is updated, recalc the font.
       if (tr.docChanged || tr.selectionSet) {
-        return getFontSizeFromSelection(newState) || null;
+        return getFontSizeFromSelection(newState) || "12pt";
       }
       return value;
     },
   },
 });
 
-let defaultEditorFontSize: any = null;
+let defaultEditorFontSize: any = textFontSizes[2];
 
 const DropdownFontSizeMenu = ({ editorView, activeFont2 }: any) => {
   const [open, setOpen] = React.useState(false);
-  const [font, setFont] = useState(textFontSizes[0]);
+  const [font, setFont] = useState(defaultEditorFontSize);
 
   const applyFontSize = (fontSize: any) => {
     return (state: any, dispatch: any) => {
@@ -241,7 +241,7 @@ export const fontSizeMenuItem = new MenuItem2({
 
     const fontSize = textFontSizes.find(
       (font) => font.value === selectedEditorFontSize
-    );
+    ) || textFontSizes[2];
 
     defaultEditorFontSize = fontSize;
 
@@ -254,7 +254,7 @@ export const fontSizeMenuItem = new MenuItem2({
         ?.classList.add("note-active-state");
     }
     if (div && !selectedEditorFontSize) {
-      div.textContent = "8"; // Change text content
+      div.textContent = "12"; // Change text content
       document
         .getElementById("defaultEditorFontSize")
         ?.classList.remove("note-active-state");

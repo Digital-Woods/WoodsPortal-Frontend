@@ -320,19 +320,6 @@ function formatValue(value: any) {
   return isObject(value) ? value.label : value;
 }
 
-export function replaceFirstSegmentInPath(hashPath: any) {
-  if (!hashPath) return '';
-  const [pathPart, queryString] = hashPath.split('?');
-  const segments = pathPart.split('/');
-  if (segments.length === 0) return hashPath;
-  const decodedFirst = decodeURIComponent(segments[0]);
-  const sanitized = sanitizeForBase64(decodedFirst);
-  const encodedSanitized = encodeURIComponent(sanitized);
-  segments[0] = encodedSanitized;
-  const updatedPath = segments.join('/');
-  return queryString ? `${updatedPath}?${queryString}` : updatedPath;
-}
-
 export const renderCellContent = ({
   companyAsMediator = false,
   value,
@@ -358,8 +345,8 @@ export const renderCellContent = ({
       const newPath = path.replace(/^\/+/, "");
       setItemAsync(env.VITE_ASSOCIATION_VIEW_URL_KEY, JSON.stringify({
         name: newPath,
-        path: replaceFirstSegmentInPath(associationPath),
-        routeName: `/association/${replaceFirstSegmentInPath(newPath)}`
+        path:  associationPath,
+        routeName: `/association/${newPath}`
       })
       );
     }
@@ -563,13 +550,13 @@ export const renderCellContent = ({
         <Link
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           onClick={changeRoute}
-          to={replaceFirstSegmentInPath(associationPath)}
+          to={associationPath}
         >
           {truncatedText(isObject(value) ? value.label : value, "23")}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={replaceFirstSegmentInPath(associationPath)}
+          to={associationPath}
         >
           <OpenIcon />
         </Link>
