@@ -15,7 +15,8 @@ export const DisassociateButton = ({
   parentObjectRecordId,
   hubspotObjectTypeId,
   refetch,
-  componentName
+  componentName,
+  setActiveDisassociatedButton
 }: any) => {
     const [serverError, setServerError] = useState(null);
   const { setToaster } = useToaster();
@@ -89,6 +90,9 @@ useEffect(() => {
       removeIds: [item.hs_object_id],
     };
     removeExistingData({ formData: payload });
+    setTimeout(()=>{
+      setActiveDisassociatedButton(null);
+    }, 2000);
   };
 
   return (
@@ -123,7 +127,7 @@ useEffect(() => {
             <Button
               variant="outline"
               disabled={isLoading}
-              onClick={() => setOpenModal(false)}
+              onClick={() => {  setOpenModal(false);  setActiveDisassociatedButton(null); }}
             >
               Cancel
             </Button>

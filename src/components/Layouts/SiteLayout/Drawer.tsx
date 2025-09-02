@@ -118,7 +118,7 @@ export const Drawer = ({ className }: any) => {
         >
           <div className="h-full flex flex-col">
             <div className="flex relative justify-between items-center mb-8">
-              <div onClick={() => handleSetActiveRoute(formatPath(hubSpotUserDetails.sideMenu[0].tabName))} className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2 cursor-pointer`}>
+              <div className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2 cursor-pointer`}>
                 {showCompanyNameOption ?
                   <div className="w-[50px]">
                     <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
