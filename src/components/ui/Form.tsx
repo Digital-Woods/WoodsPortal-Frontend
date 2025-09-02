@@ -109,12 +109,14 @@ export const Input = forwardRef(
       normal: '',
     };
 
+    const paddingLeftDynamicClassName = "pl-8";
+
     const rootClassName = classNames(
       mainDynamicClassName.root,
       {
         [mainDynamicClassName.normal]: variant === 'normal',
       },
-      Icon && "pl-8",
+      Icon && paddingLeftDynamicClassName,
       heightDynamicClassName[height],
       className
     );
