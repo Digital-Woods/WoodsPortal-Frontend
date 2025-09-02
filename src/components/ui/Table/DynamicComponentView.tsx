@@ -510,6 +510,9 @@ export const DynamicComponentView = ({
     fetchData();
   }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
 
+  useEffect(() => {
+    getData();
+  }, [selectedPipeline]);
   // useEffect( () => {
   //   // console.log("useEffect", true)
   //   setErrorMessage('')
