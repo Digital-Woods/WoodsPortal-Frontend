@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { env } from "@/env";
 import { getQueryParamsFromCurrentUrl, getParam, removeAllParams, updateParamsFromUrl, getParamHash } from '@/utils/param'
 import { getPortal, getRouteMenuConfig, setRouteMenuConfig } from '@/data/client/auth-utils'
@@ -509,7 +509,10 @@ export const DynamicComponentView = ({
 
     fetchData();
   }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
-
+  
+  useEffect(() => {
+    getData();
+  }, [selectedPipeline]);
   // useEffect( () => {
   //   // console.log("useEffect", true)
   //   setErrorMessage('')
