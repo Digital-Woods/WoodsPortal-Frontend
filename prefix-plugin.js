@@ -174,7 +174,180 @@
 // }
 
 
-// 1
+// final code 1
+// import { parse } from "@babel/parser";
+// import traverse from "@babel/traverse";
+// import * as t from "@babel/types";
+// import generate from "@babel/generator";
+
+// export default function TailwindPrefixPlugin(prefix) {
+//   return {
+//     name: "vite-tailwind-prefix",
+//     enforce: "pre",
+//     transform(code, id) {
+//       if (!id.endsWith(".tsx") && !id.endsWith(".jsx")) return null;
+
+//       try {
+//         const ast = parse(code, {
+//           sourceType: "module",
+//           plugins: ["jsx", "typescript"],
+//         });
+
+//         const prefixClasses = (str) => {
+//           return str
+//             .split(/\s+/)
+//             .filter(Boolean)
+//             .map((c) => (c.startsWith(prefix) ? c : `${prefix}${c}`))
+//             .join(" ");
+//         };
+
+//         traverse.default(ast, {
+//           // ✅ Handle variables whose name includes "DynamicClassName"
+          
+//           JSXAttribute(path) {
+//             if (path.node.name.name !== "className") return;
+
+//             const value = path.node.value;
+
+//             // String literal: className="..."
+//             if (t.isStringLiteral(value)) {
+//               path.node.value = t.stringLiteral(prefixClasses(value.value));
+//             }
+//             // Template literal: className={`...`}
+//             else if (t.isJSXExpressionContainer(value) && t.isTemplateLiteral(value.expression)) {
+//               const quasis = value.expression.quasis.map((quasi, i) => {
+//                 let classes = prefixClasses(quasi.value.raw);
+
+//                 if (i < value.expression.expressions.length) classes += " ";
+//                 if (i > 0 && !classes.startsWith(" ")) classes = " " + classes;
+
+//                 return t.templateElement({ raw: classes, cooked: classes });
+//               });
+
+//               // 🔥 also fix expressions inside ${ ... }
+//               const expressions = value.expression.expressions.map((expr) => {
+//                 if (t.isStringLiteral(expr)) {
+//                   return t.stringLiteral(prefixClasses(expr.value));
+//                 }
+//                 if (t.isLogicalExpression(expr)) {
+//                   if (t.isStringLiteral(expr.right)) {
+//                     return t.logicalExpression(
+//                       expr.operator,
+//                       expr.left,
+//                       t.stringLiteral(prefixClasses(expr.right.value))
+//                     );
+//                   }
+//                 }
+//                 if (t.isConditionalExpression(expr)) {
+//                   const newConsequent = t.isStringLiteral(expr.consequent)
+//                     ? t.stringLiteral(prefixClasses(expr.consequent.value))
+//                     : expr.consequent;
+//                   const newAlternate = t.isStringLiteral(expr.alternate)
+//                     ? t.stringLiteral(prefixClasses(expr.alternate.value))
+//                     : expr.alternate;
+//                   return t.conditionalExpression(expr.test, newConsequent, newAlternate);
+//                 }
+//                 return expr;
+//               });
+
+//               path.node.value = t.jsxExpressionContainer(
+//                 t.templateLiteral(quasis, expressions)
+//               );
+//             }
+
+//             // Other expressions (e.g., clsx())
+//             else if (t.isJSXExpressionContainer(value) && t.isCallExpression(value.expression)) {
+//               const args = value.expression.arguments.map((arg) => {
+//                 if (t.isStringLiteral(arg)) return t.stringLiteral(prefixClasses(arg.value));
+//                 return arg;
+//               });
+//               path.node.value = t.jsxExpressionContainer(
+//                 t.callExpression(value.expression.callee, args)
+//               );
+//             }
+
+
+//           },
+
+//           // VariableDeclarator(path) {
+//           //   const id = path.node.id;
+//           //   const init = path.node.init;
+//           //   if (!t.isIdentifier(id)) return;
+//           //   if (!id.name.includes("DynamicClassName")) return;
+//           //   if (!init) return;
+
+//           //   // If variable is string literal
+//           //   if (t.isStringLiteral(init)) {
+//           //     path.node.init = t.stringLiteral(prefixClasses(init.value));
+//           //   }
+
+//           //   // If variable is an object with string properties
+//           //   else if (t.isObjectExpression(init)) {
+//           //     init.properties.forEach((prop) => {
+//           //       if (t.isObjectProperty(prop) && t.isStringLiteral(prop.value)) {
+//           //         prop.value = t.stringLiteral(prefixClasses(prop.value.value));
+//           //       }
+//           //     });
+//           //   }
+//           // },
+
+//           VariableDeclarator(path) {
+//             const id = path.node.id;
+//             const init = path.node.init;
+//             if (!t.isIdentifier(id)) return;
+
+//             // 🔹 only affect DynamicClassName variables
+//             if (!id.name.includes("DynamicClassName")) return;
+//             if (!init) return;
+
+//             // Handle: const fooDynamicClassName = "string"
+//             if (t.isStringLiteral(init)) {
+//               path.node.init = t.stringLiteral(prefixClasses(init.value));
+//             }
+
+//             // Handle: const fooDynamicClassName = `template ${expr}`
+//             else if (t.isTemplateLiteral(init)) {
+//               const quasis = init.quasis.map((quasi) => {
+//                 const raw = prefixClasses(quasi.value.raw);
+//                 return t.templateElement({ raw, cooked: raw });
+//               });
+//               path.node.init = t.templateLiteral(quasis, init.expressions);
+//             }
+
+//             // Handle: const fooDynamicClassName = cond ? "a" : "b"
+//             else if (t.isConditionalExpression(init)) {
+//               const prefixString = (expr) =>
+//                 t.isStringLiteral(expr) ? t.stringLiteral(prefixClasses(expr.value)) : expr;
+
+//               path.node.init = t.conditionalExpression(
+//                 init.test,
+//                 prefixString(init.consequent),
+//                 prefixString(init.alternate)
+//               );
+//             }
+
+//             // Handle: const fooDynamicClassName = cond && "a"
+//             else if (t.isLogicalExpression(init)) {
+//               const right = t.isStringLiteral(init.right)
+//                 ? t.stringLiteral(prefixClasses(init.right.value))
+//                 : init.right;
+//               path.node.init = t.logicalExpression(init.operator, init.left, right);
+//             }
+//           },
+//         });
+
+//         const output = generate.default(ast, {}, code);
+//         return { code: output.code, map: output.map };
+//       } catch (err) {
+//         console.error(`Error transforming file ${id}:`, err);
+//         return null;
+//       }
+//     },
+//   };
+// }
+
+// final code 2
+
 import { parse } from "@babel/parser";
 import traverse from "@babel/traverse";
 import * as t from "@babel/types";
@@ -255,6 +428,25 @@ export default function TailwindPrefixPlugin(prefix) {
               );
             }
 
+            // 🔥Template literal: className={ternary: cond ? "a" : "b"}
+            else if (t.isJSXExpressionContainer(value)) {
+              const expr = value.expression;
+              if (t.isConditionalExpression(expr)) {
+                const newConsequent = t.isStringLiteral(expr.consequent)
+                  ? t.stringLiteral(prefixClasses(expr.consequent.value))
+                  : expr.consequent;
+
+                const newAlternate = t.isStringLiteral(expr.alternate)
+                  ? t.stringLiteral(prefixClasses(expr.alternate.value))
+                  : expr.alternate;
+
+                path.node.value = t.jsxExpressionContainer(
+                  t.conditionalExpression(expr.test, newConsequent, newAlternate)
+                );
+              }
+            }
+
+
             // Other expressions (e.g., clsx())
             else if (t.isJSXExpressionContainer(value) && t.isCallExpression(value.expression)) {
               const args = value.expression.arguments.map((arg) => {
@@ -265,6 +457,8 @@ export default function TailwindPrefixPlugin(prefix) {
                 t.callExpression(value.expression.callee, args)
               );
             }
+
+
           },
 
           // VariableDeclarator(path) {
@@ -343,123 +537,3 @@ export default function TailwindPrefixPlugin(prefix) {
     },
   };
 }
-
-// 2
-// import { parse } from "@babel/parser";
-// import traverse from "@babel/traverse";
-// import * as t from "@babel/types";
-// import generate from "@babel/generator";
-
-// export default function TailwindPrefixPlugin(prefix) {
-//   return {
-//     name: "vite-tailwind-prefix",
-//     enforce: "pre",
-//     transform(code, id) {
-//       if (!id.endsWith(".tsx") && !id.endsWith(".jsx")) return null;
-
-//       try {
-//         const ast = parse(code, {
-//           sourceType: "module",
-//           plugins: ["jsx", "typescript"],
-//         });
-
-//         const prefixClasses = (str) => {
-//           return str
-//             .split(/\s+/)
-//             .filter(Boolean)
-//             .map((c) => {
-//               // ✅ already prefixed
-//               if (c.startsWith(prefix)) return c;
-
-//               // ✅ skip dark: completely
-//               if (c.startsWith("dark:")) return c;
-
-//               // ✅ handle other variants (hover:, sm:, lg:, etc.)
-//               const parts = c.split(":");
-//               if (parts.length > 1) {
-//                 const variant = parts.slice(0, -1).join(":");
-//                 const base = parts[parts.length - 1];
-//                 if (base.startsWith(prefix)) return c; // base already prefixed
-//                 return `${variant}:${prefix}${base}`;
-//               }
-
-//               // ✅ plain class
-//               return `${prefix}${c}`;
-//             })
-//             .join(" ");
-//         };
-
-//         traverse.default(ast, {
-//           JSXAttribute(path) {
-//             if (path.node.name.name !== "className") return;
-
-//             const value = path.node.value;
-
-//             // String literal: className="..."
-//             if (t.isStringLiteral(value)) {
-//               path.node.value = t.stringLiteral(prefixClasses(value.value));
-//             }
-//             // Template literal: className={`...`}
-//             else if (
-//               t.isJSXExpressionContainer(value) &&
-//               t.isTemplateLiteral(value.expression)
-//             ) {
-//               const quasis = value.expression.quasis.map((quasi, i) => {
-//                 let classes = prefixClasses(quasi.value.raw);
-
-//                 if (i < value.expression.expressions.length) classes += " ";
-//                 if (i > 0 && !classes.startsWith(" ")) classes = " " + classes;
-
-//                 return t.templateElement({ raw: classes, cooked: classes });
-//               });
-
-//               path.node.value = t.jsxExpressionContainer(
-//                 t.templateLiteral(quasis, value.expression.expressions)
-//               );
-//             }
-//             // Other expressions (e.g., clsx())
-//             else if (
-//               t.isJSXExpressionContainer(value) &&
-//               t.isCallExpression(value.expression)
-//             ) {
-//               const args = value.expression.arguments.map((arg) => {
-//                 if (t.isStringLiteral(arg)) {
-//                   return t.stringLiteral(prefixClasses(arg.value));
-//                 }
-//                 return arg;
-//               });
-//               path.node.value = t.jsxExpressionContainer(
-//                 t.callExpression(value.expression.callee, args)
-//               );
-//             }
-//           },
-
-//           // ✅ Handle variables whose name includes "DynamicClassName"
-//           VariableDeclarator(path) {
-//             const id = path.node.id;
-//             const init = path.node.init;
-//             if (!t.isIdentifier(id)) return;
-//             if (!id.name.includes("DynamicClassName")) return;
-//             if (!init) return;
-
-//             if (t.isStringLiteral(init)) {
-//               path.node.init = t.stringLiteral(prefixClasses(init.value));
-//             } else if (t.isObjectExpression(init)) {
-//               init.properties.forEach((prop) => {
-//                 if (t.isObjectProperty(prop) && t.isStringLiteral(prop.value)) {
-//                   prop.value = t.stringLiteral(prefixClasses(prop.value.value));
-//                 }
-//               });
-//             }
-//           },
-//         });
-
-//         const output = generate.default(ast, {}, code);
-//         return { code: output.code, map: output.map };
-//       } catch (err) {
-//         console.error(`Error transforming file ${id}:`, err);
-//         return null;
-//       }
-//     },
-//   };
-// }
