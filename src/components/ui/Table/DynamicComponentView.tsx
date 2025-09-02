@@ -508,7 +508,7 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions, selectedPipeline]);
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
 
   // useEffect( () => {
   //   // console.log("useEffect", true)
