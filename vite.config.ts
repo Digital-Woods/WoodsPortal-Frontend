@@ -38,6 +38,6 @@ export default defineConfig({
         assetFileNames: 'module.css',
       },
     },
-    minify: false
+    minify: true
   },
 })
