@@ -107,7 +107,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
 
         // console.log('home', true)
       }
-      toast.error(data.statusMsg);
+      toast.success(data.statusMsg);
     },
 
     onError: (error: any) => {
