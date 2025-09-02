@@ -176,6 +176,37 @@ function prefixClassesInCode(code) {
       return `className={\`${rebuilt}\`}`;
     });
 
+
+    // 3️⃣ Variables with "DynamicClassName"
+    code = code.replace(
+      /(const|let|var)\s+([A-Za-z0-9_]*DynamicClassName[A-Za-z0-9_]*)\s*=\s*([^;]+);/g,
+      (match, decl, varName, value) => {
+        // 1) If it's an object literal
+        if (/^{[\s\S]*}$/.test(value.trim())) {
+          const transformed = value.replace(/["'`](.*?)["'`]/g, (m, cls) => {
+            return `"${prefixStaticClasses(cls)}"`;
+          });
+          return `${decl} ${varName} = ${transformed};`;
+        }
+
+        // 2) If it's a ternary or plain string
+        if (/\?.*:/.test(value)) {
+          // Handle ternary string parts
+          const transformed = value.replace(/["'`](.*?)["'`]/g, (m, cls) => {
+            return `"${prefixStaticClasses(cls)}"`;
+          });
+          return `${decl} ${varName} = ${transformed};`;
+        }
+
+        // 3) If it's just a normal string
+        if (/^["'`].*["'`]$/.test(value.trim())) {
+          const cls = value.trim().slice(1, -1);
+          return `${decl} ${varName} = "${prefixStaticClasses(cls)}";`;
+        }
+
+        return match; // fallback
+      }
+    );
   return code;
 }
 
