@@ -2,6 +2,7 @@ import { Outlet, useMatches } from '@tanstack/react-router';
 import { layoutMap } from './index';
 import PrivateRoute from '@/utils/private-route';
 import PublicRoute from '@/utils/public-route';
+import { Toaster } from '../ui/Toaster';
 
 export default function AppLayoutWrapper() {
   const matches = useMatches();
@@ -19,6 +20,7 @@ export default function AppLayoutWrapper() {
       <LayoutComponent>
         <Outlet />
       </LayoutComponent>
+      <Toaster />
     </RoteComponent >
   );
 }

@@ -90,7 +90,9 @@ useEffect(() => {
       removeIds: [item.hs_object_id],
     };
     removeExistingData({ formData: payload });
-    setActiveDisassociatedButton(null);
+    setTimeout(()=>{
+      setActiveDisassociatedButton(null);
+    }, 2000);
   };
 
   return (
