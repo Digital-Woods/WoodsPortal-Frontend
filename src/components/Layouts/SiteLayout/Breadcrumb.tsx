@@ -12,34 +12,63 @@ import { useRouter } from '@tanstack/react-router'
 export const Breadcrumb = (props: any) => {
   const router = useRouter()
   const location = router.state.location
-  const { pathname, searchStr, hash } = router.state.location
-  const { routes, setRoutes } = useRoute();
+  const { pathname, searchStr } = router.state.location
+  const { routes } = useRoute();
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
 
+  // Encode to Base64
   const convertToBase64 = (str: any = []) => {
-    const base64 = btoa(unescape(encodeURIComponent(str)));
-    return base64;
+    try {
+      return btoa(unescape(encodeURIComponent(str)));
+    } catch (err) {
+      console.warn("Base64 encode failed:", str, err);
+      return "";
+    }
   };
 
-  const decodeToBase64 = (base64: any) => {
-    const decodedStr = decodeURIComponent(escape(atob(base64)));
-    return decodedStr;
+  // Decode from Base64 safely
+  const decodeToBase64 = (base64: string) => {
+    try {
+      return decodeURIComponent(escape(atob(base64)));
+    } catch (err) {
+      console.warn("Base64 decode failed:", base64, err);
+      return "";
+    }
   };
 
   const getParentObjectUrl = () => {
-    const parentObjectUrl = getCookie(env.VITE_ASSOCIATION_VIEW_URL_KEY)
-    return parentObjectUrl
+    try {
+      return getCookie(env.VITE_ASSOCIATION_VIEW_URL_KEY);
+    } catch {
+      return null;
+    }
   };
 
   useEffect(() => {
     let routeMenu = getRouteMenu(pathname)
     const segments = pathname.split('/')
-    const decodePathName = decodeURIComponent(pathname)
-    let item: any[] = []
-    if (getParam('parentObjectName')) {
-      const parentObjectUrl = JSON.parse(getParentObjectUrl())
-      item.push(parentObjectUrl)
+
+    // decode pathname safely
+    let decodePathName: string = pathname;
+    try {
+      decodePathName = decodeURIComponent(pathname);
+    } catch (err) {
+      console.warn("Invalid pathname decode:", pathname, err);
     }
+
+    let item: any[] = []
+
+    // Add parent object if exists
+    if (getParam('parentObjectName')) {
+      try {
+        const parentObjectUrl = JSON.parse(getParentObjectUrl() || "{}")
+        if (parentObjectUrl) item.push(parentObjectUrl)
+      } catch (err) {
+        console.warn("Invalid parent object cookie", err);
+      }
+    }
+
+    // Add current route item
     item.push({
       name: decodePathName.includes('/association')
         ? segments[segments.indexOf('association') + 1] || 'association'
@@ -49,14 +78,22 @@ export const Breadcrumb = (props: any) => {
       path: `${decodePathName}${searchStr || ''}`,
       routeName: decodePathName,
     })
-    // console.log(item,'item');
 
     const mRoute = routes.find((route: any) => route.path === decodePathName)
 
+    // handle breadcrumb param safely
     let breadcrumb = getParam('b')
-    let breadcrumbItems = breadcrumb
-      ? JSON.parse(decodeToBase64(breadcrumb))
-      : breadcrumbs
+    let breadcrumbItems = breadcrumbs
+    if (breadcrumb) {
+      try {
+        breadcrumbItems = JSON.parse(decodeToBase64(breadcrumb)) || breadcrumbs
+      } catch (err) {
+        console.warn("Invalid breadcrumb param:", breadcrumb, err);
+      }
+    }
+
+    // ensure valid breadcrumbs
+    if (!Array.isArray(breadcrumbItems)) breadcrumbItems = []
 
     let index = breadcrumbItems.findIndex(
       (breadcrumb: any) => breadcrumb?.routeName === decodePathName,
@@ -79,7 +116,9 @@ export const Breadcrumb = (props: any) => {
 
     if (JSON.stringify(nextBreadcrumbs) !== JSON.stringify(breadcrumbItems)) {
       const newBase64 = convertToBase64(JSON.stringify(nextBreadcrumbs))
-      setParam('b', newBase64)
+      if (newBase64) {
+        setParam('b', newBase64)
+      }
       setBreadcrumbs(nextBreadcrumbs)
     } else {
       setBreadcrumbs(nextBreadcrumbs)
@@ -94,8 +133,8 @@ export const Breadcrumb = (props: any) => {
             <li key={index} className="flex items-center">
               <Link
                 className={`capitalize hover:underline ${index == 0
-                    ? "!text-[var(--sidebar-text-color)]"
-                    : "!text-[var(--sidebar-text-color)] opacity-90"
+                  ? "!text-[var(--sidebar-text-color)]"
+                  : "!text-[var(--sidebar-text-color)] opacity-90"
                   } hover:text-[var(--sidebar-text-color)] opacity-90 dark:!text-white hover:opacity-90`}
                 to={breadcrumb?.path}
               >

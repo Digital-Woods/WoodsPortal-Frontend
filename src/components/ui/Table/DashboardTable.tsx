@@ -280,10 +280,7 @@ export const DashboardTable: any = ({
         </div>
         :
         <>
-          {!isLoading &&
-            !view != "BOARD" &&
-            ((subscriptionType === "FREE" && apiResponse?.data?.total === 0) && (apiResponse?.data?.total === 0 ||
-              apiResponse?.data?.total == null)) && (
+          {!isLoading && ((subscriptionType === "FREE" && apiResponse?.data?.total === 0) || (apiResponse?.data?.total === 0 || apiResponse?.data?.total == null)) && (
               <div className="text-center pb-4">
                 <EmptyMessageCard
                   name={
