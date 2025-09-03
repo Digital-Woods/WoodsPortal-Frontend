@@ -12,7 +12,7 @@ import { getParam, getQueryParamsFromCurrentUrl } from "@/utils/param";
 import { useResponsive } from "@/utils/UseResponsive";
 import { useMutation } from "@tanstack/react-query";
 import { env } from "@/env";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect} from "react";
 import { Dialog } from "./ui/Dialog";
 import { Notes } from "./ui/Notes";
 import { Files } from "./ui/files/Files";
