@@ -188,7 +188,7 @@ export const DetailsAssociations = ({
                 name={associationData?.labels?.plural}
                 type="col"
                 imgWidth="110px"
-                className="p-4 dark:!bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:!text-white !mt-0"
+                className="p-6 dark:!bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:!text-white !mt-0"
               />
             ) : (
               associationData.data &&
