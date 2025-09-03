@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const srcDir = path.resolve('./src');
-const tempDir = path.resolve('./temp');
+const tempDir = path.resolve('./.temp');
 
 if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
 
