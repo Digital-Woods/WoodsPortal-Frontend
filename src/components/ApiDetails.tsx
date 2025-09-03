@@ -12,7 +12,7 @@ import { getParam, getQueryParamsFromCurrentUrl } from "@/utils/param";
 import { useResponsive } from "@/utils/UseResponsive";
 import { useMutation } from "@tanstack/react-query";
 import { env } from "@/env";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Dialog } from "./ui/Dialog";
 import { Notes } from "./ui/Notes";
 import { Files } from "./ui/files/Files";
@@ -78,17 +78,13 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     return () => window.removeEventListener("resize", resetOnResize);
   }, [pathname]);
 
-  const availableTabs: any = [
-    "overview",
-    permissions?.fileManager?.display && "files",
-    permissions?.note?.display && "notes",
-    permissions?.ticket?.display && "tickets",
-  ].filter(Boolean);
-
   const setActiveTabFucntion = (active: any) => {
-    setActiveTab(active);
     setSelectRouteMenuConfig(objectId, active);
   };
+
+  useEffect(() => {
+    setActiveTabFucntion(activeTab);
+  },[activeTab, pathname, objectId])
 
   // Start Cookie RouteMenuConfig
   const setSelectRouteMenuConfig = (key: any, activeTab: any) => {
@@ -108,12 +104,12 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
       routeMenuConfigs.hasOwnProperty(objectId)
     ) {
       const activeTab = routeMenuConfigs[objectId]?.details?.activeTab;
-      setActiveTab((activeTab === 'list' || !activeTab) ? "overview" : activeTab);
+      setActiveTabFucntion((activeTab === 'list' || !activeTab) ? "overview" : activeTab);
     } else {
-      setActiveTab("overview");
+      setActiveTabFucntion("overview");
     }
     getData();
-  }, [pathname]);
+  }, [pathname, activeTab]);
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -240,8 +236,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
               <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
                 <Tabs
                   activeTab={activeTab}
-                  setActiveTab={setActiveTabFucntion}
-                  onValueChange={setActiveTabFucntion}
+                  setActiveTab={setActiveTab}
+                  onValueChange={setActiveTab}
                   className="rounded-md "
                 >
                   <TabsList>
@@ -282,6 +278,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   <TabsContent value="overview"></TabsContent>
                   <TabsContent value="files"></TabsContent>
                   <TabsContent value="notes"></TabsContent>
+                  <TabsContent value="tickets"></TabsContent>
                 </Tabs>
               </div>
               {activeTab === "overview" && (

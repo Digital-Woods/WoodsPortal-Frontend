@@ -432,13 +432,57 @@ export const DetailsViewUpdate = ({
     return value;
   };
 
+  // const createValidationSchema = (data: any) => {
+  //   const schemaShape: any = {};
+  //   schemaShape[value.key] = z.string().nonempty({
+  //     message: `${value.label} is required.`,
+  //   });
+  //   return z.object(schemaShape);
+  // };
+
   const createValidationSchema = (data: any) => {
-    const schemaShape: any = {};
-    schemaShape[value.key] = z.string().nonempty({
-      message: `${value.label} is required.`,
-    });
+  const schemaShape: any = {};
+
+    if (!value) return z.object({});
+
+    // Phone number validation (123-456-7890)
+    if (value.key.toLowerCase().includes("phone")) {
+      schemaShape[value.key] = z
+        .string()
+        .regex(
+          /^\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,5}\)?([-.\s]?[0-9]{1,5}){1,4}$/,
+          {
+            message: `${value.label || "Phone number"} must be a valid phone number with optional country code`,
+          }
+        );
+    } 
+    // Domain validation (e.g., digitalwoods.io)
+    else if (value.key.toLowerCase().includes("domain")) {
+      schemaShape[value.key] = z
+        .string()
+        .regex(
+          /^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/,
+          {
+            message: `${value.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
+          }
+        );
+    } else if (value.key.includes("email")) {
+      schemaShape[value.key] = z
+        .string()
+        .email({
+          message: `${value.label || "Email"} must be a valid email address`,
+        });
+    }
+    // Default: non-empty string
+    else {
+      schemaShape[value.key] = z.string().nonempty({
+        message: `${value.label || value.key} is required.`,
+      });
+    }
+
     return z.object(schemaShape);
   };
+
   const validationSchema = createValidationSchema(data);
 
   const { mutate: saveData, isLoading } = useMutation({
@@ -677,7 +721,7 @@ export const DetailsViewUpdate = ({
 
                       {editRow.fieldType != "checkbox" &&
                         errors[editRow.key] && (
-                          <FormMessage className="text-red-600 dark:text-red-400">
+                          <FormMessage className="text-xs text-red-600 dark:text-red-400">
                             {errors[editRow.key]?.message}
                           </FormMessage>
                         )}
