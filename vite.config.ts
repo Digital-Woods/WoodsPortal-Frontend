@@ -8,14 +8,22 @@ import tailwindcss from '@tailwindcss/vite'
 
 import tailwindPrefixPlugin from './prefix-plugin';
 
+
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     TanStackRouterVite({ autoCodeSplitting: true }),
     viteReact(),
-    tailwindcss({
-      content: ['./testfiles/tailwind-classes.tsx'],
-    }),
+    // viteReact({
+    //   babel: {
+    //     plugins: [tailwindPrefix],
+    //   },
+    // }),
+    tailwindcss(),
+    // tailwindcss({
+    //   content: ['./testfiles/tailwind-classes.tsx'],
+    // }),
     tailwindPrefixPlugin('tw:'),
   ],
   resolve: {

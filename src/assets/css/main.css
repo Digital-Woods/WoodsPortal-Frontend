@@ -1,5 +1,7 @@
 @import "tailwindcss" prefix(tw);
 
+@source "../../../.temp/**/*.{js,jsx,ts,tsx}";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
