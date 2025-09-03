@@ -13,7 +13,7 @@ export default defineConfig({
   plugins: [
     TanStackRouterVite({ autoCodeSplitting: true }),
     viteReact(),
-    tailwindcss({content: ['./temp/**/*.{ts,tsx,js,jsx}']}),
+    tailwindcss({content: ['./temp/**/*.{ts,tsx,js,jsx,css}']}),
     tailwindPrefixPlugin('tw:'),
   ],
   resolve: {

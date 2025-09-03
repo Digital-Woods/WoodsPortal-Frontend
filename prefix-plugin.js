@@ -185,6 +185,94 @@ export default function TailwindPrefixPlugin(prefix) {
     name: "vite-tailwind-prefix",
     enforce: "pre",
     transform(code, id) {
+        // Handle CSS files: prefix custom class selectors safely
+        // if (id.endsWith(".css")) {
+        //     const prefix2 = "tw\\:"
+        //     // Split the CSS into lines for safer processing
+        //     const lines = code.split("\n");
+
+        //     const prefixedLines = lines.map((line) => {
+        //         // Match only simple class selectors at the start of the line
+        //         // e.g., `.dialog-overlay {`
+        //         const classSelectorMatch = line.match(/^(\s*)\.([a-zA-Z0-9_-]+)\s*{/);
+        //         if (classSelectorMatch) {
+        //         const indent = classSelectorMatch[1];
+        //         const cls = classSelectorMatch[2];
+        //         if (cls.startsWith(prefix) || cls.startsWith(prefix2)) return line; // already prefixed
+        //         return `${indent}.${prefix2}${cls} {`;
+        //         }
+        //         return line; // leave everything else untouched
+        //     });
+
+        //     return { code: prefixedLines.join("\n"), map: null };
+        // }
+
+        // if (id.endsWith(".css")) {
+        //     const prefix2 = "tw\\:";
+
+        //     const lines = code.split("\n");
+
+        //     const prefixedLines = lines.map((line) => {
+        //         // Check if the line contains a '{'
+        //         const braceIndex = line.indexOf("{");
+        //         if (braceIndex === -1) {
+        //         // No { on this line, likely inside a block or property: leave untouched
+        //         return line;
+        //         }
+
+        //         // Split selector and rest
+        //         const selector = line.slice(0, braceIndex);
+        //         const rest = line.slice(braceIndex);
+
+        //         // Replace only class selectors in the selector part
+        //         const prefixedSelector = selector.replace(/(\.)([a-zA-Z0-9_-]+)/g, (match, dot, cls) => {
+        //         if (cls.startsWith("tw:") || cls.startsWith("tw\\")) return match; // already prefixed
+        //         return `${dot}${prefix2}${cls}`;
+        //         });
+
+        //         return prefixedSelector + rest;
+        //     });
+
+        //     return { code: prefixedLines.join("\n"), map: null };
+        // }
+
+        if (id.endsWith(".css")) {
+            const prefix2 = "tw\\:";
+
+            const lines = code.split("\n");
+            let braceDepth = 0;
+
+            const prefixedLines = lines.map((line) => {
+                // Count { and } to track depth
+                const openBraces = (line.match(/{/g) || []).length;
+                const closeBraces = (line.match(/}/g) || []).length;
+
+                // Only prefix selectors at top-level (braceDepth === 0)
+                let newLine = line;
+                if (braceDepth === 0 && line.includes("{")) {
+                const braceIndex = line.indexOf("{");
+                const selector = line.slice(0, braceIndex);
+                const rest = line.slice(braceIndex);
+
+                const prefixedSelector = selector.replace(/(\.)([a-zA-Z0-9_-]+)/g, (match, dot, cls) => {
+                    if (cls.startsWith("tw:") || cls.startsWith("tw\\")) return match; // already prefixed
+                    return `${dot}${prefix2}${cls}`;
+                });
+
+                newLine = prefixedSelector + rest;
+                }
+
+                // Update brace depth after processing line
+                braceDepth += openBraces - closeBraces;
+
+                return newLine;
+            });
+
+            return { code: prefixedLines.join("\n"), map: null };
+        }
+
+
+
       if (!id.endsWith(".tsx") && !id.endsWith(".jsx")) return null;
 
       try {
@@ -268,29 +356,6 @@ export default function TailwindPrefixPlugin(prefix) {
 
 
           },
-
-          // VariableDeclarator(path) {
-          //   const id = path.node.id;
-          //   const init = path.node.init;
-          //   if (!t.isIdentifier(id)) return;
-          //   if (!id.name.includes("DynamicClassName")) return;
-          //   if (!init) return;
-
-          //   // If variable is string literal
-          //   if (t.isStringLiteral(init)) {
-          //     path.node.init = t.stringLiteral(prefixClasses(init.value));
-          //   }
-
-          //   // If variable is an object with string properties
-          //   else if (t.isObjectExpression(init)) {
-          //     init.properties.forEach((prop) => {
-          //       if (t.isObjectProperty(prop) && t.isStringLiteral(prop.value)) {
-          //         prop.value = t.stringLiteral(prefixClasses(prop.value.value));
-          //       }
-          //     });
-          //   }
-          // },
-          
             VariableDeclarator(path) {
                 const id = path.node.id;
                 const init = path.node.init;
@@ -357,8 +422,6 @@ export default function TailwindPrefixPlugin(prefix) {
                     path.node.init = t.logicalExpression(init.operator, init.left, right);
                 }
             }
-
-          
         });
 
         const output = generate.default(ast, {}, code);
