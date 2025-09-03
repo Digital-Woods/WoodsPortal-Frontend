@@ -13,4 +13,4 @@ hubspot.config.yml
 .env.development
 .env.production
 dist
-temp
+.temp
