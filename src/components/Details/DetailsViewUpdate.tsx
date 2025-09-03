@@ -654,6 +654,16 @@ export const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           />
+                        ): editRow.fieldType === "phonenumber" ? (
+                          <Input
+                            type="tel"
+                            placeholder={`Enter ${editRow.label}`}
+                            height="small"
+                            className=""
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                            defaultValue={getValue(editRow.value)}
+                            {...register(editRow.key)}
+                          />
                         ) : (
                           <Input
                             placeholder={`Enter ${editRow.label}`}
