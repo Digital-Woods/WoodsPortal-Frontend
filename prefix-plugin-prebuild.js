@@ -294,17 +294,13 @@ function prefixClassesInCode(code) {
   });
 
   // 3) Ternary expressions: className={cond ? "..." : "..."}
-  // 3) Ternary expressions: className={cond ? "..." : "..."}
   code = code.replace(
     /className\s*=\s*{([^{};]+?\?[^:]+:[^}]+)}/g,
     (match, inner) => {
-      // Split ternary into [condition, whenTrue, whenFalse]
       const ternaryMatch = inner.match(/^(.*?\?)\s*(['"][^'"]*['"])\s*:\s*(['"][^'"]*['"])\s*$/);
-      if (!ternaryMatch) return match; // fallback if not standard ternary
+      if (!ternaryMatch) return match;
 
       const [, condition, whenTrue, whenFalse] = ternaryMatch;
-
-      // Prefix only class strings (whenTrue / whenFalse)
       const prefixedTrue = whenTrue.replace(/(['"])(.*?)\1/, (_, q, cls) => `${q}${prefixStaticClasses(cls)}${q}`);
       const prefixedFalse = whenFalse.replace(/(['"])(.*?)\1/, (_, q, cls) => `${q}${prefixStaticClasses(cls)}${q}`);
 
@@ -336,8 +332,20 @@ function prefixClassesInCode(code) {
     }
   );
 
+  // 5) Handle classNames(...) or clsx(...)
+  code = code.replace(
+    /className\s*=\s*{?\s*(classNames|clsx)\(([\s\S]*?)\)}?/g,
+    (match, fnName, args) => {
+      const transformedArgs = args.replace(/(['"])(.*?)\1/g, (_, q, cls) => {
+        return `${q}${prefixStaticClasses(cls)}${q}`;
+      });
+      return `className={${fnName}(${transformedArgs})}`;
+    }
+  );
+
   return code;
 }
+
 
 // Recursively copy files and rewrite .tsx/.jsx
 function copyAndPrefixFiles(dir, outDir) {
