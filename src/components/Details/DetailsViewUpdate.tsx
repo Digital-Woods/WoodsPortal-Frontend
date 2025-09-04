@@ -647,7 +647,8 @@ export const DetailsViewUpdate = ({
                     <FormItem className="!mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ||
-                        editRow.fieldType === "radio" ? (
+                        editRow.fieldType === "radio" || 
+                        editRow.fieldType === "booleancheckbox" ? (
                           <DetailsViewUpdateDD
                             optionData={editRow}
                             control={control}
