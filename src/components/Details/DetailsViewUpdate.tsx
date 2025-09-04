@@ -472,6 +472,15 @@ export const DetailsViewUpdate = ({
         .email({
           message: `${value.label || "Email"} must be a valid email address`,
         });
+    } else if (value.key.toLowerCase().includes("zip") || value.key.toLowerCase().includes("postal")) {
+      schemaShape[value.key] = z
+        .string()
+        .regex(
+          /^[A-Za-z0-9][A-Za-z0-9\s\-]{2,10}$/,
+          {
+            message: `${value.label || "Postal Code"} must be a valid ZIP/Postal code (e.g., 12345, 12345-6789, SW1A 1AA, H0H 0H0, 734426)`,
+          }
+        );
     }
     // Default: non-empty string
     else {
