@@ -9,14 +9,23 @@ import TailwindContentPlugin from './scripts/tailwind-content-plugin.js'
 
 import isPrefix from './scripts/prefix.env.js'
 
-
 export default defineConfig(({ mode }) => {
   return {
     plugins: [
       TanStackRouterVite({ autoCodeSplitting: true }),
+      // viteReact({
+      //   babel: {
+      //     plugins: [tailwindPrefix],
+      //   },
+      // }),
       viteReact(),
+      // tailwindcss({
+      //   content: ['./testfiles/tailwind-classes.tsx'],
+      // }),
       tailwindcss(),
-      ...(isPrefix(mode) ? [tailwindPrefixPlugin('tw:'), TailwindContentPlugin()] : []), // ✅ only in prod
+      ...(isPrefix(mode)
+        ? [tailwindPrefixPlugin('tw:'), TailwindContentPlugin()]
+        : []), // ✅ only in prod
     ],
     resolve: {
       alias: {
@@ -43,7 +52,7 @@ export default defineConfig(({ mode }) => {
           assetFileNames: 'module.css',
         },
       },
-      minify: false,
+      minify: true,
     },
   }
 })
