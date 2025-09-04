@@ -6,8 +6,7 @@ import { resolve } from 'node:path'
 
 import tailwindcss from '@tailwindcss/vite'
 
-import tailwindPrefixPlugin from './prefix-plugin';
-
+import tailwindPrefixPlugin from './scripts/prefix-plugin.js';
 
 
 // https://vitejs.dev/config/
