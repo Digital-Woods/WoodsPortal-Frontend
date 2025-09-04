@@ -7,8 +7,16 @@ import * as TanStackQueryProvider from './integrations/tanstack-query/root-provi
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
-import './assets/css/main.css'
+// import './assets/css/main.css'
 import reportWebVitals from './reportWebVitals.ts'
+
+import isPrefix from '../scripts/prefix.env.js'
+if (isPrefix(import.meta.env.MODE)) {
+  import('./assets/css/main.prod.css')
+} else {
+  import('./assets/css/main.dev.css')
+}
+import './assets/css/style.css'
 
 // Create a new router instance
 const router = createRouter({
