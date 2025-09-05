@@ -12,10 +12,12 @@ import reportWebVitals from './reportWebVitals.ts'
 
 import isPrefix from '../scripts/prefix.env.js'
 // ✅ wait for CSS before continuing
-if (isPrefix(import.meta.env.MODE)) {
-  await import('./assets/css/main.prod.css')
-} else {
-  await import('./assets/css/main.dev.css')
+async function loadCss() {
+  if (isPrefix(import.meta.env.MODE)) {
+    return import('./assets/css/main.prod.css')
+  } else {
+    return import('./assets/css/main.dev.css')
+  }
 }
 import './assets/css/style.css'
 
@@ -39,20 +41,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
-// Render the app
-const rootElement = document.getElementById('app')
-if (rootElement && !rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
-    <StrictMode>
-      <TanStackQueryProvider.Provider>
-        <RouterProvider router={router} />
-      </TanStackQueryProvider.Provider>
-    </StrictMode>,
-  )
+async function bootstrap() {
+  await loadCss()
+  
+  // Render the app
+  const rootElement = document.getElementById('app')
+  if (rootElement && !rootElement.innerHTML) {
+    const root = ReactDOM.createRoot(rootElement)
+    root.render(
+      <StrictMode>
+        <TanStackQueryProvider.Provider>
+          <RouterProvider router={router} />
+        </TanStackQueryProvider.Provider>
+      </StrictMode>,
+    )
+  }
+
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals()
+
 }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
+bootstrap()
