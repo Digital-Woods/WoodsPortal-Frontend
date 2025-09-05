@@ -11,10 +11,11 @@ import { routeTree } from './routeTree.gen'
 import reportWebVitals from './reportWebVitals.ts'
 
 import isPrefix from '../scripts/prefix.env.js'
+// ✅ wait for CSS before continuing
 if (isPrefix(import.meta.env.MODE)) {
-  import('./assets/css/main.prod.css')
+  await import('./assets/css/main.prod.css')
 } else {
-  import('./assets/css/main.dev.css')
+  await import('./assets/css/main.dev.css')
 }
 import './assets/css/style.css'
 
