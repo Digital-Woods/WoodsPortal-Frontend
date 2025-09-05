@@ -21,7 +21,6 @@
 // //   };
 // // }
 
-
 // // export default function tailwindPrefixPlugin() {
 // //   const tailwindClassRegex = /\b(?:bg|text|font|flex|grid|gap|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|space|w|min-w|max-w|h|min-h|max-h|border|rounded|shadow|justify|items|divide|ring|transition|animate|cursor|z|top|left|right|bottom|opacity|scale|rotate|translate|skew|order|float|clear|object|overflow|overscroll|container|block|inline|hidden|align|content|place|self|place-self|place-items|place-content|tracking|leading|list|placeholder|uppercase|lowercase|capitalize|normal-case|from|via|to|bg-gradient|bg-clip|bg-origin|mix-blend|bg-blend|filter|blur|brightness|contrast|grayscale|hue-rotate|invert|saturate|sepia|drop-shadow|transform|duration|ease|delay|fill|stroke|stroke-width|sr-only|not-sr-only)(?:-[\w\[\]\(\)#/%.:]+)?\b/g;
 
@@ -44,7 +43,6 @@
 // //     },
 // //   };
 // // }
-
 
 // // export default function tailwindPrefixPlugin() {
 // //   const tailwindClassRegex = /\b(?:bg|text|font|flex|grid|gap|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|space|w|min-w|max-w|h|min-h|max-h|border|rounded|shadow|justify|items|divide|ring|transition|animate|cursor|z|top|left|right|bottom|opacity|scale|rotate|translate|skew|order|float|clear|object|overflow|overscroll|container|block|inline|hidden|align|content|place|self|place-self|place-items|place-content|tracking|leading|list|placeholder|uppercase|lowercase|capitalize|normal-case|from|via|to|bg-gradient|bg-clip|bg-origin|mix-blend|bg-blend|filter|blur|brightness|contrast|grayscale|hue-rotate|invert|saturate|sepia|drop-shadow|transform|duration|ease|delay|fill|stroke|stroke-width|sr-only|not-sr-only)(?:-[\w-]+)?\b/g;
@@ -73,7 +71,6 @@
 // //   };
 // // }
 
-
 // // export default function tailwindPrefixPlugin() {
 // //   const tailwindClassRegex = /\b(?:bg|text|font|flex|grid|gap|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|space|w|min-w|max-w|h|min-h|max-h|border|rounded|shadow|justify|items|divide|ring|transition|animate|cursor|z|top|left|right|bottom|opacity|scale|rotate|translate|skew|order|float|clear|object|overflow|overscroll|container|block|inline|hidden|align|content|place|self|place-self|place-items|place-content|tracking|leading|list|placeholder|uppercase|lowercase|capitalize|normal-case|from|via|to|bg-gradient|bg-clip|bg-origin|mix-blend|bg-blend|filter|blur|brightness|contrast|grayscale|hue-rotate|invert|saturate|sepia|drop-shadow|transform|duration|ease|delay|fill|stroke|stroke-width|sr-only|not-sr-only)(?:-[\w\[\]-]+)?\b/g;
 
@@ -99,8 +96,6 @@
 // //     },
 // //   };
 // // }
-
-
 
 // export default function tailwindPrefixPlugin() {
 //   const tailwindClassRegex = /\b(?:bg|text|font|flex|grid|gap|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml|space|w|min-w|max-w|h|min-h|max-h|border|rounded|shadow|justify|items|divide|ring|transition|animate|cursor|z|top|left|right|bottom|opacity|scale|rotate|translate|skew|order|float|clear|object|overflow|overscroll|container|block|inline|hidden|align|content|place|self|place-self|place-items|place-content|tracking|leading|list|placeholder|uppercase|lowercase|capitalize|normal-case|from|via|to|bg-gradient|bg-clip|bg-origin|mix-blend|bg-blend|filter|blur|brightness|contrast|grayscale|hue-rotate|invert|saturate|sepia|drop-shadow|transform|duration|ease|delay|fill|stroke|stroke-width|sr-only|not-sr-only)(?:-[\w\[\]\(\)#/%.:]+)?\b/g;
@@ -147,7 +142,6 @@
 //         }
 //       );
 
-
 //       // ✅ Handle variables named *DynamicClassName*
 //       transformedCode = transformedCode.replace(
 //         /(const\s+\w*DynamicClassName\w*\s*=\s*{[\s\S]*?})/g,
@@ -164,7 +158,6 @@
 //         }
 //       );
 
-
 //       return {
 //         code: transformedCode,
 //         map: null,
@@ -173,265 +166,290 @@
 //   };
 // }
 
-
 // final code 1
-import { parse } from "@babel/parser";
-import traverse from "@babel/traverse";
-import * as t from "@babel/types";
-import generate from "@babel/generator";
+import { parse } from '@babel/parser'
+import traverse from '@babel/traverse'
+import * as t from '@babel/types'
+import generate from '@babel/generator'
 
 export default function TailwindPrefixPlugin(prefix) {
   return {
-    name: "vite-tailwind-prefix",
-    enforce: "pre",
+    name: 'vite-tailwind-prefix',
+    enforce: 'pre',
     transform(code, id) {
-        // Handle CSS files: prefix custom class selectors safely
-        // if (id.endsWith(".css")) {
-        //     const prefix2 = "tw\\:"
-        //     // Split the CSS into lines for safer processing
-        //     const lines = code.split("\n");
+      // Handle CSS files: prefix custom class selectors safely
+      // if (id.endsWith(".css")) {
+      //     const prefix2 = "tw\\:"
+      //     // Split the CSS into lines for safer processing
+      //     const lines = code.split("\n");
 
-        //     const prefixedLines = lines.map((line) => {
-        //         // Match only simple class selectors at the start of the line
-        //         // e.g., `.dialog-overlay {`
-        //         const classSelectorMatch = line.match(/^(\s*)\.([a-zA-Z0-9_-]+)\s*{/);
-        //         if (classSelectorMatch) {
-        //         const indent = classSelectorMatch[1];
-        //         const cls = classSelectorMatch[2];
-        //         if (cls.startsWith(prefix) || cls.startsWith(prefix2)) return line; // already prefixed
-        //         return `${indent}.${prefix2}${cls} {`;
-        //         }
-        //         return line; // leave everything else untouched
-        //     });
+      //     const prefixedLines = lines.map((line) => {
+      //         // Match only simple class selectors at the start of the line
+      //         // e.g., `.dialog-overlay {`
+      //         const classSelectorMatch = line.match(/^(\s*)\.([a-zA-Z0-9_-]+)\s*{/);
+      //         if (classSelectorMatch) {
+      //         const indent = classSelectorMatch[1];
+      //         const cls = classSelectorMatch[2];
+      //         if (cls.startsWith(prefix) || cls.startsWith(prefix2)) return line; // already prefixed
+      //         return `${indent}.${prefix2}${cls} {`;
+      //         }
+      //         return line; // leave everything else untouched
+      //     });
 
-        //     return { code: prefixedLines.join("\n"), map: null };
-        // }
+      //     return { code: prefixedLines.join("\n"), map: null };
+      // }
 
-        // if (id.endsWith(".css")) {
-        //     const prefix2 = "tw\\:";
+      // if (id.endsWith(".css")) {
+      //     const prefix2 = "tw\\:";
 
-        //     const lines = code.split("\n");
+      //     const lines = code.split("\n");
 
-        //     const prefixedLines = lines.map((line) => {
-        //         // Check if the line contains a '{'
-        //         const braceIndex = line.indexOf("{");
-        //         if (braceIndex === -1) {
-        //         // No { on this line, likely inside a block or property: leave untouched
-        //         return line;
-        //         }
+      //     const prefixedLines = lines.map((line) => {
+      //         // Check if the line contains a '{'
+      //         const braceIndex = line.indexOf("{");
+      //         if (braceIndex === -1) {
+      //         // No { on this line, likely inside a block or property: leave untouched
+      //         return line;
+      //         }
 
-        //         // Split selector and rest
-        //         const selector = line.slice(0, braceIndex);
-        //         const rest = line.slice(braceIndex);
+      //         // Split selector and rest
+      //         const selector = line.slice(0, braceIndex);
+      //         const rest = line.slice(braceIndex);
 
-        //         // Replace only class selectors in the selector part
-        //         const prefixedSelector = selector.replace(/(\.)([a-zA-Z0-9_-]+)/g, (match, dot, cls) => {
-        //         if (cls.startsWith("tw:") || cls.startsWith("tw\\")) return match; // already prefixed
-        //         return `${dot}${prefix2}${cls}`;
-        //         });
+      //         // Replace only class selectors in the selector part
+      //         const prefixedSelector = selector.replace(/(\.)([a-zA-Z0-9_-]+)/g, (match, dot, cls) => {
+      //         if (cls.startsWith("tw:") || cls.startsWith("tw\\")) return match; // already prefixed
+      //         return `${dot}${prefix2}${cls}`;
+      //         });
 
-        //         return prefixedSelector + rest;
-        //     });
+      //         return prefixedSelector + rest;
+      //     });
 
-        //     return { code: prefixedLines.join("\n"), map: null };
-        // }
+      //     return { code: prefixedLines.join("\n"), map: null };
+      // }
 
-        if (id.endsWith(".css")) {
-            const prefix2 = "tw\\:";
+      if (id.endsWith('.css')) {
+        const prefix2 = 'tw\\:'
 
-            const lines = code.split("\n");
-            let braceDepth = 0;
+        const lines = code.split('\n')
+        let braceDepth = 0
 
-            const prefixedLines = lines.map((line) => {
-                // Count { and } to track depth
-                const openBraces = (line.match(/{/g) || []).length;
-                const closeBraces = (line.match(/}/g) || []).length;
+        const prefixedLines = lines.map((line) => {
+          // Count { and } to track depth
+          const openBraces = (line.match(/{/g) || []).length
+          const closeBraces = (line.match(/}/g) || []).length
 
-                // Only prefix selectors at top-level (braceDepth === 0)
-                let newLine = line;
-                if (braceDepth === 0 && line.includes("{")) {
-                const braceIndex = line.indexOf("{");
-                const selector = line.slice(0, braceIndex);
-                const rest = line.slice(braceIndex);
+          // Only prefix selectors at top-level (braceDepth === 0)
+          let newLine = line
+          if (braceDepth === 0 && line.includes('{')) {
+            const braceIndex = line.indexOf('{')
+            const selector = line.slice(0, braceIndex)
+            const rest = line.slice(braceIndex)
 
-                const prefixedSelector = selector.replace(/(\.)([a-zA-Z0-9_-]+)/g, (match, dot, cls) => {
-                    if (cls.startsWith("tw:") || cls.startsWith("tw\\")) return match; // already prefixed
-                    return `${dot}${prefix2}${cls}`;
-                });
+            const prefixedSelector = selector.replace(
+              /(\.)([a-zA-Z0-9_-]+)/g,
+              (match, dot, cls) => {
+                if (cls.startsWith('tw:') || cls.startsWith('tw\\'))
+                  return match // already prefixed
+                return `${dot}${prefix2}${cls}`
+              },
+            )
 
-                newLine = prefixedSelector + rest;
-                }
+            newLine = prefixedSelector + rest
+          }
 
-                // Update brace depth after processing line
-                braceDepth += openBraces - closeBraces;
+          // Update brace depth after processing line
+          braceDepth += openBraces - closeBraces
 
-                return newLine;
-            });
+          return newLine
+        })
 
-            return { code: prefixedLines.join("\n"), map: null };
-        }
+        return { code: prefixedLines.join('\n'), map: null }
+      }
 
-
-
-      if (!id.endsWith(".tsx") && !id.endsWith(".jsx")) return null;
+      if (!id.endsWith('.tsx') && !id.endsWith('.jsx')) return null
 
       try {
         const ast = parse(code, {
-          sourceType: "module",
-          plugins: ["jsx", "typescript"],
-        });
+          sourceType: 'module',
+          plugins: ['jsx', 'typescript'],
+        })
 
         const prefixClasses = (str) => {
           return str
             .split(/\s+/)
             .filter(Boolean)
             .map((c) => (c.startsWith(prefix) ? c : `${prefix}${c}`))
-            .join(" ");
-        };
+            .join(' ')
+        }
 
         traverse.default(ast, {
           // ✅ Handle variables whose name includes "DynamicClassName"
-          
-          JSXAttribute(path) {
-            if (path.node.name.name !== "className") return;
 
-            const value = path.node.value;
+          JSXAttribute(path) {
+            if (path.node.name.name !== 'className') return
+
+            const value = path.node.value
 
             // String literal: className="..."
             if (t.isStringLiteral(value)) {
-              path.node.value = t.stringLiteral(prefixClasses(value.value));
+              path.node.value = t.stringLiteral(prefixClasses(value.value))
             }
             // Template literal: className={`...`}
-            else if (t.isJSXExpressionContainer(value) && t.isTemplateLiteral(value.expression)) {
+            else if (
+              t.isJSXExpressionContainer(value) &&
+              t.isTemplateLiteral(value.expression)
+            ) {
               const quasis = value.expression.quasis.map((quasi, i) => {
-                let classes = prefixClasses(quasi.value.raw);
+                let classes = prefixClasses(quasi.value.raw)
 
-                if (i < value.expression.expressions.length) classes += " ";
-                if (i > 0 && !classes.startsWith(" ")) classes = " " + classes;
+                if (i < value.expression.expressions.length) classes += ' '
+                if (i > 0 && !classes.startsWith(' ')) classes = ' ' + classes
 
-                return t.templateElement({ raw: classes, cooked: classes });
-              });
+                return t.templateElement({ raw: classes, cooked: classes })
+              })
 
               // 🔥 also fix expressions inside ${ ... }
               const expressions = value.expression.expressions.map((expr) => {
                 if (t.isStringLiteral(expr)) {
-                  return t.stringLiteral(prefixClasses(expr.value));
+                  return t.stringLiteral(prefixClasses(expr.value))
                 }
                 if (t.isLogicalExpression(expr)) {
                   if (t.isStringLiteral(expr.right)) {
                     return t.logicalExpression(
                       expr.operator,
                       expr.left,
-                      t.stringLiteral(prefixClasses(expr.right.value))
-                    );
+                      t.stringLiteral(prefixClasses(expr.right.value)),
+                    )
                   }
                 }
                 if (t.isConditionalExpression(expr)) {
                   const newConsequent = t.isStringLiteral(expr.consequent)
                     ? t.stringLiteral(prefixClasses(expr.consequent.value))
-                    : expr.consequent;
+                    : expr.consequent
                   const newAlternate = t.isStringLiteral(expr.alternate)
                     ? t.stringLiteral(prefixClasses(expr.alternate.value))
-                    : expr.alternate;
-                  return t.conditionalExpression(expr.test, newConsequent, newAlternate);
+                    : expr.alternate
+                  return t.conditionalExpression(
+                    expr.test,
+                    newConsequent,
+                    newAlternate,
+                  )
                 }
-                return expr;
-              });
+                return expr
+              })
 
               path.node.value = t.jsxExpressionContainer(
-                t.templateLiteral(quasis, expressions)
-              );
+                t.templateLiteral(quasis, expressions),
+              )
             }
 
             // Other expressions (e.g., clsx())
-            else if (t.isJSXExpressionContainer(value) && t.isCallExpression(value.expression)) {
+            else if (
+              t.isJSXExpressionContainer(value) &&
+              t.isCallExpression(value.expression)
+            ) {
               const args = value.expression.arguments.map((arg) => {
-                if (t.isStringLiteral(arg)) return t.stringLiteral(prefixClasses(arg.value));
-                return arg;
-              });
+                if (t.isStringLiteral(arg))
+                  return t.stringLiteral(prefixClasses(arg.value))
+                return arg
+              })
               path.node.value = t.jsxExpressionContainer(
-                t.callExpression(value.expression.callee, args)
-              );
+                t.callExpression(value.expression.callee, args),
+              )
             }
-
-
           },
-            VariableDeclarator(path) {
-                const id = path.node.id;
-                const init = path.node.init;
-                if (!t.isIdentifier(id)) return;
+          VariableDeclarator(path) {
+            const id = path.node.id
+            const init = path.node.init
+            if (!t.isIdentifier(id)) return
 
-                // 🔹 only affect DynamicClassName variables
-                if (!id.name.includes("DynamicClassName")) return;
-                if (!init) return;
+            // 🔹 only affect DynamicClassName variables
+            if (!id.name.includes('DynamicClassName')) return
+            if (!init) return
 
-                const prefixString = (expr) =>
-                    t.isStringLiteral(expr) ? t.stringLiteral(prefixClasses(expr.value)) : expr;
+            const prefixString = (expr) =>
+              t.isStringLiteral(expr)
+                ? t.stringLiteral(prefixClasses(expr.value))
+                : expr
 
-                const prefixObject = (objExpr) => {
-                    if (!t.isObjectExpression(objExpr)) return objExpr;
-                    objExpr.properties.forEach((prop) => {
-                    if (t.isObjectProperty(prop)) {
-                        if (t.isStringLiteral(prop.value)) {
-                        prop.value = t.stringLiteral(prefixClasses(prop.value.value));
-                        } else if (t.isTemplateLiteral(prop.value)) {
-                        const quasis = prop.value.quasis.map((quasi) => {
-                            const raw = prefixClasses(quasi.value.raw);
-                            return t.templateElement({ raw, cooked: raw });
-                        });
-                        prop.value = t.templateLiteral(quasis, prop.value.expressions);
-                        } else if (t.isObjectExpression(prop.value)) {
-                        prop.value = prefixObject(prop.value); // recurse
-                        } else if (t.isConditionalExpression(prop.value)) {
-                        prop.value = t.conditionalExpression(
-                            prop.value.test,
-                            prefixString(prop.value.consequent),
-                            prefixString(prop.value.alternate)
-                        );
-                        } else if (t.isLogicalExpression(prop.value)) {
-                        const right = t.isStringLiteral(prop.value.right)
-                            ? t.stringLiteral(prefixClasses(prop.value.right.value))
-                            : prop.value.right;
-                        prop.value = t.logicalExpression(prop.value.operator, prop.value.left, right);
-                        }
-                    }
-                    });
-                    return objExpr;
-                };
-
-                if (t.isStringLiteral(init)) {
-                    path.node.init = t.stringLiteral(prefixClasses(init.value));
-                } else if (t.isTemplateLiteral(init)) {
-                    const quasis = init.quasis.map((quasi) => {
-                    const raw = prefixClasses(quasi.value.raw);
-                    return t.templateElement({ raw, cooked: raw });
-                    });
-                    path.node.init = t.templateLiteral(quasis, init.expressions);
-                } else if (t.isObjectExpression(init)) {
-                    path.node.init = prefixObject(init);
-                } else if (t.isConditionalExpression(init)) {
-                    path.node.init = t.conditionalExpression(
-                    init.test,
-                    prefixString(init.consequent),
-                    prefixString(init.alternate)
-                    );
-                } else if (t.isLogicalExpression(init)) {
-                    const right = t.isStringLiteral(init.right)
-                    ? t.stringLiteral(prefixClasses(init.right.value))
-                    : init.right;
-                    path.node.init = t.logicalExpression(init.operator, init.left, right);
+            const prefixObject = (objExpr) => {
+              if (!t.isObjectExpression(objExpr)) return objExpr
+              objExpr.properties.forEach((prop) => {
+                if (t.isObjectProperty(prop)) {
+                  if (t.isStringLiteral(prop.value)) {
+                    prop.value = t.stringLiteral(
+                      prefixClasses(prop.value.value),
+                    )
+                  } else if (t.isTemplateLiteral(prop.value)) {
+                    const quasis = prop.value.quasis.map((quasi) => {
+                      const raw = prefixClasses(quasi.value.raw)
+                      return t.templateElement({ raw, cooked: raw })
+                    })
+                    prop.value = t.templateLiteral(
+                      quasis,
+                      prop.value.expressions,
+                    )
+                  } else if (t.isObjectExpression(prop.value)) {
+                    prop.value = prefixObject(prop.value) // recurse
+                  } else if (t.isConditionalExpression(prop.value)) {
+                    prop.value = t.conditionalExpression(
+                      prop.value.test,
+                      prefixString(prop.value.consequent),
+                      prefixString(prop.value.alternate),
+                    )
+                  } else if (t.isLogicalExpression(prop.value)) {
+                    const right = t.isStringLiteral(prop.value.right)
+                      ? t.stringLiteral(prefixClasses(prop.value.right.value))
+                      : prop.value.right
+                    prop.value = t.logicalExpression(
+                      prop.value.operator,
+                      prop.value.left,
+                      right,
+                    )
+                  }
                 }
+              })
+              return objExpr
             }
-        });
 
-        const output = generate.default(ast, {}, code);
-        return { code: output.code, map: output.map };
+            if (t.isStringLiteral(init)) {
+              path.node.init = t.stringLiteral(prefixClasses(init.value))
+            } else if (t.isTemplateLiteral(init)) {
+              const quasis = init.quasis.map((quasi) => {
+                const raw = prefixClasses(quasi.value.raw)
+                return t.templateElement({ raw, cooked: raw })
+              })
+              path.node.init = t.templateLiteral(quasis, init.expressions)
+            } else if (t.isObjectExpression(init)) {
+              path.node.init = prefixObject(init)
+            } else if (t.isConditionalExpression(init)) {
+              path.node.init = t.conditionalExpression(
+                init.test,
+                prefixString(init.consequent),
+                prefixString(init.alternate),
+              )
+            } else if (t.isLogicalExpression(init)) {
+              const right = t.isStringLiteral(init.right)
+                ? t.stringLiteral(prefixClasses(init.right.value))
+                : init.right
+              path.node.init = t.logicalExpression(
+                init.operator,
+                init.left,
+                right,
+              )
+            }
+          },
+        })
+
+        const output = generate.default(ast, {}, code)
+        return { code: output.code, map: output.map }
       } catch (err) {
-        console.error(`Error transforming file ${id}:`, err);
-        return null;
+        console.error(`Error transforming file ${id}:`, err)
+        return null
       }
     },
-  };
+  }
 }
 
 // final code 2
@@ -463,7 +481,7 @@ export default function TailwindPrefixPlugin(prefix) {
 
 //         traverse.default(ast, {
 //           // ✅ Handle variables whose name includes "DynamicClassName"
-          
+
 //           JSXAttribute(path) {
 //             if (path.node.name.name !== "className") return;
 
@@ -533,7 +551,6 @@ export default function TailwindPrefixPlugin(prefix) {
 //               }
 //             }
 
-
 //             // Other expressions (e.g., clsx())
 //             else if (t.isJSXExpressionContainer(value) && t.isCallExpression(value.expression)) {
 //               const args = value.expression.arguments.map((arg) => {
@@ -545,9 +562,7 @@ export default function TailwindPrefixPlugin(prefix) {
 //               );
 //             }
 
-
 //           },
-
 
 //           VariableDeclarator(path) {
 //             const id = path.node.id;
@@ -603,8 +618,6 @@ export default function TailwindPrefixPlugin(prefix) {
 //     },
 //   };
 // }
-
-
 
 // tailwindPrefixPlugin.js
 // export default function tailwindPrefixPlugin() {
@@ -715,12 +728,10 @@ export default function TailwindPrefixPlugin(prefix) {
 //   };
 // }
 
-
-
 // Handles:
 // ✅ className="..."
-// ✅ className={\...`}with${"foo"}inside 
-// ✅className={cond ? "a" : "b"} 
-// ✅className={cond && "foo"} 
-// ✅className={clsx("foo", cond && "bar")} 
+// ✅ className={\...`}with${"foo"}inside
+// ✅className={cond ? "a" : "b"}
+// ✅className={cond && "foo"}
+// ✅className={clsx("foo", cond && "bar")}
 // ✅const fooDynamicClassName = "..." | {...} | cond ? ... : ...`

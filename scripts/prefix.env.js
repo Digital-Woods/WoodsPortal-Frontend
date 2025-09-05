@@ -1,4 +1,7 @@
+const forcePrefix = false
+
 const isPrefix = (env) => {
-    return env === 'production' ? true : false
+  if (forcePrefix) return true
+  return env === 'production'
 }
-export  default isPrefix
+export default isPrefix
