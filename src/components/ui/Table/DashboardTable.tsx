@@ -290,7 +290,7 @@ export const DashboardTable: any = ({
                   }
                 />
                 {permissions && permissions.association && (
-                  <p className="text-secondary text-base md:text-2xl dark:text-gray-300mt-3">
+                  <p className="text-secondary text-base md:text-2xl dark:text-gray-300 mt-3">
                     {permissions.associationMessage}
                   </p>
                 )}

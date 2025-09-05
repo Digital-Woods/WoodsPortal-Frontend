@@ -85,7 +85,7 @@ export const CheckboxField = ({ editRow, saveData, setValue, name, control, setS
                     handleCheckboxChange(value);
                   }}
                 >
-                  <CloseIcon className="w-4 h-4 text-blue-700" />
+                  <CloseIcon className="w-4 h-4 text-secondary" />
                 </span>
               </span>
             ) : null

@@ -12,7 +12,7 @@ import { getParam, getQueryParamsFromCurrentUrl } from "@/utils/param";
 import { useResponsive } from "@/utils/UseResponsive";
 import { useMutation } from "@tanstack/react-query";
 import { env } from "@/env";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { Dialog } from "./ui/Dialog";
 import { Notes } from "./ui/Notes";
 import { Files } from "./ui/files/Files";
@@ -74,22 +74,17 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     const resetOnResize = () => {
       setUserToggled(false);
     };
-
     window.addEventListener("resize", resetOnResize);
     return () => window.removeEventListener("resize", resetOnResize);
   }, [pathname]);
 
-  const availableTabs: any = [
-    "overview",
-    permissions?.fileManager?.display && "files",
-    permissions?.note?.display && "notes",
-    permissions?.ticket?.display && "tickets",
-  ].filter(Boolean);
-
   const setActiveTabFucntion = (active: any) => {
-    setActiveTab(active);
     setSelectRouteMenuConfig(objectId, active);
   };
+
+  useEffect(() => {
+    setActiveTabFucntion(activeTab);
+  },[activeTab, pathname, objectId])
 
   // Start Cookie RouteMenuConfig
   const setSelectRouteMenuConfig = (key: any, activeTab: any) => {
@@ -109,12 +104,12 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
       routeMenuConfigs.hasOwnProperty(objectId)
     ) {
       const activeTab = routeMenuConfigs[objectId]?.details?.activeTab;
-      setActiveTab((activeTab === 'list' || !activeTab) ? "overview" : activeTab);
+      setActiveTabFucntion((activeTab === 'list' || !activeTab) ? "overview" : activeTab);
     } else {
-      setActiveTab("overview");
+      setActiveTabFucntion("overview");
     }
     getData();
-  }, [pathname]);
+  }, [pathname, activeTab]);
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -165,22 +160,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   });
 
   const getData = () => {
-    // if(preData) {
-    //   setSuccessResponse(preData)
-    // } else {
-    //   getDetails()
-    // }
     getDetails()
   }
-
-  // useEffect(() => {
-  //   let routeMenuConfigs = getRouteMenuConfig();
-  //   if(preData === null && routeMenuConfigs[objectId]?.details?.preData) {
-  //     getPreData()
-  //   } else {
-  //     getData();
-  //   }
-  // }, [preData]);
 
   useEffect(() => {
     if (sync) getData();
@@ -189,13 +170,6 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   const refetchGetData = () => {
     setSync(true);
   }
-
-  // const back = () => {
-  //   let breadcrumbItems =
-  //     JSON.parse(localStorage.getItem("breadcrumbItems")) || [];
-  //   let path = breadcrumbItems[breadcrumbItems.length - 1];
-  //   return path.path;
-  // };
 
   if (error) {
     return (
@@ -262,8 +236,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
               <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
                 <Tabs
                   activeTab={activeTab}
-                  setActiveTab={setActiveTabFucntion}
-                  onValueChange={setActiveTabFucntion}
+                  setActiveTab={setActiveTab}
+                  onValueChange={setActiveTab}
                   className="rounded-md "
                 >
                   <TabsList>
@@ -304,6 +278,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   <TabsContent value="overview"></TabsContent>
                   <TabsContent value="files"></TabsContent>
                   <TabsContent value="notes"></TabsContent>
+                  <TabsContent value="tickets"></TabsContent>
                 </Tabs>
               </div>
               {activeTab === "overview" && (
@@ -441,33 +416,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
             </div>
           </Dialog>
         </div>
-      ) 
-      // : (
-      //   <div>
-      //     <div className=" flex relative bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden md:pt-4 pt-3">
-      //       <div
-      //         className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-      //           } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
-      //       >
-      //         <DetailsSkeleton />
-      //       </div>
-      //       <div
-      //         className={` bg-cleanWhite transition-transform duration-200 ease-in-out 
-      //       lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 
-      //       ${isLargeScreen
-      //             ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 "
-      //             : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform translate-x-full"
-      //           } 
-      //       ${!isLargeScreen && sidebarDetailsOpen ? "translate-x-0" : ""}`}
-      //       >
-      //         <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
-      //           <DetailsSidebarSkeleton />
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      // )
-      }
+      )}
     </div>
   );
 };

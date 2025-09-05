@@ -241,11 +241,11 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                       </FormMessage>
                     )}
                   </FormItem>
-                  <Link to="/forget-password">
-                    <p className="mt-2 mb-0 text-xs dark:text-white text-secondary hover:underline text-end">
-                      Forgot password?
-                    </p>
-                  </Link>
+                  <p className="mt-2 mb-0 text-xs dark:text-white text-secondary hover:underline text-end">
+                    <Link to="/forget-password">
+                        Forgot password?
+                    </Link>
+                  </p>
                   <div className="mt-4 flex flex-col justify-center items-center">
                     <Button className="w-full" isLoading={isLoading}>
                       Login

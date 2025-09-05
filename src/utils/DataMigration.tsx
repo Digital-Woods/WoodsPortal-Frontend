@@ -335,6 +335,18 @@ export const renderCellContent = ({
   urlParam = null
 }: any) => {
   if (column.hidden) return null;
+
+  if (
+  (type === "details" || type === "associations" || type === 'list' || type === 'homeList') &&
+  (column?.fieldType === "booleancheckbox")
+  ) {
+    return (
+      <div className="flex gap-1 relative  justify-between">
+        {value === true || value === 'true' ? 'Yes' : 'No'}
+      </div>
+    )
+  }
+
   if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
     return "--";
   }

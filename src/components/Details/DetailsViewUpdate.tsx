@@ -432,13 +432,66 @@ export const DetailsViewUpdate = ({
     return value;
   };
 
+  // const createValidationSchema = (data: any) => {
+  //   const schemaShape: any = {};
+  //   schemaShape[value.key] = z.string().nonempty({
+  //     message: `${value.label} is required.`,
+  //   });
+  //   return z.object(schemaShape);
+  // };
+
   const createValidationSchema = (data: any) => {
-    const schemaShape: any = {};
-    schemaShape[value.key] = z.string().nonempty({
-      message: `${value.label} is required.`,
-    });
+  const schemaShape: any = {};
+
+    if (!value) return z.object({});
+
+    // Phone number validation (123-456-7890)
+    if (value.key.toLowerCase().includes("phone")) {
+      schemaShape[value.key] = z
+        .string()
+        .regex(
+          /^\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,5}\)?([-.\s]?[0-9]{1,5}){1,4}$/,
+          {
+            message: `${value.label || "Phone number"} must be a valid phone number with optional country code`,
+          }
+        );
+    } 
+    // Domain validation (e.g., digitalwoods.io)
+    else if (value.key.toLowerCase().includes("domain")) {
+      schemaShape[value.key] = z
+        .string()
+        .regex(
+          /^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/,
+          {
+            message: `${value.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
+          }
+        );
+    } else if (value.key.includes("email")) {
+      schemaShape[value.key] = z
+        .string()
+        .email({
+          message: `${value.label || "Email"} must be a valid email address`,
+        });
+    } else if (value.key.toLowerCase().includes("zip") || value.key.toLowerCase().includes("postal")) {
+      schemaShape[value.key] = z
+        .string()
+        .regex(
+          /^[A-Za-z0-9][A-Za-z0-9\s\-]{2,10}$/,
+          {
+            message: `${value.label || "Postal Code"} must be a valid ZIP/Postal code (e.g., 12345, 12345-6789, SW1A 1AA, H0H 0H0, 734426)`,
+          }
+        );
+    }
+    // Default: non-empty string
+    else {
+      schemaShape[value.key] = z.string().nonempty({
+        message: `${value.label || value.key} is required.`,
+      });
+    }
+
     return z.object(schemaShape);
   };
+
   const validationSchema = createValidationSchema(data);
 
   const { mutate: saveData, isLoading } = useMutation({
@@ -594,7 +647,8 @@ export const DetailsViewUpdate = ({
                     <FormItem className="!mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ||
-                        editRow.fieldType === "radio" ? (
+                        editRow.fieldType === "radio" || 
+                        editRow.fieldType === "booleancheckbox" ? (
                           <DetailsViewUpdateDD
                             optionData={editRow}
                             control={control}
@@ -654,6 +708,16 @@ export const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow.value)}
                             {...register(editRow.key)}
                           />
+                        ): editRow.fieldType === "phonenumber" ? (
+                          <Input
+                            type="tel"
+                            placeholder={`Enter ${editRow.label}`}
+                            height="small"
+                            className=""
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                            defaultValue={getValue(editRow.value)}
+                            {...register(editRow.key)}
+                          />
                         ) : (
                           <Input
                             placeholder={`Enter ${editRow.label}`}
@@ -667,7 +731,7 @@ export const DetailsViewUpdate = ({
 
                       {editRow.fieldType != "checkbox" &&
                         errors[editRow.key] && (
-                          <FormMessage className="text-red-600 dark:text-red-400">
+                          <FormMessage className="text-xs text-red-600 dark:text-red-400">
                             {errors[editRow.key]?.message}
                           </FormMessage>
                         )}
