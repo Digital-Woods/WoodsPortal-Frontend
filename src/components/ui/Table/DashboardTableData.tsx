@@ -269,13 +269,11 @@ export const DashboardTableData = ({
                     </div>
                   </TableCell>
                 ))}
-                {parentObjectTypeId && parentObjectRecordId &&
                   <TableCell className={`whitespace-nowrap dark:border-gray-600 text-sm bg-white dark:bg-dark-300 border-b ${activeDisassociatedButton === index ? 'z-[53]' : 'z-[49]'} sticky right-0`}>
                     <div onClick={() => setActiveDisassociatedButton(index)}  className="flex items-center space-x-2 gap-x-5">
                       <DisassociateButton setActiveDisassociatedButton={setActiveDisassociatedButton} componentName={componentName} item={item} apis={apis} parentObjectTypeId={parentObjectTypeId} parentObjectRecordId={parentObjectRecordId} hubspotObjectTypeId={hubspotObjectTypeId} refetch={getData} />
                     </div>
                   </TableCell>
-                }
 
                 {/* {env.DATA_SOURCE_SET === true && (
                       <TableCell className=" whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b">
