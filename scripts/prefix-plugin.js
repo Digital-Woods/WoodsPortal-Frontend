@@ -343,7 +343,24 @@ export default function TailwindPrefixPlugin(prefix) {
                 t.templateLiteral(quasis, expressions),
               )
             }
-            
+
+            // className={condition ? "..." : "..."}
+            else if (
+              t.isJSXExpressionContainer(value) &&
+              t.isConditionalExpression(value.expression)
+            ) {
+              const expr = value.expression
+              const newConsequent = t.isStringLiteral(expr.consequent)
+                ? t.stringLiteral(prefixClasses(expr.consequent.value))
+                : expr.consequent
+              const newAlternate = t.isStringLiteral(expr.alternate)
+                ? t.stringLiteral(prefixClasses(expr.alternate.value))
+                : expr.alternate
+
+              path.node.value = t.jsxExpressionContainer(
+                t.conditionalExpression(expr.test, newConsequent, newAlternate),
+              )
+            }
 
             // Other expressions (e.g., clsx())
             else if (
