@@ -267,7 +267,7 @@ export default function TailwindPrefixPlugin(prefix) {
         return { code: prefixedLines.join('\n'), map: null }
       }
 
-      if (!id.endsWith('.tsx') && !id.endsWith('.jsx')) return null
+      if (!id.endsWith('.tsx') && !id.endsWith('.ts')) return null
 
       try {
         const ast = parse(code, {
@@ -343,6 +343,7 @@ export default function TailwindPrefixPlugin(prefix) {
                 t.templateLiteral(quasis, expressions),
               )
             }
+            
 
             // Other expressions (e.g., clsx())
             else if (
