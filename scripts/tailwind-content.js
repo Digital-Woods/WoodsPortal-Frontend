@@ -12,9 +12,40 @@ function addPrefix(token) {
   return `tw:${token}`
 }
 
+// function prefixStaticClasses(str) {
+//   // Prefix whitespace-separated class tokens (outside ${ ... })
+//   return str.split(/\s+/).filter(Boolean).map(addPrefix).join(' ')
+// }
+
+// ✅ Safe prefixing for static classes
 function prefixStaticClasses(str) {
-  // Prefix whitespace-separated class tokens (outside ${ ... })
-  return str.split(/\s+/).filter(Boolean).map(addPrefix).join(' ')
+  return str
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => {
+      if (!token) return token
+      if (token.startsWith('tw:')) return token
+
+      // ✅ Handle opening arbitrary value like "z-["
+      if (/^[a-z0-9-]+-\[$/i.test(token)) {
+        return `tw:${token}`
+      }
+
+      // ✅ Leave closing bracket "]" untouched
+      if (token === ']') {
+        return token
+      }
+
+      // ✅ Handle complete arbitrary values like "z-[999]" or "top-[50%]"
+      // const match = token.match(/^([a-z0-9-]+(?:\/[a-z0-9-]+)?):?\[(.+)\]$/i)
+      // if (match) {
+      //   const [, key, val] = match
+      //   return `tw:${key}-[${val}]`
+      // }
+
+      return addPrefix(token)
+    })
+    .join(' ')
 }
 
 // Prefix classes inside quoted strings ONLY, e.g. "...${cond ? 'lg:w-[...]' : 'lg:w-[...]'}..."
