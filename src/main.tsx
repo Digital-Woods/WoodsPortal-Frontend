@@ -19,7 +19,6 @@ async function loadCss() {
     return import('./assets/css/main.dev.css')
   }
 }
-import './assets/css/style.css'
 
 // Create a new router instance
 const router = createRouter({
@@ -43,6 +42,7 @@ declare module '@tanstack/react-router' {
 
 async function bootstrap() {
   await loadCss()
+  await import('./assets/css/style.css')
   
   // Render the app
   const rootElement = document.getElementById('app')
