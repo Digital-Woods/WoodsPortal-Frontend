@@ -28,6 +28,8 @@ import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { ItalicIcon } from '@/assets/icons/ItalicIcon';
 import { createRoot } from 'react-dom/client';
 
+const activeDynamicClassName = "note-active-state";
+
 const isItalicMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
   if (empty) {
@@ -66,7 +68,7 @@ const EditorItalicMenu = ({ editorView }: any) => {
       >
         <div
           id="selectedEditorItalic"
-          className={`note-menuitem ${selectedEditorItalic ? "note-active-state" : ""}`}
+          className={`note-menuitem ${selectedEditorItalic ? activeDynamicClassName : ""}`}
         >
           {/* <SvgRenderer svgContent={boldIcon} /> */}
           <ItalicIcon/>
@@ -89,10 +91,10 @@ export const italicItem = new MenuItem2({
   select: (state: any) => {
     const editorListButton = document.querySelector("#selectedEditorItalic");
     if (editorListButton && isItalicMarkActive(state, state.schema.marks.em)) {
-      editorListButton.classList.add("note-active-state");
+      editorListButton.classList.add(activeDynamicClassName);
     } 
     if (editorListButton && !isItalicMarkActive(state, state.schema.marks.em)) {
-      editorListButton.classList.remove("note-active-state");
+      editorListButton.classList.remove(activeDynamicClassName);
     }
     return true;
   },

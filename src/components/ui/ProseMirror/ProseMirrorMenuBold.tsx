@@ -4,6 +4,8 @@ import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { BoldIcon } from '@/assets/icons/BoldIcon';
 import { createRoot } from 'react-dom/client';
 
+const activeDynamicClassName = "note-active-state";
+
 const isBoldMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
   if (empty) {
@@ -42,7 +44,7 @@ const EditorBoldMenu = ({ editorView }: any) => {
       >
         <div
           id="selectedEditorBold"
-          className={`note-menuitem  ${selectedEditorBold ? "note-active-state" : ""}`}
+          className={`note-menuitem  ${selectedEditorBold ? activeDynamicClassName : ""}`}
         >
           {/* <SvgRenderer svgContent={boldIcon} /> */}
           <BoldIcon/>
@@ -65,10 +67,10 @@ export const boldItem = new MenuItem2({
   select: (state: any) => {
     const editorListButton = document.querySelector("#selectedEditorBold");
     if (editorListButton && isBoldMarkActive(state, state.schema.marks.strong)) {
-      editorListButton.classList.add("note-active-state");
+      editorListButton.classList.add(activeDynamicClassName);
     } 
     if (editorListButton && !isBoldMarkActive(state, state.schema.marks.strong)) {
-      editorListButton.classList.remove("note-active-state");
+      editorListButton.classList.remove(activeDynamicClassName);
     }
     return true;
   },

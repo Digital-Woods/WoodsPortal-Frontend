@@ -4,6 +4,8 @@ import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
+const activeDynamicClassName = "note-active-state";
+
 const textFonts: any = [
   {
     label: "Sans Serif",
@@ -235,13 +237,13 @@ export const fontMenuItem = new MenuItem2({
       div.textContent = font.label; // Change text content
       document
         .getElementById("defaultEditorFont")
-        ?.classList.add("note-active-state");
+        ?.classList.add(activeDynamicClassName);
     }
     if (div && !selectedEditorFont) {
       div.textContent = "Sans Serif"; // Change text content
       document
         .getElementById("defaultEditorFont")
-        ?.classList.remove("note-active-state");
+        ?.classList.remove(activeDynamicClassName);
     }
     return activeFont !== null;
   },

@@ -228,48 +228,97 @@ export default function TailwindPrefixPlugin(prefix) {
       //     return { code: prefixedLines.join("\n"), map: null };
       // }
 
+      // if (id.endsWith('.css')) {
+
+      //   //don't need to add prefix to override.style.css
+      //   if(id.endsWith('override.style.css')) return code;
+
+      //   const prefix2 = 'tw\\:'
+
+      //   const lines = code.split('\n')
+      //   let braceDepth = 0
+
+      //   const prefixedLines = lines.map((line) => {
+      //     // Count { and } to track depth
+      //     const openBraces = (line.match(/{/g) || []).length
+      //     const closeBraces = (line.match(/}/g) || []).length
+
+      //     // Only prefix selectors at top-level (braceDepth === 0)
+      //     let newLine = line
+      //     if (braceDepth === 0 && line.includes('{')) {
+      //       const braceIndex = line.indexOf('{')
+      //       const selector = line.slice(0, braceIndex)
+      //       const rest = line.slice(braceIndex)
+
+      //       const prefixedSelector = selector.replace(
+      //         /(\.)([a-zA-Z0-9_-]+)/g,
+      //         (match, dot, cls) => {
+      //           if (cls.startsWith('tw:') || cls.startsWith('tw\\'))
+      //             return match // already prefixed
+      //           return `${dot}${prefix2}${cls}`
+      //         },
+      //       )
+
+      //       newLine = prefixedSelector + rest
+      //     }
+
+      //     // Update brace depth after processing line
+      //     braceDepth += openBraces - closeBraces
+
+      //     return newLine
+      //   })
+
+      //   return { code: prefixedLines.join('\n'), map: null }
+      // }
+
+
       if (id.endsWith('.css')) {
 
-        //don't need to add prefix to override.style.css
-        if(id.endsWith('override.style.css')) return code;
+  // don't need to add prefix to override.style.css
+  if (id.endsWith('override.style.css')) return code;
 
-        const prefix2 = 'tw\\:'
+  const prefix2 = 'tw\\:'
 
-        const lines = code.split('\n')
-        let braceDepth = 0
+  const lines = code.split('\n')
+  let braceDepth = 0
 
-        const prefixedLines = lines.map((line) => {
-          // Count { and } to track depth
-          const openBraces = (line.match(/{/g) || []).length
-          const closeBraces = (line.match(/}/g) || []).length
+  const prefixedLines = lines.map((line) => {
+    // Count { and } to track depth
+    const openBraces = (line.match(/{/g) || []).length
+    const closeBraces = (line.match(/}/g) || []).length
 
-          // Only prefix selectors at top-level (braceDepth === 0)
-          let newLine = line
-          if (braceDepth === 0 && line.includes('{')) {
-            const braceIndex = line.indexOf('{')
-            const selector = line.slice(0, braceIndex)
-            const rest = line.slice(braceIndex)
+    let newLine = line
+    if (braceDepth === 0 && line.includes('{')) {
+      const braceIndex = line.indexOf('{')
+      const selector = line.slice(0, braceIndex)
+      const rest = line.slice(braceIndex)
 
-            const prefixedSelector = selector.replace(
-              /(\.)([a-zA-Z0-9_-]+)/g,
-              (match, dot, cls) => {
-                if (cls.startsWith('tw:') || cls.startsWith('tw\\'))
-                  return match // already prefixed
-                return `${dot}${prefix2}${cls}`
-              },
-            )
-
-            newLine = prefixedSelector + rest
+      const prefixedSelector = selector.replace(
+        /(\.)([a-zA-Z0-9_-]+)/g,
+        (match, dot, cls) => {
+          // ✅ Skip ProseMirror-related, EditorView-related classes
+          if (
+            cls.startsWith('ProseMirror') ||
+            cls.startsWith('EditorView') ||
+            cls.startsWith('tw:') ||
+            cls.startsWith('tw\\')
+          ) {
+            return match
           }
+          return `${dot}${prefix2}${cls}`
+        },
+      )
 
-          // Update brace depth after processing line
-          braceDepth += openBraces - closeBraces
+      newLine = prefixedSelector + rest
+    }
 
-          return newLine
-        })
+    braceDepth += openBraces - closeBraces
+    return newLine
+  })
 
-        return { code: prefixedLines.join('\n'), map: null }
-      }
+  return { code: prefixedLines.join('\n'), map: null }
+}
+
 
       if (!id.endsWith('.tsx') && !id.endsWith('.ts')) return null
 

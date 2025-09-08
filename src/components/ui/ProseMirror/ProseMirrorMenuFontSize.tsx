@@ -4,6 +4,8 @@ import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
+const activeDynamicClassName = "note-active-state";
+
 const textFontSizes = [
   {
     label: "8",
@@ -251,13 +253,13 @@ export const fontSizeMenuItem = new MenuItem2({
       div.textContent = fontSize?.label; // Change text content
       document
         .getElementById("defaultEditorFontSize")
-        ?.classList.add("note-active-state");
+        ?.classList.add(activeDynamicClassName);
     }
     if (div && !selectedEditorFontSize) {
       div.textContent = "12"; // Change text content
       document
         .getElementById("defaultEditorFontSize")
-        ?.classList.remove("note-active-state");
+        ?.classList.remove(activeDynamicClassName);
     }
     return activeFont !== null;
   },
