@@ -229,6 +229,10 @@ export default function TailwindPrefixPlugin(prefix) {
       // }
 
       if (id.endsWith('.css')) {
+
+        //don't need to add prefix to override.style.css
+        if(id.endsWith('override.style.css')) return code;
+
         const prefix2 = 'tw\\:'
 
         const lines = code.split('\n')

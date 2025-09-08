@@ -43,6 +43,7 @@ declare module '@tanstack/react-router' {
 async function bootstrap() {
   await loadCss()
   await import('./assets/css/style.css')
+  await import('./assets/css/override.style.css')
   
   // Render the app
   const rootElement = document.getElementById('app')
