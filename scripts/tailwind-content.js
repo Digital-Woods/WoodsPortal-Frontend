@@ -36,19 +36,36 @@ function prefixClassesInCode(code) {
   code = code.replace(/className\s*=\s*{\s*`([\s\S]*?)`\s*}/g, (_, tplBody) => {
     const parts = tplBody.split(/(\$\{[\s\S]*?\})/g)
 
-    const rebuilt = parts
-      .map((part) => {
-        if (part.startsWith('${')) {
-          return part.replace(
-            /^\$\{([\s\S]*?)\}$/,
-            (_m, inner) => '${' + prefixQuotedStringsInExpression(inner) + '}',
-          )
-        }
-        return prefixStaticClasses(part)
-      })
-      .join('')
+    // const rebuilt = parts
+    //   .map((part) => {
+    //     if (part.startsWith('${')) {
+    //       return part.replace(
+    //         /^\$\{([\s\S]*?)\}$/,
+    //         (_m, inner) => '${' + prefixQuotedStringsInExpression(inner) + '}',
+    //       )
+    //     }
+    //     return prefixStaticClasses(part)
+    //   })
+    //   .join('')
+    
 
-    return `className={\`${rebuilt}\`}`
+      // return `className={\`${rebuilt}\`}`
+      const rebuilt = parts
+        .map((part, i) => {
+          if (part.startsWith('${')) {
+            // normalize: always prefix with one space
+            return ' ' + part.replace(
+              /^\$\{([\s\S]*?)\}$/,
+              (_m, inner) => '${' + prefixQuotedStringsInExpression(inner) + '}',
+            )
+          }
+          // static classes
+          return prefixStaticClasses(part).trim()
+        })
+        .join(' ')
+        .replace(/\s+/g, ' ') // collapse multiple spaces
+
+      return `className={\`${rebuilt.trim()}\`}`
   })
 
   // 3) Ternary expressions: className={cond ? "..." : "..."}
