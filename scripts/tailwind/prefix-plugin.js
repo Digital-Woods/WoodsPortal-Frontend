@@ -2,8 +2,12 @@ import { parse } from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import generate from '@babel/generator'
+import { prefix } from './prefix.env.js'
 
-export default function TailwindPrefixPlugin(prefix) {
+const prefix1 = `${prefix}:`
+const prefix2 = `${prefix}\\:`
+
+export default function TailwindPrefixPlugin() {
   return {
     name: 'vite-tailwind-prefix',
     enforce: 'pre',
@@ -13,7 +17,6 @@ export default function TailwindPrefixPlugin(prefix) {
         // don't need to add prefix to override.style.css
         if (id.endsWith('override.style.css')) return code;
 
-        const prefix2 = 'tw\\:'
 
         const lines = code.split('\n')
         let braceDepth = 0
@@ -36,8 +39,8 @@ export default function TailwindPrefixPlugin(prefix) {
                 if (
                   cls.startsWith('ProseMirror') ||
                   cls.startsWith('EditorView') ||
-                  cls.startsWith('tw:') ||
-                  cls.startsWith('tw\\')
+                  cls.startsWith(prefix1) ||
+                  cls.startsWith(prefix2)
                 ) {
                   return match
                 }
@@ -68,7 +71,7 @@ export default function TailwindPrefixPlugin(prefix) {
           return str
             .split(/\s+/)
             .filter(Boolean)
-            .map((c) => (c.startsWith(prefix) ? c : `${prefix}${c}`))
+            .map((c) => (c.startsWith(prefix1) ? c : `${prefix1}${c}`))
             .join(' ')
         }
 
