@@ -432,28 +432,6 @@ form {
 
 
 
-/* Table cells */
-
-
-th {
-  padding: 8px 24px 8px 24px;
-  color: #33475b;
-}
-
-/* Table header */
-
-thead th {
-  background-color: #F5F8FA;
-  color: #525259;
-}
-
-/* Table footer */
-
-tfoot td {
-  background-color: #F5F8FA;
-  color: #525259;
-}
-
 .rotate {
   animation: rotation infinite 3s linear;
 }
