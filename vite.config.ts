@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
           assetFileNames: 'module.css',
         },
       },
-      minify: false,
+      minify: true,
     },
   }
 })
