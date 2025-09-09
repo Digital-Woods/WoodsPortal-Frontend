@@ -281,12 +281,3 @@ const Dashboard = () => {
 
 export default Dashboard
 
-// export const Route = createFileRoute('/dashboard')({
-//   component: Dashboard,
-//   beforeLoad: () => {
-//     return {
-//       layout: "MainLayout",
-//       requiresAuth: true,
-//     }
-//   },
-// })
