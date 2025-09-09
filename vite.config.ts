@@ -4,10 +4,10 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import { resolve } from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 
-import tailwindPrefixPlugin from './scripts/prefix-plugin.js'
-import TailwindContentPlugin from './scripts/tailwind-content-plugin.js'
+import tailwindPrefixPlugin from './scripts/tailwind/prefix-plugin.js'
+import TailwindContentPlugin from './scripts/tailwind/tailwind-content-plugin.js'
 
-import isPrefix from './scripts/prefix.env.js'
+import isPrefix from './scripts/tailwind/prefix.env.js'
 
 export default defineConfig(({ mode }) => {
   return {
