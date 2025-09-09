@@ -5,7 +5,7 @@ import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 import { useEffect } from 'react';
-import Dashboard from '../dashboard';
+import Dashboard from '../../components/ui/dashboard/dashboard';
 
 const ListComponent = () => {
   const { listComponent: path } = Route.useParams();

@@ -1,17 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react';
-import { PreLogin } from '@/routes/_auth/PreLogin';
-import { FinalLogin } from '@/routes/_auth/FinalLogin';
-import { ExistingUserRegister } from '@/routes/_auth/ExistingUserRegister';
-// import { hubId } from '@/data/hubSpotData';
+import { FinalLogin } from '@/components/ui/auth/FinalLogin';
+import { PreLogin } from '@/components/ui/auth/PreLogin';
+import { ExistingUserRegister } from '@/components/ui/auth/ExistingUserRegister';
 
 const Login = () => {
   const [activeState, setActiveState] = useState("pre-login");
   const [entredEmail, setEntredEmail] = useState("");
   const [loginData, setloginData] = useState([]);
   const clientSiteUrl = window.location.origin;
-
-  // console.log("hubId", hubId)
 
   return (
     <div>
