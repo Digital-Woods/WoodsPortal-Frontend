@@ -160,8 +160,6 @@ function prefixClassesInCode(code) {
   return code
 }
 
-// const srcFiles = ['.././src/routes/_auth/PreLogin.tsx', '.././src/routes/_auth/FinalLogin.tsx']; // your entry points
-
 // 🔥 helper: recursively collect all `.tsx` files under src
 function getAllTsxFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir)

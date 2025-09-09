@@ -13,15 +13,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       TanStackRouterVite({ autoCodeSplitting: true }),
-      // viteReact({
-      //   babel: {
-      //     plugins: [tailwindPrefix],
-      //   },
-      // }),
       viteReact(),
-      // tailwindcss({
-      //   content: ['./testfiles/tailwind-classes.tsx'],
-      // }),
       tailwindcss(),
       ...(isPrefix(mode)
         ? [tailwindPrefixPlugin('tw:'), TailwindContentPlugin()]
@@ -52,7 +44,7 @@ export default defineConfig(({ mode }) => {
           assetFileNames: 'module.css',
         },
       },
-      minify: true,
+      minify: false,
     },
   }
 })
