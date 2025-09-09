@@ -152,12 +152,12 @@ const Dashboard = () => {
                 const isOdd = dashboardCards.length % 2 !== 0;
                 const isOnly = dashboardCards.length === 1;
 
-                const colSpan = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
+                const colSpanDynamicClassName = (isOnly || (isLast && isOdd)) ? 'col-span-12' : 'md:col-span-6 col-span-12';
 
                 return (
                   <div
                     key={index}
-                    className={`${ homeCardsView != 'list' ? colSpan : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
+                    className={`${ homeCardsView != 'list' ? colSpanDynamicClassName : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
                       ${moduleStylesOptions.homeTabStyles.overlayer.color != '' ? `bg-[var(--home-tab-overlayer-color)]`:'bg-[var(--banner-overlayer-color)]'} dark:bg-dark-300 relative`}
                   >
                     <div

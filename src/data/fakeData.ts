@@ -41,7 +41,9 @@
 //   statusMsg: "Record(s) has been successfully retrieved.",
 // };
 
+const fakeDataDynamicClassName = "inline-block font-semibold"
+
 export const bulletPointData = [
-  '<span class="inline-block font-semibold">Refresh Data:</span> Click the ‘Clear Cache’ button to update system data. This may fix issues with visibility of new records or associations.',
-  '<span class="inline-block font-semibold">Check Associations:</span> Ensure the necessary associations are correctly created for this operation.',
+  `<span class="${fakeDataDynamicClassName}">Refresh Data:</span> Click the ‘Clear Cache’ button to update system data. This may fix issues with visibility of new records or associations.`,
+  `<span class="${fakeDataDynamicClassName}">Check Associations:</span> Ensure the necessary associations are correctly created for this operation.`,
 ];

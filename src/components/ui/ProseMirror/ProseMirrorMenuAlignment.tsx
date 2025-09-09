@@ -5,6 +5,8 @@ import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } fr
 import { SvgRenderer } from '@/utils/SvgRenderer';
 import { createRoot } from 'react-dom/client';
 
+const activeDynamicClassName = "note-active-state";
+
 const alignments = [
   {
     label: "Left",
@@ -205,21 +207,21 @@ export const alignmentDropdown = new MenuItem2({
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
       document
         .getElementById("defaultEditorAlignment")
-        ?.classList.add("note-active-state");
+        ?.classList.add(activeDynamicClassName);
       defaultEditorAlignment = alignments[0];
     }
     if (isAlignmentCenter && editorListButton) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z"/></svg>`;
       document
         .getElementById("defaultEditorAlignment")
-        ?.classList.add("note-active-state");
+        ?.classList.add(activeDynamicClassName);
       defaultEditorAlignment = alignments[1];
     }
     if (isAlignmentRight && editorListButton) {
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#5f6368"><path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z"/></svg>`;
       document
         .getElementById("defaultEditorAlignment")
-        ?.classList.add("note-active-state");
+        ?.classList.add(activeDynamicClassName);
       defaultEditorAlignment = alignments[2];
     }
     if (
@@ -231,7 +233,7 @@ export const alignmentDropdown = new MenuItem2({
       editorListButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="15px" fill="#5f6368"><path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z"/></svg>`;
       document
         .getElementById("defaultEditorAlignment")
-        ?.classList.remove("note-active-state");
+        ?.classList.remove(activeDynamicClassName);
       defaultEditorAlignment = "";
     }
     return true;

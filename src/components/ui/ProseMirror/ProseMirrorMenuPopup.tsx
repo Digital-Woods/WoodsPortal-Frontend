@@ -63,18 +63,18 @@ export const ProseMirrorMenuButton = ({
   children,
   toggleDropdown,
 }: any) => {
-  const classes = {
+  const classesDynamicClassName = {
     root: "ProseMirror-icon",
   };
 
-  const variantClasses: any = {
+  const variantDynamicClassName: any = {
     default: "",
     outline: "border",
   };
 
   const classesName: any = classNames(
-    classes.root, // Base classes
-    variantClasses[variant] // Dynamic variant classes
+    classesDynamicClassName.root, // Base classes
+    variantDynamicClassName[variant] // Dynamic variant classes
   );
 
   return (

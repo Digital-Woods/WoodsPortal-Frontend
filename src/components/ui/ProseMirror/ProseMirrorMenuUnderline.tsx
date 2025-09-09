@@ -29,6 +29,8 @@ import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { UnderlineIcon } from '@/assets/icons/UnderlineIcon';
 import { createRoot } from 'react-dom/client';
 
+const activeDynamicClassName = "note-active-state";
+
 const isUnderlineMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
   if (empty) {
@@ -67,7 +69,7 @@ const EditorUnderlineMenu = ({ editorView }: any) => {
       >
         <div
           id="selectedEditorUnderline"
-          className={`note-menuitem ${selectedEditorUnderline ? "note-active-state" : ""}`}
+          className={`note-menuitem ${selectedEditorUnderline ? activeDynamicClassName : ""}`}
         >
           {/* <SvgRenderer svgContent={boldIcon} /> */}
           <UnderlineIcon/>
@@ -90,10 +92,10 @@ export const underlineMenuItem = new MenuItem2({
   select: (state: any) => {
     const editorListButton = document.querySelector("#selectedEditorUnderline");
     if (editorListButton && isUnderlineMarkActive(state, state.schema.marks.underline)) {
-      editorListButton.classList.add("note-active-state");
+      editorListButton.classList.add(activeDynamicClassName);
     } 
     if (editorListButton && !isUnderlineMarkActive(state, state.schema.marks.underline)) {
-      editorListButton.classList.remove("note-active-state");
+      editorListButton.classList.remove(activeDynamicClassName);
     }
     return true;
   },

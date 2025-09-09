@@ -7,8 +7,18 @@ import * as TanStackQueryProvider from './integrations/tanstack-query/root-provi
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
-import './assets/css/main.css'
+// import './assets/css/main.css'
 import reportWebVitals from './reportWebVitals.ts'
+
+import isPrefix from '../scripts/tailwind/prefix.env.js'
+// ✅ wait for CSS before continuing
+async function loadCss() {
+  if (isPrefix(import.meta.env.MODE)) {
+    return import('./assets/css/main.prod.css')
+  } else {
+    return import('./assets/css/main.dev.css')
+  }
+}
 
 // Create a new router instance
 const router = createRouter({
@@ -30,20 +40,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
-// Render the app
-const rootElement = document.getElementById('app')
-if (rootElement && !rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
-    <StrictMode>
-      <TanStackQueryProvider.Provider>
-        <RouterProvider router={router} />
-      </TanStackQueryProvider.Provider>
-    </StrictMode>,
-  )
+async function bootstrap() {
+  await loadCss()
+  await import('./assets/css/style.css')
+  await import('./assets/css/override.style.css')
+  
+  // Render the app
+  const rootElement = document.getElementById('app')
+  if (rootElement && !rootElement.innerHTML) {
+    const root = ReactDOM.createRoot(rootElement)
+    root.render(
+      <StrictMode>
+        <TanStackQueryProvider.Provider>
+          <RouterProvider router={router} />
+        </TanStackQueryProvider.Provider>
+      </StrictMode>,
+    )
+  }
+
+  // If you want to start measuring performance in your app, pass a function
+  // to log results (for example: reportWebVitals(console.log))
+  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  reportWebVitals()
+
 }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
+bootstrap()

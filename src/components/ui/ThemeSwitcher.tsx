@@ -20,6 +20,7 @@ export const ThemeSwitcher = () => {
   });
 
   useEffect(() => {
+    console.log('theme', theme)
     switch (theme) {
       case "dark":
         document.documentElement.classList.add("dark");
@@ -43,7 +44,7 @@ export const ThemeSwitcher = () => {
         className="text-[var(--sidebar-text-color)] dark:text-white p-3 text-center cursor-pointer"
         onClick={() => toggleTheme()}
       >
-        <span className={theme === "dark" ? "hidden" : "block"}>
+        {theme != "dark" ?
           <svg
             viewBox="0 0 20 20"
             fill="none"
@@ -87,8 +88,7 @@ export const ThemeSwitcher = () => {
               fill="currentColor"
             />
           </svg>
-        </span>
-        <span className={theme === "dark" ? "block" : "hidden"}>
+          :
           <svg
             viewBox="0 0 20 20"
             fill="none"
@@ -100,7 +100,7 @@ export const ThemeSwitcher = () => {
               fill="currentColor"
             />
           </svg>
-        </span>
+        }
       </div>
     </Tooltip>
   );

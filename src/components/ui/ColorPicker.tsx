@@ -130,11 +130,11 @@ const colors = [
           <div
             style={{ "backgroundColor": color }}
             key={index}
-            className={twMerge(
+            className={
               classNames(
                 'w-5 h-5 rounded shadow-md cursor-pointer border border-gray-300',
               )
-            )}
+            }
             title={color}
             onClick={() => onColorChange(color, false)}
           ></div>
