@@ -10,7 +10,7 @@ import { routeTree } from './routeTree.gen'
 // import './assets/css/main.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import isPrefix from '../scripts/prefix.env.js'
+import isPrefix from '../scripts/tailwind/prefix.env.js'
 // ✅ wait for CSS before continuing
 async function loadCss() {
   if (isPrefix(import.meta.env.MODE)) {
