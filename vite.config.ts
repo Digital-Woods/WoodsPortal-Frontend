@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       viteReact(),
       tailwindcss(),
       ...(isPrefix(mode)
-        ? [tailwindPrefixPlugin('tw:'), TailwindContentPlugin()]
+        ? [tailwindPrefixPlugin(), TailwindContentPlugin()]
         : []), // ✅ only in prod
     ],
     resolve: {

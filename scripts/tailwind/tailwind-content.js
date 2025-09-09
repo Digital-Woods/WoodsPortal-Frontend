@@ -1,5 +1,8 @@
 import fs from 'fs'
 import path from 'path'
+import { prefix } from './prefix.env.js'
+
+const prefix1 = `${prefix}:`
 
 const srcDir = path.resolve('./src')
 const tempDir = path.resolve('./.temp')
@@ -8,8 +11,8 @@ if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true })
 
 function addPrefix(token) {
   if (!token) return token
-  if (token.startsWith('tw:')) return token
-  return `tw:${token}`
+  if (token.startsWith(prefix1)) return token
+  return `${prefix1}${token}`
 }
 
 // function prefixStaticClasses(str) {
@@ -24,11 +27,11 @@ function prefixStaticClasses(str) {
     .filter(Boolean)
     .map((token) => {
       if (!token) return token
-      if (token.startsWith('tw:')) return token
+      if (token.startsWith(prefix1)) return token
 
       // ✅ Handle opening arbitrary value like "z-["
       if (/^[a-z0-9-]+-\[$/i.test(token)) {
-        return `tw:${token}`
+        return `${prefix1}${token}`
       }
 
       // ✅ Leave closing bracket "]" untouched
@@ -40,7 +43,7 @@ function prefixStaticClasses(str) {
       // const match = token.match(/^([a-z0-9-]+(?:\/[a-z0-9-]+)?):?\[(.+)\]$/i)
       // if (match) {
       //   const [, key, val] = match
-      //   return `tw:${key}-[${val}]`
+      //   return `${prefix1}${key}-[${val}]`
       // }
 
       return addPrefix(token)

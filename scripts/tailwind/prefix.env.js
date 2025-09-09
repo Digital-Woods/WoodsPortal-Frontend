@@ -1,6 +1,6 @@
 const forcePrefix = null // true, false, or null to auto-detect
 
-export const prefix = 'tw'
+export const prefix = 'dw'
 
 const isPrefix = (env) => {
   if (forcePrefix != null) return forcePrefix
