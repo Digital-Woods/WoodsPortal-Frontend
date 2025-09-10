@@ -23,6 +23,10 @@
   color: #fdfdfd !important;
 }
 
+table th{
+  padding: .75rem 1rem;
+}
+
 form {
   margin: 0;
 }
