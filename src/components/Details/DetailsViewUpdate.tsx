@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import z from "zod";
 import { Button } from "../ui/Button";
 import { CheckboxField } from "../ui/checkboxes/MultipleCheckBox";
-import { DateTimeInput } from "../ui/DateTime/DateTimeInput";
+import { DateTimeInput } from "../ui/DateTime/DateTimeInput.tsx";
 import { Dialog } from "../ui/Dialog";
 import { Form, FormItem, FormLabel, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
 import { Select } from "../ui/Select";

@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { env } from "@/env";
 import { useState, useEffect } from "react";
 import { Button } from "../Button";
-import { DateTimeInput } from "../DateTime/DateTimeInput";
+import { DateTimeInput } from "../DateTime/DateTimeInput.tsx";
 import { Dialog } from "../Dialog";
 import { Form, FormItem, FormLabel, FormControl, Textarea, FormMessage, Input } from "../Form";
 import { Select } from "../Select";
