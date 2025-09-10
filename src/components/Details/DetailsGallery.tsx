@@ -7,7 +7,8 @@ export const DetailsGallery = ({ images, setGalleryDialog }: any) => {
           index === 2 ? (
             <div
               key={index}
-              className={`relative items-center overflow-hidden bg-[url('${url}')] bg-no-repeat bg-center bg-cover cursor-pointer`}
+              style={{ backgroundImage: `url(${url})` }}
+              className={`relative items-center overflow-hidden bg-no-repeat bg-center bg-cover cursor-pointer`}
               onClick={() => setGalleryDialog(true)}
             >
               <div className="absolute inset-0 bg-black opacity-40"></div>
