@@ -1,16 +1,22 @@
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 export const setCookie = (key: any, value: any) => {
-    return Cookie.set(key, value, {
+    return Cookies.set(key, value, {
         sameSite: 'none',
         secure: true,
     });
 }
 
 export const getCookie: any = (key: any) => {
-    return Cookie.get(key);
+    return Cookies.get(key);
 }
 
 export const removeCookie = (key: any) => {
-    return Cookie.remove(key);
+    return Cookies.remove(key);
+}
+
+export const removeAllCookie = () => {
+    Object.keys(Cookies.get()).forEach((cookieName) => {
+        Cookies.remove(cookieName);
+    });
 }
