@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { env } from "@/env";
-// import type { SearchParamOptions } from '@/types';
+import { getCookie, removeAllCookie } from '@/utils/cookie';
+import { Routes } from '@/config/routes';
 
 
 const VITE_PUBLIC_REST_API_ENDPOINT =
@@ -18,7 +18,7 @@ const Axios = axios.create({
 // Change request data/error
 const AUTH_TOKEN_KEY = env.VITE_AUTH_TOKEN_KEY ?? 'authToken';
 Axios.interceptors.request.use((config: any) => {
-  const cookies = Cookies.get(AUTH_TOKEN_KEY);
+  const cookies = getCookie(AUTH_TOKEN_KEY);
   let token = cookies;
   // if (cookies) {
   //   token = JSON.parse(cookies)['token'];
@@ -33,18 +33,13 @@ Axios.interceptors.request.use((config: any) => {
 Axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    // if (
-    //   (error.response && error.response.status === 401)
-    // ) {
-    //   Cookies.remove(AUTH_CRED);
-    //   Cookies.remove(LOGIN_DETAILS);
-    //   Cookies.remove(EMAIL_VERIFIED);
-    //   Cookies.remove(HUB_ID);
-    //   Cookies.remove(PORTAL_ID);
-    //   Cookies.remove(TWO_FA);
-    //   localStorage.clear();
-    //   window.location.replace(Routes.login);
-    // }
+    if (
+      (error.response && error.response.status === 401)
+    ) {
+      removeAllCookie();
+      localStorage.clear();
+      window.location.replace(Routes.login);
+    }
     return Promise.reject(error);
   },
 );
