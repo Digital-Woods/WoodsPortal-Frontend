@@ -2,12 +2,23 @@ import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from '@/data/client/http-client';
 import { generateApiUrl } from '@/utils/generateApiUrl';
 import { hubId } from '@/data/hubSpotData'
+import { env } from "@/env";
 
 export const Client = {
   authentication : {
     preLogin: (data: any) => HttpClient.post(API_ENDPOINTS.PRE_LOGIN, data),
     // login: (data: any) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
-    login: (data: any, hub_id: any) => HttpClient.post(`${API_ENDPOINTS.USERS_LOGIN}?portal=portal_client&hubId=${hub_id}`, data),
+    // login: (data: any, hub_id: any) => HttpClient.post(`${API_ENDPOINTS.USERS_LOGIN}?hubId=${hub_id}`, data),
+    login: (data: any, hub_id: any) =>
+    HttpClient.post(
+      `${API_ENDPOINTS.USERS_LOGIN}?hubId=${hub_id}`,
+      data,
+      env?.VITE_DEV_PORTAL_ID &&{
+        headers: {
+          'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID,
+        },
+      }
+    ),
     existingUserRegister: (data: any) => HttpClient.post(API_ENDPOINTS.EXISTING_USER_REGISTER, data),
     verifyEmail: (data: any) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL, data),
     verifyOtp: (data: any) => HttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),
@@ -37,8 +48,8 @@ export const Client = {
   },
 
   users : {
-    me: (hub_id: any) => {
-      const GET_PROFILE_DETAILS = `${API_ENDPOINTS.GET_PROFILE_DETAILS}?portal=portal_client&hubId=${hub_id}`
+    me: () => {
+      const GET_PROFILE_DETAILS = `${API_ENDPOINTS.GET_PROFILE_DETAILS}`
       return HttpClient.get(GET_PROFILE_DETAILS)
     },
   },

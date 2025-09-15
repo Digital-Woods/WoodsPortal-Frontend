@@ -34,7 +34,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
     },
     onSuccess: async (data: any) => {
       setEntredEmail(data.data.email)
-      setloginData(data?.data)
+      // setloginData(data?.data)
       if (data.data.activeStatus === "ACTIVE" && data.data.emailVerified === true) {
         // window.location.hash = "/login";
         setActiveState('final-login')

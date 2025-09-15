@@ -10,6 +10,8 @@ import { routeTree } from './routeTree.gen'
 // import './assets/css/main.css'
 import reportWebVitals from './reportWebVitals.ts'
 
+import { initAuthBootstrap } from '@/data/client/http-client'
+
 import isPrefix from '../scripts/tailwind/prefix.env.js'
 // ✅ wait for CSS before continuing
 async function loadCss() {
@@ -40,7 +42,14 @@ declare module '@tanstack/react-router' {
   }
 }
 
+const setupRefreshToken = async () => {
+  try {
+    await initAuthBootstrap()
+  } catch {}
+}
+
 async function bootstrap() {
+  await setupRefreshToken()
   await loadCss()
   await import('./assets/css/style.css')
   await import('./assets/css/override.style.css')

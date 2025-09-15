@@ -6,13 +6,16 @@ import {
 } from '@/data/client/auth-utils';
 import Loader from '@/components/ui/loader/loader';
 import { Routes } from '@/config/routes';
+import { isAuthenticateApp } from '@/data/client/token-store';
 
 const PrivateRoute: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
   const router = useRouter();
-  const token = getAuthCredentials();
-  const isUser = !!token;
+  // const token = getAuthCredentials();
+  // const isUser = !!token;
+
+  const isUser = isAuthenticateApp();
 
   React.useEffect((): any => {
     if (!isUser) {
@@ -20,7 +23,7 @@ const PrivateRoute: React.FC<{
     }
   }, [isUser]);
 
-  if (isAuthenticated()) {
+  if (isUser) {
     return <>{children}</>;
   }
 

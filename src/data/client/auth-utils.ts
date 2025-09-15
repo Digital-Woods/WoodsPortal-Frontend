@@ -1,10 +1,19 @@
 import { env } from "@/env";
 import { setCookie, getCookie, removeCookie } from "@/utils/cookie";
+import { setAccessToken } from "./token-store";
 
 // Set
-export const setAuthCredentials = async (data: any) => {
+export const setRefreshToken = async (token: string, expiresInSeconds?: number) => {
   return new Promise((resolve: any) => {
-    setCookie(env.VITE_AUTH_TOKEN_KEY, JSON.stringify(data));
+    setCookie(env.VITE_REFRESH_TOKEN, JSON.stringify(token), expiresInSeconds);
+    resolve();
+  });
+};
+
+export const setAuthCredentials = async (token: string, expiresInSeconds?: number) => {
+  return new Promise((resolve: any) => {
+    // setCookie(env.VITE_AUTH_TOKEN_KEY, JSON.stringify(token), expiresInSeconds);
+    setAccessToken(token, expiresInSeconds);
     resolve();
   });
 };
@@ -12,6 +21,7 @@ export const setAuthCredentials = async (data: any) => {
 export const setLoggedInDetails = async (data: any) => {
   return new Promise((resolve: any) => {
     setCookie(env.VITE_LOGIN_DETAILS, JSON.stringify(data));
+    setCookie(env.VITE_AUTH_USER_KEY, JSON.stringify(data));
     resolve();
   });
 };
@@ -52,6 +62,10 @@ export const setRouteMenuConfig = async (data: any) => {
 };
 
 // Get
+export const getRefreshToken = () => {
+  return JSON.parse(getCookie(env.VITE_REFRESH_TOKEN));
+};
+
 export const getAuthCredentials = () => {
   return getCookie(env.VITE_AUTH_TOKEN_KEY);
 };

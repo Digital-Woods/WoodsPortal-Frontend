@@ -20,7 +20,6 @@ export const ThemeSwitcher = () => {
   });
 
   useEffect(() => {
-    console.log('theme', theme)
     switch (theme) {
       case "dark":
         document.documentElement.classList.add("dark");

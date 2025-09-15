@@ -1,7 +1,15 @@
 import axios from 'axios';
 import { env } from "@/env";
-import { getCookie, removeAllCookie } from '@/utils/cookie';
+import { getCookie, isCookieExpired, removeAllCookie } from '@/utils/cookie';
 import { Routes } from '@/config/routes';
+import { API_ENDPOINTS } from './api-endpoints';
+
+import {
+  getAccessToken,
+  clearAccessToken,
+  isExpiresAccessToken
+} from './token-store';
+import { getRefreshToken, setAuthCredentials, setRefreshToken } from './auth-utils';
 
 
 const VITE_PUBLIC_REST_API_ENDPOINT =
@@ -16,16 +24,12 @@ const Axios = axios.create({
 });
 
 // Change request data/error
-const AUTH_TOKEN_KEY = env.VITE_AUTH_TOKEN_KEY ?? 'authToken';
 Axios.interceptors.request.use((config: any) => {
-  const cookies = getCookie(AUTH_TOKEN_KEY);
-  let token = cookies;
-  // if (cookies) {
-  //   token = JSON.parse(cookies)['token'];
-  // }
-  config.headers = token
-    ? { ...config.headers, Authorization: `Bearer ${token}` }
-    : { ...config.headers };
+  let token = getAccessToken();
+  config.headers = {
+    ...config.headers, // keep custom headers
+    ...(token ? { Authorization: `Bearer ${token}` } : {}), // add auth if available
+  };
   return config;
 });
 
@@ -36,9 +40,7 @@ Axios.interceptors.response.use(
     if (
       (error.response && error.response.status === 401)
     ) {
-      removeAllCookie();
-      localStorage.clear();
-      window.location.replace(Routes.login);
+      logout();
     }
     return Promise.reject(error);
   },
@@ -69,6 +71,8 @@ export class HttpClient {
     const response = await Axios.delete<T>(url);
     return response.data;
   }
+
+  
 
   static formatSearchParams(params: Partial<any>) {
     return Object.entries(params)
@@ -104,4 +108,59 @@ export function getFieldErrors(error: unknown) {
     return error.response?.data.errors;
   }
   return null;
+}
+
+export async function initAuthBootstrap () {
+  if(isCookieExpired(env.VITE_REFRESH_TOKEN)) {
+    await logout();
+  }else if(isExpiresAccessToken()) {
+    await getAuthToken();
+  }
+  return false;
+}
+
+export async function logout() {
+  let currentPath = window.location.hash;
+  let skipPaths = [
+    '#/login',
+    '#/final-login',
+    '#/register',
+    '#/forgot-password',
+    '#/reset-password',
+  ];
+
+  clearAccessToken();
+  removeAllCookie();
+  localStorage.clear();
+
+  if (!skipPaths.includes(currentPath)) {
+    window.location.replace(`#${Routes.login}`);
+  }
+}
+
+export async function getAuthToken () {
+  try {
+    const res = await Axios.post(API_ENDPOINTS.AUTH_REFRESH, { "refreshToken": getRefreshToken() });
+    const maybeData = res?.data?.data || res?.data;
+    const tokenData = maybeData?.tokenData || maybeData || {} as any
+    const refreshToken = tokenData?.refreshToken as string;
+    const token = tokenData?.token as string | undefined;
+    const expiresIn = tokenData?.expiresIn as number | undefined;
+    const rExpiresIn = tokenData?.refreshExpiresIn as number | undefined;
+    const rExpiresAt = tokenData?.refreshExpiresAt as number | undefined; // epoch seconds
+    
+    if (typeof refreshToken === 'string') {
+      let rExpires  = 0
+      if (typeof rExpiresIn === 'number') rExpires = Date.now() + rExpiresIn * 1000
+      else if (typeof rExpiresAt === 'number') rExpires = rExpiresAt * 1000
+      await setRefreshToken(refreshToken, rExpires);
+    }
+    if (typeof token === 'string') {
+      setAuthCredentials(token, typeof expiresIn === 'number' ? expiresIn : undefined);
+      return token;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }

@@ -48,7 +48,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     });
 
     useEffect(() => {
-        console.log('sync', sync)
         if (sync) {
             refetch();
         }
