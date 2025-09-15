@@ -62,9 +62,9 @@ export const DynamicComponentView = ({
   const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
   const { sync, setSync } = useSync();
-  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
-  const [cacheEnabled, setCacheEnabled] = useState<any>(true);
-  const [userData, setUserData] = useState<any>();
+  // const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
+  // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
+  // const [userData, setUserData] = useState<any>();
   // const [page, setPage] = useState<any>(1);
   // const [view, setView] = useState<any>(null);
   // // const [getTableParam, setGetTableParam] = useState<any>(null);
@@ -119,44 +119,14 @@ export const DynamicComponentView = ({
       routeMenuConfigs.hasOwnProperty(objectId)
     ) {
       const activeTab = routeMenuConfigs[objectId].activeTab;
-      setIsLoadingHoldData(true);
+      // setIsLoadingHoldData(true);
       setView(activeTab === "grid" ? "BOARD" : "LIST");
       setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
     } else {
-      setIsLoadingHoldData(true);
+      // setIsLoadingHoldData(true);
       setView("LIST");
     }
   }, []);
-
-  const fetchUserProfile = async ({ portalId, cache }: any) => {
-    if (!portalId) return null;
-
-    const response: any = await Client.user.profile({ portalId, cache });
-    return response?.data;
-  };
-
-  const { data: userNewData, error, isLoading:propertyIsLoading, refetch } : any = useQuery({
-    queryKey: ['userProfilePage', cacheEnabled],
-    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
-    onSuccess: (data) => {
-      if (data) {
-        setUserData(data);
-      }
-      setSync(false);
-      setIsLoadedFirstTime(true);
-    },
-    onError: (error) => {
-      console.error("Error fetching profile:", error);
-      setSync(false);
-      setIsLoadedFirstTime(true);
-    }
-  });
-
-  useEffect(() => {
-    if (sync) {
-      refetch();
-    }
-  }, [sync]);
 
   const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
@@ -488,30 +458,30 @@ export const DynamicComponentView = ({
   // }, [companyAsMediator]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setPage(1);
+    // const fetchData = async () => {
+    //   setPage(1);
 
-      if (
-        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-        !defPermissions?.pipeline_id
-      ) {
-        await getPipelines();
-      } else {
-        // console.log(456)
+    //   if (
+    //     (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+    //     !defPermissions?.pipeline_id
+    //   ) {
+    //     await getPipelines();
+    //   } else {
+    //     // console.log(456)
 
-      try {
-        await getData();
-      } catch (err) {
-        console.error("Error running getData", err);
-      }
-      }
-    };
+    //   try {
+    //     await getData();
+    //   } catch (err) {
+    //     console.error("Error running getData", err);
+    //   }
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
   }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
 
   useEffect(() => {
-    getData();
+    if(isLoadingHoldData) getData();
   }, [selectedPipeline]);
   // useEffect( () => {
   //   // console.log("useEffect", true)
@@ -669,12 +639,12 @@ export const DynamicComponentView = ({
             {objectUserProperties && objectUserProperties.length > 0 && 
               <div className="mt-3">
                 <HomeCompanyCard
-                  key={pathname}
+                  portalId={portalId}
                   companyDetailsModalOption={false}
                   propertiesList={objectUserProperties}
-                  userData={userData?.response}
-                  isLoading={propertyIsLoading}
-                  isLoadedFirstTime={isLoadedFirstTime}
+                  // userData={userData?.response}
+                  // isLoading={propertyIsLoading}
+                  // isLoadedFirstTime={isLoadedFirstTime}
                   iframePropertyName={objectUserProperties}
                   className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
                   usedInDynamicComponent={true}
