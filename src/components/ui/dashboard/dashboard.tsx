@@ -181,11 +181,12 @@ const Dashboard = () => {
                         <HomeBanner moduleBannerDetailsOption={card} userData={userData} />
                         {card?.properties && card?.properties.length > 0 && (
                         <HomeCompanyCard
+                          portalId={portalId}
                           companyDetailsModalOption={card?.add_details_modal}
                           propertiesList={card?.properties}
-                          userData={userData?.response}
-                          isLoading={isLoading}
-                          isLoadedFirstTime={isLoadedFirstTime}
+                          // userData={userData?.response}
+                          // isLoading={isLoading}
+                          // isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
                           viewStyle={card?.view}
                         />
