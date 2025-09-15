@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie';
 
-export const setCookie = (key: any, value: any) => {
+export const setCookie = (key: any, value: any, expire?: any) => {
     return Cookies.set(key, value, {
+        expires: expire,
         sameSite: 'none',
         secure: true,
     });
@@ -20,3 +21,8 @@ export const removeAllCookie = () => {
         Cookies.remove(cookieName);
     });
 }
+
+export const isCookieExpired = (key: string): boolean => {
+  const value = Cookies.get(key);
+  return value === undefined; // true means expired or never set
+};

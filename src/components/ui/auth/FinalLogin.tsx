@@ -14,7 +14,7 @@ import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'
 import { toast } from 'sonner';
 import { hubSpotUserDetails } from '@/data/hubSpotData';
-import { setPortal, setLoggedInDetails, setTwoFa } from "@/data/client/auth-utils";
+import { setPortal, setLoggedInDetails, setTwoFa, setAuthCredentials, setRefreshToken } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
 import { Link } from '@/components/ui/link';
 import { formatPath } from '@/utils/DataMigration';
@@ -78,6 +78,11 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       const SubscriptionType = data?.data?.loggedInDetails?.subscriptionType || "FREE";
       setSubscriptionType(SubscriptionType);
 
+      const token = data?.data?.tokenData?.token;
+      const refreshToken = data?.data?.tokenData?.refreshToken;
+      const expiresIn = data?.data?.tokenData?.expiresIn;
+      const rExpiresIn = data?.data?.tokenData?.refreshExpiresIn;
+      // const rExpiresAt = data?.data?.tokenData?.refreshExpiresAt;
       if (
         data.data.loggedInDetails &&
         data.data.loggedInDetails.hubspot &&
@@ -89,10 +94,14 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         window.location.hash = "/login/tow-fa";
       } else {
 
+        await setAuthCredentials(token, expiresIn);
+        await setRefreshToken(refreshToken, rExpiresIn);
+        await setLoggedInDetails(data.data);
+
         // setLoggedInDetails(data.data);
         // setAuthCredentials(data.data.tokenData.token);
-        await setItemAsync(env.VITE_AUTH_USER_KEY, JSON.stringify(data.data));
-        await setItemAsync(env.VITE_AUTH_TOKEN_KEY, data.data.tokenData.token);
+        // await setItemAsync(env.VITE_AUTH_USER_KEY, JSON.stringify(data.data));
+        // await setItemAsync(env.VITE_AUTH_TOKEN_KEY, data.data.tokenData.token);
         // getMe(); // Fetch user details
         // Use if-else to check if routes exist
         // if (routes && routes.length > 0) {

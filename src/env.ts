@@ -24,6 +24,7 @@ export const env = createEnv({
     VITE_TWO_FA: z.string(),
     VITE_PORTAL: z.string(),
     VITE_AUTH_TOKEN_KEY: z.string(),
+    VITE_REFRESH_TOKEN: z.string(),
     VITE_AUTH_USER_KEY: z.string(),
     VITE_AUTH_PORTAL_KEY: z.string(),
     VITE_ROUTE_MENU_CONFIG_KEY: z.string(),
@@ -33,6 +34,7 @@ export const env = createEnv({
     VITE_NOTE_INTERVAL_TIME: z.string(),
     VITE_TABLE_PAGE_LIMIT: z.string(),
     VITE_HUBSPOT_DEFAULT_OBJECT_IDS: z.any(),
+    VITE_DEV_PORTAL_ID: z.any(),
   },
 
   /**

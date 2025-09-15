@@ -1,16 +1,18 @@
 import React from 'react';
 import { useRouter, useRouterState } from '@tanstack/react-router';
-import { getAuthCredentials, isAuthenticated } from '@/data/client/auth-utils';
+// import { getAuthCredentials, isAuthenticated } from '@/data/client/auth-utils';
 import Loader from '@/components/ui/loader/loader';
 import { Routes } from '@/config/routes';
+import { isAuthenticateApp } from '@/data/client/token-store';
 
 const PublicRoute: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
   const router = useRouter();
-  const token = getAuthCredentials();
+  // const token = getAuthCredentials();
   const routeState = useRouterState();
   const currentRoute = routeState.location.pathname;
+  const isAuthenticated = isAuthenticateApp();
 
   React.useEffect(() => {
     const isPublicPath = [
@@ -23,16 +25,16 @@ const PublicRoute: React.FC<{
     ].includes(currentRoute);
 
 
-    if (!isAuthenticated() && !isPublicPath) {
+    if (!isAuthenticated && !isPublicPath) {
       router.history.replace(Routes.login);
     }
 
-    if (isAuthenticated() && isPublicPath) {
+    if (isAuthenticated && isPublicPath) {
       router.history.replace(Routes.app);
     }
-  }, [token, router, isAuthenticated]);
+  }, [router, isAuthenticated]);
 
-  if (!isAuthenticated()) {
+  if (!isAuthenticated) {
     return <>{children}</>;
   }
 
