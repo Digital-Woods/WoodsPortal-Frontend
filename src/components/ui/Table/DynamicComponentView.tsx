@@ -417,8 +417,7 @@ export const DynamicComponentView = ({
       ) {
         await getPipelines();
       } else {
-        // console.log(123)
-        // getData();
+        getData();
       }
       // }
     };
