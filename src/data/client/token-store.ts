@@ -36,7 +36,6 @@ export function setAccessToken(token: string | null, expiresInSeconds?: number) 
     const slack = 60 // seconds before expiry to refresh
     const now = Date.now()
     expiresAt = now + expiresInSeconds * 1000
-    console.log('expiresAt', expiresAt)
     const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
     scheduleRefresh(dueInMs)
   } else {
@@ -53,7 +52,6 @@ function clearRefresh() {
 }
 
 function scheduleRefresh(ms: number) {
-  console.log('scheduleRefresh', ms)
   clearRefresh()
   if (ms === Infinity) return
   refreshTimeout = window.setTimeout(() => {
