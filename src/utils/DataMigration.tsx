@@ -866,13 +866,25 @@ export const fetchFileSize = async (url, name, type) => {
 // format path
 
 export const formatPath = (key: any) => {
-  return (key && typeof key === "string") ? key.replace(/\s+/g, "-").replace(/\b\w/g, (l: any) => l.toLowerCase()) : "";
+  // return (key && typeof key === "string") ? key.replace(/\s+/g, "-").replace(/\b\w/g, (l: any) => l.toLowerCase()) : "";
+   if (!key || typeof key !== "string") return "";
+
+  return key
+    .replace(/\s+/g, "-")              // spaces → dashes
+    .replace(/#/g, "-hash-")           // hash → -hash-
+    .replace(/\b\w/g, (l: string) => l.toLowerCase()); // lowercase
 };
 
 // format custom object name
 
-export function formatCustomObjectLabel(label = "") {
-  return (label && typeof label === "string") ? label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ") : "";
+export function formatCustomObjectLabel(key = "") {
+  // return (label && typeof label === "string") ? label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ") : "";
+  if (!key || typeof key !== "string") return "";
+
+  return key
+    .replace(/-/g, " ")                // dashes → spaces
+    .replace(/hash/gi, "#")            // -hash- → #
+    .replace(/\b[a-z]/g, (l: string) => l.toUpperCase()); // lowercase → uppercase
 }
 
 // format column labels
