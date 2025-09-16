@@ -48,7 +48,7 @@ export const DashboardTableForm = ({
   // const [addExistingTitle, setAddExistingTitle] = useState<any>(false);
   const [dialogTitle, setDialogTitle] = useState<any>("");
   const [objectName, setObjectName] = useState<any>("");
-  const { setSync } = useSync();
+  const { setSync, setApiSync } = useSync();
   const { setToaster } = useToaster();
 
   const [serverError, setServerError] = useState<any>(null);
@@ -146,6 +146,7 @@ export const DashboardTableForm = ({
         // });
         // refetch(response);
         setSync(true);
+        setApiSync(true);
       }
       if (!variables.addAnother) {
         setOpenModal(false);

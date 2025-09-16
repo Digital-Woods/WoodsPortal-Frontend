@@ -14,7 +14,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [expandDialog, setExpandDialog] = useState(false);
-    const { sync, setSync } = useSync();
+    const { sync, setSync, apiSync } = useSync();
     const [iframeViewDialog, setIframeViewDialog] = useState(false);
     const [iframeUrls, setIframeUrls] = useState([]);
     const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
@@ -37,21 +37,19 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
             if (data) {
                 setUserData(data);
             }
-            setSync(false);
             setIsLoadedFirstTime(true);
         },
         onError: (error) => {
             console.error("Error fetching profile:", error);
-            setSync(false);
             setIsLoadedFirstTime(true);
         }
     });
 
     useEffect(() => {
-        if (sync) {
+        if (sync && !apiSync) {
             refetch();
         }
-    }, [sync]);
+    }, [sync, apiSync]);
 
     // Process the propertiesList to filter and organize data
     const processProperties = (propertiesList: any, data: any) => {

@@ -13,6 +13,9 @@ import { DashboardTableForm } from './DashboardTableForm';
 import { Button } from '../Button';
 import { useAuth } from '@/state/use-auth';
 import { CautionCircle } from '@/assets/icons/CautionCircle';
+import { DashboardTableHeaderSkeleton } from '../skeletons/DashboardTableHeaderSkeleton';
+import { BoardViewSkeleton } from '../skeletons/BoardViewSkeleton';
+import { TableSkeleton } from '../skeletons/TableSkeleton';
 
 export const formatKey = (key: any) => {
   return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
@@ -42,6 +45,7 @@ export const sortedHeaders = (headers: any) => {
 };
 
 export const DashboardTable: any = ({
+  isLoadingAPiData,
   hubspotObjectTypeId,
   path,
   inputValue,
@@ -244,6 +248,30 @@ export const DashboardTable: any = ({
   //     </div>
   //   );
   // }
+
+
+  if (isLoadingAPiData === true) {
+    return (
+      <div
+        className={` ${
+          hubSpotUserDetails.sideMenu[0].tabName === title ||
+          componentName === "ticket"
+            ? "mt-0"
+            : "mt-[calc(var(--nav-height)-1px)]"
+        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      >
+        <DashboardTableHeaderSkeleton
+          hubspotObjectTypeId={hubspotObjectTypeId}
+          title={title}
+        />
+        {view === "BOARD" && activeCardData ? (
+          <BoardViewSkeleton />
+        ) : (
+          <TableSkeleton />
+        )}
+      </div>
+    );
+  }
 
   return (
     <div

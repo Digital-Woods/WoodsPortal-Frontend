@@ -61,7 +61,7 @@ export const DynamicComponentView = ({
   const [errorMessage, setErrorMessage] = useState<any>("");
   const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
-  const { sync, setSync } = useSync();
+  const { sync, setSync, setApiSync } = useSync();
   // const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
   // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
   // const [userData, setUserData] = useState<any>();
@@ -195,6 +195,7 @@ export const DynamicComponentView = ({
       setApiResponse(data);
 
       setSync(false);
+      setApiSync(false);
 
       let routeMenuConfigs = getRouteMenuConfig();
 
@@ -256,6 +257,7 @@ export const DynamicComponentView = ({
       setErrorMessageCategory(error?.response?.data?.category || "")
       setApiResponse(null)
       setSync(false);
+      setApiSync(false);
       setPermissions(null);
       setIsLoadingHoldData(false);
       if (componentName != "ticket") {
@@ -513,28 +515,28 @@ export const DynamicComponentView = ({
     // }
   }
 
-  if (isLoadingAPiData === true) {
-    return (
-      <div
-        className={` ${
-          hubSpotUserDetails.sideMenu[0].tabName === title ||
-          componentName === "ticket"
-            ? "mt-0"
-            : "mt-[calc(var(--nav-height)-1px)]"
-        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
-      >
-        <DashboardTableHeaderSkeleton
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          title={title}
-        />
-        {view === "BOARD" && activeCardData ? (
-          <BoardViewSkeleton />
-        ) : (
-          <TableSkeleton />
-        )}
-      </div>
-    );
-  }
+  // if (isLoadingAPiData === true) {
+  //   return (
+  //     <div
+  //       className={` ${
+  //         hubSpotUserDetails.sideMenu[0].tabName === title ||
+  //         componentName === "ticket"
+  //           ? "mt-0"
+  //           : "mt-[calc(var(--nav-height)-1px)]"
+  //       } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+  //     >
+  //       <DashboardTableHeaderSkeleton
+  //         hubspotObjectTypeId={hubspotObjectTypeId}
+  //         title={title}
+  //       />
+  //       {view === "BOARD" && activeCardData ? (
+  //         <BoardViewSkeleton />
+  //       ) : (
+  //         <TableSkeleton />
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   if(errorMessage && errorMessageCategory !== 'ACCESS'){
     return( 
@@ -638,6 +640,7 @@ export const DynamicComponentView = ({
             {objectUserProperties && objectUserProperties.length > 0 && 
               <div className="mt-3">
                 <HomeCompanyCard
+                  key={pathname}
                   portalId={portalId}
                   companyDetailsModalOption={false}
                   propertiesList={objectUserProperties}
@@ -671,6 +674,7 @@ export const DynamicComponentView = ({
 
               <div className="w-full" key={hubspotObjectTypeId}>
                 <DashboardTable
+                  isLoadingAPiData={isLoadingAPiData}
                   key={pathname}
                   hubspotObjectTypeId={hubspotObjectTypeId}
                   path={path}
