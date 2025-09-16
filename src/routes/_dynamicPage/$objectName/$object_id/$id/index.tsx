@@ -70,9 +70,9 @@ const Details = () => {
     <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
       <div className={`bg-cleanWhite dark:bg-dark-200`}>
         {env.VITE_DATA_SOURCE_SET !== true ? (
-          <ApiDetails objectId={objectId} path={path} id={id} propertyName={propertyName} showIframe={showIframe} />
+          <ApiDetails key={path} objectId={objectId} path={path} id={id} propertyName={propertyName} showIframe={showIframe} />
         ) : (
-          <ModuleDetails objectId={objectId} path={path} id={id} propertyName={propertyName} showIframe={showIframe} />
+          <ModuleDetails key={path} objectId={objectId} path={path} id={id} propertyName={propertyName} showIframe={showIframe} />
         )
         }
       </div>
