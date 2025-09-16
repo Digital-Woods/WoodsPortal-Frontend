@@ -1,6 +1,6 @@
 import { env } from "@/env";
 import { setCookie, getCookie, removeCookie } from "@/utils/cookie";
-import { setAccessToken } from "./token-store";
+import { getAccessToken, setAccessToken } from "./token-store";
 
 // Set
 export const setRefreshToken = async (token: string, expiresInSeconds?: number) => {
@@ -67,7 +67,7 @@ export const getRefreshToken = () => {
 };
 
 export const getAuthCredentials = () => {
-  return getCookie(env.VITE_AUTH_TOKEN_KEY);
+  return getAccessToken();
 };
 
 export const getLoggedInDetails = () => {
@@ -114,12 +114,12 @@ export const removeAllCookies = () => {
 };
 
 export function checkHasAuthToken() {
-  const token = getCookie(env.VITE_AUTH_TOKEN_KEY);
+  const token = getAccessToken();
   return !!token;
 }
 
 export function getAuthToken() {
-  return getCookie(env.VITE_AUTH_TOKEN_KEY);
+  return getAccessToken();
 }
 
 export function getAuthSubscriptionType() {
@@ -141,7 +141,7 @@ export function setAuthToken(token: any) {
 
 export function isAuthenticated() {
   if (isLivePreview()) return true;
-  return !!getCookie(env.VITE_AUTH_TOKEN_KEY);
+  return !!getAccessToken();
 }
 
 export function getIsEmailVerify() {
