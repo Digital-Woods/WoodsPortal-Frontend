@@ -3,6 +3,7 @@ import { env } from "@/env";
 import { getCookie, isCookieExpired, removeAllCookie } from '@/utils/cookie';
 import { Routes } from '@/config/routes';
 import { API_ENDPOINTS } from './api-endpoints';
+import { hubId } from "@/data/hubSpotData";
 
 import {
   getAccessToken,
@@ -140,7 +141,15 @@ export async function logout() {
 
 export async function getAuthToken () {
   try {
-    const res = await Axios.post(API_ENDPOINTS.AUTH_REFRESH, { "refreshToken": getRefreshToken() });
+    const res = await Axios.post(
+      `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`, 
+      { "refreshToken": getRefreshToken() },
+      env?.VITE_DEV_PORTAL_ID &&{
+        headers: {
+          'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID,
+        },
+      }
+    );
     const maybeData = res?.data?.data || res?.data;
     const tokenData = maybeData?.tokenData || maybeData || {} as any
     const refreshToken = tokenData?.refreshToken as string;
