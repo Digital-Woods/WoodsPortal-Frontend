@@ -121,7 +121,7 @@ export async function initAuthBootstrap () {
 }
 
 export async function logout() {
-  let currentPath = window.location.hash;
+  let currentPath = window.location.hash.split("?")[0];
   let skipPaths = [
     '#/login',
     '#/final-login',
