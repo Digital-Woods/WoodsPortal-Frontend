@@ -62,7 +62,7 @@ export const DynamicComponentView = ({
   const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
   const { sync, setSync, setApiSync } = useSync();
-  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(true);
 
   // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
   // const [userData, setUserData] = useState<any>();
