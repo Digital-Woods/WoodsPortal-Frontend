@@ -62,7 +62,8 @@ export const DynamicComponentView = ({
   const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
   const { sync, setSync, setApiSync } = useSync();
-  // const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
+  const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
+
   // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
   // const [userData, setUserData] = useState<any>();
   // const [page, setPage] = useState<any>(1);
@@ -200,6 +201,7 @@ export const DynamicComponentView = ({
       let routeMenuConfigs = getRouteMenuConfig();
 
       setCurrentPage(data?.pagination)
+      setIsLoadedFirstTime(false)
 
       if (
         tableViewIsList && (routeMenuConfigs[objectId]?.listView === false)
@@ -258,6 +260,7 @@ export const DynamicComponentView = ({
       setApiResponse(null)
       setSync(false);
       setApiSync(false);
+      setIsLoadedFirstTime(false)
       setPermissions(null);
       setIsLoadingHoldData(false);
       if (componentName != "ticket") {
@@ -372,6 +375,7 @@ export const DynamicComponentView = ({
     },
     onError: () => {
       setPipelines([]);
+      setIsLoadedFirstTime(false)
     },
   });
 
@@ -537,6 +541,30 @@ export const DynamicComponentView = ({
   //     </div>
   //   );
   // }
+
+
+  if (isLoadingAPiData === true && isLoadedFirstTime === true) {
+    return (
+      <div
+        className={` ${
+          hubSpotUserDetails.sideMenu[0].tabName === title ||
+          componentName === "ticket"
+            ? "mt-0"
+            : "mt-[calc(var(--nav-height)-1px)]"
+        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+      >
+        <DashboardTableHeaderSkeleton
+          hubspotObjectTypeId={hubspotObjectTypeId}
+          title={title}
+        />
+        {view === "BOARD" && activeCardData ? (
+          <BoardViewSkeleton />
+        ) : (
+          <TableSkeleton />
+        )}
+      </div>
+    );
+  }
 
   if(errorMessage && errorMessageCategory !== 'ACCESS'){
     return( 
