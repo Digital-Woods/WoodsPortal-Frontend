@@ -20,7 +20,7 @@ const ListComponent = () => {
 
   // check if homaepage
   if(!routeMenu) { 
-    return <div className='text-2xl font-bold text-center dark:!text-white pt-6'>{search?.parentObjectTypeId} 404 Not Found</div>
+    return <div className='text-2xl font-bold text-center dark:!text-white pt-6'> 404 Not Found</div>
   }
 
   if(routeMenu?.homeCardsView){
