@@ -40,6 +40,7 @@ export const authorizationState = atom<any>(checkHasAuthToken());
 export const logoutDialogState = atom<boolean>(false);
 export const routeState = atom<string[]>([]);
 
+export const apiSyncState = atom(false);
 export const syncState = atom(false);
 export const syncLoadingState = atom(false);
 export const syncDisableState = atom(false);
