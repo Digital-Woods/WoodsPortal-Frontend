@@ -19,9 +19,9 @@ export const EmptyMessageCard = ({
 
   useEffect(() => {
     const components = [
-      <EmptyDeal className={`dark:text-white w-[${imgWidth}]`} key="deal" />,
-      <EmptyIcon key="icon" className={`dark:text-white w-[${imgWidth}]`} />,
-      <EmptyThree className={`dark:text-white w-[${imgWidth}]`} key="three" />,
+      <EmptyDeal width={imgWidth} height={imgWidth} className={`dark:text-white`} key="deal" />,
+      <EmptyIcon width={imgWidth} height={imgWidth} className={`dark:text-white`} key="icon" />,
+      <EmptyThree width={imgWidth} height={imgWidth} className={`dark:text-white`} key="three" />,
     ];
     setRandomComponent(
       components[Math.floor(Math.random() * components.length)]
@@ -35,7 +35,7 @@ export const EmptyMessageCard = ({
       } items-center justify-center text-center gap-2 dark:bg-dark-300 rounded-md ${className} `}
     >
       {/* Illustration */}
-      <div className={`md:min-w-[${imgWidth}] flex items-center justify-center`}>
+      <div style={{ width: imgWidth, height: imgWidth }} className={`flex items-center justify-center`}>
         {RandomComponent}
       </div>
       <div className="flex flex-col gap-2">

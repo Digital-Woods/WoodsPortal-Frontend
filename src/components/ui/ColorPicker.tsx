@@ -173,7 +173,7 @@ const SimonColorPicker = ({ onColorChange, defaultColor }: any) => {
           input: true,
         },
       },
-      defaultRepresentation: "HEX",
+      defaultRepresentation: "HEXA",
       showAlways: true,
     });
 
