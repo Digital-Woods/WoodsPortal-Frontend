@@ -79,12 +79,9 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   }, [pathname]);
 
   const setActiveTabFucntion = (active: any) => {
+    setActiveTab(active);
     setSelectRouteMenuConfig(objectId, active);
   };
-
-  useEffect(() => {
-    setActiveTabFucntion(activeTab);
-  },[activeTab, pathname, objectId])
 
   // Start Cookie RouteMenuConfig
   const setSelectRouteMenuConfig = (key: any, activeTab: any) => {
@@ -98,18 +95,26 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   };
 
   useEffect(() => {
+    setTab()
+  }, []);
+
+  const setTab = (value?: any) => {
     let routeMenuConfigs = getRouteMenuConfig();
     if (
       routeMenuConfigs &&
       routeMenuConfigs.hasOwnProperty(objectId)
     ) {
-      const activeTab = routeMenuConfigs[objectId]?.details?.activeTab;
-      setActiveTabFucntion((activeTab === 'list' || !activeTab) ? "overview" : activeTab);
+      const active = value || routeMenuConfigs[objectId]?.details?.activeTab;
+      setActiveTabFucntion((active === 'list' || !active) ? "overview" : active);
     } else {
       setActiveTabFucntion("overview");
     }
     getData();
-  }, [pathname, activeTab]);
+  }
+
+  const onChangeTab = (value: any) => {
+    setTab(value)
+  }
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -236,8 +241,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
               <div className="border dark:border-none rounded-lg  bg-graySecondary dark:bg-dark-300 border-flatGray w-fit dark:border-gray-700 my-4">
                 <Tabs
                   activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                  onValueChange={setActiveTab}
+                  setActiveTab={onChangeTab}
+                  onValueChange={onChangeTab}
                   className="rounded-md "
                 >
                   <TabsList>
