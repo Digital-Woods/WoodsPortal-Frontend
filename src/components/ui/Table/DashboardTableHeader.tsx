@@ -54,7 +54,7 @@ export const DashboardTableHeader = ({
   const handelPipeline = async (value: any) => {
     await setSelectedPipeline(isHome ? 'home' : hubspotObjectTypeId, pipelines, value);
     await handelChangePipeline(value);
-    setPage(1);
+    setPage(subscriptionType === 'FREE' ? '' : 1);
   };
 
   // useEffect(() => {
@@ -157,7 +157,7 @@ export const DashboardTableHeader = ({
                 }}
                 onKeyDown={async (e) => {
                   if (e.key === "Enter") {
-                    await setPage(1);
+                    await  setPage(subscriptionType === 'FREE' ? '' : 1);
                     await setLimit(pageLimit);
                     handleSearch(); // Trigger search when Enter is pressed
                   }
@@ -177,7 +177,7 @@ export const DashboardTableHeader = ({
               <Button
                 onClick={async () => {
                   await setSearch("");
-                  await setPage(1);
+                  await setPage(subscriptionType === "FREE" ?  ' ' : 1);
                   await setLimit(pageLimit);
                   handleSearch();
                 }}
