@@ -1,6 +1,6 @@
 /* Main styles Start */
 
-.bg-custom-gradient{
+.custom-bg-custom-gradient{
   background-image: linear-gradient(194deg, var(--details-page-banner-color2) 0%, var(--details-page-banner-color1) 72%);
 }
 
@@ -721,7 +721,7 @@ img.ProseMirror-separator {
   display: inline-block;
 }
 
-.dw\:note-menuitem {
+.note-menuitem {
   border: 1px solid transparent;
   border-radius: 3px;
   /* height: 27px; */
@@ -733,7 +733,7 @@ img.ProseMirror-separator {
   justify-content: center;
 }
 
-.dw\:note-menuitem:hover {
+.note-menuitem:hover {
   border: 1px solid rgb(203, 214, 226);
   border-radius: 3px;
   vertical-align: middle;
@@ -1256,4 +1256,25 @@ h6 {
   --rt-opacity: 0.9;
   --rt-transition-show-delay: 0.15s;
   --rt-transition-closing-delay: 0.15s;
+}
+
+p{
+  margin:0;
+}
+body{
+  font-size: 16px;
+}
+
+#app form{
+  margin:0;
+  padding:0;
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+button:focus {
+  outline: none;
+}
+button {
+  box-shadow: none;
 }

@@ -2,7 +2,7 @@
 
 @layer base {
   * {
-    border-color: #e5e7eb;
+    border-color: #e5e7eb !important;
   }
 }
 

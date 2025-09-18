@@ -76,7 +76,7 @@ export const DetailsHeaderCard = ({
 
   return (
     <div
-      className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient"
+      className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden custom-bg-custom-gradient"
     >
       <div className="relative flex flex-col justify-center p-4 text-[var(--details-page-text-color)] z-10">
         <p className="text-2xl font-semibold mb-2">{displayData?.primary}</p>

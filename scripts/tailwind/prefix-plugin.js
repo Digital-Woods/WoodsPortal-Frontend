@@ -39,6 +39,9 @@ export default function TailwindPrefixPlugin() {
                 if (
                   cls.startsWith('ProseMirror') ||
                   cls.startsWith('EditorView') ||
+                  cls.startsWith('ck-') ||
+                  cls.startsWith('form-') ||
+                  cls.startsWith('custom') ||
                   cls.startsWith(prefix1) ||
                   cls.startsWith(prefix2)
                 ) {
@@ -67,11 +70,23 @@ export default function TailwindPrefixPlugin() {
           plugins: ['jsx', 'typescript'],
         })
 
+        const addImportant = (c) => {
+          if (!c) return c
+          const parts = c.split(':')
+          const utility = parts.pop()
+          if (!utility || utility.startsWith('!')) {
+            return c
+          }
+          parts.push(`!${utility}`)
+          return parts.join(':')
+        }
+
         const prefixClasses = (str) => {
           return str
             .split(/\s+/)
             .filter(Boolean)
             .map((c) => (c.startsWith(prefix1) ? c : `${prefix1}${c}`))
+            .map((c) => addImportant(c.startsWith(prefix1) ? c : `${prefix1}${c}`))
             .join(' ')
         }
 

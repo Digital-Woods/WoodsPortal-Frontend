@@ -651,8 +651,8 @@ export const ProseMirrorEditor = ({
     <div>
       <div
         ref={editorRef}
-        id="prosemirror-editor"
-        className="text-[#000] prosemirror-editor dark:bg-white bg-white rounded border border-secondary pt-0"
+        id="ProseMirror-editor"
+        className="text-[#000] ProseMirror-editor dark:bg-white bg-white rounded border border-secondary pt-0"
       ></div>
 
       <Attachments

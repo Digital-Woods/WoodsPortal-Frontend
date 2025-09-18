@@ -138,15 +138,8 @@ export const DashboardTableForm = ({
     onSuccess: async (response: any, variables: any) => {
       setToaster({ message: response?.statusMsg, type: "success" });
       if (!addAnother) {
-        // setSync(true);
-        // refetch({
-        //   filterPropertyName: "hs_pipeline",
-        //   filterOperator: "eq",
-        //   filterValue: ""
-        // });
-        // refetch(response);
-        setSync(true);
-        setApiSync(true);
+        refetch();
+        // setApiSync(true); // Keeping this as it might be used for other purposes
       }
       if (!variables.addAnother) {
         setOpenModal(false);
