@@ -9,7 +9,6 @@ import { UserProfileCard } from "@/components/ui/profile/UserProfileCard";
 import { useAuth } from "@/state/use-auth";
 
 const Profile = () => {
-  const {profileDetails: personalInfo, setProfileDetails: setPersonalInfo} = useAuth();
   const [userData, setUserData] = useState<any>();
   const [userId, setUserId] = useState<any>();
   const [userObjectId, setUserObjectId] = useState<any>();
@@ -19,10 +18,6 @@ const Profile = () => {
 
   const [activeTab, setActiveTab] = useState<any>("password");
 
-
-  const handlePersonalInfoChange = (e: any) => {
-    setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
-  };
 
   const fetchUserProfile = async ({ portalId, cache }: any) => {
     if (!portalId) return null;
