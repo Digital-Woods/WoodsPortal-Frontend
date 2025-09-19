@@ -138,8 +138,10 @@ export function useTable() {
         }
       }
       changePipeline(mFilterValue);
+      return mFilterValue;
     } else {
       changePipeline("");
+      return "";
     }
   };
 

@@ -159,7 +159,7 @@ export const DynamicComponentView = ({
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           !defPermissions?.pipeline_id
         ) {
-          await getPipelines(pipeline);
+          await getPipelines();
         } else {
           await getData(pipeline);
         }
@@ -399,7 +399,7 @@ export const DynamicComponentView = ({
     // Get Pipelines
   const { mutate: getPipelines, isLoadingPipelines } : any = useMutation({
     mutationKey: ["PipelineData"],
-    mutationFn: async (pipeline?: any) => {
+    mutationFn: async () => {
       return await Client.Deals.pipelines({
         API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
         param: {
@@ -408,10 +408,11 @@ export const DynamicComponentView = ({
       });
     },
 
-    onSuccess: async (data: any, pipeline: any) => {
+    onSuccess: async (data: any) => {
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       await setPipelines(data.data);
-      await setDefaultPipeline(data, objectId);
+      const pipeline = await setDefaultPipeline(data, objectId);
+      console.log('pipeline', pipeline)
       await getData(pipeline);
     },
     onError: () => {
