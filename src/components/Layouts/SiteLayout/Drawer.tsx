@@ -259,7 +259,7 @@ export const Drawer = ({ className }: any) => {
       </div>
 
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex p-4">
           <div className="w-[200px]">
             <img
               src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}

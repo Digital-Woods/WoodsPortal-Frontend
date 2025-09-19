@@ -1243,10 +1243,6 @@ h6 {
   overflow-y: auto;
 }
 
-#app {
-  width: 100vw;
-}
-
 p{
   margin:0;
 }
@@ -1263,6 +1259,9 @@ body{
 }
 button:focus {
   outline: none;
+  background: none;
+  border: none;
+  box-shadow: none;
 }
 button {
   box-shadow: none;
