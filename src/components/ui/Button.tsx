@@ -7,20 +7,23 @@ const classesDynamicClassName = {
   normal: "",
 };
 
-const variantDynamicClassName : any = {
+const variantDynamicClassName: any = {
   default:
     "bg-primary text-white dark:border dark:bg-dark-400 dark:hover:bg-dark-400 shadow hover:bg-primary/90",
-  create: `bg-[var(--create-button-background-color)] hover:bg-[var(--create-button-background-color)]/80 text-[var(--create-button-text-color)]`,
+  create:
+   "bg-create-button-background-color hover:bg-create-button-background-color text-create-button-text-color",
   destructive:
-    "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
+    "bg-red-500 text-destructive-foreground shadow hover:bg-red-200",
   outline:
-    "border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground dark:bg-dark-400 dark:hover:bg-dark-400",
+    "border border-input text-foreground dark:text-white bg-transparent shadow hover:bg-accent hover:text-accent-foreground dark:bg-dark-400 dark:hover:bg-dark-400",
   secondary:
-    "bg-secondary text-white shadow-sm hover:bg-secondary/80 dark:border dark:bg-dark-400 dark:hover:bg-dark-400 ",
-  ghost: "hover:bg-accent hover:text-accent-foreground",
-  link: "text-secondary underline-offset-4 hover:underline dark:text-white",
+    "bg-secondary text-white shadow hover:bg-secondary/80 dark:border dark:bg-dark-400 dark:hover:bg-dark-400",
+  ghost:
+    "hover:bg-accent hover:text-accent-foreground",
+  link:
+    "text-secondary underline-offset-4 hover:underline dark:text-white bg-transparent dark:bg-transparent rounded-none hover:bg-transparent dark:hover:bg-transparent",
   hubSpot:
-    "text-primary dark:text-cleanWhite bg-none dark:bg-none rounded-none underline-offset-4 hover:underline flex items-center justify-center",
+    "text-primary dark:text-cleanWhite bg-transparent dark:bg-transparent rounded-none underline-offset-4 hover:underline flex items-center justify-center",
 };
 
 const sizeDynamicClassName : any = {

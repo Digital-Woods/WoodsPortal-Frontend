@@ -42,6 +42,9 @@
   --color-primaryBgHover: var(--primary-color-hover-bg);
   --color-secondaryBgHover: var(--secondary-color-hover-bg);
 
+  --color-create-button-background-color: var(--create-button-background-color);
+  --color-create-button-text-color: var(--create-button-text-color);
+
   --color-flatGray: #f6f6f6;
   --color-midGray: #dfdff2;
   --color-darkerGray: #1c1c1f;

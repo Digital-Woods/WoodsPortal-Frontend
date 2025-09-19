@@ -87,7 +87,7 @@ export const FolderUpload = ({
         className="flex relative items-center justify-center"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on modal content
       >
-        <div className="bg-cleanWhite lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start dark:bg-dark-200">
+        <div className="bg-cleanWhite lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start dark:bg-dark-200 p-4">
           <div className="text-lg text-start font-semibold mb-4 dark:text-white">
             New Folder
           </div>

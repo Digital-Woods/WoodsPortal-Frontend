@@ -35,7 +35,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
         onSuccess: (data) => {
             if (data) {
-                setUserData(data);
+                setUserData(data.response);
             }
             setIsLoadedFirstTime(true);
         },
@@ -98,10 +98,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
 
     // Sort properties for display
     const visibleAssociatedDetails = userAssociatedDetails;
-
-    const expandToggleButton = () => {
-        setExpandDialog(!expandDialog);
-    }
 
     const iframeSettings = Array.isArray(iframePropertyName) ? iframePropertyName : [];
 
