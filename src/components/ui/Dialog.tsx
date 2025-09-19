@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 export const Dialog = forwardRef<HTMLDivElement, any>((props, ref) => {
   const classesDynamicClassName = {
-    root: "bg-cleanWhite sm:p-6 dark:bg-dark-200",
+    root: "bg-cleanWhite max-sm:p-6 dark:bg-dark-200",
     normal: "",
   };
 

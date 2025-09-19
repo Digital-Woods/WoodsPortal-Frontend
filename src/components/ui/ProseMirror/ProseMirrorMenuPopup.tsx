@@ -64,7 +64,7 @@ export const ProseMirrorMenuButton = ({
   toggleDropdown,
 }: any) => {
   const classesDynamicClassName = {
-    root: "ProseMirror-icon",
+    root: "CUSTOM-ProseMirror-icon",
   };
 
   const variantDynamicClassName: any = {
@@ -83,7 +83,7 @@ export const ProseMirrorMenuButton = ({
       title={title}
       className={classNames(classesName)}
     >
-      <div id={id} className={`note-menuitem ${isActive ? "" : ""}`}>
+      <div id={id} className={`CUSTOM-note-menuitem ${isActive ? "" : ""}`}>
         <div id={`${id}-icon`}>{children}</div>
         <svg
           xmlns="http://www.w3.org/2000/svg"

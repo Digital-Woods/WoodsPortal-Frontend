@@ -103,7 +103,7 @@ const PopupInsertLinkMenu = ({ editorView, href, title }: any) => {
         <LinkIcon/>
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <div className="space-y-2 px-2 note-dd-Select-menu !list-none list-inside dark:text-gray-400">
+          <div className="space-y-2 px-2 CUSTOM-note-dd-Select-menu !list-none list-inside dark:text-gray-400">
             <div className="text-sm mb-0">Create Link</div>
             <div>
               <label className="!text-xs">Link text</label>

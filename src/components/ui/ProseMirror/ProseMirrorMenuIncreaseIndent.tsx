@@ -41,14 +41,14 @@ const IncreaseIndentMenu = ({ editorView }: any) => {
   return (
     <div className="relative inline-block">
       <div
-        class="ProseMirror-icon"
+        class="CUSTOM-ProseMirror-icon"
         title="Increase indent"
         ref={IncreaseIndentMenu}
         onClick={() => {
           changeIndentation();
         }}
       >
-        <div className={`note-menuitem`}>
+        <div className={`CUSTOM-note-menuitem`}>
           <div id="textAlignIcon">
             {/* <SvgRenderer svgContent={increaseIndentIcon} /> */}
             <IncreaseIndentIcon />

@@ -164,7 +164,7 @@ const NoteCard = ({
               className={`p-4 cursor-text`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={`edit-note`}>
+              <div className={`CUSTOM-edit-note`}>
               <ProseMirrorEditor
                 ref={editorRef}
                 key={id}
@@ -533,7 +533,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
             </p>
           </div>
         </div>
-        <div className="px-4 modal-editor">
+        <div className="px-4 CUSTOM-modal-editor">
           <ProseMirrorEditor
             id={objectId}
             attachments={[]}

@@ -180,7 +180,7 @@ export const DetailsAssociations = ({
             className={`flex flex-col space-y-4 transition-all duration-300 ease-in-out ${
               isExpanded
                 ? "max-h-auto"
-                : "max-h-[344px] overflow-y-auto hide-scrollbar"
+                : "max-h-[344px] overflow-y-auto CUSTOM-hide-scrollbar"
             }`}
           >
             {associationData.total === 0 ? (
@@ -197,7 +197,7 @@ export const DetailsAssociations = ({
                   {associationData.data.map((item: any, index: any) => (
                     <div
                       key={index}
-                      className="border dark:border-gray-600 p-2 rounded-md !bg-[var(--right-tables-card-background-color)] dark:!bg-dark-500 overflow-y-auto hide-scrollbar"
+                      className="border dark:border-gray-600 p-2 rounded-md !bg-[var(--right-tables-card-background-color)] dark:!bg-dark-500 overflow-y-auto CUSTOM-hide-scrollbar"
                     >
                       <table className="!bg-transparent !text-[var(--right-tables-text-color)]">
                         <tbody>
@@ -308,7 +308,7 @@ export const DetailsAssociations = ({
             )}
           </div>
           {/* {association.hasMore && */}
-          <div className="text-right py-6">
+          <div className="text-right py-4">
             <Link
               className="text-secondary hover:underline font-bold border-input rounded-md text-xs dark:!text-white whitespace-nowrap"
               // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural

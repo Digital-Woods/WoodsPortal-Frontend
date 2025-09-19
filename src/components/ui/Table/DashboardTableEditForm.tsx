@@ -287,7 +287,7 @@ export const DashboardTableEditForm = ({
             Edit {title}
           </div>
           {isLoading || stageLoadingFormData ? (
-            <div className="loader-line"></div>
+            <div className="CUSTOM-loader-line"></div>
           ) : (
             <div className="w-full text-left">
               <Form

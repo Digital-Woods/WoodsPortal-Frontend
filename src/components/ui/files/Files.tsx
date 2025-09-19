@@ -227,7 +227,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   };
 
   const handleOverlayClick = (e) => {
-    if (e.target.id === "dialog-overlay") {
+    if (e.target.id === "CUSTOM-dialog-overlay") {
       // Only close if clicked on the overlay
       closeDialog();
     }
@@ -344,7 +344,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
         id={id}
       />
       <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <div id="dialog-overlay" onClick={handleOverlayClick}>
+        <div id="CUSTOM-dialog-overlay" onClick={handleOverlayClick}>
           <FileUpload
             folderId={getCurrentFolderId()}
             fileId={fileId}

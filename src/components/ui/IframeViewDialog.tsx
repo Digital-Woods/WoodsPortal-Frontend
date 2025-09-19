@@ -39,7 +39,7 @@ export const IframeViewDialog = ({
 
   return (
     <Dialog open={open}>
-      <div className="relative bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-between flex w-[90vw] full-height-fix" >
+      <div className="relative bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-between flex w-[90vw] CUSTOM-full-height-fix" >
         {/* Render image or iframe based on the URL extension */}
         {iframeUrls.length > 0 && isImageUrl(iframeUrls[0]) ? (
           <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 w-full h-auto overflow-auto">

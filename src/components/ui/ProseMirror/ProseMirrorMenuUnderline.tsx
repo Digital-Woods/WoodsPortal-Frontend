@@ -29,7 +29,7 @@ import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { UnderlineIcon } from '@/assets/icons/UnderlineIcon';
 import { createRoot } from 'react-dom/client';
 
-const activeDynamicClassName = "note-active-state";
+const activeDynamicClassName = "CUSTOM-note-active-state";
 
 const isUnderlineMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
@@ -62,14 +62,14 @@ const EditorUnderlineMenu = ({ editorView }: any) => {
   return (
     <div className="relative inline-block">
       <div
-        className="ProseMirror-icon"
+        className="CUSTOM-ProseMirror-icon"
         title="Underline"
         ref={boldButtonRef}
         onClick={toggleMenu}
       >
         <div
           id="selectedEditorUnderline"
-          className={`note-menuitem ${selectedEditorUnderline ? activeDynamicClassName : ""}`}
+          className={`CUSTOM-note-menuitem ${selectedEditorUnderline ? activeDynamicClassName : ""}`}
         >
           {/* <SvgRenderer svgContent={boldIcon} /> */}
           <UnderlineIcon/>

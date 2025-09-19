@@ -51,7 +51,7 @@ export const clearFormattingNoteMenuItem = new MenuItem2({
           </g>
         </svg>
       `;
-      span.className = "note-menuitem";
+      span.className = "CUSTOM-note-menuitem";
       return span;
     })(),
   },

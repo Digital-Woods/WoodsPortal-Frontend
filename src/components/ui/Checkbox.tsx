@@ -14,7 +14,7 @@ export const Checkbox = ({
           type="checkbox"
           checked={checked}
           onChange={onChange}
-          className={`form-checkbox h-4 w-4 cursor-pointer ${checkboxClassName}`}
+          className={`CUSTOM-form-checkbox h-4 w-4 cursor-pointer ${checkboxClassName}`}
         />
         {label && <label className={`ml-2  ${labelClassName}`}>{label}</label>}
       </div>

@@ -251,15 +251,15 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
         <div className="col-md-6">
           <div className="card">
             <div className="card-body">
-              <div className="kb-data-box lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start">
-                <div className="kb-modal-data-title">
-                  <div className="kb-data-title">
+              <div className="CUSTOM-kb-data-box lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)] flex flex-col justify-start">
+                <div className="CUSTOM-kb-modal-data-title">
+                  <div className="CUSTOM-kb-data-title">
                     <div className="text-lg text-start font-semibold dark:text-white">File Upload</div>
                   </div>
                 </div>
                 <form onSubmit={fileUploadSubmit} className={`max-w-screen !mb-0  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
-                  <div className={`kb-file-upload  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
-                    <div className={`file-upload-box dark:bg-dark-300 dark:text-white ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
+                  <div className={`CUSTOM-kb-file-upload  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
+                    <div className={`CUSTOM-file-upload-box dark:bg-dark-300 dark:text-white ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
                       {/* <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +274,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                       <input
                         type="file"
                         id="fileupload"
-                        className="file-upload-input"
+                        className="CUSTOM-file-upload-input"
                         onChange={inputChange}
                         disabled={isUploading}
                       />
@@ -291,18 +291,18 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                       const { id, filename } = data;
                       return (
                         <div
-                          className="file-atc-box border border-gray-300 rounded-sm shadow-md p-2 mb-2 flex-col"
+                          className="CUSTOM-file-atc-box border border-gray-300 rounded-sm shadow-md p-2 mb-2 flex-col"
                           key={id}
                         >
-                          <div className="file-detail flex items-center">
+                          <div className="CUSTOM-file-detail flex items-center">
                             <div className="dark:text-white">{getIcon(filename)}</div>
                             <div className="mx-2 text-sm dark:text-white font-medium text-left">
                               {truncateText(filename, 80)}
                             </div>
-                            <div className="file-actions ml-auto">
+                            <div className="CUSTOM-file-actions ml-auto">
                               <button
                                 type="button"
-                                className={`file-action-btn dark:text-white text-red-600 mr-0 ${isUploading ? 'hidden':''}`}
+                                className={`CUSTOM-file-action-btn dark:text-white text-red-600 mr-0 ${isUploading ? 'hidden':''}`}
                                 onClick={() => deleteSelectFile(id)}
                                 disabled={isUploading}
                               >

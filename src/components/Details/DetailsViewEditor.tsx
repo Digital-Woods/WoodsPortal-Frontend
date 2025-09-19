@@ -110,7 +110,7 @@ export const DetailsViewEditor = ({
             </Button>
           </div>
         </div>
-        <div className="px-4 pb-4 updateRichText">
+        <div className="px-4 pb-4 CUSTOM-updateRichText">
           <ProseMirrorEditor
             ref={editorRef}
             key={title}

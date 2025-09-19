@@ -614,7 +614,7 @@ export const DynamicComponentView = ({
       
       {pageView === "table" && (
         <div className="bg-[var(--sidebar-background-color)] dark:bg-dark-300" key={pathname}>
-          <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto hide-scrollbar bg-cleanWhite dark:text-white`}>
+          <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto CUSTOM-hide-scrollbar bg-cleanWhite dark:text-white`}>
             <div className="flex relative z-[2] gap-6">
               <div className="flex flex-col gap-2 flex-1">
                 {isShowTitle && hubSpotUserDetails.sideMenu[0].tabName != title && (
@@ -655,7 +655,7 @@ export const DynamicComponentView = ({
                       // )
                       }
                     </p>
-                    <div className="dark:text-white words-break">
+                    <div className="dark:text-white CUSTOM-words-break">
                       {objectDescription
                         ? <HtmlParser html={DOMPurify.sanitize(objectDescription)} />
                         : ""}

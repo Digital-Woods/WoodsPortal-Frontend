@@ -69,7 +69,7 @@ export const AccordionDetails = ({ children, active, id }: any) => {
   return (
     <div
       ref={contentEl}
-      className={`rounded-md transition-all duration-500 overflow-y-auto hide-scrollbar dark:bg-dark-300 `}
+      className={`rounded-md transition-all duration-500 overflow-y-auto CUSTOM-hide-scrollbar dark:bg-dark-300 `}
     >
       <div className="rounded-md px-2">{children}</div>
     </div>

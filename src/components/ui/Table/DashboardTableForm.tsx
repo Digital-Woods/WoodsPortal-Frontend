@@ -138,7 +138,16 @@ export const DashboardTableForm = ({
     onSuccess: async (response: any, variables: any) => {
       setToaster({ message: response?.statusMsg, type: "success" });
       if (!addAnother) {
-        refetch();
+        // setSync(true);
+        // refetch({
+        //   filterPropertyName: "hs_pipeline",
+        //   filterOperator: "eq",
+        //   filterValue: ""
+        // });
+        // refetch(response);
+        setSync(true);
+        setApiSync(true);
+        // refetch();
         // setApiSync(true); // Keeping this as it might be used for other purposes
       }
       if (!variables.addAnother) {
@@ -346,7 +355,7 @@ export const DashboardTableForm = ({
       <Dialog
         open={openModal}
         onClose={setOpenModal}
-        className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 object-create-form"
+        className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 CUSTOM-object-create-form"
       >
         <div>
           <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15]">
@@ -405,7 +414,7 @@ export const DashboardTableForm = ({
           </div>
 
           {isLoading ? (
-            <div className="loader-line"></div>
+            <div className="CUSTOM-loader-line"></div>
           ) : (
             <div className="w-full text-left">
               {activeTab === "addNew" ? (
@@ -478,7 +487,7 @@ export const DashboardTableForm = ({
                                             {...register(filled.name)}
                                           />
                                         ) : filled.fieldType === "html" ? (
-                                          <div className="create-object-editor">
+                                          <div className="CUSTOM-create-object-editor">
                                             <DashboardTableEditor
                                               title={filled.label}
                                               value={filled.value}

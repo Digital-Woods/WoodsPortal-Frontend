@@ -4,7 +4,7 @@ import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { BoldIcon } from '@/assets/icons/BoldIcon';
 import { createRoot } from 'react-dom/client';
 
-const activeDynamicClassName = "note-active-state";
+const activeDynamicClassName = "CUSTOM-note-active-state";
 
 const isBoldMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
@@ -37,14 +37,14 @@ const EditorBoldMenu = ({ editorView }: any) => {
   return (
     <div className="relative inline-block">
       <div
-        className="ProseMirror-icon"
+        className="CUSTOM-ProseMirror-icon"
         title="Bold"
         ref={boldButtonRef}
         onClick={toggleMenu}
       >
         <div
           id="selectedEditorBold"
-          className={`note-menuitem  ${selectedEditorBold ? activeDynamicClassName : ""}`}
+          className={`CUSTOM-note-menuitem  ${selectedEditorBold ? activeDynamicClassName : ""}`}
         >
           {/* <SvgRenderer svgContent={boldIcon} /> */}
           <BoldIcon/>

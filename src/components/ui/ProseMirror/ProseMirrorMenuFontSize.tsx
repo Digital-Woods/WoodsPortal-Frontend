@@ -4,7 +4,7 @@ import {MenuItem as MenuItem2} from "prosemirror-menu"
 import { createRoot } from 'react-dom/client';
 import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } from './ProseMirrorMenuPopup';
 
-const activeDynamicClassName = "note-active-state";
+const activeDynamicClassName = "CUSTOM-note-active-state";
 
 const textFontSizes = [
   {
@@ -186,11 +186,11 @@ const DropdownFontSizeMenu = ({ editorView, activeFont2 }: any) => {
           </span>
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <ul className="space-y-2 note-dd-Select-menu text-gray-500 !list-none list-inside dark:text-gray-400">
+          <ul className="space-y-2 CUSTOM-note-dd-Select-menu text-gray-500 !list-none list-inside dark:text-gray-400">
             {textFontSizes.map((textFont) => (
               <li
                 key={textFont.value}
-                className={`cursor-pointer note-dd-Select-menu-options !text-[12px] min-w-[30px] hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
+                className={`cursor-pointer CUSTOM-note-dd-Select-menu-options !text-[12px] min-w-[30px] hover:bg-[#e5f5f8] dark:text-[#666666] py-1 ${
                   defaultEditorFontSize?.value === textFont.value
                     ? "bg-gray-100"
                     : ""
