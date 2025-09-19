@@ -5,57 +5,101 @@ import { setCookie } from "@/utils/cookie";
 import { env } from "@/env";
 import { useAuth } from "@/state/use-auth";
 
+// export function useMe() {
+//   // if (isLivePreview()) {
+//   //   return {
+//   //     me: hubSpotUserDetails,
+//   //     isLoading: false,
+//   //     error: null,
+//   //     isAuthorized: null,
+//   //     getMe: null,
+//   //   };
+//   // }else if (env.DATA_SOURCE_SET === true) {
+//   //   return {
+//   //     me: hubSpotUserDetails,
+//   //     isLoading: false,
+//   //     error: null,
+//   //     isAuthorized: null,
+//   //     getMe: null,
+//   //   };
+//   // } else {
+//     const { isAuthorized } = useAuth();
+//     let response = null;
+
+//     const { data, isLoading, error, refetch } : any = useQuery({
+//       queryKey: ["me_data"],
+//       queryFn: () => Client.users.me(hubId),
+//       staleTime: 10000,
+//       // queryFn: async () => Client.users.me,
+//       // enabled: isAuthorized
+//     });
+
+//     const getMe = () => {
+//       refetch();
+//     };
+
+//     if (data) {
+//       response = data.data;
+//       const portalSettings = response.portalSettings;
+//       setCookie(
+//         env.VITE_AUTH_PORTAL_KEY,
+//         JSON.stringify(portalSettings),
+//       );
+//       setCookie(env.VITE_AUTH_USER_KEY, JSON.stringify(response));
+//     }
+
+//     return {
+//       me: response,
+//       isLoading,
+//       error,
+//       isAuthorized,
+//       getMe,
+//     };
+//   // }
+// }
+
 export function useMe() {
-  // if (isLivePreview()) {
-  //   return {
-  //     me: hubSpotUserDetails,
-  //     isLoading: false,
-  //     error: null,
-  //     isAuthorized: null,
-  //     getMe: null,
-  //   };
-  // }else if (env.DATA_SOURCE_SET === true) {
-  //   return {
-  //     me: hubSpotUserDetails,
-  //     isLoading: false,
-  //     error: null,
-  //     isAuthorized: null,
-  //     getMe: null,
-  //   };
-  // } else {
-    const { isAuthorized } = useAuth();
-    let response = null;
+  const { profileDetails, setProfileDetails } = useAuth();
+  const { isAuthorized } = useAuth();
 
-    const { data, isLoading, error, refetch } : any = useQuery({
-      queryKey: ["me_data"],
-      queryFn: () => Client.users.me(hubId),
-      staleTime: 10000,
-      // queryFn: async () => Client.users.me,
-      // enabled: isAuthorized
-    });
+  const {
+    data,
+    isLoading,
+    error,
+    refetch,
+  }: any = useQuery({
+    queryKey: ["me_data"],
+    queryFn: () => Client.users.me(),
+    staleTime: 10000,
+    enabled: isAuthorized && !profileDetails, // 👈 only run if no profileDetails
+  });
 
-    const getMe = () => {
-      refetch();
-    };
+  let response = null;
 
-    if (data) {
-      response = data.data;
-      const portalSettings = response.portalSettings;
-      setCookie(
-        env.VITE_AUTH_PORTAL_KEY,
-        JSON.stringify(portalSettings),
-      );
-      setCookie(env.VITE_AUTH_USER_KEY, JSON.stringify(response));
-    }
+  // If profileDetails exists, just use it
+  if (profileDetails) {
+    response = profileDetails;
+  } else if (data) {
+    // If no profileDetails but API returned data → update
+    setProfileDetails(data);
+    response = data.data;
 
-    return {
-      me: response,
-      isLoading,
-      error,
-      isAuthorized,
-      getMe,
-    };
-  // }
+    const portalSettings = response.portalSettings;
+    setCookie(env.VITE_AUTH_PORTAL_KEY, JSON.stringify(portalSettings));
+    setCookie(env.VITE_AUTH_USER_KEY, JSON.stringify(response));
+  }
+
+  const getMe = () => {
+    refetch();
+  };
+
+  return {
+    me: response,
+    isLoading,
+    error,
+    isAuthorized,
+    getMe,
+  };
 }
 
 
