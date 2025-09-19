@@ -1243,6 +1243,10 @@ h6 {
   overflow-y: auto;
 }
 
+#app{
+  width: 100vw;
+}
+
 p{
   margin:0;
 }
