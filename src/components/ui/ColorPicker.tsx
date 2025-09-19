@@ -40,7 +40,7 @@ export const ColorPicker = ({ color, setColor, setIsOpen, defaultTextColor }: an
       <div className={`${tab === "tab1" ? "block bg-gray-100" : "hidden"}`}>
         <GridColorPicker onColorChange={onColorChange} />
       </div>
-      <div className={`${tab === "tab2" ? "block bg-gray-100" : "hidden"} advance-color-picker`}>
+      <div className={`${tab === "tab2" ? "block bg-gray-100" : "hidden"} CUSTOM-advance-color-picker`}>
         <SimonColorPicker onColorChange={onColorChange} defaultColor={defaultColor} />
       </div>
       <div className="flex justify-center bg-gray-100 py-2">

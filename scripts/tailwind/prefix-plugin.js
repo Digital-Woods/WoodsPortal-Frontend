@@ -5,7 +5,7 @@ import generate from '@babel/generator'
 import { prefix } from './prefix.env.js'
 
 const prefix1 = `${prefix}:`
-const prefix2 = `${prefix}\\:`
+const prefix2 = `${prefix}\:`
 
 export default function TailwindPrefixPlugin() {
   return {
@@ -39,6 +39,7 @@ export default function TailwindPrefixPlugin() {
                 if (
                   cls.startsWith('ProseMirror') ||
                   cls.startsWith('EditorView') ||
+                  cls.startsWith('CUSTOM') ||
                   cls.startsWith(prefix1) ||
                   cls.startsWith(prefix2)
                 ) {
@@ -67,11 +68,29 @@ export default function TailwindPrefixPlugin() {
           plugins: ['jsx', 'typescript'],
         })
 
+        const addImportant = (c) => {
+          if (!c) return c
+          const parts = c.split(':')
+          const utility = parts.pop()
+          if (!utility || utility.startsWith('!')) {
+            return c
+          }
+          parts.push(`!${utility}`)
+          return parts.join(':')
+        }
+
         const prefixClasses = (str) => {
           return str
             .split(/\s+/)
             .filter(Boolean)
-            .map((c) => (c.startsWith(prefix1) ? c : `${prefix1}${c}`))
+            .map((c) => {
+              if (c.startsWith(prefix1) || c.startsWith('CUSTOM')) return c
+              return `${prefix1}${c}`
+            })
+            .map((c) => {
+              if (c.startsWith('CUSTOM')) return c
+              return addImportant(c)
+            })
             .join(' ')
         }
 
@@ -264,7 +283,7 @@ export default function TailwindPrefixPlugin() {
 
 // Handles:
 // ✅ className="..."
-// ✅ className={\...`}with${"foo"}inside
+// ✅ className={\`...\`}with${"foo"}inside
 // ✅className={cond ? "a" : "b"}
 // ✅className={cond && "foo"}
 // ✅className={clsx("foo", cond && "bar")}

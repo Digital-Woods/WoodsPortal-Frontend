@@ -250,7 +250,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       )}
       {!isLoading && tableData.length > 0 && (
         <React.Fragment>
-          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-auto" : "max-h-[270px] overflow-y-auto hide-scrollbar"}`}>
+          <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-auto" : "max-h-[270px] overflow-y-auto CUSTOM-hide-scrollbar"}`}>
             {tableData.map((item: any) => (
               <table key={item.id} className="flex items-start !text-[var(--right-tables-text-color)] !bg-[var(--right-tables-card-background-color)] dark:!text-white dark:!bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
                 {tableHeader.map((column: any) => (

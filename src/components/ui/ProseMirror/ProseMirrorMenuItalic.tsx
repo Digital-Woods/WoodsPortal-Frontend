@@ -28,7 +28,7 @@ import {toggleMark as toggleMark2} from "prosemirror-commands"
 import { ItalicIcon } from '@/assets/icons/ItalicIcon';
 import { createRoot } from 'react-dom/client';
 
-const activeDynamicClassName = "note-active-state";
+const activeDynamicClassName = "CUSTOM-note-active-state";
 
 const isItalicMarkActive = (state: any, markType: any) => {
   const { from, to, empty } = state.selection;
@@ -61,14 +61,14 @@ const EditorItalicMenu = ({ editorView }: any) => {
   return (
     <div className="relative inline-block">
       <div
-        className="ProseMirror-icon"
+        className="CUSTOM-ProseMirror-icon"
         title="Italic"
         ref={boldButtonRef}
         onClick={toggleMenu}
       >
         <div
           id="selectedEditorItalic"
-          className={`note-menuitem ${selectedEditorItalic ? activeDynamicClassName : ""}`}
+          className={`CUSTOM-note-menuitem ${selectedEditorItalic ? activeDynamicClassName : ""}`}
         >
           {/* <SvgRenderer svgContent={boldIcon} /> */}
           <ItalicIcon/>

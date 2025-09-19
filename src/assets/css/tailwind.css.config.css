@@ -1,8 +1,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  * {
-    border-color: #e5e7eb;
+  :root:not(.dark) * {
+    border-color: #e5e7eb !important;
   }
 }
 

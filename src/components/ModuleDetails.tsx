@@ -122,7 +122,7 @@ export const ModuleDetails = ({ path, id }: any) => {
 
   return (
     <div className="h-full dark:bg-dark-200 w-[100%] p-6">
-      {isLoading && !item && <div className="loader-line"></div>}
+      {isLoading && !item && <div className="CUSTOM-loader-line"></div>}
 
       {item && (
         <div className=" flex flex-col gap-4">

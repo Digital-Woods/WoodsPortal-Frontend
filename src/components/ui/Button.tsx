@@ -10,11 +10,11 @@ const classesDynamicClassName = {
 const variantDynamicClassName : any = {
   default:
     "bg-primary text-white dark:border dark:bg-dark-400 dark:hover:bg-dark-400 shadow hover:bg-primary/90",
-  create: `!bg-[var(--create-button-background-color)] hover:!bg-[var(--create-button-background-color)]/80 !text-[var(--create-button-text-color)]`,
+  create: `bg-[var(--create-button-background-color)] hover:bg-[var(--create-button-background-color)]/80 text-[var(--create-button-text-color)]`,
   destructive:
     "bg-red-500 text-destructive-foreground shadow-sm hover:bg-red-200",
   outline:
-    "border border-input dark:!text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground dark:bg-dark-400 dark:hover:bg-dark-400",
+    "border border-input dark:text-white bg-background shadow-sm hover:bg-accent hover:text-accent-foreground dark:bg-dark-400 dark:hover:bg-dark-400",
   secondary:
     "bg-secondary text-white shadow-sm hover:bg-secondary/80 dark:border dark:bg-dark-400 dark:hover:bg-dark-400 ",
   ghost: "hover:bg-accent hover:text-accent-foreground",

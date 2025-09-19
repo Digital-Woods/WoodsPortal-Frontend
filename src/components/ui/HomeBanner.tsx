@@ -95,7 +95,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
             <p className={`opacity-70 text-[var(--home-tab-description-color)] dark:text-white text-sm`}>It’s {formatGreetingDate()}</p>
             }
           </div>
-          <p className={`text-[var(--home-tab-description-color)] dark:text-white  words-break`}>
+          <p className={`text-[var(--home-tab-description-color)] dark:text-white  CUSTOM-words-break`}>
             <HtmlParser html={DOMPurify.sanitize(updatedDescription)} />
           </p>
         </div>

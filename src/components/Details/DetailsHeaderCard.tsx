@@ -76,22 +76,22 @@ export const DetailsHeaderCard = ({
 
   return (
     <div
-      className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden bg-custom-gradient"
+      className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden CUSTOM-bg-custom-gradient"
     >
       <div className="relative flex flex-col justify-center p-4 text-[var(--details-page-text-color)] z-10">
         <p className="text-2xl font-semibold mb-2">{displayData?.primary}</p>
         {displayData?.secondary && (
-          <p className="text-xs font-normal text-[var(--details-page-text-color)] line-clamp-2">
+          <p className="text-xs font-normal text-[var(--details-page-text-color)] CUSTOM-line-clamp-2">
             {displayData?.secondary}
           </p>
         )}
         {displayData?.amount && (
-          <p className="text-xs font-normal text-[var(--details-page-text-color)] line-clamp-2">
+          <p className="text-xs font-normal text-[var(--details-page-text-color)] CUSTOM-line-clamp-2">
             {displayData?.amount}
           </p>
         )}
         {displayData?.domain && (
-          <p className="text-xs font-normal text-[var(--details-page-text-color)] line-clamp-2">
+          <p className="text-xs font-normal text-[var(--details-page-text-color)] CUSTOM-line-clamp-2">
             <a href={displayData?.domain ? `https://${displayData.domain}` : ''} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
               <span>
                 {displayData?.domain}

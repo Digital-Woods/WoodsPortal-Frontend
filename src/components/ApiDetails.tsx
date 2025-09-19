@@ -193,12 +193,12 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
         <div className=" flex relative z-[1] bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:p-4 p-3">
           <div
             className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-              } lg:h-[calc(100vh-var(--nav-height))] hide-scrollbar overflow-y-auto overflow-x-hidden`}
+              } lg:h-[calc(100vh-var(--nav-height))] CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}
           >
             <DetailsSkeleton />
           </div>
-          <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
-            <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
+          <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full CUSTOM-hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
+            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
               <DetailsSidebarSkeleton />
             </div>
           </div>
@@ -209,7 +209,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
   return (
     <div
-      className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
+      className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl CUSTOM-hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
     >
       {item.length > 0 && (
         <div className=" flex relative bg-cleanWhite  h-full dark:bg-dark-200 overflow-hidden">
@@ -227,8 +227,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
           {/* main content code start */}
           <div
             id="details-scrollable-container"
-            className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-              } lg:h-full hide-scrollbar overflow-y-auto overflow-x-hidden md:pt-4 pt-3`}
+            className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full md:pt-4 pt-3"
+              } lg:h-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}
           >
             <div className={``}>
               <DetailsHeaderCard
@@ -344,7 +344,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                 <div>
                   {isLoadingList ?
                     <div className="loader">
-                      <div className="loader-line"></div>
+                      <div className="CUSTOM-loader-line"></div>
                     </div>
                   : 
                     <hr className="w-full" />
@@ -359,7 +359,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
           {/* sidebar code start */}
           {/* Sidebar */}
-          <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
+          <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full CUSTOM-hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
             {/* Close Button for Small Devices */}
             {!isLargeScreen && sidebarDetailsOpen && (
               <div className="rounded-full dark:bg-dark-200 z-50 absolute right-[10px] top-[60px]">
@@ -373,7 +373,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
             )}
 
             {/* Sidebar Content */}
-            <div className="h-full hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible md:!py-4">
+            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-y-auto md:!py-4">
               {associations &&
                 Object.entries(associations)
                   .filter(

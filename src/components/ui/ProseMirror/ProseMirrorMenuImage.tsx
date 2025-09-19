@@ -129,7 +129,7 @@ const EditorImageUploadMenu = ({
   return (
     <div className="">
       <div
-        className="ProseMirror-icon note-menuitem"
+        className="CUSTOM-ProseMirror-icon CUSTOM-note-menuitem"
         title="Insert image"
         ref={boldButtonRef}
         onClick={uploadImage}

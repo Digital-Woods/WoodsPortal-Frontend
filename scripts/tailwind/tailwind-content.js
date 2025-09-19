@@ -15,6 +15,17 @@ function addPrefix(token) {
   return `${prefix1}${token}`
 }
 
+function addImportant(token) {
+  if (!token) return token
+  const parts = token.split(':')
+  const utility = parts.pop()
+  if (!utility || utility.startsWith('!')) {
+    return token
+  }
+  parts.push(`!${utility}`)
+  return parts.join(':')
+}
+
 // function prefixStaticClasses(str) {
 //   // Prefix whitespace-separated class tokens (outside ${ ... })
 //   return str.split(/\s+/).filter(Boolean).map(addPrefix).join(' ')
@@ -27,11 +38,11 @@ function prefixStaticClasses(str) {
     .filter(Boolean)
     .map((token) => {
       if (!token) return token
-      if (token.startsWith(prefix1)) return token
+      if (token.startsWith(prefix1)) return addImportant(token)
 
       // ✅ Handle opening arbitrary value like "z-["
       if (/^[a-z0-9-]+-\[$/i.test(token)) {
-        return `${prefix1}${token}`
+        return addImportant(`${prefix1}${token}`)
       }
 
       // ✅ Leave closing bracket "]" untouched
@@ -46,7 +57,7 @@ function prefixStaticClasses(str) {
       //   return `${prefix1}${key}-[${val}]`
       // }
 
-      return addPrefix(token)
+      return addImportant(addPrefix(token))
     })
     .join(' ')
 }

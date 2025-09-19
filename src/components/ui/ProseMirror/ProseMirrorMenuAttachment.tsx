@@ -144,7 +144,7 @@ const EditorAttachmentUploadMenu = ({
   return (
     <div className="">
       <div
-        className="ProseMirror-icon note-menuitem"
+        className="CUSTOM-ProseMirror-icon CUSTOM-note-menuitem"
         title="Insert Attatchment"
         ref={boldButtonRef}
         onClick={uploadImage}

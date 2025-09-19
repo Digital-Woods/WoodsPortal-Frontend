@@ -20,7 +20,7 @@ export const ExistingObjectsSelect = ({
                                         id={item.value}
                                         name={item.value}
                                         type="checkbox"
-                                        className="mr-2 form-checkbox h-4 w-4 text-secondary focus:outline-none cursor-pointer"
+                                        className="mr-2 CUSTOM-form-checkbox h-4 w-4 text-secondary focus:outline-none cursor-pointer"
                                         checked={selectedObjects?.some((obj) => obj.value === item.value)}
                                         onChange={() => handleCheckboxChange(item.value, item.label)}
                                     />

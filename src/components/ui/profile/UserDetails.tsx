@@ -152,7 +152,7 @@ const hubspotObjectTypeId = "0-5";
 
     if (!isLoadedFirstTime) {
         return (
-            <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
+            <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl CUSTOM-hide-scrollbar overflow-hidden `}
             >
                 <div className="h-[calc(100vh_-136px)]">
                     <div className="mt-4">
@@ -163,12 +163,12 @@ const hubspotObjectTypeId = "0-5";
         );
     }
     return (
-        <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl hide-scrollbar overflow-hidden `}
+        <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl CUSTOM-hide-scrollbar overflow-hidden `}
         >
             <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
 
                 {/* main content code start */}
-                <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+                <div className={`w-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                     <div className={``}>
                         <div className={`flex md:flex-row flex-col md:items-center justify-between my-4 gap-3`}>
                         <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">

@@ -85,7 +85,7 @@ const PopupInsertEmojiMenu = ({ editorView, href, title }: any) => {
   return (
     <div className="relative inline-block">
       <div
-        className="ProseMirror-icon note-menuitem"
+        className="CUSTOM-ProseMirror-icon CUSTOM-note-menuitem"
         title="Insert Link"
         ref={dropdownButtonRef}
         onClick={toggleMenu}

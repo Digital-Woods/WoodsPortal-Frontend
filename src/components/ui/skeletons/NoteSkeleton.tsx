@@ -39,7 +39,7 @@ export const NoteSkeleton = () => {
                                     className={`py-3 pr-3 pl-6 hover:border-blue-500 hover:bg-gray-100 hover:dark:bg-gray-600 rounded-md relative group`
                                     }
                                 >
-                                    <div className={"relative line-clamp-2"}>
+                                    <div className={"relative CUSTOM-line-clamp-2"}>
                                         <span className="flex flex-col gap-3">
                                             <span className="h-3 bg-gray-300 dark:bg-dark-white rounded-sm w-[150px] inline-block "></span>
 
