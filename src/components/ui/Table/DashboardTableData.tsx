@@ -139,12 +139,12 @@ export const DashboardTableData = ({
     <React.Fragment>
       <div className="overflow-x-auto relative rounded-md  dark:bg-dark-300">
         <Table className="w-full">
-          <TableHeader>
+          <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
             <TableRow>
               {tableHeader.filter((column: any) => !column.hidden).map((column: any) => (
                 <TableHead
                   key={column.key}
-                  className="whitespace-nowrap dark:text-white dark:bg-dark-500 cursor-pointer"
+                  className="whitespace-nowrap bg-gray-100 dark:text-white dark:bg-dark-500 cursor-pointer"
                   onClick={() => handleSort(column.key)}
                 >
                   <div className="flex columns-center">
@@ -175,7 +175,7 @@ export const DashboardTableData = ({
                 </TableHead>
               ))}
               {parentObjectTypeId && parentObjectRecordId &&
-                <TableHead className="whitespace-nowrap dark:text-white dark:bg-dark-500 sticky right-0">
+                <TableHead className="whitespace-nowrap bg-gray-100 dark:text-white dark:bg-dark-500 sticky right-0">
                   <div className="flex columns-center">
                     <span className="font-semibold text-xs">Action</span>
                   </div>

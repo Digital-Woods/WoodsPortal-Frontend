@@ -173,7 +173,7 @@ export const DetailsView = ({
   }
 
   return (
-    <div className="py-3 dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white">
+    <div className="dark:bg-dark-300 bg-cleanWhite rounded-md mt-5 dark:text-white overflow-hidden">
       <table className="w-full dark:bg-[#2a2a2a]">
         <tbody>
         {item?.length > 0 && item

@@ -5,7 +5,7 @@ import { DatePicker } from '@/components/ui/DateTime/DatePicker';
 import { TimePicker } from '@/components/ui/DateTime/TimePicker';
 
 
-const usePosition = (containerSelector = '.object-create-form') => {
+const usePosition = (containerSelector = '.CUSTOM-object-create-form') => {
   const [position, setPosition] = useState('bottom');
   const ref = useRef<any>(null);
 
@@ -65,7 +65,7 @@ export const DateTimeInput = React.forwardRef(
     const [inputValueDate, setInputValueDate] = useState("");
     const [inputValueTime, setInputValueTime] = useState("");
     const [inputValue, setInputValue] = useState("");
-    const [position, positionRef] = usePosition('.object-create-form');
+    const [position, positionRef] = usePosition('.CUSTOM-object-create-form');
 
     useEffect(() => {
       if (defaultValue) {

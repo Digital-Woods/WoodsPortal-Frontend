@@ -18,7 +18,7 @@ export const DashboardTableHeaderSkeleton = ({
             <div className="inline-flex p-1 bg-graySecondary dark:bg-dark-200 rounded-md gap-x-2">
               <button
                 type="button"
-                className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md hover:bg-gray-50 dark:hover:bg-dark-500 last:rounded-e-md text-sm font-medium text-gray-800`}
+                className={`py-1 px-3 inline-flex bg-transparent dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 first:rounded-s-md hover:bg-gray-50 dark:hover:bg-dark-500 last:rounded-e-md text-sm font-medium text-gray-800`}
               >
                 <svg
                   fill="currentcolor"
@@ -34,7 +34,7 @@ export const DashboardTableHeaderSkeleton = ({
               </button>
               <button
                 type="button"
-                className={`py-1 px-3 inline-flex dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 hover:bg-gray-50 dark:hover:bg-dark-500 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800`}
+                className={`py-1 px-3 inline-flex bg-transparent dark:text-gray-200 items-center gap-x-2 -ms-px first:ms-0 hover:bg-gray-50 dark:hover:bg-dark-500 first:rounded-s-md last:rounded-e-md text-sm font-medium text-gray-800`}
               >
                 <svg
                   width="15px"

@@ -100,10 +100,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     // Sort properties for display
     const visibleAssociatedDetails = userAssociatedDetails;
 
-    const expandToggleButton = () => {
-        setExpandDialog(!expandDialog);
-    }
-
     const iframeSettings = Array.isArray(iframePropertyName) ? iframePropertyName : [];
 
     const getDisplayType = (key: any) => {

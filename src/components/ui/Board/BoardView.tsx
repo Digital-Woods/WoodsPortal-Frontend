@@ -443,7 +443,7 @@ Main Component Starts Here
                     />
                   </Drag.DropZone>
                   <Drag.DropZones
-                    className={`min-w-[280px] relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto hide-scrollbar
+                    className={`min-w-[280px] relative flex flex-col h-full bg-[#f5f8fa] dark:bg-dark-500 border dark:border-gray-600 overflow-y-auto CUSTOM-hide-scrollbar
                       ${listPosition === 0
                         ? "rounded-s-md border-r-1  border-l-1"
                         : "border-l-0"

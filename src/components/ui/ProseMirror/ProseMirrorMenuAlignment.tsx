@@ -5,7 +5,7 @@ import { ProseMirrorMenuPopup, ProseMirrorMenuButton, ProseMirrorMenuOption } fr
 import { SvgRenderer } from '@/utils/SvgRenderer';
 import { createRoot } from 'react-dom/client';
 
-const activeDynamicClassName = "note-active-state";
+const activeDynamicClassName = "CUSTOM-note-active-state";
 
 const alignments = [
   {
@@ -133,11 +133,11 @@ const DropdownAlightMenu = ({ editorView }: any) => {
           <SvgRenderer svgContent={textAlign?.icon} />
         </ProseMirrorMenuButton>
         <ProseMirrorMenuOption>
-          <ul className="space-y-2 note-dd-Select-menu !list-none list-inside dark:text-gray-400">
+          <ul className="space-y-2 CUSTOM-note-dd-Select-menu !list-none list-inside dark:text-gray-400">
             {alignments.map((alignment) => (
               <li
                 key={alignment.value}
-                className={`cursor-pointer note-dd-Select-menu-options hover:bg-[#e5f5f8]  py-1 ${
+                className={`cursor-pointer CUSTOM-note-dd-Select-menu-options hover:bg-[#e5f5f8]  py-1 ${
                   defaultEditorAlignment?.value === alignment.value
                     ? "bg-gray-100"
                     : "bg-none"

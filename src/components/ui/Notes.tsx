@@ -164,7 +164,7 @@ const NoteCard = ({
               className={`p-4 cursor-text`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={`edit-note`}>
+              <div className={`CUSTOM-edit-note`}>
               <ProseMirrorEditor
                 ref={editorRef}
                 key={id}
@@ -488,7 +488,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       <Dialog
         open={showDialog}
         onClose={setShowDialog}
-        className={`!p-0 relative mx-auto bg-white dark:bg-white overflow-y-auto max-h-[95vh] ${
+        className={`p-0 relative mx-auto bg-white dark:bg-white overflow-y-auto max-h-[95vh] ${
           expandDialog
             ? "lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]"
             : "lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] "
@@ -533,7 +533,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
             </p>
           </div>
         </div>
-        <div className="px-4 modal-editor">
+        <div className="px-4 CUSTOM-modal-editor">
           <ProseMirrorEditor
             id={objectId}
             attachments={[]}

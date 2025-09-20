@@ -57,12 +57,12 @@ const Profile = () => {
   return (
     <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300">
       <div
-        className={`dark:bg-dark-200 hide-scrollbar overflow-y-auto  h-[calc(100vh-var(--nav-height))] bg-cleanWhite dark:text-white md:px-4 px-3 `} >
+        className={`dark:bg-dark-200 CUSTOM-hide-scrollbar overflow-y-auto  h-[calc(100vh-var(--nav-height))] bg-cleanWhite dark:text-white md:px-4 px-3 `} >
         <div
           className={` md:pt-4 pt-3`}
         >
           <UserProfileCard userData={userData} isLoading={isLoading} />
-          <div className={`w-full hide-scrollbar overflow-y-auto overflow-x-hidden md:my-4 my-3`}>
+          <div className={`w-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden md:my-4 my-3`}>
             <div className={``}>
               {/* <div className="border rounded-lg dark:border-none bg-graySecondary dark:bg-dark-300 border-flatGray w-fit  my-4">
                 <Tabs

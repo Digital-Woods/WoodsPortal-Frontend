@@ -151,7 +151,7 @@ export const Drawer = ({ className }: any) => {
             </div>
             <nav className="space-y-1 flex-1">
               <div className=" flex flex-col h-full justify-between ">
-                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-355px)]' : 'max-h-[calc(100vh-160px)]'} flex flex-col gap-2 overflow-y-auto overflow-x-visible hide-scrollbar relative`}>
+                <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-355px)]' : 'max-h-[calc(100vh-160px)]'} flex flex-col gap-2 overflow-y-auto overflow-x-visible CUSTOM-hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }: any) => (
                       <div
@@ -259,7 +259,7 @@ export const Drawer = ({ className }: any) => {
       </div>
 
       <Dialog open={logoutDialog} onClose={() => setLogoutDialog(false)}>
-        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex">
+        <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex p-4">
           <div className="w-[200px]">
             <img
               src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}

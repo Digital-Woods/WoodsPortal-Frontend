@@ -84,7 +84,7 @@ export const DetailsViewEditor = ({
             Edit {title}
           </div>
           <div className="flex gap-2 items-center">
-            <button
+            <Button
               disabled={isLoading}
               variant="outline"
               onClick={expandToggleButton}
@@ -99,18 +99,18 @@ export const DetailsViewEditor = ({
                   <ExpandIcon width="22px" height="22px" />
                 </div>
               )}
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={isLoading}
               variant="outline"
               onClick={() => setEditRow(null)}
               className="text-white dark:text-white"
             >
               <CloseIcon width="24px" height="24px" />
-            </button>
+            </Button>
           </div>
         </div>
-        <div className="px-4 pb-4 updateRichText">
+        <div className="px-4 pb-4 CUSTOM-updateRichText">
           <ProseMirrorEditor
             ref={editorRef}
             key={title}
