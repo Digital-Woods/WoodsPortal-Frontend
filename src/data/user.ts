@@ -79,9 +79,10 @@ export function useMe() {
   // If profileDetails exists, just use it
   if (profileDetails) {
     response = profileDetails;
+    setProfileDetails(data?.data);
   } else if (data) {
     // If no profileDetails but API returned data → update
-    setProfileDetails(data);
+    setProfileDetails(data?.data);
     response = data.data;
 
     const portalSettings = response.portalSettings;

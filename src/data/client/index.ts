@@ -49,7 +49,7 @@ export const Client = {
 
   users : {
     me: () => {
-      const GET_PROFILE_DETAILS = `${API_ENDPOINTS.GET_PROFILE_DETAILS}`
+      const GET_PROFILE_DETAILS = `${API_ENDPOINTS.USERS_ME}`
       return HttpClient.get(GET_PROFILE_DETAILS)
     },
   },
