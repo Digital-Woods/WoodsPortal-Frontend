@@ -101,9 +101,9 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
     }
   }, [sync]);
 
-  useEffect(() => {
-    refetch();
-  }, [id, fileId, objectId]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [id, fileId, objectId]);
 
   if (isLoading) {
     return <FilesSkeleton />;

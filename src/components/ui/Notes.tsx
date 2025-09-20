@@ -391,9 +391,9 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   }, [objectId, id]);
 
   useEffect(() => {
-    refetch();
+    // refetch();
     setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
-  }, [id, objectId ]);
+  }, []);
 
 
   if(error && !id && objectId == '0-2' && tabName === 'home' ){
