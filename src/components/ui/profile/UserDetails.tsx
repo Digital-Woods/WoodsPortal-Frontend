@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../Tabs";
 import { homeTabsDataTypeFilter } from "@/data/hubSpotData";
 import { Notes } from "../Notes";
 
-export const UserDetails = ({ path, objectId, id, userPermissions, isLoading, isLoadedFirstTime, userCompanyId }: any) => {
+export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
     const [images, setImages] = useState<any>([]);
     // const [sortItems, setSortItems] = useState<any>([]);

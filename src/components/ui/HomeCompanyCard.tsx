@@ -9,7 +9,7 @@ import { HomeCompanyCardSkeleton } from "./skeletons/HomeCompanyCardSkeleton";
 import { Client } from "@/data/client";
 import { useQuery } from "@tanstack/react-query";
 
-export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle }: any) => {
+export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle, setProfileData }: any) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -35,6 +35,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
         onSuccess: (data) => {
             if (data) {
+                if(setProfileData) setProfileData(data) // only for dashboard
                 setUserData(data);
             }
             setIsLoadedFirstTime(true);
