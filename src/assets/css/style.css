@@ -1250,6 +1250,9 @@ h6 {
 p{
   margin:0;
 }
+a, button{
+  cursor: pointer;
+}
 body{
   font-size: 16px;
 }
@@ -1272,4 +1275,7 @@ button {
 }
 table {
   margin-bottom: 0;
+}
+table td, table th{
+  padding: 0.75rem;
 }
