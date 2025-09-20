@@ -84,6 +84,7 @@ export const BoardView = ({
       setDragType(null);
       setIsDragging(false);
       setDrop(null);
+       e.stopPropagation()
     };
 
     let contextData = {
