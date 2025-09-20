@@ -115,10 +115,12 @@ const EditorAttachmentUploadMenu = ({
           Authorization: `Bearer ${token}`,
         },
         onUploadProgress: (progressEvent: any) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(percentCompleted); // Update the progress
+          if (progressEvent.total) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted); // Update the progress
+          }
         },
       });
 
