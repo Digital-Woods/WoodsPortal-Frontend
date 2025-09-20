@@ -412,7 +412,6 @@ export const DynamicComponentView = ({
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       await setPipelines(data.data);
       const pipeline = await setDefaultPipeline(data, objectId);
-      console.log('pipeline', pipeline)
       await getData(pipeline);
     },
     onError: () => {
