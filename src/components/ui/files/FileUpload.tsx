@@ -176,10 +176,12 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
           Authorization: `Bearer ${token}`,
         },
         onUploadProgress: (progressEvent: any) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(percentCompleted); // Update the progress
+          if (progressEvent.total) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted); // Update the progress
+          }
         },
       });
 
@@ -244,7 +246,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     }
     return text;
   }
-
+console.log(uploadProgress,'uploadProgress');
   return (
     <div className="fileupload-view relative">
       <div className="row justify-center m-0">
@@ -315,14 +317,15 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                         {
                           isUploading && uploadProgress < 90 ?                         
                           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
-                          <div
-                            className={`h-3 bg-secondary dark:bg-dark-400 transition-all duration-300 w-[${uploadProgress+10}%]`}
-                          ></div>
+                            <div
+                              className="h-3 bg-secondary dark:bg-dark-400 transition-all duration-300"
+                              style={{ width: `${uploadProgress + 10}%` }}
+                            ></div>
                           </div> : null
                         }
                         {
                           isUploading && uploadProgress > 90  ? 
-                          <div className="meter">
+                          <div className="CUSTOM-meter">
                             <span></span>
                           </div> : null
                         }
