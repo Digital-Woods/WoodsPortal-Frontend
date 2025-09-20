@@ -41,17 +41,40 @@ const Dashboard = () => {
     setPagination([])
   }, []);
 
-  const fetchUserProfile = async ({ portalId, cache }: any) => {
-    if (!portalId) return null;
+  // const fetchUserProfile = async ({ portalId, cache }: any) => {
+  //   if (!portalId) return null;
 
-    const response: any = await Client.user.profile({ portalId, cache });
-    return response?.data;
-  };
+  //   const response: any = await Client.user.profile({ portalId, cache });
+  //   return response?.data;
+  // };
 
-  const { data: userNewData, error, isLoading, refetch } = useQuery({
-    queryKey: ['userProfilePage', portalId, cacheEnabled],
-    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
-    onSuccess: (data) => {
+  // const { data: userNewData, error, isLoading, refetch } = useQuery({
+  //   queryKey: ['userProfilePage', portalId, cacheEnabled],
+  //   queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
+  //   onSuccess: (data) => {
+  //     if (data) {
+  //       setUserData(data);
+  //       setUserId(data?.response?.hs_object_id?.value);
+  //       setUserObjectId(data?.info?.objectTypeId);
+  //       setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id?.value)
+  //     }
+  //     setSync(false);
+  //     setIsLoadedFirstTime(true);
+  //   },
+  //   onError: (error) => {
+  //     console.error("Error fetching profile:", error);
+  //     setSync(false);
+  //     setIsLoadedFirstTime(true);
+  //   }
+  // });
+
+  // useEffect(() => {
+  //   if (sync) {
+  //     refetch();
+  //   }
+  // }, [sync]);
+
+  const setProfileData = (data: any) => {
       if (data) {
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
@@ -60,19 +83,7 @@ const Dashboard = () => {
       }
       setSync(false);
       setIsLoadedFirstTime(true);
-    },
-    onError: (error) => {
-      console.error("Error fetching profile:", error);
-      setSync(false);
-      setIsLoadedFirstTime(true);
-    }
-  });
-
-  useEffect(() => {
-    if (sync) {
-      refetch();
-    }
-  }, [sync]);
+  }
 
   const toggleSidebar = () => {
     setUserToggled(true);
@@ -189,6 +200,7 @@ const Dashboard = () => {
                           // isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
                           viewStyle={card?.view}
+                          setProfileData={setProfileData}
                         />
                         )}
                     </div>
@@ -208,7 +220,7 @@ const Dashboard = () => {
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userCompanyId={userCompanyId} userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoading={isLoading} isLoadedFirstTime={isLoadedFirstTime} />
+            <UserDetails userCompanyId={userCompanyId} userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoadedFirstTime={isLoadedFirstTime} />
 
           </div>
 
