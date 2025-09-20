@@ -94,23 +94,35 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     setRouteMenuConfig(routeMenuConfigs);
   };
 
-  useEffect(() => {
-    setTab()
-  }, []);
+  // useEffect(() => {
+  //   setTab()
+  //   getData();
+  // }, []);
 
-  const setTab = (value?: any) => {
+   useEffect(() => {
+      const fetchData = async () => {
+        await setTab()
+        getData();
+      };
+      fetchData();
+    }, []);
+
+  const setTab = async (value?: any) => {
     let routeMenuConfigs = getRouteMenuConfig();
+    let tabName = "overview"
     if (
       routeMenuConfigs &&
       routeMenuConfigs.hasOwnProperty(objectId)
     ) {
       const active = value || routeMenuConfigs[objectId]?.details?.activeTab;
-      setActiveTabFucntion((active === 'list' || !active) ? "overview" : active);
+      tabName = (active === 'list' || !active) ? "overview" : active
+      await setActiveTabFucntion(tabName);
     } else {
-      setActiveTabFucntion("overview");
+      await setActiveTabFucntion(tabName);
     }
-    getData();
+    return tabName
   }
+
 
   const onChangeTab = (value: any) => {
     setTab(value)
