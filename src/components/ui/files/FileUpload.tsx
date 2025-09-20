@@ -246,7 +246,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     }
     return text;
   }
-console.log(uploadProgress,'uploadProgress');
+
   return (
     <div className="fileupload-view relative">
       <div className="row justify-center m-0">
