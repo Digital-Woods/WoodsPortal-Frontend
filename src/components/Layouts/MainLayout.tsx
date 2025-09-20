@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Drawer } from '@/components/Layouts/SiteLayout/Drawer';
 import { useCollapsible } from '@/state/use-collapsible';
 import { HeaderLayout } from '@/components/Layouts/SiteLayout/HeaderLayout';
 import { useRoute } from '@/state/use-route';
 import { apiRoutes } from '@/data/hubSpotData';
+import { useMe } from "@/data/user";
 
 const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { sidebarCollapsed } = useCollapsible();
   const { routes, setRoutes } = useRoute();
   setRoutes(apiRoutes)
+
+  const { getMe } = useMe();
+  
+  useEffect(() => {
+      getMe()
+  }, []);
 
   return (
     <div className="dark:bg-dark-200 bg-cleanWhite lg:flex-col flex lg:h-[100vh] h-[100vh] relative">
