@@ -340,15 +340,16 @@ export const DashboardTableForm = ({
   useEffect(() => {
     const last: any = breadcrumbs[breadcrumbs.length - 1];
     const lastName = formatCustomObjectLabel(last?.name)
+    const mTitle = formatCustomObjectLabel(title)
     if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
       setObjectName(title);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title} for ${nameTrancate(lastName)}`: `Associate an Existing ${title} with ${nameTrancate(lastName)}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${mTitle} for ${nameTrancate(lastName)}`: `Associate an Existing ${mTitle} with ${nameTrancate(lastName)}`}`);
     } else {
       const singularLastName = lastName?.endsWith("s")
         ? lastName.slice(0, -1)
         : lastName;
       setObjectName(singularLastName);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title.includes('with') ? nameTrancate(title?.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${mTitle.includes('with') ? nameTrancate(mTitle?.replace('with', 'for')) : nameTrancate(mTitle)}` : `Associate an Existing ${nameTrancate(mTitle)}`}`);
     }
   }, [breadcrumbs, activeTab]);
 
