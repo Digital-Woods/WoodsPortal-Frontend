@@ -690,7 +690,8 @@ export const DynamicComponentView = ({
                       {
                       // subscriptionType != 'FREE' && (
                         !isLoading ? (
-                          `${totalRecord} records`
+                          // `${totalRecord} records`
+                          (totalRecord || totalRecord != null) ? `${totalRecord} records` : ""
                         ) : (
                           <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
                         )
