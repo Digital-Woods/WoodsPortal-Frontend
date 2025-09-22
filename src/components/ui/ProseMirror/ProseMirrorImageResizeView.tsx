@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import {NodeSelection} from "prosemirror-state"
 
 const updateImageNodeAttributes = (node: any, view: any, getPos: any, attrs: any) => {
@@ -14,10 +14,12 @@ const updateImageNodeAttributes = (node: any, view: any, getPos: any, attrs: any
 };
 
 const ProseMirrorImage = ({ node, view, getPos }: any) => {
+  
   const imgResizeRef = useRef<any>(null);
   const [imageResize, setImageResize] = useState<any>(false);
-  const width = Number(node.attrs.width);
-  const height = Number(node.attrs.height);
+  const defaultAspectRatio = node.attrs.width / node.attrs.height;
+  const width = Number(node.attrs.width/defaultAspectRatio);
+  const height = Number(node.attrs.height/defaultAspectRatio);
 
   const [size, setSize] = useState<any>({ width: width, height: height });
   const aspectRatio = size.width / size.height;
@@ -98,8 +100,8 @@ const ProseMirrorImage = ({ node, view, getPos }: any) => {
       }] h-[${size?.height}] ${
         imageResize ? "border-[#00d0e4]" : "border-transparent"
       }`}
-      // onClick={() => setImageResize(true)}
-      // onMouseDown={handleImageClick}
+      onClick={() => setImageResize(true)}
+      onMouseDown={handleImageClick}
       ref={imgResizeRef}
     >
       <img
@@ -108,8 +110,8 @@ const ProseMirrorImage = ({ node, view, getPos }: any) => {
         height={size?.height}
         alt={`img-${1}`}
       />
-      {/* {imageResize && (
-        <React.Fragment>
+      {imageResize && (
+        <Fragment>
           <div
             class="w-2 h-2 bg-[#00d0e4] absolute top-[-4px] left-[-4px] cursor-nwse-resize"
             onMouseDown={(e) => handleResize(e, "top-left")}
@@ -126,8 +128,8 @@ const ProseMirrorImage = ({ node, view, getPos }: any) => {
             class="w-2 h-2 bg-[#00d0e4] absolute bottom-[-4px] right-[-4px] cursor-nwse-resize"
             onMouseDown={(e) => handleResize(e, "bottom-right")}
           ></div>
-        </React.Fragment>
-      )} */}
+        </Fragment>
+      )}
     </div>
   );
 };
