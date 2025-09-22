@@ -298,7 +298,7 @@ export function sanitizeForBase64(str = "") {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^\x00-\x7F]/g, '')
-    .replace(/[\/+*=%#]/g, '-')
+    .replace(/[\/+*=%#]/g, '%23')
     .replace(/[^a-zA-Z0-9\s\-@#&!$%^()_.,':;]/g, '')
     .trim();
   // return btoa(unescape(encodeURIComponent(sanitized))); // if needed
@@ -870,8 +870,8 @@ export const formatPath = (key: any) => {
    if (!key || typeof key !== "string") return "";
 
   return key
-    .replace(/\s+/g, "-")              // spaces → dashes
-    .replace(/#/g, "-hash-")           // hash → -hash-
+    .replace(/\s+/g, "-")           // spaces → dashes
+    .replace(/#/g, "%23")           // hash → -hash-
     .replace(/\b\w/g, (l: string) => l.toLowerCase()); // lowercase
 };
 
@@ -880,10 +880,10 @@ export const formatPath = (key: any) => {
 export function formatCustomObjectLabel(key = "") {
   // return (label && typeof label === "string") ? label.replace(/^p_/, "").replace(/_$/, "").replace(/_/g, " ") : "";
   if (!key || typeof key !== "string") return "";
-
+  
   return key
-    .replace(/-/g, " ")                // dashes → spaces
-    .replace(/hash/gi, "#")            // -hash- → #
+    .replace(/-/g, " ")          // dashes → spaces
+    .replace(/%23/g, "#")        // decode %23 → #
     .replace(/\b[a-z]/g, (l: string) => l.toUpperCase()); // lowercase → uppercase
 }
 
