@@ -293,31 +293,9 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const { data, error, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["data", page],
     queryFn: async () => {
-      let param: any = {};
+      let params: any = makeParam()
 
-      const baseParams: any = {
-        objectId: objectId,
-        id: id,
-        portalId: portalId,
-        cache: (sync || apiSync) ? false : true,
-      };
-
-      if (subscriptionType === "FREE") {
-        param = {
-          ...baseParams,
-          ...({ after: page }),
-        };
-      } else {
-        param = {
-          ...baseParams,
-          ...({
-            limit: limit,
-            page: page,
-          }),
-        };
-      }
-
-      return await Client.notes.all(param)
+      return await Client.notes.all(params)
     },
     onSuccess: (data: any) => {
       // setPermissions(data.configurations.note);
@@ -332,9 +310,33 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     refetchInterval: (sync || apiSync) ? env.VITE_NOTE_INTERVAL_TIME : false,
   });
 
+  const makeParam = () => {
+    let params: any = {};
+    const baseParams: any = {
+      objectId: objectId,
+      id: id,
+      portalId: portalId,
+      cache: (sync || apiSync) ? false : true,
+    };
+
+    if (subscriptionType === "FREE") {
+      params = {
+        ...baseParams,
+        ...({ after: page }),
+      };
+    } else {
+      params = {
+        ...baseParams,
+        ...({
+          limit: limit,
+          page: page,
+        }),
+      };
+    }
+    return params
+  }
+
   useEffect(() => {
-    console.log('sync', sync)
-    console.log('apiSync', apiSync)
     if (sync || apiSync) refetch();
   }, [sync, apiSync]);
 
@@ -342,7 +344,13 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
+      let params: any = makeParam()
       return await Client.notes.createnote({
+        params: {
+          limit: params.limit,
+          page: params.page,
+          cache: !!params.cache
+        },
         objectId: objectId,
         id: id,
         noteBody: editorContent,
