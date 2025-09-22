@@ -111,10 +111,10 @@ export const Client = {
         ...query,
       });
     },
-    createnote: ({objectId, id, noteBody, attachmentId, portalId}: any) => {
+    createnote: ({params, objectId, id, noteBody, attachmentId, portalId}: any) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/${hubId}/${portalId}/hubspot-object-notes/${objectId}/${id}`;
-      return HttpClient.post(url, {noteBody: noteBody, attachmentId: attachmentId});
+      const url = `/api/:hubId/:portalId/hubspot-object-notes/${objectId}/${id}`;
+      return HttpClient.post(generateApiUrl({route: url, queryParams: params}), {noteBody: noteBody, attachmentId: attachmentId});
     },
     updateNote: ({objectId, id, note, note_id, portalId}: any) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
