@@ -15,6 +15,7 @@ import { hubId } from '@/data/hubSpotData'
 import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl } from '@/utils/param';
 import { useToaster } from '@/state/use-toaster';
 import { DashboardTableEditor } from './DashboardTableEditor';
+import { formatCustomObjectLabel } from '@/utils/DataMigration';
 
 export const DashboardTableForm = ({
   type = "create",
@@ -338,13 +339,14 @@ export const DashboardTableForm = ({
 
   useEffect(() => {
     const last: any = breadcrumbs[breadcrumbs.length - 1];
+    const lastName = formatCustomObjectLabel(last?.name)
     if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
       setObjectName(title);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title} for ${nameTrancate(last.name)}`: `Associate an Existing ${title} with ${nameTrancate(last.name)}`}`);
+      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title} for ${nameTrancate(lastName)}`: `Associate an Existing ${title} with ${nameTrancate(lastName)}`}`);
     } else {
-      const singularLastName = last?.name?.endsWith("s")
-        ? last?.name.slice(0, -1)
-        : last?.name;
+      const singularLastName = lastName?.endsWith("s")
+        ? lastName.slice(0, -1)
+        : lastName;
       setObjectName(singularLastName);
       setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${title.includes('with') ? nameTrancate(title?.replace('with', 'for')) : nameTrancate(title)}` : `Associate an Existing ${nameTrancate(title)}`}`);
     }
