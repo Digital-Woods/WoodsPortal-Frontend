@@ -276,7 +276,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const [page, setPage] = useState(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
   const { setToaster } = useToaster();
   const [attachmentId, setAttachmentId] = useState("");
-  const { sync, setSync } = useSync();
+  const { sync, setSync, apiSync, setApiSync } = useSync();
   const [expandDialog, setExpandDialog] = useState(false);
   const { setPagination, subscriptionType }: any = useAuth();
 
@@ -299,7 +299,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
         objectId: objectId,
         id: id,
         portalId: portalId,
-        cache: sync ? false : true,
+        cache: (sync || apiSync) ? false : true,
       };
 
       if (subscriptionType === "FREE") {
@@ -322,17 +322,21 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     onSuccess: (data: any) => {
       // setPermissions(data.configurations.note);
       setSync(false);
+      setApiSync(false);
     },
     onError: (error: any) => {
       setSync(false);
+      setApiSync(false);
       console.error("Error fetching file details:", error);
     },
-    refetchInterval: sync ? env.VITE_NOTE_INTERVAL_TIME : false,
+    refetchInterval: (sync || apiSync) ? env.VITE_NOTE_INTERVAL_TIME : false,
   });
 
   useEffect(() => {
-    if (sync) refetch();
-  }, [sync]);
+    console.log('sync', sync)
+    console.log('apiSync', apiSync)
+    if (sync || apiSync) refetch();
+  }, [sync, apiSync]);
 
 
   const { mutate: handleSaveNote, isLoading: isPosting } = useMutation({
@@ -348,8 +352,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     },
 
     onSuccess: (response: any) => {
-      // setSync(true);
-      refetch();
+      setApiSync(true);
+      // refetch();
       setShowDialog(false);
       setToaster({
         message: response.statusMsg,

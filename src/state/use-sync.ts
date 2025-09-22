@@ -24,7 +24,7 @@ export function useSync() {
 
   const setApiSync = (status: boolean) => {
     setLoader(status);
-    setSyncStatus(status);
+    // setSyncStatus(status);
     setApiSyncStatus(status);
   };
 
