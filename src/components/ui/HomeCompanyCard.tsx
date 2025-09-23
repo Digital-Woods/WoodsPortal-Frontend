@@ -35,8 +35,8 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
         onSuccess: (data) => {
             if (data) {
-                if(setProfileData) setProfileData(data) // only for dashboard
-                setUserData(data);
+                if(setProfileData) setProfileData(data.response) // only for dashboard
+                setUserData(data.response);
             }
             setIsLoadedFirstTime(true);
         },

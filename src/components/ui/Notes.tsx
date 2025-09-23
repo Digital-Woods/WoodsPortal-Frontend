@@ -24,7 +24,7 @@ import { NoteSkeleton } from './skeletons/NoteSkeleton';
 import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { useToaster } from '@/state/use-toaster';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/state/use-auth';
 
 
@@ -125,7 +125,7 @@ const NoteCard = ({
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
-        className={`border ${note?.createdBy === 'Hubspot' ? `bg-[var(--note-hs-bg)] dark:bg-dark-300 dark:border-gray-700  ` : `bg-[var(--note-wp-bg)] dark:bg-dark-500 dark:border-gray-600` } border-gray-200  shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
+        className={`border ${note?.createdBy === 'Hubspot' ? `bg-[var(--note-hs-bg)] dark:bg-dark-300 dark:border-gray-700  ` : `bg-[var(--note-wp-bg)] dark:bg-dark-500 dark:border-gray-600` } shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
         onClick={() => {
           setIsOpen(!isOpen);
           setIsOpenEditor(false);

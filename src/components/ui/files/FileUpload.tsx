@@ -302,14 +302,15 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                               {truncateText(filename, 80)}
                             </div>
                             <div className="CUSTOM-file-actions ml-auto">
-                              <button
+                              <Button
                                 type="button"
+                                variant="link"
                                 className={`CUSTOM-file-action-btn dark:text-white text-red-600 mr-0 ${isUploading ? 'hidden':''}`}
                                 onClick={() => deleteSelectFile(id)}
                                 disabled={isUploading}
                               >
                                 Delete
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         {/* Progress Bar */}
@@ -326,7 +327,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                         {
                           isUploading && uploadProgress > 90  ? 
                           <div className="CUSTOM-meter">
-                            <span></span>
+                            <span className="dark:bg-dark-400"></span>
                           </div> : null
                         }
                         </div>

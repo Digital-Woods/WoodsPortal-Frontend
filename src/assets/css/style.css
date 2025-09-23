@@ -569,11 +569,6 @@ form {
   width: 100%;
 }
 
-.dark .CUSTOM-meter>span {
-  background-color: #2a2a2a;
-  background-image: linear-gradient(center bottom, #2a2a2a 37%, #2a2a2a 69%);
-}
-
 .CUSTOM-meter>span:after,
 .CUSTOM-animate>span>span {
   content: "";
