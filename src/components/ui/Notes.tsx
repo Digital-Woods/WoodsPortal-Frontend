@@ -316,7 +316,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       objectId: objectId,
       id: id,
       portalId: portalId,
-      cache: (sync || apiSync) ? false : true,
+      cache: true,
     };
 
     if (subscriptionType === "FREE") {
