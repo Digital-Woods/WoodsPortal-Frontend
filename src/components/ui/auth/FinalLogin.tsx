@@ -126,9 +126,16 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         const errorData = error.response.data.detailedMessage;
         const errors = error.response.data.validationErrors;
         setServerError(errors);
-
-        errorMessage =
-          typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
+        // helper function to extract first error message
+        const extractMessage = (err: any): string => {
+          if (typeof err === "string") return err;
+          if (typeof err === "object" && err !== null) {
+            const val = Object.values(err)[0];
+            return Array.isArray(val) ? val[0] : String(val);
+          }
+          return String(err);
+        };
+        errorMessage = errors ? extractMessage(errors) : extractMessage(errorData);
       }
 
       toast.error(errorMessage);
