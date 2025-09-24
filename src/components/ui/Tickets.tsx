@@ -36,7 +36,7 @@ export const Tickets = ({
 
   const defaultObjectIds = JSON.parse(env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS);
 
-  const {params} = getParamDetails()
+  const {params} = getParamDetails({type:'ticket'})
 
   const apis = {
      tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${defaultObjectIds.tickets}${params}`,
