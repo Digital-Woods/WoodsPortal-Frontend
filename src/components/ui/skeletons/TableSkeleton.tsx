@@ -17,7 +17,7 @@ export const TableSkeleton = ({ row = 10, col = 5 }: any) => {
                     </TableHeader>
                     <TableBody>
                         {[...Array(row)].map((_, i) => (
-                            <TableRow className={`animate-pulse border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}>
+                            <TableRow key={i} className={`animate-pulse border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}>
                                 {[...Array(col)].map((_, j) => (
                                     <TableCell key={j} className="px-4 py-2 whitespace-nowrap text-xs dark:text-white">
                                         <div className="h-4 w-full bg-gray-200 dark:bg-dark-white dark:bg-opacity-20 rounded-md"></div>
