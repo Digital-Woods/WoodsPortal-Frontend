@@ -37,6 +37,7 @@ const sortedHeaders = (headers: any) => {
 };
 
 export const DashboardTableData = ({
+  title = "",
   getData,
   apiResponse,
   // numOfPages,
@@ -226,6 +227,7 @@ export const DashboardTableData = ({
                         value: item[column.key],
                         column: column,
                         itemId: item.hs_object_id,
+                        associationLabel: title,
                         path: path == "/association" ? `/${getParam("objectTypeName")}` : item[column.key],
                         hubspotObjectTypeId: path == "/association" ? getParam("objectTypeId") : hubspotObjectTypeId,
                         type: "list",
