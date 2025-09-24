@@ -9,10 +9,9 @@ const setParentRoute = (props: any, search: any) => {
   const breadcrumbItems: any = [
     {
       n: routeMenu.title,
-      o_t_id: props.objectTypeId,
+      o_t_id: routeMenu.path,
     },
   ]
-  //   console.log('root_breadcrumbItems', breadcrumbItems)
   return setChildRoute(props, search, breadcrumbItems)
 }
 
@@ -153,27 +152,28 @@ export const getParamDetails = () => {
 
   let paramsObject: any = {}
 
-  if (parentObjectTypeId && parentObjectRecordId) {
-    paramsObject['parentObjectTypeId'] = parentObjectTypeId
-    paramsObject['parentObjectRecordId'] = parentObjectRecordId
-  }
-  if (mediatorObjectTypeId && mediatorObjectRecordId) {
-    paramsObject['mediatorObjectTypeId'] = mediatorObjectTypeId
-    paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
+  // if isPrimaryCompany
+  const arr = Array.from(new URLSearchParams(lastItem.p))
+  const map = new Map(arr)
+  if (map.get('isPrimaryCompany') === 'true') {
+    paramsObject['isPrimaryCompany'] = true
+  } else { // if not isPrimaryCompany
+    if (parentObjectTypeId && parentObjectRecordId) {
+      paramsObject['parentObjectTypeId'] = parentObjectTypeId
+      paramsObject['parentObjectRecordId'] = parentObjectRecordId
+    }
+    if (mediatorObjectTypeId && mediatorObjectRecordId) {
+      paramsObject['mediatorObjectTypeId'] = mediatorObjectTypeId
+      paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
+    }
   }
 
   const queryString = new URLSearchParams(paramsObject as any).toString()
 
-  //   console.log('paramsObject', paramsObject)
-  //   console.log('queryString', queryString)
-
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
   let params = bParams ? `?${queryString}` : `?${queryString}`
 
-  if (breadcrumbs.length < 3) params = ''
-
-  //   console.log('breadcrumbs', breadcrumbs)
-  // console.log('params', params)
+  if (breadcrumbs.length < 3 && (map.get('isPrimaryCompany') != 'true')) params = ''
 
   return {
     breadcrumbs,
@@ -183,37 +183,37 @@ export const getParamDetails = () => {
 }
 
 export const getBreadcrumbs = () => {
-    const router = useRouter()
-    const search: any = router.state.location.search
-    let breadcrumbs = decodeToBase64(search.b) || []
+  const router = useRouter()
+  const search: any = router.state.location.search
+  let breadcrumbs = decodeToBase64(search.b) || []
 
-    const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
-      const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
+  const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
+    const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
 
-      if (index === 0) {
-        return {
-          name: breadcrumb.n,
-          path: `/${breadcrumb.o_t_id}`,
-        }
-      } else if (index === 1) {
+    if (index === 0) {
+      return {
+        name: breadcrumb.n,
+        path: `/${breadcrumb.o_t_id}`,
+      }
+    } else if (index === 1) {
+      return {
+        name: breadcrumb.n,
+        path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
+      }
+    } else {
+      if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
         return {
           name: breadcrumb.n,
           path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
         }
       } else {
-        if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
-          return {
-            name: breadcrumb.n,
-            path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
-          }
-        } else {
-          return {
-            name: breadcrumb.n,
-            path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
-          }
+        return {
+          name: breadcrumb.n,
+          path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
         }
       }
-    })
+    }
+  })
 
   if (updated.length < 1) {
     const router = useRouter()
@@ -226,11 +226,14 @@ export const getBreadcrumbs = () => {
       },
     ]
   }
-
   return updated
 }
 
-export const getTableTitle = (componentName: string, title: string, ticketTableTitle: string) => {
+export const getTableTitle = (
+  componentName: string,
+  title: string,
+  ticketTableTitle: string,
+) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search.b) || []
@@ -252,7 +255,6 @@ export const getTableTitle = (componentName: string, title: string, ticketTableT
   let singularTableTitle: any = ''
 
   if (breadcrumbs && breadcrumbs.length > 0) {
-    
     const last: any = breadcrumbs[breadcrumbs.length - 1]
     const previous: any = breadcrumbs[breadcrumbs.length - 2]
     const singularLastName = last?.n
@@ -276,5 +278,5 @@ export const getTableTitle = (componentName: string, title: string, ticketTableT
         : ticketTableTitleSingular
     }
   }
-  return {associatedtableTitleSingular, tableTitle, singularTableTitle}
+  return { associatedtableTitleSingular, tableTitle, singularTableTitle }
 }
