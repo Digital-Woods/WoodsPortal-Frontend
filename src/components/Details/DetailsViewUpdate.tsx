@@ -678,6 +678,7 @@ export const DetailsViewUpdate = ({
                             id={id}
                             urlParam={urlParam}
                             refetch={refetch}
+                            setEditRowKey={setEditRowKey}
                           />
                         ) : editRow.fieldType === "checkbox" ? (
                           <CheckboxField
