@@ -136,24 +136,26 @@ export const getParamDetails = (props?: any) => {
 
   // console.log('breadcrumbs', breadcrumbs)
   if (breadcrumbs.length > 1) {
-
-    if (breadcrumbs.length > 2) {
+    if (props?.type === 'ticket') {
       mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
-    }
-
-    if(props?.type === 'ticket' && breadcrumbs.length > 3) {
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
       bParams = lastItem?.p || ''
     } else {
-      if (!lastItem?.o_r_id && breadcrumbs.length > 3) {
+
+      if (breadcrumbs.length > 2) {
+        mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
+        mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
+      }
+
+      if (!lastItem?.o_r_id && breadcrumbs.length > 4) {
         parentObjectTypeId = lastItem2?.o_t_id || ''
         parentObjectRecordId = lastItem2?.o_r_id || ''
         bParams = lastItem?.p || ''
       }
 
-      if (lastItem?.o_r_id && breadcrumbs.length > 3) {
+      if (lastItem?.o_r_id && breadcrumbs.length > 4) {
         parentObjectTypeId = lastItem3?.o_t_id || ''
         parentObjectRecordId = lastItem3?.o_r_id || ''
         bParams = lastItem?.p || ''
@@ -161,6 +163,12 @@ export const getParamDetails = (props?: any) => {
     }
   }
   let paramsObject: any = {}
+
+  console.log('props?.type', props?.type)
+  console.log('mediatorObjectTypeId', mediatorObjectTypeId)
+  console.log('mediatorObjectRecordId', mediatorObjectRecordId)
+  console.log('parentObjectTypeId', parentObjectTypeId)
+  console.log('parentObjectRecordId', parentObjectRecordId)
 
   // if isPrimaryCompany
   const arr = Array.from(new URLSearchParams(lastItem.p))
@@ -184,7 +192,7 @@ export const getParamDetails = (props?: any) => {
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
   let params = bParams ? `?${queryString}` : `?${queryString}`
 
-  if (breadcrumbs.length < 3 && map.get('isPrimaryCompany') != 'true')
+  if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
     params = ''
 
   return {
@@ -199,7 +207,7 @@ export const getBreadcrumbs = () => {
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search.b) || []
 
-  if(!breadcrumbs && breadcrumbs.length < 1) return []
+  if (!breadcrumbs && breadcrumbs.length < 1) return []
 
   const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
     return generatePath(breadcrumbs, breadcrumb, index)
