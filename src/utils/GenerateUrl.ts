@@ -120,7 +120,7 @@ export const useMakeLink = (props: any) => {
   }
 }
 
-export const getParamDetails = () => {
+export const getParamDetails = (props?: any) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search.b) || []
@@ -142,25 +142,24 @@ export const getParamDetails = () => {
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
     }
 
-    if (!lastItem?.o_r_id && breadcrumbs.length > 3) {
-      parentObjectTypeId = lastItem2?.o_t_id || ''
-      parentObjectRecordId = lastItem2?.o_r_id || ''
+    if(props?.type === 'ticket' && breadcrumbs.length > 3) {
+      parentObjectTypeId = lastItem?.o_t_id || ''
+      parentObjectRecordId = lastItem?.o_r_id || ''
       bParams = lastItem?.p || ''
-    }
+    } else {
+      if (!lastItem?.o_r_id && breadcrumbs.length > 3) {
+        parentObjectTypeId = lastItem2?.o_t_id || ''
+        parentObjectRecordId = lastItem2?.o_r_id || ''
+        bParams = lastItem?.p || ''
+      }
 
-    if (lastItem?.o_r_id && breadcrumbs.length > 3) {
-      parentObjectTypeId = lastItem3?.o_t_id || ''
-      parentObjectRecordId = lastItem3?.o_r_id || ''
-      bParams = lastItem?.p || ''
+      if (lastItem?.o_r_id && breadcrumbs.length > 3) {
+        parentObjectTypeId = lastItem3?.o_t_id || ''
+        parentObjectRecordId = lastItem3?.o_r_id || ''
+        bParams = lastItem?.p || ''
+      }
     }
   }
-  // console.log('lastItem2', lastItem2)
-  // console.log('lastItem3', lastItem3)
-  // console.log('mediatorObjectTypeId', mediatorObjectTypeId)
-  // console.log('mediatorObjectRecordId', mediatorObjectRecordId)
-  // console.log('parentObjectTypeId', parentObjectTypeId)
-  // console.log('parentObjectRecordId', parentObjectRecordId)
-
   let paramsObject: any = {}
 
   // if isPrimaryCompany
@@ -199,7 +198,7 @@ export const getBreadcrumbs = () => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search.b) || []
-  
+
   if(!breadcrumbs && breadcrumbs.length < 1) return []
 
   const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
@@ -222,7 +221,7 @@ export const getBreadcrumbs = () => {
 
 const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
   const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
-  console.log('breadcrumb', breadcrumb)
+  // console.log('breadcrumb', breadcrumb)
   if (index === 0) {
     return {
       name: breadcrumb.n,
