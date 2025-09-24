@@ -16,6 +16,7 @@ import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl 
 import { useToaster } from '@/state/use-toaster';
 import { DashboardTableEditor } from './DashboardTableEditor';
 import { formatCustomObjectLabel } from '@/utils/DataMigration';
+import { getFormTitle } from '@/utils/GenerateUrl';
 
 export const DashboardTableForm = ({
   type = "create",
@@ -47,10 +48,12 @@ export const DashboardTableForm = ({
   const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   // const [addNewTitle, setAddNewTitle] = useState<any>(false);
   // const [addExistingTitle, setAddExistingTitle] = useState<any>(false);
-  const [dialogTitle, setDialogTitle] = useState<any>("");
-  const [objectName, setObjectName] = useState<any>("");
+  // const [dialogTitle, setDialogTitle] = useState<any>("");
+  // const [objectName, setObjectName] = useState<any>("");
   const { setSync, setApiSync } = useSync();
   const { setToaster } = useToaster();
+
+  const { objectName, dialogTitle } = getFormTitle(type, title, activeTab);
 
   const [serverError, setServerError] = useState<any>(null);
   const resetRef = useRef<any>(null);
@@ -333,25 +336,21 @@ export const DashboardTableForm = ({
     }
   };
 
-  const nameTrancate = (name: any) =>{
-   return name.length > 30 ? `${name?.slice(0,30)+'...'}` : name;
-  }
-
-  useEffect(() => {
-    const last: any = breadcrumbs[breadcrumbs.length - 1];
-    const lastName = formatCustomObjectLabel(last?.name)
-    const mTitle = formatCustomObjectLabel(title)
-    if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
-      setObjectName(title);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${mTitle} for ${nameTrancate(lastName)}`: `Associate an Existing ${mTitle} with ${nameTrancate(lastName)}`}`);
-    } else {
-      const singularLastName = lastName?.endsWith("s")
-        ? lastName.slice(0, -1)
-        : lastName;
-      setObjectName(singularLastName);
-      setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${mTitle.includes('with') ? nameTrancate(mTitle?.replace('with', 'for')) : nameTrancate(mTitle)}` : `Associate an Existing ${nameTrancate(mTitle)}`}`);
-    }
-  }, [breadcrumbs, activeTab]);
+  // useEffect(() => {
+  //   const last: any = breadcrumbs[breadcrumbs.length - 1];
+  //   const lastName = formatCustomObjectLabel(last?.name)
+  //   const mTitle = formatCustomObjectLabel(title)
+  //   if (type === "association" && breadcrumbs && breadcrumbs.length > 0) {
+  //     setObjectName(title);
+  //     setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${mTitle} for ${nameTrancate(lastName)}`: `Associate an Existing ${mTitle} with ${nameTrancate(lastName)}`}`);
+  //   } else {
+  //     const singularLastName = lastName?.endsWith("s")
+  //       ? lastName.slice(0, -1)
+  //       : lastName;
+  //     setObjectName(singularLastName);
+  //     setDialogTitle(`${activeTab == 'addNew' ? `Create a new ${mTitle.includes('with') ? nameTrancate(mTitle?.replace('with', 'for')) : nameTrancate(mTitle)}` : `Associate an Existing ${nameTrancate(mTitle)}`}`);
+  //   }
+  // }, [breadcrumbs, activeTab]);
 
   return (
     <div>

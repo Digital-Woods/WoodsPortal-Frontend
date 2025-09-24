@@ -157,7 +157,8 @@ export const getParamDetails = () => {
   const map = new Map(arr)
   if (map.get('isPrimaryCompany') === 'true') {
     paramsObject['isPrimaryCompany'] = true
-  } else { // if not isPrimaryCompany
+  } else {
+    // if not isPrimaryCompany
     if (parentObjectTypeId && parentObjectRecordId) {
       paramsObject['parentObjectTypeId'] = parentObjectTypeId
       paramsObject['parentObjectRecordId'] = parentObjectRecordId
@@ -173,7 +174,8 @@ export const getParamDetails = () => {
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
   let params = bParams ? `?${queryString}` : `?${queryString}`
 
-  if (breadcrumbs.length < 3 && (map.get('isPrimaryCompany') != 'true')) params = ''
+  if (breadcrumbs.length < 3 && map.get('isPrimaryCompany') != 'true')
+    params = ''
 
   return {
     breadcrumbs,
@@ -279,4 +281,50 @@ export const getTableTitle = (
     }
   }
   return { associatedtableTitleSingular, tableTitle, singularTableTitle }
+}
+
+export const getFormTitle = (
+  type: string,
+  title: string,
+  activeTab: string,
+) => {
+  const router = useRouter()
+  const search: any = router.state.location.search
+  let breadcrumbs = decodeToBase64(search.b) || []
+
+  if (breadcrumbs.length < 1) {
+    const router = useRouter()
+    const { pathname } = router.state.location
+    const routeMenu: any = getRouteMenu(pathname)
+    breadcrumbs = [
+      {
+        n: routeMenu.title,
+        p: routeMenu.path,
+      },
+    ]
+  }
+
+  let objectName: any = ''
+  let dialogTitle: any = ''
+
+  if (breadcrumbs && breadcrumbs.length > 0) {
+    const last: any = breadcrumbs[breadcrumbs.length - 1]
+    const lastName = last?.n
+    const mTitle = title
+    if (type === 'association' && breadcrumbs && breadcrumbs.length > 0) {
+      objectName = title
+      dialogTitle = `${activeTab == 'addNew' ? `Create a new ${mTitle} for ${nameTrancate(lastName)}` : `Associate an Existing ${mTitle} with ${nameTrancate(lastName)}`}`
+    } else {
+      const singularLastName = lastName?.endsWith('s')
+        ? lastName.slice(0, -1)
+        : lastName
+      objectName = singularLastName
+      dialogTitle = `${activeTab == 'addNew' ? `Create a new ${mTitle.includes('with') ? nameTrancate(mTitle?.replace('with', 'for')) : nameTrancate(mTitle)}` : `Associate an Existing ${nameTrancate(mTitle)}`}`
+    }
+  }
+  return { objectName, dialogTitle }
+}
+
+const nameTrancate = (name: any) => {
+  return name.length > 30 ? `${name?.slice(0, 30) + '...'}` : name
 }
