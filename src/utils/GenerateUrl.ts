@@ -132,17 +132,34 @@ export const getParamDetails = () => {
   let bParams = ''
   const lastItem = breadcrumbs[breadcrumbs.length - 1]
   const lastItem2 = breadcrumbs[breadcrumbs.length - 2]
+  const lastItem3 = breadcrumbs[breadcrumbs.length - 3]
 
+  // console.log('breadcrumbs', breadcrumbs)
   if (breadcrumbs.length > 1) {
-    mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
-    mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
 
-    if (!lastItem?.o_r_id) {
+    if (breadcrumbs.length > 2) {
+      mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
+      mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
+    }
+
+    if (!lastItem?.o_r_id && breadcrumbs.length > 3) {
       parentObjectTypeId = lastItem2?.o_t_id || ''
       parentObjectRecordId = lastItem2?.o_r_id || ''
       bParams = lastItem?.p || ''
     }
+
+    if (lastItem?.o_r_id && breadcrumbs.length > 3) {
+      parentObjectTypeId = lastItem3?.o_t_id || ''
+      parentObjectRecordId = lastItem3?.o_r_id || ''
+      bParams = lastItem?.p || ''
+    }
   }
+  // console.log('lastItem2', lastItem2)
+  // console.log('lastItem3', lastItem3)
+  // console.log('mediatorObjectTypeId', mediatorObjectTypeId)
+  // console.log('mediatorObjectRecordId', mediatorObjectRecordId)
+  // console.log('parentObjectTypeId', parentObjectTypeId)
+  // console.log('parentObjectRecordId', parentObjectRecordId)
 
   let paramsObject: any = {}
 
@@ -242,7 +259,7 @@ export const getTableTitle = (
     const router = useRouter()
     const { pathname } = router.state.location
     const routeMenu: any = getRouteMenu(pathname)
-    
+
     breadcrumbs = [
       {
         n: routeMenu.title,
@@ -265,7 +282,6 @@ export const getTableTitle = (
 
     // last.path = lastPath?.path
     // previous.path = previousPath?.path
-
 
     associatedtableTitleSingular = singularLastName
     if (componentName != 'ticket') {
