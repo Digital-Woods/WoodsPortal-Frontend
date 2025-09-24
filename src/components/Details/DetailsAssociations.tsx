@@ -11,6 +11,7 @@ import { EmptyMessageCard } from "../ui/EmptyMessageCard";
 import { DashboardTableForm } from "../ui/Table/DashboardTableForm";
 import { Tooltip } from "../ui/Tooltip";
 import { DetailsViewUpdate } from "./DetailsViewUpdate";
+import { useMakeLink } from "@/utils/GenerateUrl";
 
 export const DetailsAssociations = ({
   // key,
@@ -217,6 +218,7 @@ export const DetailsAssociations = ({
                                       value: value.value,
                                       column: value,
                                       itemId: item.hs_object_id.value,
+                                      associationLabel: associationData?.labels?.plural,
                                       path: `/${associationData?.labels?.plural}`,
                                       hubspotObjectTypeId:
                                         associationData?.objectTypeId,
@@ -265,6 +267,7 @@ export const DetailsAssociations = ({
                                     value: value.value,
                                     column: value,
                                     itemId: item.hs_object_id.value,
+                                    associationLabel: associationData?.labels?.plural,
                                     path: `/${associationData?.labels?.plural}`,
                                     hubspotObjectTypeId:
                                       associationData?.objectTypeId,
@@ -318,7 +321,8 @@ export const DetailsAssociations = ({
               //     ? mediatorObjectRecordId
               //     : parentObjectRowId
               //   }&isPrimaryCompany=${companyAsMediator}`}
-              to={viewUrl}
+              // to={viewUrl}
+              to={useMakeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
             >
               View associated {associationData?.labels?.plural}
             </Link>

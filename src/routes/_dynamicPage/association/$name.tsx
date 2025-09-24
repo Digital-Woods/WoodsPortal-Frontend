@@ -4,38 +4,40 @@ import { getQueryParamsFromCurrentUrl, getParam, getRouteMenuByObjectTypeId } fr
 import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
+import { getParamDetails } from '@/utils/GenerateUrl';
 
 const AssociationComponent = () => {
   const router = useRouter()
-  const { search } = router.state.location
+  const { search }: any = router.state.location
 
   const { name: path } = Route.useParams();
 
   let showIframe: any = ""
   let propertyName: any = ""
 
-  const param = getQueryParamsFromCurrentUrl();
-
   let portalId;
   if (env.VITE_DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
   }
   
-  const hubspotObjectTypeId = search?.objectTypeId;
+  const { name } = Route.useParams()
+
+  const hubspotObjectTypeId = name;
   const title = search?.objectTypeName;
 
+  const {params} = getParamDetails()
 
   const apis = {
-    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+    tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${params}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${params}`,
     formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${
-      param ? param + "&isForm=true" : "?isForm=true"
+      params ? params + "&isForm=true" : "?isForm=true"
     }`,
-    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-    createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
-    removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
-    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${params}`,
+    createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${params}`,
+    removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${params}`,
+    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${params}`, // concat ticketId
   };
 
   return (
