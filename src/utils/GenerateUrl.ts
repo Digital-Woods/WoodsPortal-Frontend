@@ -241,8 +241,8 @@ export const getTableTitle = (componentName: string, title: string, ticketTableT
     const routeMenu: any = getRouteMenu(pathname)
     breadcrumbs = [
       {
-        name: routeMenu.title,
-        path: routeMenu.path,
+        n: routeMenu.title,
+        p: routeMenu.path,
       },
     ]
   }
