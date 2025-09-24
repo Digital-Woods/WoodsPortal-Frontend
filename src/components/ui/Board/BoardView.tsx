@@ -11,6 +11,7 @@ import { useToaster } from '@/state/use-toaster';
 import { useTable } from '@/state/use-table';
 
 export const BoardView = ({
+  title = "",
   hubspotObjectTypeId,
   activeCardData,
   // activePipeline,
@@ -256,6 +257,7 @@ export const BoardView = ({
               value: item[column.key],
               column: column,
               itemId: item?.hs_object_id,
+              associationLabel: title,
               path:
                 path == "/association"
                   ? `/${getParam("objectTypeName")}`

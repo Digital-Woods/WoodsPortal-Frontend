@@ -330,6 +330,7 @@ export const DashboardTable: any = ({
             (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
               <BoardView
                 key={path}
+                title={title}
                 hubspotObjectTypeId={hubspotObjectTypeId}
                 activeCardData={activeCardData}
                 pipelines={pipelines}
