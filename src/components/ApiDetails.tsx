@@ -27,6 +27,7 @@ import { DetailsHeaderCard } from "./Details/DetailsHeaderCard";
 import { DetailsPagination } from "./Details/DetailsPagination";
 import { DetailsView } from "./Details/DetailsView";
 import { useRouter } from "@tanstack/react-router";
+import { getParamDetails } from "@/utils/GenerateUrl";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
   const [item, setItems] = useState([]);
@@ -151,6 +152,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     setIsLoadedFirstTime(true);
   }
 
+  const {params} = getParamDetails()
+
   const {
     mutate: getDetails,
     error,
@@ -161,7 +164,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
       await Client.objects.byObjectId({
         objectId: objectId,
         id: id,
-        urlParam,
+        urlParam: params,
         portalId,
         hubId,
         cache: sync ? false : true,

@@ -2,6 +2,7 @@ import { env } from "@/env";
 import { defaultData } from '@/defaultData'
 import { formatCustomObjectLabel, formatPath } from "@/utils/DataMigration";
 import { getRouteMenuConfig, setRouteMenuConfig } from "./client/auth-utils";
+import { pipeline } from "zod";
 
 export const isDevelopment = env.VITE_NODE_ENV === 'development'
 
@@ -41,9 +42,26 @@ const sideMenu = [
   },
 ];
 
+const makeLink = (menuItem: any) => {
+  let link = menuItem?.hubspotObjectTypeId;
+
+  if (menuItem?.companyAsMediator) {
+    link += "-c";
+  }
+
+  if (menuItem?.specPipeLine && menuItem?.pipeLineId) {
+    link += `-${menuItem?.pipeLineId}`;
+  }
+
+  if(!link) return `/${formatPath(menuItem.tabName || menuItem.label)}`
+
+  return `/${link}`;
+};
+
+
 export const apiRoutes: any = sideMenu[0].children.map((menuItem: any) => ({
   hubspotObjectTypeId: `${menuItem.hubspotObjectTypeId}`,
-  path: `/${formatPath(menuItem.tabName || menuItem.label)}`,
+  path: makeLink(menuItem),
   title: formatCustomObjectLabel(menuItem.tabName || menuItem.label),
   icon: menuItem.icon,
   isRequiredAuth: true,
