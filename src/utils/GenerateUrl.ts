@@ -183,36 +183,98 @@ export const getParamDetails = () => {
 }
 
 export const getBreadcrumbs = () => {
-  const router = useRouter()
-  const search: any = router.state.location.search
-  let breadcrumbs = decodeToBase64(search.b) || []
+    const router = useRouter()
+    const search: any = router.state.location.search
+    let breadcrumbs = decodeToBase64(search.b) || []
 
-  const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
-    const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
+    const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
+      const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
 
-    if (index === 0) {
-      return {
-        name: breadcrumb.n,
-        path: `/${breadcrumb.o_t_id}`,
-      }
-    } else if (index === 1) {
-      return {
-        name: breadcrumb.n,
-        path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
-      }
-    } else {
-      if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
+      if (index === 0) {
+        return {
+          name: breadcrumb.n,
+          path: `/${breadcrumb.o_t_id}`,
+        }
+      } else if (index === 1) {
         return {
           name: breadcrumb.n,
           path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
         }
       } else {
-        return {
-          name: breadcrumb.n,
-          path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
+        if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
+          return {
+            name: breadcrumb.n,
+            path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
+          }
+        } else {
+          return {
+            name: breadcrumb.n,
+            path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
+          }
         }
       }
-    }
-  })
+    })
+
+  if (updated.length < 1) {
+    const router = useRouter()
+    const { pathname } = router.state.location
+    const routeMenu: any = getRouteMenu(pathname)
+    return [
+      {
+        name: routeMenu.title,
+        path: routeMenu.path,
+      },
+    ]
+  }
+
   return updated
+}
+
+export const getTableTitle = (componentName: string, title: string, ticketTableTitle: string) => {
+  const router = useRouter()
+  const search: any = router.state.location.search
+  let breadcrumbs = decodeToBase64(search.b) || []
+
+  if (breadcrumbs.length < 1) {
+    const router = useRouter()
+    const { pathname } = router.state.location
+    const routeMenu: any = getRouteMenu(pathname)
+    breadcrumbs = [
+      {
+        name: routeMenu.title,
+        path: routeMenu.path,
+      },
+    ]
+  }
+
+  let associatedtableTitleSingular: any = ''
+  let tableTitle: any = ''
+  let singularTableTitle: any = ''
+
+  if (breadcrumbs && breadcrumbs.length > 0) {
+    
+    const last: any = breadcrumbs[breadcrumbs.length - 1]
+    const previous: any = breadcrumbs[breadcrumbs.length - 2]
+    const singularLastName = last?.n
+
+    associatedtableTitleSingular = singularLastName
+    if (componentName != 'ticket') {
+      tableTitle = previous?.n
+        ? { last: last, previous: previous }
+        : { last: last }
+      singularTableTitle = previous?.n
+        ? `${singularLastName} with ${previous?.n}`
+        : singularLastName
+    } else {
+      const ticketTableTitleSingular = ticketTableTitle.endsWith('s')
+        ? ticketTableTitle.slice(0, -1)
+        : ticketTableTitle
+      tableTitle = { last: { name: title } }
+
+      singularTableTitle = previous?.n
+        ? `${ticketTableTitleSingular} with ${singularLastName} `
+        : ticketTableTitleSingular
+    }
+  }
+  return {associatedtableTitleSingular, tableTitle, singularTableTitle}
 }

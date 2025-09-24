@@ -25,6 +25,7 @@ import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
+import { getTableTitle } from '@/utils/GenerateUrl';
 
 
 export const DynamicComponentView = ({
@@ -54,15 +55,17 @@ export const DynamicComponentView = ({
   const [userToggled, setUserToggled] = useState<any>(false);
   // const [totalRecord, setTotalRecord] = useState<any>(0);
   // const [isLoading, setIsLoading] = useState<any>(false);
-  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
-  const [tableTitle, setTableTitle] = useState<any>(null);
-  const [singularTableTitle, setSingularTableTitle] = useState<any>("");
-  const [associatedtableTitleSingular, setAssociatedtableTitleSingular] = useState<any>("");
+  // const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
+  // const [tableTitle, setTableTitle] = useState<any>(null);
+  // const [singularTableTitle, setSingularTableTitle] = useState<any>("");
+  // const [associatedtableTitleSingular, setAssociatedtableTitleSingular] = useState<any>("");
   const [errorMessage, setErrorMessage] = useState<any>("");
   const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
   const { sync, setSync, setApiSync } = useSync();
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(true);
+
+  const {associatedtableTitleSingular, tableTitle, singularTableTitle} = getTableTitle(componentName, title, ticketTableTitle)
 
   // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
   // const [userData, setUserData] = useState<any>();
@@ -342,35 +345,35 @@ export const DynamicComponentView = ({
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
 
-  useEffect(() => {
-    if (breadcrumbs && breadcrumbs.length > 0 ) {
-      const last: any = breadcrumbs[breadcrumbs.length - 1];
-      const previous: any = breadcrumbs[breadcrumbs.length - 2];
-      const singularLastName = last?.name?.endsWith("s")
-        ? last.name.slice(0, -1)
-        : last.name;
-      setAssociatedtableTitleSingular(singularLastName);
-      if( componentName!="ticket"){
-        setTableTitle(
-          previous?.name ? { last: last, previous: previous } : { last: last }
-        );
-        setSingularTableTitle(
-          previous?.name
-          ? `${singularLastName} with ${previous?.name}`
-          : singularLastName
-        );}else{
-        const ticketTableTitleSingular = ticketTableTitle.endsWith("s")?ticketTableTitle.slice(0, -1):ticketTableTitle;
-      setTableTitle(
-        {last:{name:title}}
-      );
-      setSingularTableTitle(
-        previous?.name
-          ? `${ticketTableTitleSingular} with ${singularLastName} `
-          : ticketTableTitleSingular
-      )
-    }
-    }
-  }, [breadcrumbs]);
+  // useEffect(() => {
+  //   if (breadcrumbs && breadcrumbs.length > 0 ) {
+  //     const last: any = breadcrumbs[breadcrumbs.length - 1];
+  //     const previous: any = breadcrumbs[breadcrumbs.length - 2];
+  //     const singularLastName = last?.name?.endsWith("s")
+  //       ? last.name.slice(0, -1)
+  //       : last.name;
+  //     setAssociatedtableTitleSingular(singularLastName);
+  //     if( componentName!="ticket"){
+  //       setTableTitle(
+  //         previous?.name ? { last: last, previous: previous } : { last: last }
+  //       );
+  //       setSingularTableTitle(
+  //         previous?.name
+  //         ? `${singularLastName} with ${previous?.name}`
+  //         : singularLastName
+  //       );}else{
+  //       const ticketTableTitleSingular = ticketTableTitle.endsWith("s")?ticketTableTitle.slice(0, -1):ticketTableTitle;
+  //     setTableTitle(
+  //       {last:{name:title}}
+  //     );
+  //     setSingularTableTitle(
+  //       previous?.name
+  //         ? `${ticketTableTitleSingular} with ${singularLastName} `
+  //         : ticketTableTitleSingular
+  //     )
+  //   }
+  //   }
+  // }, [breadcrumbs]);
 
   // useEffect( async () => {
   //   await setErrorMessage('')
@@ -672,7 +675,7 @@ export const DynamicComponentView = ({
                                   to={value?.path}
                                 >
                                   {getParamHash(
-                                    formatCustomObjectLabel(value?.name)
+                                    formatCustomObjectLabel(value?.n)
                                   )}
                                 </Link>
                                 {index < array.length - 1 && (
