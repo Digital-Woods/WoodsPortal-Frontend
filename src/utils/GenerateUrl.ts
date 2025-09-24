@@ -133,8 +133,6 @@ export const getParamDetails = () => {
   const lastItem = breadcrumbs[breadcrumbs.length - 1]
   const lastItem2 = breadcrumbs[breadcrumbs.length - 2]
 
-
-    
   if (breadcrumbs.length > 1) {
     mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
     mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
@@ -186,31 +184,7 @@ export const getBreadcrumbs = () => {
   let breadcrumbs = decodeToBase64(search.b) || []
 
   const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
-    const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
-
-    if (index === 0) {
-      return {
-        name: breadcrumb.n,
-        path: `/${breadcrumb.o_t_id}`,
-      }
-    } else if (index === 1) {
-      return {
-        name: breadcrumb.n,
-        path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
-      }
-    } else {
-      if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
-        return {
-          name: breadcrumb.n,
-          path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
-        }
-      } else {
-        return {
-          name: breadcrumb.n,
-          path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
-        }
-      }
-    }
+    return generatePath(breadcrumbs, breadcrumb, index)
   })
 
   if (updated.length < 1) {
@@ -227,6 +201,34 @@ export const getBreadcrumbs = () => {
   return updated
 }
 
+const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
+  const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
+  console.log('breadcrumb', breadcrumb)
+  if (index === 0) {
+    return {
+      name: breadcrumb.n,
+      path: `/${breadcrumb.o_t_id}`,
+    }
+  } else if (index === 1) {
+    return {
+      name: breadcrumb.n,
+      path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
+    }
+  } else {
+    if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
+      return {
+        name: breadcrumb.n,
+        path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
+      }
+    } else {
+      return {
+        name: breadcrumb.n,
+        path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
+      }
+    }
+  }
+}
+
 export const getTableTitle = (
   componentName: string,
   title: string,
@@ -240,6 +242,7 @@ export const getTableTitle = (
     const router = useRouter()
     const { pathname } = router.state.location
     const routeMenu: any = getRouteMenu(pathname)
+    
     breadcrumbs = [
       {
         n: routeMenu.title,
@@ -256,6 +259,13 @@ export const getTableTitle = (
     const last: any = breadcrumbs[breadcrumbs.length - 1]
     const previous: any = breadcrumbs[breadcrumbs.length - 2]
     const singularLastName = last?.n
+
+    // const lastPath = generatePath(breadcrumbs, last, breadcrumbs.length)
+    // const previousPath = generatePath(breadcrumbs, previous, breadcrumbs.length-1)
+
+    // last.path = lastPath?.path
+    // previous.path = previousPath?.path
+
 
     associatedtableTitleSingular = singularLastName
     if (componentName != 'ticket') {
