@@ -20,8 +20,8 @@ export const DetailsViewEditor = ({
   objectId,
   id,
   urlParam,
-  refetch
-  setEditRowKey,
+  refetch,
+  setEditRowKey
 }: any) => {
   const editorRef = useRef(null);
   const [expandDialog, setExpandDialog] = useState(false);
