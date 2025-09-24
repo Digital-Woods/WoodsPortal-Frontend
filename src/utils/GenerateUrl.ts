@@ -139,11 +139,13 @@ export const getParamDetails = () => {
   const lastItem = breadcrumbs[breadcrumbs.length - 1]
   const lastItem2 = breadcrumbs[breadcrumbs.length - 2]
 
+
+    
   if (breadcrumbs.length > 1) {
     mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
     mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
 
-    if (lastItem && lastItem?.o_r_id) {
+    if (!lastItem?.o_r_id) {
       parentObjectTypeId = lastItem2?.o_t_id || ''
       parentObjectRecordId = lastItem2?.o_r_id || ''
       bParams = lastItem?.p || ''
@@ -158,6 +160,11 @@ export const getParamDetails = () => {
   if (map.get('isPrimaryCompany') === 'true') {
     paramsObject['isPrimaryCompany'] = true
   } else {
+    console.log('parentObjectTypeId', parentObjectTypeId)
+    console.log('parentObjectRecordId', parentObjectRecordId)
+    console.log('mediatorObjectTypeId', mediatorObjectTypeId)
+    console.log('mediatorObjectRecordId', mediatorObjectRecordId)
+
     // if not isPrimaryCompany
     if (parentObjectTypeId && parentObjectRecordId) {
       paramsObject['parentObjectTypeId'] = parentObjectTypeId
@@ -177,6 +184,7 @@ export const getParamDetails = () => {
   if (breadcrumbs.length < 3 && map.get('isPrimaryCompany') != 'true')
     params = ''
 
+  console.log('params', params)
   return {
     breadcrumbs,
     paramsObject: { ...paramsObject, params: bParams },
