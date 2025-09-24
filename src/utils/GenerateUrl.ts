@@ -199,6 +199,8 @@ export const getBreadcrumbs = () => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search.b) || []
+  
+  if(!breadcrumbs && breadcrumbs.length < 1) return []
 
   const updated = breadcrumbs.map((breadcrumb: any, index: any) => {
     return generatePath(breadcrumbs, breadcrumb, index)
@@ -210,8 +212,8 @@ export const getBreadcrumbs = () => {
     const routeMenu: any = getRouteMenu(pathname)
     return [
       {
-        name: routeMenu.title,
-        path: routeMenu.path,
+        name: routeMenu?.title,
+        path: routeMenu?.path,
       },
     ]
   }
