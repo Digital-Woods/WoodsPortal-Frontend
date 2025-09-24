@@ -180,9 +180,10 @@ export const HeaderLayout = (props: any) => {
               <div className="flex flex-col gap-y-1  p-2">
                 {env.VITE_DATA_SOURCE_SET === 'false' &&
                   <Link
-                    to="/profile"
+                    to="/user-profile"
                     className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                     activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     <div className="flex items-center gap-x-4">
                       <div className="dark:text-white text-black">
