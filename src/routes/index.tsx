@@ -1,12 +1,10 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { formatPath } from '@/utils/DataMigration'
-import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData'
+import { apiRoutes } from '@/data/hubSpotData'
 
 const App = () => {
   const router = useRouter()
-  const path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
-  router.navigate({ to: `/${path}` });
-
+  const path = apiRoutes[0]?.path
+  router.navigate({ to: path });
   return null
 }
 
