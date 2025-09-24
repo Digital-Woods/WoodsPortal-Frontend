@@ -24,8 +24,6 @@ const setChildRoute = (props: any, search: any, breadcrumbItems: any) => {
     breadcrumbType = 'root_details'
   }
 
-  //   console.log('breadcrumbItems', breadcrumbItems.length)
-
   if (breadcrumbType === 'root') {
     const newCrumb: any = {
       n: props.name,
@@ -77,14 +75,11 @@ const setChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       }
     }
   }
-  //   console.log('breadcrumb', breadcrumbs)
   return generateUrl(props, breadcrumbType, breadcrumbs)
 }
 
 const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
   const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
-
-  //   console.log('breadcrumbs', breadcrumbs)
 
   let url = ''
   if (props?.objectTypeId && props?.recordId) {
@@ -92,7 +87,6 @@ const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
   } else {
     url = `/association/${props.objectTypeId}?b=${newBase64}`
   }
-  //   console.log('url', url)
   return url
 }
 
@@ -160,11 +154,6 @@ export const getParamDetails = () => {
   if (map.get('isPrimaryCompany') === 'true') {
     paramsObject['isPrimaryCompany'] = true
   } else {
-    console.log('parentObjectTypeId', parentObjectTypeId)
-    console.log('parentObjectRecordId', parentObjectRecordId)
-    console.log('mediatorObjectTypeId', mediatorObjectTypeId)
-    console.log('mediatorObjectRecordId', mediatorObjectRecordId)
-
     // if not isPrimaryCompany
     if (parentObjectTypeId && parentObjectRecordId) {
       paramsObject['parentObjectTypeId'] = parentObjectTypeId
@@ -184,7 +173,6 @@ export const getParamDetails = () => {
   if (breadcrumbs.length < 3 && map.get('isPrimaryCompany') != 'true')
     params = ''
 
-  console.log('params', params)
   return {
     breadcrumbs,
     paramsObject: { ...paramsObject, params: bParams },
