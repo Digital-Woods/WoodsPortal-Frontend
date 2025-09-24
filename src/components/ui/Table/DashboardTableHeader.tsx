@@ -146,6 +146,7 @@ export const DashboardTableHeader = ({
         {/* {subscriptionType !== 'FREE' &&  */}
           <div className=" md:flex md:items-center md:gap-2">
             <Tooltip id={"searchInput"} content="Press enter to search" place='right'>
+              <div className='relative'>
               <Input
                 placeholder="Search..."
                 height="semiMedium"
@@ -172,6 +173,7 @@ export const DashboardTableHeader = ({
                   <EnterIcon />
                 </div>
               )}
+              </div>
             </Tooltip>
             {search && (
               <Button

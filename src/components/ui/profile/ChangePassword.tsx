@@ -140,7 +140,7 @@ export const ChangePassword = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormItem className="!mb-0 py-2 flex flex-col">
+              <FormItem className="mb-0 py-2 flex flex-col">
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   Current Password
                 </FormLabel>
@@ -150,7 +150,7 @@ export const ChangePassword = () => {
                       type={showCurrentPassword ? "text" : "password"}
                       placeholder="Current Password"
                       {...register("currentPassword")}
-                      className="text-xs text-gray-500 w-full !px-10"
+                      className="text-xs text-gray-500 w-full"
                       icon={CurrentpassIcon}
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
@@ -170,7 +170,7 @@ export const ChangePassword = () => {
                 </FormControl>
               </FormItem>
 
-              <FormItem className="!mb-0 py-2 flex flex-col">
+              <FormItem className="mb-0 py-2 flex flex-col">
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   New Password
                 </FormLabel>
@@ -180,7 +180,7 @@ export const ChangePassword = () => {
                       type={showNewPassword ? "text" : "password"}
                       placeholder="New password"
                       {...register("newPassword")}
-                      className="text-xs text-gray-500 !px-10 w-full"
+                      className="text-xs text-gray-500 w-full"
                       icon={ConfirmandCurrentPassIcon}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
@@ -200,7 +200,7 @@ export const ChangePassword = () => {
                 </FormControl>
               </FormItem>
 
-              <FormItem className="!mb-0 py-2 flex flex-col">
+              <FormItem className="mb-0 py-2 flex flex-col">
                 <FormLabel className="text-xs font-semibold w-[200px]">
                   Confirm New Password
                 </FormLabel>
@@ -210,7 +210,7 @@ export const ChangePassword = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm new password"
                       {...register("confirmPassword")}
-                      className="text-xs text-gray-500 !px-10 w-full"
+                      className="text-xs text-gray-500 w-full"
                       icon={ConfirmandCurrentPassIcon}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
