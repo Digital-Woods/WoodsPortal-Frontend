@@ -674,9 +674,10 @@ export const DynamicComponentView = ({
                                   className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
                                   to={value?.path}
                                 >
-                                  {getParamHash(
+                                  {/* {getParamHash(
                                     formatCustomObjectLabel(value?.n)
-                                  )}
+                                  )} */}
+                                  {value?.n}
                                 </Link>
                                 {index < array.length - 1 && (
                                   <span className="mx-1 text-xl font-semibold text-[#0091AE]">
