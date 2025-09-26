@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { env } from "@/env";
 import { useSync } from '@/state/use-sync';
 import { getAuthSubscriptionType, getPortal } from '@/data/client/auth-utils';
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Client } from '@/data/client/index'
 import { EmptyMessageCard } from '@/components/ui/EmptyMessageCard'
 import { Button } from '@/components/ui/Button'
@@ -399,8 +399,6 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     setPage(getAuthSubscriptionType() === "FREE" ? " " : 1);
     refetch(); // 👈 will now use new objectId and id because of queryKey
   }, [objectId, id]);
-
-  console.log(objectId, id, 'objectId, id');
 
   useEffect(() => {
     // refetch();

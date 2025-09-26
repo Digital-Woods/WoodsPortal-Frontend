@@ -78,7 +78,6 @@ export const DynamicComponentView = ({
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
   const {updateLink, filterParams} = useUpdateLink();
-  console.log(companyAsMediator, hubspotObjectTypeId, 'companyAsMediator, hubspotObjectTypeId');
 
   const router = useRouter()
   const { pathname } = router.state.location
