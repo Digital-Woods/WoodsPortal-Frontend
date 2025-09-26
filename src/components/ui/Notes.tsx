@@ -317,7 +317,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       objectId: objectId,
       id: id,
       portalId: portalId,
-      cache: true,
+      cache: (sync || apiSync) ? false : true,
     };
 
     if (subscriptionType === "FREE") {
@@ -336,7 +336,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     }
     return params
   }
-
+// console.log((sync || apiSync) ? false : true,'Hello');
   useEffect(() => {
     if (sync || apiSync) refetch();
   }, [sync, apiSync]);
@@ -361,8 +361,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     },
 
     onSuccess: (response: any) => {
-      setApiSync(true);
-      // refetch();
+      // setApiSync(true);
+      refetch();
       setShowDialog(false);
       setToaster({
         message: response.statusMsg,
