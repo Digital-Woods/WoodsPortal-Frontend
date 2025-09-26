@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Chevron } from '@/assets/icons/Chevron';
 import { useAuth } from '@/state/use-auth';
+import { useUpdateLink } from '@/utils/GenerateUrl';
 
-export const Pagination = ({ apiResponse = null, numOfPages, currentPage, setCurrentPage, isFile = false }: any) => {
+export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, setCurrentPage, isFile = false }: any) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
   const [isFreeSubscription, setIsFreeSubscription] = useState<any>(true);
 
+  const {filterParams} = useUpdateLink();
+
+  const [currentPage, setCurrentPages] = useState(filterParams()?.page || null);
+  const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
+
   const { subscriptionType, setPagination, getPagination }: any = useAuth();
+
+  useEffect(() => {
+    if(!isFristTimeLoadData) setCurrentPages(cPage)
+    setIsFristTimeLoadData(false)
+  }, [cPage]);
 
   useEffect(() => {
     if(subscriptionType === 'FREE' && !isFile) {

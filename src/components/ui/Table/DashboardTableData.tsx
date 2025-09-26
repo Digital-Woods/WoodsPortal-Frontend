@@ -8,6 +8,7 @@ import { toQueryString } from '@/utils/param';
 import { useTable } from '@/state/use-table';
 import { env } from "@/env";
 import { useAuth } from '@/state/use-auth';
+import { useMakeLink } from '@/utils/GenerateUrl';
 
 const formatKey = (key: any) => {
   return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
@@ -71,7 +72,7 @@ export const DashboardTableData = ({
     setLimit,
     numOfPages
   } = useTable();
-
+ const { makeLink } = useMakeLink()
   // console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
     Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
@@ -223,6 +224,7 @@ export const DashboardTableData = ({
                           )} */}
 
                       {renderCellContent({
+                        makeLink,
                         companyAsMediator: companyAsMediator,
                         value: item[column.key],
                         column: column,

@@ -10,20 +10,22 @@ const Details = () => {
 
   const { objectName: path, object_id: objectId, id } = Route.useParams();
 
-  const { breadcrumbs } = useBreadcrumb();
+  // const { breadcrumbs } = useBreadcrumb();
 
-  const decodeToBase64 = (base64: any) => {
-    const decodedStr = atob(base64);
-    return decodedStr;
-  };
+  // const decodeToBase64 = (base64: any) => {
+  //   const decodedStr = atob(base64);
+  //   return decodedStr;
+  // };
 
-  let breadcrumb = getParam("b");
+  // let breadcrumb = getParam("b");
 
-  let breadcrumbItems = breadcrumb
-    ? JSON.parse(decodeToBase64(breadcrumb))
-    : breadcrumbs;
+  // let breadcrumbItems = breadcrumb
+  //   ? JSON.parse(decodeToBase64(breadcrumb))
+  //   : breadcrumbs;
 
-  let tabName = breadcrumbItems.length > 0 ? (breadcrumbItems.length > 1 ? breadcrumbItems[breadcrumbItems.length - 2]?.name : breadcrumbItems[0]?.name) : "";
+  // let tabName = breadcrumbItems.length > 0 ? (breadcrumbItems.length > 1 ? breadcrumbItems[breadcrumbItems.length - 2]?.name : breadcrumbItems[0]?.name) : "";
+
+  let tabName = ""
 
   // Find the object in moduleIframeListOptions that matches the objectId
 
@@ -66,6 +68,7 @@ const Details = () => {
   // console.log(matchedObject, 'matchedObject');
   // console.log(propertyName, 'propertyName');
   // console.log(showIframe, 'showIframe');
+  
   return (
     <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">
       <div className={`bg-cleanWhite dark:bg-dark-200`}>

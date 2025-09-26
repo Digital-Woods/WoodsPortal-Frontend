@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/Form'
 import { recorBtnCustom } from '@/data/hubSpotData'
 import { useTable } from '@/state/use-table';
 import { useAuth } from '@/state/use-auth';
+import { useUpdateLink } from '@/utils/GenerateUrl';
 
 export const DashboardTableHeader = ({
   title,
@@ -42,6 +43,12 @@ export const DashboardTableHeader = ({
     setLimit,
     // permissions
   } = useTable();
+
+  const {filterParams} = useUpdateLink();
+
+  useEffect(() => {
+    setSearch(filterParams()?.search || "");
+  }, []);
 
   const { subscriptionType }: any = useAuth();
 

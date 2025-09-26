@@ -16,6 +16,7 @@ import { CautionCircle } from '@/assets/icons/CautionCircle';
 import { DashboardTableHeaderSkeleton } from '../skeletons/DashboardTableHeaderSkeleton';
 import { BoardViewSkeleton } from '../skeletons/BoardViewSkeleton';
 import { TableSkeleton } from '../skeletons/TableSkeleton';
+import { useUpdateLink } from '@/utils/GenerateUrl';
 
 export const formatKey = (key: any) => {
   return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
@@ -175,6 +176,8 @@ export const DashboardTable: any = ({
     getData();
   };
 
+  const {updateLink} = useUpdateLink();
+  
   const setActiveTab = (selectView: any) => {
     const objectId = isHome ? 'home' : hubspotObjectTypeId
     setIsLoadingHoldData(true);
@@ -183,6 +186,7 @@ export const DashboardTable: any = ({
         activeTab: selectView === "BOARD" ? "grid" : "list",
       },
     };
+    updateLink({v: selectView})
     setSelectRouteMenuConfig(routeMenuConfig);
     setView(selectView);
     changeTab(selectView)

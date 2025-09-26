@@ -25,7 +25,7 @@ import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
-import { getTableTitle } from '@/utils/GenerateUrl';
+import { getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
 
 
 export const DynamicComponentView = ({
@@ -77,6 +77,9 @@ export const DynamicComponentView = ({
   // const [totalItems, setTotalItems] = useState<any>(1);
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
+  const {updateLink, filterParams} = useUpdateLink();
+  
+
   const router = useRouter()
   const { pathname } = router.state.location
 
@@ -91,6 +94,7 @@ export const DynamicComponentView = ({
   const [isLoadingHoldData, setIsLoadingHoldData] = useState<any>(null);
   const [pageView, setPageView] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState<any>(null);
+  const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
 
   const { subscriptionType }: any = useAuth();
 
@@ -118,36 +122,45 @@ export const DynamicComponentView = ({
         let pipeline = ""
         // set configurations
         await setPagination([])
-        let routeMenuConfigs = getRouteMenuConfig();
-        const objectId = isHome ? 'home' : hubspotObjectTypeId
+        // let routeMenuConfigs = getRouteMenuConfig();
+        // const objectId = isHome ? 'home' : hubspotObjectTypeId
 
-        if (
-          routeMenuConfigs &&
-          routeMenuConfigs.hasOwnProperty(objectId)
-        ) {
-          const activeTab = routeMenuConfigs[objectId].activeTab;
-          await setView(activeTab === "grid" ? "BOARD" : "LIST");
-          pipeline = routeMenuConfigs[objectId].activePipeline;
-          await setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
-        } else {
-          await setView("LIST");
-        }
+        // if (
+        //   routeMenuConfigs &&
+        //   routeMenuConfigs.hasOwnProperty(objectId)
+        // ) {
+        //   const activeTab = routeMenuConfigs[objectId].activeTab;
+        //   await setView(activeTab === "grid" ? "BOARD" : "LIST");
+        //   pipeline = routeMenuConfigs[objectId].activePipeline;
+        //   await setSelectedPipeline(routeMenuConfigs[objectId].activePipeline);
+        // } else {
+        //   await setView("LIST");
+        // }
+
+        await setView(filterParams()?.view || "LIST");
+        await setSelectedPipeline(filterParams()?.aPip || "");
 
         if (specPipeLine) {
           pipeline = specPipeLine;
           const objectId = isHome ? 'home' : hubspotObjectTypeId
           await setSelectedPipeline(pipeLineId);
-          const routeMenuConfig = {
-            [objectId]: {
-              activePipeline: pipeLineId,
-            },
-          };
-          await setSelectRouteMenuConfig(routeMenuConfig);
+          // const routeMenuConfig = {
+          //   [objectId]: {
+          //     activePipeline: pipeLineId,
+          //   },
+          // };
+          // await setSelectRouteMenuConfig(routeMenuConfig);
+          updateLink({aPip: pipeLineId})
           await setUrlParam({
             filterPropertyName: "hs_pipeline",
             filterOperator: "eq",
             filterValue: pipeLineId,
           });
+          updateLink({
+            fPName: "hs_pipeline",
+            fO: "eq",
+            fV: pipeLineId,
+          })
         }
 
         // reset and fetch data
@@ -174,18 +187,21 @@ export const DynamicComponentView = ({
   const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
     mutationFn: async (pipeline? : any) => {
-      const objectId = isHome ? 'home' : hubspotObjectTypeId
-      let routeMenuConfigs = getRouteMenuConfig();
+      // const objectId = isHome ? 'home' : hubspotObjectTypeId
+      // let routeMenuConfigs = getRouteMenuConfig();
       let param;
 
-      if(routeMenuConfigs[objectId]?.details === true){
-        const details = routeMenuConfigs[objectId]?.details
-        const currentPage = details?.overview?.page || 1;
-        const isPage = details?.overview?.preData && currentPage > 1
-        param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
-      } else {
-        param = getTableParam(companyAsMediator, null);
-      }
+      // off details view logic
+      // if(routeMenuConfigs[objectId]?.details === true){
+      //   const details = routeMenuConfigs[objectId]?.details
+      //   const currentPage = details?.overview?.page || 1;
+      //   const isPage = details?.overview?.preData && currentPage > 1
+      //   param = getTableParam(companyAsMediator, isPage ? currentPage : 1);
+      // } else {
+      //   param = getTableParam(companyAsMediator, null);
+      // }
+
+      param = getTableParam(companyAsMediator, null);
 
       const mSelectedPipeline = pipeline !== undefined ? pipeline : selectedPipeline;
 
@@ -218,49 +234,78 @@ export const DynamicComponentView = ({
       
       // if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
 
-      const API_ENDPOINT = removeAllParams(apis.tableAPI);
+      // const API_ENDPOINT = removeAllParams(apis.tableAPI);
+      const API_ENDPOINT = apis.tableAPI;
       if (componentName != "ticket") {
         setIsLoading(true);
       }
+      let params = param
 
-      setUrlParam(param);
+      // console.log('param', param)
+
+      // const fParams = filterParams()
+      // console.log('fParams', fParams)
+      // setUrlParam(param);
+      
+      if(!isFristTimeLoadData) {
+        updateLink({
+          "sort": param.sort,
+          "s": param.search,
+          "fPn": param.filterPropertyName,
+          "fO": param.filterOperator,
+          "fV": param.filterValue,
+          "c": param.cache,
+          "isPC": param.isPrimaryCompany,
+          "v": param.view,
+          "l": param.limit,
+          "p": param.page,
+        })
+      } else {
+        params = filterParams()
+      }
+
+      // console.log('params', params)
+
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
-        param: updateParamsFromUrl(apis.tableAPI, param),
+        // param: updateParamsFromUrl(apis.tableAPI, params),
+        param: params,
       });
     },
 
     onSuccess: (data: any) => {
-      const objectId = isHome ? 'home' : hubspotObjectTypeId
+      // const objectId = isHome ? 'home' : hubspotObjectTypeId
       setErrorMessage('')
       setErrorMessageCategory('')
 
-      const tableViewIsList = data?.configurations?.object?.list_view
-      setPageView(tableViewIsList === false ? "single" : "table");
+      // const tableViewIsList = data?.configurations?.object?.list_view
+      // setPageView(tableViewIsList === false ? "single" : "table");
+      setPageView("table");
       setApiResponse(data);
 
       setSync(false);
       setApiSync(false);
 
-      let routeMenuConfigs = getRouteMenuConfig();
+      // let routeMenuConfigs = getRouteMenuConfig();
 
       setCurrentPage(data?.pagination)
       setIsLoadedFirstTime(false)
+      setIsFristTimeLoadData(false)
 
-      if (
-        tableViewIsList && (routeMenuConfigs[objectId]?.listView === false)
-      ) {
-        routeMenuConfigs[objectId] = {
-          ...routeMenuConfigs[objectId],
-          listView: tableViewIsList,
-          details: null,
-        };        
-        getData();
-      } else {
-        routeMenuConfigs[objectId] = {
-          ...routeMenuConfigs[objectId],
-          listView: tableViewIsList
-        };   
+      // if (
+      //   tableViewIsList && (routeMenuConfigs[objectId]?.listView === false)
+      // ) {
+      //   routeMenuConfigs[objectId] = {
+      //     ...routeMenuConfigs[objectId],
+      //     listView: tableViewIsList,
+      //     details: null,
+      //   };        
+      //   getData();
+      // } else {
+        // routeMenuConfigs[objectId] = {
+        //   ...routeMenuConfigs[objectId],
+        //   listView: tableViewIsList
+        // };   
         if (data.statusCode === "200") {
           setInfo(data.info);
           const tableViewIsList = data?.configurations?.object?.list_view
@@ -293,8 +338,8 @@ export const DynamicComponentView = ({
         } else {
           setPermissions(null);
         }
-      }
-      setRouteMenuConfig(routeMenuConfigs);
+      // }
+      // setRouteMenuConfig(routeMenuConfigs);
       setIsLoadingHoldData(false);
     },
     onError: (error: any) => {
