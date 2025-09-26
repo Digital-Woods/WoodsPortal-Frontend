@@ -17,10 +17,11 @@ import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Chevron } from '@/assets/icons/Chevron'
 import { IconPlus } from '@/assets/icons/IconPlus'
 import { useAuth } from '@/state/use-auth';
+import { useMakeLink } from '@/utils/GenerateUrl';
 
 
 export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, companyAsMediator, apis, detailsView = true, editView = false }: any) => {
-
+ const { makeLink } = useMakeLink()
   const [showAddDialog, setShowAddDialog] = useState<any>(false);
   // const [showEditDialog, setShowEditDialog] = useState<any>(false);
   // const [showEditData, setShowEditData] = useState<any>(false);
@@ -275,6 +276,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
                         // detailsView,
                         // hoverRow
                         {
+                          makeLink,
                           companyAsMediator: companyAsMediator,
                           value: item[column.key],
                           column: column,

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { env } from "@/env";
 import { useSync } from '@/state/use-sync';
 import { getAuthSubscriptionType, getPortal } from '@/data/client/auth-utils';
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Client } from '@/data/client/index'
 import { EmptyMessageCard } from '@/components/ui/EmptyMessageCard'
 import { Button } from '@/components/ui/Button'
@@ -291,7 +291,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
 
   const limit = 10;
   const { data, error, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ["data", page],
+    queryKey: ["data", page, objectId, id],
     queryFn: async () => {
       let params: any = makeParam()
 
@@ -308,6 +308,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       console.error("Error fetching file details:", error);
     },
     refetchInterval: (sync || apiSync) ? env.VITE_NOTE_INTERVAL_TIME : false,
+    enabled: !!objectId && !!id, 
   });
 
   const makeParam = () => {
@@ -395,12 +396,11 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   }, []);
   
   useEffect(() => {
-    const queryClient = new QueryClient();
-    return () => {
-      queryClient.cancelQueries(["data"]);
-      setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
-    };
+    setPage(getAuthSubscriptionType() === "FREE" ? " " : 1);
+    refetch(); // 👈 will now use new objectId and id because of queryKey
   }, [objectId, id]);
+
+  console.log(objectId, id, 'objectId, id');
 
   useEffect(() => {
     // refetch();
