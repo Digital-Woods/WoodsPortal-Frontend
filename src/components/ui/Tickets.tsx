@@ -39,7 +39,7 @@ export const Tickets = ({
   const {params} = getParamDetails({type:'ticket'})
 
   const apis = {
-     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${defaultObjectIds.tickets}${params}`,
+     tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${defaultObjectIds.tickets}`,
     // tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${
     //   defaultObjectIds.tickets
     // }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
@@ -49,18 +49,23 @@ export const Tickets = ({
     // }&isPrimaryCompany=${companyAsMediator}`,
     // tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}/${id}`,
     stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${defaultObjectIds.tickets}/`, // concat pipelineId
-    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields?isPrimaryCompany=${companyAsMediator}&parentObjectTypeId=${parentObjectTypeId}`,
-    formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${
-      defaultObjectIds.tickets
-    }/:objectId?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
-      mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
-    }&mediatorObjectRecordId=${
-      mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId
-    }&isForm=true&isPrimaryCompany=${companyAsMediator}`,
-    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields${param}`,
-    createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
-    removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
-    updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields/:formId${param}`, // concat ticketId
+    // formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields?isPrimaryCompany=${companyAsMediator}&parentObjectTypeId=${parentObjectTypeId}`,
+    formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields`,
+    // formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${
+    //   defaultObjectIds.tickets
+    // }/:objectId?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
+    //   mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+    // }&mediatorObjectRecordId=${
+    //   mediatorObjectRecordId ? mediatorObjectRecordId : parentObjectRowId
+    // }&isForm=true&isPrimaryCompany=${companyAsMediator}`,
+
+    // createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields${param}`,
+    createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields`,
+    // createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
+    createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId`,
+    // removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
+    removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId`,
+    // updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${defaultObjectIds.tickets}/fields/:formId${param}`, // concat ticketId
   };
 
   return (

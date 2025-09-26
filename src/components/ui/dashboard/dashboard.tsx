@@ -22,7 +22,7 @@ const Dashboard = () => {
   let { homeCardsView }: any = getRouteMenu(pathname)
   
 
-  const param = getQueryParamsFromCurrentUrl();
+  // const param = getQueryParamsFromCurrentUrl();
   const [sidebarRightOpen, setSidebarRightOpen] = useState<any>(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState<any>(false); // Track user interaction
@@ -109,22 +109,6 @@ const Dashboard = () => {
     window.addEventListener("resize", resetOnResize);
     return () => window.removeEventListener("resize", resetOnResize);
   }, []);
-  
-  // console.log(enableDashboardCards,'enableDashboardCards hello')
-  // const apis = {
-  //   tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
-  //   stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-  //   formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
-  //   formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
-  //     }`,
-  //   createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-  //   updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
-  // };
-
-  // const objectTypeName = getParam("objectTypeName");
-  // const tableTitle = () => {
-  //   return objectTypeName ? objectTypeName : title;
-  // };
 
   return (
     <div className="bg-[var(--sidebar-background-color)] h-[calc(100vh-var(--nav-height))] dark:bg-dark-300 ">
@@ -247,15 +231,15 @@ const Dashboard = () => {
                   {sidebarListDataOption.map((option: any, index: any) => {
                     const hubspotObjectTypeId = option.hubspotObjectTypeId;
                     const sidebarDataApis = {
-                      tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}${param}`,
+                      tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${hubspotObjectTypeId}`,
                       stagesAPI: `/api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}/`, // concat pipelineId
-                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-                      formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
-                        }`,
-                      createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields${param}`,
-                      createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId${param}`,
-                      removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId${param}`,
-                      updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
+                      formAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+                      // formDataAPI: `/api/:hubId/:portalId/hubspot-object-data/${hubspotObjectTypeId}/:objectId${param ? param + "&isForm=true" : "?isForm=true"
+                      //   }`,
+                      createAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields`,
+                      createExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/associations/:toObjectTypeId`,
+                      removeExistingAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/:fromObjectTypeId/:fromRecordId/disassociate/:toObjectTypeId`,
+                      // updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId`, // concat ticketId
                     };
 
                     return index === 0 ? (

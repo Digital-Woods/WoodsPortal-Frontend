@@ -16,9 +16,10 @@ import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl 
 import { useToaster } from '@/state/use-toaster';
 import { DashboardTableEditor } from './DashboardTableEditor';
 import { formatCustomObjectLabel } from '@/utils/DataMigration';
-import { getFormTitle, useUpdateLink } from '@/utils/GenerateUrl';
+import { getFormTitle, getParamDetails, useUpdateLink } from '@/utils/GenerateUrl';
 
 export const DashboardTableForm = ({
+  componentName= '',
   type = "create",
   openModal,
   setOpenModal,
@@ -45,7 +46,7 @@ export const DashboardTableForm = ({
   const [existingData, setExistingData] = useState<any>(null);
   const [data, setData] = useState<any>([]);
   const [addAnother, setAddAnother] = useState<any>(false);
-  const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
+  // const { breadcrumbs, setBreadcrumbs } = useBreadcrumb();
   // const [addNewTitle, setAddNewTitle] = useState<any>(false);
   // const [addExistingTitle, setAddExistingTitle] = useState<any>(false);
   // const [dialogTitle, setDialogTitle] = useState<any>("");
@@ -53,7 +54,10 @@ export const DashboardTableForm = ({
   const { setSync, setApiSync } = useSync();
   const { setToaster } = useToaster();
 
-  const {filterParams} = useUpdateLink();
+  // const {filterParams} = useUpdateLink();
+
+  const { params} = getParamDetails({type: componentName});
+  
 
   const { objectName, dialogTitle } = getFormTitle(type, title, activeTab);
 
@@ -62,7 +66,8 @@ export const DashboardTableForm = ({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
-      return await Client.form.fields({ API: apis.formAPI });
+      const API = `${apis.formAPI}${params}`;
+      return await Client.form.fields({ API: API });
     },
 
     onSuccess: (response: any) => {
@@ -129,8 +134,9 @@ export const DashboardTableForm = ({
           ...getQueryParamsToObject(urlParam),
           addAnother: addAnother ? "true" : "false",
         });
-        const API_ENDPOINT = removeAllParams(apis.createAPI);
-        const API = addParam(API_ENDPOINT, mUrlParam);
+        // const API_ENDPOINT = removeAllParams(apis.createAPI);
+        // const API = addParam(API_ENDPOINT, mUrlParam);
+        const API = `${apis.createAPI}${params}`;
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
