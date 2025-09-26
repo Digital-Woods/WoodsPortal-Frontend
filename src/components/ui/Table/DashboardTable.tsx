@@ -409,6 +409,7 @@ export const DashboardTable: any = ({
           )}
           {showAddDialog && (
             <DashboardTableForm
+              componentName={componentName}
               type={parentObjectTypeId ? "association_new" : ""}
               openModal={showAddDialog}
               setOpenModal={setShowAddDialog}

@@ -25,7 +25,7 @@ import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
-import { getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
+import { getParamDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
 
 
 export const DynamicComponentView = ({
@@ -78,7 +78,7 @@ export const DynamicComponentView = ({
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
   const {updateLink, filterParams} = useUpdateLink();
-  
+  const { paramsObject} = getParamDetails({type: componentName});
 
   const router = useRouter()
   const { pathname } = router.state.location
@@ -239,12 +239,20 @@ export const DynamicComponentView = ({
       if (componentName != "ticket") {
         setIsLoading(true);
       }
-      let params = param
+      // let params = param
 
       // console.log('param', param)
 
-      // const fParams = filterParams()
+      const fParams = filterParams()
+      console.log('param', param)
       // console.log('fParams', fParams)
+      // console.log('paramsObject', paramsObject)
+
+      param = {...param, ...paramsObject}
+
+      console.log('param_1', param)
+
+
       // setUrlParam(param);
       
       if(!isFristTimeLoadData) {
@@ -261,15 +269,13 @@ export const DynamicComponentView = ({
           "p": param.page,
         })
       } else {
-        params = filterParams()
+        param = param
       }
-
-      // console.log('params', params)
 
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
-        param: params,
+        param: param,
       });
     },
 

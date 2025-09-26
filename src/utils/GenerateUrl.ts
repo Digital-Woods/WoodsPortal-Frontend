@@ -75,13 +75,13 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       }
     }
   }
-  console.log('breadcrumbs', breadcrumbs)
+  // console.log('breadcrumbs', breadcrumbs)
   return generateUrl(props, breadcrumbType, breadcrumbs)
 }
 
 const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
   const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
-  console.log('newBase64', newBase64)
+  // console.log('newBase64', newBase64)
 
     // const rt2 = decompressAuto(fromB64(newBase64));
     // console.log('rt2_1', rt2)
@@ -167,7 +167,7 @@ export const getParamDetails = (props?: any) => {
   let mediatorObjectRecordId = ''
   let parentObjectTypeId = ''
   let parentObjectRecordId = ''
-  let bParams = ''
+  // let bParams = ''
   const lastItem = breadcrumbs[breadcrumbs.length - 1]
   const lastItem2 = breadcrumbs[breadcrumbs.length - 2]
   const lastItem3 = breadcrumbs[breadcrumbs.length - 3]
@@ -178,12 +178,12 @@ export const getParamDetails = (props?: any) => {
 
   // console.log('breadcrumbs', breadcrumbs)
   if (breadcrumbs.length > 1) {
-    if (props?.type === 'ticket') {
+    if (props?.type === 'ticket' || props?.type === 'association') {
       mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
-      bParams = lastItem?.p || ''
+      // bParams = lastItem?.p || ''
     } else {
       if (breadcrumbs.length > 2) {
         mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
@@ -193,13 +193,13 @@ export const getParamDetails = (props?: any) => {
       if (!lastItem?.o_r_id && breadcrumbs.length > 4) {
         parentObjectTypeId = lastItem2?.o_t_id || ''
         parentObjectRecordId = lastItem2?.o_r_id || ''
-        bParams = lastItem?.p || ''
+        // bParams = lastItem?.p || ''
       }
 
       if (lastItem?.o_r_id && breadcrumbs.length > 4) {
         parentObjectTypeId = lastItem3?.o_t_id || ''
         parentObjectRecordId = lastItem3?.o_r_id || ''
-        bParams = lastItem?.p || ''
+        // bParams = lastItem?.p || ''
       }
     }
   }
@@ -233,15 +233,20 @@ export const getParamDetails = (props?: any) => {
   const queryString = new URLSearchParams(paramsObject as any).toString()
 
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
-  let params = bParams ? `?${queryString}` : `?${queryString}`
+  let params: any = queryString ? `?${queryString}` : ''
 
   if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
     params = ''
 
-  // console.log('params_1', params)
+  // const mParamsObject: any = {
+  //   ...paramsObject,
+  //   ...(params ? { params } : {}),
+  // };
+
   return {
     breadcrumbs,
-    paramsObject: { ...paramsObject, params: bParams },
+    // paramsObject:  Object.keys(mParamsObject).length === 0 ? null : mParamsObject,
+    paramsObject:  paramsObject,
     params,
   }
 }
