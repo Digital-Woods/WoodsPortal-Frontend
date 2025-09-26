@@ -36,7 +36,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         onSuccess: (data) => {
             if (data) {
                 if(setProfileData) setProfileData(data) // only for dashboard
-                setUserData(data);
+                setUserData(data.response);
             }
             setIsLoadedFirstTime(true);
         },

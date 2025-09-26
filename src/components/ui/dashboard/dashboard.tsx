@@ -152,7 +152,7 @@ const Dashboard = () => {
                 return (
                   <div
                     key={index}
-                    className={`${ homeCardsView != 'list' ? colSpanDynamicClassName : 'col-span-12'} grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
+                    className={`${ homeCardsView != 'list' ? colSpanDynamicClassName : 'col-span-12'} m-0 grid border dark:border-none dark:border-gray-600 rounded-lg overflow-hidden shadow-[0px_4px_12px_0px_rgba(0,0,0,0.04)]
                       ${moduleStylesOptions.homeTabStyles.overlayer.color != '' ? `bg-[var(--home-tab-overlayer-color)]`:'bg-[var(--banner-overlayer-color)]'} dark:bg-dark-300 relative`}
                   >
                     <div

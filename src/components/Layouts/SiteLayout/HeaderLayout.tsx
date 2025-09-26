@@ -101,12 +101,13 @@ export const HeaderLayout = (props: any) => {
 
   const lastName = getLastName() || "";
   const initials = profileInitial(firstName, lastName);
+  const fullName = [firstName, lastName].filter(Boolean).join(" ");
 
   return (
     <nav ref={navRef} className={`before:bg-[var(--sidebar-background-color)] after:hidden max-lg:after:block bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:px-0 px-3 flex gap-1 flex-col py-1 z-[${navIndex}] duration-200 absolute top-0 right-0 w-full CUSTOM-nav-rounded
       after:content-[''] 
-  after:!bg-[var(--sidebar-background-color)] 
-  dark:after:!bg-dark-300
+  after:bg-[var(--sidebar-background-color)] 
+  dark:after:bg-dark-300
   before:content-[''] 
   dark:before:!bg-dark-300`}>
       <div className="flex justify-between text-end items-center">
@@ -120,7 +121,7 @@ export const HeaderLayout = (props: any) => {
         <div className="max-lg:hidden">
           <Breadcrumb {...props} />
         </div>
-        <div>
+        <div className='min-w-[280px]'>
           <div className="flex gap-2 items-center">
 
             <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
@@ -147,7 +148,7 @@ export const HeaderLayout = (props: any) => {
                   </div>
                   <div className="flex items-start flex-col">
                     <div className="font-medium text-xs dark:text-white break-all">
-                      {firstName ? firstName : ""} {lastName ? lastName : ""}
+                      {fullName.length > 15 ? fullName.slice(0, 15)+'...' : fullName}
                     </div>
                   </div>
                 </div>
@@ -168,7 +169,7 @@ export const HeaderLayout = (props: any) => {
                   </div>
                   <div className=" flex items-start flex-col">
                     <div className="font-semibold dark:text-white break-all">
-                      {firstName}
+                      {fullName.length > 15 ? fullName.slice(0, 15)+'...' : fullName}
                     </div>
                     <p className="text-xs text-secondary dark:text-gray-400 break-all">
                       {email}
@@ -180,9 +181,10 @@ export const HeaderLayout = (props: any) => {
               <div className="flex flex-col gap-y-1  p-2">
                 {env.VITE_DATA_SOURCE_SET === 'false' &&
                   <Link
-                    to="/profile"
+                    to="/user-profile"
                     className="block hover:bg-gray-100 dark:hover:bg-dark-300 dark:hover:text-white px-3 py-2.5 rounded-md no-underline"
                     activeClassName="dark:bg-dark-300 dark:text-white bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     <div className="flex items-center gap-x-4">
                       <div className="dark:text-white text-black">

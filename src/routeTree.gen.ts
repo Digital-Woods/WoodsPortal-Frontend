@@ -18,8 +18,8 @@ import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-pass
 import { Route as AuthNotVerifiedEmailRouteImport } from './routes/_auth/not-verified-email'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthForgetPasswordRouteImport } from './routes/_auth/forget-password'
+import { Route as AuthUserProfileRouteImport } from './routes/_auth/User-Profile'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/Register'
-import { Route as AuthProfileRouteImport } from './routes/_auth/Profile'
 import { Route as DynamicPageAssociationNameRouteImport } from './routes/_dynamicPage/association/$name'
 import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './routes/_dynamicPage/$objectName/$object_id/$id/index'
 
@@ -69,14 +69,14 @@ const AuthForgetPasswordRoute = AuthForgetPasswordRouteImport.update({
   path: '/forget-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthUserProfileRoute = AuthUserProfileRouteImport.update({
+  id: '/_auth/User-Profile',
+  path: '/User-Profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/_auth/Register',
   path: '/Register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthProfileRoute = AuthProfileRouteImport.update({
-  id: '/_auth/Profile',
-  path: '/Profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DynamicPageAssociationNameRoute =
@@ -95,8 +95,8 @@ const DynamicPageObjectNameObject_idIdIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
-  '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
+  '/User-Profile': typeof AuthUserProfileRoute
   '/forget-password': typeof AuthForgetPasswordRoute
   '/login': typeof AuthLoginRoute
   '/not-verified-email': typeof AuthNotVerifiedEmailRoute
@@ -110,8 +110,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
-  '/Profile': typeof AuthProfileRoute
   '/Register': typeof AuthRegisterRoute
+  '/User-Profile': typeof AuthUserProfileRoute
   '/forget-password': typeof AuthForgetPasswordRoute
   '/login': typeof AuthLoginRoute
   '/not-verified-email': typeof AuthNotVerifiedEmailRoute
@@ -126,8 +126,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
-  '/_auth/Profile': typeof AuthProfileRoute
   '/_auth/Register': typeof AuthRegisterRoute
+  '/_auth/User-Profile': typeof AuthUserProfileRoute
   '/_auth/forget-password': typeof AuthForgetPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/not-verified-email': typeof AuthNotVerifiedEmailRoute
@@ -143,8 +143,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/client-session'
-    | '/Profile'
     | '/Register'
+    | '/User-Profile'
     | '/forget-password'
     | '/login'
     | '/not-verified-email'
@@ -158,8 +158,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/client-session'
-    | '/Profile'
     | '/Register'
+    | '/User-Profile'
     | '/forget-password'
     | '/login'
     | '/not-verified-email'
@@ -173,8 +173,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/client-session'
-    | '/_auth/Profile'
     | '/_auth/Register'
+    | '/_auth/User-Profile'
     | '/_auth/forget-password'
     | '/_auth/login'
     | '/_auth/not-verified-email'
@@ -189,8 +189,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ClientSessionRoute: typeof ClientSessionRoute
-  AuthProfileRoute: typeof AuthProfileRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  AuthUserProfileRoute: typeof AuthUserProfileRoute
   AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthNotVerifiedEmailRoute: typeof AuthNotVerifiedEmailRoute
@@ -267,18 +267,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/User-Profile': {
+      id: '/_auth/User-Profile'
+      path: '/User-Profile'
+      fullPath: '/User-Profile'
+      preLoaderRoute: typeof AuthUserProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/Register': {
       id: '/_auth/Register'
       path: '/Register'
       fullPath: '/Register'
       preLoaderRoute: typeof AuthRegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_auth/Profile': {
-      id: '/_auth/Profile'
-      path: '/Profile'
-      fullPath: '/Profile'
-      preLoaderRoute: typeof AuthProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_dynamicPage/association/$name': {
@@ -301,8 +301,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ClientSessionRoute: ClientSessionRoute,
-  AuthProfileRoute: AuthProfileRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  AuthUserProfileRoute: AuthUserProfileRoute,
   AuthForgetPasswordRoute: AuthForgetPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthNotVerifiedEmailRoute: AuthNotVerifiedEmailRoute,

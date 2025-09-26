@@ -278,7 +278,7 @@ const DetailsViewUpdateDialog = ({
     <Dialog
       open={pipelineDialog}
       onClose={() => setPipelineDialog(false)}
-      className=""
+      className="p-4"
     >
       <div className="rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]  flex-col gap-6 flex">
         <div className="text-start text-xl dark:text-white font-semibold">
@@ -678,6 +678,7 @@ export const DetailsViewUpdate = ({
                             id={id}
                             urlParam={urlParam}
                             refetch={refetch}
+                            setEditRowKey={setEditRowKey}
                           />
                         ) : editRow.fieldType === "checkbox" ? (
                           <CheckboxField

@@ -5,9 +5,9 @@
   "scripts": {
     "build": "vite build",
     "auth": "hs auth",
-    "upload": "hs upload dist/digitalwoods-react.module dw-theme/WoodsPortal-v2/modules/WoodsPortal.module",
-    "deploy": "vite build && hs upload dist/digitalwoods-react.module dw-theme/WoodsPortal-v2/modules/WoodsPortal.module",
-    "watch": "concurrently \"vite build --watch\" \"hs watch dist/digitalwoods-react.module dw-theme/WoodsPortal-v2/modules/WoodsPortal.module\"",
+    "upload": "hs upload dist/digitalwoods-react.module dw-modules/digitalwoods-react.module",
+    "deploy": "vite build && hs upload dist/digitalwoods-react.module dw-modules/digitalwoods-react.module",
+    "watch": "concurrently \"vite build --watch\" \"hs watch dist/digitalwoods-react.module dw-modules/digitalwoods-react.module\"",
     "start": "vite --port 3000",
     "dev": "vite --port 3000",
     "test": "vitest run",

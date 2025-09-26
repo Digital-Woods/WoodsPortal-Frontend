@@ -551,33 +551,19 @@ export const DynamicComponentView = ({
     fetchData();
   }, [sync, hubspotObjectTypeId, defPermissions]);
 
-
-  // useEffect(async () => {
-  //     setPage(1);
-  //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-  // }, [companyAsMediator]);
-
   useEffect(() => {
-    // const fetchData = async () => {
-    //   setPage(1);
-
-    //   if (
-    //     (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-    //     !defPermissions?.pipeline_id
-    //   ) {
-    //     await getPipelines();
-    //   } else {
-    //     // console.log(456)
-
-    //   try {
-    //     await getData();
-    //   } catch (err) {
-    //     console.error("Error running getData", err);
-    //   }
-    //   }
-    // };
-
-    // fetchData();
+    const fetchData = async () => {
+      setPage(1);
+      if (
+        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        !defPermissions?.pipeline_id
+      ) {
+        await getPipelines();
+      } else {
+        await getData();
+      }
+    };
+    if (!isFristTimeLoadData && isHome) fetchData();
   }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
 
   // useEffect(() => {
@@ -745,7 +731,8 @@ export const DynamicComponentView = ({
                       {
                       // subscriptionType != 'FREE' && (
                         !isLoading ? (
-                          `${totalRecord} records`
+                          // `${totalRecord} records`
+                          (totalRecord || totalRecord != null) ? `${totalRecord} records` : ""
                         ) : (
                           <div className="h-4 w-20 bg-gray-300 dark:bg-white dark:opacity-20 rounded-sm animate-pulse mr-1 mt-1"></div>
                         )

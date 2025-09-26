@@ -20,7 +20,8 @@ export const DetailsViewEditor = ({
   objectId,
   id,
   urlParam,
-  refetch
+  refetch,
+  setEditRowKey
 }: any) => {
   const editorRef = useRef(null);
   const [expandDialog, setExpandDialog] = useState(false);
@@ -126,6 +127,7 @@ export const DetailsViewEditor = ({
               onClick={() => {
                 setEditRow(null);
                 setExpandDialog(false);
+                setEditRowKey(null);
               }}
               className={`dark:!text-white`}
             >

@@ -7,6 +7,7 @@ import { setCookie } from './cookie';
 import { Currency } from './Currency';
 import { getUserDetails } from '@/data/client/auth-utils';
 import { formatTimestampIST } from './DateTime';
+import { useMakeLink } from './GenerateUrl';
 
 export function profileInitial(firstName: any, lastName: any) {
   const initials =
@@ -495,15 +496,18 @@ export const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary hover:underline underline-offset-4 font-semibold border-input rounded-md"
-          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, params: (urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`), associationLabel: associationLabel})}
+
         >
           --
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}?isPrimaryCompany=${companyAsMediator || false}`}
+          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, params: (urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`), associationLabel: associationLabel})}
         >
-          <OpenIcon /> 1
+          <OpenIcon />
         </Link>
       </div>
     );
@@ -615,15 +619,18 @@ export const renderCellContent = ({
       <div className="flex gap-1 relative items-center">
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
-          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, params: (urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`), associationLabel: associationLabel})}
+
         >
           {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
-          to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
+          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, params: (urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`), associationLabel: associationLabel})}
         >
-          <OpenIcon /> 4
+          <OpenIcon />
         </Link>
       </div>
     );

@@ -79,14 +79,13 @@ export const Attachments = ({
         {isLoadingUploading && uploadProgress < 90 ? (
           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
             <div
-              className={`h-3 bg-secondary transition-all duration-300 w-[${
-                uploadProgress + 10
-              }%]`}
+              className="h-3 bg-secondary transition-all duration-300"
+              style={{ width: `${uploadProgress + 10}%` }}
             ></div>
           </div>
         ) : null}
         {isLoadingUploading && uploadProgress > 90 ? (
-          <div className="meter">
+          <div className="CUSTOM-meter">
             <span></span>
           </div>
         ) : null}

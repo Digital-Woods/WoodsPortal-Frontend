@@ -176,10 +176,12 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
           Authorization: `Bearer ${token}`,
         },
         onUploadProgress: (progressEvent: any) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(percentCompleted); // Update the progress
+          if (progressEvent.total) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted); // Update the progress
+          }
         },
       });
 
@@ -300,14 +302,15 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                               {truncateText(filename, 80)}
                             </div>
                             <div className="CUSTOM-file-actions ml-auto">
-                              <button
+                              <Button
                                 type="button"
+                                variant="link"
                                 className={`CUSTOM-file-action-btn dark:text-white text-red-600 mr-0 ${isUploading ? 'hidden':''}`}
                                 onClick={() => deleteSelectFile(id)}
                                 disabled={isUploading}
                               >
                                 Delete
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         {/* Progress Bar */}
@@ -315,15 +318,16 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                         {
                           isUploading && uploadProgress < 90 ?                         
                           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
-                          <div
-                            className={`h-3 bg-secondary dark:bg-dark-400 transition-all duration-300 w-[${uploadProgress+10}%]`}
-                          ></div>
+                            <div
+                              className="h-3 bg-secondary dark:bg-dark-400 transition-all duration-300"
+                              style={{ width: `${uploadProgress + 10}%` }}
+                            ></div>
                           </div> : null
                         }
                         {
                           isUploading && uploadProgress > 90  ? 
-                          <div className="meter">
-                            <span></span>
+                          <div className="CUSTOM-meter">
+                            <span className="dark:bg-dark-400"></span>
                           </div> : null
                         }
                         </div>

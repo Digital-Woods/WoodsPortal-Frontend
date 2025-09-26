@@ -24,7 +24,7 @@ import { NoteSkeleton } from './skeletons/NoteSkeleton';
 import { HtmlParser } from '@/components/HtmlParser';
 import DOMPurify from 'dompurify';
 import { useToaster } from '@/state/use-toaster';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/state/use-auth';
 
 
@@ -125,7 +125,7 @@ const NoteCard = ({
   return (
     <div key={note.hs_object_id} className="mt-2">
       <div
-        className={`border ${note?.createdBy === 'Hubspot' ? `bg-[var(--note-hs-bg)] dark:bg-dark-300 dark:border-gray-700  ` : `bg-[var(--note-wp-bg)] dark:bg-dark-500 dark:border-gray-600` } border-gray-200  shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
+        className={`border ${note?.createdBy === 'Hubspot' ? `bg-[var(--note-hs-bg)] dark:bg-dark-300 dark:border-gray-700  ` : `bg-[var(--note-wp-bg)] dark:bg-dark-500 dark:border-gray-600` } shadow-md rounded-md mt-1 p-2 dark:text-white text-sm cursor-pointer`}
         onClick={() => {
           setIsOpen(!isOpen);
           setIsOpenEditor(false);
@@ -291,7 +291,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
 
   const limit = 10;
   const { data, error, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ["data", page],
+    queryKey: ["data", page, objectId, id],
     queryFn: async () => {
       let params: any = makeParam()
 
@@ -308,6 +308,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       console.error("Error fetching file details:", error);
     },
     refetchInterval: (sync || apiSync) ? env.VITE_NOTE_INTERVAL_TIME : false,
+    enabled: !!objectId && !!id, 
   });
 
   const makeParam = () => {
@@ -335,7 +336,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     }
     return params
   }
-
+// console.log((sync || apiSync) ? false : true,'Hello');
   useEffect(() => {
     if (sync || apiSync) refetch();
   }, [sync, apiSync]);
@@ -360,8 +361,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     },
 
     onSuccess: (response: any) => {
-      setApiSync(true);
-      // refetch();
+      // setApiSync(true);
+      refetch();
       setShowDialog(false);
       setToaster({
         message: response.statusMsg,
@@ -395,11 +396,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   }, []);
   
   useEffect(() => {
-    const queryClient = new QueryClient();
-    return () => {
-      queryClient.cancelQueries(["data"]);
-      setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
-    };
+    setPage(getAuthSubscriptionType() === "FREE" ? " " : 1);
+    refetch(); // 👈 will now use new objectId and id because of queryKey
   }, [objectId, id]);
 
   useEffect(() => {
