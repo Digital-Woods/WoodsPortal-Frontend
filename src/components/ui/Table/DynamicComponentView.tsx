@@ -78,7 +78,6 @@ export const DynamicComponentView = ({
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
   const {updateLink, filterParams} = useUpdateLink();
-  
 
   const router = useRouter()
   const { pathname } = router.state.location
@@ -545,33 +544,19 @@ export const DynamicComponentView = ({
     fetchData();
   }, [sync, hubspotObjectTypeId, defPermissions]);
 
-
-  // useEffect(async () => {
-  //     setPage(1);
-  //     await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-  // }, [companyAsMediator]);
-
   useEffect(() => {
-    // const fetchData = async () => {
-    //   setPage(1);
-
-    //   if (
-    //     (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-    //     !defPermissions?.pipeline_id
-    //   ) {
-    //     await getPipelines();
-    //   } else {
-    //     // console.log(456)
-
-    //   try {
-    //     await getData();
-    //   } catch (err) {
-    //     console.error("Error running getData", err);
-    //   }
-    //   }
-    // };
-
-    // fetchData();
+    const fetchData = async () => {
+      setPage(1);
+      if (
+        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        !defPermissions?.pipeline_id
+      ) {
+        await getPipelines();
+      } else {
+        await getData();
+      }
+    };
+    if (!isFristTimeLoadData && isHome) fetchData();
   }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
 
   // useEffect(() => {
