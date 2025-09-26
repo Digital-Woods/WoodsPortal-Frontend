@@ -291,7 +291,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
 
   const limit = 10;
   const { data, error, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ["data", page, objectId, id, ],
+    queryKey: ["data", page, objectId, id],
     queryFn: async () => {
       let params: any = makeParam()
 
@@ -336,7 +336,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     }
     return params
   }
-console.log((sync || apiSync) ? false : true,'Hello');
+// console.log((sync || apiSync) ? false : true,'Hello');
   useEffect(() => {
     if (sync || apiSync) refetch();
   }, [sync, apiSync]);
