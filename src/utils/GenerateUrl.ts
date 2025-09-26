@@ -212,7 +212,7 @@ export const getParamDetails = (props?: any) => {
   // console.log('parentObjectRecordId', parentObjectRecordId)
 
   // if isPrimaryCompany
-  const arr = Array.from(new URLSearchParams(lastItem.p))
+  const arr = Array.from(new URLSearchParams(lastItem?.p))
   const map = new Map(arr)
   if (map.get('isPrimaryCompany') === 'true') {
     paramsObject['isPrimaryCompany'] = true
