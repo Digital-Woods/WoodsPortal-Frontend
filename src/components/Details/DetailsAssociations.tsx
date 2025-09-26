@@ -28,6 +28,7 @@ export const DetailsAssociations = ({
   parentPermissions,
   info
 }: any) => {
+  const { makeLink } = useMakeLink()
   const [associationData, setAssociationData] = useState<any>(null);
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
@@ -263,6 +264,7 @@ export const DetailsAssociations = ({
                                   />
                                 ) : (
                                   renderCellContent({
+                                    makeLink,
                                     companyAsMediator: companyAsMediator,
                                     value: value.value,
                                     column: value,
@@ -322,7 +324,7 @@ export const DetailsAssociations = ({
               //     : parentObjectRowId
               //   }&isPrimaryCompany=${companyAsMediator}`}
               // to={viewUrl}
-              to={useMakeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
+              to={makeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
             >
               View associated {associationData?.labels?.plural}
             </Link>

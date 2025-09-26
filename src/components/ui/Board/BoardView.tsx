@@ -9,6 +9,7 @@ import { hubId } from '@/data/hubSpotData'
 import { Button } from '@/components/ui/Button'
 import { useToaster } from '@/state/use-toaster';
 import { useTable } from '@/state/use-table';
+import { useMakeLink } from '@/utils/GenerateUrl';
 
 export const BoardView = ({
   title = "",
@@ -31,6 +32,7 @@ export const BoardView = ({
   detailsUrl,
   defPermissions
 }: any) => {
+  const { makeLink } = useMakeLink()
   const { setPage, setAfter, limit, setLimit, selectedPipeline }: any = useTable();
 
   // console.log('TrelloCards', true)
@@ -250,9 +252,10 @@ export const BoardView = ({
         className={`text-sm rounded-md bg-white border border-gray-300  dark:border-gray-600 shadow-sm p-3 mx-3 my-2 dark:bg-dark-300 dark:text-white ${dragItem ? " rotate-6" : ""
           }`}
       >
-        {columns && getSortedByBoardViewOrder(columns).map((column: any) => (
-          <div>
+        {columns && getSortedByBoardViewOrder(columns).map((column: any, index: number) => (
+          <div key={index}>
             {renderCellContent({
+              makeLink,
               companyAsMediator: companyAsMediator,
               value: item[column.key],
               column: column,
@@ -303,7 +306,7 @@ export const BoardView = ({
     );
   }
 
-  /* =============================================================
+/* =============================================================
 
 Main Component Starts Here
 

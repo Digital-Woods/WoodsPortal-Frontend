@@ -1,8 +1,8 @@
 import { useRouter } from '@tanstack/react-router'
 import { getRouteMenu } from './param'
+import { compressAuto, decompressAuto, fromB64, toB64 } from './compress'
 
-const setParentRoute = (props: any, search: any) => {
-  const router = useRouter()
+const buildParentRoute = (props: any, search: any, router: any) => {
   const { pathname } = router.state.location
   const routeMenu: any = getRouteMenu(pathname)
 
@@ -12,10 +12,10 @@ const setParentRoute = (props: any, search: any) => {
       o_t_id: routeMenu.path,
     },
   ]
-  return setChildRoute(props, search, breadcrumbItems)
+  return buildChildRoute(props, search, breadcrumbItems)
 }
 
-const setChildRoute = (props: any, search: any, breadcrumbItems: any) => {
+const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
   let breadcrumbs = [...breadcrumbItems]
   let breadcrumbType: string = 'child'
   if (breadcrumbItems.length === 1) {
@@ -75,11 +75,16 @@ const setChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       }
     }
   }
+  console.log('breadcrumbs', breadcrumbs)
   return generateUrl(props, breadcrumbType, breadcrumbs)
 }
 
 const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
   const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
+  console.log('newBase64', newBase64)
+
+    // const rt2 = decompressAuto(fromB64(newBase64));
+    // console.log('rt2_1', rt2)
 
   let url = ''
   if (props?.objectTypeId && props?.recordId) {
@@ -97,6 +102,13 @@ const convertToBase64 = (str: any = []) => {
     console.warn('Base64 encode failed:', str, err)
     return ''
   }
+
+  // if(str) {
+  //   const b64 = toB64(compressAuto(str));
+  //   console.log('b64', b64)
+  //   return b64 || '';
+  // }
+  // return ''
 }
 
 const decodeToBase64 = (base64: string) => {
@@ -106,24 +118,50 @@ const decodeToBase64 = (base64: string) => {
     console.warn('Base64 decode failed:', base64, err)
     return ''
   }
+  
+  // if(base64) {
+  //   const b = base64?.replace(/ /g, "+");
+  //   console.log('base64', base64)
+  //   console.log('b', b)
+  //   const rt2 = decompressAuto(fromB64(b));
+  //   console.log('rt2', rt2)
+  //   return JSON.parse(rt2) ;
+  // }
+  // return ''
 }
 
-export const useMakeLink = (props: any) => {
+// export const useMakeLink = (props: any) => {
+//   const router = useRouter()
+//   const search: any = router.state.location.search
+
+//   if (!search.b) {
+//     return setParentRoute(props, search)
+//   } else {
+//     let breadcrumbItems = decodeToBase64(search.b) || []
+//     return setChildRoute(props, search, breadcrumbItems)
+//   }
+// }
+
+export const useMakeLink = () => {
   const router = useRouter()
   const search: any = router.state.location.search
 
-  if (!search.b) {
-    return setParentRoute(props, search)
-  } else {
-    let breadcrumbItems = decodeToBase64(search.b) || []
-    return setChildRoute(props, search, breadcrumbItems)
+  const makeLink = (props: any) => {
+    if (!search.b) {
+      return buildParentRoute(props, search, router)   // pure helper
+    } else {
+      const breadcrumbItems = decodeToBase64(search?.b) || []
+      return buildChildRoute(props, search, breadcrumbItems) // pure helper
+    }
   }
+
+  return { makeLink }
 }
 
 export const getParamDetails = (props?: any) => {
   const router = useRouter()
   const search: any = router.state.location.search
-  let breadcrumbs = decodeToBase64(search.b) || []
+  let breadcrumbs = decodeToBase64(search?.b) || []
 
   let mediatorObjectTypeId = ''
   let mediatorObjectRecordId = ''
@@ -134,6 +172,10 @@ export const getParamDetails = (props?: any) => {
   const lastItem2 = breadcrumbs[breadcrumbs.length - 2]
   const lastItem3 = breadcrumbs[breadcrumbs.length - 3]
 
+  // console.log('lastItem', lastItem)
+  // console.log('lastItem2', lastItem2)
+  // console.log('lastItem3', lastItem3)
+
   // console.log('breadcrumbs', breadcrumbs)
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket') {
@@ -143,7 +185,6 @@ export const getParamDetails = (props?: any) => {
       parentObjectRecordId = lastItem?.o_r_id || ''
       bParams = lastItem?.p || ''
     } else {
-
       if (breadcrumbs.length > 2) {
         mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
         mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
@@ -164,11 +205,11 @@ export const getParamDetails = (props?: any) => {
   }
   let paramsObject: any = {}
 
-  console.log('props?.type', props?.type)
-  console.log('mediatorObjectTypeId', mediatorObjectTypeId)
-  console.log('mediatorObjectRecordId', mediatorObjectRecordId)
-  console.log('parentObjectTypeId', parentObjectTypeId)
-  console.log('parentObjectRecordId', parentObjectRecordId)
+  // console.log('props?.type', props?.type)
+  // console.log('mediatorObjectTypeId', mediatorObjectTypeId)
+  // console.log('mediatorObjectRecordId', mediatorObjectRecordId)
+  // console.log('parentObjectTypeId', parentObjectTypeId)
+  // console.log('parentObjectRecordId', parentObjectRecordId)
 
   // if isPrimaryCompany
   const arr = Array.from(new URLSearchParams(lastItem.p))
@@ -187,6 +228,8 @@ export const getParamDetails = (props?: any) => {
     }
   }
 
+  // console.log('paramsObject', paramsObject)
+
   const queryString = new URLSearchParams(paramsObject as any).toString()
 
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
@@ -195,6 +238,7 @@ export const getParamDetails = (props?: any) => {
   if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
     params = ''
 
+  // console.log('params_1', params)
   return {
     breadcrumbs,
     paramsObject: { ...paramsObject, params: bParams },
@@ -205,7 +249,8 @@ export const getParamDetails = (props?: any) => {
 export const getBreadcrumbs = () => {
   const router = useRouter()
   const search: any = router.state.location.search
-  let breadcrumbs = decodeToBase64(search.b) || []
+  
+  let breadcrumbs = decodeToBase64(search?.b) || []
 
   if (!breadcrumbs && breadcrumbs.length < 1) return []
 
@@ -233,7 +278,7 @@ const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
   if (index === 0) {
     return {
       name: breadcrumb.n,
-      path: `/${breadcrumb.o_t_id}`,
+      path: `/${breadcrumb?.p || breadcrumb.o_t_id}?b=${bc}`,
     }
   } else if (index === 1) {
     return {
@@ -262,7 +307,7 @@ export const getTableTitle = (
 ) => {
   const router = useRouter()
   const search: any = router.state.location.search
-  let breadcrumbs = decodeToBase64(search.b) || []
+  let breadcrumbs = decodeToBase64(search?.b) || []
 
   if (breadcrumbs.length < 1) {
     const router = useRouter()
@@ -321,7 +366,7 @@ export const getFormTitle = (
 ) => {
   const router = useRouter()
   const search: any = router.state.location.search
-  let breadcrumbs = decodeToBase64(search.b) || []
+  let breadcrumbs = decodeToBase64(search?.b) || []
 
   if (breadcrumbs.length < 1) {
     const router = useRouter()
@@ -359,3 +404,119 @@ export const getFormTitle = (
 const nameTrancate = (name: any) => {
   return name.length > 30 ? `${name?.slice(0, 30) + '...'}` : name
 }
+
+// export const updateLink = (props: any) => {
+//   console.log('props', props)
+
+//   const router = useRouter()
+//   const search: any = router.state.location.search
+//   let breadcrumbs = decodeToBase64(search.b) || []
+
+//   if (breadcrumbs.length < 1) {
+//     const router = useRouter()
+//     const { pathname } = router.state.location
+//     const routeMenu: any = getRouteMenu(pathname)
+//     breadcrumbs = [
+//       {
+//         name: routeMenu?.title,
+//         path: routeMenu?.path,
+//       },
+//     ]
+//   }
+
+//   const lastItem = breadcrumbs[breadcrumbs.length - 1]
+
+//   console.log('lastItem', lastItem)
+//   return lastItem
+// }
+
+const keyMap: Record<string, string> = {
+  sort: 'sort',
+  s: 'search',
+  fPn: 'filterPropertyName',
+  fO: 'filterOperator',
+  fV: 'filterValue',
+  c: 'cache',
+  isPC: 'isPrimaryCompany',
+  v: 'view',
+  l: 'limit',
+  p: 'page',
+  aPip: 'activePipeline',
+}
+
+export const useUpdateLink = () => {
+  const router = useRouter()
+
+  const updateLink = (props: any) => {
+    const search: any = router.state.location.search
+    let breadcrumbs = decodeToBase64(search?.b) || []
+
+    if (breadcrumbs.length < 1) {
+      const { pathname } = router.state.location
+      const routeMenu: any = getRouteMenu(pathname)
+      breadcrumbs = [
+        {
+          n: routeMenu?.title,
+          p: routeMenu?.path,
+        },
+      ]
+    }
+
+    breadcrumbs[breadcrumbs.length - 1].prm = {...breadcrumbs[breadcrumbs.length - 1].prm, ...props}
+    const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
+    updateBParam(router, newBase64)
+
+    // console.log('props', props)
+  }
+
+  const filterParams = () => {
+    const search: any = router.state.location.search
+    let breadcrumbs = decodeToBase64(search?.b) || []
+    // console.log('breadcrumbs', breadcrumbs)
+
+    if (breadcrumbs.length < 1) return null
+    const lastItem = breadcrumbs[breadcrumbs.length - 1]
+    const expandKeys = (obj: Record<string, any>) => {
+      return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+          keyMap[key] || key, // map if exists, else keep original
+          value,
+        ]),
+      )
+    }
+    const output = lastItem?.prm ? expandKeys(lastItem?.prm) : null
+    // console.log('output', output)
+    return output
+  }
+
+  return { updateLink, filterParams }
+}
+
+const updateBParam = (router: any, newValue: string) => {
+  const currentSearch = router.state.location.search || {}
+
+  router.navigate({
+    to: router.state.location.pathname, // stay on same path
+    search: {
+      ...currentSearch,
+      b: newValue, // add or replace `b`
+    },
+    replace: true, // don't push new history entry
+  })
+}
+
+// const updateBParam = (router: any, newValue: string) => {
+//     const currentSearch = router.state.location.search || {};
+
+//     // Replace or add `b`
+//     const updatedSearch = {
+//       ...currentSearch,
+//       b: newValue,
+//     };
+
+//     router.navigate({
+//       to: router.state.location.pathname, // stay on same path
+//       search: updatedSearch,              // update query params
+//       replace: true,                      // replace history entry
+//     });
+//   };

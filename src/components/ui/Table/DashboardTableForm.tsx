@@ -16,7 +16,7 @@ import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl 
 import { useToaster } from '@/state/use-toaster';
 import { DashboardTableEditor } from './DashboardTableEditor';
 import { formatCustomObjectLabel } from '@/utils/DataMigration';
-import { getFormTitle } from '@/utils/GenerateUrl';
+import { getFormTitle, useUpdateLink } from '@/utils/GenerateUrl';
 
 export const DashboardTableForm = ({
   type = "create",
@@ -52,6 +52,8 @@ export const DashboardTableForm = ({
   // const [objectName, setObjectName] = useState<any>("");
   const { setSync, setApiSync } = useSync();
   const { setToaster } = useToaster();
+
+  const {filterParams} = useUpdateLink();
 
   const { objectName, dialogTitle } = getFormTitle(type, title, activeTab);
 
