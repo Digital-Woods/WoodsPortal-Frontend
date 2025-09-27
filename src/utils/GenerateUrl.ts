@@ -190,13 +190,13 @@ export const getParamDetails = (props?: any) => {
         mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       }
 
-      if (!lastItem?.o_r_id && breadcrumbs.length > 4) {
+      if (!lastItem?.o_r_id && breadcrumbs.length > 2) {
         parentObjectTypeId = lastItem2?.o_t_id || ''
         parentObjectRecordId = lastItem2?.o_r_id || ''
         // bParams = lastItem?.p || ''
       }
 
-      if (lastItem?.o_r_id && breadcrumbs.length > 4) {
+      if (lastItem?.o_r_id && breadcrumbs.length > 2) {
         parentObjectTypeId = lastItem3?.o_t_id || ''
         parentObjectRecordId = lastItem3?.o_r_id || ''
         // bParams = lastItem?.p || ''
