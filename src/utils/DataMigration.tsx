@@ -338,7 +338,7 @@ export const renderCellContent = ({
   urlParam = null
 }: any) => {
   if (column.hidden) return null;
-
+  console.log(makeLink,'makeLink hello');
   if (
   (type === "details" || type === "associations" || type === 'list' || type === 'homeList') &&
   (column?.fieldType === "booleancheckbox")
