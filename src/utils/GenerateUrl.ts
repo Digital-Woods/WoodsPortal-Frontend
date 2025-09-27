@@ -410,7 +410,7 @@ export const getFormTitle = (
       objectName = title
       dialogTitle = `${activeTab == 'addNew' ? `Create a new ${mTitle} for ${nameTrancate(lastName)}` : `Associate an Existing ${mTitle} with ${nameTrancate(lastName)}`}`
     } else {
-      const singularLastName = lastName?.endsWith('s')
+      const singularLastName = typeof lastName === 'string' && lastName?.endsWith('s')
         ? lastName.slice(0, -1)
         : lastName
       objectName = singularLastName
