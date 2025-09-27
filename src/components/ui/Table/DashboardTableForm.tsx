@@ -57,7 +57,14 @@ export const DashboardTableForm = ({
   // const {filterParams} = useUpdateLink();
 
   const { params} = getParamDetails({type: componentName});
-  
+  const nParams = componentName === 'sidebarTable' ? urlParam : params
+
+  console.log("params", params)
+  console.log("nParams", nParams)
+  console.log("componentName", componentName)
+
+  const queryString = new URLSearchParams(nParams as any).toString()
+  let mParams: any = queryString ? `?${queryString}` : ''
 
   const { objectName, dialogTitle } = getFormTitle(type, title, activeTab);
 
@@ -66,7 +73,7 @@ export const DashboardTableForm = ({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
-      const API = `${apis.formAPI}${params}`;
+      const API = `${apis.formAPI}${mParams}`;
       return await Client.form.fields({ API: API });
     },
 
@@ -130,13 +137,13 @@ export const DashboardTableForm = ({
     mutationKey: ["addData"],
     mutationFn: async ({ formData, addAnother }: any) => {
       try {
-        const mUrlParam = updateParamsFromUrl(apis.createAPI, {
-          ...getQueryParamsToObject(urlParam),
-          addAnother: addAnother ? "true" : "false",
-        });
+        // const mUrlParam = updateParamsFromUrl(apis.createAPI, {
+        //   ...getQueryParamsToObject(urlParam),
+        //   addAnother: addAnother ? "true" : "false",
+        // });
         // const API_ENDPOINT = removeAllParams(apis.createAPI);
         // const API = addParam(API_ENDPOINT, mUrlParam);
-        const API = `${apis.createAPI}${params}`;
+        const API = `${apis.createAPI}${mParams}`;
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
@@ -190,13 +197,15 @@ export const DashboardTableForm = ({
       mutationKey: ["addExistingData"],
       mutationFn: async ({ formData }: any) => {
         try {
+          const API = `${apis.createExistingAPI}${mParams}`;
           const response = await Client.form.createExisting({
-            API: apis.createExistingAPI,
-            params: {
-              fromObjectTypeId: parentObjectTypeId,
-              fromRecordId: parentObjectRowId,
-              toObjectTypeId: hubspotObjectTypeId,
-            },
+            API: API,
+            // API: apis.createExistingAPI,
+            // params: {
+            //   fromObjectTypeId: parentObjectTypeId,
+            //   fromRecordId: parentObjectRowId,
+            //   toObjectTypeId: hubspotObjectTypeId,
+            // },
             data: formData,
           });
           return response;

@@ -315,7 +315,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
           }
         </React.Fragment>
       )}
-      {showAddDialog && <DashboardTableForm openModal={showAddDialog} setOpenModal={setShowAddDialog} title={singularModalTitle} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} urlParam={urlParam} />}
+      {showAddDialog && <DashboardTableForm componentName="sidebarTable" openModal={showAddDialog} setOpenModal={setShowAddDialog} title={singularModalTitle} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} urlParam={urlParam} />}
     </div>
   );
 };
