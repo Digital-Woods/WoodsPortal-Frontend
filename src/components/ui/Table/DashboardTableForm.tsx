@@ -481,6 +481,7 @@ export const DashboardTableForm = ({
                                       <div>
                                         {filled.fieldType == "select" ||
                                         filled.fieldType == "checkbox" ||
+                                        filled.fieldType == "booleancheckbox" ||
                                         filled.fieldType == "radio" ||
                                         (filled.name == "dealstage" &&
                                           filled.fieldType == "radio" &&
