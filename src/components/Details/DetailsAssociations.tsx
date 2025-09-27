@@ -147,7 +147,7 @@ export const DetailsAssociations = ({
                 //     ? mediatorObjectRecordId
                 //     : parentObjectRowId
                 //   }&isPrimaryCompany=${companyAsMediator}`}
-                to={viewUrl}
+                to={makeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
               >
                 <span>
                   <span className="text-secondary  hover:underline underline-offset-4  dark:!text-white">
@@ -219,6 +219,7 @@ export const DetailsAssociations = ({
                                   ?.update ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent({
+                                      makeLink,
                                       companyAsMediator: companyAsMediator,
                                       value: value.value,
                                       column: value,

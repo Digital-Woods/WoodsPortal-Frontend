@@ -338,7 +338,6 @@ export const renderCellContent = ({
   urlParam = null
 }: any) => {
   if (column.hidden) return null;
-
   if (
   (type === "details" || type === "associations" || type === 'list' || type === 'homeList') &&
   (column?.fieldType === "booleancheckbox")
@@ -572,7 +571,7 @@ export const renderCellContent = ({
           to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel})}
 
         >
-          {truncatedText(isObject(value) ? value.label : value, "23")}
+          {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
