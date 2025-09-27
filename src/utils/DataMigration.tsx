@@ -572,7 +572,7 @@ export const renderCellContent = ({
           to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, params: (urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`), associationLabel: associationLabel})}
 
         >
-          {truncatedText(isObject(value) ? value.label : value, "23")}
+          {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
