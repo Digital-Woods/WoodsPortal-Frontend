@@ -9,7 +9,7 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, 
 
   const {filterParams} = useUpdateLink();
 
-  const [currentPage, setCurrentPages] = useState(filterParams()?.page || null);
+  const [currentPage, setCurrentPages] = useState(filterParams()?.page || 1);
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
 
   const { subscriptionType, setPagination, getPagination }: any = useAuth();
