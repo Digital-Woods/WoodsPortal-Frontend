@@ -143,7 +143,8 @@ export const DashboardTableForm = ({
         // });
         // const API_ENDPOINT = removeAllParams(apis.createAPI);
         // const API = addParam(API_ENDPOINT, mUrlParam);
-        const API = `${apis.createAPI}${mParams}`;
+        const mAddAnother = addAnother ? "&addAnother=true" : "&addAnother=false"
+        const API = `${apis.createAPI}${mParams ? mParams+mAddAnother : mParams}`;
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
@@ -199,13 +200,13 @@ export const DashboardTableForm = ({
         try {
           const API = `${apis.createExistingAPI}${mParams}`;
           const response = await Client.form.createExisting({
-            API: API,
             // API: apis.createExistingAPI,
-            // params: {
-            //   fromObjectTypeId: parentObjectTypeId,
-            //   fromRecordId: parentObjectRowId,
-            //   toObjectTypeId: hubspotObjectTypeId,
-            // },
+            API: API,
+            params: {
+              fromObjectTypeId: parentObjectTypeId,
+              fromRecordId: parentObjectRowId,
+              toObjectTypeId: hubspotObjectTypeId,
+            },
             data: formData,
           });
           return response;
