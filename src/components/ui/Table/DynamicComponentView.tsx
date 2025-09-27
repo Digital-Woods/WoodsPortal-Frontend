@@ -150,17 +150,18 @@ export const DynamicComponentView = ({
           //   },
           // };
           // await setSelectRouteMenuConfig(routeMenuConfig);
-          updateLink({aPip: pipeLineId})
+          
+          // updateLink({aPip: pipeLineId})
           await setUrlParam({
             filterPropertyName: "hs_pipeline",
             filterOperator: "eq",
             filterValue: pipeLineId,
           });
-          updateLink({
-            fPName: "hs_pipeline",
-            fO: "eq",
-            fV: pipeLineId,
-          })
+          // updateLink({
+          //   fPName: "hs_pipeline",
+          //   fO: "eq",
+          //   fV: pipeLineId,
+          // })
         }
 
         // reset and fetch data
@@ -245,7 +246,7 @@ export const DynamicComponentView = ({
 
       const fParams = filterParams()
       console.log('param', param)
-      // console.log('fParams', fParams)
+      console.log('fParams', fParams)
       // console.log('paramsObject', paramsObject)
 
       param = {...param, ...paramsObject}
@@ -255,7 +256,7 @@ export const DynamicComponentView = ({
 
       // setUrlParam(param);
       
-      if(!isFristTimeLoadData) {
+      if(!isFristTimeLoadData || !fParams) {
         updateLink({
           "sort": param.sort,
           "s": param.search,
@@ -268,8 +269,6 @@ export const DynamicComponentView = ({
           "l": param.limit,
           "p": param.page,
         })
-      } else {
-        param = param
       }
 
       return await Client.objects.all({

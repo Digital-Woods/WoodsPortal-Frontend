@@ -32,9 +32,9 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
     }
 
     // ✅ Add params if available
-    if (props.params) {
-      newCrumb.p = props.params
-    }
+    // if (props.params) {
+    //   newCrumb.p = props.params
+    // }
 
     breadcrumbs.push(newCrumb)
   } else {
@@ -48,9 +48,9 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       }
 
       // ✅ Add params if available
-      if (props.params) {
-        newCrumb.p = props.params
-      }
+      // if (props.params) {
+      //   newCrumb.p = props.params
+      // }
 
       breadcrumbs.push(newCrumb)
     } else {
@@ -67,9 +67,9 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
         }
 
         // ✅ Add params if available
-        if (props.params) {
-          newCrumb.p = props.params
-        }
+        // if (props.params) {
+        //   newCrumb.p = props.params
+        // }
 
         breadcrumbs.push(newCrumb)
       }
@@ -96,38 +96,38 @@ const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
 }
 
 const convertToBase64 = (str: any = []) => {
-  // try {
-  //   return btoa(unescape(encodeURIComponent(str)))
-  // } catch (err) {
-  //   console.warn('Base64 encode failed:', str, err)
-  //   return ''
-  // }
-
-  if(str) {
-    const b64 = toB64(compressAuto(str));
-    console.log('b64', b64)
-    return b64 || '';
+  try {
+    return btoa(unescape(encodeURIComponent(str)))
+  } catch (err) {
+    console.warn('Base64 encode failed:', str, err)
+    return ''
   }
-  return ''
+
+  // if(str) {
+  //   const b64 = toB64(compressAuto(str));
+  //   console.log('b64', b64)
+  //   return b64 || '';
+  // }
+  // return ''
 }
 
 const decodeToBase64 = (base64: string) => {
-  // try {
-  //   return JSON.parse(decodeURIComponent(escape(atob(base64))))
-  // } catch (err) {
-  //   console.warn('Base64 decode failed:', base64, err)
-  //   return ''
-  // }
-  
-  if(base64) {
-    const b = base64?.replace(/ /g, "+");
-    console.log('base64', base64)
-    console.log('b', b)
-    const rt2 = decompressAuto(fromB64(b));
-    console.log('rt2', rt2)
-    return JSON.parse(rt2) ;
+  try {
+    return JSON.parse(decodeURIComponent(escape(atob(base64))))
+  } catch (err) {
+    console.warn('Base64 decode failed:', base64, err)
+    return ''
   }
-  return ''
+  
+  // if(base64) {
+  //   const b = base64?.replace(/ /g, "+");
+  //   console.log('base64', base64)
+  //   console.log('b', b)
+  //   const rt2 = decompressAuto(fromB64(b));
+  //   console.log('rt2', rt2)
+  //   return JSON.parse(rt2) ;
+  // }
+  // return ''
 }
 
 // export const useMakeLink = (props: any) => {
@@ -162,6 +162,7 @@ export const getParamDetails = (props?: any) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
+  // console.log('breadcrumbs_1', breadcrumbs)
 
   let mediatorObjectTypeId = ''
   let mediatorObjectRecordId = ''
@@ -176,7 +177,6 @@ export const getParamDetails = (props?: any) => {
   // console.log('lastItem2', lastItem2)
   // console.log('lastItem3', lastItem3)
 
-  // console.log('breadcrumbs', breadcrumbs)
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket' || props?.type === 'association') {
       mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
@@ -212,13 +212,27 @@ export const getParamDetails = (props?: any) => {
   // console.log('parentObjectRecordId', parentObjectRecordId)
 
   // if isPrimaryCompany
-  const arr = Array.from(new URLSearchParams(lastItem?.p))
-  const map = new Map(arr)
-  if (map.get('isPrimaryCompany') === 'true') {
-    paramsObject['isPrimaryCompany'] = true
-  } else {
-    // if not isPrimaryCompany
-    if (parentObjectTypeId && parentObjectRecordId) {
+  // const arr = Array.from(new URLSearchParams(lastItem?.p))
+  // const map = new Map(arr)
+  // if (map.get('isPrimaryCompany') === 'true') {
+  //   paramsObject['isPrimaryCompany'] = true
+  // } else {
+  //   // if not isPrimaryCompany
+  //   if (parentObjectTypeId && parentObjectRecordId) {
+  //     paramsObject['parentObjectTypeId'] = parentObjectTypeId
+  //     paramsObject['parentObjectRecordId'] = parentObjectRecordId
+  //   }
+  //   if (mediatorObjectTypeId && mediatorObjectRecordId) {
+  //     paramsObject['mediatorObjectTypeId'] = mediatorObjectTypeId
+  //     paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
+  //   }
+  // }
+
+    if (breadcrumbs[0]?.prm.isPC) {
+      paramsObject['isPrimaryCompany'] = true
+    }
+
+   if (parentObjectTypeId && parentObjectRecordId) {
       paramsObject['parentObjectTypeId'] = parentObjectTypeId
       paramsObject['parentObjectRecordId'] = parentObjectRecordId
     }
@@ -226,7 +240,6 @@ export const getParamDetails = (props?: any) => {
       paramsObject['mediatorObjectTypeId'] = mediatorObjectTypeId
       paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
     }
-  }
 
   // console.log('paramsObject', paramsObject)
 
@@ -235,7 +248,8 @@ export const getParamDetails = (props?: any) => {
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
   let params: any = queryString ? `?${queryString}` : ''
 
-  if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
+  // if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
+  if (breadcrumbs.length < 2 && !breadcrumbs[0]?.prm.isPC)
     params = ''
 
   // const mParamsObject: any = {
@@ -471,7 +485,7 @@ export const useUpdateLink = () => {
     const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
     updateBParam(router, newBase64)
 
-    // console.log('props', props)
+    console.log('props', props)
   }
 
   const filterParams = () => {
