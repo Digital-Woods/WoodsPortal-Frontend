@@ -46,7 +46,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   const [permissions, setPermissions] = useState<any>(null);
   const urlParam = getQueryParamsFromCurrentUrl();
   const [galleryDialog, setGalleryDialog] = useState<any>(false);
-  const { sync, setSync } = useSync();
+  const { sync, setSync, apiSync } = useSync();
   const [sidebarDetailsOpen, setSidebarDetailsOpen] = useState<any>(false);
   const { isLargeScreen } = useResponsive();
   const [userToggled, setUserToggled] = useState<any>(false); // Track user interaction
@@ -184,8 +184,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   }
 
   useEffect(() => {
-    if (sync) getData();
-  }, [sync]);
+    if (sync || apiSync) getData();
+  }, [sync, apiSync]);
 
   const refetchGetData = () => {
     setSync(true);
