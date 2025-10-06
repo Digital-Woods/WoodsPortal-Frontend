@@ -253,7 +253,7 @@ export const DynamicComponentView = ({
       console.log('param', param)
       console.log('paramsObject', paramsObject)
 
-      param = {...(isFristTimeLoadData ? fParams : param), ...paramsObject}
+      param = {...(isFristTimeLoadData && fParams ? fParams : param), ...paramsObject}
 
       // console.log('param_1', param)
 
