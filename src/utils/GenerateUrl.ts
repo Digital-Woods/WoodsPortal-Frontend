@@ -228,7 +228,7 @@ export const getParamDetails = (props?: any) => {
   //   }
   // }
 
-    if (breadcrumbs[0]?.prm.isPC) {
+    if (breadcrumbs[0]?.prm?.isPC) {
       paramsObject['isPrimaryCompany'] = true
     }
 
@@ -249,7 +249,7 @@ export const getParamDetails = (props?: any) => {
   let params: any = queryString ? `?${queryString}` : ''
 
   // if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
-  if (breadcrumbs.length < 2 && !breadcrumbs[0]?.prm.isPC)
+  if (breadcrumbs.length < 2 && !breadcrumbs[0]?.prm?.isPC)
     params = ''
 
   // const mParamsObject: any = {
