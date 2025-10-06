@@ -59,9 +59,9 @@ export const DashboardTableForm = ({
   const { params} = getParamDetails({type: componentName});
   const nParams = componentName === 'sidebarTable' ? urlParam : params
 
-  console.log("params", params)
-  console.log("nParams", nParams)
-  console.log("componentName", componentName)
+  // console.log("params", params)
+  // console.log("nParams", nParams)
+  // console.log("componentName", componentName)
 
   const queryString = new URLSearchParams(nParams as any).toString()
   let mParams: any = queryString ? `?${queryString}` : ''
@@ -165,7 +165,7 @@ export const DashboardTableForm = ({
         //   filterValue: ""
         // });
         // refetch(response);
-        setSync(true);
+        // setSync(true);
         setApiSync(true);
         // refetch();
         // setApiSync(true); // Keeping this as it might be used for other purposes
@@ -216,7 +216,8 @@ export const DashboardTableForm = ({
       },
       onSuccess: async (response: any) => {
         await setToaster({ message: response?.statusMsg, type: "success" });
-        setSync(true);
+        // setSync(true);
+        setApiSync(true);
         setOpenModal(false);
         resetRef.current?.(); // Reset form after successful submission
       },
