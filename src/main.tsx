@@ -59,9 +59,11 @@ async function bootstrap() {
   if (rootElement && !rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement)
     root.render(
-        <TanStackQueryProvider.Provider>
-          <RouterProvider router={router} />
-        </TanStackQueryProvider.Provider>
+        <StrictMode>
+          <TanStackQueryProvider.Provider>
+            <RouterProvider router={router} />
+          </TanStackQueryProvider.Provider>
+        </StrictMode>
     )
   }
 
