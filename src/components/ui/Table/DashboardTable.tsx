@@ -254,28 +254,28 @@ export const DashboardTable: any = ({
   // }
 
 
-  if (isLoadingAPiData === true) {
-    return (
-      <div
-        className={` ${
-          hubSpotUserDetails.sideMenu[0].tabName === title ||
-          componentName === "ticket"
-            ? "mt-0"
-            : "mt-[calc(var(--nav-height)-1px)]"
-        } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
-      >
-        <DashboardTableHeaderSkeleton
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          title={title}
-        />
-        {view === "BOARD" && activeCardData ? (
-          <BoardViewSkeleton />
-        ) : (
-          <TableSkeleton />
-        )}
-      </div>
-    );
-  }
+  // if (isLoadingAPiData === true) {
+  //   return (
+  //     <div
+  //       className={` ${
+  //         hubSpotUserDetails.sideMenu[0].tabName === title ||
+  //         componentName === "ticket"
+  //           ? "mt-0"
+  //           : "mt-[calc(var(--nav-height)-1px)]"
+  //       } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
+  //     >
+  //       <DashboardTableHeaderSkeleton
+  //         hubspotObjectTypeId={hubspotObjectTypeId}
+  //         title={title}
+  //       />
+  //       {view === "BOARD" && activeCardData ? (
+  //         <BoardViewSkeleton />
+  //       ) : (
+  //         <TableSkeleton />
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -350,7 +350,7 @@ export const DashboardTable: any = ({
               />
             )}
 
-          {!isLoading && view === "LIST" && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.total != 0)) && (
+          {view === "LIST" && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.total != 0)) && (
             <DashboardTableData
               key={path}
               title={title}

@@ -21,7 +21,7 @@ import { useMakeLink } from '@/utils/GenerateUrl';
 
 
 export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, companyAsMediator, apis, detailsView = true, editView = false }: any) => {
- const { makeLink } = useMakeLink()
+  const { makeLink } = useMakeLink()
   const [showAddDialog, setShowAddDialog] = useState<any>(false);
   // const [showEditDialog, setShowEditDialog] = useState<any>(false);
   // const [showEditData, setShowEditData] = useState<any>(false);
@@ -209,7 +209,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       <div className="flex items-center justify-between gap-x-2 text-sm font-medium pt-3 pb-4">
         <div className="flex items-center gap-x-2">
           <div onClick={toggleContent} className="cursor-pointer ">
-            <Tooltip id={"HomeToggleButton"}  content={isExpanded ? 'Shrink' : 'Expand'}>
+            <Tooltip id={"HomeToggleButton"} content={isExpanded ? 'Shrink' : 'Expand'}>
               <span className="text-secondary dark:!text-white">
                 {isExpanded ? (
                   <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
@@ -298,23 +298,23 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
 
             ))}
           </ul>
-          {tableData.length > 0 &&
-            <div className="flex lg:flex-row flex-col justify-between items-center">
-              {/* <div className="text-end">
+        </React.Fragment>
+      )}
+      {tableData.length > 0 &&
+        <div className="flex lg:flex-row flex-col justify-between items-center">
+          {/* <div className="text-end">
                 {env.DATA_SOURCE_SET != true &&
                   <Button variant='outline' size='sm' onClick={toggleContent}>{isExpanded ? "Show Less" : "Show More"}</Button>
                 }
               </div> */}
-              <Pagination
-                apiResponse={tableAPiData}
-                numOfPages={numOfPages || 0}
-                currentPage={currentPage}
-                setCurrentPage={handlePageChange}
-              />
-            </div>
-          }
-        </React.Fragment>
-      )}
+          <Pagination
+            apiResponse={tableAPiData}
+            numOfPages={numOfPages || 0}
+            currentPage={currentPage}
+            setCurrentPage={handlePageChange}
+          />
+        </div>
+      }
       {showAddDialog && <DashboardTableForm componentName="sidebarTable" openModal={showAddDialog} setOpenModal={setShowAddDialog} title={singularModalTitle} path={path} portalId={portalId} hubspotObjectTypeId={hubspotObjectTypeId} apis={apis} refetch={getData} urlParam={urlParam} />}
     </div>
   );

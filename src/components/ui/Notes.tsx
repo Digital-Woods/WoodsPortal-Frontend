@@ -279,6 +279,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const { sync, setSync, apiSync, setApiSync } = useSync();
   const [expandDialog, setExpandDialog] = useState(false);
   const { setPagination, subscriptionType }: any = useAuth();
+  const [totalNotes, setTotalNotes] = useState(0);
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -299,6 +300,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
     },
     onSuccess: (data: any) => {
       // setPermissions(data.configurations.note);
+      const totalData = data && data.data && data.data.total
+      setTotalNotes(totalData)
       setSync(false);
       setApiSync(false);
     },
@@ -429,12 +432,12 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   }
   
   const results = data && data.data && data.data.results;
-  const totalNotes = data && data.data && data.data.total;
+  // const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
 
-  if (isLoading || isFetching) {
-    return <NoteSkeleton />;
-  }
+  // if (isLoading || isFetching) {
+  //   return <NoteSkeleton />;
+  // }
 
   const getObjectName = () => {
     let displayValue = "";
@@ -490,7 +493,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       {((subscriptionType === 'FREE') || (subscriptionType != 'FREE' && totalNotes > limit)) && (
         <Pagination
           apiResponse={data}
-          numOfPages={numOfPages}
+          numOfPages={numOfPages || 1}
           currentPage={page}
           setCurrentPage={setPage}
         />

@@ -8,11 +8,15 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, 
   const [isFreeSubscription, setIsFreeSubscription] = useState<any>(true);
 
   const {filterParams} = useUpdateLink();
-
-  const [currentPage, setCurrentPages] = useState(filterParams()?.page || 1);
+  
+  const [currentPage, setCurrentPages] = useState(1);
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
 
   const { subscriptionType, setPagination, getPagination }: any = useAuth();
+
+  useEffect(() => {
+    setCurrentPages(filterParams()?.page || 1)
+  }, []);
 
   useEffect(() => {
     if(!isFristTimeLoadData) setCurrentPages(cPage)
