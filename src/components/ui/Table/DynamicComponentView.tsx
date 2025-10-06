@@ -62,7 +62,7 @@ export const DynamicComponentView = ({
   const [errorMessage, setErrorMessage] = useState<any>("");
   const [errorMessageCategory, setErrorMessageCategory] = useState<any>("");
   // const [pageView, setPageView] = useState<any>("table");
-  const { sync, setSync, setApiSync } = useSync();
+  const { sync, setSync, apiSync, setApiSync } = useSync();
   const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(true);
 
   const {associatedtableTitleSingular, tableTitle, singularTableTitle} = getTableTitle(componentName, title, ticketTableTitle)
@@ -245,13 +245,13 @@ export const DynamicComponentView = ({
       // console.log('param', param)
 
       const fParams = filterParams()
-      console.log('param', param)
-      console.log('fParams', fParams)
+      // console.log('param', param)
+      // console.log('fParams', fParams)
       // console.log('paramsObject', paramsObject)
 
       param = {...param, ...paramsObject}
 
-      console.log('param_1', param)
+      // console.log('param_1', param)
 
 
       // setUrlParam(param);
@@ -535,7 +535,7 @@ export const DynamicComponentView = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      if (sync) {
+      if (sync || apiSync) {
         if (
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           !defPermissions?.pipeline_id
@@ -548,7 +548,7 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [sync, hubspotObjectTypeId, defPermissions]);
+  }, [sync, apiSync, hubspotObjectTypeId, defPermissions]);
 
   useEffect(() => {
     const fetchData = async () => {
