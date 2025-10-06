@@ -235,7 +235,7 @@ const NoteCard = ({
                     <HtmlParser html={DOMPurify.sanitize(note.hs_note_body, noteViewConfig)} />
                   </span>
                 </div>
-                {permissions.update === true && note?.createdBy != 'Hubspot' ? (
+                {permissions?.update === true && note?.createdBy != 'Hubspot' ? (
                   <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 text-secondary transition-opacity">
                     <EditIcon />
                   </div>
