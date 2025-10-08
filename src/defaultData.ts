@@ -601,9 +601,9 @@ const dashboardCards: any = [
     }
 ];
 const homeTabsDataTypeFilter = {
-    "files": "contact",
-    "notes": "contact",
-    "tickets": "contact"
+    "files": "all",
+    "notes": "all",
+    "tickets": "all"
 };
 
 export const defaultData = {

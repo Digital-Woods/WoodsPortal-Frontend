@@ -19,6 +19,7 @@ import { FileTable } from "./FileTable";
 import { useToaster } from "@/state/use-toaster";
 import { Input } from "../Form";
 import { useAuth } from "@/state/use-auth";
+import { useUpdateLink } from "@/utils/GenerateUrl";
 
 export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }: any) => {
   const [currentFiles, setCurrentFiles] = useState<any>({ child: [] });
@@ -34,6 +35,15 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   const itemsPerPage = 10;
   const portalId = getPortal()?.portalId;
   const { subscriptionType }: any = useAuth();
+  const {updateLink, filterParams} = useUpdateLink();
+  const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
+
+  const [totalFiles, setTotalFiles] = useState<any>(null);
+  const [startIndex, setStartIndex] = useState<any>(null);
+  const [endIndex, setEndIndex] = useState<any>(null);
+  const [paginatedFiles, setPaginatedFiles] = useState<any>([]);
+  const [numOfPages, setNumOfPages] = useState<any>(null);
+
 
   const findObjectById = (data: any, id: any) => {
     // Base case: if the current object matches the id, return it
@@ -58,8 +68,17 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   useEffect(() => {
     setCurrentFiles({ child: [] });
     setFolderStack([]);
-    setCurrentPage(1);
-    setSearchTerm("");
+
+    if(isFristTimeLoadData) {
+      const tab =  filterParams("tabs.files")
+      console.log('tab', tab)
+      setCurrentPage(tab?.page || 1);
+      setSearchTerm(tab?.search || "");
+    } else {
+      setCurrentPage(1);
+      setSearchTerm("");
+    }
+
   }, [id, fileId, objectId]);
 
   const { data, error, isLoading, refetch } = useQuery({
@@ -70,8 +89,10 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
         id: id,
         portalId: portalId,
         cache: sync ? false : true,
+        isPrimaryCompany: filterParams("tabs.files")?.isPrimaryCompany ? true : false,
       }),
     onSuccess: (data: any) => {
+      setIsFristTimeLoadData(false)
       // setPermissions(data.configurations.fileManager);
       if (data && data.data) {
         if (folderStack.length > 0 && currentFiles.name != id) {
@@ -105,49 +126,30 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   //   refetch();
   // }, [id, fileId, objectId]);
 
-  if (isLoading) {
-    return <FilesSkeleton />;
-  }
+  useEffect(() => {
+    if(currentFiles?.child.length > 0) {
+      // Filter files based on search term
+      const filteredFiles: any = (currentFiles?.child || [])
+        .filter((file: any) =>
+          file.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
+        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
+      const total = filteredFiles.length
+      const sIndex = (currentPage - 1) * itemsPerPage
+      const eIndex = currentPage * itemsPerPage
 
-  if (error && !id && objectId == '0-2' && tabName === 'home' && !fileId) {
-    return (
-      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
-        <span className="text-yellow-600">
-          <CautionCircle />
-        </span>
-        Primary Company not found.
-      </div>
-    )
-  }
+      setTotalFiles(total);
+      setStartIndex(sIndex);
+      setEndIndex(eIndex);
+      setPaginatedFiles(filteredFiles.slice(sIndex, eIndex));
 
+      setNumOfPages(Math.ceil(total / itemsPerPage));
+    }
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
-        <span className="text-yellow-600">
-          <CautionCircle />
-        </span>
-        {error?.response?.data?.detailedMessage}
-      </div>
-    )
-  }
+  }, [currentFiles, currentPage]);
 
-  // Filter files based on search term
-  const filteredFiles: any = (currentFiles?.child || [])
-    .filter((file: any) =>
-      file.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
-    .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-
-  const totalFiles = filteredFiles.length;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = currentPage * itemsPerPage;
-  const paginatedFiles = filteredFiles.slice(startIndex, endIndex);
-
-  const numOfPages = Math.ceil(totalFiles / itemsPerPage);
 
   const toggleFolder = (folder: any) => {
     setFolderStack([...folderStack, folder]);
@@ -226,7 +228,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
     setIsDialogOpen(false);
   };
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayClick = (e: any) => {
     if (e.target.id === "CUSTOM-dialog-overlay") {
       // Only close if clicked on the overlay
       closeDialog();
@@ -240,7 +242,42 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   const onChangeSearch = (e: any) => {
     setSearchTerm(e.target.value)
     setCurrentPage(1)
+
+    updateLink({
+        s: e.target.value,
+        p: 1
+    }, "tabs.files")
   };
+
+
+  // if (isLoading) {
+  //   return <FilesSkeleton />;
+  // }
+
+
+  if (error && !id && objectId == '0-2' && tabName === 'home' && !fileId) {
+    return (
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle />
+        </span>
+        Primary Company not found.
+      </div>
+    )
+  }
+
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+        <span className="text-yellow-600">
+          <CautionCircle />
+        </span>
+        {error?.response?.data?.detailedMessage}
+      </div>
+    )
+  }
+
 
   return (
     <div onClick={closeContextMenu}>
@@ -326,6 +363,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             isFile={true}
+            tabName="tabs.files"
           />
         </div>
       </div>
