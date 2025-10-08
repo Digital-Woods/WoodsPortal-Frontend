@@ -183,7 +183,7 @@ export const useMakeLink = () => {
   const search: any = router.state.location.search
 
   const makeLink = (props: any) => {
-    if (!search.b) {
+    if (!search.b || "isPC" in props) {  // check props?.isPC if dashbaord sidebar
       return buildParentRoute(props, search, router)   // pure helper
     } else {
       const breadcrumbItems = decodeToBase64(search?.b) || []
