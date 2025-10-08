@@ -2,6 +2,22 @@ import { useRouter } from '@tanstack/react-router'
 import { getRouteMenu } from './param'
 import { compressAuto, decompressAuto, fromB64, toB64 } from './compress'
 
+const keyMap: Record<string, string> = {
+  sort: 'sort',
+  s: 'search',
+  fPn: 'filterPropertyName',
+  fO: 'filterOperator',
+  fV: 'filterValue',
+  c: 'cache',
+  isPC: 'isPrimaryCompany',
+  v: 'view',
+  l: 'limit',
+  pt: 'path',
+  p: 'page',
+  aPip: 'activePipeline',
+  aT: 'activeTab',
+}
+
 const buildParentRoute = (props: any, search: any, router: any) => {
   const { pathname } = router.state.location
   const routeMenu: any = getRouteMenu(pathname)
@@ -263,16 +279,25 @@ export const getParamDetails = (props?: any) => {
       paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
     }
 
-  // console.log('paramsObject', paramsObject)
+  const mappedLastItemParam = Object.fromEntries(
+    Object.entries(lastItem?.prm || {}).map(([key, value]) => [
+      keyMap[key] || key, // use mapped name if exists, else keep original
+      value,
+    ])
+  );
 
-  const queryString = new URLSearchParams(paramsObject as any).toString()
+  const queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam} as any).toString()
+
+  // console.log('queryString', queryString)
+
 
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
   let params: any = queryString ? `?${queryString}` : ''
 
   // if (breadcrumbs.length < 2 && map.get('isPrimaryCompany') != 'true')
-  if (breadcrumbs.length < 2 && !breadcrumbs[0]?.prm?.isPC)
-    params = ''
+
+  // if (breadcrumbs.length < 2 && !breadcrumbs[0]?.prm?.isPC)
+  //   params = ''
 
   // const mParamsObject: any = {
   //   ...paramsObject,
@@ -469,22 +494,6 @@ const nameTrancate = (name: any) => {
 //   console.log('lastItem', lastItem)
 //   return lastItem
 // }
-
-const keyMap: Record<string, string> = {
-  sort: 'sort',
-  s: 'search',
-  fPn: 'filterPropertyName',
-  fO: 'filterOperator',
-  fV: 'filterValue',
-  c: 'cache',
-  isPC: 'isPrimaryCompany',
-  v: 'view',
-  l: 'limit',
-  pt: 'path',
-  p: 'page',
-  aPip: 'activePipeline',
-  aT: 'activeTab',
-}
 
 export const useUpdateLink = () => {
   const router = useRouter()
