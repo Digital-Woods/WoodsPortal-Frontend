@@ -265,7 +265,7 @@ export const getParamDetails = (props?: any) => {
   //   }
   // }
 
-    if (breadcrumbs[0]?.prm?.isPC || lastItem?.prm?.isPC) {
+    if (breadcrumbs[0]?.prm?.isPC || breadcrumbs[1]?.prm?.isPC || lastItem?.prm?.isPC) { // 1st check fot normal object, 2dn & 3rd and check for db associated data
       paramsObject['isPrimaryCompany'] = true
     }
 
