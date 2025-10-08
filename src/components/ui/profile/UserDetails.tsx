@@ -301,8 +301,8 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
                         {activeTab === "files" && (
                             <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.fileManager : null} />
                         )}
-
-                        {activeTab === "notes" && objectId && id && (
+                        
+                        {activeTab === "notes" && objectId && selectedNotesDataFilter && id && (
                             <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.note : null} />
                         )}
 
