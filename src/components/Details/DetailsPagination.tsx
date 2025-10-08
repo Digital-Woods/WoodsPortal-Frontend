@@ -16,28 +16,28 @@ export const DetailsPagination = ({ objectId, states }: any) => {
   const handlePageChange = async (page: any) => {
     await setPage(page);
     await setAfter((page - 1) * limit);
-    setActivePageFucntion(page);
+    // setActivePageFucntion(page);
   };
 
-  const setActivePageFucntion = (page: any) => {
-    setSelectRouteMenuConfig(objectId, page);
-  };
+  // const setActivePageFucntion = (page: any) => {
+  //   setSelectRouteMenuConfig(objectId, page);
+  // };
 
   // Start Cookie RouteMenuConfig
-  const setSelectRouteMenuConfig = (key: any, page: any) => {
-    let routeMenuConfigs = getRouteMenuConfig();
-    routeMenuConfigs[key] = {
-      ...routeMenuConfigs[key],
-      details: {
-        overview: {
-          page: page,
-          preData: true
-        },
-        activeTab: routeMenuConfigs[key]?.activeTab || "overview",
-      },
-    };
-    setRouteMenuConfig(routeMenuConfigs);
-  };
+  // const setSelectRouteMenuConfig = (key: any, page: any) => {
+  //   let routeMenuConfigs = getRouteMenuConfig();
+  //   routeMenuConfigs[key] = {
+  //     ...routeMenuConfigs[key],
+  //     details: {
+  //       overview: {
+  //         page: page,
+  //         preData: true
+  //       },
+  //       activeTab: routeMenuConfigs[key]?.activeTab || "overview",
+  //     },
+  //   };
+  //   setRouteMenuConfig(routeMenuConfigs);
+  // };
 
   useEffect(() => {
     let routeMenuConfigs = getRouteMenuConfig();

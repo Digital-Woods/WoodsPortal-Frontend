@@ -3,7 +3,7 @@ import { Chevron } from '@/assets/icons/Chevron';
 import { useAuth } from '@/state/use-auth';
 import { useUpdateLink } from '@/utils/GenerateUrl';
 
-export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, setCurrentPage, isFile = false, tabName = "" }: any) => {
+export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, setCurrentPage, isFile = false, tabName = "prm" }: any) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
   const [isFreeSubscription, setIsFreeSubscription] = useState<any>(true);
 

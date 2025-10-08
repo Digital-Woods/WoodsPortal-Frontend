@@ -20,6 +20,7 @@ import {
 import { useSync } from "@/state/use-sync";
 import { getAuthSubscriptionType, getRouteMenuConfig, setRouteMenuConfig } from "@/data/client/auth-utils";
 import { env } from "@/env";
+import { useUpdateLink } from "@/utils/GenerateUrl";
 
 const pageLimit = env.VITE_TABLE_PAGE_LIMIT;
 
@@ -41,6 +42,7 @@ export function useTable() {
   const [selectedPipeline, changePipeline] = useAtom(tableSelectedPipelineState);
   const [tableParam, setTableFilterData] = useAtom(tableParamState);
   const { sync } = useSync();
+  const {updateLink, filterParams} = useUpdateLink();
 
   const setView = (mView: string | null) => {
     setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
@@ -109,27 +111,31 @@ export function useTable() {
 
   const setDefaultPipeline = async (data: any, hubspotObjectTypeId: string, companyAsMediator?: boolean) => {
     if (data) {
-      const routeMenuConfigs = getRouteMenuConfig();
+      console.log('filterParams', filterParams())
+      const params = filterParams();
       let mFilterValue = "";
       const defaultPipeline = data?.data?.find(
         (pipeline: any) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
       if (
-        routeMenuConfigs &&
-        routeMenuConfigs.hasOwnProperty(hubspotObjectTypeId) &&
-        routeMenuConfigs[hubspotObjectTypeId].activePipeline
+        params &&
+        params?.filterPropertyName === "hs_pipeline" &&
+        params?.filterValue
       ) {
-        mFilterValue = routeMenuConfigs[hubspotObjectTypeId].activePipeline;
+        mFilterValue = params?.filterValue;
       } else {
         if (view === "BOARD" && !selectedPipeline) {
           mFilterValue = defaultPipeline.pipelineId;
-          const routeMenuConfig = {
-            [hubspotObjectTypeId]: {
-              activePipeline: defaultPipeline.pipelineId,
-            },
-          };
-          setSelectRouteMenuConfig(routeMenuConfig);
+          // const routeMenuConfig = {
+          //   [hubspotObjectTypeId]: {
+          //     activePipeline: defaultPipeline.pipelineId,
+          //   },
+          // };
+          // setSelectRouteMenuConfig(routeMenuConfig);
+          updateLink({
+              fV: defaultPipeline.pipelineId
+          })
         } else {
           mFilterValue =
             data.data.length === 1
@@ -162,34 +168,34 @@ export function useTable() {
       setFilterValue(filterValue);
     }
 
-    const routeMenuConfig = {
-      [hubspotObjectTypeId]: {
-        activePipeline: filterValue,
-      },
-    };
+    // const routeMenuConfig = {
+    //   [hubspotObjectTypeId]: {
+    //     activePipeline: filterValue,
+    //   },
+    // };
     changePipeline(filterValue);
-    setSelectRouteMenuConfig(routeMenuConfig);
+    // setSelectRouteMenuConfig(routeMenuConfig);
   };
 
-  const setSelectRouteMenuConfig = (routeMenuConfig: Record<string, any>) => {
-    let routeMenuConfigs = getRouteMenuConfig();
-    Object.keys(routeMenuConfig).forEach((key) => {
-      if (!routeMenuConfigs) routeMenuConfigs = {};
-      if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
-        routeMenuConfigs[key] = routeMenuConfig[key];
-      } else {
-        if (routeMenuConfig[key]?.activeTab)
-          routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
-        if (routeMenuConfig[key]?.activePipeline) {
-          routeMenuConfigs[key].activePipeline =
-            routeMenuConfig[key].activePipeline;
-        } else {
-          routeMenuConfigs[key].activePipeline = "";
-        }
-      }
-    });
-    setRouteMenuConfig(routeMenuConfigs);
-  };
+  // const setSelectRouteMenuConfig = (routeMenuConfig: Record<string, any>) => {
+  //   let routeMenuConfigs = getRouteMenuConfig();
+  //   Object.keys(routeMenuConfig).forEach((key) => {
+  //     if (!routeMenuConfigs) routeMenuConfigs = {};
+  //     if (routeMenuConfigs && !routeMenuConfigs.hasOwnProperty(key)) {
+  //       routeMenuConfigs[key] = routeMenuConfig[key];
+  //     } else {
+  //       if (routeMenuConfig[key]?.activeTab)
+  //         routeMenuConfigs[key].activeTab = routeMenuConfig[key].activeTab;
+  //       if (routeMenuConfig[key]?.activePipeline) {
+  //         routeMenuConfigs[key].activePipeline =
+  //           routeMenuConfig[key].activePipeline;
+  //       } else {
+  //         routeMenuConfigs[key].activePipeline = "";
+  //       }
+  //     }
+  //   });
+  //   setRouteMenuConfig(routeMenuConfigs);
+  // };
 
   const setGridData = async (type: string, deals: any[]) => {
     if (type === "reset") return setData([]);
@@ -232,7 +238,7 @@ export function useTable() {
     tableParam, setTableFilterData,
     selectedPipeline, setSelectedPipeline,
     setDefaultPipeline,
-    setSelectRouteMenuConfig,
+    // setSelectRouteMenuConfig,
     resetTableParam,
     getTableParam,
     gridData: data,
