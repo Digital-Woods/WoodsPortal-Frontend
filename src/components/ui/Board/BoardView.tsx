@@ -9,7 +9,7 @@ import { hubId } from '@/data/hubSpotData'
 import { Button } from '@/components/ui/Button'
 import { useToaster } from '@/state/use-toaster';
 import { useTable } from '@/state/use-table';
-import { useMakeLink } from '@/utils/GenerateUrl';
+import { getParamDetails, useMakeLink } from '@/utils/GenerateUrl';
 
 export const BoardView = ({
   title = "",
@@ -339,13 +339,13 @@ Main Component Starts Here
     }
   }, [activeCardData, isLoading]);
 
+  const { params} = getParamDetails();
+
   const { mutate: updateDealsByPipeline }: any = useMutation({
     mutationKey: ["updateDealsDataByPipeline"],
     mutationFn: async ({ recordId, stageId }: any) => {
       return await Client.Deals.updatePipelineDeal({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}?${objectToQueryParams(
-          urlParam
-        )}`,
+        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/properties/${recordId}${params}`,
         data:
           hubspotObjectTypeId == "0-3"
             ? { pipeline: defPermissions && defPermissions?.pipeline_id ? defPermissions.pipeline_id : selectedPipeline, dealstage: stageId }
