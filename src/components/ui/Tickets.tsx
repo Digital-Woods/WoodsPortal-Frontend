@@ -3,7 +3,7 @@ import { getParam } from '@/utils/param';
 import { getPortal } from '@/data/client/auth-utils';
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView'
-import { getParamDetails } from "@/utils/GenerateUrl";
+// import { getParamDetails } from "@/utils/GenerateUrl";
 
 export const Tickets = ({
   path,
@@ -36,7 +36,7 @@ export const Tickets = ({
 
   const defaultObjectIds = JSON.parse(env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS);
 
-  const {params} = getParamDetails({type:'ticket'})
+  // const {params} = getParamDetails({type:'ticket'})
 
   const apis = {
      tableAPI: `/api/${hubId}/${portalId}/hubspot-object-data/${defaultObjectIds.tickets}`,
