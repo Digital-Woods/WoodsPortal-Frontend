@@ -26,6 +26,7 @@ import DOMPurify from 'dompurify';
 import { useToaster } from '@/state/use-toaster';
 import { QueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/state/use-auth';
+import { useUpdateLink } from '@/utils/GenerateUrl';
 
 
 const NoteCard = ({
@@ -280,6 +281,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
   const [expandDialog, setExpandDialog] = useState(false);
   const { setPagination, subscriptionType }: any = useAuth();
   const [totalNotes, setTotalNotes] = useState(0);
+  const {updateLink, filterParams} = useUpdateLink();
+  const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -316,24 +319,27 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
 
   const makeParam = () => {
     let params: any = {};
+    const tab =  filterParams("tabs.notes")
+    console.log('tab', tab)
     const baseParams: any = {
       objectId: objectId,
       id: id,
       portalId: portalId,
       cache: (sync || apiSync) ? false : true,
+      isPrimaryCompany: tab?.isPrimaryCompany ? true : false,
     };
 
     if (subscriptionType === "FREE") {
       params = {
         ...baseParams,
-        ...({ after: page }),
+        ...({ after: isFristTimeLoadData && tab?.page ? tab?.page : page }),
       };
     } else {
       params = {
         ...baseParams,
         ...({
           limit: limit,
-          page: page,
+          page: isFristTimeLoadData && tab?.page ? tab?.page : page,
         }),
       };
     }
@@ -373,6 +379,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       });
       setExpandDialog(false);
       setAttachmentId('');
+      setIsFristTimeLoadData(false)
     },
     onError: (error: any) => {
       console.error("Error creating note:", error);
@@ -496,6 +503,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
           numOfPages={numOfPages || 1}
           currentPage={page}
           setCurrentPage={setPage}
+          tabName="tabs.notes"
         />
       )}
       <Dialog

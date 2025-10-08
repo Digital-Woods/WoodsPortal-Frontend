@@ -27,7 +27,7 @@ import { DetailsHeaderCard } from "./Details/DetailsHeaderCard";
 import { DetailsPagination } from "./Details/DetailsPagination";
 import { DetailsView } from "./Details/DetailsView";
 import { useRouter } from "@tanstack/react-router";
-import { getParamDetails } from "@/utils/GenerateUrl";
+import { getParamDetails, useUpdateLink } from "@/utils/GenerateUrl";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
   const [item, setItems] = useState([]);
@@ -79,21 +79,27 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     return () => window.removeEventListener("resize", resetOnResize);
   }, [pathname]);
 
+  const {updateLink, filterParams} = useUpdateLink();
+
   const setActiveTabFucntion = (active: any) => {
     setActiveTab(active);
-    setSelectRouteMenuConfig(objectId, active);
+    updateLink({
+      aT: active
+    }, "")
+    // setSelectRouteMenuConfig(objectId, active);
   };
 
+
   // Start Cookie RouteMenuConfig
-  const setSelectRouteMenuConfig = (key: any, activeTab: any) => {
-    const routeMenuConfigs = getRouteMenuConfig();
-    let detailsConfig = {
-      activeTab: activeTab,
-      overview: routeMenuConfigs[key]?.details?.overview ||  null
-    }
-    routeMenuConfigs[key] = { ...routeMenuConfigs[key], details: detailsConfig};
-    setRouteMenuConfig(routeMenuConfigs);
-  };
+  // const setSelectRouteMenuConfig = (key: any, activeTab: any) => {
+    // const routeMenuConfigs = getRouteMenuConfig();
+    // let detailsConfig = {
+    //   activeTab: activeTab,
+    //   overview: routeMenuConfigs[key]?.details?.overview ||  null
+    // }
+    // routeMenuConfigs[key] = { ...routeMenuConfigs[key], details: detailsConfig};
+    // setRouteMenuConfig(routeMenuConfigs);
+  // };
 
   // useEffect(() => {
   //   setTab()
@@ -109,13 +115,12 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     }, []);
 
   const setTab = async (value?: any) => {
-    let routeMenuConfigs = getRouteMenuConfig();
     let tabName = "overview"
+    const activeTab = filterParams("")?.activeTab;
     if (
-      routeMenuConfigs &&
-      routeMenuConfigs.hasOwnProperty(objectId)
+      activeTab
     ) {
-      const active = value || routeMenuConfigs[objectId]?.details?.activeTab;
+      const active = value || activeTab;
       tabName = (active === 'list' || !active) ? "overview" : active
       await setActiveTabFucntion(tabName);
     } else {
@@ -170,6 +175,8 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
         cache: sync ? false : true,
       }),
     onSuccess: (data) => {
+      console.log('params', params)
+
       setSuccessResponse(data)
     },
     onError: (error) => {
@@ -202,25 +209,25 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     );
   }
 
-  if (!isLoadedFirstTime || (sync === true && isLoading) ) {
-    return (
-      <div>
-        <div className=" flex relative z-[1] bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:p-4 p-3">
-          <div
-            className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
-              } lg:h-[calc(100vh-var(--nav-height))] CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}
-          >
-            <DetailsSkeleton />
-          </div>
-          <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full CUSTOM-hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
-            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
-              <DetailsSidebarSkeleton />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (!isLoadedFirstTime || (sync === true && isLoading) ) {
+  //   return (
+  //     <div>
+  //       <div className=" flex relative z-[1] bg-cleanWhite h-[calc(98vh-var(--nav-height))] dark:bg-dark-200 overflow-hidden  md:p-4 p-3">
+  //         <div
+  //           className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full"
+  //             } lg:h-[calc(100vh-var(--nav-height))] CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}
+  //         >
+  //           <DetailsSkeleton />
+  //         </div>
+  //         <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full CUSTOM-hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
+  //           <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
+  //             <DetailsSidebarSkeleton />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div

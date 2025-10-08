@@ -12,6 +12,8 @@ import { DynamicComponentView } from "../Table/DynamicComponentView";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../Tabs";
 import { homeTabsDataTypeFilter } from "@/data/hubSpotData";
 import { Notes } from "../Notes";
+import { useUpdateLink } from "@/utils/GenerateUrl";
+import { useTable } from "@/state/use-table";
 
 export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
@@ -35,17 +37,65 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
     const { isLargeScreen } = useResponsive();
     const [userToggled, setUserToggled] = useState<any>(false); // Track user interaction
     const [totalRecord, setTotalRecord] = useState<any>(0);
-const hubspotObjectTypeId = "0-5";
-    // Automatically adjust the sidebar based on screen size
-    const getInitialFilter = (type: any) => {
-    return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
-            homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
-            '0-1';
-    };
+    const hubspotObjectTypeId = "0-5";
+    const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
 
-    const [selectedFileDataFilter, setSelectedFileDataFilter] = useState(() => getInitialFilter('files'));
-    const [selectedNotesDataFilter, setSelectedNotesDataFilter] = useState(() => getInitialFilter('notes'));
-    const [selectedTicketsDataFilter, setSelectedTicketsDataFilter] = useState(() => getInitialFilter('tickets'));
+    // Automatically adjust the sidebar based on screen size
+    // const getInitialFilter = (type: any) => {
+    //     return homeTabsDataTypeFilter[type] === 'contact' ? '0-1' : 
+    //             homeTabsDataTypeFilter[type] === 'company' ? '0-2' : 
+    //             '0-1';
+    // };
+
+    const {updateLink, filterParams} = useUpdateLink();
+    
+
+    const [selectedFileDataFilter, setSelectedFileDataFilter] = useState(null);
+    const [selectedNotesDataFilter, setSelectedNotesDataFilter] = useState();
+    const [selectedTicketsDataFilter, setSelectedTicketsDataFilter] = useState();
+
+
+    useEffect(() => {
+        const tab = filterParams(`tabs.${activeTab}`)
+
+        let selectedTab: any = ""
+
+        if (isFristTimeLoadData && tab && "isPrimaryCompany" in tab) {
+            selectedTab = tab.isPrimaryCompany ? '0-2' : '0-1'
+        } else {
+            selectedTab = homeTabsDataTypeFilter[activeTab] === 'contact' ? '0-1' : 
+                        homeTabsDataTypeFilter[activeTab] === 'company' ? '0-2' : 
+                        '0-1';
+        }
+        
+
+        if(activeTab === 'files') {
+            setSelectedFileDataFilter(selectedTab)
+        } else if (activeTab === 'notes') {
+            setSelectedNotesDataFilter(selectedTab)
+        } else if (activeTab === 'tickets') {
+            setSelectedTicketsDataFilter(selectedTab)
+        }
+        // setIsFristTimeLoadData(false)
+    }, [activeTab]);
+
+    const onChangeDataFilter = (value: any, view: any) => {
+        const isPrimaryCompany = value === '0-2' ? true : false
+        updateLink({
+            isPC: isPrimaryCompany,
+        }, `tabs.${view}`)
+        
+        if(view === 'files') {
+            setSelectedFileDataFilter(value)
+        } else if (view === 'notes') {
+            setSelectedNotesDataFilter(value)
+        } else if (view === 'tickets') {
+            setSelectedTicketsDataFilter(value)
+            updateLink({
+             isPC: isPrimaryCompany,
+            }, `prm`)
+        }
+    }
 
     const userDataFilter = [
         { label: 'Owned by organization', value: '0-2' },
@@ -218,21 +268,21 @@ const hubspotObjectTypeId = "0-5";
                             {activeTab === "files" && homeTabsDataTypeFilter.files === 'all' && (
                                 <FilterDropdown 
                                 value={selectedFileDataFilter} 
-                                onChange={setSelectedFileDataFilter} 
+                                onChange={(e: any) => onChangeDataFilter(e, 'files')} 
                                 />
                             )}
 
                             {activeTab === "notes" && homeTabsDataTypeFilter.notes === 'all' && objectId && id && (
                                 <FilterDropdown 
                                 value={selectedNotesDataFilter} 
-                                onChange={setSelectedNotesDataFilter} 
+                                onChange={(e: any) => onChangeDataFilter(e, 'notes')} 
                                 />
                             )}
 
                             {activeTab === "tickets" && homeTabsDataTypeFilter.tickets === 'all' && (
                                 <FilterDropdown 
                                 value={selectedTicketsDataFilter} 
-                                onChange={setSelectedTicketsDataFilter} 
+                                onChange={(e: any) => onChangeDataFilter(e, 'tickets')} 
                                 />
                             )}
                         </div>

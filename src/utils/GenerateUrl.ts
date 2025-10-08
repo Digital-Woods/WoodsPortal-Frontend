@@ -16,6 +16,7 @@ const buildParentRoute = (props: any, search: any, router: any) => {
 }
 
 const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
+  // console.log('props', props)
   let breadcrumbs = [...breadcrumbItems]
   let breadcrumbType: string = 'child'
   if (breadcrumbItems.length === 1) {
@@ -36,6 +37,12 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
     //   newCrumb.p = props.params
     // }
 
+    if(props?.isPC) {
+      newCrumb.prm = {
+        isPC: props?.isPC
+      }
+    }
+
     breadcrumbs.push(newCrumb)
   } else {
     const lastItem = breadcrumbs[breadcrumbs.length - 1]
@@ -51,6 +58,13 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       // if (props.params) {
       //   newCrumb.p = props.params
       // }
+
+      
+      if(props?.isPC) {
+        newCrumb.prm = {
+          isPC: props?.isPC
+        }
+      }
 
       breadcrumbs.push(newCrumb)
     } else {
@@ -71,11 +85,17 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
         //   newCrumb.p = props.params
         // }
 
+        if(props?.isPC) {
+          newCrumb.prm = {
+            isPC: props?.isPC
+          }
+        }
+
         breadcrumbs.push(newCrumb)
       }
     }
   }
-  // console.log('breadcrumbs', breadcrumbs)
+  // console.log('breadcrumbs_gen', breadcrumbs)
   return generateUrl(props, breadcrumbType, breadcrumbs)
 }
 
@@ -151,6 +171,7 @@ export const useMakeLink = () => {
       return buildParentRoute(props, search, router)   // pure helper
     } else {
       const breadcrumbItems = decodeToBase64(search?.b) || []
+      // console.log('breadcrumbItems', breadcrumbItems)
       return buildChildRoute(props, search, breadcrumbItems) // pure helper
     }
   }
@@ -228,9 +249,10 @@ export const getParamDetails = (props?: any) => {
   //   }
   // }
 
-    if (breadcrumbs[0]?.prm?.isPC) {
+    if (breadcrumbs[0]?.prm?.isPC || lastItem?.prm?.isPC) {
       paramsObject['isPrimaryCompany'] = true
     }
+
 
    if (parentObjectTypeId && parentObjectRecordId) {
       paramsObject['parentObjectTypeId'] = parentObjectTypeId
@@ -256,7 +278,6 @@ export const getParamDetails = (props?: any) => {
   //   ...paramsObject,
   //   ...(params ? { params } : {}),
   // };
-
   return {
     breadcrumbs,
     // paramsObject:  Object.keys(mParamsObject).length === 0 ? null : mParamsObject,
@@ -297,7 +318,7 @@ const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
   if (index === 0) {
     return {
       name: breadcrumb.n,
-      path: `/${breadcrumb?.p || breadcrumb.o_t_id}?b=${bc}`,
+      path: `/${breadcrumb?.pt || breadcrumb.o_t_id}?b=${bc}`,
     }
   } else if (index === 1) {
     return {
@@ -336,7 +357,7 @@ export const getTableTitle = (
     breadcrumbs = [
       {
         n: routeMenu.title,
-        p: routeMenu.path,
+        pt: routeMenu.path,
       },
     ]
   }
@@ -394,7 +415,7 @@ export const getFormTitle = (
     breadcrumbs = [
       {
         n: routeMenu.title,
-        p: routeMenu.path,
+        pt: routeMenu.path,
       },
     ]
   }
@@ -459,54 +480,149 @@ const keyMap: Record<string, string> = {
   isPC: 'isPrimaryCompany',
   v: 'view',
   l: 'limit',
+  pt: 'path',
   p: 'page',
   aPip: 'activePipeline',
+  aT: 'activeTab',
 }
 
 export const useUpdateLink = () => {
   const router = useRouter()
 
-  const updateLink = (props: any) => {
-    const search: any = router.state.location.search
-    let breadcrumbs = decodeToBase64(search?.b) || []
+  // const updateLink = (props: any, displayName : string = "prm") => {
+  //   const search: any = router.state.location.search
+  //   let breadcrumbs = decodeToBase64(search?.b) || []
+
+  //   if (breadcrumbs.length < 1) {
+  //     const { pathname } = router.state.location
+  //     const routeMenu: any = getRouteMenu(pathname)
+  //     breadcrumbs = [
+  //       {
+  //         n: routeMenu?.title,
+  //         p: routeMenu?.path,
+  //       },
+  //     ]
+  //   }
+
+  //   if (displayName) {
+  //     breadcrumbs[breadcrumbs.length - 1][displayName] = {...breadcrumbs[breadcrumbs.length - 1][displayName], ...props}
+  //   } else {
+  //     breadcrumbs[breadcrumbs.length - 1] = {...breadcrumbs[breadcrumbs.length - 1], ...props}
+  //   }
+  //   const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
+  //   updateBParam(router, newBase64)
+
+  //   console.log('breadcrumbs_uu', breadcrumbs)
+  //   console.log('props', props)
+  // }
+
+  const updateLink = (props: any, displayName: string = "prm") => {
+    const search: any = router.state.location.search;
+    let breadcrumbs = decodeToBase64(search?.b) || [];
 
     if (breadcrumbs.length < 1) {
-      const { pathname } = router.state.location
-      const routeMenu: any = getRouteMenu(pathname)
+      const { pathname } = router.state.location;
+      const routeMenu: any = getRouteMenu(pathname);
       breadcrumbs = [
         {
           n: routeMenu?.title,
-          p: routeMenu?.path,
+          pt: routeMenu?.path,
         },
-      ]
+      ];
     }
 
-    breadcrumbs[breadcrumbs.length - 1].prm = {...breadcrumbs[breadcrumbs.length - 1].prm, ...props}
-    const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
-    updateBParam(router, newBase64)
+    // Get the last breadcrumb
+    const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1];
 
-    console.log('props', props)
-  }
-
-  const filterParams = () => {
-    const search: any = router.state.location.search
-    let breadcrumbs = decodeToBase64(search?.b) || []
-    // console.log('breadcrumbs', breadcrumbs)
-
-    if (breadcrumbs.length < 1) return null
-    const lastItem = breadcrumbs[breadcrumbs.length - 1]
-    const expandKeys = (obj: Record<string, any>) => {
-      return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => [
-          keyMap[key] || key, // map if exists, else keep original
-          value,
-        ]),
-      )
+    // If displayName is provided, apply nested update
+    if (displayName) {
+      setDeep(lastBreadcrumb, displayName, {
+        ...(getDeep(lastBreadcrumb, displayName) || {}),
+        ...props,
+      });
+    } else {
+      Object.assign(lastBreadcrumb, props);
     }
-    const output = lastItem?.prm ? expandKeys(lastItem?.prm) : null
-    // console.log('output', output)
-    return output
+
+    const newBase64 = convertToBase64(JSON.stringify(breadcrumbs));
+    updateBParam(router, newBase64);
+
+    // console.log("breadcrumbs_uu", breadcrumbs);
+    // console.log("props", props);
+  };
+
+  // --- Helpers ---
+
+  function setDeep(obj: any, path: string, value: any) {
+    const keys = path.split(".");
+    let curr = obj;
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!curr[keys[i]] || typeof curr[keys[i]] !== "object") {
+        curr[keys[i]] = {};
+      }
+      curr = curr[keys[i]];
+    }
+    curr[keys[keys.length - 1]] = value;
   }
+
+  function getDeep(obj: any, path: string) {
+    return path.split(".").reduce((acc, key) => acc?.[key], obj);
+  }
+
+
+  // const filterParams = (displayName : string = "prm") => {
+  //   const search: any = router.state.location.search
+  //   let breadcrumbs = decodeToBase64(search?.b) || []
+  //   // console.log('breadcrumbs', breadcrumbs)
+
+  //   if (breadcrumbs.length < 1) return null
+  //   const lastItem = breadcrumbs[breadcrumbs.length - 1]
+  //   const expandKeys = (obj: Record<string, any>) => {
+  //     return Object.fromEntries(
+  //       Object.entries(obj).map(([key, value]) => [
+  //         keyMap[key] || key, // map if exists, else keep original
+  //         value,
+  //       ]),
+  //     )
+  //   }
+  //   const output = displayName && lastItem[displayName] ? expandKeys(lastItem[displayName]) : lastItem
+  //   console.log('output', output)
+  //   return output
+  // }
+
+  const filterParams = (displayName: string = "prm") => {
+  const search: any = router.state.location.search;
+  let breadcrumbs = decodeToBase64(search?.b) || [];
+
+  console.log('breadcrumbs', breadcrumbs)
+
+  if (breadcrumbs.length < 1) return null;
+
+  const lastItem = breadcrumbs[breadcrumbs.length - 1];
+
+  // Helper to deeply get a nested value
+  const getDeep = (obj: any, path: string) => {
+    return path.split(".").reduce((acc, key) => acc?.[key], obj);
+  };
+
+  // Map keys if needed
+  const expandKeys = (obj: Record<string, any>) => {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [
+        keyMap[key] || key, // map if exists, else keep original
+        value,
+      ])
+    );
+  };
+
+  // Get nested value if displayName has dots
+  const nestedValue = displayName ? getDeep(lastItem, displayName) : null;
+
+  const output = nestedValue ? expandKeys(nestedValue) : expandKeys(lastItem);
+
+  // console.log("output", output);
+  return output;
+};
 
   return { updateLink, filterParams }
 }

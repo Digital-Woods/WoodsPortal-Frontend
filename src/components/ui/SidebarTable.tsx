@@ -17,7 +17,7 @@ import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { Chevron } from '@/assets/icons/Chevron'
 import { IconPlus } from '@/assets/icons/IconPlus'
 import { useAuth } from '@/state/use-auth';
-import { useMakeLink } from '@/utils/GenerateUrl';
+import { useMakeLink, useUpdateLink } from '@/utils/GenerateUrl';
 
 
 export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId, specPipeLine, title, companyAsMediator, apis, detailsView = true, editView = false }: any) => {
@@ -47,6 +47,8 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   const [urlParam, setUrlParam] = useState<any>(null);
   const [singularModalTitle, setSingularModalTitle] = useState<any>(null);
   const { subscriptionType }: any = useAuth();
+  const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
+  const {updateLink, filterParams} = useUpdateLink();
 
   useEffect(() => {
     setNumOfPages(Math.ceil(totalItems / itemsPerPage));
@@ -92,7 +94,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   const parentObjectTypeName = getParam("parentObjectTypeName")
   const objectTypeId = getParam("objectTypeId")
   const objectTypeName = getParam("objectTypeName")
-
+  
   let portalId;
   if (env.VITE_DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId
@@ -112,6 +114,8 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       //   cache: sync ? false : true,
       //   isPrimaryCompany: companyAsMediator ? companyAsMediator : false,
       // };
+      const tab = filterParams(`tabs.a.${hubspotObjectTypeId}`)
+      
       let param: any = {};
 
       const baseParams: any = {
@@ -126,14 +130,14 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       if (subscriptionType === "FREE") {
         param = {
           ...baseParams,
-          ...({ after: currentPage }),
+          ...({ after: isFristTimeLoadData && tab?.page ? tab?.page : currentPage }),
         };
       } else {
         param = {
           ...baseParams,
           ...({
             limit: itemsPerPage || 10,
-            page: currentPage,
+            page: isFristTimeLoadData && tab?.page ? tab?.page : currentPage,
             ...(after && after.length > 0 && { after }),
           }),
         };
@@ -312,6 +316,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
             numOfPages={numOfPages || 0}
             currentPage={currentPage}
             setCurrentPage={handlePageChange}
+            tabName={`tabs.a.${hubspotObjectTypeId}`}
           />
         </div>
       }

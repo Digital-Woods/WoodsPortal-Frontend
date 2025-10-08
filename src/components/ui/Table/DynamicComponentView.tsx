@@ -138,7 +138,7 @@ export const DynamicComponentView = ({
         // }
 
         await setView(filterParams()?.view || "LIST");
-        await setSelectedPipeline(filterParams()?.aPip || "");
+        await setSelectedPipeline(filterParams()?.activePipeline || "");
 
         if (specPipeLine) {
           pipeline = specPipeLine;

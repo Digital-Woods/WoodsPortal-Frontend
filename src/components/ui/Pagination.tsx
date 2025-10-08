@@ -3,11 +3,11 @@ import { Chevron } from '@/assets/icons/Chevron';
 import { useAuth } from '@/state/use-auth';
 import { useUpdateLink } from '@/utils/GenerateUrl';
 
-export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, setCurrentPage, isFile = false }: any) => {
+export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, setCurrentPage, isFile = false, tabName = "" }: any) => {
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]);
   const [isFreeSubscription, setIsFreeSubscription] = useState<any>(true);
 
-  const {filterParams} = useUpdateLink();
+  const {updateLink, filterParams} = useUpdateLink();
   
   const [currentPage, setCurrentPages] = useState(1);
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
@@ -15,7 +15,12 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, 
   const { subscriptionType, setPagination, getPagination }: any = useAuth();
 
   useEffect(() => {
-    setCurrentPages(filterParams()?.page || 1)
+    if(tabName) {
+      const tab =  filterParams(tabName)
+      setCurrentPages(tab?.page || 1)
+    } else {
+      setCurrentPages(filterParams()?.page || 1)
+    }
   }, []);
 
   useEffect(() => {
@@ -70,15 +75,28 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, 
   }
 
   const onClickPreviousButton = () => {
+    setPage(currentPage - 1)
     isFreeSubscription
       ? setBefore()
       : currentPage > 1 && setCurrentPage(currentPage - 1)
   }
 
   const onClickNextButton = () => {
+    setPage(currentPage + 1)
     isFreeSubscription
       ? setAfter()
       : currentPage < numOfPages && setCurrentPage(currentPage + 1)
+  }
+
+  const onClickPageButton = (data: any) => {
+    setPage(data)
+    setCurrentPage(data) 
+  }
+
+  const setPage = (page: number) => {
+    updateLink({
+        p: page
+    }, tabName)
   }
 
   return (
@@ -104,7 +122,7 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, 
               ? " bg-secondary dark:bg-dark-400 text-white"
               : ""
               } ${data === "..." ? "cursor-default" : ""}`}
-            onClick={() => data !== "..." && setCurrentPage(data)}
+            onClick={() => data !== "..." && onClickPageButton(data)}
           >
             {data}
           </li>
