@@ -111,7 +111,7 @@ export const DynamicComponentView = ({
     selectedPipeline,
     setDefaultPipeline,
     setPage,
-    setSelectRouteMenuConfig
+    // setSelectRouteMenuConfig
 
    }: any = useTable();
 

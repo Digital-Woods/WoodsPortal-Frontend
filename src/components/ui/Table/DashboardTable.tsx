@@ -75,11 +75,11 @@ export const DashboardTable: any = ({
     numOfPages,
     view,
     setView,
-    selectedPipeline,
-    setSelectedPipeline,
-    setDefaultPipeline,
-    setSelectRouteMenuConfig,
-    resetTableParam,
+    // selectedPipeline,
+    // setSelectedPipeline,
+    // setDefaultPipeline,
+    // setSelectRouteMenuConfig,
+    // resetTableParam,
   } : any = useTable();
 
   const {
@@ -181,13 +181,13 @@ export const DashboardTable: any = ({
   const setActiveTab = (selectView: any) => {
     const objectId = isHome ? 'home' : hubspotObjectTypeId
     setIsLoadingHoldData(true);
-    const routeMenuConfig = {
-      [objectId]: {
-        activeTab: selectView === "BOARD" ? "grid" : "list",
-      },
-    };
+    // const routeMenuConfig = {
+    //   [objectId]: {
+    //     activeTab: selectView === "BOARD" ? "grid" : "list",
+    //   },
+    // };
     updateLink({v: selectView})
-    setSelectRouteMenuConfig(routeMenuConfig);
+    // setSelectRouteMenuConfig(routeMenuConfig);
     setView(selectView);
     changeTab(selectView)
   };

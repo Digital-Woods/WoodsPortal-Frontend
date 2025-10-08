@@ -157,16 +157,16 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
                 activeTab: active
             },
         };
-        setSelectRouteMenuConfig(routeMenuConfig);
+        // setSelectRouteMenuConfig(routeMenuConfig);
     };
 
     // Start Cookie RouteMenuConfig
-    const setSelectRouteMenuConfig = (routeMenuConfig: any) => {
-        let routeMenuConfigs = getRouteMenuConfig() || {};
-        const { key, details } = routeMenuConfig;
-        routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
-        setRouteMenuConfig(routeMenuConfigs);
-    };
+    // const setSelectRouteMenuConfig = (routeMenuConfig: any) => {
+    //     let routeMenuConfigs = getRouteMenuConfig() || {};
+    //     const { key, details } = routeMenuConfig;
+    //     routeMenuConfigs[key] = { ...routeMenuConfigs[key], details };
+    //     setRouteMenuConfig(routeMenuConfigs);
+    // };
 
     useEffect(() => {
         let routeMenuConfigs = getRouteMenuConfig();
