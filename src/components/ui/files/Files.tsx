@@ -148,7 +148,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
       setNumOfPages(Math.ceil(total / itemsPerPage));
     }
 
-  }, [currentFiles, currentPage]);
+  }, [currentFiles, currentPage, searchTerm]);
 
 
   const toggleFolder = (folder: any) => {
