@@ -242,7 +242,8 @@ export const getParamDetails = (props?: any) => {
         parentObjectRecordId = lastItem3?.o_r_id || ''
         // bParams = lastItem?.p || ''
       }
-      if(lastItem?.o_t_id === '0-5') {
+      
+      if(lastItem2?.o_t_id === '0-5') {
         parentObjectTypeId = lastItem2?.o_t_id || ''
         parentObjectRecordId = lastItem2?.o_r_id || ''
       }
