@@ -59,9 +59,10 @@ export const DashboardTableHeader = ({
   }, [pipelines]);
 
   const handelPipeline = async (value: any) => {
+    await setPage(subscriptionType === 'FREE' ? '' : 1);
+    await setLimit(pageLimit);
     await setSelectedPipeline(isHome ? 'home' : hubspotObjectTypeId, pipelines, value);
     await handelChangePipeline(value);
-    setPage(subscriptionType === 'FREE' ? '' : 1);
   };
 
   // useEffect(() => {
@@ -165,7 +166,7 @@ export const DashboardTableHeader = ({
                 }}
                 onKeyDown={async (e) => {
                   if (e.key === "Enter") {
-                    await  setPage(subscriptionType === 'FREE' ? '' : 1);
+                    await setPage(subscriptionType === 'FREE' ? '' : 1);
                     await setLimit(pageLimit);
                     handleSearch(); // Trigger search when Enter is pressed
                   }
@@ -175,7 +176,11 @@ export const DashboardTableHeader = ({
               {search && (
                 <div
                   className="text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
-                  onClick={handleSearch} // Trigger search on button click
+                  onClick={async () => {
+                    await setPage(subscriptionType === 'FREE' ? '' : 1);
+                    await setLimit(pageLimit);
+                    handleSearch(); // Trigger search when button is clicked
+                  }} // Trigger search on button click
                 >
                   <EnterIcon />
                 </div>
@@ -186,7 +191,7 @@ export const DashboardTableHeader = ({
               <Button
                 onClick={async () => {
                   await setSearch("");
-                  await setPage(subscriptionType === "FREE" ?  ' ' : 1);
+                  await setPage(subscriptionType === 'FREE' ? '' : 1);
                   await setLimit(pageLimit);
                   handleSearch();
                 }}
