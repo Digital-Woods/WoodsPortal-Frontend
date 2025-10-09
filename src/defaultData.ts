@@ -141,7 +141,7 @@ const sidebarMenuOptions = [
         "label": "Primary Company Deals",
         "listObjectName": "Primary Company Deals",
         "listObjectProperties": "dealname,dealstage,amount",
-        "objectDescription": null,
+        "objectDescription": "<p>sadasdas <strong>dasdasdasdas&nbsp;</strong><em>dadasdads&nbsp;<span style=\"text-decoration: underline;\">dadadadads</span></em><span style=\"text-decoration: underline;\"> ddadada&nbsp;<br><br></span></p>\n<div data-hs-responsive-table=\"true\" style=\"overflow-x: auto; max-width: 100%; width: 100.138%; margin-left: auto; margin-right: auto;\">\n<table style=\"border-collapse: collapse; table-layout: fixed; margin-left: auto; margin-right: auto; width: 100%; border: 1px solid #99acc2;\">\n<tbody>\n<tr>\n<td style=\"width: 32.4282%; padding: 4px;\">name</td>\n<td style=\"width: 32.4282%; padding: 4px;\">email</td>\n<td style=\"width: 32.431%; padding: 4px;\">phone number</td>\n</tr>\n<tr>\n<td style=\"width: 32.4282%; padding: 4px;\">Krishna Mandal</td>\n<td style=\"width: 32.4282%; padding: 4px;\">krishna@digitalwoods.io</td>\n<td style=\"width: 32.431%; padding: 4px;\">+918167476525</td>\n</tr>\n</tbody>\n</table>\n</div>\n<p>&nbsp;</p>\n<p style=\"font-size: 18px; text-align: center;\"><span style=\"text-decoration: underline;\">👍😀😘😍😆😱😎</span><br><span style=\"text-decoration: underline;\"><span style=\"font-family: 'Andale Mono', AndaleMono, 'Lucida Console', monospace;\">czxzxcz <span style=\"background-color: #ff0201;\"> dfsdfdsfdsf</span></span>&nbsp;</span><br><br><br></p>\n<ul>\n<li>ddsad&nbsp;</li>\n<li>dsdsds\n<ul>\n<li>dsadasdasd\n<ul>\n<li>dsadadddsa<br><br><br></li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n<ol style=\"list-style-type: upper-roman;\">\n<li>ddasdasdasd</li>\n<li>ffsdfsdfsd</li>\n<li>fsdfsdfsfd\n<ol style=\"list-style-type: upper-roman;\">\n<li>affsdfsdfds</li>\n<li>asdasdas\n<ol style=\"list-style-type: upper-roman;\">\n<li>gdggsd</li>\n</ol>\n</li>\n</ol>\n</li>\n</ol>\n<ol>\n<li>sadasds kjsjkd</li>\n<li>skjdhakhdas\n<ol>\n<li style=\"list-style-type: none;\">\n<ol>\n<li>hkjhkhsfkhjfsd\n<ol>\n<li style=\"list-style-type: none;\">\n<ol>\n<li>hdshdahkdsj</li>\n</ol>\n</li>\n</ol>\n</li>\n</ol>\n</li>\n</ol>\n</li>\n</ol>\n<p style=\"padding-left: 80px;\">czcxzc<br><span style=\"text-decoration: line-through;\">cxcxzczxczcxzxczx <br></span></p>\n<p><span style=\"text-decoration: line-through;\">czxczxczxc</span><sup>czczczxczxc<sub>czczczxczxccx<code>czxczxczxczxczxczxcxzc &lt;h1&gt;hello&lt;/h1&gt;</code></sub></sup><br><br><img src=\"https://50524037.fs1.hubspotusercontent-na1.net/hubfs/50524037/WoodsPortal/731/2-50560579/36087607465/Notes/Screenshot%202025-10-07%20at%2010.23.21%E2%80%AFAM.png\" width=\"239\" height=\"218\" loading=\"lazy\" alt=\"Screenshot 2025-10-07 at 10.23.21 AM\" style=\"height: auto; max-width: 100%; width: 239px;\"><br><br></p>\n<p>&nbsp;</p>\n<p>⇓⇑←$©</p>\n<p>foodfactory.demo</p>\n<p>Krishna<br><br></p>\n<hr>\n<p>&nbsp;fsdf fsdfsdf fdsdfd fsdfsdf&nbsp;</p>\n<p>&nbsp;</p>\n<p><a href=\"https://hub.digitalwoods.io\" rel=\"noopener\" target=\"_blank\">Digitalwoods hub</a></p>\n<p><br><br></p>",
         "objectType": "HUBSPOT_DEFINED",
         "objectUserProperties": [
             {
@@ -155,7 +155,7 @@ const sidebarMenuOptions = [
         "objectUserPropertiesView": "grid",
         "pipeLineId": "0",
         "propertyName": null,
-        "showIframe": false,
+        "showIframe": true,
         "specPipeLine": false
     },
     {
@@ -439,7 +439,84 @@ const sidebarMenuOptions = [
         "specPipeLine": false
     }
 ];
-const moduleIframeListOptions: any = []
+const moduleIframeListOptions: any = [
+    {
+        "hubspotObjectTypeId": "0-5",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Dashboard",
+        "propertyName": null,
+        "showIframe": false,
+        "tabName": "Dashboard"
+    },
+    {
+        "hubspotObjectTypeId": "0-5",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Dashboard",
+        "propertyName": null,
+        "showIframe": false,
+        "tabName": "Dashboard"
+    },
+    {
+        "hubspotObjectTypeId": "0-5",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "link"
+            }
+        ],
+        "label": "Organization Tickets",
+        "propertyName": null,
+        "showIframe": true,
+        "tabName": null
+    },
+    {
+        "hubspotObjectTypeId": "0-3",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "link"
+            }
+        ],
+        "label": "My Deals",
+        "propertyName": null,
+        "showIframe": true,
+        "tabName": null
+    },
+    {
+        "hubspotObjectTypeId": "0-3",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "dealname",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Primary Company Deals",
+        "propertyName": null,
+        "showIframe": true,
+        "tabName": null
+    }
+]
+
 const sidebarListDataOption: any = [
     {
         "associateObjectName": null,

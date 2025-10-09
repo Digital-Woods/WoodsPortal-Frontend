@@ -175,8 +175,6 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
         cache: sync ? false : true,
       }),
     onSuccess: (data) => {
-      console.log('params', params)
-
       setSuccessResponse(data)
     },
     onError: (error) => {

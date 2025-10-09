@@ -249,9 +249,9 @@ export const DynamicComponentView = ({
       // console.log('fParams', fParams)
       // console.log('paramsObject', paramsObject)
 
-      console.log('fParams', fParams)
-      console.log('param', param)
-      console.log('paramsObject', paramsObject)
+      // console.log('fParams', fParams)
+      // console.log('param', param)
+      // console.log('paramsObject', paramsObject)
 
       param = {...(isFristTimeLoadData && fParams ? fParams : param), ...paramsObject}
 
@@ -260,7 +260,7 @@ export const DynamicComponentView = ({
 
       // setUrlParam(param);
       
-      console.log('isFristTimeLoadData', isFristTimeLoadData)
+      // console.log('isFristTimeLoadData', isFristTimeLoadData)
 
       if(!isFristTimeLoadData || !fParams) {
         updateLink({
