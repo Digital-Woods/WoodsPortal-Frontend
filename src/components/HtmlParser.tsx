@@ -8,5 +8,5 @@ export const HtmlParser = ({ html }: SafeHtmlProps) => {
     ADD_ATTR: ['target'],
   }
 );
-  return <div dangerouslySetInnerHTML={{ __html: clean }} />;
+  return <div className="ProseMirror" dangerouslySetInnerHTML={{ __html: clean }} />;
 }

@@ -977,7 +977,7 @@ img.ProseMirror-separator {
 
 .ProseMirror ul,
 .ProseMirror ol {
-  padding-left: 30px;
+  padding-left: 30px!important;
 }
 
 .ProseMirror blockquote {
