@@ -155,7 +155,7 @@ const sidebarMenuOptions = [
         "objectUserPropertiesView": "grid",
         "pipeLineId": "0",
         "propertyName": null,
-        "showIframe": false,
+        "showIframe": true,
         "specPipeLine": false
     },
     {
@@ -439,7 +439,84 @@ const sidebarMenuOptions = [
         "specPipeLine": false
     }
 ];
-const moduleIframeListOptions: any = []
+const moduleIframeListOptions: any = [
+    {
+        "hubspotObjectTypeId": "0-5",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Dashboard",
+        "propertyName": null,
+        "showIframe": false,
+        "tabName": "Dashboard"
+    },
+    {
+        "hubspotObjectTypeId": "0-5",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Dashboard",
+        "propertyName": null,
+        "showIframe": false,
+        "tabName": "Dashboard"
+    },
+    {
+        "hubspotObjectTypeId": "0-5",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "link"
+            }
+        ],
+        "label": "Organization Tickets",
+        "propertyName": null,
+        "showIframe": true,
+        "tabName": null
+    },
+    {
+        "hubspotObjectTypeId": "0-3",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "Label",
+                "property_value_show_as": "link"
+            }
+        ],
+        "label": "My Deals",
+        "propertyName": null,
+        "showIframe": true,
+        "tabName": null
+    },
+    {
+        "hubspotObjectTypeId": "0-3",
+        "iframeProperties": [
+            {
+                "button_name": "View",
+                "on_click_action": "showIframe",
+                "properties_value": "dealname",
+                "property_value_show_as": "button"
+            }
+        ],
+        "label": "Primary Company Deals",
+        "propertyName": null,
+        "showIframe": true,
+        "tabName": null
+    }
+]
+
 const sidebarListDataOption: any = [
     {
         "associateObjectName": null,

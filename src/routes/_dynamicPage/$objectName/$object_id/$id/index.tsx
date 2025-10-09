@@ -5,6 +5,7 @@ import { useBreadcrumb } from "@/state/use-breadcrumb";
 import { getParam } from "@/utils/param";
 import { createFileRoute } from "@tanstack/react-router"
 import { env } from "@/env";
+import { getBreadcrumbs } from "@/utils/GenerateUrl";
 
 const Details = () => {
 
@@ -23,9 +24,10 @@ const Details = () => {
   //   ? JSON.parse(decodeToBase64(breadcrumb))
   //   : breadcrumbs;
 
-  // let tabName = breadcrumbItems.length > 0 ? (breadcrumbItems.length > 1 ? breadcrumbItems[breadcrumbItems.length - 2]?.name : breadcrumbItems[0]?.name) : "";
+  const breadcrumbs =  getBreadcrumbs()
 
-  let tabName = ""
+  let tabName = breadcrumbs.length > 0 ? (breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 2]?.name : breadcrumbs[0]?.name) : "";
+
 
   // Find the object in moduleIframeListOptions that matches the objectId
 
@@ -44,20 +46,33 @@ const Details = () => {
   // const matchedObject: any = moduleIframeListOptions.find((item: any) => item.hubspotObjectTypeId === objectId && item.label === tabName) || {};
   // const matchedObject = moduleIframeListOptions.find((item) => item.hubspotObjectTypeId === objectId && item.label === tabName) || {};
   // normalize tabName from breadcrumbs
-  const normalizedTabName = (tabName || "")
-    .toLowerCase()
-    .replace(/\s+/g, "-"); // replace spaces with dash like your example
+  // const normalizedTabName = (tabName || "")
+  //   .toLowerCase()
+  //   .replace(/\s+/g, "-"); // replace spaces with dash like your example
 
+  // const matchedObject: any =
+  //   moduleIframeListOptions.find((item: any) => {
+  //     return (
+  //       item.hubspotObjectTypeId === objectId &&
+  //       (
+  //         (item.label || "").toLowerCase().replace(/\s+/g, "-") === normalizedTabName ||
+  //         (item.tabName || "").toLowerCase().replace(/\s+/g, "-") === normalizedTabName
+  //       )
+  //     );
+  //   }) || {};
+
+    
   const matchedObject: any =
     moduleIframeListOptions.find((item: any) => {
       return (
         item.hubspotObjectTypeId === objectId &&
         (
-          (item.label || "").toLowerCase().replace(/\s+/g, "-") === normalizedTabName ||
-          (item.tabName || "").toLowerCase().replace(/\s+/g, "-") === normalizedTabName
+          (item.label || "") === tabName ||
+          (item.tabName || "") === tabName
         )
       );
     }) || {};
+
 
 
   // console.log(moduleIframeListOptions, 'moduleIframeListOptions');
@@ -66,8 +81,6 @@ const Details = () => {
   const propertyName = matchedObject.iframeProperties ? matchedObject.iframeProperties : [];
   const showIframe = matchedObject.showIframe || false;
   // console.log(matchedObject, 'matchedObject');
-  // console.log(propertyName, 'propertyName');
-  // console.log(showIframe, 'showIframe');
   
   return (
     <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">

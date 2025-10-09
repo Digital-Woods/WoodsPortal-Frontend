@@ -111,7 +111,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       }
     }
   }
-  console.log('breadcrumbs_gen', breadcrumbs)
+  // console.log('breadcrumbs_gen', breadcrumbs)
   return generateUrl(props, breadcrumbType, breadcrumbs)
 }
 
@@ -187,9 +187,9 @@ export const useMakeLink = () => {
       console.log(1)
       return buildParentRoute(props, search, router)   // pure helper
     } else {
-      console.log(2, )
+      // console.log(2, )
       const breadcrumbItems = decodeToBase64(search?.b) || []
-      console.log('breadcrumbItems', breadcrumbItems)
+      // console.log('breadcrumbItems', breadcrumbItems)
       return buildChildRoute(props, search, breadcrumbItems) // pure helper
     }
   }
@@ -201,7 +201,7 @@ export const getParamDetails = (props?: any) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
-  console.log('breadcrumbs_1', breadcrumbs)
+  // console.log('breadcrumbs_1', breadcrumbs)
 
   let mediatorObjectTypeId = ''
   let mediatorObjectRecordId = ''
@@ -218,14 +218,14 @@ export const getParamDetails = (props?: any) => {
 
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket' || props?.type === 'association') {
-      console.log(1, props)
+      // console.log(1, props)
       mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
       // bParams = lastItem?.p || ''
     } else {
-      console.log(2, props)
+      // console.log(2, props)
       if (breadcrumbs.length > 2) {
         mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
         mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
@@ -248,7 +248,7 @@ export const getParamDetails = (props?: any) => {
         parentObjectRecordId = lastItem2?.o_r_id || ''
       }
      
-      console.log('parentObjectTypeId', parentObjectTypeId)
+      // console.log('parentObjectTypeId', parentObjectTypeId)
 
     }
   }
@@ -615,7 +615,7 @@ export const useUpdateLink = () => {
   const search: any = router.state.location.search;
   let breadcrumbs = decodeToBase64(search?.b) || [];
 
-  console.log('breadcrumbs', breadcrumbs)
+  // console.log('breadcrumbs', breadcrumbs)
 
   if (breadcrumbs.length < 1) return null;
 
