@@ -341,7 +341,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
               Showing
             </p>
             <span className="border dark:text-white border-secondary font-medium w-8 h-8 flex items-center justify-center rounded-md dark:border-white">
-              {Math.min(endIndex, totalFiles)}
+              {paginatedFiles.length}
             </span>
             {subscriptionType != 'FREE' && (
               <>
