@@ -84,11 +84,11 @@ export default function TailwindPrefixPlugin() {
             .split(/\s+/)
             .filter(Boolean)
             .map((c) => {
-              if (c.startsWith(prefix1) || c.startsWith('CUSTOM')) return c
+              if (c.startsWith(prefix1) || c.startsWith('CUSTOM') || c.startsWith('ProseMirror')) return c
               return `${prefix1}${c}`
             })
             .map((c) => {
-              if (c.startsWith('CUSTOM')) return c
+              if (c.startsWith('CUSTOM') || c.startsWith('ProseMirror')) return c
               return addImportant(c)
             })
             .join(' ')
