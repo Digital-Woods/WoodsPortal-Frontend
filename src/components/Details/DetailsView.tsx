@@ -104,8 +104,10 @@ export const DetailsView = ({
               className="text-secondary text-xs dark:text-white flex gap-1 items-center cursor-pointer break-all hover:underline"
               onClick={() => handleViewClick(value)}
             >
-              {value}
+                {value}
+              <span className="inline-block w-4 h-4">
               <IframeIcon />
+              </span>
             </span>
           ) : (
             isValid ? (
