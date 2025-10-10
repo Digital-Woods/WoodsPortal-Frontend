@@ -40,7 +40,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   // const [openModal, setOpenModal] = useState<any>(false);
   // const [modalData, setModalData] = useState<any>(null);
   const [numOfPages, setNumOfPages] = useState<any>(Math.ceil(totalItems / itemsPerPage));
-  const { sync, setSync } = useSync();
+  const { sync, setSync, apiSync } = useSync();
   const [isExpanded, setIsExpanded] = useState<any>(false);
   const [hoverRow, setHoverRow] = useState<any>(null);
   const [permissions, setPermissions] = useState<any>(null);
@@ -186,8 +186,8 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   }, [currentTableData, currentPage, itemsPerPage]);
 
   useEffect(() => {
-    if (sync) getData();
-  }, [sync]);
+    if (sync || apiSync) getData();
+  }, [sync, apiSync]);
 
   useEffect(() => {
     getData();
