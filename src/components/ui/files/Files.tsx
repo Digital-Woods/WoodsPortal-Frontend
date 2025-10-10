@@ -127,27 +127,24 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   // }, [id, fileId, objectId]);
 
   useEffect(() => {
-    if(currentFiles?.child.length > 0) {
-      // Filter files based on search term
-      const filteredFiles: any = (currentFiles?.child || [])
-        .filter((file: any) =>
-          file.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
-        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    // Filter files based on search term
+    const filteredFiles: any = (currentFiles?.child || [])
+      .filter((file: any) =>
+        file.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
+      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-      const total = filteredFiles.length
-      const sIndex = (currentPage - 1) * itemsPerPage
-      const eIndex = currentPage * itemsPerPage
+    const total = filteredFiles.length
+    const sIndex = (currentPage - 1) * itemsPerPage
+    const eIndex = currentPage * itemsPerPage
 
-      setTotalFiles(total);
-      setStartIndex(sIndex);
-      setEndIndex(eIndex);
-      setPaginatedFiles(filteredFiles.slice(sIndex, eIndex));
+    setTotalFiles(total);
+    setStartIndex(sIndex);
+    setEndIndex(eIndex);
+    setPaginatedFiles(filteredFiles.slice(sIndex, eIndex));
 
-      setNumOfPages(Math.ceil(total / itemsPerPage));
-    }
-
+    setNumOfPages(Math.ceil(total / itemsPerPage));
   }, [currentFiles, currentPage, searchTerm]);
 
 
