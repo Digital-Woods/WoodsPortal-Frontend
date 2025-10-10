@@ -60,8 +60,8 @@ export const EmptyMessageCard = ({
           <ul
             className={`mt-3 text-xs dark:text-white font-thin ${
               type === "row"
-                ? "list-disc list-inside flex flex-col gap-1"
-                : "list-disc list-inside"
+                ? "list-disc  flex flex-col gap-1"
+                : "list-disc "
             }`}
           >
             <span className="mb-1 text-start font-semibold block">Steps to Resolve:</span>
