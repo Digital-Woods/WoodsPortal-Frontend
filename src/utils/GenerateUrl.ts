@@ -184,10 +184,8 @@ export const useMakeLink = () => {
 
   const makeLink = (props: any) => {
     if (!search.b || "isPC" in props) {  // check props?.isPC if dashbaord sidebar
-      console.log(1)
       return buildParentRoute(props, search, router)   // pure helper
     } else {
-      // console.log(2, )
       const breadcrumbItems = decodeToBase64(search?.b) || []
       // console.log('breadcrumbItems', breadcrumbItems)
       return buildChildRoute(props, search, breadcrumbItems) // pure helper
@@ -201,7 +199,6 @@ export const getParamDetails = (props?: any) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
-  console.log('breadcrumbs_1', breadcrumbs)
 
   let mediatorObjectTypeId = ''
   let mediatorObjectRecordId = ''
