@@ -77,6 +77,14 @@ function prefixClassesInCode(code) {
     return `className="${prefixStaticClasses(classStr)}"`
   })
 
+  // code = code.replace(/className\s*=\s*["']([^"']*)["']/g, (_, classStr) => {
+  //   // 🛑 Skip prefixing if contains "ProseMirror"
+  //   if (/\bProseMirror\b/.test(classStr)) {
+  //     return `className="${classStr}"`
+  //   }
+  //   return `className="${prefixStaticClasses(classStr)}"`
+  // })
+
   // 2) Template literal: className={`...`}
   code = code.replace(/className\s*=\s*{\s*`([\s\S]*?)`\s*}/g, (_, tplBody) => {
     const parts = tplBody.split(/(\$\{[\s\S]*?\})/g)
