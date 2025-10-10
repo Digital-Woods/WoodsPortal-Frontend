@@ -304,6 +304,25 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                                     </div>
                                 );
                             }
+                            else if (key == 'domain') {
+                                return (
+                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                        <span className="font-semibold">{value?.label}:</span>
+                                        <span className=" break-all">
+                                            {value?.value ? (
+                                                <a href={`https://${value?.value}`} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
+                                                    <span>
+                                                    {value?.value}
+                                                    </span>
+                                                    <OpenIcon />
+                                                </a> 
+                                            ) : (
+                                                "--"
+                                            )}
+                                        </span>
+                                    </div>
+                                );
+                            }
                             else {
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
