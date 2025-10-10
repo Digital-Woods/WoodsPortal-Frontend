@@ -111,7 +111,6 @@ export function useTable() {
 
   const setDefaultPipeline = async (data: any, hubspotObjectTypeId: string, companyAsMediator?: boolean) => {
     if (data) {
-      // console.log('filterParams', filterParams())
       const params = filterParams();
       let mFilterValue = "";
       const defaultPipeline = data?.data?.find(

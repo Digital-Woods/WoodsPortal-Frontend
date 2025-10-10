@@ -608,41 +608,74 @@ export const useUpdateLink = () => {
   //   return output
   // }
 
-  const filterParams = (displayName: string = "prm") => {
-  const search: any = router.state.location.search;
-  let breadcrumbs = decodeToBase64(search?.b) || [];
+  const getLinkParams = (displayName: string = "prm") => { // for API param
+    const search: any = router.state.location.search;
+    let breadcrumbs = decodeToBase64(search?.b) || [];
 
-  // console.log('breadcrumbs', breadcrumbs)
+    // console.log('breadcrumbs', breadcrumbs)
 
-  if (breadcrumbs.length < 1) return null;
+    if (breadcrumbs.length < 1) return null;
 
-  const lastItem = breadcrumbs[breadcrumbs.length - 1];
+    const lastItem = breadcrumbs[breadcrumbs.length - 1];
 
-  // Helper to deeply get a nested value
-  const getDeep = (obj: any, path: string) => {
-    return path.split(".").reduce((acc, key) => acc?.[key], obj);
+    // Helper to deeply get a nested value
+    const getDeep = (obj: any, path: string) => {
+      return path.split(".").reduce((acc, key) => acc?.[key], obj);
+    };
+
+    // Map keys if needed
+    const expandKeys = (obj: Record<string, any>) => {
+      return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+          keyMap[key] || key, // map if exists, else keep original
+          value,
+        ])
+      );
+    };
+
+    // Get nested value if displayName has dots
+    const nestedValue = displayName ? getDeep(lastItem, displayName) : null;
+
+    const output = nestedValue ? expandKeys(nestedValue) : null;
+
+    return output;
   };
 
-  // Map keys if needed
-  const expandKeys = (obj: Record<string, any>) => {
-    return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => [
-        keyMap[key] || key, // map if exists, else keep original
-        value,
-      ])
-    );
+  const filterParams = (displayName: string = "prm") => { // for select old value
+    const search: any = router.state.location.search;
+    let breadcrumbs = decodeToBase64(search?.b) || [];
+
+    // console.log('breadcrumbs', breadcrumbs)
+
+    if (breadcrumbs.length < 1) return null;
+
+    const lastItem = breadcrumbs[breadcrumbs.length - 1];
+
+    // Helper to deeply get a nested value
+    const getDeep = (obj: any, path: string) => {
+      return path.split(".").reduce((acc, key) => acc?.[key], obj);
+    };
+
+    // Map keys if needed
+    const expandKeys = (obj: Record<string, any>) => {
+      return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+          keyMap[key] || key, // map if exists, else keep original
+          value,
+        ])
+      );
+    };
+
+    // Get nested value if displayName has dots
+    const nestedValue = displayName ? getDeep(lastItem, displayName) : null;
+
+    const output = nestedValue ? expandKeys(nestedValue) : expandKeys(lastItem);
+
+    // console.log("output", output);
+    return output;
   };
 
-  // Get nested value if displayName has dots
-  const nestedValue = displayName ? getDeep(lastItem, displayName) : null;
-
-  const output = nestedValue ? expandKeys(nestedValue) : expandKeys(lastItem);
-
-  // console.log("output", output);
-  return output;
-};
-
-  return { updateLink, filterParams }
+  return { updateLink, getLinkParams, filterParams }
 }
 
 const updateBParam = (router: any, newValue: string) => {
