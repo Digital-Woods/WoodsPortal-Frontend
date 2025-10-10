@@ -77,7 +77,7 @@ export const DynamicComponentView = ({
   // const [totalItems, setTotalItems] = useState<any>(1);
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
-  const {updateLink, filterParams} = useUpdateLink();
+  const {updateLink, getLinkParams, filterParams} = useUpdateLink();
   const { paramsObject} = getParamDetails({type: componentName});
 
   const router = useRouter()
@@ -244,10 +244,10 @@ export const DynamicComponentView = ({
 
       // console.log('param', param)
 
-      const fParams = filterParams()
-      // console.log('param', param)
-      // console.log('fParams', fParams)
-      // console.log('paramsObject', paramsObject)
+      const fParams = getLinkParams()
+      console.log('param', param)
+      console.log('fParams', fParams)
+      console.log('paramsObject', paramsObject)
 
       // console.log('fParams', fParams)
       // console.log('param', param)
