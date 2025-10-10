@@ -267,7 +267,8 @@ const NoteCard = ({
   );
 };
 
-export const Notes = ({tabName='', item, path, objectId, id, permissions }: any) => {
+export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermissions = null }: any) => {
+  const [permissions, setPermissions] = useState(mPermissions);
   const [showDialog, setShowDialog] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const { me } = useMe();
@@ -307,6 +308,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions }: any)
       setTotalNotes(totalData)
       setSync(false);
       setApiSync(false);
+      setPermissions(data?.configurations?.note)
     },
     onError: (error: any) => {
       setSync(false);
