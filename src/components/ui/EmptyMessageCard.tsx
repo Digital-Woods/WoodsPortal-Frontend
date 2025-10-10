@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
-import { HtmlParser } from '@/components/HtmlParser';
-import DOMPurify from 'dompurify';
 import { EmptyDeal } from '@/assets/icons/EmptyDeal';
 import { EmptyIcon } from '@/assets/icons/EmptyIcon';
 import { EmptyThree } from '@/assets/icons/EmptyThree';
-import { bulletPointData } from '@/data/fakeData';
 
 export const EmptyMessageCard = ({
   name = "item",
   type = "row",
   className = "p-6",
-  bulletPoints = bulletPointData,
   imgWidth='150px',
 }: any) => {
   const [RandomComponent, setRandomComponent] = useState(
@@ -55,8 +51,6 @@ export const EmptyMessageCard = ({
         >
           You haven’t created any {name.toLowerCase()} yet. Please create one to proceed. For help, check our documentation or contact support.
         </p>
-        {/* Bullet Points */}
-        {bulletPoints.length > 0 && (
           <ul
             className={`mt-3 text-xs dark:text-white font-thin ${
               type === "row"
@@ -65,16 +59,13 @@ export const EmptyMessageCard = ({
             }`}
           >
             <span className="mb-1 text-start font-semibold block">Steps to Resolve:</span>
-            {bulletPoints.map((point: any, index: any) => (
-              <li
-                key={index}
-                className={type === "row" ? "text-start" : "text-start"}
-              >
-                <HtmlParser html={DOMPurify.sanitize(point)} />
+              <li className={type === "row" ? "text-start" : "text-start"}>
+                <span className="inline-block font-semibold">Refresh Data:</span> Click the ‘Clear Cache’ button to update system data. This may fix issues with visibility of new records or associations.
               </li>
-            ))}
+              <li className={type === "row" ? "text-start" : "text-start"}>
+                <span className="inline-block font-semibold">Check Associations:</span> Ensure the necessary associations are correctly created for this operation.
+              </li>
           </ul>
-        )}
       </div>
     </div>
   );
