@@ -201,7 +201,7 @@ export const getParamDetails = (props?: any) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
-  // console.log('breadcrumbs_1', breadcrumbs)
+  console.log('breadcrumbs_1', breadcrumbs)
 
   let mediatorObjectTypeId = ''
   let mediatorObjectRecordId = ''
@@ -243,7 +243,7 @@ export const getParamDetails = (props?: any) => {
         // bParams = lastItem?.p || ''
       }
       
-      if(lastItem2?.o_t_id === '0-5') {
+      if(lastItem2?.o_t_id === '0-5' && !parentObjectTypeId && !parentObjectRecordId) {
         parentObjectTypeId = lastItem2?.o_t_id || ''
         parentObjectRecordId = lastItem2?.o_r_id || ''
       }
