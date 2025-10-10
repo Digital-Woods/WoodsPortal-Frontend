@@ -672,6 +672,33 @@ form {
 }
 
 /* Make sure li selections wrap around markers */
+.ProseMirror table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  margin: 20px 0;
+  background-color: #fff;
+}
+
+.ProseMirror th, .ProseMirror td {
+  padding: 12px 15px !important;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.ProseMirror thead th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.ProseMirror tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.ProseMirror tbody tr:hover {
+  background-color: #f1f1f1;
+}
 
 li.ProseMirror-selectednode {
   outline: none;
@@ -1161,20 +1188,6 @@ ol {
 
 figure {
   margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: unset;
-  margin-bottom: 16px;
-  margin-top: 0;
-  display: block;
-  line-height: normal;
-  text-transform: none;
 }
 
 .ProseMirror img {
