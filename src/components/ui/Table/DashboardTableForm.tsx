@@ -166,7 +166,11 @@ export const DashboardTableForm = ({
         // });
         // refetch(response);
         // setSync(true);
-        setApiSync(true);
+        if(componentName === 'association') {
+          setSync(true);
+        } else {
+          setApiSync(true);
+        }
         // refetch();
         // setApiSync(true); // Keeping this as it might be used for other purposes
       }
