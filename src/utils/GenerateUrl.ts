@@ -213,6 +213,8 @@ export const getParamDetails = (props?: any) => {
   // console.log('lastItem2', lastItem2)
   // console.log('lastItem3', lastItem3)
 
+  let cache = {}
+
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket' || props?.type === 'association') {
       // console.log(1, props)
@@ -220,6 +222,7 @@ export const getParamDetails = (props?: any) => {
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
+      cache = {cache: true}
       // bParams = lastItem?.p || ''
     } else {
       // console.log(2, props)
@@ -295,7 +298,10 @@ export const getParamDetails = (props?: any) => {
     ])
   );
 
-  const queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam} as any).toString()
+  console.log('lastItem', lastItem)
+  console.log('mappedLastItemParam', mappedLastItemParam)
+
+  const queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam, ...cache} as any).toString()
 
   // console.log('queryString', queryString)
 
