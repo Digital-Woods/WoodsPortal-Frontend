@@ -245,9 +245,6 @@ export const DynamicComponentView = ({
       // console.log('param', param)
 
       const fParams = getLinkParams()
-      console.log('param', param)
-      console.log('fParams', fParams)
-      console.log('paramsObject', paramsObject)
 
       // console.log('fParams', fParams)
       // console.log('param', param)

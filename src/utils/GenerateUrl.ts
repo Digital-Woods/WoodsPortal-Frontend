@@ -213,8 +213,6 @@ export const getParamDetails = (props?: any) => {
   // console.log('lastItem2', lastItem2)
   // console.log('lastItem3', lastItem3)
 
-  let cache = {}
-
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket' || props?.type === 'association') {
       // console.log(1, props)
@@ -222,7 +220,6 @@ export const getParamDetails = (props?: any) => {
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
-      cache = {cache: true}
       // bParams = lastItem?.p || ''
     } else {
       // console.log(2, props)
@@ -277,19 +274,19 @@ export const getParamDetails = (props?: any) => {
   //   }
   // }
 
-    if (breadcrumbs[0]?.prm?.isPC || breadcrumbs[1]?.prm?.isPC || lastItem?.prm?.isPC) { // 1st check fot normal object, 2dn & 3rd and check for db associated data
-      paramsObject['isPrimaryCompany'] = true
-    }
+  if (breadcrumbs[0]?.prm?.isPC || breadcrumbs[1]?.prm?.isPC || lastItem?.prm?.isPC) { // 1st check fot normal object, 2dn & 3rd and check for db associated data
+    paramsObject['isPrimaryCompany'] = true
+  }
 
 
-   if (parentObjectTypeId && parentObjectRecordId) {
-      paramsObject['parentObjectTypeId'] = parentObjectTypeId
-      paramsObject['parentObjectRecordId'] = parentObjectRecordId
-    }
-    if (mediatorObjectTypeId && mediatorObjectRecordId) {
-      paramsObject['mediatorObjectTypeId'] = mediatorObjectTypeId
-      paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
-    }
+  if (parentObjectTypeId && parentObjectRecordId) {
+    paramsObject['parentObjectTypeId'] = parentObjectTypeId
+    paramsObject['parentObjectRecordId'] = parentObjectRecordId
+  }
+  if (mediatorObjectTypeId && mediatorObjectRecordId) {
+    paramsObject['mediatorObjectTypeId'] = mediatorObjectTypeId
+    paramsObject['mediatorObjectRecordId'] = mediatorObjectRecordId
+  }
 
   const mappedLastItemParam = Object.fromEntries(
     Object.entries(lastItem?.prm || {}).map(([key, value]) => [
@@ -298,8 +295,15 @@ export const getParamDetails = (props?: any) => {
     ])
   );
 
+  let queryString = null
 
-  const queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam, ...cache} as any).toString()
+  if (props?.type === 'association') {
+    queryString = new URLSearchParams({...paramsObject, ...{cache: false}} as any).toString()
+  } else {
+    queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam} as any).toString()
+  }
+
+
 
   // console.log('queryString', queryString)
 
