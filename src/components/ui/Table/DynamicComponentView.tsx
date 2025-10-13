@@ -204,9 +204,11 @@ export const DynamicComponentView = ({
 
       param = getTableParam(companyAsMediator, null);
 
+
       const mSelectedPipeline = pipeline !== undefined ? pipeline : selectedPipeline;
 
-      if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
+      // if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
+      
       if (defPermissions?.pipeline_id && componentName === "ticket") {
          param.filterValue = defPermissions?.pipeline_id;
       } else {

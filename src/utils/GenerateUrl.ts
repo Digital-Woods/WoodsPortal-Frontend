@@ -297,15 +297,17 @@ export const getParamDetails = (props?: any) => {
 
   let queryString = null
 
-  if (props?.type === 'association') {
+  if (props?.type === 'association') {  // if association association then don't need mappedLastItemParam 
     queryString = new URLSearchParams({...paramsObject, ...{cache: false}} as any).toString()
+  // } else if (breadcrumbs.length < 2) { // if root path then don't need paramsObject 
+  //   console.log('root')
+  //   paramsObject = {}
+  //   queryString = new URLSearchParams({...mappedLastItemParam} as any).toString()
   } else {
     queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam} as any).toString()
   }
 
 
-
-  // console.log('queryString', queryString)
 
 
   //   let params = bParams ? `${bParams}&${queryString}` : `?${queryString}`
@@ -320,6 +322,11 @@ export const getParamDetails = (props?: any) => {
   //   ...paramsObject,
   //   ...(params ? { params } : {}),
   // };
+
+    //   console.log('breadcrumbs', breadcrumbs)
+    // console.log('paramsObject', paramsObject)
+    // console.log('params', params)
+
   return {
     breadcrumbs,
     // paramsObject:  Object.keys(mParamsObject).length === 0 ? null : mParamsObject,
