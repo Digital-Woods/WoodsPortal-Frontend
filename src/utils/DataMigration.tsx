@@ -350,7 +350,7 @@ export const renderCellContent = ({
     )
   }
 
-  if (!column || value === undefined || value === null || !value) { // if value is undefined empty string then add empty
+  if (!column || value === undefined || value === null || value === '') { // if value is undefined empty string then add empty
     return "--";
   }
 
