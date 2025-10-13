@@ -330,27 +330,35 @@ export const DashboardTable: any = ({
               </div>
             )}
 
-          {view === "BOARD" &&
-            (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
-              <BoardView
-                key={path}
-                title={title}
-                hubspotObjectTypeId={hubspotObjectTypeId}
-                activeCardData={activeCardData}
-                pipelines={pipelines}
-                isLoadingPipelines={isLoadingPipelines}
-                urlParam={urlParam}
-                companyAsMediator={companyAsMediator}
-                getData={getData}
-                isLoading={isLoading}
-                path={path}
-                viewName={viewName}
-                detailsUrl={detailsUrl}
-                defPermissions={defPermissions}
-              />
-            )}
+          {view === "BOARD" && isLoading &&
+          <BoardViewSkeleton />
+          }
 
-          {view === "LIST" && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.total != 0)) && (
+          {view === "BOARD" && !isLoading &&
+          (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
+            <BoardView
+              key={path}
+              title={title}
+              hubspotObjectTypeId={hubspotObjectTypeId}
+              activeCardData={activeCardData}
+              pipelines={pipelines}
+              isLoadingPipelines={isLoadingPipelines}
+              urlParam={urlParam}
+              companyAsMediator={companyAsMediator}
+              getData={getData}
+              isLoading={isLoading}
+              path={path}
+              viewName={viewName}
+              detailsUrl={detailsUrl}
+              defPermissions={defPermissions}
+            />
+          )}
+
+          {view === "LIST" && isLoading &&
+            <TableSkeleton />
+          }
+
+          {view === "LIST" && !isLoading && ((apiResponse?.data?.total > 0) || (subscriptionType === "FREE" && apiResponse?.data?.total != 0)) && (
             <DashboardTableData
               key={path}
               title={title}

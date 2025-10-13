@@ -1,7 +1,7 @@
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/Table';
 
 
-export const TableSkeleton = ({ row = 10, col = 5 }: any) => {
+export const TableSkeleton = ({ row = 10, col = 5, isShowPagination = true }: any) => {
     return (
         <div className="w-full">
             <div className="table-container rounded-md ">
@@ -29,17 +29,19 @@ export const TableSkeleton = ({ row = 10, col = 5 }: any) => {
                 </Table>
             </div>
             {/* Pagination & Results Skeleton */}
-            <div className="flex items-center justify-between p-3">
-                {/* Showing Results Text */}
-                <div className="h-4 w-48 bg-gray-200 rounded-md animate-pulse"></div>
+            {isShowPagination &&
+                <div className="flex items-center justify-between p-3">
+                    {/* Showing Results Text */}
+                    <div className="h-4 w-48 bg-gray-200 rounded-md animate-pulse"></div>
 
-                {/* Pagination Controls */}
-                <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div> {/* Left Arrow */}
-                    <div className="h-6 w-6 bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div> {/* Page Number */}
-                    <div className="h-8 w-8 bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div> {/* Right Arrow */}
+                    {/* Pagination Controls */}
+                    <div className="flex items-center gap-2">
+                        <div className="h-8 w-8 bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div> {/* Left Arrow */}
+                        <div className="h-6 w-6 bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div> {/* Page Number */}
+                        <div className="h-8 w-8 bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md animate-pulse"></div> {/* Right Arrow */}
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     );
 };
