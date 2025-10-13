@@ -132,38 +132,38 @@ const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
 }
 
 const convertToBase64 = (str: any = []) => {
-  try {
-    return btoa(unescape(encodeURIComponent(str)))
-  } catch (err) {
-    console.warn('Base64 encode failed:', str, err)
-    return ''
-  }
-
-  // if(str) {
-  //   const b64 = toB64(compressAuto(str));
-  //   console.log('b64', b64)
-  //   return b64 || '';
+  // try {
+  //   return btoa(unescape(encodeURIComponent(str)))
+  // } catch (err) {
+  //   console.warn('Base64 encode failed:', str, err)
+  //   return ''
   // }
-  // return ''
+
+  if(str) {
+    const b64 = toB64(compressAuto(str));
+    console.log('e_b64', b64)
+    return b64 || '';
+  }
+  return ''
 }
 
 const decodeToBase64 = (base64: string) => {
-  try {
-    return JSON.parse(decodeURIComponent(escape(atob(base64))))
-  } catch (err) {
-    console.warn('Base64 decode failed:', base64, err)
-    return ''
-  }
-  
-  // if(base64) {
-  //   const b = base64?.replace(/ /g, "+");
-  //   console.log('base64', base64)
-  //   console.log('b', b)
-  //   const rt2 = decompressAuto(fromB64(b));
-  //   console.log('rt2', rt2)
-  //   return JSON.parse(rt2) ;
+  // try {
+  //   return JSON.parse(decodeURIComponent(escape(atob(base64))))
+  // } catch (err) {
+  //   console.warn('Base64 decode failed:', base64, err)
+  //   return ''
   // }
-  // return ''
+  
+  if(base64) {
+    const b = base64?.replace(/ /g, "+");
+    console.log('d_base64', base64)
+    console.log('b', b)
+    const rt2 = decompressAuto(fromB64(b));
+    console.log('rt2', rt2)
+    return JSON.parse(rt2) ;
+  }
+  return ''
 }
 
 // export const useMakeLink = (props: any) => {
@@ -213,6 +213,8 @@ export const getParamDetails = (props?: any) => {
   // console.log('lastItem2', lastItem2)
   // console.log('lastItem3', lastItem3)
 
+  let cache = {}
+
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket' || props?.type === 'association') {
       // console.log(1, props)
@@ -220,6 +222,7 @@ export const getParamDetails = (props?: any) => {
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
+      cache = {cache: true}
       // bParams = lastItem?.p || ''
     } else {
       // console.log(2, props)
@@ -295,7 +298,8 @@ export const getParamDetails = (props?: any) => {
     ])
   );
 
-  const queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam} as any).toString()
+
+  const queryString = new URLSearchParams({...paramsObject, ...mappedLastItemParam, ...cache} as any).toString()
 
   // console.log('queryString', queryString)
 
