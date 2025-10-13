@@ -444,9 +444,9 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   // const totalNotes = data && data.data && data.data.total;
   const numOfPages = Math.ceil(totalNotes / limit);
 
-  // if (isLoading || isFetching) {
-  //   return <NoteSkeleton />;
-  // }
+  if (isLoading || isFetching) {
+    return <NoteSkeleton />;
+  }
 
   const getObjectName = () => {
     let displayValue = "";

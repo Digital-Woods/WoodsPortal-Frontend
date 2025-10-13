@@ -630,7 +630,8 @@ export const DynamicComponentView = ({
   // }
 
 
-  if (isLoadingAPiData === true && isLoadedFirstTime === true) {
+  // if (isLoadingAPiData === true && isLoadedFirstTime === true) {
+  if (isLoadingAPiData === true) {
     return (
       <div
         className={` ${
