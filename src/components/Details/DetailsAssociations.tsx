@@ -219,6 +219,7 @@ export const DetailsAssociations = ({
                                   ?.update ? (
                                   <DetailsViewUpdate
                                     renderValue={renderCellContent({
+                                      makeLink,
                                       companyAsMediator: companyAsMediator,
                                       value: value.value,
                                       column: value,
