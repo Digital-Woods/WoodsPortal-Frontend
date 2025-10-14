@@ -66,7 +66,7 @@ export const DashboardTableForm = ({
   const queryString = new URLSearchParams(nParams as any).toString()
   let mParams: any = queryString ? `?${queryString}` : ''
 
-  const { objectName, dialogTitle } = getFormTitle(type, title, activeTab);
+  const { objectName, dialogTitle } = getFormTitle(componentName, title, activeTab);
 
   const [serverError, setServerError] = useState<any>(null);
   const resetRef = useRef<any>(null);
