@@ -13,6 +13,8 @@ import { Dialog } from "../ui/Dialog";
 import { Form, FormItem, FormLabel, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
 import { Select } from "../ui/Select";
 import { DetailsViewEditor } from "./DetailsViewEditor";
+import { useUpdateLink } from "@/utils/GenerateUrl.ts";
+import { isObject } from "@/utils/DataMigration.tsx";
 
 export const DetailsViewUpdateDD = ({
   control,
@@ -407,7 +409,8 @@ export const DetailsViewUpdate = ({
   const [stages, setStages] = useState<any>(null);
   const [initialValues, setInitialValues] = useState<any>(false);
   const [selectedValues, setSelectedValues] = useState<any>();
-
+  const {updateLink} = useUpdateLink();
+  
   // checking if data is object
   useEffect(() => {
     // console.log("item updated", item);
@@ -496,7 +499,7 @@ export const DetailsViewUpdate = ({
 
   const { mutate: saveData, isLoading } = useMutation({
     mutationKey: ["saveData"],
-    mutationFn: async (payload) => {
+    mutationFn: async (payload: any) => {
       try {
         const response = await Client.details.update({
           data: payload,
@@ -506,6 +509,14 @@ export const DetailsViewUpdate = ({
           },
           queryParams: urlParam,
         });
+        if(value?.isPrimaryDisplayProperty) { // if is display primary then update breadcrumb name
+          const value = isObject(payload) ? Object.values(payload)[0] : "";
+          if(value) {
+            updateLink({
+              n: value
+            }, "")
+          }
+        }
         return response;
       } catch (error) {
         throw error;
