@@ -84,10 +84,17 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
 
       breadcrumbs.push(newCrumb)
     } else {
-      breadcrumbs.push({
+      // if associated data have no parent
+      const parent: any = {
         n: props?.associationLabel || props?.name,
         o_t_id: props.objectTypeId,
-      })
+      }
+
+      if(props?.tableParam) {
+        parent.prm = props?.tableParam
+      }
+      breadcrumbs.push(parent)
+      // end
 
       if (props.recordId) {
         const newCrumb: any = {

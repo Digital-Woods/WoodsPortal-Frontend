@@ -70,8 +70,10 @@ export const DashboardTableData = ({
     setAfter,
     limit,
     setLimit,
-    numOfPages
+    numOfPages,
+    tableParam
   } = useTable();
+
  const { makeLink } = useMakeLink()
   // console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
@@ -222,10 +224,10 @@ export const DashboardTableData = ({
                             path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${hubspotObjectTypeId}&parentObjectRecordId=${item.hs_object_id}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                             detailsView
                           )} */}
-
                       {renderCellContent({
                         makeLink,
                         companyAsMediator: companyAsMediator,
+                        tableParam: tableParam,
                         value: item[column.key],
                         column: column,
                         itemId: item.hs_object_id,

@@ -111,8 +111,7 @@ export const DynamicComponentView = ({
     selectedPipeline,
     setDefaultPipeline,
     setPage,
-    // setSelectRouteMenuConfig
-
+    setTableFilterData
    }: any = useTable();
 
     const { setPagination }: any = useAuth();
@@ -275,7 +274,7 @@ export const DynamicComponentView = ({
           "p": param.page,
         })
       }
-
+      setTableFilterData(param)
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
