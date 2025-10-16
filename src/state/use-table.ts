@@ -15,6 +15,7 @@ import {
   tableViewState,
   tableSelectedPipelineState,
   tableParamState,
+  tableDefPermissions,
   gridDataState,
 } from "@/state/store";
 import { useSync } from "@/state/use-sync";
@@ -41,6 +42,7 @@ export function useTable() {
   const [view, changeView] = useAtom(tableViewState);
   const [selectedPipeline, changePipeline] = useAtom(tableSelectedPipelineState);
   const [tableParam, setTableFilterData] = useAtom(tableParamState);
+  const [defPermissions, setTableDefPermissions] = useAtom(tableDefPermissions);
   const { sync } = useSync();
   const {updateLink, filterParams} = useUpdateLink();
 
@@ -235,6 +237,7 @@ export function useTable() {
     isPrimaryCompany, setIsPrimaryCompany,
     view, setView,
     tableParam, setTableFilterData,
+    defPermissions, setTableDefPermissions,
     selectedPipeline, setSelectedPipeline,
     setDefaultPipeline,
     // setSelectRouteMenuConfig,

@@ -55,6 +55,8 @@ export const DashboardTableHeader = ({
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
 
   useEffect(() => {
+          {console.log('pipelines', pipelines)}
+
     if (!defPermissions?.pipeline_id) setShowPippelineFilter(pipelines?.length === 1 ? false : true);
   }, [pipelines]);
 
@@ -205,7 +207,7 @@ export const DashboardTableHeader = ({
         {/* } */}
       </div>
       {hubSpotUserDetails.sideMenu[0].tabName !== title &&
-        (componentName === "ticket"
+        (hubspotObjectTypeId === "0-5"
           ? defPermissions?.create
           : permissions?.create) && (
           <div className="text-end">

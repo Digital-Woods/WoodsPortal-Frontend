@@ -25,7 +25,7 @@ import DOMPurify from 'dompurify';
 import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
-import { getParamDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
+import { getParamDetails, getRouteDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
 
 
 export const DynamicComponentView = ({
@@ -111,8 +111,11 @@ export const DynamicComponentView = ({
     selectedPipeline,
     setDefaultPipeline,
     setPage,
-    setTableFilterData
+    setTableFilterData,
+    setTableDefPermissions
    }: any = useTable();
+
+   const {routeDetails} = getRouteDetails()
 
     const { setPagination }: any = useAuth();
 
@@ -173,7 +176,7 @@ export const DynamicComponentView = ({
         // setSelectedPipeline is not async so i pass manualy pipeline value
         if (
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          !defPermissions?.pipeline_id
+          (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
         ) {
           await getPipelines();
         } else {
@@ -208,8 +211,8 @@ export const DynamicComponentView = ({
 
       // if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       
-      if (defPermissions?.pipeline_id && componentName === "ticket") {
-         param.filterValue = defPermissions?.pipeline_id;
+      if ((defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id) && componentName === "ticket") {
+         param.filterValue = defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id;
       } else {
         if (mSelectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
           param.filterValue = mSelectedPipeline
@@ -274,6 +277,16 @@ export const DynamicComponentView = ({
           "p": param.page,
         })
       }
+      
+      if(defPermissions) {
+        setTableDefPermissions({
+          "cT": defPermissions?.create,
+          "dP": defPermissions?.display,
+          "dL": defPermissions?.display_label,
+          "pId": defPermissions?.pipeline_id,
+        })
+      }
+
       setTableFilterData(param)
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -339,7 +352,7 @@ export const DynamicComponentView = ({
               : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
-          if (defPermissions) {
+          if ((defPermissions || routeDetails?.defPermissions)) {
             setPermissions(data?.configurations[componentName]);
           } else {
             setPermissions(data?.configurations["object"]);
@@ -542,7 +555,7 @@ export const DynamicComponentView = ({
       if (sync || apiSync) {
         if (
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          !defPermissions?.pipeline_id
+          (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
         ) {
           await getPipelines();
         } else {
@@ -552,14 +565,14 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [sync, apiSync, hubspotObjectTypeId, defPermissions]);
+  }, [sync, apiSync, hubspotObjectTypeId, defPermissions, routeDetails]);
 
   useEffect(() => {
     const fetchData = async () => {
       setPage(1);
       if (
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-        !defPermissions?.pipeline_id
+        (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
       ) {
         await getPipelines();
       } else {
@@ -567,7 +580,7 @@ export const DynamicComponentView = ({
       }
     };
     if (!isFristTimeLoadData && isHome) fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions, routeDetails]);
 
   // useEffect(() => {
     // if(isLoadingHoldData) getData();
@@ -802,7 +815,7 @@ export const DynamicComponentView = ({
                   showIframe={showIframe}
                   apis={apis}
                   componentName={componentName || "object"}
-                  defPermissions={defPermissions}
+                  defPermissions={defPermissions || routeDetails?.defPermissions}
                   companyAsMediator={companyAsMediator}
                   pipeLineId={pipeLineId}
                   specPipeLine={specPipeLine}

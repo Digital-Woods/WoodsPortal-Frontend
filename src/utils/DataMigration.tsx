@@ -325,6 +325,7 @@ export const renderCellContent = ({
   makeLink = null,
   companyAsMediator = false,
   tableParam = null,
+  defPermissions = null,
   value,
   column,
   itemId = null,
@@ -595,14 +596,14 @@ export const renderCellContent = ({
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
-          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, tableParam: tableParam})}
+          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, tableParam: tableParam, defPermissions: defPermissions})}
         >
           {truncatedText(isObject(value) ? value.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
           // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
-          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, tableParam: tableParam})}
+          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, tableParam: tableParam, defPermissions: defPermissions})}
         >
           <OpenIcon /> 
         </Link>
