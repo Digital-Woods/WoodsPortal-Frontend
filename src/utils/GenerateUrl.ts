@@ -1,6 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
 import { getRouteMenu } from './param'
-import { compressAuto, decompressAuto, fromB64, toB64 } from './compress'
+import { encodeObject, decodeObject } from './compress'
 
 const keyMap: Record<string, string> = {
   dp: 'defPermissions',
@@ -149,7 +149,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
 }
 
 const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
-  const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
+  const newBase64 = convertToBase64(breadcrumbs)
   // console.log('newBase64', newBase64)
 
     // const rt2 = decompressAuto(fromB64(newBase64));
@@ -165,12 +165,12 @@ const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
 }
 
 const convertToBase64 = (str: any = []) => {
-  try {
-    return btoa(unescape(encodeURIComponent(str)))
-  } catch (err) {
-    console.warn('Base64 encode failed:', str, err)
-    return ''
-  }
+  // try {
+  //   return btoa(unescape(encodeURIComponent(str)))
+  // } catch (err) {
+  //   console.warn('Base64 encode failed:', str, err)
+  //   return ''
+  // }
 
   // if(str) {
   //   const b64 = toB64(compressAuto(str));
@@ -178,15 +178,17 @@ const convertToBase64 = (str: any = []) => {
   //   return b64 || '';
   // }
   // return ''
+
+  return encodeObject(str);
 }
 
 const decodeToBase64 = (base64: string) => {
-  try {
-    return JSON.parse(decodeURIComponent(escape(atob(base64))))
-  } catch (err) {
-    console.warn('Base64 decode failed:', base64, err)
-    return ''
-  }
+  // try {
+  //   return JSON.parse(decodeURIComponent(escape(atob(base64))))
+  // } catch (err) {
+  //   console.warn('Base64 decode failed:', base64, err)
+  //   return ''
+  // }
   
   // if(base64) {
   //   const b = base64?.replace(/ /g, "+");
@@ -197,6 +199,14 @@ const decodeToBase64 = (base64: string) => {
   //   return JSON.parse(rt2) ;
   // }
   // return ''
+
+   try {
+    const decoded = decodeObject<any>(base64);
+    return decoded
+  } catch (err) {
+    console.warn('Base64 decode failed:', base64, err)
+    return ''
+  }
 }
 
 // export const useMakeLink = (props: any) => {
@@ -406,7 +416,7 @@ export const getBreadcrumbs = () => {
 }
 
 const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
-  const bc = convertToBase64(JSON.stringify(breadcrumbs.slice(0, index + 1)))
+  const bc = convertToBase64(breadcrumbs.slice(0, index + 1))
   // console.log('breadcrumb', breadcrumb)
   if (index === 0) {
     return {
@@ -621,7 +631,7 @@ export const useUpdateLink = () => {
       Object.assign(lastBreadcrumb, props);
     }
 
-    const newBase64 = convertToBase64(JSON.stringify(breadcrumbs));
+    const newBase64 = convertToBase64(breadcrumbs);
     updateBParam(router, newBase64);
 
     // console.log("breadcrumbs_uu", breadcrumbs);
