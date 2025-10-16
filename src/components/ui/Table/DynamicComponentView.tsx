@@ -565,7 +565,7 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [sync, apiSync, hubspotObjectTypeId, defPermissions, routeDetails]);
+  }, [sync, apiSync, hubspotObjectTypeId, defPermissions]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -580,7 +580,7 @@ export const DynamicComponentView = ({
       }
     };
     if (!isFristTimeLoadData && isHome) fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions, routeDetails]);
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
 
   // useEffect(() => {
     // if(isLoadingHoldData) getData();
