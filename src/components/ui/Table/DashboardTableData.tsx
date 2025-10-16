@@ -71,7 +71,8 @@ export const DashboardTableData = ({
     limit,
     setLimit,
     numOfPages,
-    tableParam
+    tableParam,
+    defPermissions
   } = useTable();
 
  const { makeLink } = useMakeLink()
@@ -228,6 +229,7 @@ export const DashboardTableData = ({
                         makeLink,
                         companyAsMediator: companyAsMediator,
                         tableParam: tableParam,
+                        defPermissions: defPermissions,
                         value: item[column.key],
                         column: column,
                         itemId: item.hs_object_id,

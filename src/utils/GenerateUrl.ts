@@ -3,7 +3,10 @@ import { getRouteMenu } from './param'
 import { compressAuto, decompressAuto, fromB64, toB64 } from './compress'
 
 const keyMap: Record<string, string> = {
+  dp: 'defPermissions',
+  n: 'name',
   sort: 'sort',
+  o_t_id: 'objectTypeId',
   s: 'search',
   fPn: 'filterPropertyName',
   fO: 'filterOperator',
@@ -16,6 +19,24 @@ const keyMap: Record<string, string> = {
   p: 'page',
   aPip: 'activePipeline',
   aT: 'activeTab',
+  cT: 'create',
+  dP: 'display',
+  dL: 'display_label',
+  pId: 'pipeline_id',
+}
+
+// ✅ Deep map function
+function mapKeysDeep(obj: any, keyMap: Record<string, string>): any {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => mapKeysDeep(item, keyMap));
+  } else if (obj !== null && typeof obj === 'object') {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      const mappedKey = keyMap[key] || key; // rename if matched
+      acc[mappedKey] = mapKeysDeep(value, keyMap); // recurse into nested
+      return acc;
+    }, {} as Record<string, any>);
+  }
+  return obj;
 }
 
 const buildParentRoute = (props: any, search: any, router: any) => {
@@ -93,6 +114,11 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       if(props?.tableParam) {
         parent.prm = props?.tableParam
       }
+
+      if(props?.defPermissions) {
+        parent.dp = props?.defPermissions
+      }
+      
       breadcrumbs.push(parent)
       // end
 
@@ -201,6 +227,17 @@ export const useMakeLink = () => {
 
   return { makeLink }
 }
+
+export const getRouteDetails = () => {
+  const router = useRouter();
+  const search: any = router.state.location.search;
+
+  const breadcrumbs = decodeToBase64(search?.b) || [];
+  const lastItem = breadcrumbs[breadcrumbs.length - 1];
+  const mapped = lastItem ? mapKeysDeep(lastItem, keyMap) : null;
+
+  return { routeDetails: mapped };
+};
 
 export const getParamDetails = (props?: any) => {
   const router = useRouter()

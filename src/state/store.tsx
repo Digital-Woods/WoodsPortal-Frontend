@@ -76,5 +76,6 @@ export const tableIsPrimaryCompanyState = atom<boolean | null>(null);
 export const tableViewState = atom<string | null>(null);
 export const tableSelectedPipelineState = atom<string>("");
 export const tableParamState = atom<Record<string, any>>({});
+export const tableDefPermissions = atom<Record<string, any>>({});
 export const gridDataState = atom<any[]>([]);
 
