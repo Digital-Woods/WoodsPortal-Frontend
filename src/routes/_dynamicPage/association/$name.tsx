@@ -48,6 +48,7 @@ const AssociationComponent = () => {
   return (
     <DynamicComponentView
       hubspotObjectTypeId={hubspotObjectTypeId}
+      key={path}
       path={path}
       title={title}
       showIframe={showIframe}

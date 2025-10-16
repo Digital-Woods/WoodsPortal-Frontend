@@ -71,6 +71,7 @@ export const Tickets = ({
   return (
     <DynamicComponentView
       hubspotObjectTypeId={hubspotObjectTypeId}
+      key={path}
       path={path}
       ticketTableTitle={ticketTableTitle}
       title={title}
