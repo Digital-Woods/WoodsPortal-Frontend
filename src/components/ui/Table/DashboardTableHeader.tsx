@@ -55,8 +55,6 @@ export const DashboardTableHeader = ({
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
 
   useEffect(() => {
-          {console.log('pipelines', pipelines)}
-
     if (!defPermissions?.pipeline_id) setShowPippelineFilter(pipelines?.length === 1 ? false : true);
   }, [pipelines]);
 

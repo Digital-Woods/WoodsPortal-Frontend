@@ -320,6 +320,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
 
                             <DynamicComponentView
                                 hubspotObjectTypeId={hubspotObjectTypeId}
+                                key={path}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
                                 ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
