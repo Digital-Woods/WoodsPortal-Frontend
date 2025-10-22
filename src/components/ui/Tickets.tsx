@@ -79,7 +79,7 @@ export const Tickets = ({
       viewName="ticket"
       detailsUrl={detailsUrl}
       componentName="ticket"
-      defPermissions={permissions}
+      defaultPermissions={permissions}
       isShowTitle={false}
     />
   );

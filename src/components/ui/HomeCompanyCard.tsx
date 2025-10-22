@@ -9,7 +9,7 @@ import { HomeCompanyCardSkeleton } from "./skeletons/HomeCompanyCardSkeleton";
 import { Client } from "@/data/client";
 import { useQuery } from "@tanstack/react-query";
 
-export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle, setProfileData }: any) => {
+export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle, userData, isLoading, isLoadedFirstTime }: any) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
     const [userAssociatedDetailsModal, setUserAssociatedDetailsModal] = useState({});
     const [openModal, setOpenModal] = useState(false);
@@ -19,32 +19,32 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     const [iframeUrls, setIframeUrls] = useState([]);
     const [currentIframeIndex, setCurrentIframeIndex] = useState(0);
 
-    const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
-    const [cacheEnabled, setCacheEnabled] = useState<any>(true);
-    const [userData, setUserData] = useState<any>();
+    // const [isLoadedFirstTime, setIsLoadedFirstTime] = useState<any>(false);
+    // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
+    // const [userData, setUserData] = useState<any>();
 
-    const fetchUserProfile = async ({ portalId, cache }: any) => {
-        if (!portalId) return null;
+    // const fetchUserProfile = async ({ portalId, cache }: any) => {
+    //     if (!portalId) return null;
 
-        const response: any = await Client.user.profile({ portalId, cache });
-        return response?.data;
-    };
+    //     const response: any = await Client.user.profile({ portalId, cache });
+    //     return response?.data;
+    // };
 
-    const { isLoading, refetch }: any = useQuery({
-        queryKey: ['userProfilePage', cacheEnabled],
-        queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
-        onSuccess: (data) => {
-            if (data) {
-                if(setProfileData) setProfileData(data) // only for dashboard
-                setUserData(data.response);
-            }
-            setIsLoadedFirstTime(true);
-        },
-        onError: (error) => {
-            console.error("Error fetching profile:", error);
-            setIsLoadedFirstTime(true);
-        }
-    });
+    // const { isLoading, refetch }: any = useQuery({
+    //     queryKey: ['userProfilePage', cacheEnabled],
+    //     queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
+    //     onSuccess: (data) => {
+    //         if (data) {
+    //             if(setProfileData) setProfileData(data) // only for dashboard
+    //             setUserData(data.response);
+    //         }
+    //         setIsLoadedFirstTime(true);
+    //     },
+    //     onError: (error) => {
+    //         console.error("Error fetching profile:", error);
+    //         setIsLoadedFirstTime(true);
+    //     }
+    // });
 
     useEffect(() => {
         if (sync && !apiSync) {
@@ -93,7 +93,8 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         }
     }, [userData, propertiesList]);
 
-    if (!isLoadedFirstTime || (sync === true)) {
+    // if (!isLoadedFirstTime || (sync === true)) {
+    if (isLoading) {
         return <HomeCompanyCardSkeleton />;
     }
 
