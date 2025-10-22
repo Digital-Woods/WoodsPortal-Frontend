@@ -15,6 +15,7 @@ import { Select } from "../ui/Select";
 import { DetailsViewEditor } from "./DetailsViewEditor";
 import { useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
+import { useSync } from "@/state/use-sync.ts";
 
 export const DetailsViewUpdateDD = ({
   control,
@@ -410,7 +411,8 @@ export const DetailsViewUpdate = ({
   const [initialValues, setInitialValues] = useState<any>(false);
   const [selectedValues, setSelectedValues] = useState<any>();
   const {updateLink} = useUpdateLink();
-  
+    const { setSync } = useSync();
+
   // checking if data is object
   useEffect(() => {
     // console.log("item updated", item);
@@ -526,8 +528,8 @@ export const DetailsViewUpdate = ({
       // console.log(data);
       setPipelineDialog(false);
       setEditRow(null);
-      // setSync(true);
-      refetch();
+      setSync(true);
+      // refetch();
       setToaster({ message: data.statusMsg, type: "success" });
       setIsUpdating(false);
       setEditRowKey(null);
@@ -652,7 +654,7 @@ export const DetailsViewUpdate = ({
               // serverError={serverError}
               className=" m-0"
             >
-              {({ register, control, setValue, formState: { errors } }) => (
+              {({ register, control, setValue, formState: { errors } }: any) => (
                 <div className="flex gap-2 w-full items-center">
                   <div className="text-gray-800 flex-1 dark:text-gray-200">
                     <FormItem className="!mb-0 w-full">
