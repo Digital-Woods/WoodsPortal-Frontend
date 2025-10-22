@@ -39,7 +39,7 @@ export const DynamicComponentView = ({
   specPipeLine,
   objectDescription,
   componentName = null,
-  defPermissions = null,
+  defaultPermissions = null,
   apis,
   isShowTitle=true,
   objectUserProperties,
@@ -47,6 +47,7 @@ export const DynamicComponentView = ({
   isHome = false,
   ticketTableTitle=null,
 }: any) => {
+  const [defPermissions, setDefPermissions] = useState<any>(defaultPermissions);
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
   const param = getQueryParamsFromCurrentUrl();
@@ -68,7 +69,7 @@ export const DynamicComponentView = ({
   const {associatedtableTitleSingular, tableTitle, singularTableTitle} = getTableTitle(componentName, title, ticketTableTitle)
 
   // const [cacheEnabled, setCacheEnabled] = useState<any>(true);
-  // const [userData, setUserData] = useState<any>();
+  const [userData, setUserData] = useState<any>();
   // const [page, setPage] = useState<any>(1);
   // const [view, setView] = useState<any>(null);
   // // const [getTableParam, setGetTableParam] = useState<any>(null);
@@ -95,6 +96,7 @@ export const DynamicComponentView = ({
   const [pageView, setPageView] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState<any>(null);
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
+  const [isLoadedUserProfile, setIsLoadedUserProfile] = useState<any>(false);
 
   const { subscriptionType }: any = useAuth();
 
@@ -119,8 +121,39 @@ export const DynamicComponentView = ({
 
     const { setPagination }: any = useAuth();
 
+    const fetchUserProfile = async ({ portalId, cache }: any) => {
+      if (!portalId) return null;
+
+      const response: any = await Client.user.profile({ portalId, cache });
+      return response?.data;
+    };
+
+    const {isLoading : isLoadingFetchUserProfile, refetch: refetchFetchUserProfile } = useQuery({
+      queryKey: ['userProfilePage'],
+      queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
+      onSuccess: (data) => {
+        if (data) {
+          setUserData(data);
+          console.log('companyAsMediator', companyAsMediator)
+          console.log('hubspotObjectTypeId', hubspotObjectTypeId)
+          console.log('configuration', data?.response?.associations?.COMPANY?.configurations?.ticket)
+          if(companyAsMediator && hubspotObjectTypeId === "0-5") setDefPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
+          setIsLoadedUserProfile(true)
+        }
+        setSync(false);
+        // setIsLoadedFirstTime(true);
+      },
+      onError: (error) => {
+        console.error("Error fetching profile:", error);
+        setSync(false);
+        setIsLoadedUserProfile(true)
+        // setIsLoadedFirstTime(true);
+      }
+    });
+
     useEffect(() => {
       const fetchData = async () => {
+        if(!isLoadedUserProfile) return
         let pipeline = ""
         // set configurations
         await setPagination([])
@@ -174,6 +207,8 @@ export const DynamicComponentView = ({
         await setPageView(null);
 
         // setSelectedPipeline is not async so i pass manualy pipeline value
+          console.log('defPermissions', defPermissions)
+
         if (
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
@@ -185,7 +220,7 @@ export const DynamicComponentView = ({
       };
       setIsLoadingHoldData(true);
       fetchData();
-    }, []);
+    }, [defPermissions, isLoadedUserProfile]);
 
   const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
@@ -211,7 +246,7 @@ export const DynamicComponentView = ({
 
       // if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       
-      if ((defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id) && componentName === "ticket") {
+      if ((defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id) && (componentName === "ticket" || hubspotObjectTypeId === "0-5")) {
          param.filterValue = defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id;
       } else {
         if (mSelectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
@@ -552,6 +587,7 @@ export const DynamicComponentView = ({
 
   useEffect(() => {
     const fetchData = async () => {
+      if(!isLoadedUserProfile) return
       if (sync || apiSync) {
         if (
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
@@ -565,10 +601,11 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [sync, apiSync, hubspotObjectTypeId, defPermissions]);
+  }, [sync, apiSync, hubspotObjectTypeId, defPermissions, isLoadedUserProfile]);
 
   useEffect(() => {
     const fetchData = async () => {
+      if(!isLoadedUserProfile) return
       setPage(1);
       if (
         (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
@@ -580,7 +617,7 @@ export const DynamicComponentView = ({
       }
     };
     if (!isFristTimeLoadData && isHome) fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions]);
+  }, [companyAsMediator, hubspotObjectTypeId, defPermissions, isLoadedUserProfile]);
 
   // useEffect(() => {
     // if(isLoadingHoldData) getData();
@@ -773,9 +810,9 @@ export const DynamicComponentView = ({
                   portalId={portalId}
                   companyDetailsModalOption={false}
                   propertiesList={objectUserProperties}
-                  // userData={userData?.response}
-                  // isLoading={propertyIsLoading}
-                  // isLoadedFirstTime={isLoadedFirstTime}
+                  userData={userData?.response}
+                  isLoading={isLoadingFetchUserProfile}
+                  isLoadedFirstTime={isLoadedFirstTime}
                   iframePropertyName={objectUserProperties}
                   className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
                   usedInDynamicComponent={true}

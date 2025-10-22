@@ -41,40 +41,17 @@ const Dashboard = () => {
     setPagination([])
   }, []);
 
-  // const fetchUserProfile = async ({ portalId, cache }: any) => {
-  //   if (!portalId) return null;
+  const fetchUserProfile = async ({ portalId, cache }: any) => {
+    if (!portalId) return null;
 
-  //   const response: any = await Client.user.profile({ portalId, cache });
-  //   return response?.data;
-  // };
+    const response: any = await Client.user.profile({ portalId, cache });
+    return response?.data;
+  };
 
-  // const { data: userNewData, error, isLoading, refetch } = useQuery({
-  //   queryKey: ['userProfilePage', portalId, cacheEnabled],
-  //   queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
-  //   onSuccess: (data) => {
-  //     if (data) {
-  //       setUserData(data);
-  //       setUserId(data?.response?.hs_object_id?.value);
-  //       setUserObjectId(data?.info?.objectTypeId);
-  //       setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id?.value)
-  //     }
-  //     setSync(false);
-  //     setIsLoadedFirstTime(true);
-  //   },
-  //   onError: (error) => {
-  //     console.error("Error fetching profile:", error);
-  //     setSync(false);
-  //     setIsLoadedFirstTime(true);
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   if (sync) {
-  //     refetch();
-  //   }
-  // }, [sync]);
-
-  const setProfileData = (data: any) => {
+  const {isLoading: isLoadingFetchUserProfile, refetch: refetchFetchUserProfile} = useQuery({
+    queryKey: ['userProfilePage', portalId, cacheEnabled],
+    queryFn: () => fetchUserProfile({ portalId, cache: sync ? false : true }),
+    onSuccess: (data) => {
       if (data) {
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
@@ -83,7 +60,30 @@ const Dashboard = () => {
       }
       setSync(false);
       setIsLoadedFirstTime(true);
-  }
+    },
+    onError: (error) => {
+      console.error("Error fetching profile:", error);
+      setSync(false);
+      setIsLoadedFirstTime(true);
+    }
+  });
+
+  useEffect(() => {
+    if (sync) {
+      refetchFetchUserProfile();
+    }
+  }, [sync]);
+
+  // const setProfileData = (data: any) => {
+  //     if (data) {
+  //       setUserData(data);
+  //       setUserId(data?.response?.hs_object_id?.value);
+  //       setUserObjectId(data?.info?.objectTypeId);
+  //       setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id?.value)
+  //     }
+  //     setSync(false);
+  //     setIsLoadedFirstTime(true);
+  // }
 
   const toggleSidebar = () => {
     setUserToggled(true);
@@ -179,12 +179,12 @@ const Dashboard = () => {
                           portalId={portalId}
                           companyDetailsModalOption={card?.add_details_modal}
                           propertiesList={card?.properties}
-                          // userData={userData?.response}
-                          // isLoading={isLoading}
-                          // isLoadedFirstTime={isLoadedFirstTime}
+                          userData={userData?.response}
+                          isLoading={isLoadingFetchUserProfile}
+                          isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
                           viewStyle={card?.view}
-                          setProfileData={setProfileData}
+                          // setProfileData={setProfileData}
                         />
                         )}
                     </div>
