@@ -134,9 +134,6 @@ export const DynamicComponentView = ({
       onSuccess: (data) => {
         if (data) {
           setUserData(data);
-          console.log('companyAsMediator', companyAsMediator)
-          console.log('hubspotObjectTypeId', hubspotObjectTypeId)
-          console.log('configuration', data?.response?.associations?.COMPANY?.configurations?.ticket)
           if(companyAsMediator && hubspotObjectTypeId === "0-5") setDefPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
           setIsLoadedUserProfile(true)
         }
