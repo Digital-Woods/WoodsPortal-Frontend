@@ -46,11 +46,11 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     //     }
     // });
 
-    useEffect(() => {
-        if (sync && !apiSync) {
-            refetch();
-        }
-    }, [sync, apiSync]);
+    // useEffect(() => {
+    //     if (sync && !apiSync) {
+    //         refetch();
+    //     }
+    // }, [sync, apiSync]);
 
     // Process the propertiesList to filter and organize data
     const processProperties = (propertiesList: any, data: any) => {
