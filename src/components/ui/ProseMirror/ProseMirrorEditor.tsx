@@ -455,7 +455,7 @@ export const ProseMirrorEditor = ({
     if (!editorShema) return;
     // Create an initial document with some content
     const initialContent = document.createElement("div");
-    // initialContent.innerHTML = `<p>Start typing!</p> <p><img src="https://prosemirror.net/img/picture.png" alt="Image" contenteditable="false"><img class="ProseMirror-separator" alt=""><br class="ProseMirror-trailingBreak"></p>`;
+    // initialContent.innerHTML = `<p>Start typing!</p> <p><img src="https://prosemirror.net/img/picture.png" alt="Image" contenteditable="false"><img className="ProseMirror-separator" alt=""><br className="ProseMirror-trailingBreak"></p>`;
     initialContent.innerHTML = initialData;
     const mInitialDoc = DOMParser.fromSchema(editorShema).parse(initialContent);
     setInitialDoc(mInitialDoc);
@@ -604,7 +604,7 @@ export const ProseMirrorEditor = ({
         ],
       }),
       nodeViews: {
-        image: ProseMirrorImageResizeView(),
+        image: ProseMirrorImageResizeView(initialData),
         link: ProseMirrorLinkView,
       },
       dispatchTransaction(transaction) {

@@ -41,7 +41,7 @@ const IncreaseIndentMenu = ({ editorView }: any) => {
   return (
     <div className="relative inline-block">
       <div
-        class="CUSTOM-ProseMirror-icon"
+        className="CUSTOM-ProseMirror-icon"
         title="Increase indent"
         ref={IncreaseIndentMenu}
         onClick={() => {
