@@ -1190,9 +1190,9 @@ figure {
   margin: 0;
 }
 
-.ProseMirror img {
+/* .ProseMirror img {
   height: 100%;
-}
+} */
 
 .EditorView img {
   height: revert-layer;
