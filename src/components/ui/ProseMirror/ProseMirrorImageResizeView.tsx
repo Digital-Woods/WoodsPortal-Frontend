@@ -144,19 +144,19 @@ const ProseMirrorImage = ({ node, view, getPos, initialData }: any) => {
       {imageResize && (
         <Fragment>
           <div
-            class="w-2 h-2 bg-[#00d0e4] absolute top-[-4px] left-[-4px] cursor-nwse-resize"
+            className="w-2 h-2 bg-[#00d0e4] absolute top-[-4px] left-[-4px] cursor-nwse-resize"
             onMouseDown={(e) => handleResize(e, "top-left")}
           ></div>
           <div
-            class="w-2 h-2 bg-[#00d0e4] absolute top-[-4px] right-[-4px] cursor-nesw-resize"
+            className="w-2 h-2 bg-[#00d0e4] absolute top-[-4px] right-[-4px] cursor-nesw-resize"
             onMouseDown={(e) => handleResize(e, "top-right")}
           ></div>
           <div
-            class="w-2 h-2 bg-[#00d0e4] absolute bottom-[-4px] left-[-4px] cursor-nesw-resize"
+            className="w-2 h-2 bg-[#00d0e4] absolute bottom-[-4px] left-[-4px] cursor-nesw-resize"
             onMouseDown={(e) => handleResize(e, "bottom-left")}
           ></div>
           <div
-            class="w-2 h-2 bg-[#00d0e4] absolute bottom-[-4px] right-[-4px] cursor-nwse-resize"
+            className="w-2 h-2 bg-[#00d0e4] absolute bottom-[-4px] right-[-4px] cursor-nwse-resize"
             onMouseDown={(e) => handleResize(e, "bottom-right")}
           ></div>
         </Fragment>
