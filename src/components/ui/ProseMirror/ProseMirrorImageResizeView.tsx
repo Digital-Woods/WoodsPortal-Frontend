@@ -13,15 +13,13 @@ const updateImageNodeAttributes = (node: any, view: any, getPos: any, attrs: any
   }
 };
 
-const ProseMirrorImage = ({ node, view, getPos, initialData }: any) => {
+const ProseMirrorImage = ({ node, view, getPos, initialData = "" }: any) => {
   const imgResizeRef = useRef<any>(null);
   const [imageResize, setImageResize] = useState<any>(false);
   const [size, setSize] = useState<any>({ width: 0, height: 0 });
   const [aspectRatio, setAspectRatio] = useState<any>(false);
 
   useEffect(() => {
-    if (!initialData) return;
-
     let existsInInitial = false;
     const defaultAspectRatio = node.attrs.width / node.attrs.height;
 
