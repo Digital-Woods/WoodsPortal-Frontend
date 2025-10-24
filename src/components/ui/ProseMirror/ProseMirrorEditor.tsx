@@ -604,7 +604,7 @@ export const ProseMirrorEditor = ({
         ],
       }),
       nodeViews: {
-        image: ProseMirrorImageResizeView(),
+        image: ProseMirrorImageResizeView(initialData),
         link: ProseMirrorLinkView,
       },
       dispatchTransaction(transaction) {

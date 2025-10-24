@@ -13,16 +13,47 @@ const updateImageNodeAttributes = (node: any, view: any, getPos: any, attrs: any
   }
 };
 
-const ProseMirrorImage = ({ node, view, getPos }: any) => {
-  
+const ProseMirrorImage = ({ node, view, getPos, initialData }: any) => {
   const imgResizeRef = useRef<any>(null);
   const [imageResize, setImageResize] = useState<any>(false);
-  const defaultAspectRatio = node.attrs.width / node.attrs.height;
-  const width = Number(node.attrs.width/defaultAspectRatio);
-  const height = Number(node.attrs.height/defaultAspectRatio);
+  const [size, setSize] = useState<any>({ width: 0, height: 0 });
+  const [aspectRatio, setAspectRatio] = useState<any>(false);
 
-  const [size, setSize] = useState<any>({ width: width, height: height });
-  const aspectRatio = size.width / size.height;
+  useEffect(() => {
+    if (!initialData) return;
+
+    let existsInInitial = false;
+    const defaultAspectRatio = node.attrs.width / node.attrs.height;
+
+    try {
+      // Parse the HTML string
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(initialData, "text/html");
+
+      // Get all <img> tags
+      const imgs = doc.querySelectorAll("img");
+
+      imgs.forEach((img) => {
+        if (img.getAttribute("src") === node.attrs.src) {
+          existsInInitial = true;
+        }
+      });
+    } catch (err) {
+      console.warn("Failed to parse initialData:", err);
+    }
+
+    if (!existsInInitial) {
+      let width = Number(node.attrs.width/defaultAspectRatio);
+      let height = Number(node.attrs.height/defaultAspectRatio);
+      setSize({ width, height });
+      setAspectRatio(width/height);
+    } else {
+      let width = Number(node.attrs.width);
+      let height = Number(node.attrs.height);
+      setSize({ width, height });
+      setAspectRatio(width/height);
+    }
+  }, [node.attrs.src, initialData]);
 
   const handleResize = (e: any, corner: any) => {
     e.preventDefault();
@@ -134,7 +165,8 @@ const ProseMirrorImage = ({ node, view, getPos }: any) => {
   );
 };
 
-export const ProseMirrorImageResizeView = () => {
+export const ProseMirrorImageResizeView = (initialData?: any) => {
+
   return (node: any, view: any, getPos: any) => {
     const dom = document.createElement("div");
     dom.className = "prosemirror-react-image";
@@ -157,7 +189,7 @@ export const ProseMirrorImageResizeView = () => {
     const root = createRoot(dom);
 
     root.render(
-      <ProseMirrorImage node={node} view={view} getPos={getPos} />
+      <ProseMirrorImage node={node} view={view} getPos={getPos} initialData={initialData} />
     );
 
     return {
@@ -169,7 +201,7 @@ export const ProseMirrorImageResizeView = () => {
         applyAlignmentStyle(updatedNode);
 
         root.render(
-          <ProseMirrorImage node={updatedNode} view={view} getPos={getPos} />
+          <ProseMirrorImage node={updatedNode} view={view} getPos={getPos} initialData={initialData} />
         );
         return true;
       },
