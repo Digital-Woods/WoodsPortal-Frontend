@@ -222,7 +222,7 @@ const NoteCard = ({
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
                         permissions.update && note?.createdBy != 'Hubspot' ? "cursor-text hover:bg-secondaryBgHover hover:border-secondary" : "cursor-auto"
-                      } bg-white mt-2 border border-[transparent] dark:border-[transparent] rounded-md relative group`} EditorView`}
+                      } bg-white mt-2 border border-[transparent] dark:border-[transparent] rounded-md relative group EditorView`}`}
                 onClick={(e) => {
                   if (isOpen && note?.createdBy != 'Hubspot') {
                     e.stopPropagation();
@@ -322,7 +322,6 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   const makeParam = () => {
     let params: any = {};
     const tab =  filterParams("tabs.notes")
-    console.log('tab', tab)
     const baseParams: any = {
       objectId: objectId,
       id: id,
