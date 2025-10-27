@@ -14,7 +14,7 @@ export const ColorPicker = ({ color, setColor, setIsOpen, defaultTextColor }: an
     if (!open) setIsOpen(false);
   };
   const resetColor = () => {
-    setColor(defaultColor);
+    setColor(defaultColor, true);
     setIsOpen(false);
   };
 

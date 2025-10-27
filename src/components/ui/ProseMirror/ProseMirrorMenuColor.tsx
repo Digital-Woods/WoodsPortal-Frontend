@@ -69,24 +69,100 @@ let selectedTextColor = "";
 
 const DropdownColorMenu = ({ editorView, icon }: any) => {
   const [open, setOpen] = useState<any>(false);
-  const [color, setColor] = useState<any>("");
+  const [color, setSelectedColor] = useState<any>("");
 
-  const applyTextColor = (color: any) => {
+  const applyTextColor = (color: any, reset: boolean = false) => {
     return (state: any, dispatch: any) => {
       const { schema, selection } = state;
-      const { from, to } = selection;
+      const { from, to, empty } = selection;
       const markType = schema.marks.textColor;
-
       if (!markType) return false;
 
-      const attrs = { color };
       const tr = state.tr;
 
-      if (selection.empty) {
-        // Apply as stored mark if no selection
+      // RESET LOGIC — when reset=true
+      if (reset && empty) {
+        const $pos = selection.$from;
+        const { parent, parentOffset } = $pos;
+
+        // 1️⃣ Check if caret is inside a colored text node
+        let insideColor = false;
+        let nodeStart = 0;
+        let nodeEnd = 0;
+
+        parent.forEach((node: any, offset: number) => {
+          if (
+            offset <= parentOffset &&
+            parentOffset <= offset + node.nodeSize &&
+            node.marks?.some((m: any) => m.type === markType)
+          ) {
+            insideColor = true;
+            nodeStart = from - parentOffset + offset;
+            nodeEnd = nodeStart + node.nodeSize;
+          }
+        });
+
+        if (insideColor) {
+          tr.removeMark(nodeStart, nodeEnd, markType);
+          tr.addMark(nodeStart, nodeEnd, markType.create({ color: "#000000" }));
+
+          tr.removeStoredMark(markType);
+          tr.addStoredMark(markType.create({ color: "#000000" }));
+
+          if (dispatch) dispatch(tr);
+          return true;
+        }
+
+        // 2️⃣ Fallback: caret after a colored node
+        const nodeBefore = $pos.nodeBefore;
+        if (nodeBefore) {
+          const colorMark = (nodeBefore.marks || []).find(
+            (m: any) => m.type === markType || m.type.name === markType.name
+          );
+
+          if (colorMark) {
+            const start = from - nodeBefore.nodeSize;
+            const end = from;
+
+            tr.removeMark(start, end, markType);
+            tr.addMark(start, end, markType.create({ color: "#000000" }));
+
+            tr.removeStoredMark(markType);
+            tr.addStoredMark(markType.create({ color: "#000000" }));
+
+            if (dispatch) dispatch(tr);
+            return true;
+          }
+        }
+
+        // 3️⃣ Optional: caret before a colored node
+        const nodeAfter = $pos.nodeAfter;
+        if (nodeAfter) {
+          const colorMark = (nodeAfter.marks || []).find(
+            (m: any) => m.type === markType || m.type.name === markType.name
+          );
+
+          if (colorMark) {
+            const start = from;
+            const end = from + nodeAfter.nodeSize;
+
+            tr.removeMark(start, end, markType);
+            tr.addMark(start, end, markType.create({ color: "#000000" }));
+
+            tr.removeStoredMark(markType);
+            tr.addStoredMark(markType.create({ color: "#000000" }));
+
+            if (dispatch) dispatch(tr);
+            return true;
+          }
+        }
+      }
+
+      // NORMAL COLOR APPLY LOGIC
+      const attrs = { color };
+      if (empty) {
         tr.addStoredMark(markType.create(attrs));
       } else {
-        // Apply to the selected range
         tr.addMark(from, to, markType.create(attrs));
       }
 
@@ -95,15 +171,16 @@ const DropdownColorMenu = ({ editorView, icon }: any) => {
     };
   };
 
-  useEffect(() => {
+  const setColor = (color: any, reset: boolean = false) => {
     if (color) {
-      applyTextColor(color)(editorView.state, editorView.dispatch);
+      setSelectedColor(color)
+      applyTextColor(color, reset)(editorView.state, editorView.dispatch);
       const div = document.getElementById("text-color-svg");
       if (div) {
         div.setAttribute("fill", color);
       }
     }
-  }, [color]);
+  }
 
   return (
     <ProseMirrorMenuPopup open={open} setOpen={setOpen}>
