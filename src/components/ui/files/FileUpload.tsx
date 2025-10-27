@@ -240,12 +240,12 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     }
   };
 
-  const truncateText = (text: any, maxLength: any) =>{
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + "...";
-    }
-    return text;
-  }
+  // const truncateText = (text: any, maxLength: any) =>{
+  //   if (text.length > maxLength) {
+  //     return text.substring(0, maxLength) + "...";
+  //   }
+  //   return text;
+  // }
 
   return (
     <div className="fileupload-view relative">
@@ -298,8 +298,8 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                         >
                           <div className="CUSTOM-file-detail flex items-center">
                             <div className="dark:text-white">{getIcon(filename)}</div>
-                            <div className="mx-2 text-sm dark:text-white font-medium text-left">
-                              {truncateText(filename, 80)}
+                            <div className="mx-2 text-sm dark:text-white font-medium text-left truncate">
+                              {filename}
                             </div>
                             <div className="CUSTOM-file-actions ml-auto">
                               <Button
