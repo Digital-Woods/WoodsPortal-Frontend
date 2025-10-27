@@ -73,7 +73,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         (item: any) => item.portalUrl === currentDomain
       );
 
-      setPortal(portal);
+      setPortal(portal || {});
 
       const SubscriptionType = data?.data?.loggedInDetails?.subscriptionType || "FREE";
       setSubscriptionType(SubscriptionType);
