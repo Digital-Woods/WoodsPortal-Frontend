@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
       process: JSON.stringify({ env: {} }),
     },
     build: {
-      outDir: 'dist/digitalwoods-react.module',
+      outDir: 'dist/WoodsPortal.Module',
       lib: {
         entry: 'src/main.tsx',
         name: 'ReactButtonModule',
