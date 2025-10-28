@@ -233,7 +233,7 @@ const NoteCard = ({
               >
                 <div className="break-words">
                   <span>
-                    <HtmlParser html={DOMPurify.sanitize(note.hs_note_body, noteViewConfig)} />
+                    <HtmlParser html={DOMPurify.sanitize(note.hs_note_body, noteViewConfig)} className="ProseMirror" />
                   </span>
                 </div>
                 {permissions?.update === true && note?.createdBy != 'Hubspot' ? (
