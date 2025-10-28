@@ -403,8 +403,9 @@ export const DynamicComponentView = ({
       setApiResponse(null)
       setSync(false);
       setApiSync(false);
-      setIsLoadedFirstTime(false)
       setPermissions(null);
+      setIsLoadedFirstTime(false)
+      setIsFristTimeLoadData(false)
       setIsLoadingHoldData(false);
       if (componentName != "ticket") {
         setIsLoading(false);
