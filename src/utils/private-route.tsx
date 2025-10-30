@@ -17,7 +17,7 @@ const PrivateRoute: React.FC<{
 
   const isUser = isAuthenticateApp();
   React.useEffect((): any => {
-    const currentPath: any = router.state.location.pathname;
+    const currentPath: any = router?.state?.location?.pathname;
     if (!isUser) {
         const isPublicPath = [
         Routes.login,
@@ -29,7 +29,7 @@ const PrivateRoute: React.FC<{
       ].includes(currentPath);
       if(isPublicPath) return
 
-      const redirectPath = currentPath != Routes.login ? `?r=${router.state.location.href}` : '';
+      const redirectPath = currentPath != Routes.login ? `?r=${router?.state?.location?.href}` : '';
       const redirectRoute = `${Routes.login}${redirectPath}`;
       router.history.replace(redirectRoute); // If not authenticated, force log in
     }
