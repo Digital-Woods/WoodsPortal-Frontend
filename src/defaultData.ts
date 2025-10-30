@@ -657,7 +657,7 @@ const hubSpotUserDetails = {
     ]
 }
 
-const recorBtnCustom = false;
+const recorBtnCustom = true;
 const enableDashboardCards = true;
 const dashboardCards: any = [
     {
