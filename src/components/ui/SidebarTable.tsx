@@ -41,6 +41,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   // const [modalData, setModalData] = useState<any>(null);
   const [numOfPages, setNumOfPages] = useState<any>(Math.ceil(totalItems / itemsPerPage));
   const { sync, setSync, apiSync } = useSync();
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState<any>(false);
   const [hoverRow, setHoverRow] = useState<any>(null);
   const [permissions, setPermissions] = useState<any>(null);
@@ -154,6 +155,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
     onSuccess: (data: any) => {
       setSync(false); // Ensure sync state resets after fetching data
       if (data.statusCode === "200") {
+        setErrorMessage("")
         mapResponseData(data);
         setPermissions(data.configurations["object"]);
         setNumOfPages(Math.ceil(data.data.total / itemsPerPage));
@@ -162,6 +164,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
 
     onError: (error: any) => {
       console.error("API Error:", error); // Log errors if API call fails
+      setErrorMessage(error.response.data.detailedMessage)
       setSync(false);
       setTableData([]);
       setPermissions(null);
@@ -245,7 +248,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       {isLoading && <div className={``}><HomeSidebarSkeleton /></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <EmptyMessageCard name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
+          <EmptyMessageCard errorMessage={errorMessage} name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
           {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
             <p className="text-secondary text-base md:text-2xl dark:text-gray-300 mt-3">
               {tableAPiData.data.configurations.associationMessage}
