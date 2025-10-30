@@ -40,7 +40,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   // const [openModal, setOpenModal] = useState<any>(false);
   // const [modalData, setModalData] = useState<any>(null);
   const [numOfPages, setNumOfPages] = useState<any>(Math.ceil(totalItems / itemsPerPage));
-  const { sync, setSync, apiSync } = useSync();
+  const { sync, setSync, apiSync, setApiSync } = useSync();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState<any>(false);
   const [hoverRow, setHoverRow] = useState<any>(null);
@@ -154,6 +154,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
 
     onSuccess: (data: any) => {
       setSync(false); // Ensure sync state resets after fetching data
+      setApiSync(false)
       if (data.statusCode === "200") {
         setErrorMessage("")
         mapResponseData(data);
@@ -166,6 +167,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       console.error("API Error:", error); // Log errors if API call fails
       setErrorMessage(error.response.data.detailedMessage)
       setSync(false);
+      setApiSync(false)
       setTableData([]);
       setPermissions(null);
     },
