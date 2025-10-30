@@ -4,6 +4,7 @@ import { EmptyIcon } from '@/assets/icons/EmptyIcon';
 import { EmptyThree } from '@/assets/icons/EmptyThree';
 
 export const EmptyMessageCard = ({
+  errorMessage = "",
   name = "item",
   type = "row",
   className = "p-6",
@@ -34,39 +35,49 @@ export const EmptyMessageCard = ({
       <div style={{ width: imgWidth, height: imgWidth }} className={`flex items-center justify-center`}>
         {RandomComponent}
       </div>
-      <div className="flex flex-col gap-2">
-        {/* Title */}
-        <div
-          className={`md:text-xl ${
-            type === "row" ? "text-start max-sm:text-center" : "text-center"
-          } text-lg font-semibold dark:text-white capitalize`}
-        >
-          {name} not found
-        </div>
-        {/* Message */}
-        <p
-          className={`md:text-xs ${
-            type === "row" ? "text-start max-sm:text-center" : "text-center"
-          } text-xs dark:text-white font-thin`}
-        >
-          You haven’t created any {name.toLowerCase()} yet. Please create one to proceed. For help, check our documentation or contact support.
-        </p>
-          <ul
-            className={`mt-3 text-xs dark:text-white font-thin ${
-              type === "row"
-                ? "list-disc  flex flex-col gap-1"
-                : "list-disc "
-            }`}
+      {errorMessage ? 
+         <p
+            className={`md:text-xs ${
+              type === "row" ? "text-start max-sm:text-center" : "text-center"
+            } text-xs dark:text-white font-thin`}
           >
-            <span className="mb-1 text-start font-semibold block">Steps to Resolve:</span>
-              <li className={type === "row" ? "text-start" : "text-start"}>
-                <span className="inline-block font-semibold">Refresh Data:</span> Click the ‘Clear Cache’ button to update system data. This may fix issues with visibility of new records or associations.
-              </li>
-              <li className={type === "row" ? "text-start" : "text-start"}>
-                <span className="inline-block font-semibold">Check Associations:</span> Ensure the necessary associations are correctly created for this operation.
-              </li>
-          </ul>
-      </div>
+            {errorMessage}
+        </p>
+      : 
+        <div className="flex flex-col gap-2">
+          {/* Title */}
+          <div
+            className={`md:text-xl ${
+              type === "row" ? "text-start max-sm:text-center" : "text-center"
+            } text-lg font-semibold dark:text-white capitalize`}
+          >
+            {name} not found
+          </div>
+          {/* Message */}
+          <p
+            className={`md:text-xs ${
+              type === "row" ? "text-start max-sm:text-center" : "text-center"
+            } text-xs dark:text-white font-thin`}
+          >
+            You haven’t created any {name.toLowerCase()} yet. Please create one to proceed. For help, check our documentation or contact support.
+          </p>
+            <ul
+              className={`mt-3 text-xs dark:text-white font-thin ${
+                type === "row"
+                  ? "list-disc  flex flex-col gap-1"
+                  : "list-disc "
+              }`}
+            >
+              <span className="mb-1 text-start font-semibold block">Steps to Resolve:</span>
+                <li className={type === "row" ? "text-start" : "text-start"}>
+                  <span className="inline-block font-semibold">Refresh Data:</span> Click the ‘Clear Cache’ button to update system data. This may fix issues with visibility of new records or associations.
+                </li>
+                <li className={type === "row" ? "text-start" : "text-start"}>
+                  <span className="inline-block font-semibold">Check Associations:</span> Ensure the necessary associations are correctly created for this operation.
+                </li>
+            </ul>
+        </div>
+      }
     </div>
   );
 };
