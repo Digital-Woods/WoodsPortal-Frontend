@@ -288,8 +288,8 @@
     --details-page-banner-color1:  {{ module.style.details_page_styles.banner_background_options.banner_color_1.color }} ;
     --details-page-banner-color2:  {{ module.style.details_page_styles.banner_background_options.banner_color_2.color }} ;
 
-    --create-button-background-color:  {{ module.style.table_record_creation_button.background_color.color }} ;
-    --create-button-text-color:  {{ module.style.table_record_creation_button.text_color.color }} ;
+    /* --create-button-background-color:  {{ module.style.table_record_creation_button.background_color.color }} ;
+    --create-button-text-color:  {{ module.style.table_record_creation_button.text_color.color }} ; */
 
     --right-tables-background-color:   {{ module.style.d_h_sidebar.background_color.rgba }} ;
     --right-tables-card-background-color:  {{ module.style.d_h_sidebar.card_background_color.rgba }} ;
@@ -317,6 +317,10 @@
   }
 
 </style>
+  .CUSTOM-create-button-background-color { background-color: {{ module.style.table_record_creation_button.background_color.color }} };
+  .CUSTOM-create-button-text-color { color: {{ module.style.table_record_creation_button.text_color.color }} };
+  .CUSTOM-create-button-background-color:hover { background-color: {{ module.style.table_record_creation_button.background_color.color }}30 };
+
  {% require_css %}
   <style>
   {% scope_css %}
