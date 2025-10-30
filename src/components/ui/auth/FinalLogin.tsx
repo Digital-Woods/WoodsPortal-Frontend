@@ -111,7 +111,10 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         //   window.location.hash = "/no-routes";
         // }
 
-        const path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+        let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+        if(router.state.location?.search?.r) {
+          path = router.state.location?.search?.r
+        }
         router.navigate({to: `/${path}`});
 
         // console.log('home', true)
