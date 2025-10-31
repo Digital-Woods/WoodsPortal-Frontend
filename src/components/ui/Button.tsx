@@ -11,7 +11,7 @@ const variantDynamicClassName: any = {
   default:
     "bg-primary text-white dark:border dark:bg-dark-400 dark:hover:bg-dark-400 shadow hover:bg-primary/90",
   create:
-   "CUSTOM-bg-create-button-background-color CUSTOM-text-create-button-text-color",
+   "CUSTOM-create-button-background-color CUSTOM-create-button-text-color",
   destructive:
     "bg-red-500 text-destructive-foreground shadow hover:bg-red-200",
   outline:
