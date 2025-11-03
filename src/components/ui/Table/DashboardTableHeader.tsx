@@ -10,10 +10,10 @@ import { Input } from '@/components/ui/Form'
 import { recorBtnCustom } from '@/data/hubSpotData'
 import { useTable } from '@/state/use-table';
 import { useAuth } from '@/state/use-auth';
-import { useUpdateLink } from '@/utils/GenerateUrl';
+import { getFormTitle, useUpdateLink } from '@/utils/GenerateUrl';
 
 export const DashboardTableHeader = ({
-  title,
+  title = "",
   componentName,
   permissions,
   hubspotObjectTypeId,
@@ -43,6 +43,8 @@ export const DashboardTableHeader = ({
     setLimit,
     // permissions
   } = useTable();
+
+  const { objectName, dialogTitle } = getFormTitle(componentName, title, "addNew");
 
   const {filterParams} = useUpdateLink();
 
@@ -213,7 +215,7 @@ export const DashboardTableHeader = ({
               <span className="mr-2">
                 <IconPlus className="!w-3 !h-3" />
               </span>
-              Create {title}
+              Create {objectName}
             </Button>
           </div>
         )}

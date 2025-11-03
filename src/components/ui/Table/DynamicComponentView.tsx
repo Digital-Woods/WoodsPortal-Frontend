@@ -31,7 +31,7 @@ import { getParamDetails, getRouteDetails, getTableTitle, useUpdateLink } from '
 export const DynamicComponentView = ({
   hubspotObjectTypeId,
   path,
-  title,
+  title = "",
   showIframe,
   propertyName,
   companyAsMediator,
