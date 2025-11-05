@@ -11,28 +11,28 @@ export const getDisplayData = (objectId: any, items: any) => {
   };
 
   const findValue = (key: any) => {
-    const field = items.find((item) => item.key === key);
-    if (!field || field.value === null || field.value === undefined) return "";
+    const field = items.find((item) => item?.key === key);
+    if (!field || field?.value === null || field?.value === undefined) return "";
 
     let currencyCode = getUserCurrency(); // Default currency
 
     if (key === "amount") {
-      const currencyField = items.find((item) => item.key === "deal_currency_code");
-      if (currencyField && currencyField.value) {
-        currencyCode = typeof currencyField.value === "object" ? currencyField.value.value : currencyField.value;
+      const currencyField = items.find((item) => item?.key === "deal_currency_code");
+      if (currencyField && currencyField?.value) {
+        currencyCode = typeof currencyField?.value === "object" ? currencyField?.value?.value : currencyField?.value;
       }
 
-      if (field.showCurrencySymbol) {
-        return `${Currency(currencyCode)} ${formatAmount(field.value)}`;
+      if (field?.showCurrencySymbol) {
+        return `${Currency(currencyCode)} ${formatAmount(field?.value)}`;
       }
     }
 
-    return typeof field.value === "object" && field.value.label ? field.value.label : field.value;
+    return typeof field?.value === "object" && field?.value?.label ? field?.value?.label : field?.value;
   };
 
   // Determine primary value based on `isPrimaryDisplayProperty`
-  const primaryItem = items.find((item) => item.isPrimaryDisplayProperty);
-  let primaryValue = primaryItem ? primaryItem.value : null;
+  const primaryItem = items.find((item: any) => item?.isPrimaryDisplayProperty);
+  let primaryValue = primaryItem ? primaryItem?.value : null;
 
   switch (objectId) {
     case "0-1":
@@ -63,7 +63,7 @@ export const getDisplayData = (objectId: any, items: any) => {
 
     default:
       return {
-        primary: primaryValue || (items.length > 0 ? items[0].value : ""),
+        primary: primaryValue || (items?.length > 0 ? items[0].value : ""),
       };
   }
 };
@@ -92,7 +92,7 @@ export const DetailsHeaderCard = ({
         )}
         {displayData?.domain && (
           <p className="text-xs font-normal text-[var(--details-page-text-color)] CUSTOM-line-clamp-2">
-            <a href={displayData?.domain ? `https://${displayData.domain}` : ''} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
+            <a href={displayData?.domain ? `https://${displayData?.domain}` : ''} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
               <span>
                 {displayData?.domain}
               </span>
