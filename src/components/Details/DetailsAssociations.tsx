@@ -30,6 +30,7 @@ export const DetailsAssociations = ({
 }: any) => {
   const { makeLink } = useMakeLink()
   const [associationData, setAssociationData] = useState<any>(null);
+  const [filteredAssociationData, setfilteredAssociationData] = useState([]);
   const mediatorObjectTypeId = getParam("mediatorObjectTypeId");
   const mediatorObjectRecordId = getParam("mediatorObjectRecordId");
   const [permissions, setPermissions] = useState<any>();
@@ -83,7 +84,14 @@ export const DetailsAssociations = ({
       setViewUrl(mViewUrl);
       setPermissions(association?.configurations.object);
       setAssociationData(association)
+      const filteredData = association?.data.map((item: any) => {
+        return Object.fromEntries(
+          Object.entries(item).filter(([_, value]: any) => !value?.hidden)
+        );
+      });
+      setfilteredAssociationData(filteredData)
     }
+
   }, [association]);
 
   // const viewUrl = `/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
@@ -189,7 +197,7 @@ export const DetailsAssociations = ({
                 : "max-h-[344px] overflow-y-auto CUSTOM-hide-scrollbar"
             }`}
           >
-            {associationData.total === 0 ? (
+            {associationData?.total === 0 ? (
               <EmptyMessageCard
                 name={associationData?.labels?.plural}
                 type="col"
@@ -197,10 +205,10 @@ export const DetailsAssociations = ({
                 className="p-6 dark:!bg-[#3e3e3e] !bg-[var(--right-tables-card-background-color)] rounded-md text-xs font-semibold dark:!text-white !mt-0"
               />
             ) : (
-              associationData.data &&
-              associationData.data.length > 0 && (
+              filteredAssociationData &&
+              filteredAssociationData?.length > 0 && (
                 <div className="flex-col flex lg:gap-6 gap-3 rounded-md !text-[var(--right-tables-text-color)] dark:!text-white">
-                  {associationData.data.map((item: any, index: any) => (
+                  {filteredAssociationData.map((item: any, index: any) => (
                     <div
                       key={index}
                       className="border dark:border-gray-600 p-2 rounded-md !bg-[var(--right-tables-card-background-color)] dark:!bg-dark-500 overflow-y-auto CUSTOM-hide-scrollbar"
@@ -211,7 +219,7 @@ export const DetailsAssociations = ({
                             sortData(item, "associations").map((value: any, index: any) => (
                             <tr key={index}>
                               <td className="!pr-1 text-xs !px-[2px] odd:!py-2 even:!py-0  !text-[var(--right-tables-text-color)] whitespace-wrap md:w-[90px] w-[80px]  align-center dark:!text-white">
-                                {value.label}:
+                                {value?.label}:
                               </td>
                               <td className="!pl-1 text-xs !px-[2px] odd:!py-2 even:!py-0  !text-[var(--right-tables-text-color)] align-center dark:!text-white">
                                 {value?.isEditableField &&
@@ -221,9 +229,9 @@ export const DetailsAssociations = ({
                                     renderValue={renderCellContent({
                                       makeLink,
                                       companyAsMediator: companyAsMediator,
-                                      value: value.value,
+                                      value: value?.value,
                                       column: value,
-                                      itemId: item.hs_object_id.value,
+                                      itemId: item.hs_object_id?.value,
                                       associationLabel: associationData?.labels?.plural,
                                       path: `/${associationData?.labels?.plural}`,
                                       hubspotObjectTypeId:
@@ -235,11 +243,11 @@ export const DetailsAssociations = ({
                                               replaceQuestionMarkToRegex(
                                                 isObject(value.value) &&
                                                   value.value.label
-                                                  ? sanitizeForBase64(value.value.label)
-                                                  : sanitizeForBase64(value.value)
+                                                  ? sanitizeForBase64(value?.value?.label)
+                                                  : sanitizeForBase64(value?.value)
                                               )
                                             )}/${associationData?.objectTypeId}/${
-                                              item.hs_object_id.value
+                                              item?.hs_object_id?.value
                                             }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
                                               mediatorObjectTypeId
                                                 ? mediatorObjectTypeId
@@ -259,7 +267,7 @@ export const DetailsAssociations = ({
                                     })}
                                     value={value}
                                     refetch={refetch}
-                                    id={item.hs_object_id.value}
+                                    id={item?.hs_object_id?.value}
                                     objectId={associationData?.objectTypeId}
                                     item={item}
                                     isUpdating={isUpdating}
@@ -271,9 +279,9 @@ export const DetailsAssociations = ({
                                   renderCellContent({
                                     makeLink,
                                     companyAsMediator: companyAsMediator,
-                                    value: value.value,
+                                    value: value?.value,
                                     column: value,
-                                    itemId: item.hs_object_id.value,
+                                    itemId: item?.hs_object_id?.value,
                                     associationLabel: associationData?.labels?.plural,
                                     path: `/${associationData?.labels?.plural}`,
                                     hubspotObjectTypeId:
@@ -282,12 +290,12 @@ export const DetailsAssociations = ({
                                     associationPath:
                                       value.isPrimaryDisplayProperty
                                         ? `/${setParamHash(
-                                            isObject(value.value) &&
-                                              value.value.label
-                                              ? value.value.label
-                                              : value.value
+                                            isObject(value?.value) &&
+                                              value?.value?.label
+                                              ? value.value?.label
+                                              : value?.value
                                           )}/${associationData?.objectTypeId}/${
-                                            item.hs_object_id.value
+                                            item?.hs_object_id?.value
                                           }?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&mediatorObjectTypeId=${
                                             mediatorObjectTypeId
                                               ? mediatorObjectTypeId
@@ -352,7 +360,7 @@ export const DetailsAssociations = ({
           parentObjectTypeId={parentObjectTypeId}
           parentObjectRowId={parentObjectRowId}
           info={info}
-          isShowExistingRecord={association?.configurations?.object.existing_record}
+          isShowExistingRecord={association?.configurations?.object?.existing_record}
         />
       )}
     </React.Fragment>
