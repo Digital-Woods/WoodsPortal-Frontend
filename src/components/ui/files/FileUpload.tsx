@@ -53,8 +53,8 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
         // ...prevValue,
         {
           id: generateUniqueId(),
-          filename: file.name,
-          filetype: file.type,
+          filename: file?.name,
+          filetype: file?.type,
           fileimage: reader.result,
         },
       ]);
@@ -103,7 +103,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
 
   const deleteSelectFile = (id: any) => {
     if (window.confirm("Are you sure you want to delete this file?")) {
-      const result = selectedFile.filter((data: any) => data.id !== id);
+      const result = selectedFile.filter((data: any) => data?.id !== id);
       setSelectedFile(result);
     }
   };
@@ -115,8 +115,8 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
 
       const payload = {
         parentFolderId: parentFolder,
-        fileName: fileData.fileName,
-        fileData: fileData.fileData,
+        fileName: fileData?.fileName,
+        fileData: fileData?.fileData,
       };
 
       await Client.files.uploadFile({
@@ -139,11 +139,10 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
       // setSync(true)
       onClose();
     },
-    onError: (error) => {
-      console.error("Error uploading files:", error);
+    onError: (error: any) => {
       setIsUploading(false);
       setToaster({
-        message: "Error uploading files!",
+        message: error?.response?.data?.detailedMessage || "Error uploading files!",
         type: "error",
         show: true,
       });
@@ -176,9 +175,9 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
           Authorization: `Bearer ${token}`,
         },
         onUploadProgress: (progressEvent: any) => {
-          if (progressEvent.total) {
+          if (progressEvent?.total) {
             const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+              (progressEvent?.loaded * 100) / progressEvent?.total
             );
             setUploadProgress(percentCompleted); // Update the progress
           }
@@ -198,12 +197,10 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
       onClose();
       // setUploadStatus("File uploaded successfully!");
       // console.log("Server Response:", response.data);
-    } catch (error) {
-      console.error("Upload Error:", error);
-      // setUploadStatus("File upload failed.");
+    } catch (error: any) {
       setIsUploading(false);
       setToaster({
-        message: "Error uploading files!",
+        message: error?.response?.data?.detailedMessage || "Error uploading files!",
         type: "error",
         show: true,
       });
