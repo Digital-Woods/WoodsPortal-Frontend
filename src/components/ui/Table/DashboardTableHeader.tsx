@@ -215,7 +215,7 @@ export const DashboardTableHeader = ({
               <span className="mr-2">
                 <IconPlus className="!w-3 !h-3" />
               </span>
-              Create {objectName}
+              Create {title || objectName}
             </Button>
           </div>
         )}
