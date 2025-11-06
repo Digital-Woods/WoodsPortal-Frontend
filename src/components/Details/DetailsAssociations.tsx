@@ -64,7 +64,7 @@ export const DetailsAssociations = ({
     // updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`,
   };
   const toggleContent = () => {
-    setIsExpanded((prev) => !prev);
+    setIsExpanded((prev: any) => !prev);
   };
 
   useEffect(() => {
@@ -86,7 +86,10 @@ export const DetailsAssociations = ({
       setAssociationData(association)
       const filteredData = association?.data.map((item: any) => {
         return Object.fromEntries(
-          Object.entries(item).filter(([_, value]: any) => !value?.hidden)
+          Object.entries(item).filter(([key, value]: any) => {
+            // Keep if not hidden OR it's the 'hs_object_id' field
+            return !value?.hidden || key === "hs_object_id";
+          })
         );
       });
       setfilteredAssociationData(filteredData)
