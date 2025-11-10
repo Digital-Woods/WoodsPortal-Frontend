@@ -22,7 +22,7 @@ const ForgetPassword = () => {
     mutationFn: async (input: any) => {
       try {
         const response = await Client.authentication.forgetPassword({
-          email: input.email,
+          email: input?.email,
         });
         return response;
       } catch (error) {
@@ -30,13 +30,13 @@ const ForgetPassword = () => {
       }
     },
     onSuccess: (data: any) => {
-      setToaster({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data?.statusMsg, type: "success" });
     },
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
+      if (error?.response && error?.response?.data) {
+        const errorData = error?.response?.data?.detailedMessage;
         setServerError(errorData);
 
         errorMessage =
@@ -56,12 +56,12 @@ const ForgetPassword = () => {
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-[200px]">
           <img
-            src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+            src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
             alt="Light Mode Logo"
             className="h-auto dark:hidden"
           />
           <img
-            src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+            src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo}
             alt="Dark Mode Logo"
             className="h-auto hidden dark:block"
           />
@@ -91,9 +91,9 @@ const ForgetPassword = () => {
                       />
                     </div>
                   </FormControl>
-                  {errors.email && (
+                  {errors?.email && (
                     <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.email.message}
+                      {errors?.email?.message}
                     </FormMessage>
                   )}
                 </FormItem>

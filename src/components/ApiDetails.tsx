@@ -153,7 +153,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     const details = data?.data;
     const sortedItems = sortData(details, "details");
     setItems(sortedItems);
-    setPermissions(data.configurations);
+    setPermissions(data?.configurations);
     setIsLoadedFirstTime(true);
   }
 
@@ -314,7 +314,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   objectId={objectId}
                   id={id}
                   refetch={refetchGetData}
-                  permissions={permissions ? permissions.object : null}
+                  permissions={permissions ? permissions?.object : null}
                   isLoading={isLoading}
                   urlParam={urlParam}
                 />
@@ -325,7 +325,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   path={path}
                   objectId={objectId}
                   id={id}
-                  permissions={permissions ? permissions.fileManager : null}
+                  permissions={permissions ? permissions?.fileManager : null}
                 />
               )}
 
@@ -335,7 +335,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   path={path}
                   objectId={objectId}
                   id={id}
-                  permissions={permissions ? permissions.note : null}
+                  permissions={permissions ? permissions?.note : null}
                 />
               )}
 
@@ -346,7 +346,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   id={id}
                   parentObjectTypeId={objectId}
                   parentObjectRowId={id}
-                  permissions={permissions ? permissions.ticket : null}
+                  permissions={permissions ? permissions?.ticket : null}
                   companyAsMediator={companyAsMediator}
                   title={permissions?.ticket?.display_label || "Tickets"}
                   ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}

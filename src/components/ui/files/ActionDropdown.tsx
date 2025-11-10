@@ -13,12 +13,12 @@ export const ActionsDropdown = ({
       <button onClick={() => toggleDropdown(index)}>Actions</button>
       {dropdownVisible === index && (
         <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-dark-200 border rounded-lg shadow-lg z-50">
-          <button onClick={() => console.log(`Download ${file.name}`)}>
+          <button onClick={() => console.log(`Download ${file?.name}`)}>
             Download
           </button>
           <button
             className="text-red-600"
-            onClick={() => console.log(`Trash ${file.name}`)}
+            onClick={() => console.log(`Trash ${file?.name}`)}
           >
             Trash
           </button>

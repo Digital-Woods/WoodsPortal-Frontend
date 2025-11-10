@@ -26,7 +26,7 @@ export const TableDetails = ({ objectId, currentPage, getData, states }: any) =>
   }, [sync]);
 
   useEffect(() => {
-    if ((currentPage?.page !== page) && (apiResponse.data != null)) {
+    if ((currentPage?.page !== page) && (apiResponse?.data != null)) {
       getData();
     }
   }, [page]);

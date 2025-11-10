@@ -21,7 +21,7 @@ const ClientSession = () => {
     const [progressMessage, setProgressMessage] = useState('');
     const router = useRouter();
     const setItemAsync = async (key: any, value: any, days = COOKIE_EXPIRE) => {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             setCookie(key, value, days);
             resolve();
         });

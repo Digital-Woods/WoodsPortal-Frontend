@@ -62,7 +62,7 @@ export const TimePicker = ({
                   setOpenTimePicker(false)
                 }}
               >
-                {time.time} {time.timeZone}
+                {time?.time} {time?.timeZone}
               </li>
             ))}
           </ul>

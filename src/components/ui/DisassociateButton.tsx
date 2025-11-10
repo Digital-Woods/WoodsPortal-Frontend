@@ -72,9 +72,9 @@ useEffect(() => {
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.validationErrors;
+      if (error?.response && error?.response?.data) {
+        const errorData = error?.response?.data?.detailedMessage;
+        const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
 
         errorMessage =
@@ -87,7 +87,7 @@ useEffect(() => {
 
   const handleConfirm = () => {
     const payload = {
-      removeIds: [item.hs_object_id],
+      removeIds: [item?.hs_object_id],
     };
     removeExistingData({ formData: payload });
     setTimeout(()=>{

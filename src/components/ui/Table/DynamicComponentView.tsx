@@ -297,16 +297,16 @@ export const DynamicComponentView = ({
 
       if(!isFristTimeLoadData || !fParams) {
         updateLink({
-          "sort": param.sort,
-          "s": param.search,
-          "fPn": param.filterPropertyName,
-          "fO": param.filterOperator,
-          "fV": param.filterValue,
-          "c": param.cache,
-          "isPC": param.isPrimaryCompany,
-          "v": param.view,
-          "l": param.limit,
-          "p": param.page,
+          "sort": param?.sort,
+          "s": param?.search,
+          "fPn": param?.filterPropertyName,
+          "fO": param?.filterOperator,
+          "fV": param?.filterValue,
+          "c": param?.cache,
+          "isPC": param?.isPrimaryCompany,
+          "v": param?.view,
+          "l": param?.limit,
+          "p": param?.page,
         })
       }
       
@@ -681,7 +681,7 @@ export const DynamicComponentView = ({
     return (
       <div
         className={` ${
-          hubSpotUserDetails.sideMenu[0].tabName === title ||
+          hubSpotUserDetails.sideMenu[0]?.tabName === title ||
           componentName === "ticket"
             ? "mt-0"
             : "mt-[calc(var(--nav-height)-1px)]"
@@ -751,7 +751,7 @@ export const DynamicComponentView = ({
           <div className={`dark:bg-dark-200 ${isShowTitle && 'mt-[calc(var(--nav-height)-1px)] pt-3 md:pl-4 md:pt-4 md:pr-3 pl-3 pr-3'} h-[calc(100vh-var(--nav-height))] overflow-x-auto CUSTOM-hide-scrollbar bg-cleanWhite dark:text-white`}>
             <div className="flex relative z-[2] gap-6">
               <div className="flex flex-col gap-2 flex-1">
-                {isShowTitle && hubSpotUserDetails.sideMenu[0].tabName != title && (
+                {isShowTitle && hubSpotUserDetails?.sideMenu[0]?.tabName != title && (
                   <span className="flex-1">
                     <ol className="flex dark:text-white flex-wrap">
                       {tableTitle &&
@@ -821,7 +821,7 @@ export const DynamicComponentView = ({
 
             <div className="flex gap-4 w-full overflow-hidden relative">
               {/* Main content container */}
-              {hubSpotUserDetails.sideMenu[0].tabName === title &&
+              {hubSpotUserDetails?.sideMenu[0]?.tabName === title &&
               !isLargeScreen &&
               !sidebarRightOpen ? (
                 <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
@@ -842,7 +842,7 @@ export const DynamicComponentView = ({
                   key={pathname}
                   hubspotObjectTypeId={hubspotObjectTypeId}
                   path={path}
-                  title={title == 'Association' ? associatedtableTitleSingular : (title || hubSpotUserDetails.sideMenu[0]?.label)}
+                  title={title == 'Association' ? associatedtableTitleSingular : (title || hubSpotUserDetails?.sideMenu[0]?.label)}
                   tableTitle={
                     singularTableTitle || hubSpotUserDetails.sideMenu[0].label
                   }

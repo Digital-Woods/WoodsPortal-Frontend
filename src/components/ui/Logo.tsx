@@ -15,12 +15,12 @@ export const Logo = ({ className }: any) => {
         setLogoSrc(logoParam);
       } else if (
         me &&
-        me.hubspotPortals &&
-        me.hubspotPortals.portalSettings &&
-        me.hubspotPortals.portalSettings.logo &&
-        isValidUrl(hubSpotUserDetails.hubspotPortals.portalSettings.logo)
+        me?.hubspotPortals &&
+        me?.hubspotPortals?.portalSettings &&
+        me?.hubspotPortals?.portalSettings?.logo &&
+        isValidUrl(hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo)
       ) {
-        setLogoSrc(hubSpotUserDetails.hubspotPortals.portalSettings.logo);
+        setLogoSrc(hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo);
       } else {
         setLogoSrc("");
       }
@@ -43,7 +43,7 @@ export const Logo = ({ className }: any) => {
 
   const logoToDisplay =
     logoSrc ||
-    hubSpotUserDetails.hubspotPortals.portalSettings.logo;
+    hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo;
 
   return (
     <img src={logoToDisplay} alt="Logo" className={`${className} h-auto w-auto`} />

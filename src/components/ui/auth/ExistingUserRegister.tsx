@@ -22,7 +22,7 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
   const [showPassword2, setShowPassword2] = useState(false);
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
-  const matchingPortal = userPortals.find((portal: any) => portal.portalUrl === clientSiteUrl);
+  const matchingPortal = userPortals.find((portal: any) => portal?.portalUrl === clientSiteUrl);
   const portalUrl = matchingPortal?.portalUrl?.replace('https://','') || userPortals[0]?.portalUrl?.replace('https://','');
 
   const enterEmailValidationSchema = z
@@ -37,7 +37,7 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
         message: "Confirm password is required.",
       }),
     })
-    .refine((data: any) => data.newPassword === data.confirmPassword, {
+    .refine((data: any) => data?.newPassword === data?.confirmPassword, {
       message: "Passwords do not match.",
       path: ["confirmPassword"],
     });
@@ -48,16 +48,16 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
       try {
         const response = await Client.authentication.existingUserRegister({
           email: entredEmail,
-          newPassword: input.newPassword,
-          confirmPassword: input.confirmPassword,
+          newPassword: input?.newPassword,
+          confirmPassword: input?.confirmPassword,
         });
         return response;
-      } catch (error) {
+      } catch (error: any) {
         throw error;
       }
     },
     onSuccess: async (data: any) => {
-      toast.error(data.statusMsg);
+      toast.error(data?.statusMsg);
       setTimeout(() => {
         // setActiveState('pre-login')
         setIsResend(false);
@@ -67,9 +67,9 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.validationErrors;
+      if (error?.response && error?.response?.data) {
+        const errorData = error?.response?.data?.detailedMessage;
+        const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
 
         errorMessage =
@@ -92,20 +92,20 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
           email: entredEmail,
         });
         return response;
-      } catch (error) {
+      } catch (error: any) {
         throw error;
       }
     },
     onSuccess: async (data: any) => {
-      toast.error(data.statusMsg);
+      toast.error(data?.statusMsg);
     },
 
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.validationErrors;
+      if (error?.response && error?.response.data) {
+        const errorData = error?.response?.data?.detailedMessage;
+        const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
 
         errorMessage =
@@ -137,21 +137,21 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
           <div className="w-[200px]">
             <img
               src={
-                hubSpotUserDetails.hubspotPortals.portalSettings
+                hubSpotUserDetails?.hubspotPortals?.portalSettings
                   .authPopupFormLogo
               }
               alt="Light Mode Logo"
               className="h-auto dark:hidden"
             />
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings.logo}
               alt="Dark Mode Logo"
               className="h-auto hidden dark:block"
             />
           </div>
         </div>
         <p className="text-center dark:text-white">
-          {baseCompanyOptions.welcomeMessage || ""}
+          {baseCompanyOptions?.welcomeMessage || ""}
         </p>
         {resend ? (
           <div className="flex flex-col items-center justify-center w-full">
@@ -187,9 +187,9 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
                           />
                         </div>
                       </FormControl>
-                      {errors.email && (
+                      {errors?.email && (
                         <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors.email.message}
+                          {errors?.email?.message}
                         </FormMessage>
                       )}
                     </FormItem>
@@ -214,9 +214,9 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
                           </span>
                         </div>
                       </FormControl>
-                      {errors.newPassword && (
+                      {errors?.newPassword && (
                         <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors.newPassword.message}
+                          {errors?.newPassword?.message}
                         </FormMessage>
                       )}
                     </FormItem>
@@ -241,9 +241,9 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
                           </span>
                         </div>
                       </FormControl>
-                      {errors.confirmPassword && (
+                      {errors?.confirmPassword && (
                         <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors.confirmPassword.message}
+                          {errors?.confirmPassword?.message}
                         </FormMessage>
                       )}
                     </FormItem>

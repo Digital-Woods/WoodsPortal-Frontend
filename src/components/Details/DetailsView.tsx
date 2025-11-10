@@ -28,12 +28,12 @@ export const DetailsView = ({
   const iframeSettings = Array.isArray(propertyName) ? propertyName : [];
 
   const getDisplayType = (key: any) => {
-    const setting = iframeSettings.find(setting => setting.properties_value === key);
+    const setting = iframeSettings.find(setting => setting?.properties_value === key);
     return setting?.property_value_show_as || 'button';
   };
 
   const getActionType = (key: any) => {
-    const setting = iframeSettings.find(setting => setting.properties_value === key);
+    const setting = iframeSettings.find(setting => setting?.properties_value === key);
     return setting?.on_click_action || 'showIframe';
   };
 
@@ -47,7 +47,7 @@ export const DetailsView = ({
   };
 
   const getPropertyValueType = (key: any, value = '') => {
-    const setting = iframeSettings.find(setting => setting.properties_value === key);
+    const setting = iframeSettings.find(setting => setting?.properties_value === key);
     const displayType = getDisplayType(key);
     const actionType = getActionType(key);
 
@@ -179,10 +179,10 @@ export const DetailsView = ({
       <table className="w-full dark:bg-[#2a2a2a]">
         <tbody>
         {item?.length > 0 && item
-            .filter((item: any) => !item.hidden)
+            .filter((item: any) => !item?.hidden)
             .map((value: any, index: any) => {
               const key = value.key;
-              const propertyConfig = propertyName && propertyName.find((p: any) => p.properties_value === key);
+              const propertyConfig = propertyName && propertyName.find((p: any) => p?.properties_value === key);
 
               if (showIframe && propertyConfig) {
                 // Show special rendering for properties in propertyName array

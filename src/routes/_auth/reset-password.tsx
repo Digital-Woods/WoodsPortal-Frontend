@@ -33,7 +33,7 @@ const ResetPassword = () => {
         .string()
         .min(6, { message: "Please confirm your new password" }),
     })
-    .refine((data) => data.newPassword === data.confirmPassword, {
+    .refine((data: any) => data?.newPassword === data?.confirmPassword, {
       message: "New passwords don't match",
       path: ["confirmPassword"],
     });
@@ -66,11 +66,10 @@ const ResetPassword = () => {
       if (!token) {
         throw new Error("Token not found");
       }
-      // console.log("Token Passed to API:", token);
       try {
         const response = await Client.authentication.resetPassword({
-          newPassword: input.newPassword,
-          confirmPassword: input.confirmPassword,
+          newPassword: input?.newPassword,
+          confirmPassword: input?.confirmPassword,
           token: token,
         });
         return response;
@@ -78,7 +77,7 @@ const ResetPassword = () => {
         throw error;
       }
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       setToaster({ message: "Password reset successful", type: "success" });
       window.location.hash = "/login";
     },
@@ -104,12 +103,12 @@ const ResetPassword = () => {
       <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
         <div className="w-[200px]">
           <img
-            src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+            src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
             alt="Light Mode Logo"
             className="h-auto dark:hidden"
           />
           <img
-            src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+            src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo}
             alt="Dark Mode Logo"
             className="h-auto hidden dark:block"
           />
@@ -144,9 +143,9 @@ const ResetPassword = () => {
                       </span>
                     </div>
                   </FormControl>
-                  {errors.newPassword && (
+                  {errors?.newPassword && (
                     <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.newPassword.message}
+                      {errors?.newPassword?.message}
                     </FormMessage>
                   )}
                 </FormItem>
@@ -172,9 +171,9 @@ const ResetPassword = () => {
                       </span>
                     </div>
                   </FormControl>
-                  {errors.confirmPassword && (
+                  {errors?.confirmPassword && (
                     <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.confirmPassword.message}
+                      {errors?.confirmPassword?.message}
                     </FormMessage>
                   )}
                 </FormItem>

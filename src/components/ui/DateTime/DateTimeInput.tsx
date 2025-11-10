@@ -72,17 +72,17 @@ export const DateTimeInput = React.forwardRef(
         const formatedDateTime = formatTimestampIST(defaultValue);
         setInputValueDate(formatedDateTime.date);
         if (time) {
-          setInputValueTime(formatedDateTime.time);
-          setInputValue(formatedDateTime?.time ? `${formatedDateTime.date} ${formatedDateTime.time}` : formatedDateTime.date);
+          setInputValueTime(formatedDateTime?.time);
+          setInputValue(formatedDateTime?.time ? `${formatedDateTime?.date} ${formatedDateTime?.time}` : formatedDateTime?.date);
         } else {
-          setInputValue(formatedDateTime.date);
+          setInputValue(formatedDateTime?.date);
         }
       }
     }, [defaultValue, time]);
 
     useEffect(() => {
       const value = parseISTToTimestamp(inputValue).toString();
-      setValue(rest.name, value === 'NaN' ? '' : value);
+      setValue(rest?.name, value === 'NaN' ? '' : value);
     }, [inputValue]);
 
     const handelChangeDate = (date: any) => {
@@ -96,7 +96,7 @@ export const DateTimeInput = React.forwardRef(
     };
 
     const handelChangeTime = (time: any) => {
-      const newTime = `${time.time} ${time.timeZone}`;
+      const newTime = `${time?.time} ${time?.timeZone}`;
       const newDateTime = `${inputValueDate} ${newTime}`;
       setInputValueTime(newTime);
       setInputValue(newDateTime);

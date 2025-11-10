@@ -80,7 +80,7 @@ export const DashboardTableForm = ({
     onSuccess: (response: any) => {
       if (response.statusCode === "200") {
         setData(response.data.results);
-        setValidationSchema(createValidationSchema(response.data.results));
+        setValidationSchema(createValidationSchema(response?.data?.results));
       }
     },
     onError: () => {
@@ -98,7 +98,7 @@ export const DashboardTableForm = ({
 
     data.forEach((field: any) => {
       const isDomain = field.name === "domain";
-      if (field.requiredField && field.fieldRole === "OBJECTS") {
+      if (field?.requiredField && field?.fieldRole === "OBJECTS") {
         schemaShape[field.name] = z
           .any()
           .refine((val) => Array.isArray(val) && val.length > 0, {
@@ -106,14 +106,14 @@ export const DashboardTableForm = ({
               field?.labels?.plural || field?.customLabel || field?.label
             } must be a non-empty list.`,
           });
-      } else if ((field.requiredField || field.primaryProperty) && !isDomain) {
+      } else if ((field?.requiredField || field?.primaryProperty) && !isDomain) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${
             field?.labels?.plural || field?.customLabel || field?.label
           } is required.`,
         });
       } else if (isDomain) {
-        schemaShape[field.name] = z.string().refine(
+        schemaShape[field?.name] = z.string().refine(
           (value) => {
             const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             return domainRegex.test(value);
@@ -123,10 +123,10 @@ export const DashboardTableForm = ({
           }
         );
       } else {
-        if (field.fieldRole === "OBJECTS") {
-          schemaShape[field.name] = z.any().nullable();
+        if (field?.fieldRole === "OBJECTS") {
+          schemaShape[field?.name] = z.any().nullable();
         } else {
-          schemaShape[field.name] = z.string().nullable();
+          schemaShape[field?.name] = z.string().nullable();
         }
       }
     });
@@ -144,7 +144,7 @@ export const DashboardTableForm = ({
         // const API_ENDPOINT = removeAllParams(apis.createAPI);
         // const API = addParam(API_ENDPOINT, mUrlParam);
         const mAddAnother = addAnother ? "&addAnother=true" : "&addAnother=false"
-        const API = `${apis.createAPI}${mParams ? mParams+mAddAnother : mParams}`;
+        const API = `${apis?.createAPI}${mParams ? mParams+mAddAnother : mParams}`;
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
@@ -184,9 +184,9 @@ export const DashboardTableForm = ({
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.validationErrors;
+      if (error?.response && error?.response?.data) {
+        const errorData = error?.response?.data?.detailedMessage;
+        const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
 
         errorMessage =
@@ -202,7 +202,7 @@ export const DashboardTableForm = ({
       mutationKey: ["addExistingData"],
       mutationFn: async ({ formData }: any) => {
         try {
-          const API = `${apis.createExistingAPI}${mParams}`;
+          const API = `${apis?.createExistingAPI}${mParams}`;
           const response = await Client.form.createExisting({
             // API: apis.createExistingAPI,
             API: API,
@@ -229,9 +229,9 @@ export const DashboardTableForm = ({
       onError: (error: any) => {
         let errorMessage = "An unexpected error occurred.";
 
-        if (error.response && error.response.data) {
-          const errorData = error.response.data.detailedMessage;
-          const errors = error.response.data.validationErrors;
+        if (error?.response && error?.response?.data) {
+          const errorData = error?.response?.data?.detailedMessage;
+          const errors = error?.response?.data?.validationErrors;
           setServerError(errors);
 
           errorMessage =
@@ -249,7 +249,7 @@ export const DashboardTableForm = ({
     mutationFn: async (pipelineId) => {
       try {
         const response = await Client.form.stages({
-          API: `${apis.stagesAPI}${pipelineId}/stages`,
+          API: `${apis?.stagesAPI}${pipelineId}/stages`,
         });
         return response;
       } catch (error) {
@@ -258,8 +258,8 @@ export const DashboardTableForm = ({
     },
     onSuccess: async (response: any) => {
       const updatedProperties = data.map((property: any) =>
-        property.name === "hs_pipeline_stage" || property.name === "dealstage"
-          ? { ...property, options: response.data }
+        property?.name === "hs_pipeline_stage" || property?.name === "dealstage"
+          ? { ...property, options: response?.data }
           : property
       );
       setData(updatedProperties);
@@ -272,16 +272,16 @@ export const DashboardTableForm = ({
 
   function formPaylod(data1: any, data2: any) {
     const propertyNames = data1
-      .filter((item: any) => item.fieldRole === "PROPERTIES")
-      .map((item: any) => item.name);
+      .filter((item: any) => item?.fieldRole === "PROPERTIES")
+      .map((item: any) => item?.name);
 
     const objectNames = data1
       .filter((item: any) => item.fieldRole === "OBJECTS")
       .map((item: any) => item.name);
-    const objects = data1.filter((item: any) => item.fieldRole === "OBJECTS");
+    const objects = data1.filter((item: any) => item?.fieldRole === "OBJECTS");
 
     const objectTypeMap = objects.reduce((acc: any, obj: any) => {
-      acc[obj.name] = obj.objectTypeId;
+      acc[obj?.name] = obj?.objectTypeId;
       return acc;
     }, {});
 
@@ -304,9 +304,9 @@ export const DashboardTableForm = ({
 
     // Ensure all objects from data1.objects are represented
     objects.forEach((obj: any) => {
-      if (!objectPayload.find((o: any) => o.objectTypeId === obj.objectTypeId)) {
+      if (!objectPayload.find((o: any) => o?.objectTypeId === obj?.objectTypeId)) {
         objectPayload.push({
-          objectTypeId: obj.objectTypeId,
+          objectTypeId: obj?.objectTypeId,
           recordId: [],
         });
       }
@@ -322,7 +322,7 @@ export const DashboardTableForm = ({
     if (activeTab === "addExisting") {
       const key = Object.keys(formData)[0];
       const payload = {
-        addIds: formData[key].map((item: any) => Number(item.value)),
+        addIds: formData[key].map((item: any) => Number(item?.value)),
       };
       // const payload = {
       //   addIds: formData.map((item) => Number(item.value)),
@@ -335,7 +335,7 @@ export const DashboardTableForm = ({
   };
 
   const onChangeSelect = (filled: any, selectedValue: any) => {
-    if (filled.name === "hs_pipeline" || filled.name === "pipeline") {
+    if (filled.name === "hs_pipeline" || filled?.name === "pipeline") {
       getStags(selectedValue);
     }
   };
@@ -462,7 +462,7 @@ export const DashboardTableForm = ({
                         reset();
                         data.forEach((field: any) => {
                           if (field?.hidden) {
-                            setValue(field.name, currentValues[field.name]);
+                            setValue(field.name, currentValues[field?.name]);
                           }
                         });
                       };
@@ -477,28 +477,28 @@ export const DashboardTableForm = ({
 
                             {data.map((filled: any) => (
                               <div key={filled.name}>
-                                {filled.fieldRole === "PROPERTIES" ? (
+                                {filled?.fieldRole === "PROPERTIES" ? (
                                   <FormItem className={`${filled?.hidden ? 'hidden':'visible'}`}>
                                     <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                                      {filled.customLabel}
+                                      {filled?.customLabel}
                                     </FormLabel>
                                     <FormControl>
                                       <div>
-                                        {filled.fieldType == "select" ||
-                                        filled.fieldType == "checkbox" ||
-                                        filled.fieldType == "booleancheckbox" ||
-                                        filled.fieldType == "radio" ||
-                                        (filled.name == "dealstage" &&
-                                          filled.fieldType == "radio" &&
+                                        {filled?.fieldType == "select" ||
+                                        filled?.fieldType == "checkbox" ||
+                                        filled?.fieldType == "booleancheckbox" ||
+                                        filled?.fieldType == "radio" ||
+                                        (filled?.name == "dealstage" &&
+                                          filled?.fieldType == "radio" &&
                                           hubspotObjectTypeId ===
                                             env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS
                                               .deals) ? (
                                           <Select
-                                            label={`Select ${filled.customLabel}`}
-                                            name={filled.name}
-                                            options = {(filled.name === "hs_pipeline" || filled.name === "pipeline") && specPipeLine
-                                              ? filled.options.filter((option: any) => option.value === pipeLineId)
-                                              : filled.options}
+                                            label={`Select ${filled?.customLabel}`}
+                                            name={filled?.name}
+                                            options = {(filled?.name === "hs_pipeline" || filled?.name === "pipeline") && specPipeLine
+                                              ? filled?.options.filter((option: any) => option?.value === pipeLineId)
+                                              : filled?.options}
                                             control={control}
                                             filled={filled}
                                             onChangeSelect={onChangeSelect}
@@ -508,50 +508,50 @@ export const DashboardTableForm = ({
                                         ) : filled.fieldType === "textarea" ? (
                                           <Textarea
                                             height="medium"
-                                            placeholder={filled.customLabel}
+                                            placeholder={filled?.customLabel}
                                             className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                                            {...register(filled.name)}
+                                            {...register(filled?.name)}
                                           />
-                                        ) : filled.fieldType === "html" ? (
+                                        ) : filled?.fieldType === "html" ? (
                                           <div className="CUSTOM-create-object-editor">
                                             <DashboardTableEditor
-                                              title={filled.label}
-                                              value={filled.value}
+                                              title={filled?.label}
+                                              value={filled?.value}
                                               setValue={setValue}
-                                              {...register(filled.name)}
+                                              {...register(filled?.name)}
                                             />
                                           </div>
-                                        ) : filled.fieldType === "date" ? (
+                                        ) : filled?.fieldType === "date" ? (
                                           <DateTimeInput
-                                            type={filled.type}
+                                            type={filled?.type}
                                             dateFormat="dd-mm-yyyy"
                                             height="small"
                                             className=""
                                             setValue={setValue}
                                             defaultValue={""}
-                                            {...register(filled.name)}
+                                            {...register(filled?.name)}
                                           />
-                                        ) : filled.fieldType === "number" ? (
+                                        ) : filled?.fieldType === "number" ? (
                                           <Input
                                             type="number"
-                                            placeholder={filled.customLabel}
+                                            placeholder={filled?.customLabel}
                                             className=""
-                                            {...register(filled.name)}
+                                            {...register(filled?.name)}
                                           />
                                         ) : (
                                           <Input
-                                            // type={filled.fieldType}
-                                            placeholder={filled.customLabel}
+                                            // type={filled?.fieldType}
+                                            placeholder={filled?.customLabel}
                                             className=""
-                                            {...register(filled.name)}
+                                            {...register(filled?.name)}
                                           />
                                         )}
                                       </div>
                                     </FormControl>
 
-                                    {errors[filled.name] && (
+                                    {errors[filled?.name] && (
                                       <FormMessage className="text-red-600 dark:text-red-400">
-                                        {errors[filled.name].message}
+                                        {errors[filled?.name].message}
                                       </FormMessage>
                                     )}
                                   </FormItem>
@@ -577,9 +577,9 @@ export const DashboardTableForm = ({
                                         setValue={setValue}
                                       />
                                     </FormControl>
-                                    {errors[filled.name] && (
+                                    {errors[filled?.name] && (
                                       <FormMessage className="text-red-600 dark:text-red-400">
-                                        {errors[filled.name].message}
+                                        {errors[filled?.name]?.message}
                                       </FormMessage>
                                     )}
                                   </FormItem>

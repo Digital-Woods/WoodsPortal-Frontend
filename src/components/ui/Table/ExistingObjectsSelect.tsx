@@ -13,7 +13,7 @@ export const ExistingObjectsSelect = ({
             <Table className="w-full dark:!bg-transparent">
                 <TableBody>
                     {optionObjects?.map((item: any) => (
-                        <TableRow key={item.value} className='dark:!bg-transparent'>
+                        <TableRow key={item?.value} className='dark:!bg-transparent'>
                             <TableCell className="flex items-center px-4 !py-2 !border-none dark:text-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-dark-400">
                                 <div className="flex items-center">
                                     <input
@@ -21,11 +21,11 @@ export const ExistingObjectsSelect = ({
                                         name={item.value}
                                         type="checkbox"
                                         className="mr-2 CUSTOM-form-checkbox h-4 w-4 text-secondary focus:outline-none cursor-pointer"
-                                        checked={selectedObjects?.some((obj) => obj.value === item.value)}
+                                        checked={selectedObjects?.some((obj: any) => obj?.value === item?.value)}
                                         onChange={() => handleCheckboxChange(item.value, item.label)}
                                     />
-                                    <label htmlFor={item.value} className="flex items-center cursor-pointer">
-                                        {item.label}
+                                    <label htmlFor={item?.value} className="flex items-center cursor-pointer">
+                                        {item?.label}
                                     </label>
                                 </div>
                             </TableCell>

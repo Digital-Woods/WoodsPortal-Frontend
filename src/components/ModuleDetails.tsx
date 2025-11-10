@@ -33,12 +33,12 @@ export const ModuleDetails = ({ path, id }: any) => {
     if (Array.isArray(objList) && objList.length > 0) {
 
       const idStr = String(id);
-      let data = listData.find((item: any) => String(item.id) === idStr);
+      let data = listData.find((item: any) => String(item?.id) === idStr);
       if (data) {
 
         data = { data, statusCode: 200 };
 
-        const structuredData = Object.keys(data.data).reduce((acc: any, key: any) => {
+        const structuredData = Object.keys(data?.data).reduce((acc: any, key: any) => {
           if (key === 'files' || key === 'images') {
             return acc;
           }
@@ -57,8 +57,8 @@ export const ModuleDetails = ({ path, id }: any) => {
         );
         setSortItems(finalData);
         setItems(finalData);
-        getImages(data.data);
-        getFilesUrl(data.data);
+        getImages(data?.data);
+        getFilesUrl(data?.data);
       } else {
         console.error('No data found with matching ID');
       }
@@ -74,8 +74,8 @@ export const ModuleDetails = ({ path, id }: any) => {
   };
 
   const getImages = (data: any) => {
-    if (data && data.images) {
-      let urlArray = data.images.split(",");
+    if (data && data?.images) {
+      let urlArray = data?.images.split(",");
       setImages(urlArray);
     } else {
       setImages([]);
@@ -83,7 +83,7 @@ export const ModuleDetails = ({ path, id }: any) => {
   };
 
   const getFilesUrl = (data: any) => {
-    if (data && data.files) {
+    if (data && data?.files) {
       let urlArray = data.files.split(",");
       setFilesUrl(urlArray);
     } else {

@@ -108,11 +108,11 @@ export const getQueryParamsFromCurrentUrl = () => {
   });
 
   // Remove unwanted keys
-  delete paramsObject.t;
-  delete paramsObject.b;
-  delete paramsObject.objectTypeName;
-  delete paramsObject.objectTypeId;
-  delete paramsObject.parentObjectTypeName;
+  delete paramsObject?.t;
+  delete paramsObject?.b;
+  delete paramsObject?.objectTypeName;
+  delete paramsObject?.objectTypeId;
+  delete paramsObject?.parentObjectTypeName;
 
   // Convert the cleaned object back into a query string
   const filteredParams = new URLSearchParams(
@@ -211,9 +211,9 @@ export function removeAllParams(apiUrl: any) {
 
 
 export const getRouteMenu = (path: any) => {
-  return apiRoutes.find((menu: any) =>  menu.path === path);
+  return apiRoutes.find((menu: any) =>  menu?.path === path);
 }
 
 export const getRouteMenuByObjectTypeId = (objectTypeId: any) => {
-  return apiRoutes.find((menu: any) =>  menu.hubspotObjectTypeId === objectTypeId);
+  return apiRoutes.find((menu: any) =>  menu?.hubspotObjectTypeId === objectTypeId);
 }

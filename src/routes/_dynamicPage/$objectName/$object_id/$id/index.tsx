@@ -65,10 +65,10 @@ const Details = () => {
   const matchedObject: any =
     moduleIframeListOptions.find((item: any) => {
       return (
-        item.hubspotObjectTypeId === objectId &&
+        item?.hubspotObjectTypeId === objectId &&
         (
-          (item.label || "") === tabName ||
-          (item.tabName || "") === tabName
+          (item?.label || "") === tabName ||
+          (item?.tabName || "") === tabName
         )
       );
     }) || {};
@@ -78,8 +78,8 @@ const Details = () => {
   // console.log(moduleIframeListOptions, 'moduleIframeListOptions');
   // Extract propertyName and showIframe from the matched object
   // const propertyName = matchedObject.properties_value ? matchedObject.properties_value.split(',') : [];
-  const propertyName = matchedObject.iframeProperties ? matchedObject.iframeProperties : [];
-  const showIframe = matchedObject.showIframe || false;
+  const propertyName = matchedObject?.iframeProperties ? matchedObject?.iframeProperties : [];
+  const showIframe = matchedObject?.showIframe || false;
   // console.log(matchedObject, 'matchedObject');
   
   return (

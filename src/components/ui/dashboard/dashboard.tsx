@@ -246,23 +246,23 @@ const Dashboard = () => {
                       <SidebarTable
                         key={index}
                         hubspotObjectTypeId={hubspotObjectTypeId}
-                        path={`/${formatPath(option.label)}`}
-                        title={option.label}
+                        path={`/${formatPath(option?.label)}`}
+                        title={option?.label}
                         apis={sidebarDataApis}
-                        companyAsMediator={option.companyAsMediator}
-                        pipeLineId={option.pipeLineId}
-                        specPipeLine={option.specPipeLine}
+                        companyAsMediator={option?.companyAsMediator}
+                        pipeLineId={option?.pipeLineId}
+                        specPipeLine={option?.specPipeLine}
                       />
                     ) : (
                       <SidebarTable
                         key={index}
                         hubspotObjectTypeId={hubspotObjectTypeId}
-                        path={`/${formatPath(option.label)}`}
-                        title={option.label}
+                        path={`/${formatPath(option?.label)}`}
+                        title={option?.label}
                         apis={sidebarDataApis}
-                        companyAsMediator={option.companyAsMediator}
-                        pipeLineId={option.pipeLineId}
-                        specPipeLine={option.specPipeLine}
+                        companyAsMediator={option?.companyAsMediator}
+                        pipeLineId={option?.pipeLineId}
+                        specPipeLine={option?.specPipeLine}
                       />
                     );
                   })}

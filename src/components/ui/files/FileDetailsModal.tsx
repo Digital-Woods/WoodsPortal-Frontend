@@ -65,7 +65,7 @@ const handleDownload = async (url: any, filename: any) => {
       onClose={onClose}
       className={`!p-0 relative mx-auto !bg-white overflow-y-auto transition-all  duration-500 ease-in-out lg:w-[95vw] md:w-[95vw] w-[calc(100vw-20px)] min-h-[85vh] h-auto`}>
       <div className="flex justify-between items-center bg-[#516f90] p-4">
-        <div className="text-white font-medium text-lg break-all mb-0">{file?.data.name.length > 25 ? `${file?.data.name.slice(0,25)+'...'}` : file?.data.name}</div>
+        <div className="text-white font-medium text-lg break-all mb-0">{file?.data?.name.length > 25 ? `${file?.data?.name.slice(0,25)+'...'}` : file?.data?.name}</div>
         <div className="flex gap-2 items-center">
           {/* <button
             onClick={toggleExpandDialog}

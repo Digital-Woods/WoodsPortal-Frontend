@@ -64,9 +64,9 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
 
   if (breadcrumbType === 'root') {
     const newCrumb: any = {
-      n: props.name,
-      o_t_id: props.objectTypeId,
-      o_r_id: props.recordId,
+      n: props?.name,
+      o_t_id: props?.objectTypeId,
+      o_r_id: props?.recordId,
     }
 
     // ✅ Add params if available
@@ -84,11 +84,11 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
   } else {
     const lastItem = breadcrumbs[breadcrumbs.length - 1]
 
-    if (lastItem?.o_t_id === props.objectTypeId) {
+    if (lastItem?.o_t_id === props?.objectTypeId) {
       const newCrumb: any = {
-        n: props.name,
-        o_t_id: props.objectTypeId,
-        o_r_id: props.recordId,
+        n: props?.name,
+        o_t_id: props?.objectTypeId,
+        o_r_id: props?.recordId,
       }
 
       // ✅ Add params if available
@@ -108,7 +108,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       // if associated data have no parent
       const parent: any = {
         n: props?.associationLabel || props?.name,
-        o_t_id: props.objectTypeId,
+        o_t_id: props?.objectTypeId,
       }
 
       if(props?.tableParam) {
@@ -122,11 +122,11 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       breadcrumbs.push(parent)
       // end
 
-      if (props.recordId) {
+      if (props?.recordId) {
         const newCrumb: any = {
-          n: props.name,
-          o_t_id: props.objectTypeId,
-          o_r_id: props.recordId,
+          n: props?.name,
+          o_t_id: props?.objectTypeId,
+          o_r_id: props?.recordId,
         }
 
         // ✅ Add params if available
@@ -157,9 +157,9 @@ const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
 
   let url = ''
   if (props?.objectTypeId && props?.recordId) {
-    url = `/${props.recordId}/${props.objectTypeId}/${props.recordId}?b=${newBase64}`
+    url = `/${props?.recordId}/${props?.objectTypeId}/${props?.recordId}?b=${newBase64}`
   } else {
-    url = `/association/${props.objectTypeId}?b=${newBase64}`
+    url = `/association/${props?.objectTypeId}?b=${newBase64}`
   }
   return url
 }
@@ -203,7 +203,7 @@ const decodeToBase64 = (base64: string) => {
    try {
     const decoded = decodeObject<any>(base64);
     return decoded
-  } catch (err) {
+  } catch (err: any) {
     console.warn('Base64 decode failed:', base64, err)
     return ''
   }
@@ -420,24 +420,24 @@ const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
   // console.log('breadcrumb', breadcrumb)
   if (index === 0) {
     return {
-      name: breadcrumb.n,
-      path: `/${breadcrumb?.pt || breadcrumb.o_t_id}?b=${bc}`,
+      name: breadcrumb?.n,
+      path: `/${breadcrumb?.pt || breadcrumb?.o_t_id}?b=${bc}`,
     }
   } else if (index === 1) {
     return {
-      name: breadcrumb.n,
-      path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
+      name: breadcrumb?.n,
+      path: `/${breadcrumb?.o_r_id}/${breadcrumb?.o_t_id}/${breadcrumb?.o_r_id}?b=${bc}`,
     }
   } else {
-    if (breadcrumb.o_t_id && breadcrumb.o_r_id) {
+    if (breadcrumb?.o_t_id && breadcrumb?.o_r_id) {
       return {
-        name: breadcrumb.n,
-        path: `/${breadcrumb.o_r_id}/${breadcrumb.o_t_id}/${breadcrumb.o_r_id}?b=${bc}`,
+        name: breadcrumb?.n,
+        path: `/${breadcrumb?.o_r_id}/${breadcrumb?.o_t_id}/${breadcrumb?.o_r_id}?b=${bc}`,
       }
     } else {
       return {
-        name: breadcrumb.n,
-        path: `/association/${breadcrumb.o_t_id}?b=${bc}`,
+        name: breadcrumb?.n,
+        path: `/association/${breadcrumb?.o_t_id}?b=${bc}`,
       }
     }
   }

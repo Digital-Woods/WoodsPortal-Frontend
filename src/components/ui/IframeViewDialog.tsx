@@ -56,7 +56,7 @@ export const IframeViewDialog = ({
         {/* Render image or iframe based on the URL extension */}
         {iframeUrls.length > 0 && isImageUrl(iframeUrls[0]) ? (
           <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 w-full h-auto overflow-auto">
-            {iframeUrls.map((url, index) => (
+            {iframeUrls.map((url: any, index: any) => (
               <div key={index} className="flex justify-center items-start">
                 <img
                   src={url}

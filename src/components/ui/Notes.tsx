@@ -101,7 +101,7 @@ const NoteCard = ({
       onError: (error: any) => {
         console.error("Error creating note:", error);
         setToaster({
-          message: error.response.data.errorMessage,
+          message: error?.response?.data?.errorMessage,
           type: "error",
         });
       },
@@ -153,9 +153,9 @@ const NoteCard = ({
                 <p className={`${note?.createdBy === 'Hubspot' ? `text-[var(--note-hs-text)]` : `text-[var(--note-wp-text)]` } dark:text-white text-xs`}>
                   <span className="mr-1">
                     {" "}
-                    {formatDate(note.hs_createdate)}{" "}
+                    {formatDate(note?.hs_createdate)}{" "}
                   </span>
-                  {formatTime(note.hs_createdate)}
+                  {formatTime(note?.hs_createdate)}
                 </p>
               </div>
             </div>
@@ -169,13 +169,13 @@ const NoteCard = ({
               <ProseMirrorEditor
                 ref={editorRef}
                 key={id}
-                initialData={escapeHTML(note.hs_note_body)}
-                attachments={note.hs_attachment_ids || []}
+                initialData={escapeHTML(note?.hs_note_body)}
+                attachments={note?.hs_attachment_ids || []}
                 setEditorContent={setEditorContent}
                 // id={`editor-${note.hs_object_id}`}
                 id={id}
                 imageUploadUrl={imageUploadUrl}
-                attachmentUploadUrl={`${attachmentUploadUrl}/${note.hs_object_id}`}
+                attachmentUploadUrl={`${attachmentUploadUrl}/${note?.hs_object_id}`}
                 attachmentUploadMethod={"PUT"}
                 setAttachmentId={null}
                 refetch={refetch}
@@ -221,7 +221,7 @@ const NoteCard = ({
                   !isOpen
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
-                        permissions.update && note?.createdBy != 'Hubspot' ? "cursor-text hover:bg-secondaryBgHover hover:border-secondary" : "cursor-auto"
+                        permissions?.update && note?.createdBy != 'Hubspot' ? "cursor-text hover:bg-secondaryBgHover hover:border-secondary" : "cursor-auto"
                       } bg-white mt-2 border border-[transparent] dark:border-[transparent] rounded-md relative group EditorView`}`}
                 onClick={(e) => {
                   if (isOpen && note?.createdBy != 'Hubspot') {
@@ -233,7 +233,7 @@ const NoteCard = ({
               >
                 <div className="break-words">
                   <span>
-                    <HtmlParser html={DOMPurify.sanitize(note.hs_note_body, noteViewConfig)} className="ProseMirror" />
+                    <HtmlParser html={DOMPurify.sanitize(note?.hs_note_body, noteViewConfig)} className="ProseMirror" />
                   </span>
                 </div>
                 {permissions?.update === true && note?.createdBy != 'Hubspot' ? (
@@ -245,7 +245,7 @@ const NoteCard = ({
               {isOpen && (
                 <div onClick={(e) => e.stopPropagation()}>
                   <Attachments
-                    attachments={note.hs_attachment_ids || []}
+                    attachments={note?.hs_attachment_ids || []}
                     objectId={objectId}
                     id={id}
                     remove={false}
@@ -304,7 +304,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     },
     onSuccess: (data: any) => {
       // setPermissions(data.configurations.note);
-      const totalData = data && data.data && data.data.total
+      const totalData = data && data?.data && data?.data?.total
       setTotalNotes(totalData)
       setSync(false);
       setApiSync(false);
@@ -358,9 +358,9 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       let params: any = makeParam()
       return await Client.notes.createnote({
         params: {
-          limit: params.limit,
-          page: params.page,
-          cache: !!params.cache
+          limit: params?.limit,
+          page: params?.page,
+          cache: !!params?.cache
         },
         objectId: objectId,
         id: id,
@@ -375,7 +375,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       refetch();
       setShowDialog(false);
       setToaster({
-        message: response.statusMsg,
+        message: response?.statusMsg,
         type: "success",
       });
       setExpandDialog(false);
@@ -385,7 +385,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     onError: (error: any) => {
       console.error("Error creating note:", error);
       setToaster({
-        message: error.response.data.errorMessage,
+        message: error?.response?.data?.errorMessage,
         type: "error",
       });
       setAttachmentId('');
@@ -455,16 +455,16 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
         const valueObject = item[key];
         if (
           valueObject &&
-          valueObject.isPrimaryDisplayProperty &&
-          valueObject.value
+          valueObject?.isPrimaryDisplayProperty &&
+          valueObject?.value
         ) {
-          displayValue = isObject(valueObject.value)
-            ? valueObject.value.label
-            : valueObject.value;
+          displayValue = isObject(valueObject?.value)
+            ? valueObject?.value.label
+            : valueObject?.value;
         }
       }
     }
-    return displayValue || me.firstName;
+    return displayValue || me?.firstName;
   };
 
   return (
@@ -480,8 +480,8 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
           </Button>
         </div>
       )}
-      {results && results.rows && results.rows.length > 0 ? (
-        results.rows.map((note: any, index: any) => (
+      {results && results?.rows && results?.rows?.length > 0 ? (
+        results?.rows?.map((note: any, index: any) => (
           <NoteCard
             key={index}
             note={note}

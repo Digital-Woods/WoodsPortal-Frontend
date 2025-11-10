@@ -104,13 +104,13 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     const iframeSettings = Array.isArray(iframePropertyName) ? iframePropertyName : [];
 
     const getDisplayType = (key: any) => {
-        const setting = iframeSettings.find(setting => setting.properties_value === key);
+        const setting = iframeSettings.find(setting => setting?.properties_value === key);
         // Return the display type, default to 'simpleText' if not specified
         return setting?.property_value_show_as || 'simpleText';
     };
 
     const getActionType = (key: any) => {
-        const setting = iframeSettings.find(setting => setting.properties_value === key);
+        const setting = iframeSettings.find(setting => setting?.properties_value === key);
         // Return the display type, default to 'simpleText' if not specified
         return setting?.on_click_action || 'showIframe';
     };
@@ -140,7 +140,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     };
 
     const getPropertyValueType = (key: any, value = '') => {
-        const setting = iframeSettings.find(setting => setting.properties_value === key);
+        const setting = iframeSettings.find(setting => setting?.properties_value === key);
         const displayType = getDisplayType(key);
         const actionType = getActionType(key);
         if (!value) {

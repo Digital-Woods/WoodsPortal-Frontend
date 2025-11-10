@@ -25,7 +25,7 @@ const Register = () => {
     onSuccess: (_data) => {
     },
     onError: (error: any) => {
-      setServerError(error.response.data);
+      setServerError(error?.response?.data);
     },
   });
 
@@ -56,9 +56,9 @@ const Register = () => {
                 <FormControl>
                   <Input placeholder="Name" {...register("name")} />
                 </FormControl>
-                {errors.name && (
+                {errors?.name && (
                   <FormMessage className="text-red-600">
-                    {errors.name.message}
+                    {errors?.name?.message}
                   </FormMessage>
                 )}
               </FormItem>
@@ -68,9 +68,9 @@ const Register = () => {
                 <FormControl>
                   <Input placeholder="Email" {...register("email")} />
                 </FormControl>
-                {errors.email && (
+                {errors?.email && (
                   <FormMessage className="text-red-600">
-                    {errors.email.message}
+                    {errors?.email?.message}
                   </FormMessage>
                 )}
               </FormItem>
@@ -80,9 +80,9 @@ const Register = () => {
                 <FormControl>
                   <Input placeholder="Password" {...register("password")} />
                 </FormControl>
-                {errors.password && (
+                {errors?.password && (
                   <FormMessage className="text-red-600">
-                    {errors.password.message}
+                    {errors?.password?.message}
                   </FormMessage>
                 )}
               </FormItem>

@@ -113,7 +113,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
             onChange={(e) => onChange(e.target?.value || "")}
         >
             {userDataFilter.map((filter) => (
-            <option key={filter.value} value={filter.value}>
+            <option key={filter.value} value={filter?.value}>
                 {filter.label}
             </option>
             ))}
@@ -265,21 +265,21 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
                                 {/* <TabsContent value="photos"></TabsContent> */}
                             </Tabs>
                              </div>
-                            {activeTab === "files" && homeTabsDataTypeFilter.files === 'all' && (
+                            {activeTab === "files" && homeTabsDataTypeFilter?.files === 'all' && (
                                 <FilterDropdown 
                                 value={selectedFileDataFilter} 
                                 onChange={(e: any) => onChangeDataFilter(e, 'files')} 
                                 />
                             )}
 
-                            {activeTab === "notes" && homeTabsDataTypeFilter.notes === 'all' && objectId && id && (
+                            {activeTab === "notes" && homeTabsDataTypeFilter?.notes === 'all' && objectId && id && (
                                 <FilterDropdown 
                                 value={selectedNotesDataFilter} 
                                 onChange={(e: any) => onChangeDataFilter(e, 'notes')} 
                                 />
                             )}
 
-                            {activeTab === "tickets" && homeTabsDataTypeFilter.tickets === 'all' && (
+                            {activeTab === "tickets" && homeTabsDataTypeFilter?.tickets === 'all' && (
                                 <FilterDropdown 
                                 value={selectedTicketsDataFilter} 
                                 onChange={(e: any) => onChangeDataFilter(e, 'tickets')} 
@@ -299,11 +299,11 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
 )} */}
 
                         {activeTab === "files" && (
-                            <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.fileManager : null} />
+                            <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.fileManager : null} />
                         )}
                         
                         {activeTab === "notes" && objectId && selectedNotesDataFilter && id && (
-                            <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions.note : null} />
+                            <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
                         )}
 
                         {activeTab === "tickets" && (
@@ -326,7 +326,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
                                 ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
                                 apis={apis}
                                 componentName="ticket"
-                                defaultPermissions={permissions ? permissions.ticket : null}
+                                defaultPermissions={permissions ? permissions?.ticket : null}
                                 editView={true}
                                 setTotalRecord={setTotalRecord}
                                 isShowTitle={false}

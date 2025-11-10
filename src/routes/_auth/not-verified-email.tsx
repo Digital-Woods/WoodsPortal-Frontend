@@ -5,6 +5,7 @@ import { Client } from '@/data/client/index'
 import { Button } from '@/components/ui/Button'
 import { useRecoilValue } from 'recoil';
 import { useToaster } from '@/state/use-toaster';
+import { useMe } from '@/data/user';
 
 const NotVerifiedEmail = () => {
   const { me } = useMe();

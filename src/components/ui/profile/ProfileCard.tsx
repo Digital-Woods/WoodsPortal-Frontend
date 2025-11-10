@@ -8,21 +8,21 @@ export const ProfileCard = () => {
   const {profileDetails: loggedInDetails} = useAuth();
 
   let email = "no-email@example.com";
-  let brandName = hubSpotUserDetails.hubspotPortals.portalSettings.brandName;
+  let brandName = hubSpotUserDetails?.hubspotPortals?.portalSettings?.brandName;
 
-  if (loggedInDetails && loggedInDetails.email) {
-    email = loggedInDetails.email;
-  } else if (me && me.email) {
-    email = me.email;
+  if (loggedInDetails && loggedInDetails?.email) {
+    email = loggedInDetails?.email;
+  } else if (me && me?.email) {
+    email = me?.email;
   }
 
   if (
     me &&
-    me.hubspotPortals &&
-    me.hubspotPortals.portalSettings &&
-    me.hubspotPortals.portalSettings.brandName
+    me?.hubspotPortals &&
+    me?.hubspotPortals?.portalSettings &&
+    me?.hubspotPortals?.portalSettings?.brandName
   ) {
-    brandName = me.hubspotPortals.portalSettings.brandName;
+    brandName = me?.hubspotPortals?.portalSettings?.brandName;
   }
 
   const firstName = getFirstName() || "";

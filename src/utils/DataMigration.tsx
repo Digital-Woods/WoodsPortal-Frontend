@@ -155,8 +155,8 @@ export const filterAssociationsData = (obj: any) => {
   const filtered = Object.fromEntries(
     Object.entries(obj).filter(
       ([key, value]: any) =>
-        value.isPrimaryDisplayProperty === true ||
-        value.isSecondaryDisplayProperty === true
+        value?.isPrimaryDisplayProperty === true ||
+        value?.isSecondaryDisplayProperty === true
     )
   );
   return filtered;
@@ -236,13 +236,13 @@ export const objectToQueryParams = (params: any) => {
 
 
 export const sortData = (list: any, type = "list") => {
-  if (type == "list" || type == "details") delete list.associations;
+  if (type == "list" || type == "details") delete list?.associations;
   const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate", "associations"];
   let data = list
 
   if (type === "list") {
     data = data.filter((item: any) => !excludeKeys.includes(item.key));
-    return data.sort((a: any, b: any) => a.tableDisplayOrder - b.tableDisplayOrder);
+    return data.sort((a: any, b: any) => a?.tableDisplayOrder - b?.tableDisplayOrder);
   }
 
   data = Object.entries(list)
@@ -252,7 +252,7 @@ export const sortData = (list: any, type = "list") => {
       key
     }));
 
-  return data.sort((a: any, b: any) => a.overviewDisplayOrder - b.overviewDisplayOrder);
+  return data.sort((a: any, b: any) => a?.overviewDisplayOrder - b?.overviewDisplayOrder);
 }
 
 export const replaceQuestionMarkToRegex = (text: any) => {
@@ -306,7 +306,7 @@ export function sanitizeForBase64(str = "") {
 }
 
 function formatValue(value: any) {
-  const rawValue = isObject(value) ? value.label : value;
+  const rawValue = isObject(value) ? value?.label : value;
 
   const isDateLike = typeof rawValue === "string" 
 
@@ -318,7 +318,7 @@ function formatValue(value: any) {
     );
   }
 
-  return isObject(value) ? value.label : value;
+  return isObject(value) ? value?.label : value;
 }
 
 export const renderCellContent = ({
@@ -379,10 +379,10 @@ export const renderCellContent = ({
   if ( // if date then conver into date format
     column &&
     value != null &&
-    (column.type == "datetime" ||
-      column.key == "hs_createdate" ||
-      column.key == "hs_lastmodifieddate" ||
-      column.key == "createdate"
+    (column?.type == "datetime" ||
+      column?.key == "hs_createdate" ||
+      column?.key == "hs_lastmodifieddate" ||
+      column?.key == "createdate"
     )
   ) {
     // const formatedDateTime = formatTimestampIST(isObject(value) ? value.label : value)
@@ -393,10 +393,10 @@ export const renderCellContent = ({
   if ( // if date then conver into date format
     column &&
     value != null &&
-    (column.type == "date" ||
-      column.key == "hs_createdate" ||
-      column.key == "hs_lastmodifieddate" ||
-      column.key == "createdate"
+    (column?.type == "date" ||
+      column?.key == "hs_createdate" ||
+      column?.key == "hs_lastmodifieddate" ||
+      column?.key == "createdate"
     )
   ) {
     return formatDate(isObject(value) ? value.label : value);
@@ -405,7 +405,7 @@ export const renderCellContent = ({
   if (
     column &&
     value != null &&
-    (column.key === 'domain')
+    (column?.key === 'domain')
   ) {
     return (
       <a href={`https://${value}`} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
@@ -465,23 +465,23 @@ export const renderCellContent = ({
   //   return `${Currency(currency)} ${formatAmount(value)}`;
   // }
   if (
-    column.key === "amount" && column.showCurrencySymbol
+    column?.key === "amount" && column?.showCurrencySymbol
   ) {
     let find_currency_code;
 
     if (type == 'details') {
-      find_currency_code = Array.isArray(item) ? item.find(i => i.key === "deal_currency_code") : null;
+      find_currency_code = Array.isArray(item) ? item.find(i => i?.key === "deal_currency_code") : null;
     } else {
-      find_currency_code = item && item.deal_currency_code ? item.deal_currency_code : null;
+      find_currency_code = item && item?.deal_currency_code ? item?.deal_currency_code : null;
     }
 
-    if (find_currency_code && find_currency_code.value) {
-      const currency = isObject(find_currency_code.value) ? find_currency_code.value.value : find_currency_code.value;
+    if (find_currency_code && find_currency_code?.value) {
+      const currency = isObject(find_currency_code?.value) ? find_currency_code?.value.value : find_currency_code?.value;
       return `${Currency(currency)} ${formatAmount(value)}`;
     }
   }
 
-  if (column.showCurrencySymbol) { // if value is a currency symbol
+  if (column?.showCurrencySymbol) { // if value is a currency symbol
     const myCurrency = getUserDetails()?.companyCurrency
     return `${Currency(myCurrency)} ${formatAmount(value)}`;
   }
@@ -490,7 +490,7 @@ export const renderCellContent = ({
     !value &&
     (type == "associations" || type == "list" || type === 'homeList') &&
     column &&
-    column.isPrimaryDisplayProperty &&
+    column?.isPrimaryDisplayProperty &&
     detailsView
   ) {
     return (
@@ -543,7 +543,7 @@ export const renderCellContent = ({
     (column?.fieldType === "checkbox")
   ) {
     if (Array.isArray(value) && value.length > 0) {
-      const labels = value.map((item) => item.label).join(", ");
+      const labels = value.map((item) => item?.label).join(", ");
       return labels;
     }
     return "--";
@@ -552,7 +552,7 @@ export const renderCellContent = ({
   if (type == "details") {
     return (
       <div className="flex gap-1 relative  justify-between">
-        {isObject(value) ? value.label : value}
+        {isObject(value) ? value?.label : value}
       </div>
     );
   }
@@ -560,7 +560,7 @@ export const renderCellContent = ({
   if (
     (type == "associations" || type == "list") &&
     column &&
-    column.isPrimaryDisplayProperty &&
+    column?.isPrimaryDisplayProperty &&
     associationPath &&
     detailsView
   ) {
@@ -570,15 +570,15 @@ export const renderCellContent = ({
           className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           onClick={changeRoute}
           // to={associationPath}
-          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel})}
+          to={makeLink({name: isObject(value) ? value?.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel})}
 
         >
-          {truncatedText(isObject(value) ? value.label : value, 23)}
+          {truncatedText(isObject(value) ? value?.label : value, 23)}
         </Link>
         <Link
           className={` text-secondary  dark:text-white`}
           // to={associationPath}
-          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel})}
+          to={makeLink({name: isObject(value) ? value?.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel})}
         >
           <OpenIcon />
         </Link>
@@ -588,7 +588,7 @@ export const renderCellContent = ({
   if (
     type == "list" &&
     column &&
-    column.isPrimaryDisplayProperty &&
+    column?.isPrimaryDisplayProperty &&
     detailsView
   ) {
     return (
@@ -613,7 +613,7 @@ export const renderCellContent = ({
   if (
     type == "homeList" &&
     column &&
-    column.isPrimaryDisplayProperty &&
+    column?.isPrimaryDisplayProperty &&
     detailsView
   ) {
     return (
@@ -621,7 +621,7 @@ export const renderCellContent = ({
         <Link
           className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
           // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
-          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, isPC: companyAsMediator})}
+          to={makeLink({name: isObject(value) ? value?.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, isPC: companyAsMediator})}
 
         >
           {truncatedText(isObject(value) ? value.label : value, 23)}
@@ -629,7 +629,7 @@ export const renderCellContent = ({
         <Link
           className={` text-secondary  dark:text-white`}
           // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
-          to={makeLink({name: isObject(value) ? value.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, isPC: companyAsMediator})}
+          to={makeLink({name: isObject(value) ? value?.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, isPC: companyAsMediator})}
         >
           <OpenIcon />
         </Link>
@@ -637,7 +637,7 @@ export const renderCellContent = ({
     );
   }
   if (isArray(value) && value.length > 0) {
-    const labels = value.map((item: any) => item.label).join(", ");
+    const labels = value.map((item: any) => item?.label).join(", ");
     return (
       // <Tooltip content={labels}>
       <span className="dark:text-white">{truncatedText(labels, 23)}</span>
@@ -645,7 +645,7 @@ export const renderCellContent = ({
     );
   }
 
-  if (isObject(value)) return truncatedText(value.label, 23) || "--";
+  if (isObject(value)) return truncatedText(value?.label, 23) || "--";
 
   const { truncated, isTruncated }: any = truncateString(value || "");
 
@@ -665,10 +665,10 @@ export function getFirstName() {
   const { me } = useMe();
   const { profileDetails } = useAuth();
 
-  if (profileDetails && profileDetails.firstName) {
-    return profileDetails.firstName;
-  } else if (me && me.firstName) {
-    return me.firstName;
+  if (profileDetails && profileDetails?.firstName) {
+    return profileDetails?.firstName;
+  } else if (me && me?.firstName) {
+    return me?.firstName;
   } else {
     return "";
   }
@@ -678,10 +678,10 @@ export function getLastName() {
   const { me } = useMe();
   const { profileDetails } = useAuth();
 
-  if (profileDetails && profileDetails.lastName) {
-    return profileDetails.lastName;
-  } else if (me && me.lastName) {
-    return me.lastName;
+  if (profileDetails && profileDetails?.lastName) {
+    return profileDetails?.lastName;
+  } else if (me && me?.lastName) {
+    return me?.lastName;
   } else {
     return "";
   }
@@ -691,10 +691,10 @@ export function getEmail() {
   const { me } = useMe();
   const { profileDetails } = useAuth();
 
-  if (profileDetails && profileDetails.email) {
-    return profileDetails.email;
-  } else if (me && me.email) {
-    return me.email;
+  if (profileDetails && profileDetails?.email) {
+    return profileDetails?.email;
+  } else if (me && me?.email) {
+    return me?.email;
   } else {
     return "";
   }
@@ -846,7 +846,7 @@ export const  getFileDetails = async (urlArray:any) => {
         name: "Unknown",
         type: "Unknown",
         size: "N/A",
-        error: error.message
+        error: error?.message
       };
     }
     })
@@ -856,10 +856,10 @@ export const  getFileDetails = async (urlArray:any) => {
 };
 
 // Helper export function to fetch file size using HEAD request
-export const fetchFileSize = async (url, name, type) => {
+export const fetchFileSize = async (url: any, name: any, type: any) => {
   try {
-    const response = await fetch(url, { method: "HEAD" });
-    const fileSize = response.headers.get("content-length");
+    const response: any = await fetch(url, { method: "HEAD" });
+    const fileSize: any = response.headers.get("content-length");
 
     return {
       url,
@@ -912,16 +912,16 @@ export function sortFormData(data: any) {
   return data.sort((a: any, b: any) => {
     // Define priority scores for sorting
     const getPriority = (item: any) => {
-      if (item.customLabel.toLowerCase().includes("name")) return 1; // First
-      if (item.primaryProperty || item.primaryDisplayProperty) return 2; // Second
-      if (item.name === "hs_pipeline") return 3; // Third
-      if (item.name === "hs_pipeline_stage") return 4; // Fourth
+      if (item?.customLabel.toLowerCase().includes("name")) return 1; // First
+      if (item?.primaryProperty || item?.primaryDisplayProperty) return 2; // Second
+      if (item?.name === "hs_pipeline") return 3; // Third
+      if (item?.name === "hs_pipeline_stage") return 4; // Fourth
       if (
-        (item.secondaryProperty || item.secondaryDisplayProperty) &&
-        item.fieldType != "textarea"
+        (item?.secondaryProperty || item?.secondaryDisplayProperty) &&
+        item?.fieldType != "textarea"
       )
         return 5; // Fifth
-      if (item.fieldType === "textarea") return 7; // Fifth
+      if (item?.fieldType === "textarea") return 7; // Fifth
       return 6; // Default to others
     };
 

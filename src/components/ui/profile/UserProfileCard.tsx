@@ -9,10 +9,10 @@ const sortProperties = (data: any) => {
     return Object.entries(data)
         .filter(([key, value]: any) => value?.label) // Exclude unwanted keys
         .sort(([, a]: any, [, b]: any) => {
-            if (a.isPrimaryDisplayProperty && !b.isPrimaryDisplayProperty) return -1;
-            if (!a.isPrimaryDisplayProperty && b.isPrimaryDisplayProperty) return 1;
-            if (a.isSecondaryDisplayProperty && !b.isSecondaryDisplayProperty) return -1;
-            if (!a.isSecondaryDisplayProperty && b.isSecondaryDisplayProperty) return 1;
+            if (a?.isPrimaryDisplayProperty && !b?.isPrimaryDisplayProperty) return -1;
+            if (!a?.isPrimaryDisplayProperty && b?.isPrimaryDisplayProperty) return 1;
+            if (a?.isSecondaryDisplayProperty && !b?.isSecondaryDisplayProperty) return -1;
+            if (!a?.isSecondaryDisplayProperty && b?.isSecondaryDisplayProperty) return 1;
             return 0;
         });
 };
@@ -30,7 +30,7 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
 
     useEffect(() => {
         if (userData?.response) {
-            setUserDetails(userData.response);
+            setUserDetails(userData?.response);
             setUserAssociatedDetails(userData.response?.associations?.COMPANY || {});
         }
     }, [userData]);
@@ -46,9 +46,9 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
     const email = getEmail(loggedInDetails, me);
 
     function getFirstName(loggedInDetails: any, me: any) {
-        if (loggedInDetails && loggedInDetails.firstName) {
-            return loggedInDetails.firstName;
-        } else if (me && me.firstName) {
+        if (loggedInDetails && loggedInDetails?.firstName) {
+            return loggedInDetails?.firstName;
+        } else if (me && me?.firstName) {
             return me.firstName;
         } else {
             return "";
@@ -56,9 +56,9 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
     }
 
     function getLastName(loggedInDetails: any, me: any) {
-        if (loggedInDetails && loggedInDetails.lastName) {
-            return loggedInDetails.lastName;
-        } else if (me && me.lastName) {
+        if (loggedInDetails && loggedInDetails?.lastName) {
+            return loggedInDetails?.lastName;
+        } else if (me && me?.lastName) {
             return me.lastName;
         } else {
             return "";
@@ -66,10 +66,10 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
     }
 
     function getEmail(loggedInDetails: any, me: any) {
-        if (loggedInDetails && loggedInDetails.email) {
+        if (loggedInDetails && loggedInDetails?.email) {
             return loggedInDetails.email;
-        } else if (me && me.email) {
-            return me.email;
+        } else if (me && me?.email) {
+            return me?.email;
         } else {
             return "";
         }
@@ -127,7 +127,7 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
     return (
         <div>
             <div className="flex max-sm:flex-col items-start gap-8 w-full mx-auto p-6 rounded-lg border dark:border-none dark:bg-dark-300 relative overflow-hidden">
-                <div className={` bg-[${moduleStylesOptions.homeTabStyles.overlayer.color || '#E5F5F8'}]/${moduleStylesOptions.homeTabStyles.overlayer.opacity || '100'}  dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[80px]`}></div>
+                <div className={` bg-[${moduleStylesOptions?.homeTabStyles?.overlayer?.color || '#E5F5F8'}]/${moduleStylesOptions?.homeTabStyles?.overlayer?.opacity || '100'}  dark:bg-gray-600/10 absolute top-0 right-0 left-0 h-[80px]`}></div>
 
                 {/* Profile Initials */}
                 <div className="flex items-center justify-center relative z-2">

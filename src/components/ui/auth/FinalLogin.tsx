@@ -27,7 +27,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
   const [showPassword, setShowPassword] = useState(false);
   const hasUserData = loginData?.firstName || loginData?.email;
   const userPortals = loginData?.portals || [];
-  const matchingPortal = userPortals.find((portal: any) => portal.portalUrl === clientSiteUrl);
+  const matchingPortal = userPortals.find((portal: any) => portal?.portalUrl === clientSiteUrl);
   const portalUrl = matchingPortal?.portalUrl?.replace('https://', '') || (userPortals.leggth > 0 ? userPortals[0]?.portalUrl?.replace('https://', '') : "");
   const developerModeOn = developerMode;
   const loginUserValidationSchema = z.object({
@@ -55,7 +55,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       try {
         const response = await Client.authentication.login({
           username: entredEmail,
-          password: input.password,
+          password: input?.password,
         }, hubId);
         return response;
       } catch (error) {
@@ -63,14 +63,14 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       }
     },
     onSuccess: async (data: any) => {
-      if (!data.data.tokenData.token) {
+      if (!data?.data?.tokenData?.token) {
         toast.error("Wrong email or password");
         return;
       }
 
       const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
-      const portal = data.data.loggedInDetails.portals.find(
-        (item: any) => item.portalUrl === currentDomain
+      const portal = data?.data?.loggedInDetails?.portals.find(
+        (item: any) => item?.portalUrl === currentDomain
       );
 
       setPortal(portal || {});
@@ -84,13 +84,13 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       const rExpiresIn = data?.data?.tokenData?.refreshExpiresIn;
       // const rExpiresAt = data?.data?.tokenData?.refreshExpiresAt;
       if (
-        data.data.loggedInDetails &&
-        data.data.loggedInDetails.hubspot &&
-        data.data.loggedInDetails.hubspot.twoFa
+        data?.data?.loggedInDetails &&
+        data?.data?.loggedInDetails?.hubspot &&
+        data?.data?.loggedInDetails?.hubspot.twoFa
       ) {
         setLoggedInDetails(data.data);
 
-        setTwoFa({ twoFa: data.data.loggedInDetails.hubspot.twoFa });
+        setTwoFa({ twoFa: data?.data?.loggedInDetails?.hubspot?.twoFa });
         window.location.hash = "/login/tow-fa";
       } else {
 
@@ -119,15 +119,15 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
 
         // console.log('home', true)
       }
-      toast.success(data.statusMsg);
+      toast.success(data?.statusMsg);
     },
 
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.validationErrors;
+      if (error?.response && error?.response.data) {
+        const errorData = error?.response?.data?.detailedMessage;
+        const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
         // helper function to extract first error message
         const extractMessage = (err: any): string => {
@@ -163,19 +163,19 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         <div className="">
           <div className="w-[200px]">
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
               alt="Light Mode Logo"
               className="h-auto dark:hidden"
             />
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings.logo}
               alt="Dark Mode Logo"
               className="h-auto hidden dark:block"
             />
           </div>
         </div>
         <p className="text-center dark:text-white">
-          {baseCompanyOptions.welcomeMessage || ""}
+          {baseCompanyOptions?.welcomeMessage || ""}
         </p>
         <div className="w-full">
           <Form
@@ -226,7 +226,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                     </FormControl>
                     {errors.username && (
                       <FormMessage className="text-red-600 dark:text-red-400">
-                        {errors.username.message}
+                        {errors?.username?.message}
                       </FormMessage>
                     )}
                   </FormItem>
@@ -254,9 +254,9 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                         }
                       </div>
                     </FormControl>
-                    {errors.password && (
+                    {errors?.password && (
                       <FormMessage className="text-red-600 dark:text-red-400">
-                        {errors.password.message}
+                        {errors?.password?.message}
                       </FormMessage>
                     )}
                   </FormItem>

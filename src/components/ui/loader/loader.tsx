@@ -14,14 +14,14 @@ const Loader = (props: Props) => {
   return (
     <>
       {simple ? (
-        <div className={classNames(className, styles.simple_loading)} />
+        <div className={classNames(className, styles?.simple_loading)} />
       ) : (
         <div
           className={twMerge(
             classNames('w-full flex flex-col items-center justify-center h-[calc(100vh-200px)]', className),
           )}
         >
-          <div className={styles.loading} />
+          <div className={styles?.loading} />
 
           {showText && (
             <div className="text-lg font-semibold text-body italic">{text}</div>

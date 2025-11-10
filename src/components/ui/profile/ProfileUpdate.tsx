@@ -87,16 +87,16 @@ export const ProfileUpdate = () => {
     isSuccess,
     error,
   } = useMutation({
-    mutationFn: (data) => Client.profile.update(data),
+    mutationFn: (data: any) => Client.profile.update(data),
     onSuccess: (response: any) => {
       getMe();
       setToaster({
-        message: response.statusMsg || "Profile updated successfully",
+        message: response?.statusMsg || "Profile updated successfully",
         type: "success",
       });
       setIsEditPersonalInfo(false);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       setToaster({
         message: "Error updating profile",
         type: "success",
@@ -106,8 +106,8 @@ export const ProfileUpdate = () => {
 
   const handleSaveChanges = (data: any) => {
     const payload: any = {
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: data?.firstName,
+      lastName: data?.lastName,
     };
 
     updateProfile(payload);
@@ -152,9 +152,9 @@ export const ProfileUpdate = () => {
                       {...register("firstName")}
                       className="text-xs text-gray-500 dark:text-cleanWhite ml-2 w-full"
                     />
-                    {errors.firstName && (
+                    {errors?.firstName && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-full">
-                        {errors.firstName.message}
+                        {errors?.firstName?.message}
                       </div>
                     )}
                   </FormControl>
@@ -179,9 +179,9 @@ export const ProfileUpdate = () => {
                       {...register("lastName")}
                       className="text-xs text-gray-500 dark:text-cleanWhite ml-2 w-full"
                     />
-                    {errors.lastName && (
+                    {errors?.lastName && (
                       <div className="text-red-600 text-[12px] dark:text-cleanWhite px-2 mt-1 max-w-full">
-                        {errors.lastName.message}
+                        {errors?.lastName?.message}
                       </div>
                     )}
                   </FormControl>
