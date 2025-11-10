@@ -23,7 +23,7 @@ export const Select = ({
   ...props
 }: any) => {
   const getValue = (value: any) => {
-    if (value && typeof value === "object") value.label;
+    if (value && typeof value === "object") value?.label;
     return value;
   };
 
@@ -33,7 +33,7 @@ export const Select = ({
     }
     if (setValue) {
       const mValue = value.length > 0 ? value : "";
-      setValue(filled.name, mValue);
+      setValue(filled?.name, mValue);
     }
   };
 
@@ -71,7 +71,7 @@ export const Select = ({
               field.onChange(e);
               handleChange(e.target.value);
             }}
-            value={getValue(field.value)}
+            value={getValue(field?.value)}
             className={classNames(
               "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2",
               heightDynamicClassName[size],
@@ -90,8 +90,8 @@ export const Select = ({
             </option>
             {options.map((option: any) => (
               <option
-                key={getValue(option.value)}
-                value={getValue(option.value)}
+                key={getValue(option?.value)}
+                value={getValue(option?.value)}
               >
                 {option.label}
               </option>
@@ -132,7 +132,7 @@ const SelectApiData = ({
       }
     },
     onSuccess: async (response: any) => {
-      setAllOptions(response.data.results);
+      setAllOptions(response?.data?.results);
       // filterData(response.data.results)
     },
     onError: (error: any) => {

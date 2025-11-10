@@ -26,7 +26,7 @@ export const DashboardTableExistingForm = ({
     mutationFn: async () => {
       try {
         const response = await Client.form.options({
-          API: `/api/${hubId}/${portalId}/hubspot-object-forms/${existingData.formId}/${existingData.objectTypeId}`,
+          API: `/api/${hubId}/${portalId}/hubspot-object-forms/${existingData?.formId}/${existingData?.objectTypeId}`,
         });
         return response;
       } catch (error) {
@@ -41,7 +41,7 @@ export const DashboardTableExistingForm = ({
       setOptions(transformed);
     },
     onError: (error: any) => {
-      setErrorMessage(error.response.data.detailedMessage);
+      setErrorMessage(error?.response?.data?.detailedMessage);
     },
   });
 
@@ -93,13 +93,13 @@ export const DashboardTableExistingForm = ({
                           control={control}
                           filled={existingData}
                           onChangeSelect={onChangeSelect}
-                          apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${existingData.formId}/${existingData.objectTypeId}`}
+                          apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${existingData?.formId}/${existingData?.objectTypeId}`}
                           setValue={setValue}
                         />
                       </FormControl>
-                      {errors[existingData.name] && (
+                      {errors[existingData?.name] && (
                         <FormMessage className="text-red-600 dark:text-red-400">
-                          {errors[existingData.name].message}
+                          {errors[existingData.name]?.message}
                         </FormMessage>
                       )}
                     </FormItem>

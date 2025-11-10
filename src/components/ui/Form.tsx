@@ -20,8 +20,8 @@ export const Form = ({
     } catch (e: any) {
       return {
         values: {},
-        errors: e.errors.reduce((acc: any, error: any) => {
-          acc[error.path[0]] = { type: error.code, message: error.message };
+        errors: e?.errors.reduce((acc: any, error: any) => {
+          acc[error?.path[0]] = { type: error?.code, message: error?.message };
           return acc;
         }, {}),
       };

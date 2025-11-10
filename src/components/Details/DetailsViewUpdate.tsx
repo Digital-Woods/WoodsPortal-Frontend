@@ -29,7 +29,7 @@ export const DetailsViewUpdateDD = ({
 
   const getValue = (value: any, type = "label") => {
     if (value && typeof value === "object")
-      return type === "label" ? value.label : value.value;
+      return type === "label" ? value?.label : value?.value;
     return value;
   };
 
@@ -51,7 +51,7 @@ export const DetailsViewUpdateDD = ({
     },
     onSuccess: async (response: any) => {
       setOptions([]);
-      setOptions((value: any) => response.data);
+      setOptions((value: any) => response?.data);
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";
@@ -61,7 +61,7 @@ export const DetailsViewUpdateDD = ({
 
   useEffect(() => {
     if (
-      !optionData.apidata &&
+      !optionData?.apidata &&
       (optionData?.key === "dealstage" ||
         optionData?.key === "hs_pipeline_stage")
     ) {
@@ -76,7 +76,7 @@ export const DetailsViewUpdateDD = ({
     } else {
       // console.log("comes here in else");
       // console.log(optionData.options);
-      setOptions(optionData.options);
+      setOptions(optionData?.options);
     }
   }, [data, optionData]);
 
@@ -90,7 +90,7 @@ export const DetailsViewUpdateDD = ({
       <Select
         label={`Select`}
         size="semiMedium"
-        name={optionData.key}
+        name={optionData?.key}
         options={options}
         control={control}
         filled={optionData}
@@ -120,7 +120,7 @@ const DetailsViewUpdateDialog = ({
 
   const getValue = (value: any, type = "label") => {
     if (value && typeof value === "object")
-      return type === "label" ? value.label : value.value;
+      return type === "label" ? value?.label : value?.value;
     return value;
   };
 
@@ -158,7 +158,7 @@ const DetailsViewUpdateDialog = ({
 
 
       if(isNewValue) {
-        const defaultItem = response.data.find((item: any) => item.defaultItem === true);
+        const defaultItem = response?.data.find((item: any) => item?.defaultItem === true);
         // console.log("defaultItem", defaultItem)
         setValue(key, defaultItem?.value || "")
       }
@@ -173,7 +173,7 @@ const DetailsViewUpdateDialog = ({
   useEffect(() => {
     if (initialValues) {
       setPipelines(editRow);
-      if (editRow.value) {
+      if (editRow?.value) {
         // console.log(data);
 
         // getStags(getValue(editRow.value, "value"));
@@ -184,7 +184,7 @@ const DetailsViewUpdateDialog = ({
         const filterStage = dataLoop.find(
           (item: any) =>
             // item.key === "hs_pipeline_stage" || item.key === "dealstage" || item.key === "pipeline"
-            item.key === "hs_pipeline_stage" || item.key === "dealstage"
+            item?.key === "hs_pipeline_stage" || item?.key === "dealstage"
         );
 
         // console.log(filterStage);
@@ -212,9 +212,9 @@ const DetailsViewUpdateDialog = ({
     );
 
     let defValue: any = {};
-    defValue[editRow.key] = getValue(editRow.value, "value");
+    defValue[editRow?.key] = getValue(editRow?.value, "value");
     if (filterStage) {
-      defValue[filterStage.key] = getValue(filterStage.value, "value");
+      defValue[filterStage?.key] = getValue(filterStage?.value, "value");
     } else {
       defValue["hs_pipeline_stage"] = null;
     }
@@ -224,7 +224,7 @@ const DetailsViewUpdateDialog = ({
   const createValidationSchemaPipeline = (data: any) => {
     // console.log('isObject', isObject(data))
     const schemaShape: any = {};
-    schemaShape[value.key] = z.string().nonempty({
+    schemaShape[value?.key] = z.string().nonempty({
       message: `${value.customLabel || value.label} is required.`,
     });
 
@@ -234,12 +234,12 @@ const DetailsViewUpdateDialog = ({
         : data;
     dataLoop.forEach((field: any) => {
       if (
-        field.key === "hs_pipeline_stage" ||
-        field.key === "pipeline" ||
-        field.key === "dealstage"
+        field?.key === "hs_pipeline_stage" ||
+        field?.key === "pipeline" ||
+        field?.key === "dealstage"
       ) {
-        schemaShape[field.key] = z.string().nonempty({
-          message: `${field.customLabel || field.label} is required.`,
+        schemaShape[field?.key] = z.string().nonempty({
+          message: `${field?.customLabel || field?.label} is required.`,
         });
       }
     });
@@ -304,7 +304,7 @@ const DetailsViewUpdateDialog = ({
                 watch,
                 formState: { errors },
                 setValue
-              }) => (
+              }: any) => (
                 <div>
                   {/* {JSON.stringify(getValues())} */}
                   <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
@@ -322,13 +322,13 @@ const DetailsViewUpdateDialog = ({
                               control={control}
                               data={data}
                               objectTypeId={objectId}
-                              onChangeSelect={(fvalue, value) => onChangeSelect(value, setValue)}
+                              onChangeSelect={(fvalue: any, value: any) => onChangeSelect(value, setValue)}
                             />
                           </FormControl>
 
-                          {errors.hs_pipeline && (
+                          {errors?.hs_pipeline && (
                             <FormMessage className="text-red-600 dark:text-red-400">
-                              {errors.hs_pipeline.message}
+                              {errors?.hs_pipeline?.message}
                             </FormMessage>
                           )}
                         </FormItem>
@@ -356,7 +356,7 @@ const DetailsViewUpdateDialog = ({
 
                           {errors.hs_pipeline_stage && (
                             <FormMessage className="text-red-600 dark:text-red-400">
-                              {errors.hs_pipeline_stage.message}
+                              {errors?.hs_pipeline_stage?.message}
                             </FormMessage>
                           )}
                         </FormItem>
@@ -433,7 +433,7 @@ export const DetailsViewUpdate = ({
   // Additional
   const getValue = (value: any, type = "label") => {
     if (value && typeof value === "object")
-      return type === "label" ? value.label : value.value;
+      return type === "label" ? value?.label : value?.value;
     return value;
   };
 
@@ -451,46 +451,46 @@ export const DetailsViewUpdate = ({
     if (!value) return z.object({});
 
     // Phone number validation (123-456-7890)
-    if (value.key.toLowerCase().includes("phone")) {
-      schemaShape[value.key] = z
+    if (value?.key.toLowerCase().includes("phone")) {
+      schemaShape[value?.key] = z
         .string()
         .regex(
           /^\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,5}\)?([-.\s]?[0-9]{1,5}){1,4}$/,
           {
-            message: `${value.label || "Phone number"} must be a valid phone number with optional country code`,
+            message: `${value?.label || "Phone number"} must be a valid phone number with optional country code`,
           }
         );
     } 
     // Domain validation (e.g., digitalwoods.io)
-    else if (value.key.toLowerCase().includes("domain")) {
-      schemaShape[value.key] = z
+    else if (value?.key.toLowerCase().includes("domain")) {
+      schemaShape[value?.key] = z
         .string()
         .regex(
           /^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/,
           {
-            message: `${value.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
+            message: `${value?.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
           }
         );
-    } else if (value.key.includes("email")) {
-      schemaShape[value.key] = z
+    } else if (value?.key.includes("email")) {
+      schemaShape[value?.key] = z
         .string()
         .email({
-          message: `${value.label || "Email"} must be a valid email address`,
+          message: `${value?.label || "Email"} must be a valid email address`,
         });
-    } else if (value.key.toLowerCase().includes("zip") || value.key.toLowerCase().includes("postal")) {
-      schemaShape[value.key] = z
+    } else if (value?.key.toLowerCase().includes("zip") || value?.key.toLowerCase().includes("postal")) {
+      schemaShape[value?.key] = z
         .string()
         .regex(
           /^[A-Za-z0-9][A-Za-z0-9\s\-]{2,10}$/,
           {
-            message: `${value.label || "Postal Code"} must be a valid ZIP/Postal code (e.g., 12345, 12345-6789, SW1A 1AA, H0H 0H0, 734426)`,
+            message: `${value?.label || "Postal Code"} must be a valid ZIP/Postal code (e.g., 12345, 12345-6789, SW1A 1AA, H0H 0H0, 734426)`,
           }
         );
     }
     // Default: non-empty string
     else {
-      schemaShape[value.key] = z.string().nonempty({
-        message: `${value.label || value.key} is required.`,
+      schemaShape[value?.key] = z.string().nonempty({
+        message: `${value?.label || value?.key} is required.`,
       });
     }
 
@@ -564,7 +564,7 @@ export const DetailsViewUpdate = ({
   // }, [value]);
 
   const setEditRowValueFunction = (row: any) => {
-    if (row && (row.key === "hs_pipeline" || row.key === "pipeline")) {
+    if (row && (row?.key === "hs_pipeline" || row?.key === "pipeline")) {
       setPipelineDialog(true);
     }
     // setEditRowValue(getValue(value.value));
@@ -573,9 +573,9 @@ export const DetailsViewUpdate = ({
     //   const found = data.find((item) => item.key === "hs_pipeline");
     //   getStags(getValue(found.value, "value"));
     // }
-    if (row && row.fieldType === "checkbox") {
+    if (row && row?.fieldType === "checkbox") {
       setSelectedValues(
-        Array.isArray(row.value) ? row.value.map((item: any) => item.value) : []
+        Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
       );
     }
 
@@ -591,9 +591,9 @@ export const DetailsViewUpdate = ({
     //   });
     // } else {
       setInitialValues({
-        [value.key]:
+        [value?.key]:
           typeof mValue === "object" && mValue !== null && "value" in mValue
-            ? mValue.value
+            ? mValue?.value
             : mValue,
       });
     // }
@@ -615,16 +615,16 @@ export const DetailsViewUpdate = ({
   // };
 
   const onSubmit = (data: any) => {
-    if (!data && editRow.fieldType != "checkbox") {
+    if (!data && editRow?.fieldType != "checkbox") {
       return;
     }
 
-    if (editRow.fieldType === "checkbox") {
+    if (editRow?.fieldType === "checkbox") {
       const formattedData: any = {
-        [editRow.key]: selectedValues
+        [editRow?.key]: selectedValues
           .map(
             (value: any) =>
-              editRow.options.find((option: any) => option.value === value)?.value
+              editRow?.options.find((option: any) => option?.value === value)?.value
           )
           .join(";"),
       };
@@ -671,21 +671,21 @@ export const DetailsViewUpdate = ({
                         ) : editRow.fieldType === "textarea" ? (
                           <Textarea
                             rows="4"
-                            placeholder={`Enter ${editRow.label}`}
-                            defaultValue={getValue(editRow.value)}
-                            {...register(editRow.key)}
+                            placeholder={`Enter ${editRow?.label}`}
+                            defaultValue={getValue(editRow?.value)}
+                            {...register(editRow?.key)}
                           ></Textarea>
-                        ) : editRow.fieldType === "html" ? (
+                        ) : editRow?.fieldType === "html" ? (
                           <DetailsViewEditor
                             openModal={true}
                             setOpenModal={null}
-                            title={editRow.label}
-                            value={editRow.value}
+                            title={editRow?.label}
+                            value={editRow?.value}
                             setEditRow={setEditRow}
                             saveData={saveData}
                             control={control}
                             setValue={setValue}
-                            name={editRow.key}
+                            name={editRow?.key}
                             isLoading={isLoading}
                             objectId={objectId}
                             id={id}
@@ -693,25 +693,25 @@ export const DetailsViewUpdate = ({
                             refetch={refetch}
                             setEditRowKey={setEditRowKey}
                           />
-                        ) : editRow.fieldType === "checkbox" ? (
+                        ) : editRow?.fieldType === "checkbox" ? (
                           <CheckboxField
                             editRow={editRow}
                             saveData={saveData}
                             control={control}
                             setValue={setValue}
-                            name={editRow.key}
+                            name={editRow?.key}
                             setSelectedValues={setSelectedValues}
                             selectedValues={selectedValues || []}
                           />
                         ) : editRow.fieldType === "date" ? (
                           <DateTimeInput
-                            type={editRow.type}
+                            type={editRow?.type}
                             dateFormat="dd-mm-yyyy"
                             height="small"
                             className=""
                             setValue={setValue}
-                            defaultValue={editRow.value}
-                            {...register(editRow.key)}
+                            defaultValue={editRow?.value}
+                            {...register(editRow?.key)}
                           />
                         ) : editRow.fieldType === "number" ? (
                           <Input
@@ -719,26 +719,26 @@ export const DetailsViewUpdate = ({
                             placeholder={`Enter ${editRow.label}`}
                             height="small"
                             className=""
-                            defaultValue={getValue(editRow.value)}
-                            {...register(editRow.key)}
+                            defaultValue={getValue(editRow?.value)}
+                            {...register(editRow?.key)}
                           />
                         ): editRow.fieldType === "phonenumber" ? (
                           <Input
                             type="tel"
-                            placeholder={`Enter ${editRow.label}`}
+                            placeholder={`Enter ${editRow?.label}`}
                             height="small"
                             className=""
                             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                            defaultValue={getValue(editRow.value)}
-                            {...register(editRow.key)}
+                            defaultValue={getValue(editRow?.value)}
+                            {...register(editRow?.key)}
                           />
                         ) : (
                           <Input
-                            placeholder={`Enter ${editRow.label}`}
+                            placeholder={`Enter ${editRow?.label}`}
                             height="small"
                             className=""
-                            defaultValue={getValue(editRow.value)}
-                            {...register(editRow.key)}
+                            defaultValue={getValue(editRow?.value)}
+                            {...register(editRow?.key)}
                           />
                         )}
                       </FormControl>
@@ -784,17 +784,17 @@ export const DetailsViewUpdate = ({
         ) : (
           <div className="flex items-center gap-2">
             <span>{renderValue || "--"}</span>
-            {value.isEditableField &&
-            (value.key === "pipeline" || value.key === "hs_pipeline") &&
-            value.options.length < 2 ? null : (
+            {value?.isEditableField &&
+            (value?.key === "pipeline" || value?.key === "hs_pipeline") &&
+            value?.options.length < 2 ? null : (
               <Button
                 variant="hubSpot"
                 size="hubSpot"
                 onClick={() => {
                   setEditRowValueFunction(value);
-                  setEditRowKey(value.key);
+                  setEditRowKey(value?.key);
                 }}
-                disabled={isUpdating || editRowKey && editRowKey !== value.key}
+                disabled={isUpdating || editRowKey && editRowKey !== value?.key}
               >
                 <span className="text-secondary dark:text-white">
                   <EditIcon />

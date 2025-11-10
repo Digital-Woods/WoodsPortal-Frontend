@@ -1,4 +1,4 @@
-const SvgRenderer = ({ svgContent }) => {
+const SvgRenderer = ({ svgContent }: any) => {
   // Clean the SVG string by removing JSX-specific syntax
   const cleanSvgContent = (svgString) => {
     // Remove {...props} or any unsupported JSX syntax
@@ -19,19 +19,19 @@ const SvgRenderer = ({ svgContent }) => {
 
     return (
       <svg
-        {...Array.from(svgElement.attributes).reduce((attrs, attr) => {
-          attrs[attr.name] = attr.value;
+        {...Array.from(svgElement?.attributes).reduce((attrs, attr) => {
+          attrs[attr.name] = attr?.value;
           return attrs;
         }, {})}
       >
         {Array.from(svgElement.childNodes).map((node, index) => {
-          if (node.nodeType === Node.ELEMENT_NODE) {
+          if (node?.nodeType === Node.ELEMENT_NODE) {
             return React.createElement(
-              node.tagName,
+              node?.tagName,
               {
                 key: index,
                 ...Array.from(node.attributes).reduce((attrs, attr) => {
-                  attrs[attr.name] = attr.value;
+                  attrs[attr?.name] = attr?.value;
                   return attrs;
                 }, {}),
               },
@@ -39,7 +39,7 @@ const SvgRenderer = ({ svgContent }) => {
             );
           }
           if (node.nodeType === Node.TEXT_NODE) {
-            return node.textContent.trim() ? node.textContent : null;
+            return node?.textContent.trim() ? node?.textContent : null;
           }
           return null;
         })}

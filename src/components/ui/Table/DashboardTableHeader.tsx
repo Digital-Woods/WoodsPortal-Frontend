@@ -206,7 +206,7 @@ export const DashboardTableHeader = ({
           </div>
         {/* } */}
       </div>
-      {hubSpotUserDetails.sideMenu[0].tabName !== title &&
+      {hubSpotUserDetails.sideMenu[0]?.tabName !== title &&
         ((defPermissions && hubspotObjectTypeId === "0-5")
           ? defPermissions?.create
           : permissions?.create) && (

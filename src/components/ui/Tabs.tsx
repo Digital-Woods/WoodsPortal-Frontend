@@ -9,10 +9,10 @@ export const Tabs = ({ children, activeTab, setActiveTab = null, className }: an
 
   // Filter children to separate TabsList and content components
   const tabs = React.Children.toArray(children).filter(
-    (child: any) => child.type === TabsList
+    (child: any) => child?.type === TabsList
   );
   const contents = React.Children.toArray(children).filter(
-    (child: any) => child.type === TabsContent
+    (child: any) => child?.type === TabsContent
   );
 
   // Throw error if structure is incorrect
@@ -26,21 +26,21 @@ export const Tabs = ({ children, activeTab, setActiveTab = null, className }: an
   const filteredTabls = React.Children.toArray(tabs[0].props.children);
   const tabsList = React.Children.map(filteredTabls, (trigger: any) => (
     <TabsTrigger className="rounded-md"
-      key={trigger.props.value}
-      value={trigger.props.value}
-      isActive={selectedValue === trigger.props.value}
+      key={trigger?.props?.value}
+      value={trigger?.props?.value}
+      isActive={selectedValue === trigger?.props?.value}
       onClick={handleTabClick}
     >
-      {trigger.props.children}
+      {trigger?.props?.children}
     </TabsTrigger>
   ));
 
   const tabContents = contents.map((content: any) => (
     <TabsContent
       key={content.props.value}
-      hidden={selectedValue !== content.props.value}
+      hidden={selectedValue !== content?.props?.value}
     >
-      {content.props.children}
+      {content?.props?.children}
     </TabsContent>
   ));
 

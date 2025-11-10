@@ -47,13 +47,13 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
 
   const findObjectById = (data: any, id: any) => {
     // Base case: if the current object matches the id, return it
-    if (data.id === id) {
+    if (data?.id === id) {
       return data;
     }
 
     // If there are children, recursively search them
-    if (data.child && data.child.length > 0) {
-      for (let child of data.child) {
+    if (data?.child && data?.child.length > 0) {
+      for (let child of data?.child) {
         const result: any = findObjectById(child, id);
         if (result) {
           return result; // return as soon as a match is found
@@ -71,7 +71,6 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
 
     if(isFristTimeLoadData) {
       const tab =  filterParams("tabs.files")
-      console.log('tab', tab)
       setCurrentPage(tab?.page || 1);
       setSearchTerm(tab?.search || "");
     } else {
@@ -95,8 +94,8 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
       setIsFristTimeLoadData(false)
       // setPermissions(data.configurations.fileManager);
       if (data && data.data) {
-        if (folderStack.length > 0 && currentFiles.name != id) {
-          const foundObject = findObjectById(data.data, currentFiles.id);
+        if (folderStack.length > 0 && currentFiles?.name != id) {
+          const foundObject = findObjectById(data?.data, currentFiles?.id);
           setCurrentFiles(foundObject);
           const updatedFolderStack: any = updateFolderStack(
             folderStack,
@@ -104,8 +103,8 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
           );
           setFolderStack(updatedFolderStack);
         } else {
-          setCurrentFiles(data.data);
-          setFolderStack([data.data]);
+          setCurrentFiles(data?.data);
+          setFolderStack([data?.data]);
         }
       }
       setSync(false);
@@ -130,10 +129,10 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
     // Filter files based on search term
     const filteredFiles: any = (currentFiles?.child || [])
       .filter((file: any) =>
-        file.name.toLowerCase().includes(searchTerm.toLowerCase())
+        file?.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
       // .sort((a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt));
-      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      .sort((a: any, b: any) => new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime());
 
     const total = filteredFiles.length
     const sIndex = (currentPage - 1) * itemsPerPage
@@ -163,17 +162,17 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
           // Update the folder that matches the currentFolder ID
           return {
             ...folder, // Copy the current folder properties
-            name: currentFolder.name, // Update the name
-            size: currentFolder.size, // Update the size
-            child: currentFolder.child || folder.child, // Update the children if provided
+            name: currentFolder?.name, // Update the name
+            size: currentFolder?.size, // Update the size
+            child: currentFolder?.child || folder?.child, // Update the children if provided
           };
         }
 
         // If not the current folder, check the children recursively
-        if (folder.child && folder.child.length > 0) {
+        if (folder?.child && folder?.child.length > 0) {
           return {
             ...folder,
-            child: updateRecursive(folder.child), // Recursively update children
+            child: updateRecursive(folder?.child), // Recursively update children
           };
         }
 
@@ -187,7 +186,6 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
 
   const handleBreadcrumbClick = (index: any) => {
     if (!Array.isArray(folderStack) || folderStack.length <= index) {
-      console.log("Hello hweekly");
       return;
     }
     const updatedFolderStack = updateFolderStack(folderStack, currentFiles);
@@ -207,10 +205,10 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
       type: "folder",
       child: [],
     };
-    if (rightClickedFolder && rightClickedFolder.child) {
+    if (rightClickedFolder && rightClickedFolder?.child) {
       rightClickedFolder.child.push(newFolder);
-    } else if (currentFiles && currentFiles.child) {
-      currentFiles.child.push(newFolder);
+    } else if (currentFiles && currentFiles?.child) {
+      currentFiles?.child.push(newFolder);
     }
     setCurrentFiles({ ...currentFiles });
     setNewFolderName("");
@@ -233,7 +231,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   };
 
   const getCurrentFolderId = () => {
-    return (currentFiles && currentFiles.id) || "obj-root";
+    return (currentFiles && currentFiles?.id) || "obj-root";
   };
 
   const onChangeSearch = (e: any) => {
@@ -287,7 +285,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
             onChange={(e: any) => onChangeSearch(e)}
             icon={SearchIcon}
           />
-          {permissions && permissions.create && (
+          {permissions && permissions?.create && (
             <div className="flex justify-end space-x-2">
               <Button
                 variant={!recorBtnCustom ? 'default' : 'create'}
@@ -320,7 +318,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
         </div>
 
         <div className="text-xl font-semibold mb-4 dark:text-white">
-          {currentFiles && currentFiles.name != id ? currentFiles.name : "Home"}
+          {currentFiles && currentFiles?.name != id ? currentFiles?.name : "Home"}
         </div>
 
         <FileTable

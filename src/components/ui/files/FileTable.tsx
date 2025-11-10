@@ -74,10 +74,10 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
   // );
 
   const handleRowClick = (file: any) => {
-    if (file.type === "folder") {
+    if (file?.type === "folder") {
       toggleFolder(file);
     } else {
-      setSelectedFileId(file.id);
+      setSelectedFileId(file?.id);
     }
   };
 
@@ -90,10 +90,10 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
     // Fetch file details
     Client.files
       .getDetails({
-        objectId, id, portalId, rowId: file.id
+        objectId, id, portalId, rowId: file?.id
       })
       .then((fileDetails: any) => {
-        const downloadUrl = fileDetails.data.url; // Get the download URL
+        const downloadUrl = fileDetails?.data?.url; // Get the download URL
         window.open(downloadUrl, "_blank"); // Open the URL in a new tab
       })
       .catch((error) => {
@@ -148,25 +148,25 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
     }
 
     return files.map((file: any, index: any) => (
-      <React.Fragment key={file.id}>
+      <React.Fragment key={file?.id}>
         <TableRow
           className={`border-t dark:border-gray-600 relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
           onClick={() => handleRowClick(file)} // This will still allow row clicking for folders
         >
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-xs dark:text-white">
-            <div className='w-[24px]'>{getIcon(file.type == 'folder' ? '.folder' : file.name)}</div>
+            <div className='w-[24px]'>{getIcon(file?.type == 'folder' ? '.folder' : file?.name)}</div>
           </TableCell>
 
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-xs dark:text-white">
-            <Tooltip id={"fileNane"} content={file.name}>
-              <div className="dark:text-white">{truncatedText(file.name, '100')}</div>
+            <Tooltip id={"fileNane"} content={file?.name}>
+              <div className="dark:text-white">{truncatedText(file?.name, '100')}</div>
             </Tooltip>
           </TableCell>
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
-            <div>{file.type}</div>
+            <div>{file?.type}</div>
           </TableCell>
           <TableCell className="px-4 py-2 dark:border-gray-600  whitespace-nowrap text-left text-xs dark:text-white">
-            <div>{file.size}</div>
+            <div>{file?.size}</div>
           </TableCell>
         </TableRow>
       </React.Fragment>

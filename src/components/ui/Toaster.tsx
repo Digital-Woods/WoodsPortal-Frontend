@@ -9,11 +9,11 @@ export const Toaster = () => {
     if (!toaster) return;
 
     if (toaster.type === "success") {
-      toast.success(toaster.message);
-    } else if (toaster.type === "error") {
-      toast.error(toaster.message);
+      toast.success(toaster?.message);
+    } else if (toaster?.type === "error") {
+      toast.error(toaster?.message);
     } else {
-      toast(toaster.message);
+      toast(toaster?.message);
     }
 
     // clear state after firing toast so it won't re-trigger

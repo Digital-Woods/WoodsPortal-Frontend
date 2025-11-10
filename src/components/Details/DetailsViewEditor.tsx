@@ -57,7 +57,7 @@ export const DetailsViewEditor = ({
     onSuccess: async (data: any) => {
       refetch();
       setEditRow(null)
-      setToaster({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data?.statusMsg, type: "success" });
     },
     onError: (error) => {
       let errorMessage = "An unexpected error occurred.";

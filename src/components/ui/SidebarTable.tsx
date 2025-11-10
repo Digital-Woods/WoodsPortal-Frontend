@@ -67,25 +67,25 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
 
   const mapResponseData = (data: any) => {
     if (env.VITE_DATA_SOURCE_SET === true) {
-      const results = data.data.results || [];
+      const results = data?.data?.results || [];
 
       const foundItem = results.find((item: any) => {
-        return item.name === path ? path?.replace("/", "") : "";
+        return item?.name === path ? path?.replace("/", "") : "";
       });
-      setCurrentTableData(foundItem.results.rows);
-      setTotalItems(foundItem.results.rows.length || 0);
-      setItemsPerPage(foundItem.results.rows.length > 0 ? itemsPerPage : 0);
-      if (foundItem.results.rows.length > 0) {
-        setTableHeader(sortData(foundItem.results.columns));
+      setCurrentTableData(foundItem?.results?.rows);
+      setTotalItems(foundItem?.results?.rows?.length || 0);
+      setItemsPerPage(foundItem?.results?.rows?.length > 0 ? itemsPerPage : 0);
+      if (foundItem?.results?.rows?.length > 0) {
+        setTableHeader(sortData(foundItem?.results?.columns));
       } else {
         setTableHeader([]);
       }
 
     } else {
-      const results = data.data.results.rows || [];
-      const columns = data.data.results.columns || [];
+      const results = data?.data?.results?.rows || [];
+      const columns = data?.data?.results?.columns || [];
       setTableData(results);
-      setTotalItems(data.data.total || 0);
+      setTotalItems(data?.data?.total || 0);
       setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
       setTableHeader(sortData(columns));
     }
@@ -147,25 +147,25 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       setUrlParam(param);
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2';
       return await Client.objects.all({
-        API_ENDPOINT: apis.tableAPI,
-        param: updateParamsFromUrl(apis.tableAPI, param)
+        API_ENDPOINT: apis?.tableAPI,
+        param: updateParamsFromUrl(apis?.tableAPI, param)
       });
     },
 
     onSuccess: (data: any) => {
       setSync(false); // Ensure sync state resets after fetching data
       setApiSync(false)
-      if (data.statusCode === "200") {
+      if (data?.statusCode === "200") {
         setErrorMessage("")
         mapResponseData(data);
-        setPermissions(data.configurations["object"]);
-        setNumOfPages(Math.ceil(data.data.total / itemsPerPage));
+        setPermissions(data?.configurations["object"]);
+        setNumOfPages(Math.ceil(data?.data?.total / itemsPerPage));
       }
     },
 
     onError: (error: any) => {
       console.error("API Error:", error); // Log errors if API call fails
-      setErrorMessage(error.response.data.detailedMessage)
+      setErrorMessage(error?.response?.data?.detailedMessage)
       setSync(false);
       setApiSync(false)
       setTableData([]);
@@ -250,10 +250,10 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       {isLoading && <div className={``}><HomeSidebarSkeleton /></div>}
       {!isLoading && tableData.length === 0 && (
         <div className="text-center p-5">
-          <EmptyMessageCard errorMessage={errorMessage} name={hubSpotUserDetails.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
-          {(tableAPiData && tableAPiData.data && tableAPiData.data.configurations && tableAPiData.data.configurations.association) &&
+          <EmptyMessageCard errorMessage={errorMessage} name={hubSpotUserDetails?.sideMenu[0].tabName === title ? 'item' : title} type='col' className='p-0' />
+          {(tableAPiData && tableAPiData?.data && tableAPiData?.data?.configurations && tableAPiData?.data?.configurations?.association) &&
             <p className="text-secondary text-base md:text-2xl dark:text-gray-300 mt-3">
-              {tableAPiData.data.configurations.associationMessage}
+              {tableAPiData?.data?.configurations?.associationMessage}
             </p>
           }
         </div>
@@ -262,10 +262,10 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
         <React.Fragment>
           <ul className={`space-y-4 transition-all duration-300 ease-in-out ${isExpanded ? "max-h-auto" : "max-h-[270px] overflow-y-auto CUSTOM-hide-scrollbar"}`}>
             {tableData.map((item: any) => (
-              <table key={item.id} className="flex items-start !text-[var(--right-tables-text-color)] !bg-[var(--right-tables-card-background-color)] dark:!text-white dark:!bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
+              <table key={item?.id} className="flex items-start !text-[var(--right-tables-text-color)] !bg-[var(--right-tables-card-background-color)] dark:!text-white dark:!bg-dark-500 p-2 flex-col gap-1 border !border-transparent dark:!border-gray-600 rounded-md justify-between">
                 {tableHeader.map((column: any) => (
                   <tr
-                    key={column.value}
+                    key={column?.value}
                     className=""
                     onMouseEnter={() => handleRowHover(item)}
                     onMouseLeave={() => handleRowHover(null)}
@@ -287,13 +287,13 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
                         {
                           makeLink,
                           companyAsMediator: companyAsMediator,
-                          value: item[column.key],
+                          value: item[column?.key],
                           column: column,
-                          itemId: item.hs_object_id,
-                          path: path == '/association' ? `/${getParam('objectTypeName')}` : item[column.key],
+                          itemId: item?.hs_object_id,
+                          path: path == '/association' ? `/${getParam('objectTypeName')}` : item[column?.key],
                           hubspotObjectTypeId: path == '/association' ? getParam('objectTypeId') : hubspotObjectTypeId,
                           type: "homeList",
-                          associationPath: path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
+                          associationPath: path == '/association' ? `/${objectTypeName}/${objectTypeId}/${item?.hs_object_id}?mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}` : '',
                           detailsView: detailsView,
                           hoverRow: hoverRow,
                           item: item,

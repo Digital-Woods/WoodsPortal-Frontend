@@ -42,7 +42,7 @@ const getPriority = (key: any) => {
 };
 
 export const sortedHeaders = (headers: any) => {
-  return headers.sort((a: any, b: any) => getPriority(a.name) - getPriority(b.name));
+  return headers.sort((a: any, b: any) => getPriority(a?.name) - getPriority(b?.name));
 };
 
 export const DashboardTable: any = ({
@@ -280,7 +280,7 @@ export const DashboardTable: any = ({
   return (
     <div
       className={` ${
-        hubSpotUserDetails.sideMenu[0].tabName === title ||
+        hubSpotUserDetails.sideMenu[0]?.tabName === title ||
         componentName === "ticket"
           ? "mt-0"
           : "md:mt-4 mt-3"
@@ -317,14 +317,14 @@ export const DashboardTable: any = ({
               <div className="text-center pb-4">
                 <EmptyMessageCard
                   name={
-                    hubSpotUserDetails.sideMenu[0].tabName === title
+                    hubSpotUserDetails?.sideMenu[0]?.tabName === title
                       ? "item"
                       : title
                   }
                 />
-                {permissions && permissions.association && (
+                {permissions && permissions?.association && (
                   <p className="text-secondary text-base md:text-2xl dark:text-gray-300 mt-3">
-                    {permissions.associationMessage}
+                    {permissions?.associationMessage}
                   </p>
                 )}
               </div>

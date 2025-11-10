@@ -13,7 +13,7 @@ export const CheckboxField = ({ editRow, saveData, setValue, name, control, setS
   const handleCheckboxChange = (value: any) => {
     let updatedValues = [...selectedValues];
     if (updatedValues.includes(value)) {
-      updatedValues = updatedValues.filter((item) => item !== value);
+      updatedValues = updatedValues.filter((item: any) => item !== value);
     } else {
       updatedValues.push(value);
     }
@@ -24,10 +24,10 @@ export const CheckboxField = ({ editRow, saveData, setValue, name, control, setS
 
   const handleSave = (updatedValues: any) => {
     const selectedLabels = updatedValues.map(
-      (value: any) => editRow.options.find((option: any) => option.value === value)?.label
+      (value: any) => editRow?.options.find((option: any) => option?.value === value)?.label
     );
     const savedData = {
-      [editRow.key]: selectedLabels.join(';'),
+      [editRow?.key]: selectedLabels.join(';'),
     };
     return savedData;
   };
@@ -43,8 +43,8 @@ export const CheckboxField = ({ editRow, saveData, setValue, name, control, setS
   };
 
   // Search functionality
-  const filteredOptions = editRow.options.filter((option: any) =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredOptions = editRow?.options.filter((option: any) =>
+    option?.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export const CheckboxField = ({ editRow, saveData, setValue, name, control, setS
                 className="border border-secondary px-1 py-1 rounded flex items-center"
               >
                 {
-                  editRow.options.find((option: any) => option.value === value)
+                  editRow?.options.find((option: any) => option?.value === value)
                     ?.label || value // Fallback to value if label is not found
                 }
                 <span
@@ -123,16 +123,16 @@ export const CheckboxField = ({ editRow, saveData, setValue, name, control, setS
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option: any) => (
               <label
-                key={option.value}
+                key={option?.value}
                 className="flex items-center p-2 hover:bg-gray-100 hover:dark:bg-dark-300 cursor-pointer"
               >
                 <input
                   type="checkbox"
-                  checked={selectedValues.includes(option.value)}
-                  onChange={() => handleCheckboxChange(option.value)}
+                  checked={selectedValues.includes(option?.value)}
+                  onChange={() => handleCheckboxChange(option?.value)}
                   className="mr-2"
                 />
-                {option.label}
+                {option?.label}
               </label>
             ))
           ) : (

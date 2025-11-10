@@ -19,7 +19,7 @@ export const ModuleFileTable = ({ files }: any) => {
 
   const handleDownload = (file: any, e: any) => {
     e.stopPropagation();
-    window.open(file.url, "_blank");
+    window.open(file?.url, "_blank");
   };
 
   const toggleDropdown = (index: any) => {
@@ -38,22 +38,22 @@ export const ModuleFileTable = ({ files }: any) => {
     }
 
     return files.map((file: any, index: any) => (
-      <React.Fragment key={file.url}>
+      <React.Fragment key={file?.url}>
         <TableRow
           className={`border-t relative cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-300`}
           onClick={() => handleRowClick(file)}
         >
           <TableCell className="px-4 py-2 text-xs">
-            <div>{getIconType(file.type)}</div>
+            <div>{getIconType(file?.type)}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-xs">
-            <div className="dark:text-white">{file.name}</div>
+            <div className="dark:text-white">{file?.name}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-left dark:text-white text-xs w-[100px]">
-            <div>{file.type}</div>
+            <div>{file?.type}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-left dark:text-white text-xs w-[100px]">
-            <div>{file.size}</div>
+            <div>{file?.size}</div>
           </TableCell>
           <TableCell className="px-4 py-2 text-right relative">
             <div className="relative">

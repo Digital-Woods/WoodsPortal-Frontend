@@ -33,7 +33,7 @@ const formatGreetingDate = (date = new Date()) => {
 function replacePlaceholders(description: any, filteredDetails: any) {
   return description?.replace(/\*\*(\w+)\*\*/g, (match: any, key: any) => {
     const foundItem = filteredDetails.find(([k]: any) => k === key);
-    return foundItem ? foundItem[1].value : '--';
+    return foundItem ? foundItem[1]?.value : '--';
   });
 }
 export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
@@ -59,7 +59,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
   const updatedHeader = replacePlaceholders(header, filteredDetails);
 
   let email = "no-email@example.com";
-  let brandName = hubSpotUserDetails.hubspotPortals.portalSettings.brandName;
+  let brandName = hubSpotUserDetails?.hubspotPortals?.portalSettings?.brandName;
 
   if (loggedInDetails && loggedInDetails.email) {
     email = loggedInDetails.email;
@@ -69,20 +69,20 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
 
   if (
     me &&
-    me.hubspotPortals &&
-    me.hubspotPortals.portalSettings &&
-    me.hubspotPortals.portalSettings.brandName
+    me?.hubspotPortals &&
+    me?.hubspotPortals?.portalSettings &&
+    me?.hubspotPortals?.portalSettings?.brandName
   ) {
-    brandName = me.hubspotPortals.portalSettings.brandName;
+    brandName = me?.hubspotPortals?.portalSettings?.brandName;
   }
 
   return (
       <div className={`flex justify-center flex-col items-start md:p-4 p-3 z-2 relative`}>
         <div className="w-full">
-          <div className={`${moduleBannerDetailsOption.show_title || moduleBannerDetailsOption?.show_date ? 'mb-6' : 'mb-0'  }`}>
-            {moduleBannerDetailsOption.show_title && 
+          <div className={`${moduleBannerDetailsOption?.show_title || moduleBannerDetailsOption?.show_date ? 'mb-6' : 'mb-0'  }`}>
+            {moduleBannerDetailsOption?.show_title && 
             <div className={`text-xl md:text-2xl font-bold text-[var(--home-tab-heading-color)] dark:text-white mb-1`}>
-              {moduleBannerDetailsOption && moduleBannerDetailsOption.title ? (
+              {moduleBannerDetailsOption && moduleBannerDetailsOption?.title ? (
                 updatedHeader
               ) : (
                 <span>

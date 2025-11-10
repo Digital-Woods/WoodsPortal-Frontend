@@ -34,7 +34,7 @@ const getPriority = (key: any) => {
 };
 
 const sortedHeaders = (headers: any) => {
-  return headers.sort((a: any, b: any) => getPriority(a.name) - getPriority(b.name));
+  return headers.sort((a: any, b: any) => getPriority(a?.name) - getPriority(b?.name));
 };
 
 export const DashboardTableData = ({
@@ -100,10 +100,10 @@ export const DashboardTableData = ({
   const { subscriptionType }: any = useAuth();
 
   const mapResponseData = (data: any) => {
-    const results = data.data.results.rows || [];
-    const columns = data.data.results.columns || [];
+    const results = data?.data?.results?.rows || [];
+    const columns = data?.data?.results?.columns || [];
     setTableData(results);
-    setTotalItems(data.data.total || 0);
+    setTotalItems(data?.data?.total || 0);
     // setItemsPerPage(results.length > 0 ? itemsPerPage : 0);
     // setLimit(results.length > 0 ? limit : 0);
     setCurrentItems(results.length);
@@ -146,17 +146,17 @@ export const DashboardTableData = ({
         <Table className="w-full">
           <TableHeader className="bg-gray-100 text-left dark:bg-dark-500">
             <TableRow>
-              {tableHeader.filter((column: any) => !column.hidden).map((column: any) => (
+              {tableHeader.filter((column: any) => !column?.hidden).map((column: any) => (
                 <TableHead
                   key={column.key}
                   className="whitespace-nowrap bg-gray-100 dark:text-white dark:bg-dark-500 cursor-pointer"
-                  onClick={() => handleSort(column.key)}
+                  onClick={() => handleSort(column?.key)}
                 >
                   <div className="flex columns-center">
                     <span className="font-semibold text-xs">
-                      {formatColumnLabel(column.value)}
+                      {formatColumnLabel(column?.value)}
                     </span>
-                    {sort === column.key && (
+                    {sort === column?.key && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 -960 960 960"
@@ -166,7 +166,7 @@ export const DashboardTableData = ({
                         <path d="m280-400 200-200 200 200H280Z" />
                       </svg>
                     )}
-                    {sort === `-${column.key}` && (
+                    {sort === `-${column?.key}` && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 -960 960 960"
@@ -202,9 +202,9 @@ export const DashboardTableData = ({
                 onMouseLeave={() => handleRowHover(null)}
                 className="relative"
               >
-                {tableHeader.filter((column: any) => !column.hidden).map((column: any) => (
+                {tableHeader.filter((column: any) => !column?.hidden).map((column: any) => (
                   <TableCell
-                    key={column.value}
+                    key={column?.value}
                     className="whitespace-nowrap dark:border-gray-600  text-sm dark:bg-dark-300 border-b"
                   >
                     <div className="dark:text-white">
@@ -234,7 +234,7 @@ export const DashboardTableData = ({
                         column: column,
                         itemId: item.hs_object_id,
                         associationLabel: title,
-                        path: path == "/association" ? `/${getParam("objectTypeName")}` : item[column.key],
+                        path: path == "/association" ? `/${getParam("objectTypeName")}` : item[column?.key],
                         hubspotObjectTypeId: path == "/association" ? getParam("objectTypeId") : hubspotObjectTypeId,
                         type: "list",
                         // associationPath: viewName === "ticket" ? `/${item[column.key]}/${env.HUBSPOT_DEFAULT_OBJECT_IDS.tickets}/${item.hs_object_id}${detailsUrl}` : (path == "/association" ? `/${objectTypeName}/${objectTypeId}/${item.hs_object_id}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRecordId}&mediatorObjectTypeId=${mediatorObjectTypeId}&mediatorObjectRecordId=${mediatorObjectRecordId}&isPrimaryCompany=${isPrimaryCompany}` : ""),

@@ -33,9 +33,9 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
       }
     },
     onSuccess: async (data: any) => {
-      setEntredEmail(data.data.email)
+      setEntredEmail(data?.data?.email || "")
       // setloginData(data?.data)
-      if (data.data.activeStatus === "ACTIVE" && data.data.emailVerified === true) {
+      if (data?.data?.activeStatus === "ACTIVE" && data?.data?.emailVerified === true) {
         // window.location.hash = "/login";
         setActiveState('final-login')
       } else {
@@ -47,9 +47,9 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
     onError: (error: any) => {
       let errorMessage = "An unexpected error occurred.";
 
-      if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
-        const errors = error.response.data.validationErrors;
+      if (error?.response && error?.response?.data) {
+        const errorData = error?.response?.data?.detailedMessage;
+        const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
 
         errorMessage =
@@ -75,19 +75,19 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
         <div className="">
           <div className="w-[200px]">
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
               alt="Light Mode Logo"
               className="h-auto dark:hidden"
             />
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo}
               alt="Dark Mode Logo"
               className="h-auto hidden dark:block"
             />
           </div>
         </div>
         <p className="text-center dark:text-white">
-          {baseCompanyOptions.welcomeMessage || ""}
+          {baseCompanyOptions?.welcomeMessage || ""}
         </p>
         <div className="w-full">
           <Form
@@ -144,7 +144,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
                   </Button>
                 </div>
               </div>
-)}}
+            )}}
           </Form>
           {baseCompanyOptions?.createAccountBool &&
             <p className="mt-6 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">

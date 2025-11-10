@@ -50,8 +50,8 @@ export const Drawer = ({ className }: any) => {
   const { routes, setRoutes } = useRoute();
 
   const [activeRoute, setActiveRoute] = useState("");
-  const [sideBarOptions, setSideBarOptions] = useState<any | null>(hubSpotUserDetails.sideBarOptions);
-  const [brandName, setBrandName] = useState(hubSpotUserDetails.hubspotPortals.portalSettings.brandName);
+  const [sideBarOptions, setSideBarOptions] = useState<any | null>(hubSpotUserDetails?.sideBarOptions);
+  const [brandName, setBrandName] = useState(hubSpotUserDetails?.hubspotPortals?.portalSettings?.brandName);
   // const [logoutDialog, setLogoutDialog] = useRecoilState(logoutDialogState);
   const { logoutDialog, setLogoutDialog } = useAuth();
   const customPath = useDynamicPathname();
@@ -64,11 +64,11 @@ export const Drawer = ({ className }: any) => {
       setBrandName(brandParam);
     } else if (
       me &&
-      me.hubspotPortals &&
-      me.hubspotPortals.portalSettings &&
-      me.hubspotPortals.portalSettings.brandName
+      me?.hubspotPortals &&
+      me?.hubspotPortals?.portalSettings &&
+      me?.hubspotPortals?.portalSettings?.brandName
     ) {
-      setBrandName(me.hubspotPortals.portalSettings.brandName);
+      setBrandName(me?.hubspotPortals?.portalSettings?.brandName);
     }
   }, [me]);
 
@@ -79,7 +79,7 @@ export const Drawer = ({ className }: any) => {
   const shouldShowTooltip = brandName.length > 10;
 
   useEffect(() => {
-    setSideBarOptions(hubSpotUserDetails.sideBarOptions);
+    setSideBarOptions(hubSpotUserDetails?.sideBarOptions);
   }, [hubSpotUserDetails]);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
@@ -121,11 +121,11 @@ export const Drawer = ({ className }: any) => {
               <div className={`flex ${showCompanyNameOption === true ? 'flex-row items-center' : 'flex-col'} gap-2 cursor-pointer`}>
                 {showCompanyNameOption ?
                   <div className="w-[50px]">
-                    <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
+                    <img src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
                   </div> :
                   <div className={`${sidebarCollapsed ? 'w-40px' : 'w-full'}  max-h-[60px]`}>
                     {sidebarCollapsed ?
-                      <img src={hubSpotUserDetails.hubspotPortals.portalSettings.smallLogo} alt="Logo" className={`h-auto`} /> :
+                      <img src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.smallLogo} alt="Logo" className={`h-auto`} /> :
                       <Logo className={'max-h-[60px]'} />
                     }
                   </div>}
@@ -199,7 +199,7 @@ export const Drawer = ({ className }: any) => {
                               className={`!bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
                               size="sm"
                             >
-                             <HtmlParser html={sideBarOptions.htmlForCta} />
+                             <HtmlParser html={sideBarOptions?.htmlForCta} />
                             </Button>
                         </div>
                       </div>
@@ -262,12 +262,12 @@ export const Drawer = ({ className }: any) => {
         <div className="bg-cleanWhite dark:bg-dark-200 dark:text-white rounded-md flex-col justify-start items-center gap-6 inline-flex p-4">
           <div className="w-[200px]">
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.authPopupFormLogo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
               alt="Light Mode Logo"
               className="h-auto dark:hidden"
             />
             <img
-              src={hubSpotUserDetails.hubspotPortals.portalSettings.logo}
+              src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo}
               alt="Dark Mode Logo"
               className="h-auto hidden dark:block"
             />

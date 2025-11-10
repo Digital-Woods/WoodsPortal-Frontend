@@ -64,7 +64,7 @@ export const Attachments = ({
 
   const removeAttachment = (attachment: any) => {
     setUploadedAttachments((prevAttachments: any) =>
-      prevAttachments.filter((item: any) => item.id !== attachment.id)
+      prevAttachments.filter((item: any) => item?.id !== attachment?.id)
     );
   };
 
@@ -100,15 +100,15 @@ export const Attachments = ({
                 </div>
                 <div className="[calc(90%_-_100px)]">
                   <span
-                    onClick={() => setSelectedFileId(attachment.id)}
+                    onClick={() => setSelectedFileId(attachment?.id)}
                     className="cursor-pointer font-semibold text-xs text-lightblue text-[#5f6368] dark:text-white hover:underline"
                     target="_blank"
                   >
-                    {getFileName(attachment.name)}
+                    {getFileName(attachment?.name)}
                   </span>
                 </div>
                 <div className="w-[80px]">
-                  <span className="text-xs font-normal">({attachment.size})</span>
+                  <span className="text-xs font-normal">({attachment?.size})</span>
                 </div>
               </div>
               {/* {remove && (

@@ -65,7 +65,7 @@ export const ChangePassword = () => {
         .string()
         .min(6, { message: "Please confirm your new password" }),
     })
-    .refine((data) => data.newPassword === data.confirmPassword, {
+    .refine((data: any) => data?.newPassword === data?.confirmPassword, {
       message: "New passwords don't match",
       path: ["confirmPassword"],
     });
@@ -79,7 +79,7 @@ export const ChangePassword = () => {
   } = useMutation({
     mutationFn: (data) => Client.authentication.changePassword(data),
     onSuccess: (response: any) => {
-      setToaster({ message: response.statusMsg || "Password updated successfully", type: "success" });
+      setToaster({ message: response?.statusMsg || "Password updated successfully", type: "success" });
       // Clear input fields on success
       setCurrentPassword("");
       setNewPassword("");
@@ -88,13 +88,13 @@ export const ChangePassword = () => {
     onError: (error: any) => {
       let errorMessage = "Error updating password";
       if (
-        error.response &&
-        error.response.data &&
-        error.response.data.errorMessage
+        error?.response &&
+        error?.response?.data &&
+        error?.response?.data?.errorMessage
       ) {
-        errorMessage = error.response.data.errorMessage;
-      } else if (error.message) {
-        errorMessage = error.message;
+        errorMessage = error?.response?.data?.errorMessage;
+      } else if (error?.message) {
+        errorMessage = error?.message;
       }
       setToaster({ message: errorMessage, type: "error" });
     },
@@ -161,9 +161,9 @@ export const ChangePassword = () => {
                     >
                       {showCurrentPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
-                    {errors.currentPassword && (
+                    {errors?.currentPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
-                        {errors.currentPassword.message}
+                        {errors?.currentPassword?.message}
                       </div>
                     )}
                   </div>
@@ -191,9 +191,9 @@ export const ChangePassword = () => {
                     >
                       {showNewPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
-                    {errors.newPassword && (
+                    {errors?.newPassword && (
                       <div className="text-red-600 text-[12px] px-2  mt-1 max-w-[calc(100%-16px)]">
-                        {errors.newPassword.message}
+                        {errors?.newPassword?.message}
                       </div>
                     )}
                   </div>
@@ -221,9 +221,9 @@ export const ChangePassword = () => {
                     >
                       {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
                     </span>
-                    {errors.confirmPassword && (
+                    {errors?.confirmPassword && (
                       <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
-                        {errors.confirmPassword.message}
+                        {errors?.confirmPassword?.message}
                       </div>
                     )}
                   </div>

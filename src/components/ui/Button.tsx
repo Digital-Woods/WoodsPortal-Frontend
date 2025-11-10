@@ -63,7 +63,7 @@ export const Button = forwardRef((props: any, ref: any) => {
       <Comp
         className={classNames(classesName)}
         ref={ref}
-        disabled={isLoading || props.disabled}
+        disabled={isLoading || props?.disabled}
         {...rest}
       >
         {isLoading ? (
