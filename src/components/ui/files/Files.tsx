@@ -317,7 +317,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
           />
         </div>
 
-        <div className="text-xl font-semibold mb-4 dark:text-white">
+        <div className="text-xl font-semibold mb-4 dark:text-white break-words whitespace-normal overflow-hidden">
           {currentFiles && currentFiles?.name != id ? currentFiles?.name : "Home"}
         </div>
 

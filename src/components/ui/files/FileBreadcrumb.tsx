@@ -7,7 +7,7 @@ export const FileBreadcrumb = ({ id, folderStack, onClick }: any) => (
             return (
               <li key={index} className="flex items-center">
                 <span
-                  className={`dark:text-white ${
+                  className={`dark:text-white overflow-hidden text-ellipsis min-w-0 break-all sm:break-words whitespace-normal ${
                     index !== folderStack.length - 1
                       ? "hover:text-secondary hover:underline underline-offset-4 cursor-pointer"
                       : ""
