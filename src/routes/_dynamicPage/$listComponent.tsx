@@ -6,6 +6,7 @@ import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 import { useEffect } from 'react';
 import Dashboard from '../../components/ui/dashboard/dashboard';
+import NotFound from '@/components/Layouts/404';
 
 const ListComponent = () => {
   const { listComponent: path } = Route.useParams();
@@ -20,7 +21,7 @@ const ListComponent = () => {
 
   // check if homaepage
   if(!routeMenu) { 
-    return <div className='text-2xl font-bold text-center dark:!text-white pt-6'> 404 Not Found</div>
+    return <NotFound/>
   }
 
   if(routeMenu?.homeCardsView){
