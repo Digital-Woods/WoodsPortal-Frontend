@@ -9,6 +9,7 @@ import { Link } from '@/components/ui/link';
 import { Button } from '@/components/ui/Button'
 import { z } from 'zod';
 import { useToaster } from '@/state/use-toaster';
+import { useResponsive } from '@/utils/UseResponsive';
 
 const ForgetPassword = () => {
   const [serverError, setServerError] = useState(null);
@@ -50,10 +51,11 @@ const ForgetPassword = () => {
   const onSubmit = (data: any) => {
     resetPassword(data);
   };
+  const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-900 justify-center h-screen">
-      <div className="dark:bg-dark-200 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+      <div className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
         <div className="w-[200px]">
           <img
             src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
