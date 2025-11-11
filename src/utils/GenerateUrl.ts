@@ -524,28 +524,31 @@ export const getFormTitle = (
   }
 
   let objectName: any = ''
+  let puralObjectName: any = ''
   let dialogTitle: any = ''
 
-  if (breadcrumbs && breadcrumbs.length > 0) {
-    const last: any = breadcrumbs[breadcrumbs.length - 1]
+  if (breadcrumbs && breadcrumbs?.length > 0) {
+    const last: any = breadcrumbs[breadcrumbs?.length - 1]
     const lastName = last?.n
     const mTitle = title
-    if (type === 'association' && breadcrumbs && breadcrumbs.length > 0) {
+    if (type === 'association' && breadcrumbs && breadcrumbs?.length > 0) {
       objectName = title
+      puralObjectName = title
       dialogTitle = `${activeTab == 'addNew' ? `Create a new ${mTitle} for ${nameTrancate(lastName)}` : `Associate an Existing ${mTitle} with ${nameTrancate(lastName)}`}`
     } else {
       const singularLastName = typeof lastName === 'string' && lastName?.endsWith('s')
         ? lastName.slice(0, -1)
         : lastName
       objectName = singularLastName
-      dialogTitle = `${activeTab == 'addNew' ? `Create a new ${mTitle.includes('with') ? nameTrancate(mTitle?.replace('with', 'for')) : nameTrancate(mTitle)}` : `Associate an Existing ${nameTrancate(mTitle)}`}`
+      puralObjectName = lastName
+      dialogTitle = `${activeTab == 'addNew' ? `Create a new ${mTitle?.includes('with') ? nameTrancate(mTitle?.replace('with', 'for')) : nameTrancate(mTitle)}` : `Associate an Existing ${nameTrancate(mTitle)}`}`
     }
   }
-  return { objectName, dialogTitle }
+  return { objectName, puralObjectName, dialogTitle }
 }
 
 const nameTrancate = (name: any) => {
-  return name.length > 30 ? `${name?.slice(0, 30) + '...'}` : name
+  return name?.length > 30 ? `${name?.slice(0, 30) + '...'}` : name
 }
 
 // export const updateLink = (props: any) => {
