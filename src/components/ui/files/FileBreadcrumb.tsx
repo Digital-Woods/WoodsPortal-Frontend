@@ -65,7 +65,7 @@ export const FileBreadcrumb = ({ id, folderStack, onClick }: any) => (
           }
         })
       ) : (
-        <li className="text-gray-500">Root</li>
+        <></>
       )}
     </ol>
   </nav>
