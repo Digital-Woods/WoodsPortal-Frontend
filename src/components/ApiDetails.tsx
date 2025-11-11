@@ -28,6 +28,7 @@ import { DetailsPagination } from "./Details/DetailsPagination";
 import { DetailsView } from "./Details/DetailsView";
 import { useRouter } from "@tanstack/react-router";
 import { getParamDetails, useUpdateLink } from "@/utils/GenerateUrl";
+import NotFound from "./Layouts/404";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
   const [item, setItems] = useState([]);
@@ -197,14 +198,15 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   }
 
   if (error) {
-    return (
+    return (<NotFound message={error?.response?.data?.detailedMessage || ""} type="details"/>);
+    {/* return (
       <div className="flex flex-col items-center text-center p-4  h-[calc(100%-var(--nav-height))] justify-center gap-4">
         <span className="text-yellow-600">
           <CautionCircle/>
         </span>
         {error?.response?.data?.detailedMessage || ""}
       </div>
-    );
+    ); */}
   }
 
   if (!isLoadedFirstTime || (sync === true && isLoading) ) {
