@@ -29,8 +29,11 @@ import { DetailsView } from "./Details/DetailsView";
 import { useRouter } from "@tanstack/react-router";
 import { getParamDetails, useUpdateLink } from "@/utils/GenerateUrl";
 import NotFound from "./Layouts/404";
+import { useNavHeight } from "@/utils/useNavHeight";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
+  console.log('useNavHeight', true)
+  useNavHeight();
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
   const [info, setInfo] = useState(null);
