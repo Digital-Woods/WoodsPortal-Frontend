@@ -22,7 +22,19 @@ export const removeAllCookie = () => {
     });
 }
 
+// export const isCookieExpired = (key: string): boolean => {
+//   const value = Cookies.get(key);
+//   console.log('value', value)
+//   return value === undefined; // true means expired or never set
+// };
+
+
 export const isCookieExpired = (key: string): boolean => {
-  const value = Cookies.get(key);
-  return value === undefined; // true means expired or never set
+  const value: any = Cookies.get(key);
+  try {
+    const { expiresAt } = JSON.parse(value);
+    return Date.now() > expiresAt ? true : false;
+  } catch {
+    return false; // if invalid format, treat as valid
+  }
 };
