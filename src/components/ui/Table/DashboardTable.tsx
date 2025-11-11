@@ -16,7 +16,7 @@ import { CautionCircle } from '@/assets/icons/CautionCircle';
 import { DashboardTableHeaderSkeleton } from '../skeletons/DashboardTableHeaderSkeleton';
 import { BoardViewSkeleton } from '../skeletons/BoardViewSkeleton';
 import { TableSkeleton } from '../skeletons/TableSkeleton';
-import { useUpdateLink } from '@/utils/GenerateUrl';
+import { getFormTitle, useUpdateLink } from '@/utils/GenerateUrl';
 
 export const formatKey = (key: any) => {
   return (key && typeof key === "string") ? key?.replace(/_/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase()) : "";
@@ -277,6 +277,8 @@ export const DashboardTable: any = ({
   //   );
   // }
 
+  const { puralObjectName } = getFormTitle(componentName, title, "addNew");
+
   return (
     <div
       className={` ${
@@ -319,7 +321,7 @@ export const DashboardTable: any = ({
                   name={
                     hubSpotUserDetails?.sideMenu[0]?.tabName === title
                       ? "item"
-                      : title
+                      : puralObjectName
                   }
                 />
                 {permissions && permissions?.association && (
