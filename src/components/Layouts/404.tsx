@@ -3,8 +3,9 @@ import { Button } from '../ui/Button';
 import { formatPath } from '@/utils/DataMigration';
 import { useRouter } from '@tanstack/react-router';
 import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData';
+import { CautionCircle } from '@/assets/icons/CautionCircle';
 
-const NotFound: React.FC<{ children?: React.ReactNode }> = () => {
+const NotFound = ({ message = "", type = "404" }: any) => {
   const router: any = useRouter()
 
   const goToDashboard = () => {
@@ -16,17 +17,26 @@ const NotFound: React.FC<{ children?: React.ReactNode }> = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh-50px)] text-center space-y-4">
-      <h1 className="text-7xl font-semibold dark:text-white mb-2">404</h1>
-      <div>
-        <p className="text-lg dark:text-white">Page Not Found</p>
-      </div>
-
-      <Button size="sm" onClick={() => goToDashboard()}>
-        Go to Dashboard
-      </Button>
-
-    </div>
+    <>
+      {type === "404" ?
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-50px)] text-center space-y-4">
+          <h1 className="text-7xl font-semibold dark:text-white mb-2">404</h1>
+          <div>
+            <p className="text-lg dark:text-white">Page Not Found</p>
+          </div>
+          <Button size="sm" onClick={() => goToDashboard()}>
+            Go to Dashboard
+          </Button>
+        </div>
+        :
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-50px)] text-center space-y-4">
+          <span className="text-yellow-600">
+            <CautionCircle />
+          </span>
+          <p className="text-lg dark:text-white">{message}</p>
+        </div>
+      }
+    </>
   );
 };
 
