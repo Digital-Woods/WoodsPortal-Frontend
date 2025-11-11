@@ -321,7 +321,7 @@ export const DashboardTable: any = ({
                   name={
                     hubSpotUserDetails?.sideMenu[0]?.tabName === title
                       ? "item"
-                      : puralObjectName
+                      : title || puralObjectName
                   }
                 />
                 {permissions && permissions?.association && (
