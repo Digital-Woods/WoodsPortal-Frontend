@@ -78,7 +78,7 @@ export const DetailsHeaderCard = ({
     <div
       className="relative min-h-36 rounded-lg w-full flex items-center justify-between overflow-hidden CUSTOM-bg-custom-gradient"
     >
-      <div className="relative flex flex-col justify-center p-4 text-[var(--details-page-text-color)] z-10">
+      <div className="relative flex flex-col justify-center p-4 text-[var(--details-page-text-color)] z-10 break-words whitespace-normal overflow-hidden">
         <p className="text-2xl font-semibold mb-2">{displayData?.primary}</p>
         {displayData?.secondary && (
           <p className="text-xs font-normal text-[var(--details-page-text-color)] CUSTOM-line-clamp-2">
