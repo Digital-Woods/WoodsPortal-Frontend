@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export const FileViewer = ({ file }: any) => {
   const [loading, setLoading] = useState(true);
-  const officeViewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+  const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
     file?.data?.url
   )}`;
 
