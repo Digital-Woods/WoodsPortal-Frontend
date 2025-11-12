@@ -65,7 +65,7 @@ export const Form = ({
 };
 
 export const FormItem = ({ children, className }: any) => (
-  <div className={`mb-5 ${className}`}>{children}</div>
+  <div className={`${className}`}>{children}</div>
 );
 
 export const FormLabel = ({ children, className }: any) => (

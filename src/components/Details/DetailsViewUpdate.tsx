@@ -657,7 +657,7 @@ export const DetailsViewUpdate = ({
               {({ register, control, setValue, formState: { errors } }: any) => (
                 <div className="flex gap-2 w-full items-center">
                   <div className="text-gray-800 flex-1 dark:text-gray-200">
-                    <FormItem className="!mb-0 w-full">
+                    <FormItem className="mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ||
                         editRow.fieldType === "radio" || 

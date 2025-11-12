@@ -1,4 +1,22 @@
 /* Main styles Start */
+html, body {
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+}
+
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='12' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  background-size: 32px;
+  padding-right: 23px;
+}
+
+.dark select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='12' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+}
 
 .CUSTOM-bg-custom-gradient{
   background-image: linear-gradient(194deg, var(--details-page-banner-color2) 0%, var(--details-page-banner-color1) 72%);

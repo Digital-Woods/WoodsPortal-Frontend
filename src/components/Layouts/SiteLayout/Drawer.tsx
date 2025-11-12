@@ -149,8 +149,8 @@ export const Drawer = ({ className }: any) => {
                 <CloseIcon />
               </div>
             </div>
-            <nav className="space-y-1 flex-1">
-              <div className=" flex flex-col h-full justify-between ">
+            <nav className="space-y-1 flex-1 flex flex-col">
+              <div className=" flex flex-col flex-1 justify-between ">
                 <div className={`${showSidebarCtaOption ? 'max-h-[calc(100vh-355px)]' : 'max-h-[calc(100vh-160px)]'} flex flex-col gap-2 overflow-y-auto overflow-x-visible CUSTOM-hide-scrollbar relative`}>
                   {(routes.length > 0 && activeRoute) &&
                     routes.map(({ path, title, icon }: any) => (
@@ -207,7 +207,7 @@ export const Drawer = ({ className }: any) => {
                   )
                 }
 
-                <div>
+                {/* <div> */}
                   {/* <NavLink
                   key={"/notifications"}
                   to={"/notifications"}
@@ -252,7 +252,7 @@ export const Drawer = ({ className }: any) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </nav>
           </div>
         </div>
