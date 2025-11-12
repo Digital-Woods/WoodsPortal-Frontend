@@ -29,7 +29,7 @@ import { DetailsView } from "./Details/DetailsView";
 import { useRouter } from "@tanstack/react-router";
 import { getParamDetails, useUpdateLink } from "@/utils/GenerateUrl";
 import NotFound from "./Layouts/404";
-import { useNavHeight } from "@/utils/useNavHeight";
+import { useNavHeight } from "@/utils/UseNavHeight";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
   console.log('useNavHeight', true)
@@ -223,7 +223,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
             <DetailsSkeleton />
           </div>
           <div className={` bg-cleanWhite transition-transform duration-200 ease-in-out lg:h-[calc(100vh-100px)] h-full CUSTOM-hide-scrollbar overflow-visible z-50 ${isLargeScreen ? "w-[330px] right-0 static rounded-md dark:bg-dark-200 " : "fixed w-full inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter right-0 top-0 bottom-0 transform"} ${isLargeScreen && sidebarDetailsOpen ? " " :!isLargeScreen && sidebarDetailsOpen ? `translate-x-0` : "translate-x-full"}`}>
-            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-visible">
+            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 md:max-w-[350px] max-w-[100vw] overflow-visible">
               <DetailsSidebarSkeleton />
             </div>
           </div>
@@ -398,7 +398,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
             )}
 
             {/* Sidebar Content */}
-            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-y-auto md:!py-4">
+            <div className="h-full CUSTOM-hide-scrollbar ml-auto lg:max-w-auto lg:p-0 p-3 bg-cleanWhite dark:bg-dark-200 md:max-w-[350px] max-w-[100vw] overflow-y-auto md:!py-4">
               {associations &&
                 Object.entries(associations)
                   .filter(

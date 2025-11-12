@@ -12,11 +12,13 @@ import { Link } from '@/components/ui/link';
 import { NewAvater } from '@/assets/icons/NewAvater'
 import { LogOutIcon } from '@/assets/icons/LogOutIcon'
 import { useResponsive } from '@/utils/UseResponsive';
+import { useRouter } from '@tanstack/react-router';
 
 let globalNavHeight = 0;
 export const HeaderLayout = (props: any) => {
   // const { title, path, id = null } = props;
-  
+  const router = useRouter();
+  const { pathname } = router.state.location
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [navIndex, setNavIndex] = useState(49);
   const dropdownRef = useRef<any | null>(null);
@@ -70,8 +72,8 @@ export const HeaderLayout = (props: any) => {
       "--nav-height",
       `${globalNavHeight + 1}px`
     );
-  }, [globalNavHeight, isLargeScreen, isMediumScreen, isSmallScreen]);
-
+  }, [globalNavHeight, isLargeScreen, isMediumScreen, isSmallScreen, pathname]);
+// console.log(pathname,'Breadcrumbs pathname');
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
   };
@@ -121,7 +123,7 @@ export const HeaderLayout = (props: any) => {
         <div className="max-lg:hidden">
           <Breadcrumb {...props} />
         </div>
-        <div className='min-w-[280px]'>
+        <div className=''>
           <div className="flex gap-2 items-center">
 
             <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
@@ -137,7 +139,7 @@ export const HeaderLayout = (props: any) => {
             <div className="w-px h-6 bg-gray-600 dark:bg-dark-400"></div>
 
             <div
-              className=" px-3 py-1 text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section mr-1"
+              className=" px-3 max-sm:pr-0 py-1 text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section md:mr-1"
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >
@@ -146,7 +148,7 @@ export const HeaderLayout = (props: any) => {
                   <div className="rounded-full h-[30px] w-[30px] flex items-center justify-center bg-gray-400 text-white text-xs font-medium">
                     {initials}
                   </div>
-                  <div className="flex items-start flex-col">
+                  <div className="flex items-start flex-col max-sm:hidden">
                     <div className="font-medium text-xs dark:text-white break-all">
                       {fullName.length > 15 ? fullName.slice(0, 15)+'...' : fullName}
                     </div>

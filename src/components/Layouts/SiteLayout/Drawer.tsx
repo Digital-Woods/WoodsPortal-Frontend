@@ -111,7 +111,7 @@ export const Drawer = ({ className }: any) => {
 
       <div className={`${className}`}>
         <div
-          className={`h-[100vh] lg:z-[50] z-[55] sidebar bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[300px]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          className={`h-[100vh] lg:z-[50] z-[55] sidebar bg-[var(--sidebar-background-color)] dark:bg-dark-300 lg:relative lg:translate-x-0 absolute inset-y-0 left-0 transform ${(isMediumScreen || isSmallScreen) && 'w-[100vw]'} ${isLargeScreen && 'w-auto'}  transition duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }
         ${sidebarCollapsed ? "p-3" : "p-4"}
         `}
@@ -123,7 +123,7 @@ export const Drawer = ({ className }: any) => {
                   <div className="w-[50px]">
                     <img src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.smallLogo} alt="Logo" className={`h-auto mr-2 `} />
                   </div> :
-                  <div className={`${sidebarCollapsed ? 'w-40px' : 'w-full'}  max-h-[60px]`}>
+                  <div className={`${sidebarCollapsed ? 'w-40px' : 'w-full max-w-[200px]'}  max-h-[60px]`}>
                     {sidebarCollapsed ?
                       <img src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.smallLogo} alt="Logo" className={`h-auto`} /> :
                       <Logo className={'max-h-[60px]'} />

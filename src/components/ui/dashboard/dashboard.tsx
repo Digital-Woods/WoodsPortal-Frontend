@@ -226,7 +226,7 @@ const Dashboard = () => {
                 )}
 
               {/* Sidebar content */}
-              <div className="h-full md:pt-4 CUSTOM-hide-scrollbar ml-auto lg:max-w-auto max-sm:p-3 bg-cleanWhite dark:bg-dark-200 max-w-[350px] overflow-y-auto">
+              <div className="h-full md:pt-4 CUSTOM-hide-scrollbar ml-auto lg:max-w-auto max-sm:p-3 bg-cleanWhite dark:bg-dark-200 md:max-w-[350px] max-w-[100vw] overflow-y-auto">
                 <div className="flex-col flex lg:gap-6 gap-3 lg:pb-4">
                   {sidebarListDataOption.map((option: any, index: any) => {
                     const hubspotObjectTypeId = option.hubspotObjectTypeId;
