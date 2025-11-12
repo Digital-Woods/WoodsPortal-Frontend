@@ -73,7 +73,7 @@ export const Select = ({
             }}
             value={getValue(field?.value)}
             className={classNames(
-              "w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2",
+              "w-full min-h-[38.5px] appearance-none rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2",
               heightDynamicClassName[size],
               className
             )}
@@ -257,13 +257,13 @@ const SelectApiData = ({
         </div>
       </div>
       {showDropdown && isLoading && (
-        <div className="z-[16] absolute left-0 right-0 top-full mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700">
+        <div className="z-[16] absolute left-0 right-0 top-full mt-2 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700">
           <div className="text-center">Loading...</div>
         </div>
       )}
       {showDropdown && filtered.length > 0 && !isLoading && (
         <div
-          className={`z-[16] absolute bottom-full mb-2 left-0 right-0 mt-2 z-10 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}
+          className={`z-[16] absolute bottom-full mb-2 left-0 right-0 mt-2 max-h-40 overflow-y-auto shadow rounded-md bg-cleanWhite transition-colors border dark:border-gray-600 dark:bg-gray-700`}
         >
           {filtered.map((opt: any) => (
             <div
