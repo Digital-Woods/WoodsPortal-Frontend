@@ -2380,7 +2380,7 @@
       "display_width" : null,
       "default" : {
         "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/small_woodsportal_logo.webp",
         "alt" : "logo.801dd9fb",
         "loading" : "lazy",
         "width" : 268,
@@ -2401,7 +2401,7 @@
       "display_width" : null,
       "default" : {
         "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/woodsportal_light_logo.webp",
         "alt" : "WP WHITE",
         "loading" : "lazy",
         "width" : 684,
@@ -2422,7 +2422,7 @@
       "display_width" : null,
       "default" : {
         "size_type" : "auto",
-        "src" : "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/woodsportal_dark_logo.svg",
         "alt" : "logo.fef91145",
         "loading" : "lazy",
         "width" : 868,
@@ -2467,7 +2467,7 @@
     "default" : {
       "small_logo" : {
         "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/small_woodsportal_logo.webp",
         "alt" : "logo.801dd9fb",
         "loading" : "lazy",
         "width" : 268,
@@ -2477,7 +2477,7 @@
       },
       "logo" : {
         "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/woodsportal_light_logo.webp",
         "alt" : "WP WHITE",
         "loading" : "lazy",
         "width" : 684,
@@ -2487,7 +2487,7 @@
       },
       "auth_popup_form_logo" : {
         "size_type" : "auto",
-        "src" : "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/woodsportal_dark_logo.svg",
         "alt" : "logo.fef91145",
         "loading" : "lazy",
         "width" : 868,
@@ -2638,7 +2638,7 @@
     "company_options" : {
       "small_logo" : {
         "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/logo.801dd9fb.png",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/small_woodsportal_logo.webp",
         "alt" : "logo.801dd9fb",
         "loading" : "lazy",
         "width" : 268,
@@ -2648,7 +2648,7 @@
       },
       "logo" : {
         "size_type" : "auto",
-        "src" : "https://142289565.fs1.hubspotusercontent-eu1.net/hubfs/142289565/WP%20WHITE.png",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/woodsportal_light_logo.webp",
         "alt" : "WP WHITE",
         "loading" : "lazy",
         "width" : 684,
@@ -2658,7 +2658,7 @@
       },
       "auth_popup_form_logo" : {
         "size_type" : "auto",
-        "src" : "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
+        "src" : "https://8409213.fs1.hubspotusercontent-na1.net/hubfs/8409213/woodsportal_dark_logo.svg",
         "alt" : "logo.fef91145",
         "loading" : "lazy",
         "width" : 868,
