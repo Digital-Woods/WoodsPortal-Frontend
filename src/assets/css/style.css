@@ -52,6 +52,16 @@ form {
   word-break: break-word;
 }
 
+.CUSTOM-words-break ol,
+.CUSTOM-words-break ul {
+  list-style-position: outside !important;
+  padding-left: 1rem !important;
+}
+
+.CUSTOM-words-break li {
+  padding-left: 0.25rem;
+}
+
 /* Loader */
 .CUSTOM-loader-line {
   width: 100%;
