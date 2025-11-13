@@ -523,6 +523,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
           </div>
           <div className="flex gap-2 items-center">
             <button
+              type="button"
               disabled={isPosting || isUploading}
               variant="outline"
               onClick={expandToggleButton}

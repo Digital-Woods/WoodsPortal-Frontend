@@ -86,6 +86,7 @@ export const DetailsViewEditor = ({
           </div>
           <div className="flex gap-2 items-center">
             <Button
+              type="button"
               disabled={isLoading}
               variant="outline"
               onClick={expandToggleButton}
