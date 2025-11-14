@@ -1,6 +1,7 @@
-import { useForm } from 'react-hook-form';
-import { useEffect, forwardRef } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useEffect, forwardRef, useState } from 'react';
 import classNames from 'classnames';
+import { NumericInput } from './NumericInput';
 
 export const Form = ({
   onSubmit,
@@ -12,7 +13,7 @@ export const Form = ({
   initialValues = {},
   formName = '',
   ...formProps
-} : any) => {
+}: any) => {
   const zodResolver = (schema: any) => async (data: any) => {
     try {
       const values = schema.parse(data);
@@ -93,11 +94,12 @@ export const Input = forwardRef(
       height = "medium",
       icon: Icon = '',
       variant = 'normal',
+      control = null,
       ...rest
     }: any,
     ref
   ) => {
-    const heightDynamicClassName : any = {
+    const heightDynamicClassName: any = {
       small: "py-1",
       semiMedium: "py-2",
       medium: "py-2",
@@ -121,6 +123,7 @@ export const Input = forwardRef(
       className
     );
     delete rest.className;
+
     return (
       <div className="relative dark:bg-dark-300 flex items-center rounded-lg max-sm:w-full">
         {Icon && (
@@ -128,13 +131,33 @@ export const Input = forwardRef(
             <Icon className="h-6 w-6 text-gray-500" />
           </div>
         )}
-        <input
-          type={type}
-          placeholder={placeholder}
-          className={rootClassName}
-          ref={ref}
-          {...rest}
-        />
+
+        {type === 'number' ?
+          <Controller
+            control={control}
+            name={rest?.name}
+            defaultValue={""}
+            render={({ field }) => (
+              <NumericInput
+                ref={ref}
+                placeholder={placeholder}
+                className={rootClassName}
+                onChange={(value) => {
+                  field.onChange(value)
+                }}
+              />
+            )
+            }
+          />
+          :
+          <input
+            type={type}
+            placeholder={placeholder}
+            className={rootClassName}
+            ref={ref}
+            {...rest}
+          />
+        }
       </div>
     );
   }
