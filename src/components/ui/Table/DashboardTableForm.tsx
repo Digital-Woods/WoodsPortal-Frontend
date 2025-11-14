@@ -470,7 +470,7 @@ export const DashboardTableForm = ({
                       <div>
                         <div className="text-gray-800 dark:text-gray-200">
                           {/* {data.map((group) => ( */}
-                          <div className="mb-4">
+                          <div className="mb-4 grid gap-3">
                             {/* <div className="text-[15px] font-bold">
                                 {group.groupName}
                               </div> */}
