@@ -411,7 +411,7 @@ export const DashboardTableForm = ({
       <Dialog
         open={openModal}
         onClose={setOpenModal}
-        className="bg-cleanWhite dark:bg-dark-200  rounded-md max-h-[95vh] lg:w-[830px] md:w-[720px] w-[calc(100vw-28px)] overflow-y-auto px-4 !py-0 CUSTOM-object-create-form"
+        className="bg-cleanWhite dark:bg-dark-200 lg:h-[90vh] md:h-[90vh] max-h-[100vh] lg:w-[830px] md:w-[720px] w-[calc(100vw)] overflow-y-auto px-4 !py-0 CUSTOM-object-create-form"
       >
         <div>
           <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15]">
