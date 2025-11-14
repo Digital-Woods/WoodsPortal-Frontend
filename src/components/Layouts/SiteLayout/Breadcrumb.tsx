@@ -3,7 +3,13 @@ import { Chevron } from '@/assets/icons/Chevron';
 import { getBreadcrumbs } from '@/utils/GenerateUrl';
 
 export const Breadcrumb = () => {
-  const breadcrumbs =  getBreadcrumbs()
+  const breadcrumbs = getBreadcrumbs()
+
+
+  function addEllipsis(text: string, limit = 20) {
+    if (!text) return "";
+    return text.length > limit ? text.slice(0, limit) + "..." : text;
+  }
 
   return (
     <div className="text-xs">
@@ -18,7 +24,7 @@ export const Breadcrumb = () => {
                   } hover:text-[var(--sidebar-text-color)] opacity-90 dark:!text-white hover:opacity-90`}
                 to={breadcrumb?.path}
               >
-                {breadcrumb?.name}
+                {addEllipsis(breadcrumb?.name)}
               </Link>
               {index < breadcrumbs.length - 1 && (
                 <span className="mx-1 text-[var(--sidebar-text-color)] dark:text-white">
