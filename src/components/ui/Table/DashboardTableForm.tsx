@@ -98,6 +98,8 @@ export const DashboardTableForm = ({
 
     data.forEach((field: any) => {
       const isDomain = field.name === "domain";
+      const isNumber = field.fieldType === "number";
+
       if (field?.requiredField && field?.fieldRole === "OBJECTS") {
         schemaShape[field.name] = z
           .any()
@@ -106,12 +108,41 @@ export const DashboardTableForm = ({
               field?.labels?.plural || field?.customLabel || field?.label
             } must be a non-empty list.`,
           });
-      } else if ((field?.requiredField || field?.primaryProperty) && !isDomain) {
+      } else if ((field?.requiredField || field?.primaryProperty) && !isDomain && !isNumber) {
         schemaShape[field.name] = z.string().nonempty({
           message: `${
             field?.labels?.plural || field?.customLabel || field?.label
           } is required.`,
         });
+      } else if (isNumber) {
+        if (field?.requiredField) {
+          // REQUIRED number
+          schemaShape[field?.name] = z
+            .string()
+            .nonempty({
+              message: `${
+                field?.labels?.plural || field?.customLabel || field?.label
+              } is required.`,
+            })
+            .refine(
+              (value) => value === null || value === "" || /^\d+$/.test(value),
+              {
+                message: "Invalid number",
+              }
+            );
+        } else {
+          // OPTIONAL number
+          schemaShape[field?.name] = z
+            .string()
+            .nullable()
+            .optional()
+            .refine(
+              (value) => value === null || value === "" || /^\d+$/.test(value),
+              {
+                message: "Invalid number",
+              }
+            );
+        }
       } else if (isDomain) {
         schemaShape[field?.name] = z.string().refine(
           (value) => {
@@ -536,6 +567,7 @@ export const DashboardTableForm = ({
                                             type="number"
                                             placeholder={filled?.customLabel}
                                             className=""
+                                            control={control}
                                             {...register(filled?.name)}
                                           />
                                         ) : (
