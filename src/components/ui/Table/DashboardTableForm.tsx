@@ -415,7 +415,7 @@ export const DashboardTableForm = ({
       >
         <div>
           <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15]">
-            <div className="text-start text-xl dark:text-white font-semibold ">
+            <div className="text-start text-xl dark:text-white font-semibold  break-all">
               {dialogTitle}
             </div>
             {(type === "association" || type === "association_new") && (isShowExistingRecord) && (
