@@ -758,7 +758,7 @@ export const DynamicComponentView = ({
                         Object.entries(tableTitle).map(
                           ([key, value]: any, index: any, array: any) => {
                             return (
-                              <li key={key} className="flex items-center">
+                              <li key={key} className="flex items-center break-all">
                                 <Link
                                   className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
                                   to={value?.path}
