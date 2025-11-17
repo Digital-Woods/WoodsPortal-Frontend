@@ -98,7 +98,7 @@ export const Attachments = ({
                 <div className="w-[20px]">
                   <FileIcon />
                 </div>
-                <div className="[calc(90%_-_100px)]">
+                <div className="w-[calc(100%-100px)] break-all break-words whitespace-normal">
                   <span
                     onClick={() => setSelectedFileId(attachment?.id)}
                     className="cursor-pointer font-semibold text-xs text-lightblue text-[#5f6368] dark:text-white hover:underline"
