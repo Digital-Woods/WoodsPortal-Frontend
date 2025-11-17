@@ -237,7 +237,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     >
       {item.length > 0 && (
         <div className=" flex relative bg-cleanWhite  h-full dark:bg-dark-200 overflow-hidden">
-          {associations && !isLargeScreen && !sidebarDetailsOpen && (
+          {(associations && typeof associations === "object" && Object.keys(associations).length > 0) && !isLargeScreen && !sidebarDetailsOpen && (
             <div className="rounded-full dark:bg-dark-200 z-[52] absolute right-[10px] top-[10px]">
               <button
                 className="rounded-full p-2 dark:bg-cleanWhite bg-[var(--sidebar-background-color)] text-[var(--sidebar-text-color)] dark:text-dark-200 animate-pulseEffect dark:animate-pulseEffectDark"
