@@ -715,6 +715,7 @@ export const DetailsViewUpdate = ({
                           />
                         ) : editRow.fieldType === "number" ? (
                           <Input
+                            control={control}
                             type="number"
                             placeholder={`Enter ${editRow.label}`}
                             height="small"
