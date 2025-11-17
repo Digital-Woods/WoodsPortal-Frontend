@@ -560,6 +560,7 @@ export const DashboardTableForm = ({
                                             className=""
                                             setValue={setValue}
                                             defaultValue={""}
+                                            time={filled?.type === "datetime" ? true : false}
                                             {...register(filled?.name)}
                                           />
                                         ) : filled?.fieldType === "number" ? (
