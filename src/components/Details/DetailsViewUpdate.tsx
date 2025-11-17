@@ -711,6 +711,7 @@ export const DetailsViewUpdate = ({
                             className=""
                             setValue={setValue}
                             defaultValue={editRow?.value}
+                            time={editRow?.type === "datetime" ? true : false}
                             {...register(editRow?.key)}
                           />
                         ) : editRow.fieldType === "number" ? (
