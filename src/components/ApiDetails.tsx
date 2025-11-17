@@ -32,7 +32,6 @@ import NotFound from "./Layouts/404";
 import { useNavHeight } from "@/utils/UseNavHeight";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
-  console.log('useNavHeight', true)
   useNavHeight();
   const [item, setItems] = useState([]);
   const [images, setImages] = useState([]);
