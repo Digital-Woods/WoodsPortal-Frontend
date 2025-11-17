@@ -647,7 +647,7 @@ form {
 }
 
 .CUSTOM-create-object-editor .ProseMirror {
-  min-height: 180px;
+  min-height: 320px;
 }
 
 .CUSTOM-updateRichText .ProseMirror {
