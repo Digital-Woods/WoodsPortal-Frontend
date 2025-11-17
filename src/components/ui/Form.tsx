@@ -90,6 +90,7 @@ export const Input = forwardRef(
     {
       className,
       type = "text",
+      defaultValue = "",
       placeholder = "Search",
       height = "medium",
       icon: Icon = '',
@@ -136,10 +137,11 @@ export const Input = forwardRef(
           <Controller
             control={control}
             name={rest?.name}
-            defaultValue={""}
+            defaultValue={defaultValue}
             render={({ field }) => (
               <NumericInput
                 ref={ref}
+                value={field.value}
                 placeholder={placeholder}
                 className={rootClassName}
                 onChange={(value) => {
