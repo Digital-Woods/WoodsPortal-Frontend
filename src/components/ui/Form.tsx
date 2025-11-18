@@ -132,7 +132,7 @@ export const Input = forwardRef(
             <Icon className="h-6 w-6 text-gray-500" />
           </div>
         )}
-
+        {console.log('defaultValue', defaultValue)}
         {type === 'number' ?
           <Controller
             control={control}
@@ -153,6 +153,7 @@ export const Input = forwardRef(
           />
           :
           <input
+            defaultValue={defaultValue}
             type={type}
             placeholder={placeholder}
             className={rootClassName}
