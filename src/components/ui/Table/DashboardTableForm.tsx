@@ -535,6 +535,7 @@ export const DashboardTableForm = ({
                                             onChangeSelect={onChangeSelect}
                                             disabled={filled?.hidden}
                                             setValue={filled?.hidden ? setValue : null}
+                                            isMulti={filled?.fieldType == "checkbox" ? true : false}
                                           />
                                         ) : filled.fieldType === "textarea" ? (
                                           <Textarea
@@ -608,6 +609,7 @@ export const DashboardTableForm = ({
                                         optionlabel="label"
                                         optionValue="ID"
                                         setValue={setValue}
+                                        isMulti={filled?.fieldType == "checkbox" ? true : false}
                                       />
                                     </FormControl>
                                     {errors[filled?.name] && (
