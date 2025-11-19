@@ -120,6 +120,7 @@ export const DetailsViewEditor = ({
             setEditorContent={setEditorContent}
             id={`editor-${title}`}
             menuConfig={menuConfig}
+            isLoading={isLoading}
           />
           <div className="mt-4 flex justify-end gap-3 darkbg-[#516f90] ">
             <Button

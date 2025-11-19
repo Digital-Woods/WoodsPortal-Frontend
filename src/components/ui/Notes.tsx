@@ -181,6 +181,7 @@ const NoteCard = ({
                 refetch={refetch}
                 objectId={objectId}
                 setIsUploading={setIsUploading}
+                isLoading={isLoadingUpdate}
               />
               </div>
               <div className="flex gap-x-2 mt-2">
@@ -568,6 +569,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
             refetch={refetch}
             objectId={objectId}
             setIsUploading={setIsUploading}
+            isLoading={isPosting}
           />
         </div>
           <div className="flex justify-end gap-3 darkbg-[#516f90] sticky bottom-0 z-50 bg-white px-4 pb-4 pt-2">
