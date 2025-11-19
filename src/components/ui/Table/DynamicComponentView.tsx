@@ -204,7 +204,6 @@ export const DynamicComponentView = ({
         await setPageView(null);
 
         // setSelectedPipeline is not async so i pass manualy pipeline value
-          console.log('defPermissions', defPermissions)
 
         if (
           (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
