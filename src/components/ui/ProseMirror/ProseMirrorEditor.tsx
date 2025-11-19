@@ -42,6 +42,7 @@ export const ProseMirrorEditor = ({
   refetch = null,
   objectId,
   setIsUploading,
+  isLoading,
   menuConfig = {
     boldItem: true,
     italicItem: true,
@@ -649,11 +650,17 @@ export const ProseMirrorEditor = ({
 
   return (
     <div>
-      <div
-        ref={editorRef}
-        id="prosemirror-editor"
-        className="text-[#000] prosemirror-editor dark:bg-white bg-white rounded border border-secondary pt-0"
-      ></div>
+      <div className="relative">
+        {isLoading && (
+          <div className="absolute inset-0 z-[9999] cursor-not-allowed"></div>
+        )}
+
+        <div
+          ref={editorRef}
+          id="prosemirror-editor"
+          className="text-[#000] prosemirror-editor dark:bg-white bg-white rounded border border-secondary pt-0"
+        ></div>
+      </div>
 
       <Attachments
         setUploadedAttachments={setUploadedAttachments}
