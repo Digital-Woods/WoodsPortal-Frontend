@@ -10,7 +10,5 @@ count.txt
 
 # HubSpot config file
 hubspot.config.yml
-.env.development
-.env.production
 dist
 .temp
