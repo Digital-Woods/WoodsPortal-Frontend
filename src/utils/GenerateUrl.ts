@@ -84,7 +84,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
   } else {
     const lastItem = breadcrumbs[breadcrumbs.length - 1]
 
-    if (lastItem?.o_t_id === props?.objectTypeId) {
+    if ((props?.objectTypeId != '0-5' && breadcrumbs.length > 2) && (lastItem?.o_t_id === props?.objectTypeId)) { // 1st check for only association ticket object, 2nd check for all associated object
       const newCrumb: any = {
         n: props?.name,
         o_t_id: props?.objectTypeId,
