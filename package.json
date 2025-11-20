@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build:prod": "vite build --mode production",
-    "build:dev": "vite build --mode development",
+    "build:dev": "vite build --mode stag",
     "auth": "hs auth",
     "upload": "hs upload dist/WoodsPortal.module dw-modules/woodsportal-module.module",
     "deploy": "vite build && hs upload dist/WoodsPortal.module dw-modules/woodsportal-module.module",
