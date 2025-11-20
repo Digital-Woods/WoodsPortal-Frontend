@@ -1,6 +1,7 @@
 const primarycolor = "";
 const secondarycolor = "";
 
+const developerModeModule = false;
 const dataSourceSet = false;
 const hubId = 48715351;
 const apiBaseUrlOption = ""
@@ -684,6 +685,7 @@ const homeTabsDataTypeFilter = {
 };
 
 export const defaultData = {
+    developerModeModule,
     dataSourceSet,
     apiBaseUrlOption,
     addHomeTabOption,
