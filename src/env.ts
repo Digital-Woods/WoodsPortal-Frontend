@@ -13,7 +13,7 @@ export const env = createEnv({
   clientPrefix: 'VITE_',
 
   client: {
-    VITE_NODE_ENV: z.enum(["development", "production"]).default("development"),
+    VITE_NODE_ENV: z.enum(["development", "production", "stag"]).default("development"),
     VITE_APP_TITLE: z.string().min(1).optional(),
     VITE_DEV: z.any(),
     VITE_PORTAL_URL: z.string().url(),
