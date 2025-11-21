@@ -33,12 +33,6 @@ export const Select = ({
   const { setToaster } = useToaster();
   const [options, setOptions] = useState([]);
 
-  useEffect(() => {
-    if (selectOptions && selectOptions.length > 0) {
-      setOptions(selectOptions)
-    }
-  }, [selectOptions]);
-
   const { mutate: fetchOptions, isLoading } = useMutation({
     mutationKey: ["getOptionsData"],
     mutationFn: async () => {
@@ -61,16 +55,29 @@ export const Select = ({
   });
 
   const getValue = (data: any) => {
+    // If array → return joined values
     if (Array.isArray(data)) {
-      return data.map(item => item[optionValue]).join("; ");
-    } else {
+      return data
+        .map((item) => (typeof item === "object" ? item[optionValue] : item))
+        .join("; ");
+    }
+
+    // If object → return property value
+    if (typeof data === "object" && data !== null) {
       return data[optionValue];
     }
-  }
 
-  const handleChange = (e: any, field: any) => {
+    // If string/number/etc → return as-is
+    return data;
+  };
+
+  const handleChange = (e: any, field?: { onChange: (value: any) => void }) => {
     const selected = getValue(e);
-    field.onChange(selected);
+
+    if(field) {
+      field.onChange(selected);
+    }
+
     if (onChangeSelect) {
       onChangeSelect(filled, selected);
     }
@@ -78,6 +85,15 @@ export const Select = ({
       setValue(filled?.name, selected);
     }
   };
+
+  useEffect(() => {
+    if (selectOptions && selectOptions.length > 0) {
+      setOptions(selectOptions)
+    }
+    if (disabled && selectOptions.length === 1) {
+      handleChange(selectOptions[0].value)
+    }
+  }, [selectOptions]);
 
   return (
     <Controller
