@@ -16,7 +16,7 @@ export const Select = ({
   label,
   name = "",
   options: selectOptions = [],
-  value = "",
+  defaultValue = "",
   control,
   filled = null,
   onChangeSelect = null,
@@ -99,9 +99,11 @@ export const Select = ({
     <Controller
       control={control}
       name={name}
-      defaultValue={value}
+      defaultValue={defaultValue}
       render={({ field }) =>
         <MSelect
+          {...field}
+          value={options.find((o: any) => o.value === field.value) || ""}
           options={options}
           isMulti={isMulti}
           onMenuOpen={apiEndPoint != null ? fetchOptions : null}
