@@ -126,7 +126,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       let errorMessage = "An unexpected error occurred.";
 
       if (error?.response && error?.response.data) {
-        const errorData = error?.response?.data?.detailedMessage;
+        const errorData = error?.response?.data?.errorMessage;
         const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
         // helper function to extract first error message

@@ -41,7 +41,7 @@ export const DashboardTableExistingForm = ({
       setOptions(transformed);
     },
     onError: (error: any) => {
-      setErrorMessage(error?.response?.data?.detailedMessage);
+      setErrorMessage(error?.response?.data?.errorMessage);
     },
   });
 

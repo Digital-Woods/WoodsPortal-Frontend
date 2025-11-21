@@ -40,7 +40,7 @@ const NotVerifiedEmail = () => {
       let errorMessage = error?.response?.data?.errorMessage;
 
       if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
+        const errorData = error.response.data.errorMessage;
         setServerError(errorData);
 
         errorMessage =

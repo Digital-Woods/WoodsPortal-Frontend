@@ -268,7 +268,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
         <span className="text-yellow-600">
           <CautionCircle />
         </span>
-        {error?.response?.data?.detailedMessage}
+        {error?.response?.data?.errorMessage}
       </div>
     )
   }

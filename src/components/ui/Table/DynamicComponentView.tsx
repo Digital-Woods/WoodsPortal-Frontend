@@ -397,7 +397,7 @@ export const DynamicComponentView = ({
     },
     onError: (error: any) => {
       setPageView("table");
-      setErrorMessage(error?.response?.data?.detailedMessage || "")
+      setErrorMessage(error?.response?.data?.errorMessage || "")
       setErrorMessageCategory(error?.response?.data?.category || "")
       setApiResponse(null)
       setSync(false);

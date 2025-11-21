@@ -81,7 +81,7 @@ const ClientSession = () => {
             let errorMessage = "An unexpected error occurred.";
 
             if (error.response && error.response.data) {
-                const errorData = error.response.data.detailedMessage;
+                const errorData = error.response.data.errorMessage;
                 const errors = error.response.data.validationErrors;
                 errorMessage =
                     typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
