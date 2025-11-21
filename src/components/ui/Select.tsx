@@ -88,11 +88,14 @@ export const Select = ({
   };
 
   useEffect(() => {
-    if (selectOptions && selectOptions.length > 0) {
+    if (selectOptions) {
       setOptions(selectOptions)
     }
     if (disabled && selectOptions.length === 1) {
       handleChange(selectOptions[0].value)
+    }
+    if (selectOptions.length === 0) { // if empty or change pipeline
+      handleChange("")
     }
   }, [selectOptions]);
 
