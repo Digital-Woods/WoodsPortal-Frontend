@@ -435,7 +435,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
         <span className="text-yellow-600">
           <CautionCircle/>
         </span>
-        {error?.response?.data?.detailedMessage}
+        {error?.response?.data?.errorMessage}
       </div>
     )
   }

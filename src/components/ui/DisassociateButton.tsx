@@ -73,7 +73,7 @@ useEffect(() => {
       let errorMessage = error?.response?.data?.errorMessage;
 
       if (error?.response && error?.response?.data) {
-        const errorData = error?.response?.data?.detailedMessage;
+        const errorData = error?.response?.data?.errorMessage;
         const errors = error?.response?.data?.validationErrors;
         setServerError(errors);
 

@@ -34,7 +34,7 @@ function VerifyEmail() {
        let errorMessage = "An unexpected error occurred.";
 
       if (error.response && error.response.data) {
-        const errorData = error.response.data.detailedMessage;
+        const errorData = error.response.data.errorMessage;
         errorMessage =
           typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
       }

@@ -165,7 +165,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
 
     onError: (error: any) => {
       console.error("API Error:", error); // Log errors if API call fails
-      setErrorMessage(error?.response?.data?.detailedMessage)
+      setErrorMessage(error?.response?.data?.errorMessage)
       setSync(false);
       setApiSync(false)
       setTableData([]);

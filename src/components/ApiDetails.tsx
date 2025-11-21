@@ -200,13 +200,13 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   }
 
   if (error) {
-    return (<NotFound message={error?.response?.data?.detailedMessage || ""} type="details"/>);
+    return (<NotFound message={error?.response?.data?.errorMessage || ""} type="details"/>);
     {/* return (
       <div className="flex flex-col items-center text-center p-4  h-[calc(100%-var(--nav-height))] justify-center gap-4">
         <span className="text-yellow-600">
           <CautionCircle/>
         </span>
-        {error?.response?.data?.detailedMessage || ""}
+        {error?.response?.data?.errorMessage || ""}
       </div>
     ); */}
   }
