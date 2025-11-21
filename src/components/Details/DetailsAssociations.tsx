@@ -268,6 +268,7 @@ export const DetailsAssociations = ({
                                       item: null,
                                       urlParam: null,
                                     })}
+                                    keyName={value?.key}
                                     value={value}
                                     refetch={refetch}
                                     id={item?.hs_object_id?.value}

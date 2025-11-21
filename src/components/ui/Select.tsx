@@ -28,6 +28,7 @@ export const Select = ({
   optionValue = "value",
   disabled = false,
   isMulti = false,
+  isClearable = true,
   ...props
 }: any) => {
   const { setToaster } = useToaster();
@@ -59,7 +60,7 @@ export const Select = ({
     if (Array.isArray(data)) {
       return data
         .map((item) => (typeof item === "object" ? item[optionValue] : item))
-        .join("; ");
+        .join(";");
     }
 
     // If object → return property value
@@ -95,17 +96,37 @@ export const Select = ({
     }
   }, [selectOptions]);
 
+  const parseValue = (value: any) => {
+    if (!options || options.length === 0) return isMulti ? [] : null;
+    if (!value) return isMulti ? [] : null;
+
+    // MULTI
+    if (isMulti) {
+      if (typeof value === "string") {
+        const splitValues = value.split(";").map((v) => v.trim());
+        return options.filter((opt: any) =>
+          splitValues.includes(opt[optionValue])
+        );
+      }
+      return value;
+    }
+
+    // SINGLE
+    return options.find((opt: any) => opt[optionValue] === value) || null;
+  };
+
   return (
     <Controller
       control={control}
       name={name}
       defaultValue={defaultValue}
-      render={({ field }) =>
+      render={({ field }: any) =>
         <MSelect
           {...field}
-          value={options.find((o: any) => o.value === field.value) || ""}
+          value={parseValue(field[optionValue])}
           options={options}
           isMulti={isMulti}
+          isClearable={isClearable}
           onMenuOpen={apiEndPoint != null ? fetchOptions : null}
           isLoading={apiEndPoint != null ? isLoading : false}
           getOptionLabel={(option) => option[optionlabel]}

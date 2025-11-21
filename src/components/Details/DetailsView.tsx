@@ -166,7 +166,6 @@ export const DetailsView = ({
       prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
   };
-                // console.log(item,'item');
 
   if (isLoading && !item) {
     return (
@@ -222,6 +221,7 @@ export const DetailsView = ({
                             item: item,
                             urlParam: item,
                           })}
+                          keyName={value?.key}
                           value={value}
                           refetch={refetch}
                           id={id}

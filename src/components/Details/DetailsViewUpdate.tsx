@@ -74,8 +74,6 @@ export const DetailsViewUpdateDD = ({
       );
       if (found) getStags({pipelineId: getValue(found.value, "value"), isNewValue: true, setValue: null});
     } else {
-      // console.log("comes here in else");
-      // console.log(optionData.options);
       setOptions(optionData?.options);
     }
   }, [data, optionData]);
@@ -159,7 +157,6 @@ const DetailsViewUpdateDialog = ({
 
       if(isNewValue) {
         const defaultItem = response?.data.find((item: any) => item?.defaultItem === true);
-        // console.log("defaultItem", defaultItem)
         setValue(key, defaultItem?.value || "")
       }
 
@@ -174,7 +171,6 @@ const DetailsViewUpdateDialog = ({
     if (initialValues) {
       setPipelines(editRow);
       if (editRow?.value) {
-        // console.log(data);
 
         // getStags(getValue(editRow.value, "value"));
         const dataLoop =
@@ -187,12 +183,10 @@ const DetailsViewUpdateDialog = ({
             item?.key === "hs_pipeline_stage" || item?.key === "dealstage"
         );
 
-        // console.log(filterStage);
 
         if (filterStage?.key == "dealstage") {
           setIsDealEdit(true);
         }
-        // console.log(filterStage);
         setStages(filterStage);
       }
     } else {
@@ -222,7 +216,6 @@ const DetailsViewUpdateDialog = ({
   }, []);
 
   const createValidationSchemaPipeline = (data: any) => {
-    // console.log('isObject', isObject(data))
     const schemaShape: any = {};
     schemaShape[value?.key] = z.string().nonempty({
       message: `${value.customLabel || value.label} is required.`,
@@ -252,14 +245,12 @@ const DetailsViewUpdateDialog = ({
         message: `Stage is required.`,
       });
     }
-    // console.log(schemaShape);
     return z.object(schemaShape);
   };
 
   const validationSchemaPipeline = createValidationSchemaPipeline(data);
 
   const onSubmitPipeline = (data: any) => {
-    // console.log(data);
     saveData(data);
   };
 
@@ -271,8 +262,6 @@ const DetailsViewUpdateDialog = ({
     //   (item) =>
     //     item.key === "hs_pipeline_stage" || item.key === "pipeline" || item.key === "dealstage"
     // );
-
-    // console.log(filterStage);
 
     // setStages(filterStage);
   };
@@ -395,6 +384,7 @@ export const DetailsViewUpdate = ({
   objectId,
   id,
   refetch,
+  keyName,
   value,
   item,
   urlParam,
@@ -415,7 +405,6 @@ export const DetailsViewUpdate = ({
 
   // checking if data is object
   useEffect(() => {
-    // console.log("item updated", item);
     // check data is object or array
     if (typeof item === "object" && !Array.isArray(item)) {
       let arrayKeys = Object.keys(item);
@@ -427,7 +416,6 @@ export const DetailsViewUpdate = ({
     } else {
       setData(item);
     }
-    // console.log(selectedValues, "selectedValues from component");
   }, [item]);
 
   // Additional
@@ -525,7 +513,6 @@ export const DetailsViewUpdate = ({
       }
     },
     onSuccess: async (data: any) => {
-      // console.log(data);
       setPipelineDialog(false);
       setEditRow(null);
       setSync(true);
@@ -568,18 +555,17 @@ export const DetailsViewUpdate = ({
       setPipelineDialog(true);
     }
     // setEditRowValue(getValue(value.value));
-    // console.log("item", item);
     // if (row.key === "hs_pipeline_stage" || row.key === "hs_pipeline_stage") {
     //   const found = data.find((item) => item.key === "hs_pipeline");
     //   getStags(getValue(found.value, "value"));
     // }
+
     if (row && row?.fieldType === "checkbox") {
       setSelectedValues(
         Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
       );
     }
-
-    setEditRow(row);
+    setEditRow({...row, ...{name: keyName}});
 
     const mValue: any = value.value;
     // if (value.fieldType == "date") {
@@ -600,7 +586,6 @@ export const DetailsViewUpdate = ({
   };
 
   // const onSubmitPipeline = (data) => {
-  //   // console.log('data', data)
   //   saveData(data);
   // };
 
@@ -622,11 +607,6 @@ export const DetailsViewUpdate = ({
     if (editRow?.fieldType === "checkbox") {
       const formattedData: any = {
         [editRow?.key]: selectedValues
-          .map(
-            (value: any) =>
-              editRow?.options.find((option: any) => option?.value === value)?.value
-          )
-          .join(";"),
       };
       saveData(formattedData);
     // } else if (editRow.type === "date" || editRow.type === "datetime") {
@@ -641,12 +621,15 @@ export const DetailsViewUpdate = ({
     }
   };
 
+  const onChangeSelect = (filled: any, selectedValue: any) => {
+      setSelectedValues(selectedValue);
+  };
+
   return (
     <div className="">
       <div className="gap-2">
         {editRow && !pipelineDialog ? (
           <div>
-            {/* {console.log("initialValues", initialValues)} */}
             <Form
               onSubmit={onSubmit}
               validationSchema={validationSchema}
@@ -694,14 +677,20 @@ export const DetailsViewUpdate = ({
                             setEditRowKey={setEditRowKey}
                           />
                         ) : editRow?.fieldType === "checkbox" ? (
-                          <CheckboxField
-                            editRow={editRow}
-                            saveData={saveData}
+                          <Select
+                            label={`Select ${editRow?.customLabel}`}
+                            name={editRow?.name}
+                            options = {(editRow?.name === "hs_pipeline" || editRow?.name === "pipeline") && specPipeLine
+                              ? editRow?.options.filter((option: any) => option?.value === pipeLineId)
+                              : editRow?.options}
                             control={control}
-                            setValue={setValue}
-                            name={editRow?.key}
-                            setSelectedValues={setSelectedValues}
-                            selectedValues={selectedValues || []}
+                            editRow={editRow}
+                            onChangeSelect={onChangeSelect}
+                            disabled={editRow?.hidden}
+                            setValue={editRow?.hidden ? setValue : null}
+                            isMulti={editRow?.fieldType == "checkbox" ? true : false}
+                            isClearable={true}
+                            defaultValue={value?.value}
                           />
                         ) : editRow.fieldType === "date" ? (
                           <DateTimeInput
