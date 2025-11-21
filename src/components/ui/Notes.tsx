@@ -93,15 +93,15 @@ const NoteCard = ({
         refetch();
         // setSync(true);
         setToaster({
-          message: res.statusMsg,
+          message: res?.statusMsg,
           type: "success",
         });
         setIsOpenEditor(false);
       },
       onError: (error: any) => {
-        console.error("Error creating note:", error);
+        const errorMessage = error?.response?.data?.errorMessage;
         setToaster({
-          message: error?.response?.data?.errorMessage,
+          message: errorMessage,
           type: "error",
         });
       },
@@ -384,9 +384,9 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       setIsFristTimeLoadData(false)
     },
     onError: (error: any) => {
-      console.error("Error creating note:", error);
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({
-        message: error?.response?.data?.errorMessage,
+        message: errorMessage,
         type: "error",
       });
       setAttachmentId('');

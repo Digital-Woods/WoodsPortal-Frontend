@@ -45,8 +45,8 @@ function VerifyEmail() {
       setIsVerified(true)
       setIsVerifying(false)
     },
-    onError: (error) => {
-      // console.log('error', error.response.data.detailedMessage)
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
       setIsVerifying(false)
     },

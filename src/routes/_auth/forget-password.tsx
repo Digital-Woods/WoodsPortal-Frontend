@@ -34,7 +34,7 @@ const ForgetPassword = () => {
       setToaster({ message: data?.statusMsg, type: "success" });
     },
     onError: (error: any) => {
-      let errorMessage = "An unexpected error occurred.";
+      let errorMessage = error?.response?.data?.errorMessage;
 
       if (error?.response && error?.response?.data) {
         const errorData = error?.response?.data?.detailedMessage;

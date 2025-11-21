@@ -81,9 +81,9 @@ const ResetPassword = () => {
       setToaster({ message: "Password reset successful", type: "success" });
       window.location.hash = "/login";
     },
-    onError: (error) => {
-      console.error("Error:", error); // Log the error to inspect
-      setToaster({ message: "Failed to reset password", type: "error" });
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 

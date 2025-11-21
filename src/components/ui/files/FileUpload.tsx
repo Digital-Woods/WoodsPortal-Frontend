@@ -141,8 +141,9 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     },
     onError: (error: any) => {
       setIsUploading(false);
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({
-        message: error?.response?.data?.detailedMessage || "Error uploading files!",
+        message: errorMessage,
         type: "error",
         show: true,
       });
@@ -199,8 +200,9 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
       // console.log("Server Response:", response.data);
     } catch (error: any) {
       setIsUploading(false);
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({
-        message: error?.response?.data?.detailedMessage || "Error uploading files!",
+        message: errorMessage,
         type: "error",
         show: true,
       });

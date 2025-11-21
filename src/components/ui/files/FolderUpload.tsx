@@ -42,10 +42,10 @@ export const FolderUpload = ({
       setNewFolderName("");
       onClose(); // Close modal after folder creation
     },
-    onError: (error) => {
-      console.error("Error creating folder:", error);
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({
-        message: "Error creating folder!",
+        message: errorMessage,
         type: "error",
         show: true,
       });
