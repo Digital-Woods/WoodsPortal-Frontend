@@ -105,6 +105,8 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
 
       breadcrumbs.push(newCrumb)
     } else {
+      const lastItem = breadcrumbs[breadcrumbs.length - 1]
+
       // if associated data have no parent
       const parent: any = {
         n: props?.associationLabel || props?.name,
@@ -119,10 +121,12 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
         parent.dp = props?.defPermissions
       }
       
-      breadcrumbs.push(parent)
+      if(lastItem?.o_t_id && lastItem?.o_r_id) { // check if last item have no parent
+        breadcrumbs.push(parent)  // association list data
+      }
       // end
 
-      if (props?.recordId) {
+      if (props?.recordId) { // association single data
         const newCrumb: any = {
           n: props?.name,
           o_t_id: props?.objectTypeId,
