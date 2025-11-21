@@ -490,12 +490,15 @@ export const DashboardTableForm = ({
                   }: any) => {
                     resetRef.current = () => {
                         const currentValues = getValues();
-                        reset();
+                        const defaultValues: any = {};
                         data.forEach((field: any) => {
-                          if (field?.hidden) {
-                            setValue(field.name, currentValues[field?.name]);
+                          if (field.hidden) {
+                            defaultValues[field.name] = currentValues[field.name];
+                          } else {
+                            defaultValues[field.name] = "";
                           }
                         });
+                        reset(defaultValues);
                       };
                     return (
                       <div>
