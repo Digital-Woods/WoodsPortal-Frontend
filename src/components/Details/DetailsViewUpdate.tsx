@@ -53,8 +53,8 @@ export const DetailsViewUpdateDD = ({
       setOptions([]);
       setOptions((value: any) => response?.data);
     },
-    onError: (error) => {
-      let errorMessage = "An unexpected error occurred.";
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
     },
   });
@@ -164,8 +164,8 @@ const DetailsViewUpdateDialog = ({
       }
 
     },
-    onError: (error) => {
-      let errorMessage = "An unexpected error occurred.";
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
     },
   });
@@ -530,12 +530,12 @@ export const DetailsViewUpdate = ({
       setEditRow(null);
       setSync(true);
       // refetch();
-      setToaster({ message: data.statusMsg, type: "success" });
+      setToaster({ message: data?.statusMsg, type: "success" });
       setIsUpdating(false);
       setEditRowKey(null);
     },
-    onError: (error) => {
-      let errorMessage = "An unexpected error occurred.";
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
       setIsUpdating(false);
       setEditRowKey(null);

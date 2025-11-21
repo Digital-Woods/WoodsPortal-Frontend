@@ -213,7 +213,7 @@ export const DashboardTableForm = ({
     },
 
     onError: (error: any) => {
-      let errorMessage = "An unexpected error occurred.";
+      let errorMessage = error?.response?.data?.errorMessage;
 
       if (error?.response && error?.response?.data) {
         const errorData = error?.response?.data?.detailedMessage;
@@ -258,7 +258,7 @@ export const DashboardTableForm = ({
       },
 
       onError: (error: any) => {
-        let errorMessage = "An unexpected error occurred.";
+        let errorMessage = error?.response?.data?.errorMessage;
 
         if (error?.response && error?.response?.data) {
           const errorData = error?.response?.data?.detailedMessage;
@@ -296,7 +296,7 @@ export const DashboardTableForm = ({
       setData(updatedProperties);
     },
     onError: (error: any) => {
-      let errorMessage = "An unexpected error occurred.";
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
     },
   });

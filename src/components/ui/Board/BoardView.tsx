@@ -353,11 +353,11 @@ Main Component Starts Here
       });
     },
     onSuccess: (resp: any) => {
-      setToaster({ message: resp.statusMsg, type: "success" });
+      setToaster({ message: resp?.statusMsg, type: "success" });
     },
     onError: (error: any) => {
-      // setPipelines([]);
-      // setToaster({ message: error.message, type: "error" });
+      const errorMessage = error?.response?.data?.errorMessage;
+      setToaster({ message: errorMessage, type: "error" });
     },
   });
 

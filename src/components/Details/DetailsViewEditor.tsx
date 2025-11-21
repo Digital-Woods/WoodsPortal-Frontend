@@ -59,8 +59,8 @@ export const DetailsViewEditor = ({
       setEditRow(null)
       setToaster({ message: data?.statusMsg, type: "success" });
     },
-    onError: (error) => {
-      let errorMessage = "An unexpected error occurred.";
+    onError: (error: any) => {
+      let errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
     },
   });

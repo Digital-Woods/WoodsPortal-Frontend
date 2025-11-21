@@ -55,7 +55,7 @@ export const Select = ({
       setOptions(response?.data?.results || []);
     },
     onError: (error: any) => {
-      let errorMessage = "An unexpected error occurred.";
+      const errorMessage = error?.response?.data?.errorMessage;
       setToaster({ message: errorMessage, type: "error" });
     },
   });

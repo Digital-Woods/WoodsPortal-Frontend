@@ -86,7 +86,7 @@ export const ChangePassword = () => {
       setConfirmPassword("");
     },
     onError: (error: any) => {
-      let errorMessage = "Error updating password";
+      let errorMessage = error?.response?.data?.errorMessage;
       if (
         error?.response &&
         error?.response?.data &&
