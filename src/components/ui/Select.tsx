@@ -33,12 +33,6 @@ export const Select = ({
   const { setToaster } = useToaster();
   const [options, setOptions] = useState([]);
 
-  useEffect(() => {
-    if (selectOptions && selectOptions.length > 0) {
-      setOptions(selectOptions)
-    }
-  }, [selectOptions]);
-
   const { mutate: fetchOptions, isLoading } = useMutation({
     mutationKey: ["getOptionsData"],
     mutationFn: async () => {
@@ -93,6 +87,9 @@ export const Select = ({
   };
 
   useEffect(() => {
+    if (selectOptions && selectOptions.length > 0) {
+      setOptions(selectOptions)
+    }
     if (disabled && selectOptions.length === 1) {
       handleChange(selectOptions[0].value)
     }
