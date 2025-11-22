@@ -792,7 +792,7 @@ export const DynamicComponentView = ({
                     </p>
                     <div className="dark:text-white CUSTOM-words-break">
                       {objectDescription
-                        ? <HtmlParser html={DOMPurify.sanitize(objectDescription)} className="ProseMirror" />
+                        ? <HtmlParser html={DOMPurify.sanitize(objectDescription)} className="ProseMirror p-0" />
                         : ""}
                     </div>
                   </span>
