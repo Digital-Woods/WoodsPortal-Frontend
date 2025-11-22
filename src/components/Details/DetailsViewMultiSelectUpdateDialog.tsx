@@ -39,25 +39,35 @@ export const DetailsViewMultiSelectUpdateDialog = ({
 
   const createValidationSchemaPipeline = () => {
     const schemaShape: any = {}
-    schemaShape[editRow?.key] = z.string().nonempty({
-      message: `${editRow.customLabel || editRow.label} is required.`,
-    })
+    schemaShape[editRow?.key] = z.any()
     return z.object(schemaShape)
   }
 
   const validationSchemaPipeline = createValidationSchemaPipeline()
 
-  console.log('multiSelectDialog', multiSelectDialog)
+  const parseValue = (obj: any) => {
+    const value = obj[editRow?.key];
 
+    // If array → convert to "Item 1; Item 2"
+    if (Array.isArray(value)) {
+      return {
+        test_multiple_checkbox: value.map(i => i.value).join(";")
+      };
+    }
 
-  const onSubmitPipeline = (data: any) => {
-    saveData(data)
+    // Otherwise return as-is
+    return {
+      test_multiple_checkbox: value
+    };
+  };
+
+  const onSubmit = (data: any) => {
+    const sValue = parseValue(data);
+    saveData(sValue)
   }
 
   const onChangeSelect = (filled: any, selectedValue: any) => {
   }
-
-  console.log('editRow', editRow)
 
   return (
     <Dialog
@@ -72,7 +82,7 @@ export const DetailsViewMultiSelectUpdateDialog = ({
         <div>
           {initialValues && (
             <Form
-              onSubmit={onSubmitPipeline}
+              onSubmit={onSubmit}
               validationSchema={validationSchemaPipeline}
               initialValues={initialValues}
               // serverError={serverError}

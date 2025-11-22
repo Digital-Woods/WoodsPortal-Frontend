@@ -292,9 +292,12 @@ export const DetailsViewUpdate = ({
 
       if(isAssociations) setMultiSelectDialog(true);
 
-      setSelectedValues(
-        Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
-      );
+      // setSelectedValues(
+      //   Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
+      // );
+
+      const sValue = row?.value.map((item: any) => item.value).join(";");
+      setSelectedValues(sValue);
     }
     setEditRow({...row, ...{name: keyName}});
 
@@ -307,6 +310,7 @@ export const DetailsViewUpdate = ({
     //         : formatDate(mValue, "input"),
     //   });
     // } else {
+      
       setInitialValues({
         [value?.key]:
           typeof mValue === "object" && mValue !== null && "value" in mValue
