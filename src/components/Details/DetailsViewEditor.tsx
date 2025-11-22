@@ -105,7 +105,11 @@ export const DetailsViewEditor = ({
             <Button
               disabled={isLoading}
               variant="outline"
-              onClick={() => setEditRow(null)}
+              onClick={() => {
+                setEditRow(null);
+                setExpandDialog(false);
+                setEditRowKey(null);
+              }}
               className="text-white dark:text-white"
             >
               <CloseIcon width="24px" height="24px" />
