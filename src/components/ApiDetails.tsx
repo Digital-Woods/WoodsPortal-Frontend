@@ -160,7 +160,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     setIsLoadedFirstTime(true);
   }
 
-  const {params} = getParamDetails()
+  const {params} = getParamDetails("", true)
 
   const {
     mutate: getDetails,
