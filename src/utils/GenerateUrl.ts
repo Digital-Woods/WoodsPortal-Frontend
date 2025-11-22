@@ -253,7 +253,7 @@ export const getRouteDetails = () => {
   return { routeDetails: mapped };
 };
 
-export const getParamDetails = (props?: any) => {
+export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => {
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
@@ -263,11 +263,14 @@ export const getParamDetails = (props?: any) => {
   let parentObjectTypeId = ''
   let parentObjectRecordId = ''
   // let bParams = ''
-  const lastItem = breadcrumbs[breadcrumbs.length - 1]
+  let lastItem = breadcrumbs[breadcrumbs.length - 1]
   const lastItem2 = breadcrumbs[breadcrumbs.length - 2]
   const lastItem3 = breadcrumbs[breadcrumbs.length - 3]
 
-  // console.log('lastItem', lastItem)
+  if (isDetailsPage === true && lastItem && "prm" in lastItem) { // if details page then dont deent prm key
+    delete lastItem.prm;
+  }
+
   // console.log('lastItem2', lastItem2)
   // console.log('lastItem3', lastItem3)
 
