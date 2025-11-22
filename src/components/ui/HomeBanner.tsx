@@ -96,7 +96,7 @@ export const HomeBanner = ({ moduleBannerDetailsOption, userData }: any) => {
             }
           </div>
           <p className={`text-[var(--home-tab-description-color)] dark:text-white  CUSTOM-words-break`}>
-            <HtmlParser html={DOMPurify.sanitize(updatedDescription)} />
+            <HtmlParser html={DOMPurify.sanitize(updatedDescription)}  className="ProseMirror p-0"/>
           </p>
         </div>
       </div>

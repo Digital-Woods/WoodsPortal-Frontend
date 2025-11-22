@@ -8,7 +8,7 @@ export const EditIcon2 = ({
     <svg
       width={width}
       height={height}
-      fill={color}
+      fill="currentColor"
       {...props}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -960 960 960"

@@ -216,10 +216,10 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                             readOnly
                           />
                           <span
-                            className="absolute right-2 top-3 text-secondary cursor-pointer"
+                            className="absolute top-1/2 -translate-y-1/2 right-2 text-secondary cursor-pointer"
                             onClick={() => setActiveState("pre-login")}
                           >
-                            <EditIcon2 />
+                            <EditIcon2 className="text-gray-800 dark:text-gray-300" />
                           </span>
                         </div>
                       </div>
@@ -230,7 +230,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                       </FormMessage>
                     )}
                   </FormItem>
-                  <FormItem>
+                  <FormItem className="pt-4">
                     <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                       Password
                     </FormLabel>
@@ -246,7 +246,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                         />
                         {!developerModeOn &&
                           <span
-                            className="absolute right-2 top-3 cursor-pointer"
+                            className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
                             onClick={togglePasswordVisibility}
                           >
                             {showPassword ? <EyeIcon /> : <EyeOffIcon />}

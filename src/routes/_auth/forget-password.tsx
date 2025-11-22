@@ -99,7 +99,7 @@ const ForgetPassword = () => {
                     </FormMessage>
                   )}
                 </FormItem>
-                <div className="flex justify-end items-center">
+                <div className="flex justify-end items-center mt-2">
                   <div>
                     <Link to="/login">
                       <p className="text-secondary hover:underline text-xs dark:text-gray-300">
