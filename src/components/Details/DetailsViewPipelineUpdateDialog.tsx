@@ -16,7 +16,7 @@ import {
 } from '../ui/Form'
 import { Select } from '../ui/Select'
 
-export const DetailsViewUpdateDialog = ({
+export const DetailsViewPipelineUpdateDialog = ({
   setEditRow,
   pipelineDialog,
   setPipelineDialog,

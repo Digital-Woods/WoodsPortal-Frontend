@@ -16,7 +16,8 @@ import { DetailsViewEditor } from "./DetailsViewEditor";
 import { useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
 import { useSync } from "@/state/use-sync.ts";
-import { DetailsViewUpdateDialog } from "./DetailsViewUpdateDialog.tsx";
+import { DetailsViewPipelineUpdateDialog } from "./DetailsViewPipelineUpdateDialog.tsx";
+import { DetailsViewMultiSelectUpdateDialog } from "./DetailsViewMultiSelectUpdateDialog.tsx";
 
 export const DetailsViewUpdateDD = ({
   control,
@@ -115,10 +116,12 @@ export const DetailsViewUpdate = ({
   setIsUpdating,
   editRowKey,
   setEditRowKey,
+  isAssociations = false,
 }: any) => {
   const [editRow, setEditRow] = useState<any>(null);
   const { setToaster } = useToaster();
-  const [pipelineDialog, setPipelineDialog] = useState<any>(false);
+  const [pipelineDialog, setPipelineDialog] = useState<boolean>(false);
+  const [multiSelectDialog, setMultiSelectDialog] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
   const [stages, setStages] = useState<any>(null);
   const [initialValues, setInitialValues] = useState<any>(false);
@@ -237,6 +240,7 @@ export const DetailsViewUpdate = ({
     },
     onSuccess: async (data: any) => {
       setPipelineDialog(false);
+      setMultiSelectDialog(false);
       setEditRow(null);
       setSync(true);
       // refetch();
@@ -274,6 +278,7 @@ export const DetailsViewUpdate = ({
   // }, [value]);
 
   const setEditRowValueFunction = (row: any) => {
+
     if (row && (row?.key === "hs_pipeline" || row?.key === "pipeline")) {
       setPipelineDialog(true);
     }
@@ -284,6 +289,9 @@ export const DetailsViewUpdate = ({
     // }
 
     if (row && row?.fieldType === "checkbox") {
+
+      if(isAssociations) setMultiSelectDialog(true);
+
       setSelectedValues(
         Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
       );
@@ -520,10 +528,25 @@ export const DetailsViewUpdate = ({
       </div>
 
       {pipelineDialog && (
-        <DetailsViewUpdateDialog
+        <DetailsViewPipelineUpdateDialog
           setEditRow={setEditRow}
           pipelineDialog={pipelineDialog}
           setPipelineDialog={setPipelineDialog}
+          objectId={objectId}
+          value={value}
+          editRow={editRow}
+          data={data}
+          saveData={saveData}
+          isLoading={isLoading}
+          setEditRowKey={setEditRowKey}
+        />
+      )}
+
+      {multiSelectDialog && (
+        <DetailsViewMultiSelectUpdateDialog
+          setEditRow={setEditRow}
+          multiSelectDialog={multiSelectDialog}
+          setMultiSelectDialog={setMultiSelectDialog}
           objectId={objectId}
           value={value}
           editRow={editRow}
