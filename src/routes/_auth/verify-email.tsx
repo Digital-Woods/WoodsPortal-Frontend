@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { TickIcon } from '@/assets/icons/tickIcon'
 import { toast } from 'sonner';
 import { useToaster } from "@/state/use-toaster";
+import { getParam } from "@/utils/param";
 
 function VerifyEmail() {
   const [isVerifying, setIsVerifying] = useState(true);
@@ -31,7 +32,7 @@ function VerifyEmail() {
       setIsVerifying(false)
     },
     onError: (error: any) => {
-       let errorMessage = "An unexpected error occurred.";
+      let errorMessage = error?.response?.data?.errorMessage;
 
       if (error.response && error.response.data) {
         const errorData = error.response.data.errorMessage;
