@@ -16,7 +16,7 @@ import { DetailsViewEditor } from "./DetailsViewEditor";
 import { useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
 import { useSync } from "@/state/use-sync.ts";
-import { DetailsViewPipelileUpdateDialog } from "./DetailsViewPipelileUpdateDialog.tsx";
+import { DetailsViewPipelineUpdateDialog } from "./DetailsViewPipelineUpdateDialog.tsx";
 
 export const DetailsViewUpdateDD = ({
   control,
@@ -520,7 +520,7 @@ export const DetailsViewUpdate = ({
       </div>
 
       {pipelineDialog && (
-        <DetailsViewPipelileUpdateDialog
+        <DetailsViewPipelineUpdateDialog
           setEditRow={setEditRow}
           pipelineDialog={pipelineDialog}
           setPipelineDialog={setPipelineDialog}
