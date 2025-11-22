@@ -99,9 +99,8 @@ export const Select = ({
     }
   }, [selectOptions]);
 
-  const parseValue = (value: any) => {
+  const parseValue = (value: any = "") => {
     if (!options || options.length === 0) return isMulti ? [] : null;
-    if (!value) return isMulti ? [] : null;
 
     // MULTI
     if (isMulti) {
@@ -115,7 +114,7 @@ export const Select = ({
     }
 
     // SINGLE
-    return options.find((opt: any) => opt[optionValue] === value) || null;
+    return options.find((opt: any) => String(opt[optionValue]) === String(value)) || null;
   };
 
   return (
