@@ -184,6 +184,7 @@ const Dashboard = () => {
                           isLoadedFirstTime={isLoadedFirstTime}
                           iframePropertyName={card?.properties}
                           viewStyle={card?.view}
+                          className={"md:pb-4 pb-3 md:px-4 px-3"}
                           // setProfileData={setProfileData}
                         />
                         )}

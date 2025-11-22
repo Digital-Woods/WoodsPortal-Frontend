@@ -811,7 +811,7 @@ export const DynamicComponentView = ({
                   isLoading={isLoadingFetchUserProfile}
                   isLoadedFirstTime={isLoadedFirstTime}
                   iframePropertyName={objectUserProperties}
-                  className={`!md:px-0 !px-0 !md:p-0 !pb-0`}
+                  className={`md:px-0 px-0 md:p-0 pb-0`}
                   usedInDynamicComponent={true}
                   viewStyle={objectUserPropertiesView}
                 />
