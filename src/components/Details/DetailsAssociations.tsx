@@ -278,6 +278,7 @@ export const DetailsAssociations = ({
                                     setIsUpdating={setIsUpdating}
                                     editRowKey={editRowKey}
                                     setEditRowKey={setEditRowKey}
+                                    isAssociations={true}
                                   />
                                 ) : (
                                   renderCellContent({
