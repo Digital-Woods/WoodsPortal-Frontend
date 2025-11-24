@@ -189,101 +189,99 @@ export const DetailsViewPipelineUpdateDialog = ({
         </div>
         {/* {JSON.stringify(initialValues)} */}
         <div>
-          {initialValues && (
-            <Form
-              onSubmit={onSubmitPipeline}
-              validationSchema={validationSchemaPipeline}
-              initialValues={initialValues}
-              // serverError={serverError}
-              className="dark:bg-dark-500 m-0"
-            >
-              {({
-                getValues,
-                register,
-                control,
-                watch,
-                formState: { errors },
-              }: any) => (
-                <div>
-                  {/* {JSON.stringify(getValues())} */}
-                  <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
-                    {pipelines && (
-                      <div>
-                        <FormItem className="">
-                          <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                            Select Pipeline
-                          </FormLabel>
+          <Form
+            onSubmit={onSubmitPipeline}
+            validationSchema={validationSchemaPipeline}
+            initialValues={initialValues}
+            // serverError={serverError}
+            className="dark:bg-dark-500 m-0"
+          >
+            {({
+              getValues,
+              register,
+              control,
+              watch,
+              formState: { errors },
+            }: any) => (
+              <div>
+                {/* {JSON.stringify(getValues())} */}
+                <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
+                  {pipelines && (
+                    <div>
+                      <FormItem className="">
+                        <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                          Select Pipeline
+                        </FormLabel>
 
-                          <FormControl>
-                            <Select
-                              label={`Select Pipeline`}
-                              name={pipelines?.name}
-                              options={pipelines?.options || []}
-                              control={control}
-                              onChangeSelect={onChangeSelect}
-                              isClearable={true}
-                              defaultValue={pipeline?.value || ''}
-                            />
-                          </FormControl>
+                        <FormControl>
+                          <Select
+                            label={`Select Pipeline`}
+                            name={pipelines?.name}
+                            options={pipelines?.options || []}
+                            control={control}
+                            onChangeSelect={onChangeSelect}
+                            isClearable={true}
+                            defaultValue={pipeline?.value || ''}
+                          />
+                        </FormControl>
 
-                          {(errors?.hs_pipeline || errors?.pipeline) && (
-                            <FormMessage className="text-red-600 dark:text-red-400">
-                              {errors?.hs_pipeline?.message || errors?.pipeline?.message}
-                            </FormMessage>
-                          )}
-                        </FormItem>
-                      </div>
-                    )}
+                        {(errors?.hs_pipeline || errors?.pipeline) && (
+                          <FormMessage className="text-red-600 dark:text-red-400">
+                            {errors?.hs_pipeline?.message || errors?.pipeline?.message}
+                          </FormMessage>
+                        )}
+                      </FormItem>
+                    </div>
+                  )}
 
-                    {/* {JSON.stringify(stages)} */}
+                  {/* {JSON.stringify(stages)} */}
 
-                    {stages && (
-                      <div>
-                        <FormItem className="">
-                          <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                            Select Stage
-                          </FormLabel>
+                  {stages && (
+                    <div>
+                      <FormItem className="">
+                        <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                          Select Stage
+                        </FormLabel>
 
-                          <FormControl>
-                            <Select
-                              label={`Select Stage`}
-                              name={stages?.key}
-                              options={stages?.options || []}
-                              control={control}
-                              isClearable={true}
-                              defaultValue={stage?.value || ''}
-                            />
-                          </FormControl>
+                        <FormControl>
+                          <Select
+                            label={`Select Stage`}
+                            name={stages?.key}
+                            options={stages?.options || []}
+                            control={control}
+                            isClearable={true}
+                            defaultValue={stage?.value || ''}
+                          />
+                        </FormControl>
 
-                          {(errors?.hs_pipeline_stage || errors?.dealstage) && (
-                            <FormMessage className="text-red-600 dark:text-red-400">
-                              {errors?.hs_pipeline_stage?.message || errors?.dealstage?.message}
-                            </FormMessage>
-                          )}
-                        </FormItem>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4 flex justify-end items-end gap-1">
-                    <Button
-                      variant="outline"
-                      disabled={isLoading}
-                      onClick={() => {
-                        setPipelineDialog(false)
-                        setEditRow(null)
-                        setEditRowKey(null)
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button className=" " isLoading={isLoading}>
-                      Save
-                    </Button>
-                  </div>
+                        {(errors?.hs_pipeline_stage || errors?.dealstage) && (
+                          <FormMessage className="text-red-600 dark:text-red-400">
+                            {errors?.hs_pipeline_stage?.message || errors?.dealstage?.message}
+                          </FormMessage>
+                        )}
+                      </FormItem>
+                    </div>
+                  )}
                 </div>
-              )}
-            </Form>
-          )}
+                <div className="mt-4 flex justify-end items-end gap-1">
+                  <Button
+                    variant="outline"
+                    disabled={isLoading}
+                    onClick={() => {
+                      setPipelineDialog(false)
+                      setEditRow(null)
+                      setEditRowKey(null)
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button className=" " isLoading={isLoading}>
+                    Save
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Form>
         </div>
       </div>
     </Dialog>
