@@ -46,18 +46,19 @@ export const DetailsViewMultiSelectUpdateDialog = ({
   const validationSchemaPipeline = createValidationSchemaPipeline()
 
   const parseValue = (obj: any) => {
-    const value = obj[editRow?.key];
+    const key = editRow?.key;         // dynamic key
+    const value = obj[key];           // get value using dynamic key
 
     // If array → convert to "Item 1; Item 2"
     if (Array.isArray(value)) {
       return {
-        test_multiple_checkbox: value.map(i => i.value).join(";")
+        [key]: value.map(i => i.value).join(";")
       };
     }
 
     // Otherwise return as-is
     return {
-      test_multiple_checkbox: value
+      [key]: value
     };
   };
 
