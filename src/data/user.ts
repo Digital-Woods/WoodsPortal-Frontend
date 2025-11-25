@@ -74,7 +74,7 @@ export function useMe() {
     enabled: isAuthorized && !profileDetails, // 👈 only run if no profileDetails
   });
 
-  let response = null;
+  let response: any = null;
 
   // If profileDetails exists, just use it
   if (profileDetails) {
@@ -85,8 +85,14 @@ export function useMe() {
     setProfileDetails(data?.data);
     response = data.data;
 
-    const portalSettings = response.portalSettings;
-    setCookie(env.VITE_AUTH_PORTAL_KEY, JSON.stringify(portalSettings));
+    if (response?.portals) {
+      delete response?.portals;
+    }
+
+    if (response?.hubspots) {
+      delete response?.hubspots;
+    }
+    
     setCookie(env.VITE_AUTH_USER_KEY, JSON.stringify(response));
   }
 
