@@ -22,7 +22,7 @@ export const Dialog = forwardRef<HTMLDivElement, any>((props, ref) => {
         aria-modal="true"
       >
         <div
-          className="fixed inset-0 bg-gray-500 dark:bg-dark-300 bg-opacity-50 dark:bg-opacity-50 backdrop-blur-md backdrop-filter transition-opacity"
+          className="fixed inset-0 bg-gray-500/35 backdrop-blur-2xl border border-gray-400/40 shadow-lg"
           aria-hidden="true"
         />
         <div className="fixed inset-0 z-20 w-screen flex items-center justify-center overflow-y-auto">

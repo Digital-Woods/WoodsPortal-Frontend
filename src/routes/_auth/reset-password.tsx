@@ -136,7 +136,7 @@ const ResetPassword = () => {
                         {...register("newPassword")}
                       />
                       <span
-                        className="absolute right-2 top-2 cursor-pointer"
+                        className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
                         onClick={togglePasswordVisibility}
                       >
                         {showPassword ? <EyeIcon /> : <EyeOffIcon />}
@@ -150,7 +150,7 @@ const ResetPassword = () => {
                   )}
                 </FormItem>
 
-                <FormItem>
+                <FormItem className="pt-4">
                   <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                     Confirm Password
                   </FormLabel>
@@ -164,7 +164,7 @@ const ResetPassword = () => {
                         {...register("confirmPassword")}
                       />
                       <span
-                        className="absolute right-2 top-2 cursor-pointer"
+                        className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
                         onClick={toggleConfirmPasswordVisibility}
                       >
                         {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}

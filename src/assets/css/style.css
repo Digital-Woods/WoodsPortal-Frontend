@@ -222,67 +222,6 @@ form {
   overflow: visible;
 }
 
-.ck-editor {
-  min-width: 100% !important;
-  max-width: 100% !important;
-}
-
-.ck-editor__editable_inline {
-  min-height: 200px !important;
-}
-
-.ck-content h1 {
-  font-size: 2em;
-  font-weight: bold;
-}
-
-.ck-content h2 {
-  font-size: 1.75em !important;
-  font-weight: bold;
-}
-
-.ck-content h3 {
-  font-size: 1.5em !important;
-  font-weight: bold;
-}
-
-.ck-content p {
-  font-size: 1em;
-}
-
-.ck-content blockquote {
-  font-style: italic;
-  border-left: 2px solid #ccc;
-  padding-left: 10px;
-}
-
-.ck-editor__main {
-  border: 1px solid rgb(59 130 246);
-  border-radius: 4px;
-}
-
-.dark .ck.ck-toolbar.ck-toolbar_grouping {
-  color: #fdfdfd;
-  background-color: #2a2a2a;
-}
-
-.dark .ck.ck-editor__main>.ck-editor__editable {
-  background: #2a2a2a !important;
-  border-radius: 0;
-  color: #fdfdfd !important;
-}
-
-.dark .ck.ck-button:not(.ck-disabled):hover,
-.dark a.ck.ck-button:not(.ck-disabled):hover {
-  background: #212121;
-}
-
-.dark .ck.ck-toolbar {
-  background: #2a2a2a;
-  border: 1px solid var(--ck-color-toolbar-border);
-  padding: 0 var(--ck-spacing-small);
-}
-
 /* Fileupload styles  */
 .CUSTOM-kb-data-box {
   flex: 1;
@@ -1230,14 +1169,6 @@ figure {
 .EditorView ul {
   margin: revert-layer;
   padding: revert-layer;
-}
-
-.ProseMirror ol,
-.ProseMirror ul,
-.EditorView ol,
-.EditorView ul {
-  margin-bottom: 16px;
-  margin-top: 0;
 }
 
 .CUSTOM-form-checkbox {
