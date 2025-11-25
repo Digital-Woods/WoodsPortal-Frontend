@@ -18,6 +18,7 @@ import { isObject } from "@/utils/DataMigration.tsx";
 import { useSync } from "@/state/use-sync.ts";
 import { DetailsViewPipelineUpdateDialog } from "./DetailsViewPipelineUpdateDialog.tsx";
 import { DetailsViewMultiSelectUpdateDialog } from "./DetailsViewMultiSelectUpdateDialog.tsx";
+import { DetailsViewDateTimeDialog } from "./DetailsViewDateTimeDialog.tsx";
 
 export const DetailsViewUpdateDD = ({
   control,
@@ -122,6 +123,7 @@ export const DetailsViewUpdate = ({
   const { setToaster } = useToaster();
   const [pipelineDialog, setPipelineDialog] = useState<boolean>(false);
   const [multiSelectDialog, setMultiSelectDialog] = useState<boolean>(false);
+  const [dateTimeDialog, setDateTimeDialog] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
   const [stages, setStages] = useState<any>(null);
   const [initialValues, setInitialValues] = useState<any>(false);
@@ -241,6 +243,7 @@ export const DetailsViewUpdate = ({
     onSuccess: async (data: any) => {
       setPipelineDialog(false);
       setMultiSelectDialog(false);
+      setDateTimeDialog(false);
       setEditRow(null);
       setSync(true);
       // refetch();
@@ -298,6 +301,9 @@ export const DetailsViewUpdate = ({
 
       const sValue = row?.value.map((item: any) => item.value).join(";");
       setSelectedValues(sValue);
+    }
+    if (row && row?.type === "date" || row?.type === "datetime") {
+      if(isAssociations) setDateTimeDialog(true)
     }
     setEditRow({...row, ...{name: keyName}});
 
@@ -429,6 +435,8 @@ export const DetailsViewUpdate = ({
                           />
                         ) : editRow.fieldType === "date" ? (
                           <DateTimeInput
+                            control={control}
+                            name={editRow?.name}
                             type={editRow?.type}
                             dateFormat="dd-mm-yyyy"
                             height="small"
@@ -546,11 +554,11 @@ export const DetailsViewUpdate = ({
         />
       )}
 
-      {multiSelectDialog && (
-        <DetailsViewMultiSelectUpdateDialog
+      {dateTimeDialog && (
+        <DetailsViewDateTimeDialog
           setEditRow={setEditRow}
-          multiSelectDialog={multiSelectDialog}
-          setMultiSelectDialog={setMultiSelectDialog}
+          dateTimeDialog={dateTimeDialog}
+          setDateTimeDialog={setDateTimeDialog}
           objectId={objectId}
           value={value}
           editRow={editRow}
@@ -558,6 +566,7 @@ export const DetailsViewUpdate = ({
           saveData={saveData}
           isLoading={isLoading}
           setEditRowKey={setEditRowKey}
+          isAssociations={isAssociations}
         />
       )}
     </div>

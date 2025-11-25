@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
-import { calculateGMToffset } from '@/utils/DateTime';
+import { calculateGMToffset, formatTimestampIST } from '@/utils/DateTime';
+import { isObject } from '@/utils/DataMigration';
 
 export const TimePicker = ({
   defaultValue,
@@ -9,13 +10,14 @@ export const TimePicker = ({
 }: any) => {
   const ref = useRef<any>(null);
   const [open, setOpen] = useState(false);
+  const [defaultTime, setDefaultTime] = useState("");
 
   useEffect(() => {
     setOpen(openTimePicker);
   }, [openTimePicker]);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handleClickOutside = (e: any) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setOpen(false);
         setOpenTimePicker(false);
@@ -49,25 +51,37 @@ export const TimePicker = ({
   };
   const timeList = generateHalfHourTimesWithGMT();
 
+  useEffect(() => {
+    if (defaultValue) {
+      const formatedDateTime = formatTimestampIST(defaultValue)
+      setDefaultTime(formatedDateTime?.time || "")
+    }
+  }, [defaultValue])
+
   return (
-    <div className="relative" ref={ref}>
-      {open && (
-        <div className=" bg-white text-gray-800 rounded-md shadow-lg w-[200px] h-[220px] transition-all duration-300 overflow-y-scroll text-center">
-          <ul className="text-gray-900 ">
-            {timeList.map((time) => (
-              <li
-                className="w-full px-4 py-2 cursor-pointer hover:bg-secondary hover:text-white text-[12px]"
-                onClick={() => {
-                  handelChangeTime(time)
-                  setOpenTimePicker(false)
-                }}
-              >
-                {time?.time} {time?.timeZone}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+    <div ref={ref}>
+      <div className=" bg-white dark:bg-gray-700 rounded-md shadow-lg w-[100%] h-[325.91px] transition-all duration-300 overflow-y-scroll text-center">
+        <ul className="text-gray-900 ">
+          {timeList.map((time) => (
+            <li
+              className={`
+                w-full px-4 py-2 cursor-pointer 
+                text-gray-700 dark:text-white 
+                hover:bg-gray-400 hover:text-white 
+                text-[12px]
+                ${`${time?.time} ${time?.timeZone}` === (isObject(defaultTime) ? `${defaultTime?.time} ${defaultTime?.timeZone}` : defaultTime ) ? "bg-gray-600 text-white" : ""}
+              `}
+              onClick={() => {
+                handelChangeTime(time)
+                setOpenTimePicker(false)
+                setDefaultTime(time)
+              }}
+            >
+              {time?.time} {time?.timeZone}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

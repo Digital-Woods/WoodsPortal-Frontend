@@ -558,6 +558,9 @@ export const DashboardTableForm = ({
                                           </div>
                                         ) : filled?.fieldType === "date" ? (
                                           <DateTimeInput
+                                            name={filled?.name}
+                                            control={control}
+                                            filled={filled}
                                             type={filled?.type}
                                             dateFormat="dd-mm-yyyy"
                                             height="small"
