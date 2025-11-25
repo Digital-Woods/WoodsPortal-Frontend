@@ -1,8 +1,9 @@
 import { Client } from '@/data/client';
 import { API_ENDPOINTS } from '@/data/client/api-endpoints';
-import { setLoggedInDetails, setPortal, setTwoFa } from '@/data/client/auth-utils';
+import { setAuthCredentials, setLoggedInDetails, setPortal, setRefreshToken, setTwoFa } from '@/data/client/auth-utils';
 import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData';
 import { env } from '@/env';
+import { useAuth } from '@/state/use-auth';
 import { useToaster } from '@/state/use-toaster';
 import { AUTH_TOKEN_KEY, AUTH_USER_KEY, COOKIE_EXPIRE } from '@/utils/constants';
 import { setCookie } from '@/utils/cookie';
@@ -13,6 +14,7 @@ import { useRouter } from '@tanstack/react-router';
 import { createFileRoute } from '@tanstack/react-router'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 
 const ClientSession = () => {
@@ -20,6 +22,7 @@ const ClientSession = () => {
     const accessToken = getParam("accessToken");
     const [progressMessage, setProgressMessage] = useState('');
     const router = useRouter();
+    const { setSubscriptionType }: any = useAuth();
     const setItemAsync = async (key: any, value: any, days = COOKIE_EXPIRE) => {
         return new Promise<void>((resolve) => {
             setCookie(key, value, days);
@@ -51,43 +54,98 @@ const ClientSession = () => {
             }
         },
         onSuccess: async (data: any) => {
-            if (!data.data.tokenData.token) {
-                setToaster({ message: "Wrong email or password", type: "error" });
+            const tokenData: any = data?.data?.tokenData || {}
+            const loggedInDetails: any = data?.data?.loggedInDetails || {}
+            const portals: any = data?.data?.loggedInDetails.portals || {}
+
+            if (loggedInDetails?.portals) {
+                delete loggedInDetails?.portals;
+            }
+
+            if (loggedInDetails?.hubspots) {
+                delete loggedInDetails?.hubspots;
+            }
+
+            if (!tokenData?.token) {
+                toast.error("Wrong email or password");
                 return;
             }
 
-            const currentDomain = window.location.origin;
-            const portal = data.data.loggedInDetails.portals.find(
-                (item: any) => item.portalUrl === currentDomain
+            const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
+            const portal = portals.find(
+                (item: any) => item?.portalUrl === currentDomain
             );
-            setPortal(portal);
-            setProgressMessage('Logged in successfully!')
+
+            setPortal(portal || {});
+
+            const SubscriptionType = loggedInDetails?.subscriptionType || "FREE";
+            setSubscriptionType(SubscriptionType);
+
+            const token = tokenData?.token;
+            console.log('token', token)
+            const refreshToken = tokenData?.refreshToken;
+            const expiresIn = tokenData?.expiresIn;
+            const rExpiresIn = tokenData?.refreshExpiresIn;
+            // const rExpiresAt = data?.data?.tokenData?.refreshExpiresAt;
             if (
-                data.data.loggedInDetails &&
-                data.data.loggedInDetails.hubspots &&
-                data.data.loggedInDetails.hubspots.some(hub => hub.twoFa)
+                loggedInDetails &&
+                loggedInDetails?.hubspot &&
+                loggedInDetails?.hubspot.twoFa
             ) {
+                console.log('2fa enabled');
                 setLoggedInDetails(data.data);
-                setTwoFa({ twoFa: true });
-                window.location.hash = "/login/two-fa";
+
+                setTwoFa({ twoFa: loggedInDetails?.hubspot?.twoFa });
+                window.location.hash = "/login/tow-fa";
             } else {
-                await setItemAsync(AUTH_USER_KEY, JSON.stringify(data.data));
-                await setItemAsync(AUTH_TOKEN_KEY, data.data.tokenData.token);
-                router.history.replace(`/dashboard`);
+                console.log('2fa not enabled');
+                await setAuthCredentials(token, expiresIn);
+                await setRefreshToken(refreshToken, rExpiresIn);
+                await setLoggedInDetails(data.data);
+
+                // setLoggedInDetails(data.data);
+                // setAuthCredentials(data.data.tokenData.token);
+                // await setItemAsync(env.VITE_AUTH_USER_KEY, JSON.stringify(data.data));
+                // await setItemAsync(env.VITE_AUTH_TOKEN_KEY, data.data.tokenData.token);
+                // getMe(); // Fetch user details
+                // Use if-else to check if routes exist
+                // if (routes && routes.length > 0) {
+                //   const firstRoute = routes[0].path;
+                //   window.location.hash = firstRoute;
+                // } else {
+                //   window.location.hash = "/no-routes";
+                // }
+
+                let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+                if (router.state.location?.search?.r) {
+                    path = router.state.location?.search?.r
+                }
+                router.navigate({ to: `/${path}` });
+
+                // console.log('home', true)
             }
-            setToaster({ message: "Logged in successfull!", type: "success" });
+            toast.success(data?.statusMsg);
         },
         onError: (error: any) => {
             let errorMessage = "An unexpected error occurred.";
 
-            if (error.response && error.response.data) {
-                const errorData = error.response.data.errorMessage;
-                const errors = error.response.data.validationErrors;
-                errorMessage =
-                    typeof errorData === "object" ? JSON.stringify(errorData) : errorData;
+            if (error?.response && error?.response.data) {
+                const errorData = error?.response?.data?.errorMessage;
+                const errors = error?.response?.data?.validationErrors;
+                setProgressMessage(errors);
+                // helper function to extract first error message
+                const extractMessage = (err: any): string => {
+                    if (typeof err === "string") return err;
+                    if (typeof err === "object" && err !== null) {
+                        const val = Object.values(err)[0];
+                        return Array.isArray(val) ? val[0] : String(val);
+                    }
+                    return String(err);
+                };
+                errorMessage = errors ? extractMessage(errors) : extractMessage(errorData);
             }
-            setProgressMessage("You are not authorized!")
-            setToaster({ message: "You are not authorized", type: "error" });
+
+            toast.error(errorMessage);
         },
     });
 
