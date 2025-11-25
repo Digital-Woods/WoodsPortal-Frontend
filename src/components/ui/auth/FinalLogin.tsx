@@ -63,37 +63,51 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       }
     },
     onSuccess: async (data: any) => {
-      if (!data?.data?.tokenData?.token) {
+      const tokenData: any = data?.data?.tokenData || {}
+      const loggedInDetails: any = data?.data?.loggedInDetails || {}
+      const portals: any = data?.data?.loggedInDetails.portals || {}
+
+      if (loggedInDetails?.portals) {
+        delete loggedInDetails?.portals;
+      }
+
+      if (loggedInDetails?.hubspots) {
+        delete loggedInDetails?.hubspots;
+      }
+
+      if (!tokenData?.token) {
         toast.error("Wrong email or password");
         return;
       }
 
       const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
-      const portal = data?.data?.loggedInDetails?.portals.find(
+      const portal = portals.find(
         (item: any) => item?.portalUrl === currentDomain
       );
 
       setPortal(portal || {});
 
-      const SubscriptionType = data?.data?.loggedInDetails?.subscriptionType || "FREE";
+      const SubscriptionType = loggedInDetails?.subscriptionType || "FREE";
       setSubscriptionType(SubscriptionType);
 
-      const token = data?.data?.tokenData?.token;
-      const refreshToken = data?.data?.tokenData?.refreshToken;
-      const expiresIn = data?.data?.tokenData?.expiresIn;
-      const rExpiresIn = data?.data?.tokenData?.refreshExpiresIn;
+      const token = tokenData?.token;
+      console.log('token', token)
+      const refreshToken = tokenData?.refreshToken;
+      const expiresIn = tokenData?.expiresIn;
+      const rExpiresIn = tokenData?.refreshExpiresIn;
       // const rExpiresAt = data?.data?.tokenData?.refreshExpiresAt;
       if (
-        data?.data?.loggedInDetails &&
-        data?.data?.loggedInDetails?.hubspot &&
-        data?.data?.loggedInDetails?.hubspot.twoFa
+        loggedInDetails &&
+        loggedInDetails?.hubspot &&
+        loggedInDetails?.hubspot.twoFa
       ) {
+        console.log('2fa enabled');
         setLoggedInDetails(data.data);
 
-        setTwoFa({ twoFa: data?.data?.loggedInDetails?.hubspot?.twoFa });
+        setTwoFa({ twoFa: loggedInDetails?.hubspot?.twoFa });
         window.location.hash = "/login/tow-fa";
       } else {
-
+        console.log('2fa not enabled');
         await setAuthCredentials(token, expiresIn);
         await setRefreshToken(refreshToken, rExpiresIn);
         await setLoggedInDetails(data.data);
