@@ -17,7 +17,8 @@ export const DetailsView = ({
   refetch,
   permissions,
   isLoading,
-  urlParam
+  urlParam,
+  panelRef
 }: any) => {
   const [iframeViewDialog, setIframeViewDialog] = useState(false);
   const [iframeUrls, setIframeUrls] = useState([]);
@@ -207,6 +208,7 @@ export const DetailsView = ({
                     <td className="py-2 pl-1 text-sm dark:text-white break-all gap-2">
                       {value?.isEditableField && permissions?.update ? (
                         <DetailsViewUpdate
+                          panelRef={panelRef}
                           renderValue={renderCellContent({
                             companyAsMediator: false,
                             value: value?.value,

@@ -118,6 +118,7 @@ export const DetailsViewUpdate = ({
   editRowKey,
   setEditRowKey,
   isAssociations = false,
+  panelRef
 }: any) => {
   const [editRow, setEditRow] = useState<any>(null);
   const { setToaster } = useToaster();
@@ -445,6 +446,7 @@ export const DetailsViewUpdate = ({
                             defaultValue={editRow?.value}
                             time={editRow?.type === "datetime" ? true : false}
                             {...register(editRow?.key)}
+                            panelRef={panelRef}
                           />
                         ) : editRow.fieldType === "number" ? (
                           <Input

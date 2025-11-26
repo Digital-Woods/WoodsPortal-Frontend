@@ -25,10 +25,10 @@ export const Dialog = forwardRef<HTMLDivElement, any>((props, ref) => {
           className="fixed inset-0 bg-gray-500/35 backdrop-blur-2xl border border-gray-400/40 shadow-lg"
           aria-hidden="true"
         />
-        <div className="fixed inset-0 z-20 w-screen flex items-center justify-center overflow-y-auto">
-          <div className="sm:p-0 min-h-[90vh] overflow-x-auto flex items-center popup-modal">
+        <div className="fixed inset-0 z-20 w-screen flex items-center justify-center overflow-hidden">
+          <div className="sm:p-0 min-h-[90vh] overflow-hidden flex items-center popup-modal">
             <div
-              className="relative transform overflow-hidden rounded-lg"
+              className="relative transform overflow-y-auto rounded-lg bg-cleanWhite dark:bg-dark-200 bg-cleanWhite dark:bg-dark-200 lg:max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <div className={classesName2} ref={ref} {...rest} />
