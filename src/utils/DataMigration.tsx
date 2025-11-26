@@ -661,17 +661,17 @@ export const renderCellContent = ({
 
 };
 
+
 export function getFirstName() {
   const { me } = useMe();
   const { profileDetails } = useAuth();
 
-  if (profileDetails && profileDetails?.firstName) {
-    return profileDetails?.firstName;
-  } else if (me && me?.firstName) {
-    return me?.firstName;
-  } else {
-    return "";
-  }
+  return (
+    profileDetails?.firstName ||
+    me?.firstName ||
+    truncatedText(profileDetails?.email, 23) ||
+    ""
+  );
 }
 
 export function getLastName() {
