@@ -132,7 +132,6 @@ const ClientSession = () => {
             if (error?.response && error?.response.data) {
                 const errorData = error?.response?.data?.errorMessage;
                 const errors = error?.response?.data?.validationErrors;
-                setProgressMessage(errors);
                 // helper function to extract first error message
                 const extractMessage = (err: any): string => {
                     if (typeof err === "string") return err;
@@ -143,6 +142,7 @@ const ClientSession = () => {
                     return String(err);
                 };
                 errorMessage = errors ? extractMessage(errors) : extractMessage(errorData);
+                setProgressMessage(errorMessage);
             }
 
             toast.error(errorMessage);
