@@ -60,7 +60,7 @@ export const TimePicker = ({
 
   return (
     <div ref={ref}>
-      <div className=" bg-white dark:bg-gray-700 rounded-md shadow-lg w-[100%] h-[325.91px] transition-all duration-300 overflow-y-scroll text-center">
+      <div className=" bg-white dark:bg-gray-700 rounded-md shadow-lg w-full min-w-[180px] h-[325.91px] transition-all duration-300 overflow-y-scroll text-center">
         <ul className="text-gray-900 ">
           {timeList.map((time) => (
             <li

@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react'
 import { DatePicker } from './DatePicker'
 import { formatTimestampIST } from '@/utils/DateTime'
 import { FormLabel, Input } from '../Form'
-import { Menu, MenuItem } from '@szhsin/react-menu'
+import {
+    Menu as MenuInner,
+    MenuItem as MenuItemInner,
+} from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/index.css'
 
 export const CustomMenu = ({ defaultValue, dateFormat, handleDateSelect }: any) => {
@@ -13,7 +16,7 @@ export const CustomMenu = ({ defaultValue, dateFormat, handleDateSelect }: any) 
   }
   
   return (
-    <div className="mt-2">
+    <div className="py-2">
       <DatePicker
         defaultValue={defaultValue || ''}
         dateFormat={dateFormat || 'dd-mm-yyyy'}
@@ -24,6 +27,17 @@ export const CustomMenu = ({ defaultValue, dateFormat, handleDateSelect }: any) 
     </div>
   )
 }
+
+const menuDynamicClassName = "!z-50 !bg-transparent";
+
+const menuItemDynamicClassName = "!list-none !p-0";
+
+const Menu = (props: any) => <MenuInner {...props} menuClassName={menuDynamicClassName} />;
+
+const MenuItem = (props: any) => (
+    <MenuItemInner {...props} className={menuItemDynamicClassName} />
+);
+
 
 export const DateMenu = ({
   control = null,
@@ -81,6 +95,7 @@ export const DateMenu = ({
         </>
       ) : (
         <Menu
+        classNamePrefix="tw"
           menuButton={
             <Input
               control={control}
@@ -90,18 +105,18 @@ export const DateMenu = ({
               value={inputValue ? inputValue.label : ''}
             />
           }
-          menuStyle={{ background: "transparent" }}
+          // menuStyle={{ background: "transparent" }}
           portal={false} // Important: keeps menu inside scroll container
           position="anchor" // keeps menu anchored inside scroll area
           viewScroll="auto" // ensures proper scrolling behavior
         >
           <MenuItem
-            style={{
-              padding: 0,
-              margin: 0,
-              background: "transparent",
-              '--szh-menu-item-hover-bg': 'transparent', // removes internal lib hover color
-            }}
+            // style={{
+            //   padding: 0,
+            //   margin: 0,
+            //   background: "transparent",
+            //   '--szh-menu-item-hover-bg': 'transparent', // removes internal lib hover color
+            // }}
           >
             <CustomMenu
               defaultValue={defaultValue}
