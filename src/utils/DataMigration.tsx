@@ -669,7 +669,7 @@ export function getFirstName() {
   return (
     profileDetails?.firstName ||
     me?.firstName ||
-    truncatedText(profileDetails?.email, 23) ||
+    profileDetails?.email ||
     ""
   );
 }
