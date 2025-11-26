@@ -27,6 +27,7 @@ import { useToaster } from '@/state/use-toaster';
 import { QueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/state/use-auth';
 import { useUpdateLink } from '@/utils/GenerateUrl';
+import { useEditor } from '@/state/use-editor';
 
 
 const NoteCard = ({
@@ -46,6 +47,10 @@ const NoteCard = ({
   const [isUploading, setIsUploading] = useState(false);
   const noteStyle = moduleStylesOptions.noteStyle;
   const editorRef = useRef(null);
+
+  const {
+    isLoadingUploading,
+  }: any = useEditor();
 
   const formatDate = (timestamp: any) => {
     const date = new Date(timestamp);
@@ -187,7 +192,7 @@ const NoteCard = ({
               <div className="flex gap-x-2 mt-2">
                 <Button
                   disabled={
-                    isLoadingUpdate || editorContent === "" || isUploading
+                    isLoadingUpdate || editorContent === "" || isUploading || isLoadingUploading
                   }
                   onClick={handleUpdateNote}
                   className="text-white"
@@ -197,7 +202,7 @@ const NoteCard = ({
                   Save
                 </Button>
                 <Button
-                  disabled={isLoadingUpdate || isUploading}
+                  disabled={isLoadingUpdate || isUploading || isLoadingUploading}
                   size="sm"
                   variant="outline"
                   onClick={() => {
@@ -285,6 +290,10 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   const [totalNotes, setTotalNotes] = useState(0);
   const {updateLink, filterParams} = useUpdateLink();
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
+
+  const {
+    isLoadingUploading,
+  }: any = useEditor();
 
   let portalId: any;
   if (env.VITE_DATA_SOURCE_SET != true) {
@@ -574,7 +583,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
         </div>
           <div className="flex justify-end gap-3 darkbg-[#516f90] sticky bottom-0 z-50 bg-white px-4 pb-4 pt-2">
             <Button
-              disabled={isPosting || isUploading}
+              disabled={isPosting || isUploading || isLoadingUploading}
               variant="outline"
               onClick={() => {
                 setShowDialog(false);
@@ -586,7 +595,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
               Cancel
             </Button>
             <Button
-              disabled={isPosting || editorContent.trim() === "" || isUploading}
+              disabled={isPosting || editorContent.trim() === "" || isUploading || isLoadingUploading}
               onClick={handleSaveNote}
               isLoading={isPosting}
             >
