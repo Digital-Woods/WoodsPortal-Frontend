@@ -152,7 +152,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
             setPermissions(userData?.configurations);
         } else {
             setConfigurations(userData?.response?.associations?.COMPANY?.configurations);
-            setPermissions(userData?.configurations);
+            setPermissions(userData?.response?.associations?.COMPANY?.configurations);
         }
     }, [userData, selectedFileDataFilter, activeTab]);
 
