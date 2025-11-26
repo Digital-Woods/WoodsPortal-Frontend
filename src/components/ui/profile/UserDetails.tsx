@@ -15,7 +15,7 @@ import { Notes } from "../Notes";
 import { useUpdateLink } from "@/utils/GenerateUrl";
 import { useTable } from "@/state/use-table";
 
-export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirstTime, userCompanyId }: any) => {
+export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
     const [images, setImages] = useState<any>([]);
     // const [sortItems, setSortItems] = useState<any>([]);
@@ -29,7 +29,7 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
     // const param = getParam("t");
     const param = getQueryParamsFromCurrentUrl();
     const [activeTab, setActiveTab] = useState<any>("files");
-    const [permissions, setPermissions] = useState<any>(userPermissions);
+    const [permissions, setPermissions] = useState<any>(null);
     const urlParam = getQueryParamsFromCurrentUrl();
     const [galleryDialog, setGalleryDialog] = useState<any>(false);
     // const { sync, setSync } = useSync();
@@ -143,9 +143,18 @@ export const UserDetails = ({ path, objectId, id, userPermissions, isLoadedFirst
     }, []);
 
     useEffect(() => {
-        setConfigurations(userPermissions);
-        setPermissions(userPermissions);
-    }, [userPermissions]);
+        if(
+            (selectedFileDataFilter === "0-1" && activeTab === 'files') || 
+            (selectedNotesDataFilter === "0-1" && activeTab === 'notes') || 
+            (selectedTicketsDataFilter === "0-1" && activeTab === 'tickets')
+        ) {
+            setConfigurations(userData?.configurations);
+            setPermissions(userData?.configurations);
+        } else {
+            setConfigurations(userData?.response?.associations?.COMPANY?.configurations);
+            setPermissions(userData?.configurations);
+        }
+    }, [userData, selectedFileDataFilter, activeTab]);
 
     const setActiveTabFucntion = (active: any) => {
         // setParam("t", active);

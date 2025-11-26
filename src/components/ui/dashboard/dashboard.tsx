@@ -205,7 +205,7 @@ const Dashboard = () => {
               pipeLineId={pipeLineId}
               specPipeLine={specPipeLine}
             /> */}
-            <UserDetails userCompanyId={userCompanyId} userPermissions={userData?.configurations} objectId={userObjectId} id={userId} isLoadedFirstTime={isLoadedFirstTime} />
+            <UserDetails userCompanyId={userCompanyId} userData={userData} objectId={userObjectId} id={userId} isLoadedFirstTime={isLoadedFirstTime} />
 
           </div>
 
