@@ -160,8 +160,8 @@ export const DatePicker = ({
         onClick={() => setOpen(!open)}
         placeholder="Select date"
       /> */}
-      {open && (
-        <div className="bg-white text-gray-800 rounded-lg shadow-lg p-2 w-[260px] transition-all duration-300 overflow-hidden">
+      {/* {open && ( */}
+        <div className="bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg shadow-lg p-2 w-full min-w-[260px] h-[325.91px] transition-all duration-300 overflow-hidden">
           <div className="flex justify-between items-center mb-2">
             {showYearSelect || showMonthSelect ? (
               <div></div>
@@ -266,7 +266,7 @@ export const DatePicker = ({
                   onClick={() => handleYearClick(year)}
                   className={`text-center py-2 cursor-pointer rounded-full text-sm ${
                     year === viewDate.getFullYear()
-                      ? "bg-primary text-white"
+                      ? "bg-gray-700 text-white dark:bg-white dark:text-gray-700"
                       : "hover:bg-gray-100"
                   }`}
                 >
@@ -283,7 +283,7 @@ export const DatePicker = ({
                   onClick={() => handleMonthClick(index)}
                   className={`text-center py-1 cursor-pointer rounded-full text-sm ${
                     index === viewDate.getMonth()
-                      ? "bg-primary text-white"
+                      ? "bg-gray-700 text-white dark:bg-white dark:text-gray-700"
                       : "hover:bg-gray-100"
                   }`}
                 >
@@ -311,7 +311,7 @@ export const DatePicker = ({
                       key={idx}
                       className={`py-2 cursor-pointer rounded-full ${
                         isSelected
-                          ? "bg-primary text-white"
+                          ? "bg-gray-700 text-white dark:bg-white dark:text-gray-700"
                           : item.currentMonth
                           ? "hover:bg-gray-200"
                           : "text-gray-400"
@@ -327,13 +327,13 @@ export const DatePicker = ({
               <div className="flex justify-between">
                 <div
                   onClick={handleToday}
-                  className="w-full mr-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-center text-sm cursor-pointer"
+                  className="w-full mr-2 py-1 border border-input text-foreground dark:text-white bg-transparent shadow hover:bg-accent hover:text-accent-foreground dark:bg-dark-400 dark:hover:bg-dark-400 rounded text-center text-sm cursor-pointer"
                 >
                   Today
                 </div>
                 <div
                   onClick={handleClear}
-                  className="w-full ml-2 py-1 bg-gray-100 hover:bg-gray-200 rounded text-center text-sm cursor-pointer"
+                  className="w-full ml-2 py-1 border border-input text-foreground dark:text-white bg-transparent shadow hover:bg-accent hover:text-accent-foreground dark:bg-dark-400 dark:hover:bg-dark-400 rounded text-center text-sm cursor-pointer"
                 >
                   Clear
                 </div>
@@ -341,7 +341,7 @@ export const DatePicker = ({
             </>
           )}
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };
