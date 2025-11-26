@@ -28,6 +28,7 @@ export const DateTimeInput = React.forwardRef(
       setValue,
       time = true, // New prop to control time picker visibility
       isAssociations,
+      panelRef = null,
       ...rest
     }: any,
     ref: any
@@ -100,6 +101,7 @@ export const DateTimeInput = React.forwardRef(
                 field={field}
                 handleSelect={handleSelectDate}
                 isAssociations={isAssociations}
+                panelRef={panelRef}
               />
             </div>
             {time && (
@@ -119,6 +121,7 @@ export const DateTimeInput = React.forwardRef(
                   field={field}
                   handleSelect={handleSelectTime}
                   isAssociations={isAssociations}
+                  panelRef={panelRef}
                 />
               </div>
             )}

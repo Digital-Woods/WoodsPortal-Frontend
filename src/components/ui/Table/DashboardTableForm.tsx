@@ -406,9 +406,12 @@ export const DashboardTableForm = ({
   //   }
   // }, [breadcrumbs, activeTab]);
 
+  const panelRef = useRef(null);
+
   return (
     <div>
       <Dialog
+        ref={panelRef}
         open={openModal}
         onClose={setOpenModal}
         className="bg-cleanWhite dark:bg-dark-200 lg:max-h-[90vh] md:max-h-[90vh] max-h-[100vh] lg:w-[830px] md:w-[720px] w-[calc(100vw)] overflow-y-auto px-4 !py-0 CUSTOM-object-create-form"
@@ -558,6 +561,7 @@ export const DashboardTableForm = ({
                                           </div>
                                         ) : filled?.fieldType === "date" ? (
                                           <DateTimeInput
+                                            panelRef={panelRef}
                                             name={filled?.name}
                                             control={control}
                                             filled={filled}

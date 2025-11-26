@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import z from 'zod'
 import { Button } from '../ui/Button'
 import { Dialog } from '../ui/Dialog'
@@ -65,11 +65,14 @@ export const DetailsViewDateTimeDialog = ({
   const onChangeSelect = (filled: any, selectedValue: any) => {
   }
 
+  const panelRef = useRef(null);
+
   return (
     <Dialog
       open={editRow}
       onClose={() => setDateTimeDialog(false)}
       className="p-4"
+      ref={panelRef}
     >
       <div className="rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]  flex-col gap-6 flex">
         <div className="text-start text-xl dark:text-white font-semibold">
@@ -99,6 +102,7 @@ export const DetailsViewDateTimeDialog = ({
                         <FormItem className="">
                           <FormControl>
                             <DateTimeInput
+                              panelRef={panelRef}
                               control={control}
                               name={editRow?.name}
                               type={editRow?.type}

@@ -12,7 +12,7 @@ import { getParam, getQueryParamsFromCurrentUrl } from "@/utils/param";
 import { useResponsive } from "@/utils/UseResponsive";
 import { useMutation } from "@tanstack/react-query";
 import { env } from "@/env";
-import { useState, useEffect} from "react";
+import { useState, useEffect, useRef} from "react";
 import { Dialog } from "./ui/Dialog";
 import { Notes } from "./ui/Notes";
 import { Files } from "./ui/files/Files";
@@ -59,6 +59,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
   const router = useRouter()
   const { pathname } = router.state.location
+  const panelRef = useRef(null);
 
   // Automatically adjust the sidebar based on screen size
   useEffect(() => {
@@ -233,7 +234,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
   return (
     <div
-      className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl CUSTOM-hide-scrollbar h-[calc(100vh-var(--nav-height))] overflow-hidden `}
+      className={`dark:bg-dark-200 w-[100%] md:p-4 p-3 !pt-0 md:pb-0 rounded-tl-xl h-[calc(100vh-var(--nav-height))] overflow-hidden `}
     >
       {item.length > 0 && (
         <div className=" flex relative bg-cleanWhite  h-full dark:bg-dark-200 overflow-hidden">
@@ -250,6 +251,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
 
           {/* main content code start */}
           <div
+            ref={panelRef}
             id="details-scrollable-container"
             className={`${isLargeScreen ? "w-[calc(100%_-330px)]  pr-4 pb-4" : "w-full md:pt-4 pt-3"
               } lg:h-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}
@@ -321,6 +323,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   permissions={permissions ? permissions?.object : null}
                   isLoading={isLoading}
                   urlParam={urlParam}
+                  panelRef={panelRef}
                 />
               )}
               {activeTab === "files" && (

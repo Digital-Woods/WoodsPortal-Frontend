@@ -55,6 +55,7 @@ export const DateMenu = ({
   field,
   handleSelect,
   isAssociations,
+  panelRef = null
 }: any) => {
   const [inputValue, setInputValue] = useState('')
 
@@ -95,7 +96,7 @@ export const DateMenu = ({
         </>
       ) : (
         <Menu
-        classNamePrefix="tw"
+          boundingBoxRef={panelRef}
           menuButton={
             <Input
               control={control}

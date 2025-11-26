@@ -53,6 +53,7 @@ export const TimeMenu = ({
     field,
     handleSelect,
     isAssociations,
+    panelRef = null
 }: any) => {
     const [inputValue, setInputValue] = useState('')
     const [menuIsOpen, setMenuIsOpen] = useState(false)
@@ -95,6 +96,7 @@ export const TimeMenu = ({
                 </>
             ) : (
                 <Menu
+                    boundingBoxRef={panelRef}
                     menuButton={
                         <Input
                             control={control}
