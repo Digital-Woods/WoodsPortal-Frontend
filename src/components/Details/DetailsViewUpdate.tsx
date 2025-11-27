@@ -492,7 +492,8 @@ export const DetailsViewUpdate = ({
                       variant="hubSpot"
                       size="hubSpot"
                       isLoading={isLoading}
-                      onClick={() => onSubmit()}
+                      // onClick={() => onSubmit()}
+                      type="submit"
                       disabled={isLoading && isUpdating}
                     >
                       <span className="text-secondary dark:text-white">
