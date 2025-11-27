@@ -411,13 +411,13 @@ export const DashboardTableForm = ({
   return (
     <div>
       <Dialog
-        ref={panelRef}
+        
         open={openModal}
         onClose={setOpenModal}
-        className="bg-cleanWhite dark:bg-dark-200 lg:max-h-[90vh] md:max-h-[90vh] max-h-[100vh] lg:w-[830px] md:w-[720px] w-[calc(100vw)] overflow-y-auto px-4 !py-0 CUSTOM-object-create-form"
+        className="bg-cleanWhite dark:bg-dark-200 lg:max-h-[90vh] md:max-h-[90vh] max-h-[100vh] lg:w-[830px] md:w-[720px] w-[calc(100vw)] overflow-hidden !py-0 CUSTOM-object-create-form"
       >
         <div>
-          <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15]">
+          <div className=" py-4 sticky top-0 bg-white dark:bg-dark-200 z-[15] px-4">
             <div className="text-start text-xl dark:text-white font-semibold  break-all">
               {dialogTitle}
             </div>
@@ -475,13 +475,13 @@ export const DashboardTableForm = ({
           {isLoading ? (
             <div className="CUSTOM-loader-line"></div>
           ) : (
-            <div className="w-full text-left">
+            <div className="w-full text-left overflow-hidden">
               {activeTab === "addNew" ? (
                 <Form
                   onSubmit={onSubmit}
                   validationSchema={validationSchema}
                   serverError={serverError}
-                  className="dark:bg-dark-200 !m-0"
+                  className="dark:bg-dark-200 !m-0 overflow-hidden"
                 >
                   {({
                     register,
@@ -504,137 +504,139 @@ export const DashboardTableForm = ({
                         reset(defaultValues);
                       };
                     return (
-                      <div>
-                        <div className="text-gray-800 dark:text-gray-200">
-                          {/* {data.map((group) => ( */}
-                          <div className="mb-4 grid gap-3">
-                            {/* <div className="text-[15px] font-bold">
-                                {group.groupName}
-                              </div> */}
+                      <div className='pl-4 pr-2'>
+                        <div className='relative '>
+                          <div ref={panelRef} className="text-gray-800 dark:text-gray-200 relative overflow-auto lg:max-h-[70vh] md:max-h-[60vh] max-h-[90vh] px-2">
+                            {/* {data.map((group) => ( */}
+                            <div className="mb-4 grid gap-3">
+                              {/* <div className="text-[15px] font-bold">
+                                  {group.groupName}
+                                </div> */}
 
-                            {data.map((filled: any) => (
-                              <div key={filled.name}>
-                                {filled?.fieldRole === "PROPERTIES" ? (
-                                  <FormItem className={`${filled?.hidden ? 'hidden':'visible'}`}>
-                                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                                      {filled?.customLabel}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <div>
-                                        {filled?.fieldType == "select" ||
-                                        filled?.fieldType == "checkbox" ||
-                                        filled?.fieldType == "booleancheckbox" ||
-                                        filled?.fieldType == "radio" ||
-                                        (filled?.name == "dealstage" &&
-                                          filled?.fieldType == "radio" &&
-                                          hubspotObjectTypeId ===
-                                            env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS
-                                              .deals) ? (
-                                          <Select
-                                            label={`Select ${filled?.customLabel}`}
-                                            name={filled?.name}
-                                            options = {(filled?.name === "hs_pipeline" || filled?.name === "pipeline") && specPipeLine
-                                              ? filled?.options.filter((option: any) => option?.value === pipeLineId)
-                                              : filled?.options}
-                                            control={control}
-                                            filled={filled}
-                                            onChangeSelect={onChangeSelect}
-                                            disabled={filled?.hidden}
-                                            setValue={filled?.hidden ? setValue : null}
-                                            isMulti={filled?.fieldType == "checkbox" ? true : false}
-                                          />
-                                        ) : filled.fieldType === "textarea" ? (
-                                          <Textarea
-                                            height="medium"
-                                            placeholder={filled?.customLabel}
-                                            className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
-                                            {...register(filled?.name)}
-                                          />
-                                        ) : filled?.fieldType === "html" ? (
-                                          <div className="CUSTOM-create-object-editor">
-                                            <DashboardTableEditor
-                                              title={filled?.label}
-                                              value={filled?.value}
-                                              setValue={setValue}
+                              {data.map((filled: any) => (
+                                <div key={filled.name}>
+                                  {filled?.fieldRole === "PROPERTIES" ? (
+                                    <FormItem className={`${filled?.hidden ? 'hidden':'visible'}`}>
+                                      <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                        {filled?.customLabel}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <div>
+                                          {filled?.fieldType == "select" ||
+                                          filled?.fieldType == "checkbox" ||
+                                          filled?.fieldType == "booleancheckbox" ||
+                                          filled?.fieldType == "radio" ||
+                                          (filled?.name == "dealstage" &&
+                                            filled?.fieldType == "radio" &&
+                                            hubspotObjectTypeId ===
+                                              env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS
+                                                .deals) ? (
+                                            <Select
+                                              label={`Select ${filled?.customLabel}`}
+                                              name={filled?.name}
+                                              options = {(filled?.name === "hs_pipeline" || filled?.name === "pipeline") && specPipeLine
+                                                ? filled?.options.filter((option: any) => option?.value === pipeLineId)
+                                                : filled?.options}
+                                              control={control}
+                                              filled={filled}
+                                              onChangeSelect={onChangeSelect}
+                                              disabled={filled?.hidden}
+                                              setValue={filled?.hidden ? setValue : null}
+                                              isMulti={filled?.fieldType == "checkbox" ? true : false}
+                                            />
+                                          ) : filled.fieldType === "textarea" ? (
+                                            <Textarea
+                                              height="medium"
+                                              placeholder={filled?.customLabel}
+                                              className="w-full rounded-md bg-cleanWhite px-2 text-sm transition-colors border-2 dark:border-gray-600 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 py-2"
                                               {...register(filled?.name)}
                                             />
-                                          </div>
-                                        ) : filled?.fieldType === "date" ? (
-                                          <DateTimeInput
-                                            panelRef={panelRef}
-                                            name={filled?.name}
-                                            control={control}
-                                            filled={filled}
-                                            type={filled?.type}
-                                            dateFormat="dd-mm-yyyy"
-                                            height="small"
-                                            className=""
-                                            setValue={setValue}
-                                            defaultValue={""}
-                                            time={filled?.type === "datetime" ? true : false}
-                                            {...register(filled?.name)}
-                                          />
-                                        ) : filled?.fieldType === "number" ? (
-                                          <Input
-                                            type="number"
-                                            placeholder={filled?.customLabel}
-                                            className=""
-                                            control={control}
-                                            {...register(filled?.name)}
-                                          />
-                                        ) : (
-                                          <Input
-                                            // type={filled?.fieldType}
-                                            placeholder={filled?.customLabel}
-                                            className=""
-                                            {...register(filled?.name)}
-                                          />
-                                        )}
-                                      </div>
-                                    </FormControl>
+                                          ) : filled?.fieldType === "html" ? (
+                                            <div className="CUSTOM-create-object-editor">
+                                              <DashboardTableEditor
+                                                title={filled?.label}
+                                                value={filled?.value}
+                                                setValue={setValue}
+                                                {...register(filled?.name)}
+                                              />
+                                            </div>
+                                          ) : filled?.fieldType === "date" ? (
+                                            <DateTimeInput
+                                              panelRef={panelRef}
+                                              name={filled?.name}
+                                              control={control}
+                                              filled={filled}
+                                              type={filled?.type}
+                                              dateFormat="dd-mm-yyyy"
+                                              height="small"
+                                              className=""
+                                              setValue={setValue}
+                                              defaultValue={""}
+                                              time={filled?.type === "datetime" ? true : false}
+                                              {...register(filled?.name)}
+                                            />
+                                          ) : filled?.fieldType === "number" ? (
+                                            <Input
+                                              type="number"
+                                              placeholder={filled?.customLabel}
+                                              className=""
+                                              control={control}
+                                              {...register(filled?.name)}
+                                            />
+                                          ) : (
+                                            <Input
+                                              // type={filled?.fieldType}
+                                              placeholder={filled?.customLabel}
+                                              className=""
+                                              {...register(filled?.name)}
+                                            />
+                                          )}
+                                        </div>
+                                      </FormControl>
 
-                                    {errors[filled?.name] && (
-                                      <FormMessage className="text-red-600 dark:text-red-400">
-                                        {errors[filled?.name].message}
-                                      </FormMessage>
-                                    )}
-                                  </FormItem>
-                                ) : (
-                                  <FormItem className="">
-                                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                                      {filled?.label || filled?.labels?.plural}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Select
-                                        label={`Select ${
-                                          filled?.label ||
-                                          filled?.labels?.plural
-                                        }`}
-                                        name={filled.name}
-                                        options={[]}
-                                        control={control}
-                                        filled={filled}
-                                        onChangeSelect={onChangeSelect}
-                                        apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${filled?.formId}/${filled?.objectTypeId}`}
-                                        optionlabel="label"
-                                        optionValue="ID"
-                                        setValue={setValue}
-                                        isMulti={filled?.fieldType == "checkbox" ? true : false}
-                                      />
-                                    </FormControl>
-                                    {errors[filled?.name] && (
-                                      <FormMessage className="text-red-600 dark:text-red-400">
-                                        {errors[filled?.name]?.message}
-                                      </FormMessage>
-                                    )}
-                                  </FormItem>
-                                )}
-                              </div>
-                            ))}
+                                      {errors[filled?.name] && (
+                                        <FormMessage className="text-red-600 dark:text-red-400">
+                                          {errors[filled?.name].message}
+                                        </FormMessage>
+                                      )}
+                                    </FormItem>
+                                  ) : (
+                                    <FormItem className="">
+                                      <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                                        {filled?.label || filled?.labels?.plural}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Select
+                                          label={`Select ${
+                                            filled?.label ||
+                                            filled?.labels?.plural
+                                          }`}
+                                          name={filled.name}
+                                          options={[]}
+                                          control={control}
+                                          filled={filled}
+                                          onChangeSelect={onChangeSelect}
+                                          apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${filled?.formId}/${filled?.objectTypeId}`}
+                                          optionlabel="label"
+                                          optionValue="ID"
+                                          setValue={setValue}
+                                          isMulti={filled?.fieldType == "checkbox" ? true : false}
+                                        />
+                                      </FormControl>
+                                      {errors[filled?.name] && (
+                                        <FormMessage className="text-red-600 dark:text-red-400">
+                                          {errors[filled?.name]?.message}
+                                        </FormMessage>
+                                      )}
+                                    </FormItem>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                            {/* ))} */}
                           </div>
-                          {/* ))} */}
                         </div>
-                        <div className="mt-4 z-[10] flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4">
+                        <div className="z-[10] flex justify-end items-end gap-2 flex-wrap sticky bottom-0 bg-white dark:bg-dark-200 p-4">
                           <Button
                             variant="outline"
                             onClick={() => setOpenModal(false)}

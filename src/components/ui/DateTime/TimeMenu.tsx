@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { TimePicker } from './TimePicker'
 import { formatTimestampIST } from '@/utils/DateTime'
 import { FormLabel, Input } from '../Form'
@@ -27,7 +27,7 @@ export const CustomMenu = ({ defaultValue, handleTimeSelect }: any) => {
     )
 }
 
-const menuDynamicClassName = "!z-50 !bg-transparent";
+const menuDynamicClassName = "!z-200 !bg-transparent";
 
 const menuItemDynamicClassName = "!list-none !p-0";
 
@@ -55,8 +55,10 @@ export const TimeMenu = ({
     isAssociations,
     panelRef = null
 }: any) => {
+    const timeSelectRef = useRef(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [usePortal, setUsePortal] = useState(false);
     const [inputValue, setInputValue] = useState('')
-    const [menuIsOpen, setMenuIsOpen] = useState(false)
 
     useEffect(() => {
         if (defaultValue) {
@@ -74,8 +76,69 @@ export const TimeMenu = ({
         setInputValue({ label: newTime, value: newTime })
     }
 
+    useEffect(() => {
+        const checkSpace = () => {
+            if (!timeSelectRef.current) return;
+
+            const triggerRect = timeSelectRef.current.getBoundingClientRect();
+            const menuHeight = 350;
+
+            let topBound = 0;
+            let bottomBound = window.innerHeight;
+
+            if (panelRef?.current) {
+                const panelRect = panelRef.current.getBoundingClientRect();
+                topBound = panelRect.top;
+                bottomBound = panelRect.bottom;
+            }
+
+            const spaceAbove = triggerRect.top - topBound;
+            const spaceBelow = bottomBound - triggerRect.bottom;
+
+            const fitsBelow = spaceBelow > menuHeight;
+            const fitsAbove = spaceAbove > menuHeight;
+
+            if (fitsBelow) {
+                setUsePortal(false);
+            } else if (fitsAbove) {
+                setUsePortal(false);
+            } else {
+                setUsePortal(true);
+            }
+        };
+
+        checkSpace();
+
+        const scrollTarget: any = panelRef?.current || window;
+        scrollTarget.addEventListener("scroll", checkSpace, { passive: true });
+        window.addEventListener("resize", checkSpace);
+
+        return () => {
+            scrollTarget.removeEventListener("scroll", checkSpace);
+            window.removeEventListener("resize", checkSpace);
+        };
+    }, [panelRef]);
+
+    useEffect(() => {
+        const html = document.documentElement;
+        const body = document.body;
+
+        if (isMenuOpen) {
+            html.style.overflow = "hidden";
+            body.style.overflow = "hidden";
+        } else {
+            html.style.overflow = "";
+            body.style.overflow = "";
+        }
+
+        return () => {
+            html.style.overflow = "";
+            body.style.overflow = "";
+        };
+    }, [isMenuOpen]);
+
     return (
-        <>
+        <div ref={timeSelectRef}>
             {isAssociations ? (
                 <>
                     <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
@@ -106,19 +169,16 @@ export const TimeMenu = ({
                             value={inputValue ? inputValue.label : ''}
                         />
                     }
-                    // menuStyle={{ background: "transparent" }}
-                    portal={false} // Important: keeps menu inside scroll container
-                    position="anchor" // keeps menu anchored inside scroll area
-                    viewScroll="auto" // ensures proper scrolling behavior
+                    onMenuChange={({ open }: any) => setIsMenuOpen(open)}
+                    state="open"
+                    // align="center"
+                    direction="top"
+                    position="anchor"
+                    viewScroll="auto"
+                    anchorRef={panelRef}
+                    portal={usePortal}  // ← Dynamic Portal Toggle 🚀
                 >
-                    <MenuItem
-                    // style={{
-                    //     padding: 0,
-                    //     margin: 0,
-                    //     background: "transparent",
-                    //     '--szh-menu-item-hover-bg': 'transparent', // removes internal lib hover color
-                    // }}
-                    >
+                    <MenuItem>
                         <CustomMenu
                             defaultValue={defaultValue}
                             handleTimeSelect={handleTimeSelect}
@@ -126,6 +186,6 @@ export const TimeMenu = ({
                     </MenuItem>
                 </Menu>
             )}
-        </>
+        </div>
     )
 }
