@@ -25,7 +25,7 @@ export const DateTimeInput = React.forwardRef(
       defaultValue = "",
       dateFormat = "dd-mm-yyyy",
       isStringValue = true,
-      setValue,
+      setValue = null,
       time = true, // New prop to control time picker visibility
       isAssociations,
       panelRef = null,
@@ -43,6 +43,7 @@ export const DateTimeInput = React.forwardRef(
         if (time) {
           setInputValueTime(formatedDateTime?.time);
         }
+        if(setValue) setValue(name, defaultValue);
       }
     }, [defaultValue, time]);
 
@@ -59,7 +60,7 @@ export const DateTimeInput = React.forwardRef(
 
 
       if (field) {
-        const value = parseISTToTimestamp(inputValue).toString();
+        const value = Number(parseISTToTimestamp(inputValue).toString()) || null;
         field.onChange(value);
       }
     }
@@ -73,7 +74,7 @@ export const DateTimeInput = React.forwardRef(
       inputValue = newDateTime;
 
       if (field) {
-        const value = parseISTToTimestamp(inputValue).toString();
+        const value =  Number(parseISTToTimestamp(inputValue).toString()) || null;
         field.onChange(value);
       }
     }
