@@ -12,7 +12,7 @@ import { DateTimeInput } from "../ui/DateTime/DateTimeInput.tsx";
 import { Dialog } from "../ui/Dialog";
 import { Form, FormItem, FormLabel, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
 import { Select } from "../ui/Select";
-import { DetailsViewEditor } from "./DetailsViewEditor";
+import { DetailsViewEditorDialog } from "./DetailsViewEditorDialog.tsx";
 import { useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
 import { useSync } from "@/state/use-sync.ts";
@@ -122,6 +122,7 @@ export const DetailsViewUpdate = ({
 }: any) => {
   const [editRow, setEditRow] = useState<any>(null);
   const { setToaster } = useToaster();
+  const [editorDialog, setEditorDialog] = useState<boolean>(false);
   const [pipelineDialog, setPipelineDialog] = useState<boolean>(false);
   const [multiSelectDialog, setMultiSelectDialog] = useState<boolean>(false);
   const [dateTimeDialog, setDateTimeDialog] = useState<boolean>(false);
@@ -292,6 +293,10 @@ export const DetailsViewUpdate = ({
     //   getStags(getValue(found.value, "value"));
     // }
 
+     if (row && row?.fieldType === "html") {
+      setEditorDialog(true)
+    }
+
     if (row && row?.fieldType === "checkbox") {
 
       if(isAssociations) setMultiSelectDialog(true);
@@ -401,23 +406,25 @@ export const DetailsViewUpdate = ({
                             {...register(editRow?.key)}
                           ></Textarea>
                         ) : editRow?.fieldType === "html" ? (
-                          <DetailsViewEditor
-                            openModal={true}
-                            setOpenModal={null}
-                            title={editRow?.label}
-                            value={editRow?.value}
-                            setEditRow={setEditRow}
-                            saveData={saveData}
-                            control={control}
-                            setValue={setValue}
-                            name={editRow?.key}
-                            isLoading={isLoading}
-                            objectId={objectId}
-                            id={id}
-                            urlParam={urlParam}
-                            refetch={refetch}
-                            setEditRowKey={setEditRowKey}
-                          />
+                          <>
+                            {/* <DetailsViewEditorDialog
+                              openModal={true}
+                              setOpenModal={null}
+                              title={editRow?.label}
+                              value={editRow?.value}
+                              setEditRow={setEditRow}
+                              saveData={saveData}
+                              control={control}
+                              setValue={setValue}
+                              name={editRow?.key}
+                              isLoading={isLoading}
+                              objectId={objectId}
+                              id={id}
+                              urlParam={urlParam}
+                              refetch={refetch}
+                              setEditRowKey={setEditRowKey}
+                            /> */}
+                          </>
                         ) : editRow?.fieldType === "checkbox" ? (
                           <Select
                             label={`Select ${editRow?.customLabel}`}
@@ -541,6 +548,22 @@ export const DetailsViewUpdate = ({
           </div>
         )}
       </div>
+
+      {editorDialog && (
+        <DetailsViewEditorDialog
+          setEditRow={setEditRow}
+          editorDialog={editorDialog}
+          setEditorDialog={setEditorDialog}
+          objectId={objectId}
+          value={value}
+          editRow={editRow}
+          data={data}
+          saveData={saveData}
+          isLoading={isLoading}
+          setEditRowKey={setEditRowKey}
+          isAssociations={isAssociations}
+        />
+      )}
 
       {pipelineDialog && (
         <DetailsViewPipelineUpdateDialog
