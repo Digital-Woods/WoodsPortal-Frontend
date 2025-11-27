@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { env } from "@/env";
 import { getParam } from '@/utils/param';
 import { getPortal } from '@/data/client/auth-utils';

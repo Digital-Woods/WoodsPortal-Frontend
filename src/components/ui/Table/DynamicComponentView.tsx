@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { env } from "@/env";
 import { getQueryParamsFromCurrentUrl, getParam, removeAllParams, updateParamsFromUrl, getParamHash } from '@/utils/param'
 import { getPortal, getRouteMenuConfig, setRouteMenuConfig } from '@/data/client/auth-utils'
@@ -47,7 +47,7 @@ export const DynamicComponentView = ({
   isHome = false,
   ticketTableTitle=null,
 }: any) => {
-  const [defPermissions, setDefPermissions] = useState<any>(defaultPermissions);
+  const [defPermissions, setDefPermissions] = useState<any>();
   hubspotObjectTypeId = hubspotObjectTypeId || getParam("objectTypeId");
   const objectTypeName = getParam("objectTypeName");
   const param = getQueryParamsFromCurrentUrl();
@@ -116,6 +116,12 @@ export const DynamicComponentView = ({
     setTableFilterData,
     setTableDefPermissions
    }: any = useTable();
+   
+   useEffect(() => {
+    if (defaultPermissions) {
+      setDefPermissions(defaultPermissions);
+    }
+   }, [defaultPermissions]);
 
    const {routeDetails} = getRouteDetails()
 
@@ -134,7 +140,7 @@ export const DynamicComponentView = ({
       onSuccess: (data) => {
         if (data) {
           setUserData(data);
-          if(companyAsMediator && hubspotObjectTypeId === "0-5") setDefPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
+          if(!isHome && companyAsMediator && hubspotObjectTypeId === "0-5") setDefPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
           setIsLoadedUserProfile(true)
         }
         setSync(false);
