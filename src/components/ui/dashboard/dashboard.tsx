@@ -56,7 +56,7 @@ const Dashboard = () => {
         setUserData(data);
         setUserId(data?.response?.hs_object_id?.value);
         setUserObjectId(data?.info?.objectTypeId);
-        setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id?.value)
+        setUserCompanyId(data?.response?.associations?.COMPANY?.hs_object_id?.value);
       }
       setSync(false);
       setIsLoadedFirstTime(true);

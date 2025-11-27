@@ -216,7 +216,7 @@ export const DashboardTable: any = ({
     // console.log("handelChangePipeline", handelChangePipeline)
     getData();
   };
-  
+
   // useEffect(async () => {
   //   if (view != null) {
   //     await setLimit(pageLimit);

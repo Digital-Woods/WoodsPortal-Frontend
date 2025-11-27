@@ -143,18 +143,29 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
     }, []);
 
     useEffect(() => {
-        if(
-            (selectedFileDataFilter === "0-1" && activeTab === 'files') || 
-            (selectedNotesDataFilter === "0-1" && activeTab === 'notes') || 
-            (selectedTicketsDataFilter === "0-1" && activeTab === 'tickets')
-        ) {
-            setConfigurations(userData?.configurations);
-            setPermissions(userData?.configurations);
+        const companyConfig =
+            userData?.response?.associations?.COMPANY?.configurations;
+
+        const userConfig = userData?.configurations || {};
+        const isCompanySelected =
+            (activeTab === "files"   && selectedFileDataFilter === "0-2") ||
+            (activeTab === "notes"   && selectedNotesDataFilter === "0-2") ||
+            (activeTab === "tickets" && selectedTicketsDataFilter === "0-2");
+
+        if (isCompanySelected) {
+            setConfigurations(companyConfig);
+            setPermissions(companyConfig);
         } else {
-            setConfigurations(userData?.response?.associations?.COMPANY?.configurations);
-            setPermissions(userData?.response?.associations?.COMPANY?.configurations);
+            setConfigurations(userConfig);
+            setPermissions(userConfig);
         }
-    }, [userData, selectedFileDataFilter, activeTab]);
+    }, [
+        userData,
+        activeTab,
+        selectedFileDataFilter,
+        selectedNotesDataFilter,
+        selectedTicketsDataFilter
+    ]);
 
     const setActiveTabFucntion = (active: any) => {
         // setParam("t", active);
@@ -242,17 +253,12 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                 className="rounded-md"
                             >
                                 <TabsList>
-                                    {permissions && permissions?.fileManager?.display && (
                                         <TabsTrigger className="rounded-md" value="files">
                                             <div className="text-black dark:text-white">Files</div>
                                         </TabsTrigger>
-                                    )}
-                                    {permissions && permissions?.note?.display && (
                                         <TabsTrigger className="rounded-md" value="notes">
                                             <div className="text-black dark:text-white">Notes</div>
                                         </TabsTrigger>
-                                    )}
-                                    {permissions && permissions?.ticket?.display && (
                                         <TabsTrigger className="rounded-md" value="tickets">
                                             <div className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
                                                 {totalRecord > 0 && (
@@ -262,7 +268,6 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                                 )}
                                             </div>
                                         </TabsTrigger>
-                                    )}
                                     {/* <TabsTrigger className="rounded-md" value="photos">
   <p className="text-black dark:text-white">Photos</p>
 </TabsTrigger> */}
@@ -308,11 +313,23 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
 )} */}
 
                         {activeTab === "files" && (
+                            permissions && permissions?.fileManager?.display ? (
                             <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.fileManager : null} />
+                            ) : (
+                                <div className="p-4 flex items-center justify-center text-center text-gray-500 h-[250px]">
+                                    You do not have permission to view Files.
+                                </div>
+                            )
                         )}
                         
                         {activeTab === "notes" && objectId && selectedNotesDataFilter && id && (
-                            <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
+                            permissions && permissions?.note?.display ? (
+                                <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
+                            ) : (
+                                <div className="p-4 flex items-center justify-center text-center text-gray-500 h-[250px]">
+                                    You do not have permission to view Notes.
+                                </div>
+                            )
                         )}
 
                         {activeTab === "tickets" && (
@@ -326,10 +343,10 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                             //     companyAsMediator={false}
                             //     profileTicket={true}
                             // />
-
+                            permissions && permissions?.ticket?.display ? (
                             <DynamicComponentView
+                                key={`${path}-${selectedTicketsDataFilter}-${permissions?.ticket?.display}`}
                                 hubspotObjectTypeId={hubspotObjectTypeId}
-                                key={path}
                                 path={path}
                                 title={permissions?.ticket?.display_label || "Tickets"}
                                 ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
@@ -342,6 +359,11 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                 isHome={true}
                                 companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
                             />
+                            ) : (
+                                <div className="p-4 flex items-center justify-center text-center text-gray-500 h-[250px]">
+                                    You do not have permission to view Tickets.
+                                </div>
+                            )
                         )}
 
                         {images.length > 0 && activeTab === "photos" && (
