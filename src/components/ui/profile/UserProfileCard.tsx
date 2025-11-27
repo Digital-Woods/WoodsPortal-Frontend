@@ -50,6 +50,8 @@ export const UserProfileCard = ({ userData, isLoading }: any) => {
             return loggedInDetails?.firstName;
         } else if (me && me?.firstName) {
             return me.firstName;
+        } else if (me && me?.email) {
+            return me?.email;
         } else {
             return "";
         }
