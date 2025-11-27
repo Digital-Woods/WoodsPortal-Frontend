@@ -99,7 +99,7 @@ export const Select = ({
     }
   }, [selectOptions]);
 
-  const parseValue = (value: any = "") => {
+  const parseValue = (value: any = "", field?: { onChange: (value: any) => void }) => {
     if (!options || options.length === 0) return isMulti ? [] : null;
 
     // MULTI
@@ -110,11 +110,14 @@ export const Select = ({
           splitValues.includes(opt[optionValue])
         );
       }
+      handleChange(value, field);
       return value;
     }
 
     // SINGLE
-    return options.find((opt: any) => String(opt[optionValue]) === String(value)) || null;
+    const singleValue = options.find((opt: any) => String(opt[optionValue]) === String(value)) || null
+    // handleChange(singleValue, field);
+    return singleValue;
   };
 
   return (
@@ -125,7 +128,7 @@ export const Select = ({
       render={({ field }: any) =>
         <MSelect
           {...field}
-          value={parseValue(field[optionValue])}
+          value={parseValue(field[optionValue], field)}
           options={options}
           isMulti={isMulti}
           isClearable={isClearable}

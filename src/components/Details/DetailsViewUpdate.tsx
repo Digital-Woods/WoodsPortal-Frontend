@@ -189,6 +189,20 @@ export const DetailsViewUpdate = ({
             message: `${value?.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
           }
         );
+    } else if (value?.type === "datetime" || value?.fieldType === "date") {
+      schemaShape[value?.key] = z
+        .number()
+    } else if (value?.fieldType === "booleancheckbox") {
+      schemaShape[value?.key] = z
+        .union([z.boolean(), z.string()])
+        .transform((val) => {
+          if (val === true || val === false) return val;
+          if (typeof val === "string") {
+            if (val.toLowerCase() === "true") return true;
+            if (val.toLowerCase() === "false") return false;
+          }
+          return false; // default fallback value
+        });
     } else if (value?.key.includes("email")) {
       schemaShape[value?.key] = z
         .string()
