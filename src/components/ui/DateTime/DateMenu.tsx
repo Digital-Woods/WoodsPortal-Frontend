@@ -228,7 +228,7 @@ export const DateMenu = ({
           <MenuItem>
             <CustomMenu
               defaultValue={defaultValue}
-              handleTimeSelect={handleDateSelect}
+              handleDateSelect={handleDateSelect}
             />
           </MenuItem>
         </Menu>
