@@ -146,10 +146,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
         const companyConfig =
             userData?.response?.associations?.COMPANY?.configurations;
 
-        const userConfig = 
-            userData?.configurations || {}; // fallback if missing
-console.log(companyConfig,'Dashboard companyConfig');
-console.log(userConfig,'Dashboard userConfig');
+        const userConfig = userData?.configurations || {};
         const isCompanySelected =
             (activeTab === "files"   && selectedFileDataFilter === "0-2") ||
             (activeTab === "notes"   && selectedNotesDataFilter === "0-2") ||
