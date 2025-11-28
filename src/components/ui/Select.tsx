@@ -154,7 +154,7 @@ export const Select = ({
                 isFocused && "ring-2 ring-blue-500 border-blue-500"
               ),
 
-            valueContainer: () => "p-1",
+            valueContainer: () => "p-1 gap-[5px]",
 
             placeholder: () =>
               "text-gray-500 dark:text-gray-300",
@@ -185,7 +185,7 @@ export const Select = ({
               ),
             multiValue: () =>
               cn(
-                "flex items-center rounded-md px-2 py-0.5 mr-1",
+                "flex items-center rounded-md px-2 py-0.5",
                 "bg-gray-200 text-gray-800",                      // Light mode chip
                 "dark:bg-gray-600 dark:text-white"          // Dark mode chip
               ),
