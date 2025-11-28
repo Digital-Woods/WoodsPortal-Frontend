@@ -4,6 +4,7 @@ import TanStackQueryLayout from '../integrations/tanstack-query/layout.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner';
 import AppLayoutWrapper from '@/components/Layouts/AppLayoutWrapper';
+import ThemeManager from '@/components/ThemeManager';
 
 
 // ✅ configure queryClient here
@@ -26,6 +27,7 @@ export const Route = createRootRouteWithContext()({
   component: () => (
     <>
       <QueryClientProvider client={queryClient}>
+        <ThemeManager />
         <AppLayoutWrapper />
         <Toaster
           position="top-center"

@@ -1,49 +1,21 @@
-import { useState, useEffect } from 'react';
 import { Tooltip } from '@/components/ui/Tooltip'
-import { getParam } from '@/utils/param'
+import { useTheme } from '@/state/use-theme';
 
 export const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState(() => {
-    const urlTheme = getParam("theme");
-    switch (urlTheme) {
-      case "dark":
-        return "dark";
-      case "light":
-        return "light";
-      default:
-        return localStorage.getItem("theme") === "dark" ||
-          (!("theme" in localStorage) &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches)
-          ? "dark"
-          : "light";
-    }
-  });
-
-  useEffect(() => {
-    switch (theme) {
-      case "dark":
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-        break;
-      case "light":
-      default:
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("theme", "light");
-        break;
-    }
-  }, [theme]);
+  const { themeMode, setThemeMode } = useTheme();
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+    const newTheme = themeMode === "dark" ? "light" : "dark";
+    setThemeMode(newTheme);
   };
 
   return (
-    <Tooltip id={"themeSwitcher"} place='left' content={`Switch to ${theme === "dark" ? "light" : "dark"}`}>
+    <Tooltip id={"themeSwitcher"} place='left' content={`Switch to ${themeMode === "dark" ? "light" : "dark"}`}>
       <div
         className="text-[var(--sidebar-text-color)] dark:text-white p-3 text-center cursor-pointer"
-        onClick={() => toggleTheme()}
+        onClick={toggleTheme}
       >
-        {theme != "dark" ?
+        {themeMode != "dark" ?
           <svg
             viewBox="0 0 20 20"
             fill="none"
@@ -104,3 +76,4 @@ export const ThemeSwitcher = () => {
     </Tooltip>
   );
 };
+
