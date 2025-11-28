@@ -129,24 +129,51 @@ export const ProseMirrorMenuInsertLinkPopUp = ({
   };
 
   // Set Dynamic Position & Scroll
-  const [popupPosition, setPopupPosition] = React.useState({ top: 0, left: 0 });
+  const [popupPosition, setPopupPosition] = React.useState({
+    top: 0,
+    left: 0,
+    opacity: 0,
+  });
 
   const updatePopupPosition = () => {
     const mainButton = document.getElementById(`main-${randomId}`);
-    if (mainButton) {
+    const popupEl = dropdownMenuRef.current;
+
+    if (mainButton && popupEl) {
       const rect = mainButton.getBoundingClientRect();
+      const popupRect = popupEl.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
+
+      let newTop = rect.bottom;
+      let newLeft = rect.left;
+
+      // If not enough space below, and enough space above, open on top
+      if (
+        rect.bottom + popupRect.height > windowHeight &&
+        rect.top > popupRect.height
+      ) {
+        newTop = rect.top - popupRect.height;
+      }
+
+      // If not enough space on the right, and enough space on the left, open to the left
+      if (
+        rect.left + popupRect.width > windowWidth &&
+        rect.right > popupRect.width
+      ) {
+        newLeft = rect.right - popupRect.width;
+      }
+
       setPopupPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
+        top: newTop + window.scrollY,
+        left: newLeft + window.scrollX,
+        opacity: 1,
       });
     }
   };
 
   useEffect(() => {
     updatePopupPosition();
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
       updatePopupPosition();
     };
@@ -157,13 +184,14 @@ export const ProseMirrorMenuInsertLinkPopUp = ({
     if (scrollableDiv) {
       scrollableDiv.addEventListener("scroll", handleScroll);
     }
-
+    window.addEventListener("scroll", handleScroll, true);
     return () => {
       if (scrollableDiv) {
         scrollableDiv.removeEventListener("scroll", handleScroll);
       }
+      window.removeEventListener("scroll", handleScroll, true);
     };
-  }, [popupPosition]);
+  }, []);
 
   return (
     <div
