@@ -27,7 +27,8 @@ export const DatePicker = ({
 
   const setChangedDateValue = (value: any) => {
     setViewDate(value);
-    handelChangeDate(formatDate(value));
+    const state = showYearSelect ? "year" : showMonthSelect ? "month" : "date";
+    handelChangeDate(formatDate(value), state);
   };
 
   const months = [...Array(12)].map((_, i) =>
