@@ -1,4 +1,4 @@
-const forcePrefix = true // true, false, or null to auto-detect
+const forcePrefix = false // true, false, or null to auto-detect
 
 export const prefix = 'dw'
 

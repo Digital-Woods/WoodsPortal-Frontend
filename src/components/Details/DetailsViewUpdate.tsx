@@ -503,7 +503,7 @@ export const DetailsViewUpdate = ({
                         )}
                       </FormControl>
 
-                      {editRow.fieldType != "checkbox" &&
+                      {
                         errors[editRow.key] && (
                           <FormMessage className="text-xs text-red-600 dark:text-red-400">
                             {errors[editRow.key]?.message}
