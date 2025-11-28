@@ -43,7 +43,7 @@ const generateSchema = (value: any, key: any = 'key') => {
     !isCheckbox &&
     !isBooleanCheckbox &&
     !isRadio &&
-    isPrimaryDisplayProperty
+    !isPrimaryDisplayProperty
   ) {
     schemaShape[keyName] = z.string().nonempty({
       message: `${fieldName} is required.`,
