@@ -5,7 +5,7 @@ export const ValidationSchemaShape = (value: any, key: any = 'key') => {
   if (isArray(value) && value.length > 0) {
     let schemaShape: any = {}
     value.forEach((field: any) => {
-      schemaShape = {...schemaShape, ...generateSchema(field, key)}
+      schemaShape = { ...schemaShape, ...generateSchema(field, key) }
     })
     console.log('schemaShape', schemaShape)
     return schemaShape
@@ -26,7 +26,7 @@ const generateSchema = (value: any, key: any = 'key') => {
   const isRadio = value?.fieldType === 'radio'
   const isCheckbox = value?.fieldType === 'checkbox'
   const isBooleanCheckbox = value?.fieldType === 'booleancheckbox'
-
+  const isPrimaryDisplayProperty = value?.isPrimaryDisplayProperty
 
   if (value?.requiredField && value?.fieldRole === 'OBJECTS') {
     schemaShape[keyName] = z
@@ -41,7 +41,8 @@ const generateSchema = (value: any, key: any = 'key') => {
     !isDate &&
     !isCheckbox &&
     !isBooleanCheckbox &&
-    !isRadio
+    !isRadio &&
+    !isPrimaryDisplayProperty
   ) {
     schemaShape[keyName] = z.string().nonempty({
       message: `${fieldName} is required.`,
@@ -73,6 +74,8 @@ const generateSchema = (value: any, key: any = 'key') => {
           },
         )
     }
+  } else if (isPrimaryDisplayProperty) {
+    schemaShape[keyName] = z.any()
   } else if (isDate) {
     if (value?.requiredField) {
       schemaShape[keyName] = z
@@ -114,22 +117,22 @@ const generateSchema = (value: any, key: any = 'key') => {
       schemaShape[keyName] = z.any().nullable().optional()
     }
   } else if (isBooleanCheckbox) {
-      schemaShape[value?.key] = z
-        .union([z.boolean(), z.string()])
-        .transform((val) => {
-          if (val === true || val === false) return val;
-          if (typeof val === "string") {
-            if (val.toLowerCase() === "true") return true;
-            if (val.toLowerCase() === "false") return false;
-          }
-          return false; // default fallback value
-        });
+    schemaShape[value?.key] = z
+      .union([z.boolean(), z.string()])
+      .transform((val) => {
+        if (val === true || val === false) return val
+        if (typeof val === 'string') {
+          if (val.toLowerCase() === 'true') return true
+          if (val.toLowerCase() === 'false') return false
+        }
+        return false // default fallback value
+      })
+  } else {
+    if (value?.fieldRole === 'OBJECTS') {
+      schemaShape[keyName] = z.any().nullable()
     } else {
-      if (value?.fieldRole === 'OBJECTS') {
-        schemaShape[keyName] = z.any().nullable()
-      } else {
-        schemaShape[keyName] = z.string().nullable()
-      }
+      schemaShape[keyName] = z.string().nullable()
+    }
   }
   return schemaShape
 }
