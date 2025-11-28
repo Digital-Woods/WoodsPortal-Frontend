@@ -612,6 +612,22 @@ export const DetailsViewUpdate = ({
           isAssociations={isAssociations}
         />
       )}
+
+      {multiSelectDialog && (
+        <DetailsViewMultiSelectUpdateDialog
+          setEditRow={setEditRow}
+          multiSelectDialog={multiSelectDialog}
+          setDateTimeDialog={setMultiSelectDialog}
+          objectId={objectId}
+          value={value}
+          editRow={editRow}
+          data={data}
+          saveData={saveData}
+          isLoading={isLoading}
+          setEditRowKey={setEditRowKey}
+          isAssociations={isAssociations}
+        />
+      )}
     </div>
   );
 };
