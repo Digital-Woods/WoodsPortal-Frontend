@@ -56,7 +56,7 @@ export const linkDataState = atom<any | null>(null);
 export const nameState = atom<string>("");
 
 
-export const themeModeState = atom<string>(localStorage.theme);
+export const themeModeState = atom(localStorage.getItem('theme') || 'light');
 export const toasterState = atom<any>(null);
 
 

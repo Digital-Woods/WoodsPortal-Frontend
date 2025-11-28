@@ -132,7 +132,12 @@ export async function logout() {
 
   clearAccessToken();
   removeAllCookie();
-  localStorage.clear();
+  
+  Object.keys(localStorage).forEach(key => {
+    if (key !== 'theme') {
+      localStorage.removeItem(key);
+    }
+  });
 
   if (!skipPaths.includes(currentPath)) {
     window.location.replace(`#${Routes.login}`);
