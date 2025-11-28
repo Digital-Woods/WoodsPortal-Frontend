@@ -3,16 +3,19 @@ import { DatePicker } from './DatePicker'
 import { formatTimestampIST } from '@/utils/DateTime'
 import { FormLabel, Input } from '../Form'
 import {
-  Menu as MenuInner,
-  MenuItem as MenuItemInner,
+  ControlledMenu,
+  useClick, useMenuState,
+  MenuItem
+  // Menu as MenuInner,
+  // MenuItem as MenuItemInner,
 } from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/index.css'
 
 export const CustomMenu = ({ defaultValue, dateFormat, handleDateSelect }: any) => {
   const [openDatePicker, setOpenDatePicker] = useState(true)
 
-  const handelChangeDate = (date: any) => {
-    handleDateSelect(date)
+  const handelChangeDate = (date: any, state: any) => {
+    handleDateSelect(date, state)
   }
 
   return (
@@ -32,11 +35,11 @@ const menuDynamicClassName = "!z-200 !bg-transparent";
 
 const menuItemDynamicClassName = "!list-none !p-0";
 
-const Menu = (props: any) => <MenuInner {...props} menuClassName={menuDynamicClassName} />;
+// const Menu = (props: any) => <MenuInner {...props} menuClassName={menuDynamicClassName} />;
 
-const MenuItem = (props: any) => (
-  <MenuItemInner {...props} className={menuItemDynamicClassName} />
-);
+// const MenuItem = (props: any) => (
+//   <MenuItemInner {...props} className={menuItemDynamicClassName} />
+// );
 
 
 export const DateMenu = ({
@@ -62,6 +65,10 @@ export const DateMenu = ({
   const [usePortal, setUsePortal] = useState(false);
   const [inputValue, setInputValue] = useState('')
 
+  const ref = useRef(null);
+  const [menuState, toggleMenu] = useMenuState({ transition: true });
+  const anchorProps = useClick(menuState.state, toggleMenu);
+
   useEffect(() => {
     if (defaultValue) {
       const formatedDateTime = formatTimestampIST(defaultValue)
@@ -72,7 +79,8 @@ export const DateMenu = ({
     }
   }, [defaultValue, time])
 
-  const handleDateSelect = (date: string | null) => {
+  const handleDateSelect = (date: string | null, state: any) => {
+    if (state === 'date') toggleMenu(false)
     handleSelect(date, field)
     setInputValue({ label: date, value: date })
   }
@@ -205,7 +213,41 @@ export const DateMenu = ({
           />
         </>
       ) : (
-        <Menu
+        <>
+          <div
+            ref={ref}
+            {...anchorProps}
+          >
+            <Input
+              control={control}
+              height="small"
+              className=""
+              placeholder="Select Time"
+              value={inputValue ? inputValue.label : ''}
+            />
+          </div>
+          <ControlledMenu
+            {...menuState}
+            anchorRef={ref}
+            onClose={() => toggleMenu(false)}
+            boundingBoxRef={panelRef}
+            onMenuChange={({ open }: any) => setIsMenuOpen(open)}
+            // align="center"
+            direction="top"
+            position="anchor"
+            viewScroll="auto"
+            portal={usePortal}  // ← Dynamic Portal Toggle 🚀
+            menuClassName={menuDynamicClassName}
+          >
+            <MenuItem className={menuItemDynamicClassName} onClick={(e: any) => e.keepOpen = true}>
+              <CustomMenu
+                defaultValue={defaultValue}
+                handleDateSelect={handleDateSelect}
+              />
+            </MenuItem>
+          </ControlledMenu>
+
+          {/* <Menu
           boundingBoxRef={panelRef}
           menuButton={
             <Input
@@ -231,7 +273,8 @@ export const DateMenu = ({
               handleDateSelect={handleDateSelect}
             />
           </MenuItem>
-        </Menu>
+        </Menu> */}
+        </>
       )}
     </div>
   )
