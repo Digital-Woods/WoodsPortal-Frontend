@@ -31,9 +31,11 @@ export const CustomMenu = ({ defaultValue, dateFormat, handleDateSelect }: any) 
   )
 }
 
-const menuDynamicClassName = "!z-200 !bg-transparent";
+const menuDynamicClassName =
+  "!z-[9999] !bg-transparent !shadow-none [&>*]:!bg-transparent [&>*]:!shadow-none";
 
-const menuItemDynamicClassName = "!list-none !p-0";
+const menuItemDynamicClassName =
+  "!list-none !p-0 hover:!bg-transparent focus:!bg-transparent active:!bg-transparent";
 
 // const Menu = (props: any) => <MenuInner {...props} menuClassName={menuDynamicClassName} />;
 
@@ -80,6 +82,7 @@ export const DateMenu = ({
   }, [defaultValue, time])
 
   const handleDateSelect = (date: string | null, state: any) => {
+    console.log('state', state)
     if (state === 'date') toggleMenu(false)
     handleSelect(date, field)
     setInputValue({ label: date, value: date })

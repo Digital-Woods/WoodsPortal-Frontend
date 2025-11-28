@@ -25,10 +25,10 @@ export const DatePicker = ({
     setOpen(openDatePicker);
   }, [openDatePicker]);
 
-  const setChangedDateValue = (value: any) => {
+  const setChangedDateValue = (value: any , state: any = null) => {
     setViewDate(value);
-    const state = showYearSelect ? "year" : showMonthSelect ? "month" : "date";
-    handelChangeDate(formatDate(value), state);
+    const mState = showYearSelect ? "year" : showMonthSelect ? "month" : state ? state : "date";
+    if(mState != "pev" && mState != "next") handelChangeDate(formatDate(value), mState);
   };
 
   const months = [...Array(12)].map((_, i) =>
@@ -177,7 +177,8 @@ export const DatePicker = ({
                           viewDate.getFullYear() - 12,
                           viewDate.getMonth(),
                           1
-                        )
+                        ),
+                        'pev'
                       )
                     : showMonthSelect
                     ? setChangedDateValue(
@@ -185,14 +186,16 @@ export const DatePicker = ({
                           viewDate.getFullYear(),
                           viewDate.getMonth() - 1,
                           1
-                        )
+                        ),
+                        'pev'
                       )
                     : setChangedDateValue(
                         new Date(
                           viewDate.getFullYear(),
                           viewDate.getMonth() - 1,
                           1
-                        )
+                        ),
+                        'pev'
                       )
                 }
               >
@@ -235,7 +238,8 @@ export const DatePicker = ({
                           viewDate.getFullYear() + 12,
                           viewDate.getMonth(),
                           1
-                        )
+                        ),
+                        'next'
                       )
                     : showMonthSelect
                     ? setChangedDateValue(
@@ -243,14 +247,16 @@ export const DatePicker = ({
                           viewDate.getFullYear(),
                           viewDate.getMonth() + 1,
                           1
-                        )
+                        ),
+                        'next'
                       )
                     : setChangedDateValue(
                         new Date(
                           viewDate.getFullYear(),
                           viewDate.getMonth() + 1,
                           1
-                        )
+                        ),
+                        'next'
                       )
                 }
               >
