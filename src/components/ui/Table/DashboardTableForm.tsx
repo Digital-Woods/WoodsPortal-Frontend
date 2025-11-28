@@ -17,6 +17,7 @@ import { useToaster } from '@/state/use-toaster';
 import { DashboardTableEditor } from './DashboardTableEditor';
 import { formatCustomObjectLabel } from '@/utils/DataMigration';
 import { getFormTitle, getParamDetails, useUpdateLink } from '@/utils/GenerateUrl';
+import { ValidationSchemaShape } from '@/utils/ValidationSchema';
 
 export const DashboardTableForm = ({
   componentName = '',
@@ -94,87 +95,88 @@ export const DashboardTableForm = ({
   }, []);
 
   const createValidationSchema: any = (data: any) => {
-    const schemaShape: any = {};
+    let schemaShape: any = {};
 
-    data.forEach((field: any) => {
-      const isDomain = field.name === "domain";
-      const isNumber = field.fieldType === "number";
-      const isDate = field.fieldType === "date";
+    // data.forEach((field: any) => {
+      // const isDomain = field.name === "domain";
+      // const isNumber = field.fieldType === "number";
+      // const isDate = field.fieldType === "date";
 
-      if (field?.requiredField && field?.fieldRole === "OBJECTS") {
-        schemaShape[field.name] = z
-          .any()
-          .refine((val) => Array.isArray(val) && val.length > 0, {
-            message: `${field?.labels?.plural || field?.customLabel || field?.label
-              } must be a non-empty list.`,
-          });
-      } else if ((field?.requiredField || field?.primaryProperty) && !isDomain && !isNumber && !isDate) {
-        schemaShape[field.name] = z.string().nonempty({
-          message: `${field?.labels?.plural || field?.customLabel || field?.label
-            } is required.`,
-        });
-      } else if (isNumber) {
-        let fieldName = field?.labels?.plural || field?.customLabel || field?.label
-        if (field?.requiredField) {
-          // REQUIRED number
-          schemaShape[field?.name] = z
-            .string()
-            .nonempty({
-              message: `${fieldName
-                } is required`,
-            })
-            .refine(
-              (value: any) => value === null || value === "" || /^\d+$/.test(value),
-              {
-                message: `Invalid ${fieldName}`,
-              }
-            );
-        } else {
-          // OPTIONAL number
-          schemaShape[field?.name] = z
-            .string()
-            .nullable()
-            .optional()
-            .refine(
-              (value: any) => value === null || value === "" || /^\d+$/.test(value),
-              {
-                message: `Invalid ${fieldName}`,
-              }
-            );
-        }
-      } else if (isDate) {
-        let fieldName = field?.labels?.plural || field?.customLabel || field?.label
+      // if (field?.requiredField && field?.fieldRole === "OBJECTS") {
+      //   schemaShape[field.name] = z
+      //     .any()
+      //     .refine((val) => Array.isArray(val) && val.length > 0, {
+      //       message: `${field?.labels?.plural || field?.customLabel || field?.label
+      //         } must be a non-empty list.`,
+      //     });
+      // } else if ((field?.requiredField || field?.primaryProperty) && !isDomain && !isNumber && !isDate) {
+      //   schemaShape[field.name] = z.string().nonempty({
+      //     message: `${field?.labels?.plural || field?.customLabel || field?.label
+      //       } is required.`,
+      //   });
+      // } else if (isNumber) {
+      //   let fieldName = field?.labels?.plural || field?.customLabel || field?.label
+      //   if (field?.requiredField) {
+      //     // REQUIRED number
+      //     schemaShape[field?.name] = z
+      //       .string()
+      //       .nonempty({
+      //         message: `${fieldName
+      //           } is required`,
+      //       })
+      //       .refine(
+      //         (value: any) => value === null || value === "" || /^\d+$/.test(value),
+      //         {
+      //           message: `Invalid ${fieldName}`,
+      //         }
+      //       );
+      //   } else {
+      //     // OPTIONAL number
+      //     schemaShape[field?.name] = z
+      //       .string()
+      //       .nullable()
+      //       .optional()
+      //       .refine(
+      //         (value: any) => value === null || value === "" || /^\d+$/.test(value),
+      //         {
+      //           message: `Invalid ${fieldName}`,
+      //         }
+      //       );
+      //   }
+      // } else if (isDate) {
+      //   let fieldName = field?.labels?.plural || field?.customLabel || field?.label
 
-        if (field?.requiredField) {
-          schemaShape[field?.name] = z
-            .any()
-            .refine(val => val !== null && val !== undefined && val !== "", {
-              message: `${fieldName} is required`,
-            });
-        } else {
-          schemaShape[field?.name] = z
-            .any()
-            .nullable()
-            .optional();
-        }
-      } else if (isDomain) {
-        schemaShape[field?.name] = z.string().refine(
-          (value) => {
-            const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            return domainRegex.test(value);
-          },
-          {
-            message: "Invalid domain format",
-          }
-        );
-      } else {
-        if (field?.fieldRole === "OBJECTS") {
-          schemaShape[field?.name] = z.any().nullable();
-        } else {
-          schemaShape[field?.name] = z.string().nullable();
-        }
-      }
-    });
+      //   if (field?.requiredField) {
+      //     schemaShape[field?.name] = z
+      //       .any()
+      //       .refine(val => val !== null && val !== undefined && val !== "", {
+      //         message: `${fieldName} is required`,
+      //       });
+      //   } else {
+      //     schemaShape[field?.name] = z
+      //       .any()
+      //       .nullable()
+      //       .optional();
+      //   }
+      // } else if (isDomain) {
+      //   schemaShape[field?.name] = z.string().refine(
+      //     (value) => {
+      //       const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      //       return domainRegex.test(value);
+      //     },
+      //     {
+      //       message: "Invalid domain format",
+      //     }
+      //   );
+      // } else {
+      //   if (field?.fieldRole === "OBJECTS") {
+      //     schemaShape[field?.name] = z.any().nullable();
+      //   } else {
+      //     schemaShape[field?.name] = z.string().nullable();
+      //   }
+      // }
+    // });
+    schemaShape = ValidationSchemaShape(data, "name");
     return z.object(schemaShape);
   };
 

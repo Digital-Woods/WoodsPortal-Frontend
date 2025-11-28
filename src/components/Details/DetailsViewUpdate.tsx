@@ -19,6 +19,7 @@ import { useSync } from "@/state/use-sync.ts";
 import { DetailsViewPipelineUpdateDialog } from "./DetailsViewPipelineUpdateDialog.tsx";
 import { DetailsViewMultiSelectUpdateDialog } from "./DetailsViewMultiSelectUpdateDialog.tsx";
 import { DetailsViewDateTimeDialog } from "./DetailsViewDateTimeDialog.tsx";
+import { ValidationSchemaShape } from "@/utils/ValidationSchema.ts";
 
 export const DetailsViewUpdateDD = ({
   control,
@@ -39,7 +40,7 @@ export const DetailsViewUpdateDD = ({
   const { mutate: getStags, isLoading }: any = useMutation({
     mutationKey: ["getStageData1"],
     mutationFn: async (props) => {
-      const {pipelineId, isNewValue }: any = props
+      const { pipelineId, isNewValue }: any = props
       try {
         const response = await Client.details.stages({
           params: {
@@ -75,7 +76,7 @@ export const DetailsViewUpdateDD = ({
       const found = dataLoop.find(
         (item: any) => item.key === "hs_pipeline" || item.key === "pipeline"
       );
-      if (found) getStags({pipelineId: getValue(found.value, "value"), isNewValue: true, setValue: null});
+      if (found) getStags({ pipelineId: getValue(found.value, "value"), isNewValue: true, setValue: null });
     } else {
       setOptions(optionData?.options);
     }
@@ -130,8 +131,8 @@ export const DetailsViewUpdate = ({
   const [stages, setStages] = useState<any>(null);
   const [initialValues, setInitialValues] = useState<any>(false);
   const [selectedValues, setSelectedValues] = useState<any>();
-  const {updateLink} = useUpdateLink();
-    const { setSync } = useSync();
+  const { updateLink } = useUpdateLink();
+  const { setSync } = useSync();
 
   // checking if data is object
   useEffect(() => {
@@ -164,67 +165,69 @@ export const DetailsViewUpdate = ({
   // };
 
   const createValidationSchema = (data: any) => {
-  const schemaShape: any = {};
+    let schemaShape: any = {};
 
     if (!value) return z.object({});
 
-    // Phone number validation (123-456-7890)
-    if (value?.key.toLowerCase().includes("phone")) {
-      schemaShape[value?.key] = z
-        .string()
-        .regex(
-          /^\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,5}\)?([-.\s]?[0-9]{1,5}){1,4}$/,
-          {
-            message: `${value?.label || "Phone number"} must be a valid phone number with optional country code`,
-          }
-        );
-    } 
-    // Domain validation (e.g., digitalwoods.io)
-    else if (value?.key.toLowerCase().includes("domain")) {
-      schemaShape[value?.key] = z
-        .string()
-        .regex(
-          /^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/,
-          {
-            message: `${value?.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
-          }
-        );
-    } else if (value?.type === "datetime" || value?.fieldType === "date") {
-      schemaShape[value?.key] = z
-        .number()
-    } else if (value?.fieldType === "booleancheckbox") {
-      schemaShape[value?.key] = z
-        .union([z.boolean(), z.string()])
-        .transform((val) => {
-          if (val === true || val === false) return val;
-          if (typeof val === "string") {
-            if (val.toLowerCase() === "true") return true;
-            if (val.toLowerCase() === "false") return false;
-          }
-          return false; // default fallback value
-        });
-    } else if (value?.key.includes("email")) {
-      schemaShape[value?.key] = z
-        .string()
-        .email({
-          message: `${value?.label || "Email"} must be a valid email address`,
-        });
-    } else if (value?.key.toLowerCase().includes("zip") || value?.key.toLowerCase().includes("postal")) {
-      schemaShape[value?.key] = z
-        .string()
-        .regex(
-          /^[A-Za-z0-9][A-Za-z0-9\s\-]{2,10}$/,
-          {
-            message: `${value?.label || "Postal Code"} must be a valid ZIP/Postal code (e.g., 12345, 12345-6789, SW1A 1AA, H0H 0H0, 734426)`,
-          }
-        );
-    }
-    // Default: non-empty string
-    else {
-      schemaShape[value?.key] = z.string().nonempty({
-        message: `${value?.label || value?.key} is required.`,
-      });
-    }
+    // // Phone number validation (123-456-7890)
+    // if (value?.key.toLowerCase().includes("phone")) {
+    //   schemaShape[value?.key] = z
+    //     .string()
+    //     .regex(
+    //       /^\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,5}\)?([-.\s]?[0-9]{1,5}){1,4}$/,
+    //       {
+    //         message: `${value?.label || "Phone number"} must be a valid phone number with optional country code`,
+    //       }
+    //     );
+    // } 
+    // // Domain validation (e.g., digitalwoods.io)
+    // else if (value?.key.toLowerCase().includes("domain")) {
+    //   schemaShape[value?.key] = z
+    //     .string()
+    //     .regex(
+    //       /^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/,
+    //       {
+    //         message: `${value?.label || "Domain"} must be a valid domain (e.g., digitalwoods.io)`,
+    //       }
+    //     );
+    // } else if (value?.type === "datetime" || value?.fieldType === "date") {
+    //   schemaShape[value?.key] = z
+    //     .number()
+    // } else if (value?.fieldType === "booleancheckbox") {
+    //   schemaShape[value?.key] = z
+    //     .union([z.boolean(), z.string()])
+    //     .transform((val) => {
+    //       if (val === true || val === false) return val;
+    //       if (typeof val === "string") {
+    //         if (val.toLowerCase() === "true") return true;
+    //         if (val.toLowerCase() === "false") return false;
+    //       }
+    //       return false; // default fallback value
+    //     });
+    // } else if (value?.key.includes("email")) {
+    //   schemaShape[value?.key] = z
+    //     .string()
+    //     .email({
+    //       message: `${value?.label || "Email"} must be a valid email address`,
+    //     });
+    // } else if (value?.key.toLowerCase().includes("zip") || value?.key.toLowerCase().includes("postal")) {
+    //   schemaShape[value?.key] = z
+    //     .string()
+    //     .regex(
+    //       /^[A-Za-z0-9][A-Za-z0-9\s\-]{2,10}$/,
+    //       {
+    //         message: `${value?.label || "Postal Code"} must be a valid ZIP/Postal code (e.g., 12345, 12345-6789, SW1A 1AA, H0H 0H0, 734426)`,
+    //       }
+    //     );
+    // }
+    // // Default: non-empty string
+    // else {
+    //   schemaShape[value?.key] = z.string().nonempty({
+    //     message: `${value?.label || value?.key} is required.`,
+    //   });
+    // }
+    
+    schemaShape = ValidationSchemaShape(value, "key");
 
     return z.object(schemaShape);
   };
@@ -243,9 +246,9 @@ export const DetailsViewUpdate = ({
           },
           queryParams: urlParam,
         });
-        if(value?.isPrimaryDisplayProperty) { // if is display primary then update breadcrumb name
+        if (value?.isPrimaryDisplayProperty) { // if is display primary then update breadcrumb name
           const value = isObject(payload) ? Object.values(payload)[0] : "";
-          if(value) {
+          if (value) {
             updateLink({
               n: value
             }, "")
@@ -275,10 +278,10 @@ export const DetailsViewUpdate = ({
     },
   });
   useEffect(() => {
-      if (setIsUpdating){
-        setIsUpdating(isLoading);
-      };
-  }, [isLoading,setIsUpdating]);
+    if (setIsUpdating) {
+      setIsUpdating(isLoading);
+    };
+  }, [isLoading, setIsUpdating]);
   // useEffect(() => {
   //   const filterStage = data.find(
   //     (item) =>
@@ -307,13 +310,13 @@ export const DetailsViewUpdate = ({
     //   getStags(getValue(found.value, "value"));
     // }
 
-     if (row && row?.fieldType === "html") {
+    if (row && row?.fieldType === "html") {
       setEditorDialog(true)
     }
 
     if (row && row?.fieldType === "checkbox") {
 
-      if(isAssociations) setMultiSelectDialog(true);
+      if (isAssociations) setMultiSelectDialog(true);
 
       // setSelectedValues(
       //   Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
@@ -323,9 +326,9 @@ export const DetailsViewUpdate = ({
       setSelectedValues(sValue);
     }
     if (row && row?.type === "date" || row?.type === "datetime") {
-      if(isAssociations) setDateTimeDialog(true)
+      if (isAssociations) setDateTimeDialog(true)
     }
-    setEditRow({...row, ...{name: keyName}});
+    setEditRow({ ...row, ...{ name: keyName } });
 
     const mValue: any = value.value;
     // if (value.fieldType == "date") {
@@ -336,13 +339,13 @@ export const DetailsViewUpdate = ({
     //         : formatDate(mValue, "input"),
     //   });
     // } else {
-      
-      setInitialValues({
-        [value?.key]:
-          typeof mValue === "object" && mValue !== null && "value" in mValue
-            ? mValue?.value
-            : mValue,
-      });
+
+    setInitialValues({
+      [value?.key]:
+        typeof mValue === "object" && mValue !== null && "value" in mValue
+          ? mValue?.value
+          : mValue,
+    });
     // }
   };
 
@@ -350,7 +353,7 @@ export const DetailsViewUpdate = ({
   //   saveData(data);
   // };
 
-  useEffect(() => {}, [selectedValues]);
+  useEffect(() => { }, [selectedValues]);
 
   // const formatDate = (date) => {
   //   const d = new Date(date);
@@ -370,20 +373,20 @@ export const DetailsViewUpdate = ({
         [editRow?.key]: selectedValues
       };
       saveData(formattedData);
-    // } else if (editRow.type === "date" || editRow.type === "datetime") {
-    //   const formattedDate = Object.fromEntries(
-    //     Object.entries(data).map(([key, value]) => {
-    //       return [key, parseISTToTimestamp(value)];
-    //     })
-    //   );
-    //   saveData(formattedDate);
+      // } else if (editRow.type === "date" || editRow.type === "datetime") {
+      //   const formattedDate = Object.fromEntries(
+      //     Object.entries(data).map(([key, value]) => {
+      //       return [key, parseISTToTimestamp(value)];
+      //     })
+      //   );
+      //   saveData(formattedDate);
     } else {
       saveData(data);
     }
   };
 
   const onChangeSelect = (filled: any, selectedValue: any) => {
-      setSelectedValues(selectedValue);
+    setSelectedValues(selectedValue);
   };
 
   return (
@@ -404,8 +407,8 @@ export const DetailsViewUpdate = ({
                     <FormItem className="mb-0 w-full">
                       <FormControl>
                         {editRow.fieldType === "select" ||
-                        editRow.fieldType === "radio" || 
-                        editRow.fieldType === "booleancheckbox" ? (
+                          editRow.fieldType === "radio" ||
+                          editRow.fieldType === "booleancheckbox" ? (
                           <DetailsViewUpdateDD
                             optionData={editRow}
                             control={control}
@@ -443,7 +446,7 @@ export const DetailsViewUpdate = ({
                           <Select
                             label={`Select ${editRow?.customLabel}`}
                             name={editRow?.name}
-                            options = {(editRow?.name === "hs_pipeline" || editRow?.name === "pipeline") && specPipeLine
+                            options={(editRow?.name === "hs_pipeline" || editRow?.name === "pipeline") && specPipeLine
                               ? editRow?.options.filter((option: any) => option?.value === pipeLineId)
                               : editRow?.options}
                             control={control}
@@ -479,7 +482,7 @@ export const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow?.value)}
                             {...register(editRow?.key)}
                           />
-                        ): editRow.fieldType === "phonenumber" ? (
+                        ) : editRow.fieldType === "phonenumber" ? (
                           <Input
                             type="tel"
                             placeholder={`Enter ${editRow?.label}`}
@@ -543,8 +546,8 @@ export const DetailsViewUpdate = ({
           <div className="flex items-center gap-2">
             <span>{renderValue || "--"}</span>
             {value?.isEditableField &&
-            (value?.key === "pipeline" || value?.key === "hs_pipeline") &&
-            value?.options.length < 2 ? null : (
+              (value?.key === "pipeline" || value?.key === "hs_pipeline") &&
+              value?.options.length < 2 ? null : (
               <Button
                 variant="hubSpot"
                 size="hubSpot"
