@@ -246,7 +246,7 @@ export const DetailsViewUpdate = ({
           },
           queryParams: urlParam,
         });
-        if (value?.isPrimaryDisplayProperty) { // if is display primary then update breadcrumb name
+        if (value?.isPrimaryDisplayProperty && !isAssociations) { // if is display primary then update breadcrumb name
           const value = isObject(payload) ? Object.values(payload)[0] : "";
           if (value) {
             updateLink({
