@@ -617,7 +617,7 @@ export const DetailsViewUpdate = ({
         <DetailsViewMultiSelectUpdateDialog
           setEditRow={setEditRow}
           multiSelectDialog={multiSelectDialog}
-          setDateTimeDialog={setMultiSelectDialog}
+          setMultiSelectDialog ={setMultiSelectDialog}
           objectId={objectId}
           value={value}
           editRow={editRow}

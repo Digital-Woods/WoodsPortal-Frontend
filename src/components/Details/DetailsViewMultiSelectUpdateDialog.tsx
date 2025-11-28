@@ -62,7 +62,7 @@ export const DetailsViewMultiSelectUpdateDialog = ({
     };
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmitCheckbox = (data: any) => {
     const sValue = parseValue(data);
     saveData(sValue)
   }
@@ -81,74 +81,72 @@ export const DetailsViewMultiSelectUpdateDialog = ({
           {editRow?.label || editRow?.customLabel}
         </div>
         <div>
-          {initialValues && (
-            <Form
-              onSubmit={onSubmit}
-              validationSchema={validationSchemaPipeline}
-              initialValues={initialValues}
-              // serverError={serverError}
-              className="dark:bg-dark-500 m-0"
-            >
-              {({
-                getValues,
-                register,
-                control,
-                watch,
-                formState: { errors },
-              }: any) => (
-                <div>
-                  {/* {JSON.stringify(getValues())} */}
-                  <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
-                    {editRow && (
-                      <div>
-                        <FormItem className="">
-                          <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                            Select
-                          </FormLabel>
+          <Form
+            onSubmit={onSubmitCheckbox}
+            validationSchema={validationSchemaPipeline}
+            initialValues={initialValues}
+            // serverError={serverError}
+            className="dark:bg-dark-500 m-0"
+          >
+            {({
+              getValues,
+              register,
+              control,
+              watch,
+              formState: { errors },
+            }: any) => (
+              <div>
+                {/* {JSON.stringify(getValues())} */}
+                <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
+                  {editRow && (
+                    <div>
+                      <FormItem className="">
+                        <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                          Select
+                        </FormLabel>
 
-                          <FormControl>
-                            <Select
-                              label={`Select Pipeline`}
-                              name={editRow?.name}
-                              options={editRow?.options || []}
-                              control={control}
-                              onChangeSelect={onChangeSelect}
-                              isClearable={true}
-                              defaultValue={editRow?.value || ''}
-                              isMulti={true}
-                            />
-                          </FormControl>
+                        <FormControl>
+                          <Select
+                            label={`Select Pipeline`}
+                            name={editRow?.name}
+                            options={editRow?.options || []}
+                            control={control}
+                            onChangeSelect={onChangeSelect}
+                            isClearable={true}
+                            defaultValue={editRow?.value || ''}
+                            isMulti={true}
+                          />
+                        </FormControl>
 
-                          {(errors[editRow?.key]) && (
-                            <FormMessage className="text-red-600 dark:text-red-400">
-                              {errors[editRow?.key]?.message}
-                            </FormMessage>
-                          )}
-                        </FormItem>
-                      </div>
-                    )}
+                        {(errors[editRow?.key]) && (
+                          <FormMessage className="text-red-600 dark:text-red-400">
+                            {errors[editRow?.key]?.message}
+                          </FormMessage>
+                        )}
+                      </FormItem>
+                    </div>
+                  )}
 
-                  </div>
-                  <div className="mt-4 flex justify-end items-end gap-1">
-                    <Button
-                      variant="outline"
-                      disabled={isLoading}
-                      onClick={() => {
-                        setMultiSelectDialog(false)
-                        setEditRow(null)
-                        setEditRowKey(null)
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button className=" " isLoading={isLoading}>
-                      Save
-                    </Button>
-                  </div>
                 </div>
-              )}
-            </Form>
-          )}
+                <div className="mt-4 flex justify-end items-end gap-1">
+                  <Button
+                    variant="outline"
+                    disabled={isLoading}
+                    onClick={() => {
+                      setMultiSelectDialog(false)
+                      setEditRow(null)
+                      setEditRowKey(null)
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button className=" " isLoading={isLoading}>
+                    Save
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Form>
         </div>
       </div>
     </Dialog>
