@@ -19,7 +19,7 @@ import { formatCustomObjectLabel } from '@/utils/DataMigration';
 import { getFormTitle, getParamDetails, useUpdateLink } from '@/utils/GenerateUrl';
 
 export const DashboardTableForm = ({
-  componentName= '',
+  componentName = '',
   type = "create",
   openModal,
   setOpenModal,
@@ -34,7 +34,7 @@ export const DashboardTableForm = ({
   parentObjectTypeId,
   parentObjectRowId,
   info,
-  isShowExistingRecord=false,
+  isShowExistingRecord = false,
   specPipeLine,
   pipeLineId,
 }: any) => {
@@ -56,7 +56,7 @@ export const DashboardTableForm = ({
 
   // const {filterParams} = useUpdateLink();
 
-  const { params} = getParamDetails({type: componentName});
+  const { params } = getParamDetails({ type: componentName });
   const nParams = componentName === 'sidebarTable' ? urlParam : params
 
   // console.log("params", params)
@@ -99,35 +99,34 @@ export const DashboardTableForm = ({
     data.forEach((field: any) => {
       const isDomain = field.name === "domain";
       const isNumber = field.fieldType === "number";
+      const isDate = field.fieldType === "date";
 
       if (field?.requiredField && field?.fieldRole === "OBJECTS") {
         schemaShape[field.name] = z
           .any()
           .refine((val) => Array.isArray(val) && val.length > 0, {
-            message: `${
-              field?.labels?.plural || field?.customLabel || field?.label
-            } must be a non-empty list.`,
+            message: `${field?.labels?.plural || field?.customLabel || field?.label
+              } must be a non-empty list.`,
           });
-      } else if ((field?.requiredField || field?.primaryProperty) && !isDomain && !isNumber) {
+      } else if ((field?.requiredField || field?.primaryProperty) && !isDomain && !isNumber && !isDate) {
         schemaShape[field.name] = z.string().nonempty({
-          message: `${
-            field?.labels?.plural || field?.customLabel || field?.label
-          } is required.`,
+          message: `${field?.labels?.plural || field?.customLabel || field?.label
+            } is required.`,
         });
       } else if (isNumber) {
+        let fieldName = field?.labels?.plural || field?.customLabel || field?.label
         if (field?.requiredField) {
           // REQUIRED number
           schemaShape[field?.name] = z
             .string()
             .nonempty({
-              message: `${
-                field?.labels?.plural || field?.customLabel || field?.label
-              } is required.`,
+              message: `${fieldName
+                } is required`,
             })
             .refine(
-              (value) => value === null || value === "" || /^\d+$/.test(value),
+              (value: any) => value === null || value === "" || /^\d+$/.test(value),
               {
-                message: "Invalid number",
+                message: `Invalid ${fieldName}`,
               }
             );
         } else {
@@ -137,11 +136,26 @@ export const DashboardTableForm = ({
             .nullable()
             .optional()
             .refine(
-              (value) => value === null || value === "" || /^\d+$/.test(value),
+              (value: any) => value === null || value === "" || /^\d+$/.test(value),
               {
-                message: "Invalid number",
+                message: `Invalid ${fieldName}`,
               }
             );
+        }
+      } else if (isDate) {
+        let fieldName = field?.labels?.plural || field?.customLabel || field?.label
+
+        if (field?.requiredField) {
+          schemaShape[field?.name] = z
+            .any()
+            .refine(val => val !== null && val !== undefined && val !== "", {
+              message: `${fieldName} is required`,
+            });
+        } else {
+          schemaShape[field?.name] = z
+            .any()
+            .nullable()
+            .optional();
         }
       } else if (isDomain) {
         schemaShape[field?.name] = z.string().refine(
@@ -175,7 +189,7 @@ export const DashboardTableForm = ({
         // const API_ENDPOINT = removeAllParams(apis.createAPI);
         // const API = addParam(API_ENDPOINT, mUrlParam);
         const mAddAnother = addAnother ? "&addAnother=true" : "&addAnother=false"
-        const API = `${apis?.createAPI}${mParams ? mParams+mAddAnother : mParams}`;
+        const API = `${apis?.createAPI}${mParams ? mParams + mAddAnother : mParams}`;
         const response = await Client.form.create({
           // API: `${apis.createAPI}${ apis.createAPI.includes('isPrimaryCompany') || !companyAsMediator ? `` : `?isPrimaryCompany=${companyAsMediator}`}`,
           API: API,
@@ -197,7 +211,7 @@ export const DashboardTableForm = ({
         // });
         // refetch(response);
         // setSync(true);
-        if(componentName === 'association') {
+        if (componentName === 'association') {
           setSync(true);
         } else {
           setApiSync(true);
@@ -411,7 +425,7 @@ export const DashboardTableForm = ({
   return (
     <div>
       <Dialog
-        
+
         open={openModal}
         onClose={setOpenModal}
         className="bg-cleanWhite dark:bg-dark-200 lg:max-h-[90vh] md:max-h-[90vh] max-h-[100vh] lg:w-[830px] md:w-[720px] w-[calc(100vw)] overflow-hidden !py-0 CUSTOM-object-create-form"
@@ -449,22 +463,20 @@ export const DashboardTableForm = ({
                 <Button
                   onClick={() => onChangeActiveTab("addNew")}
                   variant={activeTab == "addNew" ? "default" : "outline"}
-                  className={`w-full !rounded-none ${
-                    activeTab != "addNew"
+                  className={`w-full !rounded-none ${activeTab != "addNew"
                       ? "dark:hover:!bg-dark-500 dark:!bg-dark-300 border-primary dark:border-[#e5e7eb]"
                       : ""
-                  }`}
+                    }`}
                 >
                   Create New {objectName}
                 </Button>
                 <Button
                   onClick={() => onChangeActiveTab("addExisting")}
                   variant={activeTab == "addExisting" ? "default" : "outline"}
-                  className={`w-full !rounded-none ${
-                    activeTab != "addExisting"
+                  className={`w-full !rounded-none ${activeTab != "addExisting"
                       ? "dark:hover:!bg-dark-500 dark:!bg-dark-300 border-primary dark:border-[#e5e7eb]"
                       : ""
-                  }`}
+                    }`}
                 >
                   Add Existing {objectName}
                 </Button>
@@ -492,17 +504,17 @@ export const DashboardTableForm = ({
                     getValues
                   }: any) => {
                     resetRef.current = () => {
-                        const currentValues = getValues();
-                        const defaultValues: any = {};
-                        data.forEach((field: any) => {
-                          if (field.hidden) {
-                            defaultValues[field.name] = currentValues[field.name];
-                          } else {
-                            defaultValues[field.name] = "";
-                          }
-                        });
-                        reset(defaultValues);
-                      };
+                      const currentValues = getValues();
+                      const defaultValues: any = {};
+                      data.forEach((field: any) => {
+                        if (field.hidden) {
+                          defaultValues[field.name] = currentValues[field.name];
+                        } else {
+                          defaultValues[field.name] = "";
+                        }
+                      });
+                      reset(defaultValues);
+                    };
                     return (
                       <div className='pl-4 pr-2'>
                         <div className='relative '>
@@ -516,25 +528,25 @@ export const DashboardTableForm = ({
                               {data.map((filled: any) => (
                                 <div key={filled.name}>
                                   {filled?.fieldRole === "PROPERTIES" ? (
-                                    <FormItem className={`${filled?.hidden ? 'hidden':'visible'}`}>
+                                    <FormItem className={`${filled?.hidden ? 'hidden' : 'visible'}`}>
                                       <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                                         {filled?.customLabel}
                                       </FormLabel>
                                       <FormControl>
                                         <div>
                                           {filled?.fieldType == "select" ||
-                                          filled?.fieldType == "checkbox" ||
-                                          filled?.fieldType == "booleancheckbox" ||
-                                          filled?.fieldType == "radio" ||
-                                          (filled?.name == "dealstage" &&
-                                            filled?.fieldType == "radio" &&
-                                            hubspotObjectTypeId ===
+                                            filled?.fieldType == "checkbox" ||
+                                            filled?.fieldType == "booleancheckbox" ||
+                                            filled?.fieldType == "radio" ||
+                                            (filled?.name == "dealstage" &&
+                                              filled?.fieldType == "radio" &&
+                                              hubspotObjectTypeId ===
                                               env.VITE_HUBSPOT_DEFAULT_OBJECT_IDS
                                                 .deals) ? (
                                             <Select
                                               label={`Select ${filled?.customLabel}`}
                                               name={filled?.name}
-                                              options = {(filled?.name === "hs_pipeline" || filled?.name === "pipeline") && specPipeLine
+                                              options={(filled?.name === "hs_pipeline" || filled?.name === "pipeline") && specPipeLine
                                                 ? filled?.options.filter((option: any) => option?.value === pipeLineId)
                                                 : filled?.options}
                                               control={control}
@@ -607,10 +619,9 @@ export const DashboardTableForm = ({
                                       </FormLabel>
                                       <FormControl>
                                         <Select
-                                          label={`Select ${
-                                            filled?.label ||
+                                          label={`Select ${filled?.label ||
                                             filled?.labels?.plural
-                                          }`}
+                                            }`}
                                           name={filled.name}
                                           options={[]}
                                           control={control}
