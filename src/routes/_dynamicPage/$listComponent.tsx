@@ -14,7 +14,6 @@ const ListComponent = () => {
   const { pathname } = router.state.location
 
   useEffect(() => {
-    // console.log("useEffect triggered on route change", path, pathname)
   }, [path, pathname]) // rerun when param or pathname changes
 
   const routeMenu: any = getRouteMenu(pathname)

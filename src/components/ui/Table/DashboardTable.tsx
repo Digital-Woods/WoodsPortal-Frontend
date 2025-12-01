@@ -172,7 +172,6 @@ export const DashboardTable: any = ({
   };
 
   const handleSearch = () => {
-    // console.log("handleSearch", true)
     getData();
   };
 
@@ -213,7 +212,6 @@ export const DashboardTable: any = ({
 
   // CHange Pipeline
   const handelChangePipeline = async (pipeLineId: any) => {
-    // console.log("handelChangePipeline", handelChangePipeline)
     getData();
   };
 

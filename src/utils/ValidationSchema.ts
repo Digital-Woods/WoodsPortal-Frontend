@@ -7,7 +7,6 @@ export const ValidationSchemaShape = (value: any, key: any = 'key') => {
     value.forEach((field: any) => {
       schemaShape = { ...schemaShape, ...generateSchema(field, key) }
     })
-    console.log('schemaShape', schemaShape)
     return schemaShape
   }
   if (isObject(value)) {

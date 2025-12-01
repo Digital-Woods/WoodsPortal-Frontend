@@ -76,7 +76,6 @@ export const DashboardTableData = ({
   } = useTable();
 
  const { makeLink } = useMakeLink()
-  // console.log('DashboardTableData', true)
   const mUrlParam = Object.fromEntries(
     Object.entries(urlParam || {}).filter(([key]) => key !== "cache" && key !== "limit")
   );
@@ -122,8 +121,6 @@ export const DashboardTableData = ({
       newSortConfig = column; // Toggle back to ascending if clicked again
     }
     setSort(newSortConfig);
-
-    // console.log("call get data", sort)
 
     // setSortConfig(newSortConfig);
     // getData({

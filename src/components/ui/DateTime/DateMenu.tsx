@@ -106,7 +106,6 @@ export const DateMenu = ({
 
   //     const spaceAbove = triggerRect.top - topBound;
   //     const spaceBelow = bottomBound - triggerRect.bottom;
-  //     console.log('DateMenu spaceAbove:', spaceAbove, 'spaceBelow:', spaceBelow);
 
   //     const fitsBelow = spaceBelow > menuHeight;
   //     const fitsAbove = spaceAbove > menuHeight;

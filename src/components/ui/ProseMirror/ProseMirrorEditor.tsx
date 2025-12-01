@@ -319,7 +319,6 @@ export const ProseMirrorEditor = ({
       ],
       toDOM(node: any) {
         const { align, paddingLeft } = node.attrs;
-        // console.log("node.attrs", node.attrs)
         // return ["p", { style: align ? `text-align: ${align};` : "" }, 0];
         return [
           "p",
@@ -463,7 +462,6 @@ export const ProseMirrorEditor = ({
   }, [editorShema]);
 
   // useEffect(() => {
-  //   console.log("linkData", linkData)
   // }, [linkData]);
 
   useEffect(() => {

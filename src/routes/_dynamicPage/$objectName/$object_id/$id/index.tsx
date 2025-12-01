@@ -41,8 +41,6 @@ const Details = () => {
   // // Extract propertyName and showIframe from the matched object
   // const propertyName = matchedObject.propertyName || '';
   // const showIframe = matchedObject.showIframe || false;
-  // console.log(objectId, 'objectId');
-  // console.log(tabName, 'tabName');
   // const matchedObject: any = moduleIframeListOptions.find((item: any) => item.hubspotObjectTypeId === objectId && item.label === tabName) || {};
   // const matchedObject = moduleIframeListOptions.find((item) => item.hubspotObjectTypeId === objectId && item.label === tabName) || {};
   // normalize tabName from breadcrumbs
@@ -75,12 +73,10 @@ const Details = () => {
 
 
 
-  // console.log(moduleIframeListOptions, 'moduleIframeListOptions');
   // Extract propertyName and showIframe from the matched object
   // const propertyName = matchedObject.properties_value ? matchedObject.properties_value.split(',') : [];
   const propertyName = matchedObject?.iframeProperties ? matchedObject?.iframeProperties : [];
   const showIframe = matchedObject?.showIframe || false;
-  // console.log(matchedObject, 'matchedObject');
   
   return (
     <div className="bg-[var(--sidebar-background-color)] mt-[calc(var(--nav-height)-1px)] dark:bg-dark-300">

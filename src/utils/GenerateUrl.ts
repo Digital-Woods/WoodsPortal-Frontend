@@ -53,7 +53,6 @@ const buildParentRoute = (props: any, search: any, router: any) => {
 }
 
 const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
-  // console.log('props', props)
   let breadcrumbs = [...breadcrumbItems]
   let breadcrumbType: string = 'child'
   if (breadcrumbItems.length === 1) {
@@ -148,17 +147,11 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
       }
     }
   }
-  // console.log('breadcrumbs_gen', breadcrumbs)
   return generateUrl(props, breadcrumbType, breadcrumbs)
 }
 
 const generateUrl = (props: any, breadcrumbType: string, breadcrumbs: any) => {
   const newBase64 = convertToBase64(breadcrumbs)
-  // console.log('newBase64', newBase64)
-
-    // const rt2 = decompressAuto(fromB64(newBase64));
-    // console.log('rt2_1', rt2)
-
   let url = ''
   if (props?.objectTypeId && props?.recordId) {
     url = `/${props?.recordId}/${props?.objectTypeId}/${props?.recordId}?b=${newBase64}`
@@ -172,13 +165,11 @@ const convertToBase64 = (str: any = []) => {
   // try {
   //   return btoa(unescape(encodeURIComponent(str)))
   // } catch (err) {
-  //   console.warn('Base64 encode failed:', str, err)
   //   return ''
   // }
 
   // if(str) {
   //   const b64 = toB64(compressAuto(str));
-  //   console.log('e_b64', b64)
   //   return b64 || '';
   // }
   // return ''
@@ -196,10 +187,7 @@ const decodeToBase64 = (base64: string) => {
   
   // if(base64) {
   //   const b = base64?.replace(/ /g, "+");
-  //   console.log('d_base64', base64)
-  //   console.log('b', b)
   //   const rt2 = decompressAuto(fromB64(b));
-  //   console.log('rt2', rt2)
   //   return JSON.parse(rt2) ;
   // }
   // return ''
@@ -234,7 +222,6 @@ export const useMakeLink = () => {
       return buildParentRoute(props, search, router)   // pure helper
     } else {
       const breadcrumbItems = decodeToBase64(search?.b) || []
-      // console.log('breadcrumbItems', breadcrumbItems)
       return buildChildRoute(props, search, breadcrumbItems) // pure helper
     }
   }
@@ -271,19 +258,14 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
     delete lastItem.prm;
   }
 
-  // console.log('lastItem2', lastItem2)
-  // console.log('lastItem3', lastItem3)
-
   if (breadcrumbs.length > 1) {
     if (props?.type === 'ticket' || props?.type === 'association') {
-      // console.log(1, props)
       mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
       mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
       parentObjectTypeId = lastItem?.o_t_id || ''
       parentObjectRecordId = lastItem?.o_r_id || ''
       // bParams = lastItem?.p || ''
     } else {
-      // console.log(2, props)
       if (breadcrumbs.length > 2) {
         mediatorObjectTypeId = breadcrumbs[1]?.o_t_id || ''
         mediatorObjectRecordId = breadcrumbs[1]?.o_r_id || ''
@@ -306,17 +288,9 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
         parentObjectRecordId = lastItem2?.o_r_id || ''
       }
      
-      // console.log('parentObjectTypeId', parentObjectTypeId)
-
     }
   }
   let paramsObject: any = {}
-
-  // console.log('props?.type', props?.type)
-  // console.log('mediatorObjectTypeId', mediatorObjectTypeId)
-  // console.log('mediatorObjectRecordId', mediatorObjectRecordId)
-  // console.log('parentObjectTypeId', parentObjectTypeId)
-  // console.log('parentObjectRecordId', parentObjectRecordId)
 
   // if isPrimaryCompany
   // const arr = Array.from(new URLSearchParams(lastItem?.p))
@@ -361,7 +335,6 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
   if (props?.type === 'association') {  // if association association then don't need mappedLastItemParam 
     queryString = new URLSearchParams({...paramsObject, ...{cache: false}} as any).toString()
   // } else if (breadcrumbs.length < 2) { // if root path then don't need paramsObject 
-  //   console.log('root')
   //   paramsObject = {}
   //   queryString = new URLSearchParams({...mappedLastItemParam} as any).toString()
   } else {
@@ -383,10 +356,6 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
   //   ...paramsObject,
   //   ...(params ? { params } : {}),
   // };
-
-    //   console.log('breadcrumbs', breadcrumbs)
-    // console.log('paramsObject', paramsObject)
-    // console.log('params', params)
 
   return {
     breadcrumbs,
@@ -424,7 +393,6 @@ export const getBreadcrumbs = () => {
 
 const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
   const bc = convertToBase64(breadcrumbs.slice(0, index + 1))
-  // console.log('breadcrumb', breadcrumb)
   if (index === 0) {
     return {
       name: breadcrumb?.n,
@@ -559,7 +527,6 @@ const nameTrancate = (name: any) => {
 }
 
 // export const updateLink = (props: any) => {
-//   console.log('props', props)
 
 //   const router = useRouter()
 //   const search: any = router.state.location.search
@@ -579,7 +546,6 @@ const nameTrancate = (name: any) => {
 
 //   const lastItem = breadcrumbs[breadcrumbs.length - 1]
 
-//   console.log('lastItem', lastItem)
 //   return lastItem
 // }
 
@@ -608,9 +574,6 @@ export const useUpdateLink = () => {
   //   }
   //   const newBase64 = convertToBase64(JSON.stringify(breadcrumbs))
   //   updateBParam(router, newBase64)
-
-  //   console.log('breadcrumbs_uu', breadcrumbs)
-  //   console.log('props', props)
   // }
 
   const updateLink = (props: any, displayName: string = "prm") => {
@@ -643,9 +606,6 @@ export const useUpdateLink = () => {
 
     const newBase64 = convertToBase64(breadcrumbs);
     updateBParam(router, newBase64);
-
-    // console.log("breadcrumbs_uu", breadcrumbs);
-    // console.log("props", props);
   };
 
   // --- Helpers ---
@@ -670,8 +630,6 @@ export const useUpdateLink = () => {
   // const filterParams = (displayName : string = "prm") => {
   //   const search: any = router.state.location.search
   //   let breadcrumbs = decodeToBase64(search?.b) || []
-  //   // console.log('breadcrumbs', breadcrumbs)
-
   //   if (breadcrumbs.length < 1) return null
   //   const lastItem = breadcrumbs[breadcrumbs.length - 1]
   //   const expandKeys = (obj: Record<string, any>) => {
@@ -683,15 +641,12 @@ export const useUpdateLink = () => {
   //     )
   //   }
   //   const output = displayName && lastItem[displayName] ? expandKeys(lastItem[displayName]) : lastItem
-  //   console.log('output', output)
   //   return output
   // }
 
   const getLinkParams = (displayName: string = "prm") => { // for API param
     const search: any = router.state.location.search;
     let breadcrumbs = decodeToBase64(search?.b) || [];
-
-    // console.log('breadcrumbs', breadcrumbs)
 
     if (breadcrumbs.length < 1) return null;
 
@@ -724,8 +679,6 @@ export const useUpdateLink = () => {
     const search: any = router.state.location.search;
     let breadcrumbs = decodeToBase64(search?.b) || [];
 
-    // console.log('breadcrumbs', breadcrumbs)
-
     if (breadcrumbs.length < 1) return null;
 
     const lastItem = breadcrumbs[breadcrumbs.length - 1];
@@ -750,7 +703,6 @@ export const useUpdateLink = () => {
 
     const output = nestedValue ? expandKeys(nestedValue) : expandKeys(lastItem);
 
-    // console.log("output", output);
     return output;
   };
 

@@ -33,7 +33,6 @@ export const Attachments = ({
     {
       enabled: !!selectedFileId,
       onSuccess: (data: any) => {
-        // console.log("File Details fetched successfully:", data);
       },
       onError: (error) => {
         console.error("Error fetching file details:", error);

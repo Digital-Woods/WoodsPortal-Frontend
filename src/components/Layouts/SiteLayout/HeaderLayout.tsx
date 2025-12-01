@@ -73,7 +73,6 @@ export const HeaderLayout = (props: any) => {
       `${globalNavHeight + 1}px`
     );
   }, [globalNavHeight, isLargeScreen, isMediumScreen, isSmallScreen, pathname]);
-// console.log(pathname,'Breadcrumbs pathname');
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
   };

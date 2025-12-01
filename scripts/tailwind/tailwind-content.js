@@ -222,5 +222,3 @@ export default async function tailwindContent() {
 }
 
 tailwindContent()
-
-// console.log('✅ All classNames prefixed!', tailwindContent());
