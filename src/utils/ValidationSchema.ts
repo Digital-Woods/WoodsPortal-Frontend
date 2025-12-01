@@ -117,7 +117,7 @@ const generateSchema = (value: any, key: any = 'key') => {
       schemaShape[keyName] = z.any().nullable().optional()
     }
   } else if (isBooleanCheckbox) {
-    schemaShape[value?.key] = z
+    schemaShape[keyName] = z
       .union([z.boolean(), z.string()])
       .transform((val) => {
         if (val === true || val === false) return val
