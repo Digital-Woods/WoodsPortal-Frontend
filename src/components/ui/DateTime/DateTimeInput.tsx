@@ -61,7 +61,7 @@ export const DateTimeInput = React.forwardRef(
 
       if (field) {
         const value = Number(parseISTToTimestamp(inputValue).toString()) || null;
-        field.onChange(value);
+        field.onChange(value || "");
       }
     }
 
@@ -75,7 +75,7 @@ export const DateTimeInput = React.forwardRef(
 
       if (field) {
         const value =  Number(parseISTToTimestamp(inputValue).toString()) || null;
-        field.onChange(value);
+        field.onChange(value || "");
       }
     }
 
