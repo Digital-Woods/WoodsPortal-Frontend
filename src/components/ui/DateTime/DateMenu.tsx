@@ -82,7 +82,6 @@ export const DateMenu = ({
   }, [defaultValue, time])
 
   const handleDateSelect = (date: string | null, state: any) => {
-    console.log('state', state)
     if (state === 'date') toggleMenu(false)
     handleSelect(date, field)
     setInputValue({ label: date, value: date })
@@ -225,7 +224,7 @@ export const DateMenu = ({
               control={control}
               height="small"
               className=""
-              placeholder="Select Time"
+              placeholder="Select Date"
               value={inputValue ? inputValue.label : ''}
             />
           </div>
