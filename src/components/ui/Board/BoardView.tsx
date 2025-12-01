@@ -35,7 +35,6 @@ export const BoardView = ({
   const { makeLink } = useMakeLink()
   const { setPage, setAfter, limit, setLimit, selectedPipeline }: any = useTable();
 
-  // console.log('TrelloCards', true)
   const { gridData: data, setGridData: setData } = useTable();
 
   let portalId: any;
@@ -314,7 +313,6 @@ Main Component Starts Here
   const { setToaster } = useToaster();
 
   const handlePageChange = async (mLimit: number) => {
-    console.log(mLimit,'mLimit');
     await setPage(1);
     await setLimit(mLimit);
     await setAfter((1 - 1) * limit);

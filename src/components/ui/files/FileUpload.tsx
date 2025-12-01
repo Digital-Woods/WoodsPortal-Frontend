@@ -197,7 +197,6 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
       // setSync(true)
       onClose();
       // setUploadStatus("File uploaded successfully!");
-      // console.log("Server Response:", response.data);
     } catch (error: any) {
       setIsUploading(false);
       const errorMessage = error?.response?.data?.errorMessage;

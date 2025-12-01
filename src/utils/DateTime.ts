@@ -89,7 +89,6 @@ export const formatDateTime = (data: any, type: any = "date") => {
 
 // function parseISTToTimestamp(dateTimeStr) {
 //     // Example: "06/24/2026 12:00 AM GMT+5:30"
-//     console.log('dateTimeStr', dateTimeStr)
 //     const [datePart, timePart, , offsetPart] = dateTimeStr.split(" ");
 
 //     const [month, day, year] = datePart.split("/").map(Number);

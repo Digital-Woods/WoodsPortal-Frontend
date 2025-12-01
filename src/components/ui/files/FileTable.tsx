@@ -35,7 +35,6 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
     {
       enabled: !!selectedFileId,
       onSuccess: (data) => {
-        // console.log("File Details fetched successfully:", data);
       },
       onError: (error) => {
         console.error("Error fetching file details:", error);
@@ -52,7 +51,6 @@ export const FileTable = ({ fileId, files, toggleFolder, path, refetch, objectId
   //     },
   //     onSuccess: () => {
   //       queryClient.invalidateQueries(["fileDetails"]);
-  //       console.log("File deleted successfully");
   //       refetch();
   //       setToaster({
   //         message: "File deleted successfully!",

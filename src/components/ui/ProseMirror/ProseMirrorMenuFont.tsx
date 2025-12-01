@@ -213,7 +213,6 @@ export const fontMenuItem = new MenuItem2({
   // run: (state, dispatch, editorView) => {
   //   const newFont = fontSelectionPluginKey.getState(state); // Example selected font
   //   const tr = state.tr;
-  //   console.log("newFont", newFont);
   //   // Set the font selection in the plugin state
   //   tr.setMeta(fontSelectionPluginKey, newFont);
   //   // Dispatch the transaction to update the plugin state

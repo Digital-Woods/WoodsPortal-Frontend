@@ -262,16 +262,9 @@ export const DynamicComponentView = ({
       }
 
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
-      // console.log("activePipeline", activePipeline)
       // param.filterValue = activePipeline
 
-      // console.log("selectedPipeline", selectedPipeline)
-      // console.log("activePipeline", activePipeline)
-      // console.log("hubspotObjectTypeId", hubspotObjectTypeId)
-      // console.log("hubspotObjectTypeId", hubspotObjectTypeId)
-
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
-      // console.log("activePipeline", activePipeline)
      
       
       // if(componentName === "ticket" && activePipeline === "default") param.filterValue = ""
@@ -283,21 +276,13 @@ export const DynamicComponentView = ({
       }
       // let params = param
 
-      // console.log('param', param)
-
       const fParams = getLinkParams()
 
-      // console.log('fParams', fParams)
-      // console.log('param', param)
-      // console.log('paramsObject', paramsObject)
       param = {...(isFristTimeLoadData && fParams && !isHome ? fParams : param), ...paramsObject}
-
-      // console.log('param_1', param)
 
 
       // setUrlParam(param);
       
-      // console.log('isFristTimeLoadData', isFristTimeLoadData)
 
       if(!isFristTimeLoadData || !fParams) {
         updateLink({
@@ -626,7 +611,6 @@ export const DynamicComponentView = ({
   // }, [selectedPipeline]);
 
   // useEffect( () => {
-  //   // console.log("useEffect", true)
   //   setErrorMessage('')
   //   resetTableParam();
   //   setApiResponse(null);

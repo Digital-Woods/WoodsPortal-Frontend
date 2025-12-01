@@ -60,10 +60,6 @@ export const DashboardTableForm = ({
   const { params } = getParamDetails({ type: componentName });
   const nParams = componentName === 'sidebarTable' ? urlParam : params
 
-  // console.log("params", params)
-  // console.log("nParams", nParams)
-  // console.log("componentName", componentName)
-
   const queryString = new URLSearchParams(nParams as any).toString()
   let mParams: any = queryString ? `?${queryString}` : ''
 

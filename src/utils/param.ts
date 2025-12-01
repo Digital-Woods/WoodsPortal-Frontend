@@ -85,8 +85,6 @@ export const setParamHash = (string: any) => {
 //     delete paramsObject?.parentObjectTypeName
 
 //     const mParams = new URLSearchParams(paramsObject);
-//     console.log('mParams', mParams)
-
 //     return isNotEmptyObject(mParams) ? `?${mParams}` : '';
 // }
 

@@ -45,7 +45,6 @@ const handleDownload = async (url: any, filename: any) => {
         document.body.removeChild(a);
       }, 100);
     } catch (fetchError) {
-      console.log('Fetch failed, using alternative method:', fetchError);
       const a = document.createElement('a');
       a.href = url;
       a.download = downloadFilename;

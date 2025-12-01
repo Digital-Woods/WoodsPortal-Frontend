@@ -24,7 +24,6 @@ export const removeAllCookie = () => {
 
 // export const isCookieExpired = (key: string): boolean => {
 //   const value = Cookies.get(key);
-//   console.log('value', value)
 //   return value === undefined; // true means expired or never set
 // };
 

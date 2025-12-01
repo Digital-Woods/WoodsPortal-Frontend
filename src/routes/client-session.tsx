@@ -82,7 +82,6 @@ const ClientSession = () => {
             setSubscriptionType(SubscriptionType);
 
             const token = tokenData?.token;
-            console.log('token', token)
             const refreshToken = tokenData?.refreshToken;
             const expiresIn = tokenData?.expiresIn;
             const rExpiresIn = tokenData?.refreshExpiresIn;
@@ -92,13 +91,11 @@ const ClientSession = () => {
                 loggedInDetails?.hubspot &&
                 loggedInDetails?.hubspot.twoFa
             ) {
-                console.log('2fa enabled');
                 setLoggedInDetails(data.data);
 
                 setTwoFa({ twoFa: loggedInDetails?.hubspot?.twoFa });
                 window.location.hash = "/login/tow-fa";
             } else {
-                console.log('2fa not enabled');
                 await setAuthCredentials(token, expiresIn);
                 await setRefreshToken(refreshToken, rExpiresIn);
                 await setLoggedInDetails(data.data);
@@ -122,7 +119,6 @@ const ClientSession = () => {
                 }
                 router.navigate({ to: `/${path}` });
 
-                // console.log('home', true)
             }
             toast.success(data?.statusMsg);
         },

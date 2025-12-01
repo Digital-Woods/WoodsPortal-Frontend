@@ -30,7 +30,6 @@ const EditorBoldMenu = ({ editorView }: any) => {
   const toggleMenu = () => {
     const { state, dispatch } = editorView;
     setSelectedEditorBold(!selectedEditorBold);
-    // console.log('selectedEditorBold', selectedEditorBold)
     toggleMark2(state.schema.marks.strong)(state, dispatch);
   };
 

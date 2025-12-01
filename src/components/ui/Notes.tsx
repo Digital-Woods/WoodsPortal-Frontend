@@ -356,7 +356,6 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     }
     return params
   }
-// console.log((sync || apiSync) ? false : true,'Hello');
   useEffect(() => {
     if (sync || apiSync) refetch();
   }, [sync, apiSync]);
