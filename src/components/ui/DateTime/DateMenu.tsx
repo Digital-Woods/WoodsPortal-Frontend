@@ -82,7 +82,6 @@ export const DateMenu = ({
   }, [defaultValue, time])
 
   const handleDateSelect = (date: string | null, state: any) => {
-    console.log('state', state)
     if (state === 'date') toggleMenu(false)
     handleSelect(date, field)
     setInputValue({ label: date, value: date })

@@ -67,11 +67,11 @@ export const DateTimeInput = React.forwardRef(
 
     const handleSelectTime = (time: any, field?: { onChange: (value: any) => void }) => {
       let inputValue: string = ""
-      const newTime = `${time?.time} ${time?.timeZone}`;
-      const newDateTime = `${inputValueDate} ${newTime}`;
+      const newTime = `${time?.time || ""} ${time?.timeZone || ""}`;
+      const newDateTime = `${inputValueDate} ${newTime || ""}`;
 
-      setInputValueTime(newTime);
-      inputValue = newDateTime;
+      setInputValueTime(newTime || "");
+      inputValue = (inputValueDate && newTime) ? newDateTime : "";
 
       if (field) {
         const value =  Number(parseISTToTimestamp(inputValue).toString()) || null;
