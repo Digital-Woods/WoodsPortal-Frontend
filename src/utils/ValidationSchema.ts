@@ -74,7 +74,9 @@ const generateSchema = (value: any, key: any = 'key') => {
         )
     }
   } else if (isPrimaryDisplayProperty) {
-    schemaShape[keyName] = z.any()
+    schemaShape[keyName] = z.string().nonempty({
+      message: `${fieldName} is required`,
+    })
   } else if (isDate) {
     if (value?.requiredField) {
       schemaShape[keyName] = z
