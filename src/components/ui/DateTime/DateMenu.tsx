@@ -224,7 +224,7 @@ export const DateMenu = ({
               control={control}
               height="small"
               className=""
-              placeholder="Select Time"
+              placeholder="Select Date"
               value={inputValue ? inputValue.label : ''}
             />
           </div>
