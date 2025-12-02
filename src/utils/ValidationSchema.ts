@@ -18,7 +18,7 @@ export const ValidationSchemaShape = (value: any, key: any = 'key') => {
 const generateSchema = (value: any, key: any = 'key') => {
   let schemaShape: any = {}
   const keyName = value[key] || ''
-  const fieldName = value?.labels?.plural || value?.customLabel || value?.label
+  const fieldName = value?.customLabel || value?.labels?.plural || value?.label
   const isDomain = keyName === 'domain'
   const isNumber = value?.fieldType === 'number'
   const isDate = value?.fieldType === 'date'
@@ -43,9 +43,11 @@ const generateSchema = (value: any, key: any = 'key') => {
     !isRadio &&
     !isPrimaryDisplayProperty
   ) {
-    schemaShape[keyName] = z.string().nonempty({
-      message: `${fieldName} is required.`,
-    })
+    schemaShape[keyName] = z
+      .any()
+      .refine((val) => val !== null && val !== undefined && val !== '', {
+        message: `${fieldName} is required`,
+      })
   } else if (isNumber) {
     if (value?.requiredField) {
       // REQUIRED number
