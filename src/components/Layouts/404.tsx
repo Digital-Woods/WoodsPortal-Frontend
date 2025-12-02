@@ -32,7 +32,7 @@ const NotFound = ({ message = "", type = "404" }: any) => {
             <p className="text-lg dark:text-white">Page Not Found</p>
           </div>
           <Button size="sm" onClick={() => goToDashboard()}>
-            Go to {dashboardLabel()}
+            <span className="max-w-[300px] whitespace-nowrap overflow-hidden text-ellipsis">Go to {dashboardLabel()}</span>
           </Button>
         </div>
         :
