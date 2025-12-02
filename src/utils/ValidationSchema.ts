@@ -83,9 +83,13 @@ const generateSchema = (value: any, key: any = 'key') => {
     if (value?.requiredField) {
       schemaShape[keyName] = z
         .any()
-        .refine((val) => val !== null && val !== undefined && val !== '' && val.length !==0, {
-          message: `${fieldName} is required`,
-        })
+        .refine(
+          (val) =>
+            val !== null && val !== undefined && val !== '' && val.length !== 0,
+          {
+            message: `${fieldName} is required`,
+          },
+        )
     } else {
       schemaShape[keyName] = z.any().nullable().optional()
     }
@@ -120,16 +124,27 @@ const generateSchema = (value: any, key: any = 'key') => {
       schemaShape[keyName] = z.any().nullable().optional()
     }
   } else if (isBooleanCheckbox) {
-    schemaShape[keyName] = z
-      .union([z.boolean(), z.string()])
-      .transform((val) => {
-        if (val === true || val === false) return val
-        if (typeof val === 'string') {
-          if (val.toLowerCase() === 'true') return true
-          if (val.toLowerCase() === 'false') return false
-        }
-        return false // default fallback value
-      })
+    if (value?.requiredField) {
+      schemaShape[keyName] = z
+        .any()
+        .refine(
+          (val) =>
+            val === true || val === false || val === 'true' || val === 'false',
+          {
+            message: `${fieldName} is required`,
+          },
+        )
+      } else {
+        schemaShape[keyName] = z.any().nullable().optional()
+      }
+    // .transform((val) => {
+    //   if (val === true || val === false) return val
+    //   if (typeof val === 'string') {
+    //     if (val.toLowerCase() === 'true') return true
+    //     if (val.toLowerCase() === 'false') return false
+    //   }
+    //   return false // default fallback value
+    // })
   } else {
     if (value?.fieldRole === 'OBJECTS') {
       schemaShape[keyName] = z.any().nullable()
