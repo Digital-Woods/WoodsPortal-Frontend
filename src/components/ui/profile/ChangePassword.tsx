@@ -4,7 +4,7 @@ import { Client } from "@/data/client";
 import { recorBtnCustom } from "@/data/hubSpotData";
 import { useToaster } from "@/state/use-toaster";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import z from "zod";
 import { Button } from "../Button";
 import { Form, FormItem, FormLabel, FormControl, Input } from "../Form";
@@ -34,12 +34,8 @@ const ConfirmandCurrentPassIcon = () => (
 );
 
 export const ChangePassword = () => {
+  const resetRef = useRef<any>(null);
   const { setToaster } = useToaster();
-
-  // State variables to manage form input values
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   // State variables to manage password visibility
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -50,10 +46,12 @@ export const ChangePassword = () => {
     .object({
       currentPassword: z
         .string()
-        .min(6, { message: "Current password is required" }),
+        .nonempty({ message: "Current password is required" })
+        .min(6, { message: "Current password must be at least 6 characters long" }),
       newPassword: z
         .string()
-        .min(6, { message: "It should be 6 characters long" })
+        .nonempty({ message: "New password is required" })
+        .min(6, { message: "New password must be at least 6 characters long" })
         .regex(/[A-Z]/, {
           message: "Must contain at least one uppercase letter",
         })
@@ -80,10 +78,7 @@ export const ChangePassword = () => {
     mutationFn: (data) => Client.authentication.changePassword(data),
     onSuccess: (response: any) => {
       setToaster({ message: response?.statusMsg || "Password updated successfully", type: "success" });
-      // Clear input fields on success
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
+      resetRef.current?.(); // Reset form after successful submission
     },
     onError: (error: any) => {
       let errorMessage = error?.response?.data?.errorMessage;
@@ -100,12 +95,8 @@ export const ChangePassword = () => {
     },
   });
 
-  const handleSubmit = () => {
-    const payload: any = {
-      currentPassword: String(currentPassword),
-      newPassword: String(newPassword),
-      confirmPassword: String(confirmPassword),
-    };
+  const handleSubmit = (value: any) => {
+    const payload: any = value
 
     changePassword(payload);
   };
@@ -124,114 +115,126 @@ export const ChangePassword = () => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema}>
-        {({ register, formState: { errors } }: any) => (
-          <div className="p-4 max-sm:p-2 dark:bg-dark-300 bg-cleanWhite rounded-md border dark:border-none dark:text-white">
-            <div className="flex justify-between items-center mb-4">
-              <div className="text-xl max-sm:text-lg font-semibold dark:text-white">
-                Change Password
+      <Form onSubmit={handleSubmit} validationSchema={passwordValidationSchema} mode="onChange">
+
+        {({
+          register,
+          control,
+          setValue,
+          formState: { errors },
+          reset,
+          getValues
+        }: any) => {
+          resetRef.current = () => {
+            const defaultValues: any = {
+              "currentPassword": "",
+              "newPassword": "",
+              "confirmPassword": ""
+            };
+            reset(defaultValues);
+          };
+          return (
+            <div className="p-4 max-sm:p-2 dark:bg-dark-300 bg-cleanWhite rounded-md border dark:border-none dark:text-white">
+              <div className="flex justify-between items-center mb-4">
+                <div className="text-xl max-sm:text-lg font-semibold dark:text-white">
+                  Change Password
+                </div>
+                <Button
+                  variant={!recorBtnCustom ? 'default' : 'create'}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Saving..." : "Save"}
+                </Button>
               </div>
-              <Button
-                variant={!recorBtnCustom ? 'default' : 'create'}
-                disabled={isLoading}
-              >
-                {isLoading ? "Saving..." : "Save"}
-              </Button>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormItem className="mb-0 py-2 flex flex-col">
+                  <FormLabel className="text-xs font-semibold w-[200px]">
+                    Current Password
+                  </FormLabel>
+                  <FormControl className="flex flex-col items-center w-full">
+                    <div className="relative w-full">
+                      <Input
+                        type={showCurrentPassword ? "text" : "password"}
+                        placeholder="Current Password"
+                        {...register("currentPassword")}
+                        className="text-xs text-gray-500 w-full"
+                        icon={CurrentpassIcon}
+                      />
+                      <span
+                        className="absolute right-3 top-2 cursor-pointer"
+                        onClick={toggleCurrentPasswordVisibility}
+                      >
+                        {showCurrentPassword ? <EyeIcon /> : <EyeOffIcon />}
+                      </span>
+                      {errors?.currentPassword && (
+                        <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
+                          {errors?.currentPassword?.message}
+                        </div>
+                      )}
+                    </div>
+                  </FormControl>
+                </FormItem>
+
+                <FormItem className="mb-0 py-2 flex flex-col">
+                  <FormLabel className="text-xs font-semibold w-[200px]">
+                    New Password
+                  </FormLabel>
+                  <FormControl className="flex flex-col items-center w-full">
+                    <div className="relative w-full">
+                      <Input
+                        type={showNewPassword ? "text" : "password"}
+                        placeholder="New password"
+                        {...register("newPassword")}
+                        className="text-xs text-gray-500 w-full"
+                        icon={ConfirmandCurrentPassIcon}
+                      />
+                      <span
+                        className="absolute right-2 top-2 cursor-pointer"
+                        onClick={toggleNewPasswordVisibility}
+                      >
+                        {showNewPassword ? <EyeIcon /> : <EyeOffIcon />}
+                      </span>
+                      {errors?.newPassword && (
+                        <div className="text-red-600 text-[12px] px-2  mt-1 max-w-[calc(100%-16px)]">
+                          {errors?.newPassword?.message}
+                        </div>
+                      )}
+                    </div>
+                  </FormControl>
+                </FormItem>
+
+                <FormItem className="mb-0 py-2 flex flex-col">
+                  <FormLabel className="text-xs font-semibold w-[200px]">
+                    Confirm New Password
+                  </FormLabel>
+                  <FormControl className="flex flex-col items-center w-full">
+                    <div className="relative w-full">
+                      <Input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm new password"
+                        {...register("confirmPassword")}
+                        className="text-xs text-gray-500 w-full"
+                        icon={ConfirmandCurrentPassIcon}
+                      />
+                      <span
+                        className="absolute right-2 top-2 cursor-pointer"
+                        onClick={toggleConfirmPasswordVisibility}
+                      >
+                        {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
+                      </span>
+                      {errors?.confirmPassword && (
+                        <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
+                          {errors?.confirmPassword?.message}
+                        </div>
+                      )}
+                    </div>
+                  </FormControl>
+                </FormItem>
+              </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormItem className="mb-0 py-2 flex flex-col">
-                <FormLabel className="text-xs font-semibold w-[200px]">
-                  Current Password
-                </FormLabel>
-                <FormControl className="flex flex-col items-center w-full">
-                  <div className="relative w-full">
-                    <Input
-                      type={showCurrentPassword ? "text" : "password"}
-                      placeholder="Current Password"
-                      {...register("currentPassword")}
-                      className="text-xs text-gray-500 w-full"
-                      icon={CurrentpassIcon}
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                    />
-                    <span
-                      className="absolute right-3 top-2 cursor-pointer"
-                      onClick={toggleCurrentPasswordVisibility}
-                    >
-                      {showCurrentPassword ? <EyeIcon /> : <EyeOffIcon />}
-                    </span>
-                    {errors?.currentPassword && (
-                      <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
-                        {errors?.currentPassword?.message}
-                      </div>
-                    )}
-                  </div>
-                </FormControl>
-              </FormItem>
-
-              <FormItem className="mb-0 py-2 flex flex-col">
-                <FormLabel className="text-xs font-semibold w-[200px]">
-                  New Password
-                </FormLabel>
-                <FormControl className="flex flex-col items-center w-full">
-                  <div className="relative w-full">
-                    <Input
-                      type={showNewPassword ? "text" : "password"}
-                      placeholder="New password"
-                      {...register("newPassword")}
-                      className="text-xs text-gray-500 w-full"
-                      icon={ConfirmandCurrentPassIcon}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                    <span
-                      className="absolute right-2 top-2 cursor-pointer"
-                      onClick={toggleNewPasswordVisibility}
-                    >
-                      {showNewPassword ? <EyeIcon /> : <EyeOffIcon />}
-                    </span>
-                    {errors?.newPassword && (
-                      <div className="text-red-600 text-[12px] px-2  mt-1 max-w-[calc(100%-16px)]">
-                        {errors?.newPassword?.message}
-                      </div>
-                    )}
-                  </div>
-                </FormControl>
-              </FormItem>
-
-              <FormItem className="mb-0 py-2 flex flex-col">
-                <FormLabel className="text-xs font-semibold w-[200px]">
-                  Confirm New Password
-                </FormLabel>
-                <FormControl className="flex flex-col items-center w-full">
-                  <div className="relative w-full">
-                    <Input
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Confirm new password"
-                      {...register("confirmPassword")}
-                      className="text-xs text-gray-500 w-full"
-                      icon={ConfirmandCurrentPassIcon}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <span
-                      className="absolute right-2 top-2 cursor-pointer"
-                      onClick={toggleConfirmPasswordVisibility}
-                    >
-                      {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
-                    </span>
-                    {errors?.confirmPassword && (
-                      <div className="text-red-600 text-[12px] px-2 mt-1 max-w-[calc(100%-16px)]">
-                        {errors?.confirmPassword?.message}
-                      </div>
-                    )}
-                  </div>
-                </FormControl>
-              </FormItem>
-            </div>
-          </div>
-        )}
+          );
+        }}
       </Form>
     </div>
   );
