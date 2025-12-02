@@ -150,8 +150,9 @@ export const DetailsViewPipelineUpdateDialog = ({
         field?.key === 'hs_pipeline' ||
         field?.key === 'pipeline'
       ) {
-        schemaShape[field?.key] = z.string().nonempty({
-          message: `${field?.customLabel || field?.label} is required.`,
+        schemaShape[field?.key] = z.any()
+        .refine((val) => val !== null && val !== undefined && val !== '', {
+          message: `${field?.customLabel || field?.label} is required`,
         })
       }
     })
