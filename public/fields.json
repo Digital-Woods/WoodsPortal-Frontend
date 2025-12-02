@@ -2718,7 +2718,7 @@
   "name" : "developerMode",
   "label" : "Developer Mode",
   "required" : false,
-  "locked" : false,
+  "locked" : true,
   "display" : "toggle",
   "type" : "boolean",
   "display_width" : null,
