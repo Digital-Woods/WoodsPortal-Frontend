@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from '../ui/Form'
 import { DateTimeInput } from '../ui/DateTime/DateTimeInput'
+import { ValidationSchemaShape } from '@/utils/ValidationSchema'
 
 export const DetailsViewDateTimeDialog = ({
   setEditRow,
@@ -33,9 +34,13 @@ export const DetailsViewDateTimeDialog = ({
   }, [])
 
   const createValidationSchemaPipeline = () => {
-    const schemaShape: any = {}
-    schemaShape[editRow?.key] = z.any()
-    return z.object(schemaShape)
+    let schemaShape: any = {};
+    if (!editRow) return z.object({});
+    schemaShape = ValidationSchemaShape(editRow, "key");
+    console.log(editRow)
+        console.log("schemaShape", schemaShape)
+    
+    return z.object(schemaShape);
   }
 
   const validationSchemaPipeline = createValidationSchemaPipeline()
@@ -58,6 +63,7 @@ export const DetailsViewDateTimeDialog = ({
   };
 
   const onSubmit = (data: any) => {
+    console.log("data", data)
     const sValue = parseValue(data);
     saveData(sValue)
   }
@@ -114,6 +120,8 @@ export const DetailsViewDateTimeDialog = ({
                               isAssociations={isAssociations}
                             />
                           </FormControl>
+
+                          {console.log('errors', errors)}
 
                           {(errors[editRow?.key]) && (
                             <FormMessage className="text-red-600 dark:text-red-400">

@@ -15,6 +15,7 @@ import {
   Input,
 } from '../ui/Form'
 import { Select } from '../ui/Select'
+import { ValidationSchemaShape } from '@/utils/ValidationSchema'
 
 export const DetailsViewMultiSelectUpdateDialog = ({
   setEditRow,
@@ -38,9 +39,10 @@ export const DetailsViewMultiSelectUpdateDialog = ({
   }, [])
 
   const createValidationSchemaPipeline = () => {
-    const schemaShape: any = {}
-    schemaShape[editRow?.key] = z.any()
-    return z.object(schemaShape)
+    let schemaShape: any = {};
+    if (!editRow) return z.object({});
+    schemaShape = ValidationSchemaShape(editRow, "key");
+    return z.object(schemaShape);
   }
 
   const validationSchemaPipeline = createValidationSchemaPipeline()

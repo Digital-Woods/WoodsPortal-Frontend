@@ -45,11 +45,9 @@ export const DetailsViewEditorDialog = ({
   }, [])
 
   const createValidationSchemaPipeline = () => {
-     let schemaShape: any = {};
-    
+    let schemaShape: any = {};
     if (!editRow) return z.object({});
     schemaShape = ValidationSchemaShape(editRow, "key");
-    console.log(editRow)
     return z.object(schemaShape);
   }
 

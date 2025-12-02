@@ -70,7 +70,7 @@ export const TimePicker = ({
 
   return (
     <div ref={ref} className=" py-2 bg-white dark:bg-gray-700 rounded-md shadow-lg w-full min-w-[180px] transition-all duration-300">
-      <div className="h-[325.91px] overflow-y-scroll text-center">
+      <div className="h-[calc(325.91px-52px)] overflow-y-scroll text-center">
         <ul className="text-gray-900 ">
           {timeList.map((time, index) => (
             <li
