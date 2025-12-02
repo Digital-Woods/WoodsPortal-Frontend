@@ -29,7 +29,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
   const userPortals = loginData?.portals || [];
   const matchingPortal = userPortals.find((portal: any) => portal?.portalUrl === clientSiteUrl);
   const portalUrl = matchingPortal?.portalUrl?.replace('https://', '') || (userPortals.leggth > 0 ? userPortals[0]?.portalUrl?.replace('https://', '') : "");
-  const developerModeOn = developerMode;
+  // const developerModeOn = developerMode;
   const loginUserValidationSchema = z.object({
     // email: z.string().email(),
     password: z.string().nonempty({
@@ -200,11 +200,11 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
           >
             {({ register, setValue, formState: { errors } }: any) => {
 
-              useEffect(() => {
-                if (developerModeOn) {
-                  setValue("password", "Krish@12345");
-                }
-              }, [developerModeOn, setValue]);
+              // useEffect(() => {
+              //   if (developerModeOn) {
+              //     setValue("password", "Krish@12345");
+              //   }
+              // }, [developerModeOn, setValue]);
 
               return (
                 <div className="text-gray-800 dark:text-gray-200">
@@ -251,16 +251,16 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
                           icon={PasswordIcon}
                           type={showPassword ? "text" : "password"}
                           {...register("password")}
-                          disabled={developerModeOn}
+                          // disabled={developerModeOn}
                         />
-                        {!developerModeOn &&
+                        {/* {!developerModeOn && */}
                           <span
                             className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
                             onClick={togglePasswordVisibility}
                           >
                             {showPassword ? <EyeIcon /> : <EyeOffIcon />}
                           </span>
-                        }
+                        {/* // } */}
                       </div>
                     </FormControl>
                     {errors?.password && (

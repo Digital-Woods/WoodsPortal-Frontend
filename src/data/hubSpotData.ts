@@ -42,7 +42,7 @@ const sideMenu = [
   },
 ];
 
-const makeLink = (menuItem: any) => {
+export const makeLink = (menuItem: any) => {
   let link = menuItem?.hubspotObjectTypeId;
 
   if (menuItem?.companyAsMediator) {

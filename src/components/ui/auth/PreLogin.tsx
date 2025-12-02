@@ -98,13 +98,13 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
             formName={`login-form-submited`}
           >
             {({ register, setValue, watch, formState: { errors } } : any) => {
-              const emailValue = watch("email");
+              // const emailValue = watch("email");
 
-              useEffect(() => {
-                if (developerMode) {
-                  setValue("email", "krishna@digitalwoods.net");
-                }
-              }, [developerMode, setValue]);
+              // useEffect(() => {
+              //   if (developerMode) {
+              //     setValue("email", "krishna@digitalwoods.net");
+              //   }
+              // }, [developerMode, setValue]);
 
               return (
               <div className="text-gray-800 dark:text-gray-200">
@@ -120,7 +120,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
                         icon={EmailIcon}
                         placeholder="Email"
                         defaultValue={entredEmail}
-                        disabled={developerMode}
+                        // disabled={developerMode}
                           {...register("email", {
                             onChange: (e : any) =>
                               setValue("email", e.target.value.toLowerCase()),
