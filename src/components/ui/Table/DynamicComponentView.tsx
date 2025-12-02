@@ -754,7 +754,9 @@ export const DynamicComponentView = ({
                                   {/* {getParamHash(
                                     formatCustomObjectLabel(value?.n)
                                   )} */}
-                                  {value?.n}
+                                  <span className="line-clamp-1">
+                                    {value?.n}
+                                  </span>
                                 </Link>
                                 {index < array.length - 1 && (
                                   <span className="mx-1 text-xl font-semibold text-[#0091AE]">
