@@ -12,6 +12,7 @@ import { ProseMirrorEditor } from '../ui/ProseMirror/ProseMirrorEditor'
 import { ShrinkIcon } from '@/assets/icons/ShrinkIcon'
 import { ExpandIcon } from '@/assets/icons/ExpandIcon'
 import { CloseIcon } from "@/assets/icons/closeIcon";
+import { ValidationSchemaShape } from '@/utils/ValidationSchema'
 
 export const DetailsViewEditorDialog = ({
   setEditRow,
@@ -44,9 +45,12 @@ export const DetailsViewEditorDialog = ({
   }, [])
 
   const createValidationSchemaPipeline = () => {
-    const schemaShape: any = {}
-    schemaShape[editRow?.key] = z.any()
-    return z.object(schemaShape)
+     let schemaShape: any = {};
+    
+    if (!editRow) return z.object({});
+    schemaShape = ValidationSchemaShape(editRow, "key");
+    console.log(editRow)
+    return z.object(schemaShape);
   }
 
   const validationSchemaPipeline = createValidationSchemaPipeline()
