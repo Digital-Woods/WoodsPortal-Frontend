@@ -2,7 +2,6 @@ import { env } from "@/env";
 import { defaultData } from '@/defaultData'
 import { formatCustomObjectLabel, formatPath } from "@/utils/DataMigration";
 import { getRouteMenuConfig, setRouteMenuConfig } from "./client/auth-utils";
-import { pipeline } from "zod";
 
 export const isDevelopment = env.VITE_NODE_ENV === 'development'
 
@@ -42,7 +41,7 @@ const sideMenu = [
   },
 ];
 
-const makeLink = (menuItem: any) => {
+export const makeLink = (menuItem: any) => {
   let link = menuItem?.hubspotObjectTypeId;
 
   if (menuItem?.companyAsMediator) {

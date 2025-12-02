@@ -1,19 +1,26 @@
 import React from 'react';
 import { Button } from '../ui/Button';
-import { formatPath } from '@/utils/DataMigration';
+import { formatPath, isArray } from '@/utils/DataMigration';
 import { useRouter } from '@tanstack/react-router';
-import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData';
+import { addHomeTabOption, hubSpotUserDetails, makeLink } from '@/data/hubSpotData';
 import { CautionCircle } from '@/assets/icons/CautionCircle';
 
 const NotFound = ({ message = "", type = "404" }: any) => {
   const router: any = useRouter()
 
   const goToDashboard = () => {
-    let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+    let path = isArray(hubSpotUserDetails?.sideMenu) && hubSpotUserDetails?.sideMenu.length > 0 ? makeLink(hubSpotUserDetails?.sideMenu[0]) : "/"
     if (router.state.location?.search?.r) {
       path = router.state.location?.search?.r
     }
     router.navigate({ to: `/${path}` });
+  }
+
+  const dashboardLabel = () => {
+    if(isArray(hubSpotUserDetails?.sideMenu) && hubSpotUserDetails?.sideMenu.length > 0) {
+      return hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName
+    }
+    return ""
   }
 
   return (
@@ -25,7 +32,7 @@ const NotFound = ({ message = "", type = "404" }: any) => {
             <p className="text-lg dark:text-white">Page Not Found</p>
           </div>
           <Button size="sm" onClick={() => goToDashboard()}>
-            Go to Dashboard
+            Go to {dashboardLabel()}
           </Button>
         </div>
         :
