@@ -215,7 +215,9 @@ export const DashboardTableHeader = ({
               <span className="mr-2">
                 <IconPlus className="!w-3 !h-3" />
               </span>
-              Create {title || objectName}
+              <span className="max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
+                Create {title || objectName}
+              </span>
             </Button>
           </div>
         )}

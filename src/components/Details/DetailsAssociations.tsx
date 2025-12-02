@@ -160,9 +160,9 @@ export const DetailsAssociations = ({
                 //   }&isPrimaryCompany=${companyAsMediator}`}
                 to={makeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
               >
-                <span>
-                  <span className="text-secondary  hover:underline underline-offset-4  dark:!text-white">
-                    {associationData?.labels?.plural}
+                <span className="flex items-center">
+                  <span className="text-secondary  hover:underline underline-offset-4  dark:!text-white max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis block">
+                    {associationData?.labels?.plural} asdas dasdsa d as dasd  sad asd asdsad asd
                   </span>
                   <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
                     {associationData?.total}

@@ -567,7 +567,7 @@ export const renderCellContent = ({
     return (
       <div className="flex gap-1 relative group items-center">
         <Link
-          className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
+          className="dark:text-white text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4 line-clamp-1"
           onClick={changeRoute}
           // to={associationPath}
           to={makeLink({name: isObject(value) ? value?.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel})}
@@ -619,7 +619,7 @@ export const renderCellContent = ({
     return (
       <div className="flex gap-1 relative items-center">
         <Link
-          className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4"
+          className="dark:text-white  text-secondary font-semibold border-input rounded-md hover:underline underline-offset-4 line-clamp-1"
           // to={`/${sanitizeForBase64(path)}/${hubspotObjectTypeId}/${itemId}${urlParam ? urlParam : `?isPrimaryCompany=${companyAsMediator || false}`}`}
           to={makeLink({name: isObject(value) ? value?.label : value, objectTypeId:hubspotObjectTypeId, recordId:itemId, associationLabel: associationLabel, isPC: companyAsMediator})}
 
