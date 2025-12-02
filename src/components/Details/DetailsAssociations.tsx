@@ -12,6 +12,7 @@ import { DashboardTableForm } from "../ui/Table/DashboardTableForm";
 import { Tooltip } from "../ui/Tooltip";
 import { DetailsViewUpdate } from "./DetailsViewUpdate";
 import { useMakeLink } from "@/utils/GenerateUrl";
+import { useIsEllipsisActive } from "@/utils/EllipsisActive";
 
 export const DetailsAssociations = ({
   // key,
@@ -126,6 +127,8 @@ export const DetailsAssociations = ({
     }
   };
 
+  const { ref, isEllipsis } = useIsEllipsisActive<HTMLSpanElement>();
+
   return (
     <React.Fragment>
       {associationData &&
@@ -149,26 +152,32 @@ export const DetailsAssociations = ({
                   </span>
                 </Tooltip>
               </div>
-              <Link
-                className="font-bold border-input rounded-md text-xs dark:!text-white whitespace-nowrap"
-                // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
-                //   }&objectTypeId=${association?.objectTypeId
-                //   }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
-                //   }&mediatorObjectRecordId=${mediatorObjectRecordId
-                //     ? mediatorObjectRecordId
-                //     : parentObjectRowId
-                //   }&isPrimaryCompany=${companyAsMediator}`}
-                to={makeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
+              <Tooltip
+                id="searchInput"
+                content={isEllipsis ? associationData?.labels?.plural : ""}
+                disabled={!isEllipsis}
               >
-                <span className="flex items-center">
-                  <span className="text-secondary  hover:underline underline-offset-4  dark:!text-white max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis block">
-                    {associationData?.labels?.plural}
+                <Link
+                  className="font-bold border-input rounded-md text-xs dark:!text-white whitespace-nowrap"
+                  // to={`/association/${association.labels.plural}?parentObjectTypeId=${parentObjectTypeId}&parentObjectRecordId=${parentObjectRowId}&objectTypeName=${association.labels.plural
+                  //   }&objectTypeId=${association?.objectTypeId
+                  //   }&parentObjectTypeName=${parentObjectTypeName}&mediatorObjectTypeId=${mediatorObjectTypeId ? mediatorObjectTypeId : parentObjectTypeId
+                  //   }&mediatorObjectRecordId=${mediatorObjectRecordId
+                  //     ? mediatorObjectRecordId
+                  //     : parentObjectRowId
+                  //   }&isPrimaryCompany=${companyAsMediator}`}
+                  to={makeLink({name: associationData?.labels?.plural, objectTypeId:association?.objectTypeId, params: `?isPrimaryCompany=${companyAsMediator || false}`})}
+                >
+                  <span className="flex items-center">
+                    <span ref={ref} className="text-secondary  hover:underline underline-offset-4 dark:!text-white max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis block">
+                      {associationData?.labels?.plural}
+                    </span>
+                    <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
+                      {associationData?.total}
+                    </span>
                   </span>
-                  <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
-                    {associationData?.total}
-                  </span>
-                </span>
-              </Link>
+                </Link>
+              </Tooltip>
             </div>
 
             {(associationData?.objectTypeId === "0-5"

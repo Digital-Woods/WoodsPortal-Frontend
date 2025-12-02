@@ -10,34 +10,39 @@ type TooltipProps = {
   className?: string;
   variant?: "dark" | "light" | "success" | "warning" | "error" | "info";
   clickable?: boolean;
+  disabled?: boolean;
 };
 
-export const Tooltip: FC<TooltipProps> = ({ 
-  children="text-xs", 
-  content, 
-  id, 
+export const Tooltip: FC<TooltipProps> = ({
+  children = "text-xs",
+  content,
+  id,
   place,
   className = "",
   variant = "dark",
-  clickable = false
+  clickable = false,
+  disabled = false,
 }) => {
   return (
     <div className="text-xs">
-      <div 
-        data-tooltip-id={id} 
+      <div
+        data-tooltip-id={id}
         data-tooltip-content={typeof content === "string" ? content : undefined}
         className={className}
       >
         {children}
       </div>
-      <ReactTooltip 
-        id={id} 
-        place={place}
-        variant={variant}
-        clickable={clickable}
-      >
-        {typeof content !== "string" && content}
-      </ReactTooltip>
+      {!disabled &&
+        <ReactTooltip
+          id={id}
+          place={place}
+          variant={variant}
+          clickable={clickable}
+        >
+          {typeof content !== "string" && content}
+        </ReactTooltip>
+      }
+
     </div>
   );
 };
