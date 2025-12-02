@@ -167,16 +167,18 @@ export const Drawer = ({ className }: any) => {
                             : "justify-start"
                             }`}
                         >
-                          {icon ? (
-                            <SvgRenderer svgContent={icon} />
-                          ) : (
-                            <SvgRenderer svgContent={defaultSvg} />
-                          )}
+                          <div>
+                            {icon ? (
+                              <SvgRenderer svgContent={icon} />
+                            ) : (
+                              <SvgRenderer svgContent={defaultSvg} />
+                            )}
+                          </div>
                           <p
                             className={`${sidebarCollapsed
                               ? "hidden opacity-0"
                               : "opacity-100"
-                              } text-[var(--sidebar-text-color)] dark:text-white text-sm font-medium transition-opacity capitalize duration-500 opacity-0 ml-2`}
+                              } text-[var(--sidebar-text-color)] dark:text-white text-sm font-medium transition-opacity capitalize duration-500 opacity-0 ml-2 whitespace-nowrap overflow-hidden text-ellipsis`}
                           >
                             {`${title}`}
                           </p>
