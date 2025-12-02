@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Client } from '@/data/client/index'
 import { env } from "@/env";
 import { z } from 'zod';
-import { addHomeTabOption, baseCompanyOptions, developerMode, hubId } from '@/data/hubSpotData'
+import { addHomeTabOption, baseCompanyOptions, developerMode, hubId, makeLink } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
@@ -17,7 +17,7 @@ import { hubSpotUserDetails } from '@/data/hubSpotData';
 import { setPortal, setLoggedInDetails, setTwoFa, setAuthCredentials, setRefreshToken } from "@/data/client/auth-utils";
 import { setCookie } from "@/utils/cookie";
 import { Link } from '@/components/ui/link';
-import { formatPath } from '@/utils/DataMigration';
+import { formatPath, isArray } from '@/utils/DataMigration';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
 
@@ -122,7 +122,7 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         //   window.location.hash = "/no-routes";
         // }
 
-        let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+        let path = isArray(hubSpotUserDetails?.sideMenu) && hubSpotUserDetails?.sideMenu.length > 0 ? makeLink(hubSpotUserDetails?.sideMenu[0]) : ""
         if(router.state.location?.search?.r) {
           path = router.state.location?.search?.r
         }
