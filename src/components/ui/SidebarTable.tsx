@@ -228,8 +228,8 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
               </span>
             </Tooltip>
           </div>
-          <span>
-            <span className="dark:!text-white text-secondary font-bold text-xs">{title}</span>
+          <span className="flex items-center">
+            <span className="dark:!text-white text-secondary font-bold text-xs max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis block">{title}</span>
             <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
               {totalItems}
             </span>
