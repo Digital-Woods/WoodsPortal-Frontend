@@ -558,7 +558,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
             </button>
           </div>
         </div>
-        <div className="flex items-center px-4 bg-white py-4">
+        <div className="flex items-center px-4 bg-white py-4 gap-2">
             <p className="text-gray-600 dark:!text-gray-600 text-xs">For</p>
             <p className="border rounded-full px-2 py-1 text-xs ml-2 dark:!text-gray-600">
               {getObjectName()}

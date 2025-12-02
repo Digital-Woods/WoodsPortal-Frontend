@@ -147,7 +147,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
             )}}
           </Form>
           {baseCompanyOptions?.createAccountBool &&
-            <p className="mt-6 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">
+            <p className="!mt-4 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">
               Don't have an Account?
               <span className="text-secondary hover:underline">
                 <HtmlParser html={baseCompanyOptions?.createAccountLink} />
