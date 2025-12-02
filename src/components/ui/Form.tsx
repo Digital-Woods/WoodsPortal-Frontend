@@ -82,7 +82,7 @@ export const FormControl = ({ children, className }: any) => (
 );
 
 export const FormMessage = ({ children, className }: any) => (
-  <p className="mt-2 text-sm text-red-600 dark:text-red-500">{children}</p>
+  <p className="!mt-2 text-sm text-red-600 dark:text-red-500">{children}</p>
 );
 
 export const Input = forwardRef(
