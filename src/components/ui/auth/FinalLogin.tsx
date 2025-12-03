@@ -65,7 +65,8 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
     onSuccess: async (data: any) => {
       const tokenData: any = data?.data?.tokenData || {}
       const loggedInDetails: any = data?.data?.loggedInDetails || {}
-      const portals: any = data?.data?.loggedInDetails.portals || {}
+      // const portals: any = data?.data?.loggedInDetails.portals || {}
+      const currentPortal: any = data?.data?.loggedInDetails?.currentPortal || {}
 
       if (loggedInDetails?.portals) {
         delete loggedInDetails?.portals;
@@ -80,12 +81,13 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
         return;
       }
 
-      const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
-      const portal = portals.find(
-        (item: any) => item?.portalUrl === currentDomain
-      );
+      // const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
+      // const portal = portals.find(
+      //   (item: any) => item?.portalUrl === currentDomain
+      // );
 
-      setPortal(portal || {});
+      // setPortal(portal || {});
+      setPortal(currentPortal);
 
       const SubscriptionType = loggedInDetails?.subscriptionType || "FREE";
       setSubscriptionType(SubscriptionType);
