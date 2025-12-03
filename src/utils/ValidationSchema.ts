@@ -46,7 +46,7 @@ const generateSchema = (value: any, key: any = 'key') => {
     schemaShape[keyName] = z
       .any()
       .refine((val) => val !== null && val !== undefined && val !== '', {
-        message: `${fieldName} is requiredss`,
+        message: `${fieldName} is required`,
       })
   } else if (isNumber) {
     if (value?.requiredField) {
