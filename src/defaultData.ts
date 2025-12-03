@@ -570,14 +570,24 @@ const sidebarListDataOption: any = [
 ]
 const showSidebarListDataOption: any = true
 
-
-const sidebarCtaDetails = [
-    {
-        title: "Test 1",
-        buttonUrl: "Test 1",
-        buttonText: "Test 1",
+const sidebarCtaDetails = {
+        "button_text": "Click Me Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+        "button_url": {
+            "no_follow": false,
+            "open_in_new_tab": true,
+            "rel": "",
+            "sponsored": false,
+            "url": {
+                "content_id": null,
+                "href": "9832483811",
+                "href_with_scheme": "",
+                "type": "PHONE_NUMBER"
+            },
+            "user_generated_content": false
+        },
+        "title": "Get early access to our best apps"
     }
-];
+;
 
 const baseCompanyOptions = {
     logoImg: "https://48715364.fs1.hubspotusercontent-na1.net/hubfs/48715364/logo.fef91145.svg",
@@ -667,14 +677,14 @@ const dashboardCards: any = [
             {
                 "button_name": "View",
                 "on_click_action": "showIframe",
-                "properties_value": "Label",
+                "properties_value": "test_multi_checkbox",
                 "property_type": "company",
                 "property_value_show_as": "simpleText"
             }
         ],
         "show_date": true,
         "show_title": true,
-        "title": "",
+        "title": "Test",
         "view": "grid"
     }
 ];

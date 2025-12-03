@@ -8,6 +8,7 @@ import { IframeViewDialog } from "./IframeViewDialog";
 import { HomeCompanyCardSkeleton } from "./skeletons/HomeCompanyCardSkeleton";
 import { Client } from "@/data/client";
 import { useQuery } from "@tanstack/react-query";
+import { renderCellContent } from "@/utils/DataMigration";
 
 export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle, userData, isLoading, isLoadedFirstTime }: any) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
@@ -326,18 +327,21 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                                 );
                             }
                             else {
-                                return (
-                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
-                                        <span className="font-semibold">{value?.label}:</span>
-                                        <span className=" break-all">
-                                            {value?.value ? (
-                                                value?.value
-                                            ) : (
-                                                "--"
-                                            )}
-                                        </span>
-                                    </div>
-                                );
+                                return (renderCellContent({
+                                        companyAsMediator: false,
+                                        value: value?.value,
+                                        column: value,
+                                        itemId: null,
+                                        path: null,
+                                        hubspotObjectTypeId: null,
+                                        type: 'details',
+                                        associationPath: null,
+                                        detailsView: null,
+                                        hoverRow: null,
+                                        item: visibleAssociatedDetails,
+                                        urlParam: null,
+                                    })
+                                )
                             }
                         })}
                     </div>
