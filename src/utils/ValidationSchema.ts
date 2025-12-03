@@ -25,7 +25,7 @@ const generateSchema = (value: any, key: any = 'key') => {
   const isRadio = value?.fieldType === 'radio'
   const isCheckbox = value?.fieldType === 'checkbox'
   const isBooleanCheckbox = value?.fieldType === 'booleancheckbox'
-  const isPrimaryDisplayProperty = value?.isPrimaryDisplayProperty
+  const primaryProperty = value?.primaryProperty
 
   if (value?.requiredField && value?.fieldRole === 'OBJECTS') {
     schemaShape[keyName] = z
@@ -41,7 +41,7 @@ const generateSchema = (value: any, key: any = 'key') => {
     !isCheckbox &&
     !isBooleanCheckbox &&
     !isRadio &&
-    !isPrimaryDisplayProperty
+    !primaryProperty
   ) {
     schemaShape[keyName] = z
       .any()
@@ -75,7 +75,7 @@ const generateSchema = (value: any, key: any = 'key') => {
           },
         )
     }
-  } else if (isPrimaryDisplayProperty) {
+  } else if (primaryProperty) {
     schemaShape[keyName] = z.string().nonempty({
       message: `${fieldName} is required`,
     })
