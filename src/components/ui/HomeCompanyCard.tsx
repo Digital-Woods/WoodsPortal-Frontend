@@ -327,21 +327,31 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                                 );
                             }
                             else {
-                                return (renderCellContent({
-                                        companyAsMediator: false,
-                                        value: value?.value,
-                                        column: value,
-                                        itemId: null,
-                                        path: null,
-                                        hubspotObjectTypeId: null,
-                                        type: 'details',
-                                        associationPath: null,
-                                        detailsView: null,
-                                        hoverRow: null,
-                                        item: visibleAssociatedDetails,
-                                        urlParam: null,
-                                    })
-                                )
+                                return (
+                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                                        <span className="font-semibold">{value?.label}:</span>
+                                        <span className=" break-all">
+                                            {value?.value ? (
+                                                renderCellContent({
+                                                        companyAsMediator: false,
+                                                        value: value?.value,
+                                                        column: value,
+                                                        itemId: null,
+                                                        path: null,
+                                                        hubspotObjectTypeId: null,
+                                                        type: 'details',
+                                                        associationPath: null,
+                                                        detailsView: null,
+                                                        hoverRow: null,
+                                                        item: visibleAssociatedDetails,
+                                                        urlParam: null,
+                                                })
+                                            ) : (
+                                                "--"
+                                            )}
+                                        </span>
+                                    </div>
+                                );
                             }
                         })}
                     </div>
