@@ -194,7 +194,7 @@
       companyName: "{{ module.other_options.company_options.company_name }}",
       smallLogo: "{{ module.other_options.company_options.small_logo.src|escape_url }}",
       authPopupFormLogo: "{{ module.other_options.company_options.auth_popup_form_logo.src|escape_url }}",
-      welcomeMessage: "{{ module.other_options.welcome_message }}",
+      welcomeMessage: `{{ module.other_options.welcome_message }}`,
       createAccountBool:{{ module.other_options.show_create_an_account_link }},
       createAccountLink:createAccountCta,
     };

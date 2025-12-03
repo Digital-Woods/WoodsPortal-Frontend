@@ -87,7 +87,7 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
           </div>
         </div>
         <p className="text-center dark:text-white">
-          {baseCompanyOptions?.welcomeMessage || ""}
+          {String(baseCompanyOptions?.welcomeMessage) || ""}
         </p>
         <div className="w-full">
           <Form
