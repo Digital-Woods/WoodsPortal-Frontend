@@ -68,8 +68,12 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
       // const portals: any = data?.data?.loggedInDetails.portals || {}
       const currentPortal: any = data?.data?.loggedInDetails?.currentPortal || {}
 
-      if (loggedInDetails?.portals) {
-        delete loggedInDetails?.portals;
+      // if (loggedInDetails?.portals) {
+      //   delete loggedInDetails?.portals;
+      // }
+
+      if (loggedInDetails?.currentPortal) {
+        delete loggedInDetails?.currentPortal;
       }
 
       if (loggedInDetails?.hubspots) {
