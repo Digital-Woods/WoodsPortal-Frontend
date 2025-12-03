@@ -34,7 +34,7 @@ const generateSchema = (value: any, key: any = 'key') => {
         message: `${fieldName} must be a non-empty list.`,
       })
   } else if (
-    (value?.requiredField || value?.primaryProperty) &&
+    value?.requiredField &&
     !isDomain &&
     !isNumber &&
     !isDate &&
@@ -46,7 +46,7 @@ const generateSchema = (value: any, key: any = 'key') => {
     schemaShape[keyName] = z
       .any()
       .refine((val) => val !== null && val !== undefined && val !== '', {
-        message: `${fieldName} is required`,
+        message: `${fieldName} is requiredss`,
       })
   } else if (isNumber) {
     if (value?.requiredField) {
