@@ -677,14 +677,14 @@ const dashboardCards: any = [
             {
                 "button_name": "View",
                 "on_click_action": "showIframe",
-                "properties_value": "Label",
+                "properties_value": "test_multi_checkbox",
                 "property_type": "company",
                 "property_value_show_as": "simpleText"
             }
         ],
         "show_date": true,
         "show_title": true,
-        "title": "",
+        "title": "Test",
         "view": "grid"
     }
 ];
