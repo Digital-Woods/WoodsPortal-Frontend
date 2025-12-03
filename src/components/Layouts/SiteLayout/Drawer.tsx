@@ -79,7 +79,43 @@ export const Drawer = ({ className }: any) => {
   const shouldShowTooltip = brandName.length > 10;
 
   useEffect(() => {
-    setSideBarOptions(hubSpotUserDetails?.sideBarOptions);
+    if(hubSpotUserDetails?.sideBarOptions) {
+    const urlData = hubSpotUserDetails?.sideBarOptions?.button_url?.url;
+    let href = urlData.href;
+
+    console.log('urlData', urlData)
+
+    // Convert based on type
+    if (urlData.type === "EMAIL_ADDRESS") {
+      href = `mailto:${href}`;
+    } else if (urlData.type === "PHONE_NUMBER") {
+      href = `tel:${href}`;
+    }
+
+    // Escape function (you can replace with your preferred sanitizer)
+    const escapeUrl = (url: any) => encodeURI(url);
+    const escapeAttr = (attr: any) => attr.replace(/"/g, '&quot;');
+
+    const linkHref = urlData.type === "CALL_TO_ACTION"
+      ? href // CTA runs JS so don't escape
+      : escapeUrl(href);
+
+    const target = hubSpotUserDetails?.sideBarOptions?.button_url?.open_in_new_tab
+      ? "_blank"
+      : "";
+
+    const relVal = hubSpotUserDetails?.sideBarOptions?.button_url?.rel
+      ? escapeAttr(hubSpotUserDetails?.sideBarOptions?.button_url.rel)
+      : "";
+
+    setSideBarOptions({
+      title: hubSpotUserDetails?.sideBarOptions?.title || "",
+      button_text: hubSpotUserDetails?.sideBarOptions?.button_text || "",
+      href: linkHref || "",
+      target: target || undefined,
+      rel: relVal || undefined,
+    });
+  }
   }, [hubSpotUserDetails]);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
@@ -198,10 +234,17 @@ export const Drawer = ({ className }: any) => {
                         <div className={`bg-[var(--sidebarCta-background-color)] text-[var(--sidebarCta-text-color)] text-sm p-4 text-md text-center dark:bg-dark-500 dark:text-white font-medium rounded-md`}>
                           <p>{sideBarOptions.title}</p>
                             <Button
-                              className={`!bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:!bg-dark-200 dark:text-white dar mt-4 !border-none`}
+                              className={`!bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:!bg-dark-200 dark:text-white dar mt-4 !border-none h-full py-2`}
                               size="sm"
                             >
-                             <HtmlParser html={sideBarOptions?.htmlForCta} />
+                              <a
+                                className="block text-center w-full whitespace-normal break-words leading-snug"
+                                href={sideBarOptions?.href}
+                                target={sideBarOptions?.target}
+                                rel={sideBarOptions?.rel}
+                              >
+                                {sideBarOptions.button_text}
+                              </a>
                             </Button>
                         </div>
                       </div>

@@ -161,10 +161,7 @@
     `;
     
   {# Sidebar Cta data #}
-      const sidebarCtaDetails = {
-      title: "{{ module.other_options.sidebar_cta_details.title }}",
-      htmlForCta: CTA ,
-    };
+    const sidebarCtaOptions = {{ module.other_options.sidebar_cta_details | tojson | safe }};
   {#End Sidebar Cta data #}
 
   let createAccountCta = `
