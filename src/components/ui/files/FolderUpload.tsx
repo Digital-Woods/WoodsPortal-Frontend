@@ -24,16 +24,16 @@ export const FolderUpload = ({
 
   const createFolderMutation = useMutation({
     mutationFn: async (payload) => {
-      await Client.files.createAfolder({
-        objectId: objectId,
-        id: id,
-        portalId: portalId,
+      return await Client.files.createAfolder({
+        objectId,
+        id,
+        portalId,
         fileData: payload
       });
     },
-    onSuccess: () => {
+    onSuccess: (data : any) => {
       setToaster({
-        message: "Folder created successfully!",
+        message: data?.statusMsg || "Folder created successfully!",
         type: "success",
         show: true,
       });

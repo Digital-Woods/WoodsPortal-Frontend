@@ -119,19 +119,20 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
         fileData: fileData?.fileData,
       };
 
-      await Client.files.uploadFile({
+      return await Client.files.uploadFile({
         objectId: objectId,
         id: id,
         portalId: portalId,
         fileData: payload
       });
     },
-    onSuccess: () => {
+    onSuccess: (data:any) => {
+      console.log(data,'dadada');
       setFiles((prevValue: any) => [...prevValue, ...selectedFile]);
       setSelectedFile([]);
       setIsUploading(false);
       setToaster({
-        message: "Files uploaded successfully!",
+        message: data?.statusMsg || "Files uploaded successfully!",
         type: "success",
         show: true,
       });
@@ -189,7 +190,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
       setSelectedFile([]);
       setIsUploading(false);
       setToaster({
-        message: "Files uploaded successfully!",
+        message: response.data?.statusMsg || "File uploaded successfully!",
         type: "success",
         show: true,
       });
