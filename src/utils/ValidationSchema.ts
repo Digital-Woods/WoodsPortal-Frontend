@@ -49,25 +49,39 @@ const generateSchema = (value: any, key: any = 'key') => {
         message: `${fieldName} is required`,
       })
   } else if (isNumber) {
-    if (value?.requiredField) {
-      // REQUIRED number
+    if(!primaryProperty) {
+      if (value?.requiredField) {
+        // REQUIRED number
+        schemaShape[keyName] = z
+          .string()
+          .nonempty({
+            message: `${fieldName} is required`,
+          })
+          .refine(
+            (value: any) => value === null || value === '' || /^\d+$/.test(value),
+            {
+              message: `Invalid ${fieldName}`,
+            },
+          )
+      } else {
+        // OPTIONAL number
+        schemaShape[keyName] = z
+          .string()
+          .nullable()
+          .optional()
+          .refine(
+            (value: any) => value === null || value === '' || /^\d+$/.test(value),
+            {
+              message: `Invalid ${fieldName}`,
+            },
+          )
+      }
+    } else {
       schemaShape[keyName] = z
         .string()
         .nonempty({
           message: `${fieldName} is required`,
         })
-        .refine(
-          (value: any) => value === null || value === '' || /^\d+$/.test(value),
-          {
-            message: `Invalid ${fieldName}`,
-          },
-        )
-    } else {
-      // OPTIONAL number
-      schemaShape[keyName] = z
-        .string()
-        .nullable()
-        .optional()
         .refine(
           (value: any) => value === null || value === '' || /^\d+$/.test(value),
           {
