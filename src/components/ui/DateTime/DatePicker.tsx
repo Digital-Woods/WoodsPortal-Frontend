@@ -26,7 +26,6 @@ export const DatePicker = ({
   }, [openDatePicker]);
 
   const setChangedDateValue = (value: any , state: any = null) => {
-    console.log("value", value)
     setViewDate(value);
     const mState = showYearSelect ? "year" : showMonthSelect ? "month" : state ? state : "date";
     if(mState != "pev" && mState != "next") handelChangeDate(formatDate(value), mState);
@@ -122,7 +121,6 @@ export const DatePicker = ({
   };
 
   const handleMonthClick = (monthIndex: any) => {
-    console.log("monthIndex", monthIndex)
     if(selectedDate) {
       // const newDate = new Date(viewDate.getFullYear(), monthIndex, 1);
       // setChangedDateValue(newDate);
