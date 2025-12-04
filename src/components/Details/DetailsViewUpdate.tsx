@@ -547,7 +547,7 @@ export const DetailsViewUpdate = ({
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <span>{renderValue || "--"}</span>
+            <span className="line-clamp-3">{renderValue || "--"}</span>
             {value?.isEditableField &&
               (value?.key === "pipeline" || value?.key === "hs_pipeline") &&
               value?.options.length < 2 ? null : (
