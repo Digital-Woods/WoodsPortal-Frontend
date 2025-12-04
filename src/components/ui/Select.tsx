@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MSelect from 'react-select';
+import { components } from "react-select";
 
 import { Controller } from 'react-hook-form';
 import { useMutation } from "@tanstack/react-query";
@@ -11,6 +12,30 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: any[]) {
   return twMerge(clsx(inputs))
 }
+
+
+const TooltipSingleValue = (props: any) => (
+  <components.SingleValue {...props}>
+   <span
+      className="break-words whitespace-normal max-w-full block overflow-hidden text-ellipsis"
+      title={props.data?.[props.selectProps.optionlabel]}
+    >
+      {props.children}
+    </span>
+  </components.SingleValue>
+);
+
+const TooltipMultiValueLabel = (props: any) => (
+  <components.MultiValueLabel {...props}>
+    <span
+      className="break-words whitespace-normal max-w-full block overflow-hidden text-ellipsis"
+      title={props.data[props.selectProps.optionlabel]}
+    >
+      {props.children}
+    </span>
+  </components.MultiValueLabel>
+);
+
 
 export const Select = ({
   label,
@@ -138,6 +163,10 @@ export const Select = ({
           getOptionValue={(option) => option[optionValue]}
           menuPortalTarget={document.body}
           menuPosition="fixed"
+          components={{
+            SingleValue: TooltipSingleValue,
+            MultiValueLabel: TooltipMultiValueLabel,
+          }}
           styles={{
             menuPortal: (base) => ({
               ...base,
