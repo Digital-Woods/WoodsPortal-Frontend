@@ -483,18 +483,18 @@ export const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow?.value)}
                             {...register(editRow?.key)}
                           />
-                        ) : editRow.fieldType === "phonenumber" ? (
-                          <PhoneNumberInput
-                            panelRef={panelRef}
-                            label={`Select ${editRow?.customLabel}`}
-                            name={editRow?.name}
-                            control={control}
-                            editRow={editRow}
-                            onChangeSelect={onChangeSelect}
-                            disabled={editRow?.hidden}
-                            setValue={editRow?.hidden ? setValue : null}
-                            defaultValue={value?.value}
-                          />
+                        // ) : editRow.fieldType === "phonenumber" ? (
+                        //   <PhoneNumberInput
+                        //     panelRef={panelRef}
+                        //     label={`Select ${editRow?.customLabel}`}
+                        //     name={editRow?.name}
+                        //     control={control}
+                        //     editRow={editRow}
+                        //     onChangeSelect={onChangeSelect}
+                        //     disabled={editRow?.hidden}
+                        //     setValue={editRow?.hidden ? setValue : null}
+                        //     defaultValue={value?.value}
+                        //   />
                         ) : (
                           <Input
                             placeholder={`Enter ${editRow?.label}`}
