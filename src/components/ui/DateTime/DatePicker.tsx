@@ -26,6 +26,7 @@ export const DatePicker = ({
   }, [openDatePicker]);
 
   const setChangedDateValue = (value: any , state: any = null) => {
+    console.log("value", value)
     setViewDate(value);
     const mState = showYearSelect ? "year" : showMonthSelect ? "month" : state ? state : "date";
     if(mState != "pev" && mState != "next") handelChangeDate(formatDate(value), mState);
@@ -101,20 +102,49 @@ export const DatePicker = ({
     // setChangedDateValue(newDate);
     // setShowYearSelect(false);
 
-    const newDate = new Date(
-      year,
-      selectedDate.getMonth(),
-      selectedDate.getDate()
-    );
-    setChangedDateValue(newDate);
-    setSelectedDate(newDate);
+    if(selectedDate) {
+      const newDate = new Date(
+        year,
+        selectedDate.getMonth(),
+        selectedDate.getDate()
+      );
+      setChangedDateValue(newDate);
+      setSelectedDate(newDate);
+    } else {
+      const mToday = new Date();
+      mToday.setFullYear(year);
+      setSelectedDate(mToday);
+      setChangedDateValue(mToday);
+      handelChangeDate(formatDate(mToday));
+    }
     setShowYearSelect(false);
     setShowMonthSelect(false);
   };
 
   const handleMonthClick = (monthIndex: any) => {
-    const newDate = new Date(viewDate.getFullYear(), monthIndex, 1);
-    setChangedDateValue(newDate);
+    console.log("monthIndex", monthIndex)
+    if(selectedDate) {
+      // const newDate = new Date(viewDate.getFullYear(), monthIndex, 1);
+      // setChangedDateValue(newDate);
+
+      const year = selectedDate.getFullYear();
+      const month = monthIndex;
+      const day = selectedDate.getDate();
+
+      const newDate = new Date(year, month, day);
+      // If month overflowed → adjust to last valid day
+      if (newDate.getMonth() !== month) {
+        newDate.setDate(1);
+      }
+      setChangedDateValue(newDate);
+      setSelectedDate(newDate);
+    } else {
+      const mToday = new Date();
+      mToday.setMonth(monthIndex);
+      setSelectedDate(mToday);
+      setChangedDateValue(mToday);
+      handelChangeDate(formatDate(mToday));
+    }
     setShowMonthSelect(false);
   };
 
