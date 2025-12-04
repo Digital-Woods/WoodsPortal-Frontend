@@ -43,7 +43,7 @@ const generateSchema = (value: any, key: any = 'key') => {
     !isCheckbox &&
     !isBooleanCheckbox &&
     !isRadio &&
-    !isPhoneNumber &&
+    // !isPhoneNumber &&
     !primaryProperty
   ) {
     schemaShape[keyName] = z
@@ -98,35 +98,35 @@ const generateSchema = (value: any, key: any = 'key') => {
     schemaShape[keyName] = z.string().nonempty({
       message: `${fieldName} is required`,
     })
-  } else if (isPhoneNumber) {
-    if (value?.requiredField) {
-      schemaShape[keyName] = z
-        .string()
-        .min(6, 'Phone number too short')
-        .refine(
-          (value) => {
-            const parsed = parsePhoneNumberFromString('+' + value)
-            return parsed?.isValid() ?? false
-          },
-          {
-            message: 'Invalid phone number',
-          },
-        )
-    } else {
-      schemaShape[keyName] = z
-        .string()
-        .optional()
-        .refine(
-          (val) => {
-            if (!val || val.trim() === '') return true // allow empty
-            const parsed = parsePhoneNumberFromString('+' + val)
-            return parsed?.isValid() ?? false
-          },
-          {
-            message: 'Invalid phone number',
-          },
-        )
-    }
+  // } else if (isPhoneNumber) {
+  //   if (value?.requiredField) {
+  //     schemaShape[keyName] = z
+  //       .string()
+  //       .min(6, 'Phone number too short')
+  //       .refine(
+  //         (value) => {
+  //           const parsed = parsePhoneNumberFromString('+' + value)
+  //           return parsed?.isValid() ?? false
+  //         },
+  //         {
+  //           message: 'Invalid phone number',
+  //         },
+  //       )
+  //   } else {
+  //     schemaShape[keyName] = z
+  //       .string()
+  //       .optional()
+  //       .refine(
+  //         (val) => {
+  //           if (!val || val.trim() === '') return true // allow empty
+  //           const parsed = parsePhoneNumberFromString('+' + val)
+  //           return parsed?.isValid() ?? false
+  //         },
+  //         {
+  //           message: 'Invalid phone number',
+  //         },
+  //       )
+  //   }
   } else if (isDate) {
     if (value?.requiredField) {
       schemaShape[keyName] = z

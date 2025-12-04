@@ -594,18 +594,18 @@ export const DashboardTableForm = ({
                                               control={control}
                                               {...register(filled?.name)}
                                             />
-                                          ) : filled?.fieldType === "phonenumber" ? (
-                                            <PhoneNumberInput
-                                              panelRef={panelRef}
-                                              label={`Select ${filled?.customLabel}`}
-                                              name={filled?.name}
-                                              control={control}
-                                              editRow={filled}
-                                              onChangeSelect={onChangeSelect}
-                                              disabled={filled?.hidden}
-                                              setValue={filled?.hidden ? setValue : null}
-                                              defaultValue={filled?.value}
-                                                                      />
+                                          // ) : filled?.fieldType === "phonenumber" ? (
+                                          //   <PhoneNumberInput
+                                          //     panelRef={panelRef}
+                                          //     label={`Select ${filled?.customLabel}`}
+                                          //     name={filled?.name}
+                                          //     control={control}
+                                          //     editRow={filled}
+                                          //     onChangeSelect={onChangeSelect}
+                                          //     disabled={filled?.hidden}
+                                          //     setValue={filled?.hidden ? setValue : null}
+                                          //     defaultValue={filled?.value}
+                                          //   />
                                           ) : (
                                             <Input
                                               // type={filled?.fieldType}
