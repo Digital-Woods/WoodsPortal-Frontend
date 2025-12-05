@@ -755,7 +755,7 @@ export const DynamicComponentView = ({
                                     formatCustomObjectLabel(value?.n)
                                   )} */}
                                   <span className="line-clamp-1">
-                                    {value?.n}
+                                    {value?.name}
                                   </span>
                                 </Link>
                                 {index < array.length - 1 && (
