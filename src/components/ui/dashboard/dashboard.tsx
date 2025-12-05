@@ -19,9 +19,10 @@ import { useState, useEffect } from 'react';
 const Dashboard = () => {
   const router = useRouter()
   const { pathname } = router?.state?.location
-  let { homeCardsView }: any = getRouteMenu(pathname)
+  // let { homeCardsView }: any = getRouteMenu(pathname)
+  const routeMenu = getRouteMenu(pathname) || {};
+  const homeCardsView = routeMenu?.homeCardsView;
   
-
   // const param = getQueryParamsFromCurrentUrl();
   const [sidebarRightOpen, setSidebarRightOpen] = useState<any>(false);
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();

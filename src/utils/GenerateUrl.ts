@@ -45,8 +45,8 @@ const buildParentRoute = (props: any, search: any, router: any) => {
 
   const breadcrumbItems: any = [
     {
-      n: routeMenu.title,
-      o_t_id: routeMenu.path,
+      n: routeMenu?.title,
+      o_t_id: routeMenu?.path,
     },
   ]
   return buildChildRoute(props, search, breadcrumbItems)
@@ -434,8 +434,8 @@ export const getTableTitle = (
 
     breadcrumbs = [
       {
-        n: routeMenu.title,
-        pt: routeMenu.path,
+        n: routeMenu?.title,
+        pt: routeMenu?.path,
       },
     ]
   }
@@ -492,8 +492,8 @@ export const getFormTitle = (
     const routeMenu: any = getRouteMenu(pathname)
     breadcrumbs = [
       {
-        n: routeMenu.title,
-        pt: routeMenu.path,
+        n: routeMenu?.title,
+        pt: routeMenu?.path,
       },
     ]
   }

@@ -4,6 +4,7 @@ import { hubId } from '@/data/hubSpotData'
 import { setCookie } from "@/utils/cookie";
 import { env } from "@/env";
 import { useAuth } from "@/state/use-auth";
+import { useRouter } from '@tanstack/react-router'
 
 // export function useMe() {
 //   // if (isLivePreview()) {
@@ -112,11 +113,12 @@ export function useMe() {
 
 export function useLogout() {
   const { unauthorize, setLogoutDialog } = useAuth();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
-      window.location.hash = "/login";
+      router.navigate({to: `/login`});
       unauthorize();
       setLogoutDialog(false);
     },
