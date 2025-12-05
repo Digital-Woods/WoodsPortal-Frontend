@@ -76,79 +76,91 @@ export const DetailsViewMultiSelectUpdateDialog = ({
     <Dialog
       open={editRow}
       onClose={() => setMultiSelectDialog(false)}
-      className="p-4"
+
     >
-      <div className="rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]  flex-col gap-6 flex">
-        <div className="text-start text-xl dark:text-white font-semibold">
-          {editRow?.label || editRow?.customLabel}
-        </div>
-        <div>
-          <Form
-            onSubmit={onSubmitCheckbox}
-            validationSchema={validationSchemaPipeline}
-            initialValues={initialValues}
-            // serverError={serverError}
-            className="dark:bg-dark-500 m-0"
-          >
-            {({
-              getValues,
-              register,
-              control,
-              watch,
-              formState: { errors },
-            }: any) => (
-              <div>
-                {/* {JSON.stringify(getValues())} */}
-                <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
-                  {editRow && (
-                    <div>
-                      <FormItem className="">
-                        <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                          Select
-                        </FormLabel>
+      <div className="p-4">
+        <div className="
+      
+       w-[100vw] h-[100vh]
+                rounded-none overflow-y-auto
+                md:h-auto lg:w-[480px] md:w-[410px] lg:max-h-[95vh] md:max-h-[95vh] md:rounded-md
+      ">
+          {/* rounded-md lg:w-[480px] md:w-[410px] w-[calc(100vw-60px)]   */}
+          <div className="
+      p-4
+      flex-col gap-6 flex">
+            <div className="text-start text-xl dark:text-white font-semibold">
+              {editRow?.label || editRow?.customLabel}
+            </div>
+            <div>
+              <Form
+                onSubmit={onSubmitCheckbox}
+                validationSchema={validationSchemaPipeline}
+                initialValues={initialValues}
+                // serverError={serverError}
+                className="dark:bg-dark-500 m-0"
+              >
+                {({
+                  getValues,
+                  register,
+                  control,
+                  watch,
+                  formState: { errors },
+                }: any) => (
+                  <div>
+                    {/* {JSON.stringify(getValues())} */}
+                    <div className="text-gray-800 dark:text-gray-200 text-left flex flex-col gap-2">
+                      {editRow && (
+                        <div>
+                          <FormItem className="">
+                            <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                              Select
+                            </FormLabel>
 
-                        <FormControl>
-                          <Select
-                            label={`Select Pipeline`}
-                            name={editRow?.name}
-                            options={editRow?.options || []}
-                            control={control}
-                            onChangeSelect={onChangeSelect}
-                            isClearable={true}
-                            defaultValue={editRow?.value || ''}
-                            isMulti={true}
-                          />
-                        </FormControl>
+                            <FormControl>
+                              <Select
+                                label={`Select Pipeline`}
+                                name={editRow?.name}
+                                options={editRow?.options || []}
+                                control={control}
+                                onChangeSelect={onChangeSelect}
+                                isClearable={true}
+                                defaultValue={editRow?.value || ''}
+                                isMulti={true}
+                              />
+                            </FormControl>
 
-                        {(errors[editRow?.key]) && (
-                          <FormMessage className="text-red-600 dark:text-red-400">
-                            {errors[editRow?.key]?.message}
-                          </FormMessage>
-                        )}
-                      </FormItem>
+                            {(errors[editRow?.key]) && (
+                              <FormMessage className="text-red-600 dark:text-red-400">
+                                {errors[editRow?.key]?.message}
+                              </FormMessage>
+                            )}
+                          </FormItem>
+                        </div>
+                      )}
+
                     </div>
-                  )}
-
-                </div>
-                <div className="mt-4 flex justify-end items-end gap-1">
-                  <Button
-                    variant="outline"
-                    disabled={isLoading}
-                    onClick={() => {
-                      setMultiSelectDialog(false)
-                      setEditRow(null)
-                      setEditRowKey(null)
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button className=" " isLoading={isLoading}>
-                    Save
-                  </Button>
-                </div>
-              </div>
-            )}
-          </Form>
+                    <div className="mt-4 flex justify-end items-end gap-1">
+                      <Button
+                        variant="outline"
+                        disabled={isLoading}
+                        onClick={() => {
+                          setMultiSelectDialog(false)
+                          setEditRow(null)
+                          setEditRowKey(null)
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button className=" " isLoading={isLoading}>
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Form>
+            </div>
+          </div>
         </div>
       </div>
     </Dialog>
