@@ -1,4 +1,5 @@
 import z from 'zod'
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { isArray, isObject } from './DataMigration'
 
 export const ValidationSchemaShape = (value: any, key: any = 'key') => {
@@ -25,7 +26,8 @@ const generateSchema = (value: any, key: any = 'key') => {
   const isRadio = value?.fieldType === 'radio'
   const isCheckbox = value?.fieldType === 'checkbox'
   const isBooleanCheckbox = value?.fieldType === 'booleancheckbox'
-  const isPrimaryDisplayProperty = value?.isPrimaryDisplayProperty
+  const isPhoneNumber = value?.fieldType === 'phonenumber'
+  const primaryProperty = value?.primaryProperty
 
   if (value?.requiredField && value?.fieldRole === 'OBJECTS') {
     schemaShape[keyName] = z
@@ -34,14 +36,15 @@ const generateSchema = (value: any, key: any = 'key') => {
         message: `${fieldName} must be a non-empty list.`,
       })
   } else if (
-    (value?.requiredField || value?.primaryProperty) &&
+    value?.requiredField &&
     !isDomain &&
     !isNumber &&
     !isDate &&
     !isCheckbox &&
     !isBooleanCheckbox &&
     !isRadio &&
-    !isPrimaryDisplayProperty
+    // !isPhoneNumber &&
+    !primaryProperty
   ) {
     schemaShape[keyName] = z
       .any()
@@ -49,8 +52,36 @@ const generateSchema = (value: any, key: any = 'key') => {
         message: `${fieldName} is required`,
       })
   } else if (isNumber) {
-    if (value?.requiredField) {
-      // REQUIRED number
+    if (!primaryProperty) {
+      if (value?.requiredField) {
+        // REQUIRED number
+        schemaShape[keyName] = z
+          .string()
+          .nonempty({
+            message: `${fieldName} is required`,
+          })
+          .refine(
+            (value: any) =>
+              value === null || value === '' || /^\d+$/.test(value),
+            {
+              message: `Invalid ${fieldName}`,
+            },
+          )
+      } else {
+        // OPTIONAL number
+        schemaShape[keyName] = z
+          .string()
+          .nullable()
+          .optional()
+          .refine(
+            (value: any) =>
+              value === null || value === '' || /^\d+$/.test(value),
+            {
+              message: `Invalid ${fieldName}`,
+            },
+          )
+      }
+    } else {
       schemaShape[keyName] = z
         .string()
         .nonempty({
@@ -62,23 +93,40 @@ const generateSchema = (value: any, key: any = 'key') => {
             message: `Invalid ${fieldName}`,
           },
         )
-    } else {
-      // OPTIONAL number
-      schemaShape[keyName] = z
-        .string()
-        .nullable()
-        .optional()
-        .refine(
-          (value: any) => value === null || value === '' || /^\d+$/.test(value),
-          {
-            message: `Invalid ${fieldName}`,
-          },
-        )
     }
-  } else if (isPrimaryDisplayProperty) {
+  } else if (primaryProperty) {
     schemaShape[keyName] = z.string().nonempty({
       message: `${fieldName} is required`,
     })
+  // } else if (isPhoneNumber) {
+  //   if (value?.requiredField) {
+  //     schemaShape[keyName] = z
+  //       .string()
+  //       .min(6, 'Phone number too short')
+  //       .refine(
+  //         (value) => {
+  //           const parsed = parsePhoneNumberFromString('+' + value)
+  //           return parsed?.isValid() ?? false
+  //         },
+  //         {
+  //           message: 'Invalid phone number',
+  //         },
+  //       )
+  //   } else {
+  //     schemaShape[keyName] = z
+  //       .string()
+  //       .optional()
+  //       .refine(
+  //         (val) => {
+  //           if (!val || val.trim() === '') return true // allow empty
+  //           const parsed = parsePhoneNumberFromString('+' + val)
+  //           return parsed?.isValid() ?? false
+  //         },
+  //         {
+  //           message: 'Invalid phone number',
+  //         },
+  //       )
+  //   }
   } else if (isDate) {
     if (value?.requiredField) {
       schemaShape[keyName] = z
@@ -134,9 +182,9 @@ const generateSchema = (value: any, key: any = 'key') => {
             message: `${fieldName} is required`,
           },
         )
-      } else {
-        schemaShape[keyName] = z.any().nullable().optional()
-      }
+    } else {
+      schemaShape[keyName] = z.any().nullable().optional()
+    }
     // .transform((val) => {
     //   if (val === true || val === false) return val
     //   if (typeof val === 'string') {

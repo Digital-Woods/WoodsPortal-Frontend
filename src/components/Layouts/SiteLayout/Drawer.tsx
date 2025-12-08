@@ -83,8 +83,6 @@ export const Drawer = ({ className }: any) => {
     const urlData = hubSpotUserDetails?.sideBarOptions?.button_url?.url;
     let href = urlData.href;
 
-    console.log('urlData', urlData)
-
     // Convert based on type
     if (urlData.type === "EMAIL_ADDRESS") {
       href = `mailto:${href}`;

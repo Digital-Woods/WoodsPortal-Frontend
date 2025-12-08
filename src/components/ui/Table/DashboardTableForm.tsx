@@ -10,6 +10,7 @@ import { Form, FormItem, FormLabel, FormControl, Input, FormMessage, Textarea } 
 import { Button } from '@/components/ui/Button'
 import { DashboardTableExistingForm } from '@/components/ui/Table/DashboardTableExistingForm'
 import { Select } from '@/components/ui/Select'
+import { PhoneNumberInput } from "@/components/ui/phoneNumber/PhoneNumberInput.tsx";
 import { DateTimeInput } from '@/components/ui/DateTime/DateTimeInput.tsx'
 import { hubId } from '@/data/hubSpotData'
 import { addParam, getQueryParamsToObject, removeAllParams, updateParamsFromUrl } from '@/utils/param';
@@ -593,6 +594,18 @@ export const DashboardTableForm = ({
                                               control={control}
                                               {...register(filled?.name)}
                                             />
+                                          // ) : filled?.fieldType === "phonenumber" ? (
+                                          //   <PhoneNumberInput
+                                          //     panelRef={panelRef}
+                                          //     label={`Select ${filled?.customLabel}`}
+                                          //     name={filled?.name}
+                                          //     control={control}
+                                          //     editRow={filled}
+                                          //     onChangeSelect={onChangeSelect}
+                                          //     disabled={filled?.hidden}
+                                          //     setValue={filled?.hidden ? setValue : null}
+                                          //     defaultValue={filled?.value}
+                                          //   />
                                           ) : (
                                             <Input
                                               // type={filled?.fieldType}

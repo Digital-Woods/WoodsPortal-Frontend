@@ -12,6 +12,7 @@ import { DateTimeInput } from "../ui/DateTime/DateTimeInput.tsx";
 import { Dialog } from "../ui/Dialog";
 import { Form, FormItem, FormLabel, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
 import { Select } from "../ui/Select";
+import { PhoneNumberInput } from "@/components/ui/phoneNumber/PhoneNumberInput.tsx";
 import { DetailsViewEditorDialog } from "./DetailsViewEditorDialog.tsx";
 import { useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
@@ -482,16 +483,18 @@ export const DetailsViewUpdate = ({
                             defaultValue={getValue(editRow?.value)}
                             {...register(editRow?.key)}
                           />
-                        ) : editRow.fieldType === "phonenumber" ? (
-                          <Input
-                            type="tel"
-                            placeholder={`Enter ${editRow?.label}`}
-                            height="small"
-                            className=""
-                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                            defaultValue={getValue(editRow?.value)}
-                            {...register(editRow?.key)}
-                          />
+                        // ) : editRow.fieldType === "phonenumber" ? (
+                        //   <PhoneNumberInput
+                        //     panelRef={panelRef}
+                        //     label={`Select ${editRow?.customLabel}`}
+                        //     name={editRow?.name}
+                        //     control={control}
+                        //     editRow={editRow}
+                        //     onChangeSelect={onChangeSelect}
+                        //     disabled={editRow?.hidden}
+                        //     setValue={editRow?.hidden ? setValue : null}
+                        //     defaultValue={value?.value}
+                        //   />
                         ) : (
                           <Input
                             placeholder={`Enter ${editRow?.label}`}
@@ -544,7 +547,7 @@ export const DetailsViewUpdate = ({
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <span>{renderValue || "--"}</span>
+            <span className="line-clamp-3">{renderValue || "--"}</span>
             {value?.isEditableField &&
               (value?.key === "pipeline" || value?.key === "hs_pipeline") &&
               value?.options.length < 2 ? null : (

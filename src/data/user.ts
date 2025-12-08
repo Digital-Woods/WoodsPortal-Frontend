@@ -1,9 +1,10 @@
 import { Client } from '@/data/client/index'
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { hubId } from '@/data/hubSpotData'
 import { setCookie } from "@/utils/cookie";
 import { env } from "@/env";
 import { useAuth } from "@/state/use-auth";
+import { useRouter } from '@tanstack/react-router'
 
 // export function useMe() {
 //   // if (isLivePreview()) {
@@ -111,12 +112,15 @@ export function useMe() {
 
 
 export function useLogout() {
+  const queryClient = useQueryClient();
   const { unauthorize, setLogoutDialog } = useAuth();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
-      window.location.hash = "/login";
+      queryClient.clear(); // 🧹 Clear all cached data
+      router.navigate({to: `/login`});
       unauthorize();
       setLogoutDialog(false);
     },

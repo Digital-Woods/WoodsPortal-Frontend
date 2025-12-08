@@ -3,6 +3,7 @@ import { layoutMap } from './index';
 import PrivateRoute from '@/utils/private-route';
 import PublicRoute from '@/utils/public-route';
 import { Toaster } from '../ui/Toaster';
+import ErrorBoundary from '@/utils/ErrorBoundary';
 
 export default function AppLayoutWrapper() {
   const matches = useMatches();
@@ -16,11 +17,14 @@ export default function AppLayoutWrapper() {
   const LayoutComponent = layoutMap[component?.context?.layout] || layoutMap.DefaultLayout;
 
   return (
-    <RoteComponent>
-      <LayoutComponent>
-        <Outlet />
-      </LayoutComponent>
-      <Toaster />
-    </RoteComponent >
+    <ErrorBoundary>
+      <RoteComponent>
+        <LayoutComponent>
+          <Outlet />
+        </LayoutComponent>
+        <Toaster />
+      </RoteComponent >
+    </ErrorBoundary>
+
   );
 }

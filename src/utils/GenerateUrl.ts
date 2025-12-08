@@ -45,8 +45,8 @@ const buildParentRoute = (props: any, search: any, router: any) => {
 
   const breadcrumbItems: any = [
     {
-      n: routeMenu.title,
-      o_t_id: routeMenu.path,
+      n: routeMenu?.title,
+      o_t_id: routeMenu?.path,
     },
   ]
   return buildChildRoute(props, search, breadcrumbItems)
@@ -434,8 +434,8 @@ export const getTableTitle = (
 
     breadcrumbs = [
       {
-        n: routeMenu.title,
-        pt: routeMenu.path,
+        n: routeMenu?.title,
+        pt: routeMenu?.path,
       },
     ]
   }
@@ -445,23 +445,19 @@ export const getTableTitle = (
   let singularTableTitle: any = ''
 
   if (breadcrumbs && breadcrumbs.length > 0) {
-    const last: any = breadcrumbs[breadcrumbs.length - 1]
-    const previous: any = breadcrumbs[breadcrumbs.length - 2]
-    const singularLastName = last?.n
-
-    // const lastPath = generatePath(breadcrumbs, last, breadcrumbs.length)
-    // const previousPath = generatePath(breadcrumbs, previous, breadcrumbs.length-1)
-
-    // last.path = lastPath?.path
-    // previous.path = previousPath?.path
+    const lastItem: any = breadcrumbs[breadcrumbs.length - 1]
+    const last: any = lastItem ? generatePath(breadcrumbs, lastItem, breadcrumbs.length - 1) : null
+    const previousItem: any = breadcrumbs[breadcrumbs.length - 2]
+    const previous: any = previousItem ? generatePath(breadcrumbs, previousItem, breadcrumbs.length - 2) : null
+    const singularLastName = last?.name
 
     associatedtableTitleSingular = singularLastName
     if (componentName != 'ticket') {
-      tableTitle = previous?.n
+      tableTitle = previous?.name
         ? { last: last, previous: previous }
         : { last: last }
-      singularTableTitle = previous?.n
-        ? `${singularLastName} with ${previous?.n}`
+      singularTableTitle = previous?.name
+        ? `${singularLastName} with ${previous?.name}`
         : singularLastName
     } else {
       const ticketTableTitleSingular = ticketTableTitle.endsWith('s')
@@ -469,7 +465,7 @@ export const getTableTitle = (
         : ticketTableTitle
       tableTitle = { last: { name: title } }
 
-      singularTableTitle = previous?.n
+      singularTableTitle = previous?.name
         ? `${ticketTableTitleSingular} with ${singularLastName} `
         : ticketTableTitleSingular
     }
@@ -492,8 +488,8 @@ export const getFormTitle = (
     const routeMenu: any = getRouteMenu(pathname)
     breadcrumbs = [
       {
-        n: routeMenu.title,
-        pt: routeMenu.path,
+        n: routeMenu?.title,
+        pt: routeMenu?.path,
       },
     ]
   }
