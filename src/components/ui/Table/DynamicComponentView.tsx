@@ -212,7 +212,7 @@ export const DynamicComponentView = ({
         // setSelectedPipeline is not async so i pass manualy pipeline value
 
         if (
-          (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+          // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
         ) {
           await getPipelines();
@@ -251,7 +251,8 @@ export const DynamicComponentView = ({
       if ((defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id) && (componentName === "ticket" || hubspotObjectTypeId === "0-5")) {
          param.filterValue = defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id;
       } else {
-        if (mSelectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
+        // if (mSelectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
+        if (mSelectedPipeline){ 
           param.filterValue = mSelectedPipeline
         }else if(specPipeLine && pipeLineId){
           param.filterValue = pipeLineId
@@ -577,7 +578,7 @@ export const DynamicComponentView = ({
       if(!isLoadedUserProfile) return
       if (sync || apiSync) {
         if (
-          (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+          // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
         ) {
           await getPipelines();
@@ -595,7 +596,7 @@ export const DynamicComponentView = ({
       if(!isLoadedUserProfile) return
       setPage(1);
       if (
-        (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+        // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
         (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
       ) {
         await getPipelines();
@@ -636,7 +637,8 @@ export const DynamicComponentView = ({
   const changeTab = async (view: any) => {
     await setLimit(10);
     // if(!isHome) {
-      await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+      // await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
+      await (!defPermissions?.pipeline_id) ? getPipelines() : getData();
     // }
   }
 

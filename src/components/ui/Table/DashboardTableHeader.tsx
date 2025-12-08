@@ -57,7 +57,7 @@ export const DashboardTableHeader = ({
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
 
   useEffect(() => {
-    if (!defPermissions?.pipeline_id) setShowPippelineFilter(pipelines?.length === 1 ? false : true);
+    if (!defPermissions?.pipeline_id) setShowPippelineFilter(pipelines?.length > 0 ? true : false);
   }, [pipelines]);
 
   const handelPipeline = async (value: any) => {
@@ -134,7 +134,16 @@ export const DashboardTableHeader = ({
             </div>
           )}
 
-          {(subscriptionType !== 'FREE' && ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && !specPipeLine)) &&
+          {(subscriptionType !== 'FREE' && 
+              (
+                (
+                  ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && pipelines.length > 1) || // if pipelines length > 1 for "0-3" and "0-5" then show (hide for single pipeline)
+                  ((hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5") && pipelines.length > 0) // if pipelines length > 0 then show pipeline for all objects (hide for empty pipeline)
+                ) &&
+                !specPipeLine
+              )
+            ) &&
+            
             (showPipelineFilter ? (
               <div className="w-[180px]">
                 <select
