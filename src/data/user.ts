@@ -1,5 +1,5 @@
 import { Client } from '@/data/client/index'
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { hubId } from '@/data/hubSpotData'
 import { setCookie } from "@/utils/cookie";
 import { env } from "@/env";
@@ -112,12 +112,14 @@ export function useMe() {
 
 
 export function useLogout() {
+  const queryClient = useQueryClient();
   const { unauthorize, setLogoutDialog } = useAuth();
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
     onSuccess: () => {
+      queryClient.clear(); // 🧹 Clear all cached data
       router.navigate({to: `/login`});
       unauthorize();
       setLogoutDialog(false);
