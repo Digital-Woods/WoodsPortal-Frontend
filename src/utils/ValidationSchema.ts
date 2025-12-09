@@ -202,3 +202,40 @@ const generateSchema = (value: any, key: any = 'key') => {
   }
   return schemaShape
 }
+
+
+export function extractUrl(value: any): { isValidUrl: boolean; urlValue: string } {
+  const normalizeUrl = (v: string) => {
+    // If missing protocol but looks like domain, add https
+    if (/^www\./i.test(v)) return `https://${v}`;
+    return v;
+  };
+
+  const validateUrl = (v: string) => {
+    try {
+      new URL(normalizeUrl(v));
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  let urlValue = "";
+
+  // Case 1: Array → join comma separated
+  if (Array.isArray(value)) {
+    urlValue = value.map((item) => item?.value ?? "").join(",");
+  }
+  // Case 2: Object → take ".value"
+  else if (typeof value === "object" && value !== null) {
+    urlValue = value?.value ?? "";
+  }
+  // Case 3: Primitive values
+  else {
+    urlValue = String(value);
+  }
+
+  const isValidUrl = validateUrl(urlValue);
+
+  return { isValidUrl, urlValue };
+}
