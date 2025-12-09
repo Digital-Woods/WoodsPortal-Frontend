@@ -114,7 +114,7 @@ export const DetailsView = ({
               </span>
             </span>
           ) : (
-            isValid ? (
+            urlValue?.isValidUrl ? (
               <a
                 href={value}
                 target="_blank"
