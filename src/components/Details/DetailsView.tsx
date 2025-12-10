@@ -187,7 +187,15 @@ export const DetailsView = ({
               const key = value.key;
               const propertyConfig = propertyName && propertyName.find((p: any) => p?.properties_value === key);
 
-              if (showIframe && propertyConfig) {
+              const isFieldType = [
+                "html",
+                "date",
+                "time",
+                "datetime",
+                "checkbox",
+              ].includes(value?.fieldType);
+
+              if (showIframe && propertyConfig && !isFieldType) {
                 // Show special rendering for properties in propertyName array
                 return (
                   <tr key={key}>
