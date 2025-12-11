@@ -288,7 +288,16 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                             </button>
                         ) : null} */}
                         {Object.entries(visibleAssociatedDetails).map(([key, value]: any) => {
-                            if (isButtonEnabled(key)) {
+                            
+                             const isFieldType = [
+                                "html",
+                                "date",
+                                "time",
+                                "datetime",
+                                "checkbox",
+                            ].includes(value?.fieldType);
+
+                            if (isButtonEnabled(key) && !isFieldType) {
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
@@ -300,7 +309,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                                     </div>
                                 );
                             }
-                            else if (isLinkEnabled(key)) {
+                            else if (isLinkEnabled(key) && !isFieldType) {
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
