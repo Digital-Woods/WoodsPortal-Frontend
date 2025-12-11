@@ -212,7 +212,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                         actionType === 'showIframe' ? (
                             <span
                                 className="text-secondary text-xs dark:text-white cursor-pointer break-all flex gap-1 relative items-center hover:underline"
-                                onClick={() => handleViewClick(value)}
+                                onClick={() => urlValue?.isValidUrl ? handleViewClick(value) : null}
                             >
                                 {value} 
                                 <span className="h-4 w-4"><IframeIcon /></span>

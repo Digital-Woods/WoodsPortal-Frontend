@@ -106,7 +106,7 @@ export const DetailsView = ({
           {actionType === 'showIframe' ? (
             <span
               className="text-secondary text-xs dark:text-white flex gap-1 items-center cursor-pointer break-all hover:underline"
-              onClick={() => handleViewClick(value)}
+              onClick={() => urlValue?.isValidUrl ? handleViewClick(value) : null}
             >
                 {value}
               <span className="inline-block w-4 h-4">
