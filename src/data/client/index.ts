@@ -33,6 +33,8 @@ export const Client = {
     resendEmail: (data: any) => HttpClient.post(API_ENDPOINTS.RESEND_EMAIL, data),
     verifyEmailResend: (data: any) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL_RESEND, data),
      clientSession: (data:any) => HttpClient.post(API_ENDPOINTS.CLIENT_SESSION, data),
+    tokenValidate: (data: any) =>
+      HttpClient.post(API_ENDPOINTS.TOKEN_VALIDATE, data),
   },
 
   fetchAllFeatures : {
