@@ -75,7 +75,7 @@ export const getLoggedInDetails = () => {
 };
 
 export const getUserDetails = () => {
-  return JSON.parse(getCookie(env.VITE_AUTH_USER_KEY));
+  return JSON.parse(getCookie(env.VITE_AUTH_USER_KEY)) || null;
 };
 
 export const getTwoFa = () => {

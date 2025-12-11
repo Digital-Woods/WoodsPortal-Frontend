@@ -138,7 +138,7 @@ export const DashboardTableHeader = ({
               (
                 (
                   ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && pipelines.length > 1) || // if pipelines length > 1 for "0-3" and "0-5" then show (hide for single pipeline)
-                  ((hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5") && pipelines.length > 0) // if pipelines length > 0 then show pipeline for all objects (hide for empty pipeline)
+                  ((hubspotObjectTypeId != "0-3" && hubspotObjectTypeId != "0-5") && pipelines.length > 0) // if pipelines length > 0 then show pipeline for all objects (hide for empty pipeline)
                 ) &&
                 !specPipeLine
               )

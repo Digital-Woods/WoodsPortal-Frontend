@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import { IframeViewDialog } from "../ui/IframeViewDialog";
 import { OverviewSkeleton } from "../ui/skeletons/OverviewSkeleton";
 import { DetailsViewUpdate } from "./DetailsViewUpdate";
+import { extractUrl } from "@/utils/ValidationSchema";
 
 export const DetailsView = ({
   item,
@@ -38,16 +39,17 @@ export const DetailsView = ({
     return setting?.on_click_action || 'showIframe';
   };
 
-  const isValidUrl = (url: any) => {
-    try {
-      new URL(url);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
+  // const isValidUrl = (url: any) => {
+  //   try {
+  //     new URL(url);
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // };
 
   const getPropertyValueType = (key: any, value = '') => {
+    const urlValue = extractUrl(value)
     const setting = iframeSettings.find(setting => setting?.properties_value === key);
     const displayType = getDisplayType(key);
     const actionType = getActionType(key);
@@ -56,7 +58,7 @@ export const DetailsView = ({
       return "--";
     }
 
-    const isValid = isValidUrl(value);
+    // const isValid = isValidUrl(value);
     const buttonName = setting?.button_name || 'View';
 
     if (displayType === 'button') {
@@ -64,14 +66,15 @@ export const DetailsView = ({
         <td className="py-2 pl-1 text-sm dark:text-white break-all gap-2">
           {actionType === 'showIframe' ? (
             <Button
+              disabled={!urlValue?.isValidUrl}
               className="break-all"
               size="xsm"
-              onClick={() => handleViewClick(value)}
+              onClick={() => urlValue?.isValidUrl ? handleViewClick(value) : null}
             >
               {buttonName}
             </Button>
           ) : (
-            isValid ? (
+            urlValue?.isValidUrl ? (
               <Button className="" size="xsm">
                 <a
                   href={value}
@@ -103,7 +106,7 @@ export const DetailsView = ({
           {actionType === 'showIframe' ? (
             <span
               className="text-secondary text-xs dark:text-white flex gap-1 items-center cursor-pointer break-all hover:underline"
-              onClick={() => handleViewClick(value)}
+              onClick={() => urlValue?.isValidUrl ? handleViewClick(value) : null}
             >
                 {value}
               <span className="inline-block w-4 h-4">
@@ -111,7 +114,7 @@ export const DetailsView = ({
               </span>
             </span>
           ) : (
-            isValid ? (
+            urlValue?.isValidUrl ? (
               <a
                 href={value}
                 target="_blank"
@@ -184,7 +187,15 @@ export const DetailsView = ({
               const key = value.key;
               const propertyConfig = propertyName && propertyName.find((p: any) => p?.properties_value === key);
 
-              if (showIframe && propertyConfig) {
+              const isFieldType = [
+                "html",
+                "date",
+                "time",
+                "datetime",
+                "checkbox",
+              ].includes(value?.fieldType);
+
+              if (showIframe && propertyConfig && !isFieldType) {
                 // Show special rendering for properties in propertyName array
                 return (
                   <tr key={key}>

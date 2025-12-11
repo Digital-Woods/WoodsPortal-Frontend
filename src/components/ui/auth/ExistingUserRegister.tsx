@@ -169,7 +169,7 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
               >
                 {({ register, formState: { errors } }: any) => (
                   <div className="text-gray-800 dark:text-gray-200">
-                    <FormItem>
+                    <FormItem className="pb-4">
                       <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                         Enter Email
                       </FormLabel>
@@ -193,7 +193,7 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
                         </FormMessage>
                       )}
                     </FormItem>
-                    <FormItem>
+                    <FormItem className="pb-4">
                       <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                         New Password
                       </FormLabel>
@@ -220,7 +220,7 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
                         </FormMessage>
                       )}
                     </FormItem>
-                    <FormItem>
+                    <FormItem className="pb-4">
                       <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
                         Confirm Password
                       </FormLabel>
@@ -270,21 +270,24 @@ export const ExistingUserRegister = ({ setActiveState, entredEmail, loginData, c
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center w-full">
-            <div className="text-xl font-bold mb-4">
+          <div className="flex flex-col items-center justify-center w-full dark:text-gray-300">
+            <div className="text-xl font-bold pb-4">
               Verify your email address
             </div>
-            <p className=" text-sm text-muted-gray ">
+            <p className=" text-sm text-muted-gray">
               A verification link has been sent to
             </p>
             <p className="ml-1 text-base">{entredEmail}</p>
 
-            <p className="text-sm text-muted-gray my-6">
+            <p className="text-sm text-muted-gray">
               Check your inbox to verify your account
             </p>
-            <hr className="w-full" />
 
-            <p className="text-sm text-muted-gray my-6">
+            <div className="w-full py-4">
+              <hr className="w-full" />
+            </div>
+
+            <p className="text-sm text-muted-gray pb-4">
               Didn’t receive your email?
             </p>
             <div className="flex justify-between space-x-4">

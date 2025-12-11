@@ -9,6 +9,7 @@ import { HomeCompanyCardSkeleton } from "./skeletons/HomeCompanyCardSkeleton";
 import { Client } from "@/data/client";
 import { useQuery } from "@tanstack/react-query";
 import { renderCellContent } from "@/utils/DataMigration";
+import { extractUrl } from "@/utils/ValidationSchema";
 
 export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertiesList, iframePropertyName, className, usedInDynamicComponent = false, viewStyle, userData, isLoading, isLoadedFirstTime }: any) => {
     const [userAssociatedDetails, setUserAssociatedDetails] = useState({});
@@ -131,14 +132,14 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         return displayType === 'link';
     };
 
-    const isValidUrl = (url: any) => {
-        try {
-            new URL(url);
-            return true;
-        } catch (e) {
-            return false;
-        }
-    };
+    // const isValidUrl = (url: any) => {
+    //     try {
+    //         new URL(url);
+    //         return true;
+    //     } catch (e) {
+    //         return false;
+    //     }
+    // };
 
     const getPropertyValueType = (key: any, value = '') => {
         const setting = iframeSettings.find(setting => setting?.properties_value === key);
@@ -168,19 +169,22 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         // }
 
         if (displayType === 'button') {
-            const isValid = isValidUrl(value);
+            // const isValid = isValidUrl(value);
+            const urlValue = extractUrl(value)
+            
             return (
                 <span className="text-sm dark:text-white">
                     {actionType === 'showIframe' ? (
                         <Button
+                            disabled={!urlValue?.isValidUrl}
                             className=" break-all"
                             size="xsm"
-                            onClick={() => handleViewClick(value)}
+                            onClick={() => urlValue?.isValidUrl ? handleViewClick(value) : null}
                         >
                             {setting?.button_name || 'View'}
                         </Button>
                     ) : (
-                        isValid ? (
+                        urlValue?.isValidUrl ? (
                             <Button className="" size="xsm">
                                 <a target="_blank" href={value} rel="noopener noreferrer" className=" break-all">
                                     {setting?.button_name || 'View'}
@@ -200,20 +204,21 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         }
 
         if (displayType === 'link') {
-            const isValid = isValidUrl(value);
+            // const isValid = isValidUrl(value);
+            const urlValue = extractUrl(value)
             return (
                 <span className="text-sm dark:text-white">
                     {
                         actionType === 'showIframe' ? (
                             <span
                                 className="text-secondary text-xs dark:text-white cursor-pointer break-all flex gap-1 relative items-center hover:underline"
-                                onClick={() => handleViewClick(value)}
+                                onClick={() => urlValue?.isValidUrl ? handleViewClick(value) : null}
                             >
                                 {value} 
                                 <span className="h-4 w-4"><IframeIcon /></span>
                             </span>
                         ) : (
-                            isValid ? (
+                            urlValue?.isValidUrl ? (
                                 <a
                                     target="_blank"
                                     href={value}
