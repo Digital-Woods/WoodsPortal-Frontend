@@ -33,13 +33,11 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
       }
     },
     onSuccess: async (data: any, variables: any) => {
-      setEntredEmail(variables.email); // <-- here you get input.email
-      // setloginData(data?.data)
-      if (data?.data?.activeStatus === "OK" && data?.data?.emailVerified === true) {
-        // window.location.hash = "/login";
+      setEntredEmail(variables.email);
+      let status = data?.data?.status || ""
+      if (status.toUpperCase() === "OK" && data?.data?.allowed) {
         setActiveState('final-login')
       } else {
-        // window.location.hash = "/existing-user-register";
         setActiveState('existing-user-register')
       }
     },
