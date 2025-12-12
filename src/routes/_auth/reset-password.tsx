@@ -10,6 +10,8 @@ import { PasswordIcon } from '@/assets/icons/PasswordIcon'
 import { Button } from '@/components/ui/Button'
 import { z } from 'zod';
 import { useToaster } from "@/state/use-toaster";
+import ExpireSession from "@/components/expire-session";
+import Loader from "@/components/ui/loader/loader";
 
 const ResetPassword = () => {
   const [serverError, setServerError] = useState(null);
@@ -87,111 +89,156 @@ const ResetPassword = () => {
     },
   });
 
-  useEffect(() => {
-    const token = getTokenFromParams();
-    if (!token) {
-      window.location.hash = "/login";
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = getTokenFromParams();
+  //   if (!token) {
+  //     window.location.hash = "/login";
+  //   }
+  // }, []);
 
   const onSubmit = (data: any) => {
     resetNewPassword(data);
   };
 
+
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const { mutate: validToken, validTokenIsLoading } = useMutation({
+    mutationKey: ["resetNewPassword"],
+    mutationFn: async () => {
+      const token = getTokenFromParams();
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      try {
+        const response = await Client.authentication.tokenValidate({
+          token: token,
+        });
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data: any) => {
+    },
+    onError: (error: any) => {
+      const errorMessage = error?.response?.data?.errorMessage;
+      setErrorMessage(errorMessage || "")
+    },
+  });
+
+  useEffect(() => {
+    validToken();
+  }, []);
+
   return (
-    <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
-      <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
-        <div className="w-[200px]">
-          <img
-            src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
-            alt="Light Mode Logo"
-            className="h-auto dark:hidden"
-          />
-          <img
-            src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo}
-            alt="Dark Mode Logo"
-            className="h-auto hidden dark:block"
-          />
-        </div>
-        <div className="w-full">
-          <Form
-            onSubmit={onSubmit}
-            validationSchema={resetPasswordValidationSchema}
-            serverError={serverError}
-            className="dark:bg-dark-200"
-          >
-            {({ register, formState: { errors } }: any) => (
-              <div className="text-gray-800 dark:text-gray-200">
-                <FormItem>
-                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                    New Password
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        placeholder="New Password"
-                        icon={PasswordIcon}
-                        type={showPassword ? "text" : "password"}
-                        className=" "
-                        {...register("newPassword")}
-                      />
-                      <span
-                        className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                      </span>
-                    </div>
-                  </FormControl>
-                  {errors?.newPassword && (
-                    <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors?.newPassword?.message}
-                    </FormMessage>
-                  )}
-                </FormItem>
-
-                <FormItem className="pt-4">
-                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                    Confirm Password
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        placeholder="Confirm Password"
-                        icon={PasswordIcon}
-                        type={showConfirmPassword ? "text" : "password"}
-                        className=" "
-                        {...register("confirmPassword")}
-                      />
-                      <span
-                        className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
-                        onClick={toggleConfirmPasswordVisibility}
-                      >
-                        {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
-                      </span>
-                    </div>
-                  </FormControl>
-                  {errors?.confirmPassword && (
-                    <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors?.confirmPassword?.message}
-                    </FormMessage>
-                  )}
-                </FormItem>
-
-                <div className="mt-4 flex flex-col justify-center items-center">
-                  <Button
-                    className="w-full  "
-                    isLoading={isLoading}
-                  >
-                    Reset Password
-                  </Button>
+    <>
+      {validTokenIsLoading ?
+        <Loader showText={false} />
+        :
+        <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
+          <div className="dark:bg-dark-200 bg-cleanWhite py-8 gap-4 px-4 flex flex-col items-center justify-center rounded-lg w-[30%]">
+            <div className="w-[200px]">
+              <img
+                src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
+                alt="Light Mode Logo"
+                className="h-auto dark:hidden"
+              />
+              <img
+                src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.logo}
+                alt="Dark Mode Logo"
+                className="h-auto hidden dark:block"
+              />
+            </div>
+            {(
+              errorMessage ?
+                <div className="w-full">
+                  <ExpireSession title="Oops! Your session timed out" errorMessage={errorMessage} />
                 </div>
-              </div>
+                :
+                <div className="w-full">
+                  <Form
+                    onSubmit={onSubmit}
+                    validationSchema={resetPasswordValidationSchema}
+                    serverError={serverError}
+                    className="dark:bg-dark-200"
+                  >
+                    {({ register, formState: { errors } }: any) => (
+                      <div className="text-gray-800 dark:text-gray-200">
+                        <FormItem>
+                          <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                            New Password
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                placeholder="New Password"
+                                icon={PasswordIcon}
+                                type={showPassword ? "text" : "password"}
+                                className=" "
+                                {...register("newPassword")}
+                              />
+                              <span
+                                className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
+                                onClick={togglePasswordVisibility}
+                              >
+                                {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                              </span>
+                            </div>
+                          </FormControl>
+                          {errors?.newPassword && (
+                            <FormMessage className="text-red-600 dark:text-red-400">
+                              {errors?.newPassword?.message}
+                            </FormMessage>
+                          )}
+                        </FormItem>
+
+                        <FormItem className="pt-4">
+                          <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                            Confirm Password
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                placeholder="Confirm Password"
+                                icon={PasswordIcon}
+                                type={showConfirmPassword ? "text" : "password"}
+                                className=" "
+                                {...register("confirmPassword")}
+                              />
+                              <span
+                                className="absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer"
+                                onClick={toggleConfirmPasswordVisibility}
+                              >
+                                {showConfirmPassword ? <EyeIcon /> : <EyeOffIcon />}
+                              </span>
+                            </div>
+                          </FormControl>
+                          {errors?.confirmPassword && (
+                            <FormMessage className="text-red-600 dark:text-red-400">
+                              {errors?.confirmPassword?.message}
+                            </FormMessage>
+                          )}
+                        </FormItem>
+
+                        <div className="mt-4 flex flex-col justify-center items-center">
+                          <Button
+                            className="w-full  "
+                            isLoading={isLoading}
+                          >
+                            Reset Password
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </Form>
+                </div>
             )}
-          </Form>
+
+          </div>
         </div>
-      </div>
-    </div>
+      }
+    </>
   );
 };
 

@@ -22,6 +22,7 @@ export const API_ENDPOINTS = {
   CLIENT_SESSION: "/api/auth/client-session",
   DETAILS_SAVE: "/api/:hubId/:portalId/hubspot-object-forms/:objectTypeId/properties/:recordId",
   STAGES: "/api/:hubId/:portalId/hubspot-object-pipelines/:objectTypeId/:pipelineId/stages",
+  TOKEN_VALIDATE: 'api/auth/token/validate',
 
   //File Upload
   FILE_UPLOAD: "/api/feature-data/files",

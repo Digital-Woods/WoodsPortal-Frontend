@@ -32,14 +32,12 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
         throw error;
       }
     },
-    onSuccess: async (data: any) => {
-      setEntredEmail(data?.data?.email || "")
-      // setloginData(data?.data)
-      if (data?.data?.activeStatus === "ACTIVE" && data?.data?.emailVerified === true) {
-        // window.location.hash = "/login";
+    onSuccess: async (data: any, variables: any) => {
+      setEntredEmail(variables.email);
+      let status = data?.data?.status || ""
+      if (status.toUpperCase() === "OK" && data?.data?.allowed) {
         setActiveState('final-login')
       } else {
-        // window.location.hash = "/existing-user-register";
         setActiveState('existing-user-register')
       }
     },

@@ -142,6 +142,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
     // };
 
     const getPropertyValueType = (key: any, value = '') => {
+        const urlValue = extractUrl(value)
         const setting = iframeSettings.find(setting => setting?.properties_value === key);
         const displayType = getDisplayType(key);
         const actionType = getActionType(key);
@@ -169,9 +170,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         // }
 
         if (displayType === 'button') {
-            // const isValid = isValidUrl(value);
-            const urlValue = extractUrl(value)
-            
             return (
                 <span className="text-sm dark:text-white">
                     {actionType === 'showIframe' ? (
@@ -204,8 +202,6 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
         }
 
         if (displayType === 'link') {
-            // const isValid = isValidUrl(value);
-            const urlValue = extractUrl(value)
             return (
                 <span className="text-sm dark:text-white">
                     {
@@ -243,6 +239,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
 
         return null;
     };
+
 
     const isImageUrl = (url: any) => {
         const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
@@ -288,7 +285,96 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                             </button>
                         ) : null} */}
                         {Object.entries(visibleAssociatedDetails).map(([key, value]: any) => {
-                            if (isButtonEnabled(key)) {
+
+                            //  const isFieldType = [
+                            //     "html",
+                            //     "date",
+                            //     "time",
+                            //     "datetime",
+                            //     "checkbox",
+                            // ].includes(value?.fieldType);
+
+                            // if (isButtonEnabled(key) && !isFieldType) {
+                            //     return (
+                            //         <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                            //             <span className="font-semibold">{value?.label}:</span>
+                            //             {value?.value ? (
+                            //                 getPropertyValueType(key, value?.value)
+                            //             ) : (
+                            //                 "--"
+                            //             )}
+                            //         </div>
+                            //     );
+                            // }
+                            // else if (isLinkEnabled(key) && !isFieldType) {
+                            //     return (
+                            //         <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                            //             <span className="font-semibold">{value?.label}:</span>
+                            //             {value?.value ? (
+                            //                 getPropertyValueType(key, value?.value)
+                            //             ) : (
+                            //                 "--"
+                            //             )}
+                            //         </div>
+                            //     );
+                            // }
+                            // else if (key == 'domain') {
+                            //     return (
+                            //         <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                            //             <span className="font-semibold">{value?.label}:</span>
+                            //             <span className=" break-all">
+                            //                 {value?.value ? (
+                            //                     <a href={`https://${value?.value}`} className="hover:underline flex items-center gap-1" target="_blank" rel="noreferrer">
+                            //                         <span>
+                            //                         {value?.value}
+                            //                         </span>
+                            //                         <OpenIcon />
+                            //                     </a> 
+                            //                 ) : (
+                            //                     "--"
+                            //                 )}
+                            //             </span>
+                            //         </div>
+                            //     );
+                            // }
+                            // else {
+                            //     return (
+                            //         <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
+                            //             <span className="font-semibold">{value?.label}:</span>
+                            //             <span className=" break-all">
+                            //                 {value?.value ? (
+                            //                     renderCellContent({
+                            //                             companyAsMediator: false,
+                            //                             value: value?.value,
+                            //                             column: value,
+                            //                             itemId: null,
+                            //                             path: null,
+                            //                             hubspotObjectTypeId: null,
+                            //                             type: 'details',
+                            //                             associationPath: null,
+                            //                             detailsView: null,
+                            //                             hoverRow: null,
+                            //                             item: visibleAssociatedDetails,
+                            //                             urlParam: null,
+                            //                     })
+                            //                 ) : (
+                            //                     "--"
+                            //                 )}
+                            //             </span>
+                            //         </div>
+                            //     );
+                            // }
+
+                            const isFieldType = [
+                                "html",
+                                "date",
+                                "time",
+                                "datetime",
+                                "checkbox",
+                            ].includes(value?.fieldType);
+                            
+                            if ((isButtonEnabled(key) || isLinkEnabled(key)) && !isFieldType) {
+                                // Show special rendering for properties in propertyName array
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
@@ -299,20 +385,7 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                                         )}
                                     </div>
                                 );
-                            }
-                            else if (isLinkEnabled(key)) {
-                                return (
-                                    <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
-                                        <span className="font-semibold">{value?.label}:</span>
-                                        {value?.value ? (
-                                            getPropertyValueType(key, value?.value)
-                                        ) : (
-                                            "--"
-                                        )}
-                                    </div>
-                                );
-                            }
-                            else if (key == 'domain') {
+                            } else if (key == 'domain') {
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
@@ -330,27 +403,27 @@ export const HomeCompanyCard = ({ companyDetailsModalOption, portalId, propertie
                                         </span>
                                     </div>
                                 );
-                            }
-                            else {
+                            } else {
+                                // Original rendering when showIframe is false
                                 return (
                                     <div key={key} className={`flex ${viewStyle == 'list' ? 'flex-row items-center' : 'flex-col items-start'} gap-2 text-xs`}>
                                         <span className="font-semibold">{value?.label}:</span>
                                         <span className=" break-all">
                                             {value?.value ? (
                                                 renderCellContent({
-                                                        companyAsMediator: false,
-                                                        value: value?.value,
-                                                        column: value,
-                                                        itemId: null,
-                                                        path: null,
-                                                        hubspotObjectTypeId: null,
-                                                        type: 'details',
-                                                        associationPath: null,
-                                                        detailsView: null,
-                                                        hoverRow: null,
-                                                        item: visibleAssociatedDetails,
-                                                        urlParam: null,
-                                                })
+                                                    companyAsMediator: false,
+                                                    value: value?.value,
+                                                    column: value,
+                                                    itemId: null,
+                                                    path: null,
+                                                    hubspotObjectTypeId: null,
+                                                    type: 'details',
+                                                    associationPath: null,
+                                                    detailsView: null,
+                                                    hoverRow: null,
+                                                    item: visibleAssociatedDetails,
+                                                    urlParam: null,
+                                            })
                                             ) : (
                                                 "--"
                                             )}
