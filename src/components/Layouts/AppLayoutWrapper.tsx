@@ -18,12 +18,21 @@ export default function AppLayoutWrapper() {
 
   return (
     <ErrorBoundary>
-      <RoteComponent>
-        <LayoutComponent>
-          <Outlet />
-        </LayoutComponent>
-        <Toaster />
-      </RoteComponent >
+      {component?.context?.layout === "UnauthorizedLayout" ?
+        <>
+          <LayoutComponent>
+            <Outlet />
+          </LayoutComponent>
+          <Toaster />
+        </>
+        :
+        <RoteComponent>
+          <LayoutComponent>
+            <Outlet />
+          </LayoutComponent>
+          <Toaster />
+        </RoteComponent >
+      }
     </ErrorBoundary>
 
   );

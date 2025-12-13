@@ -8,6 +8,7 @@ export const Routes = {
   resetPassword: '/reset-password',
   verifyEmail: '/verify-email',
   ResendEmail: '/resend-email',
+  unauthorized: '/unauthorized',
 
   //Common
   app: '/',
