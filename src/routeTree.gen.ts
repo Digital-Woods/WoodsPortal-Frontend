@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as ClientSessionRouteImport } from './routes/client-session'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DynamicPageListComponentRouteImport } from './routes/_dynamicPage/$listComponent'
@@ -23,6 +24,11 @@ import { Route as AuthRegisterRouteImport } from './routes/_auth/Register'
 import { Route as DynamicPageAssociationNameRouteImport } from './routes/_dynamicPage/association/$name'
 import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './routes/_dynamicPage/$objectName/$object_id/$id/index'
 
+const UnauthorizedRoute = UnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClientSessionRoute = ClientSessionRouteImport.update({
   id: '/client-session',
   path: '/client-session',
@@ -95,6 +101,7 @@ const DynamicPageObjectNameObject_idIdIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/Register': typeof AuthRegisterRoute
   '/User-Profile': typeof AuthUserProfileRoute
   '/forget-password': typeof AuthForgetPasswordRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/Register': typeof AuthRegisterRoute
   '/User-Profile': typeof AuthUserProfileRoute
   '/forget-password': typeof AuthForgetPasswordRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/client-session': typeof ClientSessionRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/_auth/Register': typeof AuthRegisterRoute
   '/_auth/User-Profile': typeof AuthUserProfileRoute
   '/_auth/forget-password': typeof AuthForgetPasswordRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/client-session'
+    | '/unauthorized'
     | '/Register'
     | '/User-Profile'
     | '/forget-password'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/client-session'
+    | '/unauthorized'
     | '/Register'
     | '/User-Profile'
     | '/forget-password'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/client-session'
+    | '/unauthorized'
     | '/_auth/Register'
     | '/_auth/User-Profile'
     | '/_auth/forget-password'
@@ -189,6 +201,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ClientSessionRoute: typeof ClientSessionRoute
+  UnauthorizedRoute: typeof UnauthorizedRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   AuthUserProfileRoute: typeof AuthUserProfileRoute
   AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
@@ -204,6 +217,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/client-session': {
       id: '/client-session'
       path: '/client-session'
@@ -301,6 +321,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ClientSessionRoute: ClientSessionRoute,
+  UnauthorizedRoute: UnauthorizedRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   AuthUserProfileRoute: AuthUserProfileRoute,
   AuthForgetPasswordRoute: AuthForgetPasswordRoute,

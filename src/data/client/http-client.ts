@@ -41,7 +41,16 @@ Axios.interceptors.response.use(
     if (
       (error.response && error.response.status === 401)
     ) {
-      logout();
+      const payload = error.response.data ?? {};
+      const data = {
+        errorCode: payload.errorCode,
+        errorMessage: payload.errorMessage,
+        detailedMessage: payload.detailedMessage,
+        correlationId: payload.correlationId,
+        ts: Date.now(),
+      };
+      sessionStorage.setItem('authError', JSON.stringify(data));
+      window.location.replace(`#${Routes.unauthorized}`);
     }
     return Promise.reject(error);
   },
