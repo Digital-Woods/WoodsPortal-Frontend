@@ -228,7 +228,11 @@ export const DynamicComponentView = ({
 
   const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
-    mutationFn: async (pipeline? : any) => {
+    mutationFn: async ( variables: {
+      pipeline?: any;
+      mPipelines?: any;
+    } = {}) => {
+      const { pipeline, mPipelines } = variables;
       // const objectId = isHome ? 'home' : hubspotObjectTypeId
       // let routeMenuConfigs = getRouteMenuConfig();
       let param;
@@ -313,7 +317,8 @@ export const DynamicComponentView = ({
 
       setTableFilterData(param)
 
-      param.filterValue = pipeline ? param?.filterValue : "" // if pipeline empty then set filter value is empty (n-a)
+
+      param.filterValue = mPipelines?.length > 0 ? param?.filterValue : "" // if pipelines empty then set filter value is empty (n-a)
 
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -510,7 +515,10 @@ export const DynamicComponentView = ({
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       await setPipelines(data.data);
       const pipeline = await setDefaultPipeline(data, objectId);
-      await getData(pipeline);
+      await getData({
+        pipeline,
+        mPipelines: data.data,
+      });
     },
     onError: () => {
       setPipelines([]);
@@ -588,7 +596,7 @@ export const DynamicComponentView = ({
         ) {
           await getPipelines();
         } else {
-          getData();
+          getData({mPipelines: pipelines});
         }
       }
     };
