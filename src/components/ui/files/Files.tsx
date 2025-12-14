@@ -20,6 +20,7 @@ import { useToaster } from "@/state/use-toaster";
 import { Input } from "../Form";
 import { useAuth } from "@/state/use-auth";
 import { useUpdateLink } from "@/utils/GenerateUrl";
+import { isAuthenticateApp } from '@/data/client/token-store';
 
 export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }: any) => {
   const [currentFiles, setCurrentFiles] = useState<any>({ child: [] });
@@ -81,7 +82,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
   }, [id, fileId, objectId]);
 
   const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ["FilesData", fileId],
+    queryKey: ["FilesData", fileId, objectId, id, portalId, sync],
     queryFn: async () =>
       await Client.files.all({
         objectId: objectId,
@@ -113,6 +114,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
       setSync(false);
       console.error("Error fetching file details:", error);
     },
+    enabled: isAuthenticateApp(),
   });
 
   useEffect(() => {

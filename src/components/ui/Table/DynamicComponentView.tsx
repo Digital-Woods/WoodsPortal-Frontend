@@ -26,6 +26,7 @@ import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
 import { getParamDetails, getRouteDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
+import { isAuthenticateApp } from '@/data/client/token-store';
 
 
 export const DynamicComponentView = ({
@@ -151,7 +152,8 @@ export const DynamicComponentView = ({
         setSync(false);
         setIsLoadedUserProfile(true)
         // setIsLoadedFirstTime(true);
-      }
+      },
+      enabled: isAuthenticateApp(),
     });
 
     useEffect(() => {

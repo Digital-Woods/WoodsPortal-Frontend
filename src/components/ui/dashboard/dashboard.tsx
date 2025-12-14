@@ -6,6 +6,7 @@ import { UserDetails } from '@/components/ui/profile/UserDetails';
 import { SidebarTable } from '@/components/ui/SidebarTable';
 import { Client } from '@/data/client';
 import { getPortal } from '@/data/client/auth-utils';
+import { isAuthenticateApp } from '@/data/client/token-store';
 import { showSidebarListDataOption, enableDashboardCards, dashboardCards, moduleStylesOptions, sidebarListDataOption, hubId } from '@/data/hubSpotData';
 import { useAuth } from '@/state/use-auth';
 import { useSync } from '@/state/use-sync';
@@ -66,7 +67,8 @@ const Dashboard = () => {
       console.error("Error fetching profile:", error);
       setSync(false);
       setIsLoadedFirstTime(true);
-    }
+    },
+    enabled: isAuthenticateApp(),
   });
 
   useEffect(() => {
