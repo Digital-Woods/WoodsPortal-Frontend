@@ -317,8 +317,9 @@ export const DynamicComponentView = ({
 
       setTableFilterData(param)
 
-
-      param.filterValue = mPipelines?.length > 0 ? param?.filterValue : "" // if pipelines empty then set filter value is empty (n-a)
+      if(mPipelines != undefined && mPipelines?.length === 0) { // if pipelines empty then set filter value is empty (n-a)
+        param.filterValue = ""
+      }
 
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,

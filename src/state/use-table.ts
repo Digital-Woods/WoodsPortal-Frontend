@@ -115,33 +115,39 @@ export function useTable() {
     if (data) {
       const params = filterParams();
       let mFilterValue = "";
+      const excludedIds = ['0-1', '0-2', '0-3', '0-4', '0-5'];
+      let defaultPipelineId = ""
+
       const defaultPipeline = data?.data?.find(
         (pipeline: any) => pipeline.pipelineId === data.data[0].pipelineId
       );
 
+      if (excludedIds.includes(hubspotObjectTypeId)) {
+        defaultPipelineId = defaultPipeline?.pipelineId
+      }
+
       if (
         params &&
         params?.filterPropertyName === "hs_pipeline" &&
-        params?.filterValue &&
-        data?.data?.length  != 0
+        params?.filterValue
       ) {
         mFilterValue = params?.filterValue;
       } else {
         if (view === "BOARD" && !selectedPipeline) {
-          mFilterValue = defaultPipeline.pipelineId;
+          mFilterValue = defaultPipelineId;
           // const routeMenuConfig = {
           //   [hubspotObjectTypeId]: {
-          //     activePipeline: defaultPipeline.pipelineId,
+          //     activePipeline: defaultPipelineId,
           //   },
           // };
           // setSelectRouteMenuConfig(routeMenuConfig);
           updateLink({
-              fV: defaultPipeline.pipelineId
+              fV: defaultPipelineId
           })
         } else {
           mFilterValue =
             data.data.length === 1
-              ? defaultPipeline.pipelineId
+              ? defaultPipelineId
               : selectedPipeline;
         }
       }
