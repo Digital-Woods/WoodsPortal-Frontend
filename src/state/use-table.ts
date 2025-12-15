@@ -122,7 +122,8 @@ export function useTable() {
       if (
         params &&
         params?.filterPropertyName === "hs_pipeline" &&
-        params?.filterValue
+        params?.filterValue &&
+        data?.data?.length  != 0
       ) {
         mFilterValue = params?.filterValue;
       } else {

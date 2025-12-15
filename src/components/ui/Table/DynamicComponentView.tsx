@@ -26,6 +26,7 @@ import { DashboardTable } from './DashboardTable';
 import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
 import { getParamDetails, getRouteDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
+import { isAuthenticateApp } from '@/data/client/token-store';
 
 
 export const DynamicComponentView = ({
@@ -151,7 +152,8 @@ export const DynamicComponentView = ({
         setSync(false);
         setIsLoadedUserProfile(true)
         // setIsLoadedFirstTime(true);
-      }
+      },
+      enabled: isAuthenticateApp(),
     });
 
     useEffect(() => {
@@ -226,7 +228,11 @@ export const DynamicComponentView = ({
 
   const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
-    mutationFn: async (pipeline? : any) => {
+    mutationFn: async ( variables: {
+      pipeline?: any;
+      mPipelines?: any;
+    } = {}) => {
+      const { pipeline, mPipelines } = variables;
       // const objectId = isHome ? 'home' : hubspotObjectTypeId
       // let routeMenuConfigs = getRouteMenuConfig();
       let param;
@@ -310,6 +316,10 @@ export const DynamicComponentView = ({
       }
 
       setTableFilterData(param)
+
+
+      param.filterValue = mPipelines?.length > 0 ? param?.filterValue : "" // if pipelines empty then set filter value is empty (n-a)
+
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
@@ -505,7 +515,10 @@ export const DynamicComponentView = ({
       const objectId = isHome ? 'home' : hubspotObjectTypeId
       await setPipelines(data.data);
       const pipeline = await setDefaultPipeline(data, objectId);
-      await getData(pipeline);
+      await getData({
+        pipeline,
+        mPipelines: data.data,
+      });
     },
     onError: () => {
       setPipelines([]);
@@ -583,7 +596,7 @@ export const DynamicComponentView = ({
         ) {
           await getPipelines();
         } else {
-          getData();
+          getData({mPipelines: pipelines});
         }
       }
     };

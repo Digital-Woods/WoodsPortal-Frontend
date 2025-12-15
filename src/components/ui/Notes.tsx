@@ -28,6 +28,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/state/use-auth';
 import { useUpdateLink } from '@/utils/GenerateUrl';
 import { useEditor } from '@/state/use-editor';
+import { isAuthenticateApp } from '@/data/client/token-store';
 
 
 const NoteCard = ({
@@ -326,7 +327,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       console.error("Error fetching file details:", error);
     },
     refetchInterval: (sync || apiSync) ? env.VITE_NOTE_INTERVAL_TIME : false,
-    enabled: !!objectId && !!id, 
+    enabled: !!objectId && !!id && isAuthenticateApp(), 
   });
 
   const makeParam = () => {

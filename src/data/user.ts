@@ -1,10 +1,11 @@
 import { Client } from '@/data/client/index'
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { hubId } from '@/data/hubSpotData'
-import { setCookie } from "@/utils/cookie";
+import { removeAllCookie, setCookie } from "@/utils/cookie";
 import { env } from "@/env";
 import { useAuth } from "@/state/use-auth";
 import { useRouter } from '@tanstack/react-router'
+import { clearAccessToken } from './client/token-store';
 
 // export function useMe() {
 //   // if (isLivePreview()) {
@@ -115,14 +116,21 @@ export function useLogout() {
   const queryClient = useQueryClient();
   const { unauthorize, setLogoutDialog } = useAuth();
   const router = useRouter();
+  const { profileDetails, setProfileDetails } = useAuth();
 
   const mutation = useMutation({
     mutationFn: Client.authentication.Logout,
-    onSuccess: () => {
-      queryClient.clear(); // 🧹 Clear all cached data
-      router.navigate({to: `/login`});
-      unauthorize();
+    onSuccess: async () => {
+      clearAccessToken();
+      removeAllCookie();
+      unauthorize();                     // ✅ FIRST
+      queryClient.cancelQueries();       // ✅ stop queries
+      queryClient.clear();               // ✅ clear cache
       setLogoutDialog(false);
+      router.navigate({                 // ✅ LAST
+        to: '/login',
+        replace: true,
+      });
     },
     onError: (err) => {
       console.error("Logout failed: ", err);

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChangePassword } from "@/components/ui/profile/ChangePassword";
 import { UserProfileCard } from "@/components/ui/profile/UserProfileCard";
 import { useAuth } from "@/state/use-auth";
+import { isAuthenticateApp } from "@/data/client/token-store";
 
 const Profile = () => {
   const [userData, setUserData] = useState<any>();
@@ -40,7 +41,8 @@ const Profile = () => {
     onError: (error: any) => {
       console.error("Error fetching profile:", error);
       setSync(false);
-    }
+    },
+    enabled: isAuthenticateApp(),
   });
   
   useEffect(() => {
