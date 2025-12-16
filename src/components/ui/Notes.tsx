@@ -366,7 +366,14 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
       let params: any = makeParam()
-      const mParams = {...params, ...{cache: !!params?.cache}}
+      let mParams: any = {cache: !!params?.cache}
+
+      if (subscriptionType === 'FREE') {
+        mParams.after = params?.after || "";
+      } else {
+        mParams.limit = params?.limit || "";
+        mParams.page = params?.page || "";
+      }
 
       return await Client.notes.createnote({
         // params: {
