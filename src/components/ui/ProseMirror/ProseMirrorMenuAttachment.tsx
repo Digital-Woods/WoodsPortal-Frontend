@@ -103,7 +103,7 @@ const EditorAttachmentUploadMenu = ({
     const sizeInBytes = file.size;
     const sizeInMB: any = (sizeInBytes / (1024 * 1024)).toFixed(2);
 
-    if(subscriptionType != 'FREE' && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
+    if(subscriptionType === 'FREE' && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
       toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
       return
     } else if (subscriptionType != 'FREE' && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
