@@ -21,9 +21,12 @@ import { env } from "@/env";
 import { useState } from "react";
 import { Button } from "../Button";
 import { getIcon } from "@/utils/GetIcon";
-import { ALLOWED_FILE_MIME_TYPES } from "@/utils/constants";
+import { ALLOWED_FILE_MIME_TYPES, ENTERPRISE_ACCOUNT_MAX_FILE_SIZE, FREE_ACCOUNT_MAX_FILE_SIZE } from "@/utils/constants";
+import { useAuth } from "@/state/use-auth";
+import { toast } from "sonner";
 
 export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, objectId, id }: any) => {
+  const { subscriptionType }: any = useAuth();
   // const { sync, setSync } = useSync();
   const [selectedFile, setSelectedFile] = useState<any>([]);
   const [files, setFiles] = useState<any>([]);
@@ -32,18 +35,30 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
 
 
 
-    // Added by Suman
-    const [file, setFile] = useState<any>(null);
-    const [uploadProgress, setUploadProgress] = useState<any>(0);
-    const [uploadStatus, setUploadStatus] = useState<any>("");
+  // Added by Suman
+  const [file, setFile] = useState<any>(null);
+  const [uploadProgress, setUploadProgress] = useState<any>(0);
+  const [uploadStatus, setUploadStatus] = useState<any>("");
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   };
 
-  const inputChange = (e) => {
-
+  const inputChange = (e: any) => {
     const file = e.target.files[0];
+    if (!file) return;
+
+    const sizeInBytes = file.size;
+    const sizeInMB: any = (sizeInBytes / (1024 * 1024)).toFixed(2);
+
+    if(subscriptionType === "FREE" && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
+      toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
+      return
+    } else if (subscriptionType != "FREE" && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
+      toast.success("File is too large. Maximum allowed size is 1 GB. Please choose a smaller file");
+      return
+    }
+
     setFile(file);
     let validFilesArray = [];
     validFilesArray.push(file);

@@ -4,7 +4,9 @@ import { ImageIcon } from '@/assets/icons/ImageIcon';
 import { getAuthToken } from '@/data/client/auth-utils';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
-import { ALLOWED_IMAGE_MIME_TYPES } from '@/utils/constants';
+import { ALLOWED_IMAGE_MIME_TYPES, ENTERPRISE_ACCOUNT_MAX_FILE_SIZE, FREE_ACCOUNT_MAX_FILE_SIZE } from '@/utils/constants';
+import { useAuth } from '@/state/use-auth';
+import { toast } from 'sonner';
 
 // const insertImage = (view, src, width, height) => {
 //   const { state, dispatch } = view;
@@ -49,6 +51,7 @@ const EditorImageUploadMenu = ({
   setIsLoadingUploading,
   setUploadProgress,
 }: any) => {
+  const { subscriptionType }: any = useAuth();
   const token = getAuthToken();
   const boldButtonRef = useRef<any>(null);
   const fileInputRef = useRef<any>(null);
@@ -63,6 +66,17 @@ const EditorImageUploadMenu = ({
     event.target.value = "";
     return;
   }
+
+    const sizeInBytes = file.size;
+    const sizeInMB: any = (sizeInBytes / (1024 * 1024)).toFixed(2);
+
+    if(subscriptionType === 'FREE' && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
+      toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
+      return
+    } else if (subscriptionType != 'FREE' && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
+      toast.success("File is too large. Maximum allowed size is 1 GB. Please choose a smaller file");
+      return
+    }
 
     // Prepare the form data
     const formData = new FormData();
