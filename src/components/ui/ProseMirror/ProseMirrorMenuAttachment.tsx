@@ -4,6 +4,7 @@ import { AttachmentIcon } from '@/assets/icons/AttachmentIcon';
 import { getAuthToken } from '@/data/client/auth-utils';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
+import { ALLOWED_IMAGE_MIME_TYPES } from '@/utils/constants';
 
 
 // const attachmentUpload = async (file) => {
@@ -156,8 +157,8 @@ const EditorAttachmentUploadMenu = ({
       </div>
       <input
         type="file"
+        accept={Array.from(ALLOWED_IMAGE_MIME_TYPES).join(',')}
         ref={fileInputRef}
-        accept="image/*"
         className="hidden"
         onChange={handleFileChange}
       />

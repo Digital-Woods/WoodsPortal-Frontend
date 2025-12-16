@@ -4,6 +4,7 @@ import { ImageIcon } from '@/assets/icons/ImageIcon';
 import { getAuthToken } from '@/data/client/auth-utils';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
+import { ALLOWED_IMAGE_MIME_TYPES } from '@/utils/constants';
 
 // const insertImage = (view, src, width, height) => {
 //   const { state, dispatch } = view;
@@ -141,8 +142,8 @@ const EditorImageUploadMenu = ({
       </div>
       <input
         type="file"
+        accept={Array.from(ALLOWED_IMAGE_MIME_TYPES).join(',')}
         ref={fileInputRef}
-        accept="image/*"
         className="hidden"
         onChange={handleFileChange}
       />
