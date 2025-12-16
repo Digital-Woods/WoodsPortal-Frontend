@@ -29,9 +29,9 @@ const PublicRoute: React.FC<{
       router.history.replace(Routes.login);
     }
 
-    // if (isAuthenticated && isPublicPath) {
-    //   router.history.replace(Routes.app);
-    // }
+    if (isAuthenticated && isPublicPath) {
+      router.history.replace(Routes.app);
+    }
   }, [router, isAuthenticated]);
 
   if (!isAuthenticated) {
