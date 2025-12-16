@@ -47,7 +47,7 @@ export function useTable() {
   const {updateLink, filterParams} = useUpdateLink();
 
   const setView = (mView: string | null) => {
-    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
+    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
     changeView(mView);
   };
 
@@ -55,7 +55,7 @@ export function useTable() {
     setSort("-hs_createdate");
     setLimit(pageLimit);
     setAfter("");
-    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
+    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
     setTotalItems(1);
     setNumOfPages(1);
     setCurrentPage(1);
@@ -95,6 +95,11 @@ export function useTable() {
       isPrimaryCompany: companyAsMediator || false,
       view,
     };
+
+    console.log("a", {
+        ...baseParams,
+        ...({after: page}),
+      })
 
     if (getAuthSubscriptionType() === "FREE") {
       return {

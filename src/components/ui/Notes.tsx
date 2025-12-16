@@ -366,12 +366,15 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
       let params: any = makeParam()
+      const mParams = {...params, ...{cache: !!params?.cache}}
+
       return await Client.notes.createnote({
-        params: {
-          limit: params?.limit,
-          page: params?.page,
-          cache: !!params?.cache
-        },
+        // params: {
+        //   limit: params?.limit,
+        //   page: params?.page,
+        //   cache: !!params?.cache
+        // },
+        params: mParams,
         objectId: objectId,
         id: id,
         noteBody: editorContent,
@@ -417,13 +420,13 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   }, []);
   
   useEffect(() => {
-    setPage(getAuthSubscriptionType() === "FREE" ? " " : 1);
+    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
     refetch(); // 👈 will now use new objectId and id because of queryKey
   }, [objectId, id]);
 
   useEffect(() => {
     // refetch();
-    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
+    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
   }, []);
 
 

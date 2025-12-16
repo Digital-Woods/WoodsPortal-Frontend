@@ -17,6 +17,7 @@ const keyMap: Record<string, string> = {
   l: 'limit',
   pt: 'path',
   p: 'page',
+  a: 'after',
   aPip: 'activePipeline',
   aT: 'activeTab',
   cT: 'create',
