@@ -366,7 +366,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
       let params: any = makeParam()
-      let mParams: any = {cache: !!params?.cache}
+      let mParams: any = {cache: !!params?.cache, isPrimaryCompany: params?.isPrimaryCompany, limit: params?.limit || 5}
 
       if (subscriptionType === 'FREE') {
         mParams.after = params?.after || "";
