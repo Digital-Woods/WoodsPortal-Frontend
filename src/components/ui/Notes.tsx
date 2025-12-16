@@ -40,6 +40,7 @@ const NoteCard = ({
   refetch,
   setToaster,
   permissions,
+  makeParam
 }: any) => {
   // const { sync, setSync } = useSync();
   const [isOpen, setIsOpen] = useState(false);
@@ -48,6 +49,7 @@ const NoteCard = ({
   const [isUploading, setIsUploading] = useState(false);
   const noteStyle = moduleStylesOptions.noteStyle;
   const editorRef = useRef(null);
+  const { subscriptionType }: any = useAuth();
 
   const {
     isLoadingUploading,
@@ -80,18 +82,47 @@ const NoteCard = ({
     portalId = getPortal()?.portalId;
   }
 
-  const updateNoteMutation = useMutation(
-    async (newNote) => {
-      return await Client.notes.updateNote({
-        objectId: objectId,
-        id: id,
-        note: newNote,
-        note_id: note.hs_object_id,
-        portalId: portalId,
-      });
-    },
+  const updateNoteMutation = useMutation({
+    // async (newNote) => {
+    //   return await Client.notes.updateNote({
+    //     objectId: objectId,
+    //     id: id,
+    //     note: newNote,
+    //     note_id: note.hs_object_id,
+    //     portalId: portalId,
+    //   });
+    // },
 
-    {
+      mutationKey: ["TableFormData"],
+      mutationFn: async (newNote) => {
+        let params: any = makeParam()
+        let mParams: any = {cache: !!params?.cache, isPrimaryCompany: params?.isPrimaryCompany, limit: params?.limit || 5}
+
+        if (subscriptionType === 'FREE') {
+          mParams.after = params?.after || "";
+        } else {
+          mParams.limit = params?.limit || "";
+          mParams.page = params?.page || "";
+        }
+
+        return await Client.notes.updateNote({
+          // params: {
+          //   limit: params?.limit,
+          //   page: params?.page,
+          //   cache: !!params?.cache
+          // },
+          params: mParams,
+          objectId: objectId,
+          id: id,
+          note: newNote,
+          note_id: note.hs_object_id,
+          portalId: portalId,
+        //   noteBody: editorContent,
+        //   attachmentId: attachmentId,
+        //   portalId: portalId,
+        });
+      },
+
       onSuccess: (res: any) => {
         const queryClient = new QueryClient();
 
@@ -366,12 +397,22 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
       let params: any = makeParam()
+      let mParams: any = {cache: !!params?.cache, isPrimaryCompany: params?.isPrimaryCompany, limit: params?.limit || 5}
+
+      if (subscriptionType === 'FREE') {
+        mParams.after = params?.after || "";
+      } else {
+        mParams.limit = params?.limit || "";
+        mParams.page = params?.page || "";
+      }
+
       return await Client.notes.createnote({
-        params: {
-          limit: params?.limit,
-          page: params?.page,
-          cache: !!params?.cache
-        },
+        // params: {
+        //   limit: params?.limit,
+        //   page: params?.page,
+        //   cache: !!params?.cache
+        // },
+        params: mParams,
         objectId: objectId,
         id: id,
         noteBody: editorContent,
@@ -417,13 +458,13 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   }, []);
   
   useEffect(() => {
-    setPage(getAuthSubscriptionType() === "FREE" ? " " : 1);
+    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
     refetch(); // 👈 will now use new objectId and id because of queryKey
   }, [objectId, id]);
 
   useEffect(() => {
     // refetch();
-    setPage(getAuthSubscriptionType() === "FREE" ? ' ' : 1);
+    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
   }, []);
 
 
@@ -502,6 +543,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
             refetch={refetch}
             setToaster={setToaster}
             permissions={permissions}
+            makeParam={makeParam}
           />
         ))
       ) : (

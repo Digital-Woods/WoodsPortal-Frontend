@@ -95,7 +95,7 @@ export const Pagination = ({ apiResponse = null, numOfPages, currentPage:cPage, 
 
   const setPage = (page: number) => {
     updateLink({
-        p: page
+      p: page
     }, tabName)
   }
 

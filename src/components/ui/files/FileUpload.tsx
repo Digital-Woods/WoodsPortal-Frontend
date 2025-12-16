@@ -21,6 +21,7 @@ import { env } from "@/env";
 import { useState } from "react";
 import { Button } from "../Button";
 import { getIcon } from "@/utils/GetIcon";
+import { ALLOWED_FILE_MIME_TYPES } from "@/utils/constants";
 
 export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, objectId, id }: any) => {
   // const { sync, setSync } = useSync();
@@ -274,6 +275,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                       </div> */}
                       <input
                         type="file"
+                        accept={Array.from(ALLOWED_FILE_MIME_TYPES).join(',')}
                         id="fileupload"
                         className="CUSTOM-file-upload-input"
                         onChange={inputChange}

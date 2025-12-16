@@ -303,6 +303,7 @@ export const DynamicComponentView = ({
           "v": param?.view,
           "l": param?.limit,
           "p": param?.page,
+          "a": param?.after,
         })
       }
       

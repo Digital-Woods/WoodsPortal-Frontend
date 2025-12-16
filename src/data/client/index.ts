@@ -118,10 +118,11 @@ export const Client = {
       const url = `/api/:hubId/:portalId/hubspot-object-notes/${objectId}/${id}`;
       return HttpClient.post(generateApiUrl({route: url, queryParams: params}), {noteBody: noteBody, attachmentId: attachmentId});
     },
-    updateNote: ({objectId, id, note, note_id, portalId}: any) => {
+    updateNote: ({params, objectId, id, note, note_id, portalId}: any) => {
       // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
-      const url = `/api/${hubId}/${portalId}/hubspot-object-notes/${objectId}/${id}/${note_id}`;
-      return HttpClient.put(url, note);
+      // const url = `/api/${hubId}/${portalId}/hubspot-object-notes/${objectId}/${id}/${note_id}`;
+       const url = `/api/:hubId/:portalId/hubspot-object-notes/${objectId}/${id}/${note_id}`;
+      return HttpClient.put(generateApiUrl({route: url, queryParams: params}), note);
     },
     imageUpload: (me: any, fileId: any, path: any, data: any) => {
       const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
