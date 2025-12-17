@@ -4,6 +4,7 @@ export const prefix = 'dw'
 
 const isPrefix = (env) => {
   if (forcePrefix != null) return forcePrefix
-  return env === 'production'
+  console.log("env", env)
+  return env === 'production' || env === 'staging'
 }
 export default isPrefix
