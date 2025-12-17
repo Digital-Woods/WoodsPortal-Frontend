@@ -4,7 +4,9 @@ import { AttachmentIcon } from '@/assets/icons/AttachmentIcon';
 import { getAuthToken } from '@/data/client/auth-utils';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
-import { ALLOWED_IMAGE_MIME_TYPES } from '@/utils/constants';
+import { ALLOWED_FILE_MIME_TYPES, ENTERPRISE_ACCOUNT_MAX_FILE_SIZE, FREE_ACCOUNT_MAX_FILE_SIZE } from '@/utils/constants';
+import { useAuth } from '@/state/use-auth';
+import { toast } from 'sonner';
 
 
 // const attachmentUpload = async (file) => {
@@ -84,6 +86,7 @@ const EditorAttachmentUploadMenu = ({
   setUploadProgress,
   setAttachmentId
 }: any) => {
+  const { subscriptionType }: any = useAuth();
   const token = getAuthToken();
   // const boldIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M720-330q0 104-73 177T470-80q-104 0-177-73t-73-177v-370q0-75 52.5-127.5T400-880q75 0 127.5 52.5T580-700v350q0 46-32 78t-78 32q-46 0-78-32t-32-78v-370h80v370q0 13 8.5 21.5T470-320q13 0 21.5-8.5T500-350v-350q-1-42-29.5-71T400-800q-42 0-71 29t-29 71v370q-1 71 49 120.5T470-160q70 0 119-49.5T640-330v-390h80v390Z"/></svg>`;
   // const { isLoadingUoloading, setisLoadingUoloading, uploadProgress, setUploadProgress } = useSync();
@@ -96,6 +99,17 @@ const EditorAttachmentUploadMenu = ({
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    const sizeInBytes = file.size;
+    const sizeInMB: any = (sizeInBytes / (1024 * 1024)).toFixed(2);
+
+    if(subscriptionType === 'FREE' && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
+      toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
+      return
+    } else if (subscriptionType != 'FREE' && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
+      toast.success("File is too large. Maximum allowed size is 1 GB. Please choose a smaller file");
+      return
+    }
 
     // Prepare the form data
     const formData = new FormData();
@@ -157,7 +171,7 @@ const EditorAttachmentUploadMenu = ({
       </div>
       <input
         type="file"
-        accept={Array.from(ALLOWED_IMAGE_MIME_TYPES).join(',')}
+        accept={Array.from(ALLOWED_FILE_MIME_TYPES).join(',')}
         ref={fileInputRef}
         className="hidden"
         onChange={handleFileChange}

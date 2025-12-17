@@ -7,6 +7,10 @@ export const COOKIE_EXPIRE = 7;
 export const DATA_SOURCE_SET = false;
 export const NOTE_INTERVAL_TIME = 10000;
 export const TABLE_PAGE_LIMIT = 10;
+
+export const FREE_ACCOUNT_MAX_FILE_SIZE = 20;
+export const ENTERPRISE_ACCOUNT_MAX_FILE_SIZE = 1024;
+
 export const HUBSPOT_DEFAULT_OBJECT_IDS = {
   "contacts": "0-1",
   "companies": "0-2",

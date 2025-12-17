@@ -351,6 +351,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       setSync(false);
       setApiSync(false);
       setPermissions(data?.configurations?.note)
+      setIsFristTimeLoadData(false)
     },
     onError: (error: any) => {
       setSync(false);
@@ -431,7 +432,6 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       });
       setExpandDialog(false);
       setAttachmentId('');
-      setIsFristTimeLoadData(false)
     },
     onError: (error: any) => {
       const errorMessage = error?.response?.data?.errorMessage;
