@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../Tabs";
 import { homeTabsDataTypeFilter } from "@/data/hubSpotData";
 import { Notes } from "../Notes";
 import { useUpdateLink } from "@/utils/GenerateUrl";
-import { useTable } from "@/state/use-table";
+import { CautionCircle } from "@/assets/icons/CautionCircle";
 
 export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
@@ -314,20 +314,27 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
 
                         {activeTab === "files" && (
                             permissions && permissions?.fileManager?.display ? (
-                            <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.fileManager : null} />
+                                <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.fileManager : null} />
                             ) : (
-                                <div className="p-4 flex items-center justify-center text-center text-gray-500 h-[250px]">
-                                    You do not have permission to view Files.
+                         
+                                <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                    <span className="text-yellow-600">
+                                        <CautionCircle/>
+                                    </span>
+                                    You do not have permission to view Files
                                 </div>
                             )
                         )}
                         
-                        {activeTab === "notes" && objectId && selectedNotesDataFilter && id && (
-                            permissions && permissions?.note?.display ? (
+                        {activeTab === "notes"&& (
+                            permissions && permissions?.note?.display && objectId && selectedNotesDataFilter && id ? (
                                 <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
                             ) : (
-                                <div className="p-4 flex items-center justify-center text-center text-gray-500 h-[250px]">
-                                    You do not have permission to view Notes.
+                                <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                    <span className="text-yellow-600">
+                                        <CautionCircle/>
+                                    </span>
+                                    You do not have permission to view Notes
                                 </div>
                             )
                         )}
@@ -360,7 +367,10 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                 companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
                             />
                             ) : (
-                                <div className="p-4 flex items-center justify-center text-center text-gray-500 h-[250px]">
+                                <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                    <span className="text-yellow-600">
+                                        <CautionCircle/>
+                                    </span>
                                     You do not have permission to view Tickets.
                                 </div>
                             )
