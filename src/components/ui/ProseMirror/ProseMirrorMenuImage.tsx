@@ -54,7 +54,8 @@ const EditorImageUploadMenu = ({
   const { subscriptionType }: any = useAuth();
   const token = getAuthToken();
   const boldButtonRef = useRef<any>(null);
-  const fileInputRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const uploadImage = () => {
     fileInputRef.current?.click();
   };
@@ -72,9 +73,15 @@ const EditorImageUploadMenu = ({
 
     if(subscriptionType === 'FREE' && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
       toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       return
     } else if (subscriptionType != 'FREE' && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
       toast.success("File is too large. Maximum allowed size is 1 GB. Please choose a smaller file");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       return
     }
 
