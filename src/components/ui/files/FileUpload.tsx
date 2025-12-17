@@ -18,7 +18,7 @@ import { useSync } from "@/state/use-sync";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { env } from "@/env";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../Button";
 import { getIcon } from "@/utils/GetIcon";
 import { ALLOWED_FILE_MIME_TYPES, ENTERPRISE_ACCOUNT_MAX_FILE_SIZE, FREE_ACCOUNT_MAX_FILE_SIZE } from "@/utils/constants";
@@ -32,7 +32,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
   const [files, setFiles] = useState<any>([]);
   const [isUploading, setIsUploading] = useState<any>(false);
   const { me } = useMe();
-
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 
   // Added by Suman
@@ -53,9 +53,15 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
 
     if(subscriptionType === "FREE" && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
       toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       return
     } else if (subscriptionType != "FREE" && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
       toast.success("File is too large. Maximum allowed size is 1 GB. Please choose a smaller file");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       return
     }
 
@@ -289,6 +295,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
                         </svg>
                       </div> */}
                       <input
+                        ref={fileInputRef}
                         type="file"
                         accept={Array.from(ALLOWED_FILE_MIME_TYPES).join(',')}
                         id="fileupload"
