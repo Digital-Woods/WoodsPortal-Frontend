@@ -522,7 +522,9 @@ export const DynamicComponentView = ({
         mPipelines: data.data,
       });
     },
-    onError: () => {
+    onError: (error: any) => {
+      setErrorMessage(error?.response?.data?.errorMessage)
+      setErrorMessageCategory(error?.response?.data?.errorCode)
       setPipelines([]);
       setIsLoadedFirstTime(false)
     },
@@ -705,9 +707,9 @@ export const DynamicComponentView = ({
     );
   }
 
-  if(errorMessage && errorMessageCategory !== 'ACCESS'){
+  if(errorMessage && (errorMessageCategory !== "ACCESS" || errorMessageCategory !== "ACCESS_DENIED")){
     return( 
-      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px]  justify-center gap-4">
+      <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
         <span className="text-yellow-600">
           <CautionCircle/>
         </span>
