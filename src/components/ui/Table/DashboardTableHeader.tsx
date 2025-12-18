@@ -75,7 +75,7 @@ export const DashboardTableHeader = ({
     <div className="flex justify-between mb-6 md:items-center max-sm:flex-col-reverse max-sm:items-end gap-2">
       <div className="flex gap-2 justify-between max-sm:flex-col-reverse max-sm:w-full">
         <div className="flex gap-2 justify-between">
-          {(hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (
+          {(subscriptionType != 'FREE' && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")) && (
             <div className="inline-flex p-1 bg-graySecondary dark:bg-dark-200 rounded-md gap-x-2">
               <button
                 type="button"
