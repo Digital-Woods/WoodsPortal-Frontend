@@ -7,12 +7,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import z from "zod";
 import { Button } from "../ui/Button";
-import { CheckboxField } from "../ui/checkboxes/MultipleCheckBox";
 import { DateTimeInput } from "../ui/DateTime/DateTimeInput.tsx";
-import { Dialog } from "../ui/Dialog";
-import { Form, FormItem, FormLabel, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
+import { Form, FormItem, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
 import { Select } from "../ui/Select";
-import { PhoneNumberInput } from "@/components/ui/phoneNumber/PhoneNumberInput.tsx";
 import { DetailsViewEditorDialog } from "./DetailsViewEditorDialog.tsx";
 import { useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
@@ -323,7 +320,7 @@ export const DetailsViewUpdate = ({
       //   Array.isArray(row?.value) ? row?.value.map((item: any) => item?.value) : []
       // );
 
-      const sValue = row?.value.map((item: any) => item.value).join(";");
+      const sValue = row?.value ? row?.value.map((item: any) => item.value).join(";") : "";
       setSelectedValues(sValue);
     }
     if (row && row?.type === "date" || row?.type === "datetime") {
@@ -447,9 +444,7 @@ export const DetailsViewUpdate = ({
                           <Select
                             label={`Select ${editRow?.customLabel}`}
                             name={editRow?.name}
-                            options={(editRow?.name === "hs_pipeline" || editRow?.name === "pipeline") && specPipeLine
-                              ? editRow?.options.filter((option: any) => option?.value === pipeLineId)
-                              : editRow?.options}
+                            options={editRow?.options || []}
                             control={control}
                             editRow={editRow}
                             onChangeSelect={onChangeSelect}
