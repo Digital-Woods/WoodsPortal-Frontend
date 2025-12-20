@@ -305,21 +305,66 @@ export function sanitizeForBase64(str = "") {
   // return btoa(unescape(encodeURIComponent(sanitized))); // if needed
 }
 
+// function formatValue(value: any) {
+//   value = "2025-12-18T19:00:00Z"
+//   value = 1766525400000
+//   const rawValue = isObject(value) ? value?.label : value;
+
+//   const isDateLike = typeof rawValue === "string" 
+
+//   if (!isDateLike) {
+//     const formatedDateTime = formatTimestampIST(rawValue);
+//     // return truncatedText(
+//     //   decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}`),
+//     //   20
+//     // );
+//     return decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}`)
+//   }
+
+//   return isObject(value) ? value?.label : value;
+// }
+
 function formatValue(value: any) {
   const rawValue = isObject(value) ? value?.label : value;
 
-  const isDateLike = typeof rawValue === "string" 
+  let timestamp: number | null = null;
 
-  if (!isDateLike) {
-    const formatedDateTime = formatTimestampIST(rawValue);
-    return truncatedText(
-      decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}`),
-      20
-    );
+  // Case 1: timestamp number
+  if (typeof rawValue === "number" && rawValue > 100000000000) {
+    timestamp = rawValue;
   }
 
-  return isObject(value) ? value?.label : value;
+  // Case 2: numeric timestamp string
+  else if (
+    typeof rawValue === "string" &&
+    /^\d+$/.test(rawValue) &&
+    rawValue.length >= 10
+  ) {
+    timestamp = Number(rawValue);
+  }
+
+  // Case 3: ISO / date string
+  else if (typeof rawValue === "string") {
+    const date = new Date(rawValue);
+    if (!isNaN(date.getTime())) {
+      timestamp = date.getTime();
+    }
+  }
+
+  // If valid timestamp → format
+  if (timestamp) {
+    const formatedDateTime = formatTimestampIST(timestamp);
+    // return truncatedText(
+    //   decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}`),
+    //   20
+    // );
+    return decodeAndStripHtml(`${formatedDateTime.date} ${formatedDateTime.time}`)
+  }
+
+  // Fallback
+  return rawValue;
 }
+
 
 export const renderCellContent = ({
   makeLink = null,
