@@ -1,6 +1,7 @@
 import { isCookieExpired } from "@/utils/cookie"
 import { env } from "@/env";
-import { getAuthToken } from "./http-client";
+import { getAuthRefreshToken } from "./http-client";
+import { getRefreshToken } from "./auth-utils";
 
 let accessToken: string | null = null
 let expiresAt: number | null = null // token expiry, epoch ms
@@ -59,8 +60,12 @@ function scheduleRefresh(ms: number) {
   }, ms)
 }
 
-export async function triggerRefresh(): Promise<string | null> {
-  return getAuthToken()
+export async function triggerRefresh(): Promise<{
+  token: string | null;
+  success: boolean;
+}> {
+  const refreshToken = getRefreshToken()
+  return getAuthRefreshToken(refreshToken)
 }
 
 

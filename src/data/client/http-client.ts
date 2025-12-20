@@ -120,14 +120,14 @@ export function getFieldErrors(error: unknown) {
   return null;
 }
 
-export async function initAuthBootstrap () {
-  if(isCookieExpired(env.VITE_REFRESH_TOKEN)) {
-    await logout();
-  }else if(isExpiresAccessToken()) {
-    await getAuthToken();
-  }
-  return false;
-}
+// export async function initAuthBootstrap () {
+//   if(isCookieExpired(env.VITE_REFRESH_TOKEN)) {
+//     await logout();
+//   }else if(isExpiresAccessToken()) {
+//     await getAuthToken();
+//   }
+//   return false;
+// }
 
 export async function logout() {
   let currentPath = window.location.hash.split("?")[0];
@@ -153,37 +153,71 @@ export async function logout() {
   }
 }
 
-export async function getAuthToken () {
+// export async function getAuthToken () {
+//   try {
+//     const res = await Axios.post(
+//       `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`, 
+//       { "refreshToken": getRefreshToken() },
+//       env?.VITE_DEV_PORTAL_ID &&{
+//         headers: {
+//           'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID,
+//         },
+//       }
+//     );
+//     const maybeData = res?.data?.data || res?.data;
+//     const tokenData = maybeData?.tokenData || maybeData || {} as any
+//     const refreshToken = tokenData?.refreshToken as string;
+//     const token = tokenData?.token as string | undefined;
+//     const expiresIn = tokenData?.expiresIn as number | undefined;
+//     const rExpiresIn = tokenData?.refreshExpiresIn as number | undefined;
+//     const rExpiresAt = tokenData?.refreshExpiresAt as number | undefined; // epoch seconds
+    
+//     if (typeof refreshToken === 'string') {
+//       let rExpires  = 0
+//       if (typeof rExpiresIn === 'number') rExpires = Date.now() + rExpiresIn * 1000
+//       else if (typeof rExpiresAt === 'number') rExpires = rExpiresAt * 1000
+//       await setRefreshToken(refreshToken, rExpires);
+//     }
+//     if (typeof token === 'string') {
+//       setAuthCredentials(token, typeof expiresIn === 'number' ? expiresIn : undefined);
+//       return token;
+//     }
+//     return null;
+//   } catch {
+//     return null;
+//   }
+// }
+
+export async function getAuthRefreshToken(refreshToken: string): Promise<{
+  token: string | null;
+  success: boolean;
+}> {
   try {
     const res = await Axios.post(
-      `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`, 
-      { "refreshToken": getRefreshToken() },
-      env?.VITE_DEV_PORTAL_ID &&{
-        headers: {
-          'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID,
-        },
+      `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`,
+      { refreshToken },
+      env?.VITE_DEV_PORTAL_ID && {
+        headers: { 'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID },
       }
     );
-    const maybeData = res?.data?.data || res?.data;
-    const tokenData = maybeData?.tokenData || maybeData || {} as any
-    const refreshToken = tokenData?.refreshToken as string;
-    const token = tokenData?.token as string | undefined;
-    const expiresIn = tokenData?.expiresIn as number | undefined;
-    const rExpiresIn = tokenData?.refreshExpiresIn as number | undefined;
-    const rExpiresAt = tokenData?.refreshExpiresAt as number | undefined; // epoch seconds
-    
-    if (typeof refreshToken === 'string') {
-      let rExpires  = 0
-      if (typeof rExpiresIn === 'number') rExpires = Date.now() + rExpiresIn * 1000
-      else if (typeof rExpiresAt === 'number') rExpires = rExpiresAt * 1000
-      await setRefreshToken(refreshToken, rExpires);
+
+    const maybeData = await res?.data?.data || res?.data;
+    const tokenData = await maybeData?.tokenData || maybeData || {};
+
+    const token = await tokenData?.token as string | undefined;
+    const newRefreshToken = await tokenData?.refreshToken as string;
+
+    if (newRefreshToken) {
+      await setRefreshToken(newRefreshToken, Date.now() + 1000 * 60 * 60 * 24);
     }
-    if (typeof token === 'string') {
-      setAuthCredentials(token, typeof expiresIn === 'number' ? expiresIn : undefined);
-      return token;
+
+    if (token) {
+      setAuthCredentials(token, tokenData?.expiresIn);
+      return { token, success: true };
     }
-    return null;
+
+    return { token: null, success: false };
   } catch {
-    return null;
+    return { token: null, success: false };
   }
 }
