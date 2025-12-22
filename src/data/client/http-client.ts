@@ -201,18 +201,37 @@ export async function getAuthRefreshToken(refreshToken: string): Promise<{
       }
     );
 
-    const maybeData = await res?.data?.data || res?.data;
-    const tokenData = await maybeData?.tokenData || maybeData || {};
+    // const maybeData = await res?.data?.data || res?.data;
+    // const tokenData = await maybeData?.tokenData || maybeData || {};
 
-    const token = await tokenData?.token as string | undefined;
-    const newRefreshToken = await tokenData?.refreshToken as string;
+    // const token = await tokenData?.token as string | undefined;
+    // const newRefreshToken = await tokenData?.refreshToken as string;
 
-    if (newRefreshToken) {
-      await setRefreshToken(newRefreshToken, Date.now() + 1000 * 60 * 60 * 24);
+    // if (newRefreshToken) {
+    //   await setRefreshToken(newRefreshToken, Date.now() + 1000 * 60 * 60 * 24);
+    // }
+
+    // if (token) {
+    //   setAuthCredentials(token, tokenData?.expiresIn);
+    //   return { token, success: true };
+    // }
+
+    const maybeData = res?.data?.data || res?.data;
+    const tokenData = maybeData?.tokenData || maybeData || {} as any
+    const newRefreshToken = tokenData?.refreshToken as string;
+    const token = tokenData?.token as string | undefined;
+    const expiresIn = tokenData?.expiresIn as number | undefined;
+    const rExpiresIn = tokenData?.refreshExpiresIn as number | undefined;
+    const rExpiresAt = tokenData?.refreshExpiresAt as number | undefined; // epoch seconds
+    
+    if (typeof newRefreshToken === 'string') {
+      let rExpires  = 0
+      if (typeof rExpiresIn === 'number') rExpires = Date.now() + rExpiresIn * 1000
+      else if (typeof rExpiresAt === 'number') rExpires = rExpiresAt * 1000
+      await setRefreshToken(newRefreshToken, rExpires);
     }
-
-    if (token) {
-      setAuthCredentials(token, tokenData?.expiresIn);
+    if (typeof token === 'string') {
+      setAuthCredentials(token, typeof expiresIn === 'number' ? expiresIn : undefined);
       return { token, success: true };
     }
 

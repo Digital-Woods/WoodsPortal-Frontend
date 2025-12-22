@@ -34,11 +34,12 @@ export function isExpiresAccessToken(): any {
 export function setAccessToken(token: string | null, expiresInSeconds?: number) {
   accessToken = token
   if (typeof expiresInSeconds === 'number' && expiresInSeconds > 0) {
-    const slack = 60 // seconds before expiry to refresh
-    const now = Date.now()
-    expiresAt = now + expiresInSeconds * 1000
-    const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
-    scheduleRefresh(dueInMs)
+    // const slack = 60 // seconds before expiry to refresh
+    // const now = Date.now()
+    // expiresAt = now + expiresInSeconds * 1000
+    // const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
+    // scheduleRefresh(dueInMs)
+    scheduleRefresh(expiresInSeconds)
   } else {
     expiresAt = null
     clearRefresh()
@@ -52,19 +53,30 @@ function clearRefresh() {
   }
 }
 
-function scheduleRefresh(ms: number) {
+// function scheduleRefresh(ms: number) {
+//   clearRefresh()
+//   if (ms === Infinity) return
+//   refreshTimeout = window.setTimeout(() => {
+//     void triggerRefresh()
+//   }, ms)
+// }
+
+function scheduleRefresh(seconds: number) {
   clearRefresh()
-  if (ms === Infinity) return
+
+  // guard: do not schedule immediate / invalid refresh
+  if (!Number.isFinite(seconds) || seconds <= 0) return
+
   refreshTimeout = window.setTimeout(() => {
     void triggerRefresh()
-  }, ms)
+  }, seconds * 1000) // ⬅ convert to ms here
 }
 
 export async function triggerRefresh(): Promise<{
   token: string | null;
   success: boolean;
 }> {
-  const refreshToken = getRefreshToken()
+  const refreshToken = await getRefreshToken()
   return getAuthRefreshToken(refreshToken)
 }
 

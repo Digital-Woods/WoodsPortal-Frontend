@@ -29,8 +29,6 @@ export const App = ({ router }: any) => {
           return;
         }
 
-    {console.log(isExpiresAccessToken())}
-
         if (isExpiresAccessToken()) {
           await getAuthRefreshToken(refreshToken);
         }
