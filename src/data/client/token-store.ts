@@ -34,12 +34,12 @@ export function isExpiresAccessToken(): any {
 export function setAccessToken(token: string | null, expiresInSeconds?: number) {
   accessToken = token
   if (typeof expiresInSeconds === 'number' && expiresInSeconds > 0) {
-    // const slack = 60 // seconds before expiry to refresh
-    // const now = Date.now()
-    // expiresAt = now + expiresInSeconds * 1000
-    // const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
-    // scheduleRefresh(dueInMs)
-    scheduleRefresh(expiresInSeconds)
+    expiresInSeconds = Math.max(expiresInSeconds, 120)
+    const slack = 60 // seconds before expiry to refresh
+    const now = Date.now()
+    expiresAt = now + expiresInSeconds * 1000
+    const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
+    scheduleRefresh(dueInMs)
   } else {
     expiresAt = null
     clearRefresh()
@@ -53,23 +53,12 @@ function clearRefresh() {
   }
 }
 
-// function scheduleRefresh(ms: number) {
-//   clearRefresh()
-//   if (ms === Infinity) return
-//   refreshTimeout = window.setTimeout(() => {
-//     void triggerRefresh()
-//   }, ms)
-// }
-
-function scheduleRefresh(seconds: number) {
+function scheduleRefresh(ms: number) {
   clearRefresh()
-
-  // guard: do not schedule immediate / invalid refresh
-  if (!Number.isFinite(seconds) || seconds <= 0) return
-
+  if (ms === Infinity) return
   refreshTimeout = window.setTimeout(() => {
     void triggerRefresh()
-  }, seconds * 1000) // ⬅ convert to ms here
+  }, ms)
 }
 
 export async function triggerRefresh(): Promise<{
