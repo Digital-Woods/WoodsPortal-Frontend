@@ -26,10 +26,8 @@ const Axios = axios.create({
 });
 
 // Change request data/error
-Axios.interceptors.request.use(async (config: any) => {
-  
-  const token = await getAccessToken()
-
+Axios.interceptors.request.use((config: any) => {
+  let token = getAccessToken();
   config.headers = {
     ...config.headers, // keep custom headers
     ...(token ? { Authorization: `Bearer ${token}` } : {}), // add auth if available

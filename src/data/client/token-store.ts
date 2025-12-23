@@ -10,7 +10,7 @@ let expiresAt: number | null = null // token expiry, epoch ms
 let refreshTimeout: number | null = null
 
 
-export async function getAccessToken(): Promise<string | null> {
+export function getAccessToken(): string | null {
   return accessToken
 }
 
