@@ -2,6 +2,7 @@ import { isCookieExpired } from "@/utils/cookie"
 import { env } from "@/env";
 import { getAuthRefreshToken } from "./http-client";
 import { getRefreshToken } from "./auth-utils";
+import Cookies from 'js-cookie';
 
 let accessToken: string | null = null
 let expiresAt: number | null = null // token expiry, epoch ms
@@ -31,15 +32,59 @@ export function isExpiresAccessToken(): any {
     } catch {}
 }
 
+
+const setRefreshTime = (expiresInSeconds: number) => {
+
+  const time = expiresInSeconds; // seconds
+  const cookieKey = 'refreshTime';
+  const cookieValue = String(expiresInSeconds);
+
+  // current time + time seconds
+  const expiresAt = new Date(Date.now() + time * 1000);
+
+  Cookies.set(cookieKey, cookieValue, {
+    expires: expiresAt,
+  });
+
+}
+
+export function isRefreshTimeExpired(): boolean {
+  return !Cookies.get('refreshTime');
+  // if cookie missing → expired
+}
+
+let refreshPromise: Promise<void> | null = null;
+
+export async function ensureValidRefresh() {
+  if (!isRefreshTimeExpired()) return;
+
+  // Deduplicate multiple parallel refresh calls
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      const refreshToken = await getRefreshToken()
+      const res = await getAuthRefreshToken(refreshToken);
+      if (!res.success) {
+        window.location.replace(Routes.unauthorized);
+        throw new Error('Refresh failed');
+      }
+    })().finally(() => {
+      refreshPromise = null;
+    });
+  }
+
+  await refreshPromise;
+}
+
 export function setAccessToken(token: string | null, expiresInSeconds?: number) {
   accessToken = token
   if (typeof expiresInSeconds === 'number' && expiresInSeconds > 0) {
-    expiresInSeconds = Math.max(expiresInSeconds, 120)
-    const slack = 60 // seconds before expiry to refresh
-    const now = Date.now()
-    expiresAt = now + expiresInSeconds * 1000
-    const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
-    scheduleRefresh(dueInMs)
+    setRefreshTime(expiresInSeconds);
+    // expiresInSeconds = Math.max(expiresInSeconds, 120)
+    // const slack = 60 // seconds before expiry to refresh
+    // const now = Date.now()
+    // expiresAt = now + expiresInSeconds * 1000
+    // const dueInMs = Math.max(0, expiresAt - now - slack * 1000)
+    // scheduleRefresh(dueInMs)
   } else {
     expiresAt = null
     clearRefresh()
@@ -53,13 +98,13 @@ function clearRefresh() {
   }
 }
 
-function scheduleRefresh(ms: number) {
-  clearRefresh()
-  if (ms === Infinity) return
-  refreshTimeout = window.setTimeout(() => {
-    void triggerRefresh()
-  }, ms)
-}
+// function scheduleRefresh(ms: number) {
+//   clearRefresh()
+//   if (ms === Infinity) return
+//   refreshTimeout = window.setTimeout(() => {
+//     void triggerRefresh()
+//   }, ms)
+// }
 
 export async function triggerRefresh(): Promise<{
   token: string | null;

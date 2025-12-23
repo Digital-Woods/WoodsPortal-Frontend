@@ -8,7 +8,8 @@ import { hubId } from "@/data/hubSpotData";
 import {
   getAccessToken,
   clearAccessToken,
-  isExpiresAccessToken
+  isExpiresAccessToken,
+  ensureValidRefresh
 } from './token-store';
 import { getRefreshToken, setAuthCredentials, setRefreshToken } from './auth-utils';
 
@@ -63,21 +64,25 @@ function formatBooleanSearchParam(key: string, value: boolean) {
 
 export class HttpClient {
   static async get<T>(url: string, params?: unknown) {
+    await ensureValidRefresh();
     const response = await Axios.get<T>(url, { params });
     return response.data;
   }
 
   static async post<T>(url: string, data: unknown, options?: any) {
+    await ensureValidRefresh();
     const response = await Axios.post<T>(url, data, options);
     return response.data;
   }
 
   static async put<T>(url: string, data: unknown) {
+    await ensureValidRefresh();
     const response = await Axios.put<T>(url, data);
     return response.data;
   }
 
   static async delete<T>(url: string) {
+    await ensureValidRefresh();
     const response = await Axios.delete<T>(url);
     return response.data;
   }
@@ -105,6 +110,18 @@ export class HttpClient {
       .join(';');
   }
 }
+
+export class AuthHttpClient {
+  static async get<T>(url: string, params?: unknown) {
+    const response = await Axios.get<T>(url, { params });
+    return response.data;
+  }
+  static async post<T>(url: string, data: unknown, options?: any) {
+    const response = await Axios.post<T>(url, data, options);
+    return response.data;
+  }
+}
+
 
 export function getFormErrors(error: unknown) {
   if (axios.isAxiosError(error)) {
