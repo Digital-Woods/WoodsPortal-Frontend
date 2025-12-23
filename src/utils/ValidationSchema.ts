@@ -1,6 +1,7 @@
 import z from 'zod'
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { isArray, isObject } from './DataMigration'
+import { SKIP_PATHS } from './constants'
 
 export const ValidationSchemaShape = (value: any, key: any = 'key') => {
   if (isArray(value) && value.length > 0) {
@@ -238,4 +239,10 @@ export function extractUrl(value: any): { isValidUrl: boolean; urlValue: string 
   const isValidUrl = validateUrl(urlValue);
 
   return { isValidUrl, urlValue };
+}
+
+
+export function skipCurrentPublicPath(): boolean {
+  const currentPath = window.location.hash.split('?')[0];
+  return !SKIP_PATHS.has(currentPath);
 }

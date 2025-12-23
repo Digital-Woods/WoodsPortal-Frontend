@@ -337,7 +337,8 @@ export const DashboardTableForm = ({
         propertyPayload[key] = data2[key];
       } else if (objectNames.includes(key)) {
         const value = data2[key];
-        const recordId = Array.isArray(value) ? value.map((v) => v.ID) : [];
+        // const recordId = Array.isArray(value) ? value.map((v) => v.ID) : [];
+        const recordId = value.split(";").map(Number);
 
         objectPayload.push({
           objectTypeId: objectTypeMap[key],
@@ -643,7 +644,7 @@ export const DashboardTableForm = ({
                                           optionValue="ID"
                                           disabled={filled?.hidden}
                                           setValue={filled?.hidden ? setValue : null}
-                                          isMulti={filled?.fieldType == "checkbox" ? true : false}
+                                          isMulti={true}
                                         />
                                       </FormControl>
                                       {errors[filled?.name] && (

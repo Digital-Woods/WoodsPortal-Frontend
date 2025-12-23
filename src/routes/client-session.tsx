@@ -1,14 +1,13 @@
 import { Client } from '@/data/client';
 import { API_ENDPOINTS } from '@/data/client/api-endpoints';
 import { setAuthCredentials, setLoggedInDetails, setPortal, setRefreshToken, setTwoFa } from '@/data/client/auth-utils';
-import { ensureValidRefresh } from '@/data/client/token-store';
-import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData';
+import { addHomeTabOption, hubSpotUserDetails, makeLink } from '@/data/hubSpotData';
 import { env } from '@/env';
 import { useAuth } from '@/state/use-auth';
 import { useToaster } from '@/state/use-toaster';
 import { AUTH_TOKEN_KEY, AUTH_USER_KEY, COOKIE_EXPIRE } from '@/utils/constants';
 import { setCookie } from '@/utils/cookie';
-import { formatPath } from '@/utils/DataMigration';
+import { formatPath, isArray } from '@/utils/DataMigration';
 import { getParam } from '@/utils/param';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
@@ -20,6 +19,7 @@ import { toast } from 'sonner';
 
 const ClientSession = () => {
     const { setToaster } = useToaster();
+    const accessToken = getParam("accessToken");
     const [progressMessage, setProgressMessage] = useState('');
     const router = useRouter();
     const { setSubscriptionType }: any = useAuth();
@@ -38,11 +38,11 @@ const ClientSession = () => {
         // },
         mutationFn: async () => {
             try {
-                await ensureValidRefresh();
-                const accessToken = getParam("accessToken");
                 const response = await axios.post(
                     `${env.VITE_PUBLIC_REST_API_ENDPOINT}${API_ENDPOINTS.CLIENT_SESSION}`, // Replace with your API endpoint
-                    {}, // Request body (if needed)
+                    {
+                        refreshToken: accessToken,
+                    }, // Request body (if needed)
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -56,9 +56,9 @@ const ClientSession = () => {
             }
         },
         onSuccess: async (data: any) => {
+            console.log("data", data)
             const tokenData: any = data?.data?.tokenData || {}
             const loggedInDetails: any = data?.data?.loggedInDetails || {}
-            const portals: any = data?.data?.loggedInDetails.portals || {}
 
             if (loggedInDetails?.portals) {
                 delete loggedInDetails?.portals;
@@ -73,12 +73,14 @@ const ClientSession = () => {
                 return;
             }
 
-            const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
-            const portal = portals.find(
-                (item: any) => item?.portalUrl === currentDomain
-            );
+            // const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
+            // const portal = portals.find(
+            //     (item: any) => item?.portalUrl === currentDomain
+            // );
 
-            setPortal(portal || {});
+            const currentPortal: any = data?.data?.loggedInDetails?.currentPortal || {}
+
+            setPortal(currentPortal);
 
             const SubscriptionType = loggedInDetails?.subscriptionType || "FREE";
             setSubscriptionType(SubscriptionType);
@@ -87,6 +89,7 @@ const ClientSession = () => {
             const refreshToken = tokenData?.refreshToken;
             const expiresIn = tokenData?.expiresIn;
             const rExpiresIn = tokenData?.refreshExpiresIn;
+
             // const rExpiresAt = data?.data?.tokenData?.refreshExpiresAt;
             if (
                 loggedInDetails &&
@@ -115,11 +118,17 @@ const ClientSession = () => {
                 //   window.location.hash = "/no-routes";
                 // }
 
-                let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
-                if (router.state.location?.search?.r) {
+                // let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+                // if (router.state.location?.search?.r) {
+                //     path = router.state.location?.search?.r
+                // }
+                // router.navigate({ to: `/${path}` });
+
+                let path = isArray(hubSpotUserDetails?.sideMenu) && hubSpotUserDetails?.sideMenu.length > 0 ? makeLink(hubSpotUserDetails?.sideMenu[0]) : ""
+                if(router.state.location?.search?.r) {
                     path = router.state.location?.search?.r
                 }
-                router.navigate({ to: `/${path}` });
+                router.navigate({to: `/${path}`});
 
             }
             toast.success(data?.statusMsg);

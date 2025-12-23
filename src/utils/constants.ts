@@ -72,3 +72,17 @@ export const ALLOWED_FILE_MIME_TYPES = new Set([
   'application/vnd.google-apps.spreadsheet',
   'application/vnd.google-apps.presentation',
 ]);
+
+
+export const SKIP_PATHS = new Set([
+  '#/login',
+  '#/final-login',
+  '#/register',
+  '#/forgot-password',
+  '#/reset-password',
+  '#/verify-email',
+  '#/not-verified-email',
+  '#/client-session',
+]);
+
+

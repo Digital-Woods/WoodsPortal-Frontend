@@ -12,6 +12,7 @@ import {
   ensureValidRefresh
 } from './token-store';
 import { getRefreshToken, setAuthCredentials, setRefreshToken } from './auth-utils';
+import { skipCurrentPublicPath } from '@/utils/ValidationSchema';
 
 
 const VITE_PUBLIC_REST_API_ENDPOINT =
@@ -39,8 +40,17 @@ Axios.interceptors.request.use((config: any) => {
 Axios.interceptors.response.use(
   (response) => response,
   (error) => {
+    const hash = window.location.hash; 
+    // "#/verify-email?token=eyJhbGc"
+
+    const pathWithQuery = hash.replace('#', '');
+    // "verify-email?token=eyJhbGc"
+
+    const currentPath = pathWithQuery.split('?')[0];
+    // "verify-email"
+
     if (
-      (error.response && error.response.status === 401)
+      (error.response && error.response.status === 401 && skipCurrentPublicPath())
     ) {
       const payload = error.response.data ?? {};
       const data = {
@@ -147,14 +157,15 @@ export function getFieldErrors(error: unknown) {
 // }
 
 export async function logout() {
-  let currentPath = window.location.hash.split("?")[0];
-  let skipPaths = [
-    '#/login',
-    '#/final-login',
-    '#/register',
-    '#/forgot-password',
-    '#/reset-password',
-  ];
+  // let currentPath = window.location.hash.split("?")[0];
+  // let skipPaths = [
+  //   '#/login',
+  //   '#/final-login',
+  //   '#/register',
+  //   '#/forgot-password',
+  //   '#/reset-password',
+  //   '#/verify-email',
+  // ];
 
   clearAccessToken();
   removeAllCookie();
@@ -165,7 +176,8 @@ export async function logout() {
     }
   });
 
-  if (!skipPaths.includes(currentPath)) {
+  // if (!skipPaths.includes(currentPath)) {
+  if (skipCurrentPublicPath()) {
     window.location.replace(`#${Routes.login}`);
   }
 }
