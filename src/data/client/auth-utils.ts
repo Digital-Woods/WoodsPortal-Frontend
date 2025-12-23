@@ -63,7 +63,7 @@ export const setRouteMenuConfig = async (data: any) => {
 
 // Get
 export const getRefreshToken = () => {
-  return JSON.parse(getCookie(env.VITE_REFRESH_TOKEN));
+  return JSON.parse(getCookie(env.VITE_REFRESH_TOKEN || null) || null);
 };
 
 export const getAuthCredentials = () => {
@@ -71,7 +71,7 @@ export const getAuthCredentials = () => {
 };
 
 export const getLoggedInDetails = () => {
-  return JSON.parse(getCookie(env.VITE_LOGIN_DETAILS));
+  return JSON.parse(getCookie(env.VITE_LOGIN_DETAILS)) || null;
 };
 
 export const getUserDetails = () => {
@@ -79,12 +79,12 @@ export const getUserDetails = () => {
 };
 
 export const getTwoFa = () => {
-  return JSON.parse(getCookie(env.VITE_TWO_FA));
+  return JSON.parse(getCookie(env.VITE_TWO_FA || null)) || null;
 };
 
 export const getPortal = () => {
-  const portal = getCookie(env.VITE_PORTAL);
-  return portal ? JSON.parse(portal) : null;
+  const portal = getCookie(env.VITE_PORTAL || null) || null;
+  return portal ? JSON.parse(portal || null) : null;
 };
 
 // Reuse functions

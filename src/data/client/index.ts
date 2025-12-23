@@ -1,16 +1,16 @@
 import { API_ENDPOINTS } from './api-endpoints';
-import { HttpClient } from '@/data/client/http-client';
+import { HttpClient, AuthHttpClient } from '@/data/client/http-client';
 import { generateApiUrl } from '@/utils/generateApiUrl';
 import { hubId } from '@/data/hubSpotData'
 import { env } from "@/env";
 
 export const Client = {
   authentication : {
-    preLogin: (data: any) => HttpClient.post(API_ENDPOINTS.PRE_LOGIN, data),
-    // login: (data: any) => HttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
-    // login: (data: any, hub_id: any) => HttpClient.post(`${API_ENDPOINTS.USERS_LOGIN}?hubId=${hub_id}`, data),
+    preLogin: (data: any) => AuthHttpClient.post(API_ENDPOINTS.PRE_LOGIN, data),
+    // login: (data: any) => AuthHttpClient.post(API_ENDPOINTS.USERS_LOGIN, data),
+    // login: (data: any, hub_id: any) => AuthHttpClient.post(`${API_ENDPOINTS.USERS_LOGIN}?hubId=${hub_id}`, data),
     login: (data: any, hub_id: any) =>
-    HttpClient.post(
+    AuthHttpClient.post(
       `${API_ENDPOINTS.USERS_LOGIN}?hubId=${hub_id}`,
       data,
       env?.VITE_DEV_PORTAL_ID &&{
@@ -19,22 +19,22 @@ export const Client = {
         },
       }
     ),
-    existingUserRegister: (data: any) => HttpClient.post(API_ENDPOINTS.EXISTING_USER_REGISTER, data),
-    verifyEmail: (data: any) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL, data),
-    verifyOtp: (data: any) => HttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),
-    register: (data: any) => HttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
-    Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, null),
+    existingUserRegister: (data: any) => AuthHttpClient.post(API_ENDPOINTS.EXISTING_USER_REGISTER, data),
+    verifyEmail: (data: any) => AuthHttpClient.post(API_ENDPOINTS.VERIFY_EMAIL, data),
+    verifyOtp: (data: any) => AuthHttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),
+    register: (data: any) => AuthHttpClient.post(API_ENDPOINTS.USERS_REGISTER, data),
+    forgetPassword: (data: any) =>
+      AuthHttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
+    resetPassword: (data: any) =>
+      AuthHttpClient.post(API_ENDPOINTS.USER_RESET_PASSWORD, data),
+    resendEmail: (data: any) => AuthHttpClient.post(API_ENDPOINTS.RESEND_EMAIL, data),
+    verifyEmailResend: (data: any) => AuthHttpClient.post(API_ENDPOINTS.VERIFY_EMAIL_RESEND, data),
+     clientSession: (data:any) => AuthHttpClient.post(API_ENDPOINTS.CLIENT_SESSION, data),
+    tokenValidate: (data: any) =>
+      AuthHttpClient.post(API_ENDPOINTS.TOKEN_VALIDATE, data),
     changePassword: (data: any) =>
       HttpClient.post(API_ENDPOINTS.USERS_CHANGE_PASSWORD, data),
-    forgetPassword: (data: any) =>
-      HttpClient.post(API_ENDPOINTS.USERS_FORGET_PASSWORD, data),
-    resetPassword: (data: any) =>
-      HttpClient.post(API_ENDPOINTS.USER_RESET_PASSWORD, data),
-    resendEmail: (data: any) => HttpClient.post(API_ENDPOINTS.RESEND_EMAIL, data),
-    verifyEmailResend: (data: any) => HttpClient.post(API_ENDPOINTS.VERIFY_EMAIL_RESEND, data),
-     clientSession: (data:any) => HttpClient.post(API_ENDPOINTS.CLIENT_SESSION, data),
-    tokenValidate: (data: any) =>
-      HttpClient.post(API_ENDPOINTS.TOKEN_VALIDATE, data),
+    Logout: () => HttpClient.post(API_ENDPOINTS.USER_LOGOUT, null),
   },
 
   fetchAllFeatures : {

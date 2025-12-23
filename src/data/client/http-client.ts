@@ -8,7 +8,8 @@ import { hubId } from "@/data/hubSpotData";
 import {
   getAccessToken,
   clearAccessToken,
-  isExpiresAccessToken
+  isExpiresAccessToken,
+  ensureValidRefresh
 } from './token-store';
 import { getRefreshToken, setAuthCredentials, setRefreshToken } from './auth-utils';
 
@@ -63,21 +64,25 @@ function formatBooleanSearchParam(key: string, value: boolean) {
 
 export class HttpClient {
   static async get<T>(url: string, params?: unknown) {
+    await ensureValidRefresh();
     const response = await Axios.get<T>(url, { params });
     return response.data;
   }
 
   static async post<T>(url: string, data: unknown, options?: any) {
+    await ensureValidRefresh();
     const response = await Axios.post<T>(url, data, options);
     return response.data;
   }
 
   static async put<T>(url: string, data: unknown) {
+    await ensureValidRefresh();
     const response = await Axios.put<T>(url, data);
     return response.data;
   }
 
   static async delete<T>(url: string) {
+    await ensureValidRefresh();
     const response = await Axios.delete<T>(url);
     return response.data;
   }
@@ -106,6 +111,18 @@ export class HttpClient {
   }
 }
 
+export class AuthHttpClient {
+  static async get<T>(url: string, params?: unknown) {
+    const response = await Axios.get<T>(url, { params });
+    return response.data;
+  }
+  static async post<T>(url: string, data: unknown, options?: any) {
+    const response = await Axios.post<T>(url, data, options);
+    return response.data;
+  }
+}
+
+
 export function getFormErrors(error: unknown) {
   if (axios.isAxiosError(error)) {
     return error.response?.data.message;
@@ -120,14 +137,14 @@ export function getFieldErrors(error: unknown) {
   return null;
 }
 
-export async function initAuthBootstrap () {
-  if(isCookieExpired(env.VITE_REFRESH_TOKEN)) {
-    await logout();
-  }else if(isExpiresAccessToken()) {
-    await getAuthToken();
-  }
-  return false;
-}
+// export async function initAuthBootstrap () {
+//   if(isCookieExpired(env.VITE_REFRESH_TOKEN)) {
+//     await logout();
+//   }else if(isExpiresAccessToken()) {
+//     await getAuthToken();
+//   }
+//   return false;
+// }
 
 export async function logout() {
   let currentPath = window.location.hash.split("?")[0];
@@ -153,37 +170,90 @@ export async function logout() {
   }
 }
 
-export async function getAuthToken () {
+// export async function getAuthToken () {
+//   try {
+//     const res = await Axios.post(
+//       `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`, 
+//       { "refreshToken": getRefreshToken() },
+//       env?.VITE_DEV_PORTAL_ID &&{
+//         headers: {
+//           'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID,
+//         },
+//       }
+//     );
+//     const maybeData = res?.data?.data || res?.data;
+//     const tokenData = maybeData?.tokenData || maybeData || {} as any
+//     const refreshToken = tokenData?.refreshToken as string;
+//     const token = tokenData?.token as string | undefined;
+//     const expiresIn = tokenData?.expiresIn as number | undefined;
+//     const rExpiresIn = tokenData?.refreshExpiresIn as number | undefined;
+//     const rExpiresAt = tokenData?.refreshExpiresAt as number | undefined; // epoch seconds
+    
+//     if (typeof refreshToken === 'string') {
+//       let rExpires  = 0
+//       if (typeof rExpiresIn === 'number') rExpires = Date.now() + rExpiresIn * 1000
+//       else if (typeof rExpiresAt === 'number') rExpires = rExpiresAt * 1000
+//       await setRefreshToken(refreshToken, rExpires);
+//     }
+//     if (typeof token === 'string') {
+//       setAuthCredentials(token, typeof expiresIn === 'number' ? expiresIn : undefined);
+//       return token;
+//     }
+//     return null;
+//   } catch {
+//     return null;
+//   }
+// }
+
+export async function getAuthRefreshToken(refreshToken: string): Promise<{
+  token: string | null;
+  success: boolean;
+}> {
   try {
     const res = await Axios.post(
-      `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`, 
-      { "refreshToken": getRefreshToken() },
-      env?.VITE_DEV_PORTAL_ID &&{
-        headers: {
-          'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID,
-        },
+      `${API_ENDPOINTS.AUTH_REFRESH}?hubId=${hubId}`,
+      { refreshToken },
+      env?.VITE_DEV_PORTAL_ID && {
+        headers: { 'X-Dev-Portal-Id': env.VITE_DEV_PORTAL_ID },
       }
     );
+
+    // const maybeData = await res?.data?.data || res?.data;
+    // const tokenData = await maybeData?.tokenData || maybeData || {};
+
+    // const token = await tokenData?.token as string | undefined;
+    // const newRefreshToken = await tokenData?.refreshToken as string;
+
+    // if (newRefreshToken) {
+    //   await setRefreshToken(newRefreshToken, Date.now() + 1000 * 60 * 60 * 24);
+    // }
+
+    // if (token) {
+    //   setAuthCredentials(token, tokenData?.expiresIn);
+    //   return { token, success: true };
+    // }
+
     const maybeData = res?.data?.data || res?.data;
     const tokenData = maybeData?.tokenData || maybeData || {} as any
-    const refreshToken = tokenData?.refreshToken as string;
+    const newRefreshToken = tokenData?.refreshToken as string;
     const token = tokenData?.token as string | undefined;
     const expiresIn = tokenData?.expiresIn as number | undefined;
     const rExpiresIn = tokenData?.refreshExpiresIn as number | undefined;
     const rExpiresAt = tokenData?.refreshExpiresAt as number | undefined; // epoch seconds
     
-    if (typeof refreshToken === 'string') {
+    if (typeof newRefreshToken === 'string') {
       let rExpires  = 0
       if (typeof rExpiresIn === 'number') rExpires = Date.now() + rExpiresIn * 1000
       else if (typeof rExpiresAt === 'number') rExpires = rExpiresAt * 1000
-      await setRefreshToken(refreshToken, rExpires);
+      await setRefreshToken(newRefreshToken, rExpires);
     }
     if (typeof token === 'string') {
       setAuthCredentials(token, typeof expiresIn === 'number' ? expiresIn : undefined);
-      return token;
+      return { token, success: true };
     }
-    return null;
+
+    return { token: null, success: false };
   } catch {
-    return null;
+    return { token: null, success: false };
   }
 }

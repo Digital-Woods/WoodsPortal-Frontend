@@ -143,3 +143,29 @@ export function parseISTToTimestamp(dateTimeStr: any) {
 
   return finalTimestamp.toString();
 }
+
+export function normalizeToTimestamp(defaultValue: any): any {
+  // Invalid / empty
+  if (!defaultValue) return null;
+
+  // Valid timestamp number
+  if (typeof defaultValue === "number") {
+    return defaultValue > 100000000000 ? defaultValue : 0;
+  }
+
+  // Valid timestamp string (digits only, min 10 length)
+  if (typeof defaultValue === "string" && /^\d+$/.test(defaultValue)) {
+    return defaultValue.length >= 10 ? Number(defaultValue) : 0;
+  }
+
+  // Valid date string → convert
+  if (typeof defaultValue === "string") {
+    const date = new Date(defaultValue);
+    if (!isNaN(date.getTime())) {
+      return date.getTime();
+    }
+  }
+
+  // Everything else invalid
+  return null;
+}

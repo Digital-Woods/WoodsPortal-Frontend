@@ -24,6 +24,7 @@ import { getIcon } from "@/utils/GetIcon";
 import { ALLOWED_FILE_MIME_TYPES, ENTERPRISE_ACCOUNT_MAX_FILE_SIZE, FREE_ACCOUNT_MAX_FILE_SIZE } from "@/utils/constants";
 import { useAuth } from "@/state/use-auth";
 import { toast } from "sonner";
+import { ensureValidRefresh } from "@/data/client/token-store";
 
 export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, objectId, id }: any) => {
   const { subscriptionType }: any = useAuth();
@@ -193,6 +194,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     const url = env.VITE_PUBLIC_REST_API_ENDPOINT+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
 
     try {
+      await ensureValidRefresh();
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",

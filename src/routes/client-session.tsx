@@ -1,6 +1,7 @@
 import { Client } from '@/data/client';
 import { API_ENDPOINTS } from '@/data/client/api-endpoints';
 import { setAuthCredentials, setLoggedInDetails, setPortal, setRefreshToken, setTwoFa } from '@/data/client/auth-utils';
+import { ensureValidRefresh } from '@/data/client/token-store';
 import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData';
 import { env } from '@/env';
 import { useAuth } from '@/state/use-auth';
@@ -19,7 +20,6 @@ import { toast } from 'sonner';
 
 const ClientSession = () => {
     const { setToaster } = useToaster();
-    const accessToken = getParam("accessToken");
     const [progressMessage, setProgressMessage] = useState('');
     const router = useRouter();
     const { setSubscriptionType }: any = useAuth();
@@ -38,6 +38,8 @@ const ClientSession = () => {
         // },
         mutationFn: async () => {
             try {
+                await ensureValidRefresh();
+                const accessToken = getParam("accessToken");
                 const response = await axios.post(
                     `${env.VITE_PUBLIC_REST_API_ENDPOINT}${API_ENDPOINTS.CLIENT_SESSION}`, // Replace with your API endpoint
                     {}, // Request body (if needed)

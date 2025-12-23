@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge"
 import { TimeMenu } from './TimeMenu';
 import { DateMenu } from './DateMenu';
 import { Controller } from 'react-hook-form';
-import { formatTimestampIST, parseISTToTimestamp } from '@/utils/DateTime';
+import { formatTimestampIST, normalizeToTimestamp, parseISTToTimestamp } from '@/utils/DateTime';
 
 export function cn(...inputs: any[]) {
   return twMerge(clsx(inputs))
@@ -35,17 +35,18 @@ export const DateTimeInput = React.forwardRef(
   ) => {
     const [inputValueDate, setInputValueDate] = useState("");
     const [inputValueTime, setInputValueTime] = useState("");
+    const value = normalizeToTimestamp(defaultValue)
 
     useEffect(() => {
-      if (defaultValue) {
-        const formatedDateTime = formatTimestampIST(defaultValue);
-        setInputValueDate(formatedDateTime.date);
+      if (value) {
+        const formatedDateTime = formatTimestampIST(value);
+          setInputValueDate(formatedDateTime.date);
         if (time) {
           setInputValueTime(formatedDateTime?.time);
         }
-        if(setValue) setValue(name, defaultValue);
+        if(setValue) setValue(name, value);
       }
-    }, [defaultValue, time]);
+    }, [value, time]);
 
     const handleSelectDate = (date: any, field?: { onChange: (value: any) => void }) => {
       let inputValue: string = ""
@@ -83,7 +84,7 @@ export const DateTimeInput = React.forwardRef(
       <Controller
         control={control}
         name={name}
-        defaultValue={defaultValue}
+        defaultValue={value}
         render={({ field }: any) =>
           <div className={time ? "flex max-sm:flex-col gap-2" : ""}>
             <div className='w-full'>
@@ -95,7 +96,7 @@ export const DateTimeInput = React.forwardRef(
                 height={height}
                 icon={Icon}
                 variant={variant}
-                defaultValue={defaultValue}
+                defaultValue={value}
                 dateFormat={dateFormat}
                 isStringValue={isStringValue}
                 setValue={setValue}
@@ -115,7 +116,7 @@ export const DateTimeInput = React.forwardRef(
                   height={height}
                   icon={Icon}
                   variant={variant}
-                  defaultValue={defaultValue}
+                  defaultValue={value}
                   dateFormat={dateFormat}
                   isStringValue={isStringValue}
                   setValue={setValue}

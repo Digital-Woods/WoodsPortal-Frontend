@@ -3,18 +3,31 @@ import { Routes } from '@/config/routes';
 import { clearAccessToken } from '@/data/client/token-store';
 import { removeAllCookie } from '@/utils/cookie';
 import { useResponsive } from '@/utils/UseResponsive';
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
+import { useEffect } from 'react';
 
 const Unauthorized = () => {
+    const router = useRouter()
     const navigate = useNavigate();
     const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
-    clearAccessToken();
-    removeAllCookie();
-
     const raw = sessionStorage.getItem('authError');
     const authError = raw ? JSON.parse(raw) : null;
-    // if (authError) sessionStorage.removeItem('authError');
+
+    useEffect(() => {
+        if (raw) {
+            clearAccessToken();
+            removeAllCookie();
+        } else {
+            router.navigate({ to: `/` });
+        }
+    }, [raw]);
+
+    useEffect(() => {
+        return () => {
+            sessionStorage.removeItem('authError');
+        };
+    }, []);
 
     return (
         <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">

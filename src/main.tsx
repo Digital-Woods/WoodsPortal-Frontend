@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter, createHashHistory  } from '@tanstack/react-router'
 
@@ -10,9 +10,11 @@ import { routeTree } from './routeTree.gen'
 // import './assets/css/main.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import { initAuthBootstrap } from '@/data/client/http-client'
+// import { initAuthBootstrap } from '@/data/client/http-client'
 
 import isPrefix from '../scripts/tailwind/prefix.env.js'
+import { App } from './app.tsx'
+// import { StrictMode } from 'react'
 // ✅ wait for CSS before continuing
 async function loadCss() {
   if (isPrefix(import.meta.env.MODE)) {
@@ -42,14 +44,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const setupRefreshToken = async () => {
-  try {
-    await initAuthBootstrap()
-  } catch {}
-}
+// const setupRefreshToken = async () => {
+//   try {
+//     await initAuthBootstrap()
+//   } catch {}
+// }
+
+
 
 async function bootstrap() {
-  await setupRefreshToken()
+  // await setupRefreshToken()
   await loadCss()
   await import('./assets/css/style.css')
   await import('./assets/css/override.style.css')
@@ -58,12 +62,15 @@ async function bootstrap() {
   const rootElement = document.getElementById('app')
   if (rootElement && !rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement)
+    // root.render(
+    //     <StrictMode>
+    //       <TanStackQueryProvider.Provider>
+    //         <RouterProvider router={router} />
+    //       </TanStackQueryProvider.Provider>
+    //     </StrictMode>
+    // )
     root.render(
-        <StrictMode>
-          <TanStackQueryProvider.Provider>
-            <RouterProvider router={router} />
-          </TanStackQueryProvider.Provider>
-        </StrictMode>
+      <App router={router} />
     )
   }
 
