@@ -76,8 +76,8 @@ export const DashboardTableForm = ({
     },
 
     onSuccess: (response: any) => {
-      if (response.statusCode === "200") {
-        setData(response.data.results);
+      if (response?.statusCode === "200") {
+        setData(response?.data?.results);
         setValidationSchema(createValidationSchema(response?.data?.results));
       }
     },
@@ -641,7 +641,8 @@ export const DashboardTableForm = ({
                                           apiEndPoint={`/api/${hubId}/${portalId}/hubspot-object-forms/${filled?.formId}/${filled?.objectTypeId}`}
                                           optionlabel="label"
                                           optionValue="ID"
-                                          setValue={setValue}
+                                          disabled={filled?.hidden}
+                                          setValue={filled?.hidden ? setValue : null}
                                           isMulti={filled?.fieldType == "checkbox" ? true : false}
                                         />
                                       </FormControl>

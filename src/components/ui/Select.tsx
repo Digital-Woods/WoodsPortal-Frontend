@@ -117,7 +117,7 @@ export const Select = ({
       setOptions(selectOptions)
     }
     if (disabled && selectOptions.length === 1) {
-      handleChange(selectOptions[0].value)
+      handleChange(selectOptions[0][optionValue])
     }
     if (selectOptions.length === 0) { // if empty or change pipeline
       handleChange("")
@@ -153,12 +153,14 @@ export const Select = ({
       render={({ field }: any) =>
         <MSelect
           {...field}
-          value={parseValue(field[optionValue], field)}
+          value={parseValue(field.value, field)}
           options={options}
           isMulti={isMulti}
           isClearable={isClearable}
           onMenuOpen={apiEndPoint != null ? fetchOptions : null}
           isLoading={apiEndPoint != null ? isLoading : false}
+          optionLabel={optionlabel}
+          optionValue={optionValue}
           getOptionLabel={(option) => option[optionlabel]}
           getOptionValue={(option) => option[optionValue]}
           menuPortalTarget={document.body}
