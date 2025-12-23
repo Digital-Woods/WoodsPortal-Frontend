@@ -40,7 +40,9 @@ const ClientSession = () => {
             try {
                 const response = await axios.post(
                     `${env.VITE_PUBLIC_REST_API_ENDPOINT}${API_ENDPOINTS.CLIENT_SESSION}`, // Replace with your API endpoint
-                    {}, // Request body (if needed)
+                    {
+                        refreshToken: accessToken,
+                    }, // Request body (if needed)
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -54,6 +56,7 @@ const ClientSession = () => {
             }
         },
         onSuccess: async (data: any) => {
+            console.log("data", data)
             const tokenData: any = data?.data?.tokenData || {}
             const loggedInDetails: any = data?.data?.loggedInDetails || {}
             const portals: any = data?.data?.loggedInDetails.portals || {}
@@ -71,12 +74,14 @@ const ClientSession = () => {
                 return;
             }
 
-            const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
-            const portal = portals.find(
-                (item: any) => item?.portalUrl === currentDomain
-            );
+            // const currentDomain = env.VITE_NODE_ENV === 'development' ? env.VITE_PORTAL_URL : window.location.origin;
+            // const portal = portals.find(
+            //     (item: any) => item?.portalUrl === currentDomain
+            // );
 
-            setPortal(portal || {});
+            const currentPortal: any = data?.data?.loggedInDetails?.currentPortal || {}
+
+            setPortal(currentPortal);
 
             const SubscriptionType = loggedInDetails?.subscriptionType || "FREE";
             setSubscriptionType(SubscriptionType);
@@ -85,6 +90,7 @@ const ClientSession = () => {
             const refreshToken = tokenData?.refreshToken;
             const expiresIn = tokenData?.expiresIn;
             const rExpiresIn = tokenData?.refreshExpiresIn;
+
             // const rExpiresAt = data?.data?.tokenData?.refreshExpiresAt;
             if (
                 loggedInDetails &&

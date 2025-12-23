@@ -8,6 +8,7 @@ import { isCookieExpired } from './utils/cookie.ts';
 import { isExpiresAccessToken } from './data/client/token-store.ts';
 import { env } from './env.ts';
 import Loader from './components/ui/loader/loader.tsx';
+import { skipCurrentPublicPath } from './utils/ValidationSchema.ts';
 
 export const App = ({ router }: any) => {
   const refreshToken = getRefreshToken()
@@ -29,7 +30,7 @@ export const App = ({ router }: any) => {
           return;
         }
 
-        if (isExpiresAccessToken()) {
+        if (isExpiresAccessToken() && skipCurrentPublicPath()) {
           await getAuthRefreshToken(refreshToken);
         }
       } catch (e: any) {
