@@ -33,20 +33,20 @@ export function isExpiresAccessToken(): any {
 }
 
 
+// Buffer time (seconds) before token expiry to trigger refresh
+const REFRESH_BUFFER = 60;
+
 const setRefreshTime = (expiresInSeconds: number) => {
+  // Subtract buffer and prevent negative values
+  const safeSeconds = Math.max(0, expiresInSeconds - REFRESH_BUFFER);
 
-  const time = expiresInSeconds; // seconds
-  const cookieKey = 'refreshTime';
-  const cookieValue = String(expiresInSeconds);
-
-  // current time + time seconds
-  const expiresAt = new Date(Date.now() + time * 1000);
-
-  Cookies.set(cookieKey, cookieValue, {
-    expires: expiresAt,
+  // Save refresh time with correct expiry
+  Cookies.set('refreshTime', String(safeSeconds), {
+    expires: new Date(Date.now() + safeSeconds * 1000),
   });
+};
 
-}
+
 
 export function isRefreshTimeExpired(): boolean {
   return !Cookies.get('refreshTime');
