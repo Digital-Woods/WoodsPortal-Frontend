@@ -39,8 +39,22 @@ Axios.interceptors.request.use((config: any) => {
 Axios.interceptors.response.use(
   (response) => response,
   (error) => {
+    const hash = window.location.hash; 
+    // "#/verify-email?token=eyJhbGc"
+
+    const pathWithQuery = hash.replace('#', '');
+    // "verify-email?token=eyJhbGc"
+
+    const currentPath = pathWithQuery.split('?')[0];
+    // "verify-email"
+
+    let skipPaths = [
+      '/verify-email',
+      '/reset-password'
+    ];
+
     if (
-      (error.response && error.response.status === 401)
+      (error.response && error.response.status === 401 && !skipPaths.includes(currentPath))
     ) {
       const payload = error.response.data ?? {};
       const data = {
@@ -154,6 +168,7 @@ export async function logout() {
     '#/register',
     '#/forgot-password',
     '#/reset-password',
+    '#/verify-email',
   ];
 
   clearAccessToken();

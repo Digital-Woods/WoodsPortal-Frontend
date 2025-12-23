@@ -19,10 +19,10 @@ export const App = ({ router }: any) => {
 
     const bootstrap = async () => {
       try {
-        if (!refreshToken) {
-          logout();
-          return;
-        }
+        // if (!refreshToken) {
+        //   logout();
+        //   return;
+        // }
 
         if (isCookieExpired(env.VITE_REFRESH_TOKEN)) {
           logout();

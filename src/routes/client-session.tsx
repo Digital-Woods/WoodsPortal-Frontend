@@ -1,13 +1,13 @@
 import { Client } from '@/data/client';
 import { API_ENDPOINTS } from '@/data/client/api-endpoints';
 import { setAuthCredentials, setLoggedInDetails, setPortal, setRefreshToken, setTwoFa } from '@/data/client/auth-utils';
-import { addHomeTabOption, hubSpotUserDetails } from '@/data/hubSpotData';
+import { addHomeTabOption, hubSpotUserDetails, makeLink } from '@/data/hubSpotData';
 import { env } from '@/env';
 import { useAuth } from '@/state/use-auth';
 import { useToaster } from '@/state/use-toaster';
 import { AUTH_TOKEN_KEY, AUTH_USER_KEY, COOKIE_EXPIRE } from '@/utils/constants';
 import { setCookie } from '@/utils/cookie';
-import { formatPath } from '@/utils/DataMigration';
+import { formatPath, isArray } from '@/utils/DataMigration';
 import { getParam } from '@/utils/param';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
@@ -113,11 +113,17 @@ const ClientSession = () => {
                 //   window.location.hash = "/no-routes";
                 // }
 
-                let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
-                if (router.state.location?.search?.r) {
+                // let path = formatPath(hubSpotUserDetails?.sideMenu[0]?.label && !addHomeTabOption ? hubSpotUserDetails?.sideMenu[0]?.label : hubSpotUserDetails?.sideMenu[0]?.tabName)
+                // if (router.state.location?.search?.r) {
+                //     path = router.state.location?.search?.r
+                // }
+                // router.navigate({ to: `/${path}` });
+
+                let path = isArray(hubSpotUserDetails?.sideMenu) && hubSpotUserDetails?.sideMenu.length > 0 ? makeLink(hubSpotUserDetails?.sideMenu[0]) : ""
+                if(router.state.location?.search?.r) {
                     path = router.state.location?.search?.r
                 }
-                router.navigate({ to: `/${path}` });
+                router.navigate({to: `/${path}`});
 
             }
             toast.success(data?.statusMsg);
