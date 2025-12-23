@@ -59,7 +59,6 @@ const ClientSession = () => {
             console.log("data", data)
             const tokenData: any = data?.data?.tokenData || {}
             const loggedInDetails: any = data?.data?.loggedInDetails || {}
-            const portals: any = data?.data?.loggedInDetails.portals || {}
 
             if (loggedInDetails?.portals) {
                 delete loggedInDetails?.portals;
