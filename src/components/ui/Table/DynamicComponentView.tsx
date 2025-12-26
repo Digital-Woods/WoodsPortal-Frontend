@@ -332,6 +332,13 @@ export const DynamicComponentView = ({
         })
       }
 
+       if(defPermissions?.pipeline_id) { // if ticket added pipeline ID
+        param.filterValue = defPermissions?.pipeline_id
+        updateLink({
+          "fV": defPermissions?.pipeline_id
+        })
+      }
+
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
