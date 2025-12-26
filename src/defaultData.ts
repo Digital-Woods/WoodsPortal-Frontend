@@ -226,10 +226,10 @@ const sidebarMenuOptions = [
             }
         ],
         "objectUserPropertiesView": "grid",
-        "pipeLineId": "0",
+        "pipeLineId": "796859474",
         "propertyName": null,
         "showIframe": false,
-        "specPipeLine": false
+        "specPipeLine": true
     },
     {
         "associateObjectName": null,

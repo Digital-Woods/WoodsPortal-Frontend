@@ -215,7 +215,7 @@ export const DynamicComponentView = ({
 
         if (
           // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
+          (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
         ) {
           await getPipelines();
         } else {
@@ -318,14 +318,14 @@ export const DynamicComponentView = ({
 
       setTableFilterData(param)
 
-      if(mPipelines != undefined && mPipelines?.length === 0) { // if pipelines empty then set filter value is empty (n-a)
+      if(mPipelines != undefined && mPipelines?.length === 0 && !specPipeLine) { // if pipelines empty then set filter value is empty (n-a)
         param.filterValue = ""
         updateLink({
           "fV": param?.filterValue,
         })
       }
 
-      if(mPipelines != undefined && mPipelines?.length === 1) { // if pipelines length is 0 then forcefully set 0 index pipeline
+      if(mPipelines != undefined && mPipelines?.length === 1 && !specPipeLine) { // if pipelines length is 0 then forcefully set 0 index pipeline
         param.filterValue = mPipelines[0].pipelineId
         updateLink({
           "fV": param?.filterValue,
@@ -606,7 +606,7 @@ export const DynamicComponentView = ({
       if (sync || apiSync) {
         if (
           // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
+          (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
         ) {
           await getPipelines();
         } else {
@@ -618,21 +618,21 @@ export const DynamicComponentView = ({
     fetchData();
   }, [sync, apiSync, hubspotObjectTypeId, defPermissions, isLoadedUserProfile]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if(!isLoadedUserProfile) return
-      setPage(1);
-      if (
-        // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-        (!defPermissions?.pipeline_id || !routeDetails?.defPermissions?.pipeline_id)
-      ) {
-        await getPipelines();
-      } else {
-        await getData();
-      }
-    };
-    if (!isFristTimeLoadData && isHome) fetchData();
-  }, [companyAsMediator, hubspotObjectTypeId, defPermissions, isLoadedUserProfile]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if(!isLoadedUserProfile) return
+  //     setPage(1);
+  //     if (
+  //       // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
+  //       (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+  //     ) {
+  //       await getPipelines();
+  //     } else {
+  //       await getData();
+  //     }
+  //   };
+  //   if (!isFristTimeLoadData && isHome) fetchData();
+  // }, [companyAsMediator, hubspotObjectTypeId, defPermissions, isLoadedUserProfile]);
 
   // useEffect(() => {
     // if(isLoadingHoldData) getData();
@@ -665,7 +665,7 @@ export const DynamicComponentView = ({
     await setLimit(10);
     // if(!isHome) {
       // await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-      await (!defPermissions?.pipeline_id) ? getPipelines() : getData();
+      await (!defPermissions?.pipeline_id && !specPipeLine) ? getPipelines() : getData();
     // }
   }
 
