@@ -425,13 +425,11 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     onSuccess: (response: any) => {
       // setApiSync(true);
       refetch();
-      setShowDialog(false);
+      closeDialog();
       setToaster({
         message: response?.statusMsg,
         type: "success",
       });
-      setExpandDialog(false);
-      setAttachmentId('');
     },
     onError: (error: any) => {
       const errorMessage = error?.response?.data?.errorMessage;
@@ -518,6 +516,12 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
     return displayValue || me?.firstName;
   };
 
+  const closeDialog = () => {
+    setShowDialog(false);
+    setExpandDialog(false);
+    setAttachmentId('');
+  };
+
   return (
     <div className="border dark:border-none dark:bg-dark-300 md:p-4 p-2 rounded-lg bg-cleanWhite ">
       {permissions && permissions.create && (
@@ -561,7 +565,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       )}
       <Dialog
         open={showDialog}
-        onClose={setShowDialog}
+        onClose={closeDialog}
         className={`p-0 relative mx-auto bg-white dark:bg-white overflow-y-auto max-h-[95vh] ${
           expandDialog
             ? "lg:w-[calc(100vw-25vw)] md:w-[calc(100vw-5vw)] w-[calc(100vw-20px)]"
@@ -594,7 +598,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
             <button
               disabled={isPosting || isUploading}
               variant="outline"
-              onClick={() => setShowDialog(false)}
+              onClick={closeDialog}
               className="text-white dark:text-white"
             >
               <CloseIcon width="24px" height="24px" />
@@ -627,11 +631,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
             <Button
               disabled={isPosting || isUploading || isLoadingUploading}
               variant="outline"
-              onClick={() => {
-                setShowDialog(false);
-                setExpandDialog(false);
-                setAttachmentId('');
-              }}
+              onClick={closeDialog}
               className={`dark:!text-white`}
             >
               Cancel
