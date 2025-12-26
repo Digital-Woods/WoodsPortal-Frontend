@@ -232,7 +232,7 @@ export const Drawer = ({ className }: any) => {
                         <div className={`bg-[var(--sidebarCta-background-color)] text-[var(--sidebarCta-text-color)] text-sm p-4 text-md text-center dark:bg-dark-500 dark:text-white font-medium rounded-md`}>
                           <p>{sideBarOptions.title}</p>
                             <Button
-                              className={`bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:bg-dark-200 dark:text-white dar mt-4 border-none py-2`}
+                              className={`h-auto bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:bg-dark-200 dark:text-white dar mt-4 border-none py-2`}
                               size="sm"
                             >
                               <a
