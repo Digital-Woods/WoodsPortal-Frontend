@@ -320,6 +320,16 @@ export const DynamicComponentView = ({
 
       if(mPipelines != undefined && mPipelines?.length === 0) { // if pipelines empty then set filter value is empty (n-a)
         param.filterValue = ""
+        updateLink({
+          "fV": param?.filterValue,
+        })
+      }
+
+      if(mPipelines != undefined && mPipelines?.length === 1) { // if pipelines length is 0 then forcefully set 0 index pipeline
+        param.filterValue = mPipelines[0].pipelineId
+        updateLink({
+          "fV": param?.filterValue,
+        })
       }
 
       return await Client.objects.all({
