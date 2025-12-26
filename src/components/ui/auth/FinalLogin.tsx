@@ -169,6 +169,11 @@ export const FinalLogin = ({ setActiveState, entredEmail, loginData, clientSiteU
   };
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
 
+  useEffect(() => {
+    sessionStorage.setItem('entredEmail', entredEmail);
+  }, [entredEmail]);
+
+
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
       <div

@@ -18,6 +18,8 @@ const ForgetPassword = () => {
     email: z.string().email(),
   });
 
+  const entredEmail = sessionStorage.getItem('entredEmail') || "";
+
   const { mutate: resetPassword, isLoading } = useMutation({
     mutationKey: ["resetPassword"],
     mutationFn: async (input: any) => {
@@ -90,6 +92,7 @@ const ForgetPassword = () => {
                         placeholder="Email"
                         className=""
                         {...register("email")}
+                        defaultValue={entredEmail || ""}
                       />
                     </div>
                   </FormControl>
