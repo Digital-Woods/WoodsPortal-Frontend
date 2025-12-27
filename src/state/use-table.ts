@@ -96,11 +96,6 @@ export function useTable() {
       view,
     };
 
-    console.log("a", {
-        ...baseParams,
-        ...({after: page}),
-      })
-
     if (getAuthSubscriptionType() === "FREE") {
       return {
         ...baseParams,

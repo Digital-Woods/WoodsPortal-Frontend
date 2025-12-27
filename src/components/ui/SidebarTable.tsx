@@ -30,7 +30,7 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
   const [currentTableData, setCurrentTableData] = useState<any>([]);
   const [totalItems, setTotalItems] = useState<any>(0);
   const [itemsPerPage, setItemsPerPage] = useState<any>(10);
-  const [currentPage, setCurrentPage] = useState<any>(1);
+  const [currentPage, setCurrentPage] = useState<any>("");
   const [tableHeader, setTableHeader] = useState<any>([]);
   const [after, setAfter] = useState<any>("");
   const [sortConfig, setSortConfig] = useState<any>("-hs_createdate");
@@ -148,7 +148,8 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
       if (companyAsMediator) param.mediatorObjectTypeId = '0-2';
       return await Client.objects.all({
         API_ENDPOINT: apis?.tableAPI,
-        param: updateParamsFromUrl(apis?.tableAPI, param)
+        // param: updateParamsFromUrl(apis?.tableAPI, param)
+        param: param
       });
     },
 

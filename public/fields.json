@@ -2735,4 +2735,44 @@
   "type" : "boolean",
   "display_width" : null,
   "default" : false
+}, {
+  "id" : "c629adb8-ed6b-d731-e7ff-1571ca48a4e4",
+  "name" : "developer_option",
+  "label" : "Developer",
+  "required" : false,
+  "locked" : false,
+  "display" : "toggle",
+  "type" : "boolean",
+  "display_width" : null,
+  "default" : false
+}, {
+  "id" : "f9c2b870-425d-3f1c-5afb-27ae92dca4c7",
+  "name" : "developer_options",
+  "label" : "Developer options",
+  "required" : false,
+  "locked" : false,
+  "visibility" : {
+    "controlling_field" : null,
+    "controlling_field_path" : "developer_option",
+    "controlling_value_regex" : "true",
+    "property" : null,
+    "operator" : "EQUAL",
+    "access" : null
+  },
+  "children" : [ {
+    "id" : "be134a85-5e6a-b513-108f-cb538f81f4a1",
+    "name" : "temp_backend_url",
+    "label" : "Backend URL",
+    "required" : false,
+    "locked" : false,
+    "allow_new_line" : false,
+    "type" : "text",
+    "display_width" : null
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : { }
 } ]

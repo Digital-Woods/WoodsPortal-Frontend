@@ -58,7 +58,7 @@ export const formatDate = (data: any, type = "date") => {
   const [day, month, year] = datePart.split("/");
 
   if (type === "date") {
-    return `${day}-${month}-${year}`;
+    return `${month}-${day}-${year}`;
   } else if (type === "input") {
     return `${year}-${month}-${day}`;
   }

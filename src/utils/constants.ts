@@ -78,7 +78,7 @@ export const SKIP_PATHS = new Set([
   '#/login',
   '#/final-login',
   '#/register',
-  '#/forgot-password',
+  '#/forget-password',
   '#/reset-password',
   '#/verify-email',
   '#/not-verified-email',
