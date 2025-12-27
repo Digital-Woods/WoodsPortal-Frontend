@@ -124,6 +124,8 @@
   const dataSourceSet = false;
   const hubId = "{{ portal_id }}";
   const apiBaseUrlOption = "{{ module.backend_server_url }}";  {# Backend server URL #}
+  const developerOptionTempUrl = "{{ module.developer_options.temp_backend_url }}";  {# Developer option Backend server URL #}
+  const developerOption = {{ module.developer_option }};  {# Developer option boolean #}
   const userData = {{ loggedInUser | tojson | safe }}; {# Logedin user details #}
   const objectList = {{ objectList | tojson | safe }}; {# Objects Data #}
   const showCompanyNameOption = {{ module.other_options.company_options.show_company_name }}; {# Brand name showing Boolean #}
@@ -346,6 +348,8 @@
         recorBtnCustom,
         sidebarCtaStyles,
         developerModeModule,
+        developerOptionTempUrl,
+        developerOption
     }
   </script>
 <div id="app"></div>

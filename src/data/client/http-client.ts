@@ -14,9 +14,8 @@ import {
 import { getRefreshToken, setAuthCredentials, setRefreshToken } from './auth-utils';
 import { skipCurrentPublicPath } from '@/utils/ValidationSchema';
 
-
-const VITE_PUBLIC_REST_API_ENDPOINT =
-  env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
+// const VITE_PUBLIC_REST_API_ENDPOINT = env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
+const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === true ? window?.hubSpotData?.developerOptionTempUrl : env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
 
 const Axios = axios.create({
   baseURL: VITE_PUBLIC_REST_API_ENDPOINT,
