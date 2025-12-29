@@ -114,7 +114,7 @@ export function useTable() {
   const setDefaultPipeline = async (data: any, hubspotObjectTypeId: string, companyAsMediator?: boolean) => {
     if (data) {
       const params = filterParams();
-      let mFilterValue = "";
+      let mFilterValue: any = "";
       const excludedIds = ['0-1', '0-2', '0-3', '0-4', '0-5'];
       let defaultPipelineId = ""
 
@@ -144,6 +144,8 @@ export function useTable() {
           updateLink({
               fV: defaultPipelineId
           })
+        } else if (!excludedIds.includes(hubspotObjectTypeId)) { // for custom objects, set selected pipeline if exists else default
+          mFilterValue = selectedPipeline || null
         } else {
           mFilterValue =
             data.data.length === 1
@@ -160,7 +162,8 @@ export function useTable() {
   };
 
   const setSelectedPipeline = (hubspotObjectTypeId: string, pipelines: any[], pipeLineId?: string) => {
-    let filterValue = "";
+    let filterValue = "all";
+    console.log("setSelectedPipeline called with pipeLineId:", pipeLineId);
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
         (pipeline) => pipeline.pipelineId === pipeLineId
