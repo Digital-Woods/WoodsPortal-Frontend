@@ -163,7 +163,6 @@ export function useTable() {
 
   const setSelectedPipeline = (hubspotObjectTypeId: string, pipelines: any[], pipeLineId?: string) => {
     let filterValue = "all";
-    console.log("setSelectedPipeline called with pipeLineId:", pipeLineId);
     if (pipeLineId) {
       const pipelineSingle = pipelines.find(
         (pipeline) => pipeline.pipelineId === pipeLineId
