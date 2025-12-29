@@ -22,7 +22,8 @@ import { useAuth } from "@/state/use-auth";
 import { useUpdateLink } from "@/utils/GenerateUrl";
 import { isAuthenticateApp } from '@/data/client/token-store';
 
-export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }: any) => {
+export const Files = ({ tabName = '', fileId, path, objectId, id, permissions: mPermissions }: any) => {
+  const [permissions, setPermissions] = useState(mPermissions);
   const [currentFiles, setCurrentFiles] = useState<any>({ child: [] });
   const [folderStack, setFolderStack] = useState<any>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<any>(false);
@@ -93,7 +94,7 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions }:
       }),
     onSuccess: (data: any) => {
       setIsFristTimeLoadData(false)
-      // setPermissions(data.configurations.fileManager);
+      setPermissions(data?.configurations?.fileManager);
       if (data && data.data) {
         if (folderStack.length > 0 && currentFiles?.name != id) {
           const foundObject = findObjectById(data?.data, currentFiles?.id);

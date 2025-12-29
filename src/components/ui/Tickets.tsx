@@ -11,10 +11,10 @@ export const Tickets = ({
   id,
   parentObjectTypeId,
   parentObjectRowId,
-  permissions,
   companyAsMediator,
   title,
   ticketTableTitle,
+  permissions: mPermissions
 }: any) => {
   const hubspotObjectTypeId = "0-5";
 
@@ -79,7 +79,7 @@ export const Tickets = ({
       viewName="ticket"
       detailsUrl={detailsUrl}
       componentName="ticket"
-      defaultPermissions={permissions}
+      defaultPermissions={mPermissions}
       isShowTitle={false}
     />
   );

@@ -345,7 +345,6 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
       return await Client.notes.all(params)
     },
     onSuccess: (data: any) => {
-      // setPermissions(data.configurations.note);
       const totalData = data && data?.data && data?.data?.total
       setTotalNotes(totalData)
       setSync(false);
@@ -457,13 +456,13 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   
   useEffect(() => {
     setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
-    refetch(); // 👈 will now use new objectId and id because of queryKey
+    // refetch(); // 👈 will now use new objectId and id because of queryKey
   }, [objectId, id]);
 
-  useEffect(() => {
-    // refetch();
-    setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
-  }, []);
+  // useEffect(() => {
+  //   // refetch();
+  //   setPage(getAuthSubscriptionType() === "FREE" ? "" : 1);
+  // }, []);
 
 
   if(error && !id && objectId == '0-2' && tabName === 'home' ){
