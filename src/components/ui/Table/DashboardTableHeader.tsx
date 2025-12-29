@@ -57,7 +57,7 @@ export const DashboardTableHeader = ({
   const [showPipelineFilter, setShowPippelineFilter] = useState(false);
 
   useEffect(() => {
-    if (!defPermissions?.pipeline_id) setShowPippelineFilter(pipelines?.length > 0 ? true : false);
+    if (!permissions?.pipeline_id) setShowPippelineFilter(pipelines?.length > 0 ? true : false);
   }, [pipelines]);
 
   const handelPipeline = async (value: any) => {
@@ -215,21 +215,19 @@ export const DashboardTableHeader = ({
           </div>
         {/* } */}
       </div>
-      {hubSpotUserDetails.sideMenu[0]?.tabName !== title &&
-        ((defPermissions && hubspotObjectTypeId === "0-5")
-          ? defPermissions?.create
-          : permissions?.create) && (
-          <div className="text-end">
-            <Button variant={!recorBtnCustom ? 'default' : 'create'} onClick={() => setShowAddDialog(true)}>
-              <span className="mr-2">
-                <IconPlus className="!w-3 !h-3" />
-              </span>
-              <span className="max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
-                Create {title || objectName}
-              </span>
-            </Button>
-          </div>
-        )}
+
+      {hubSpotUserDetails.sideMenu[0]?.tabName !== title && permissions?.create && (
+        <div className="text-end">
+          <Button variant={!recorBtnCustom ? 'default' : 'create'} onClick={() => setShowAddDialog(true)}>
+            <span className="mr-2">
+              <IconPlus className="!w-3 !h-3" />
+            </span>
+            <span className="max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
+              Create {title || objectName}
+            </span>
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

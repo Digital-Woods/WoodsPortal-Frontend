@@ -118,11 +118,11 @@ export const DynamicComponentView = ({
     setTableDefPermissions
    }: any = useTable();
 
-   useEffect(() => {
-    if (defaultPermissions) {
-      setDefPermissions(defaultPermissions);
-    }
-   }, [defaultPermissions]);
+  //  useEffect(() => {
+  //   if (defaultPermissions) {
+  //     setDefPermissions(defaultPermissions);
+  //   }
+  //  }, [defaultPermissions]);
 
    const {routeDetails} = getRouteDetails()
 
@@ -141,7 +141,8 @@ export const DynamicComponentView = ({
       onSuccess: (data) => {
         if (data) {
           setUserData(data);
-          if(!isHome && companyAsMediator && hubspotObjectTypeId === "0-5") setDefPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
+          // if(!isHome && companyAsMediator && hubspotObjectTypeId === "0-5") setDefPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
+          if(!isHome && companyAsMediator && hubspotObjectTypeId === "0-5") setPermissions(data?.response?.associations?.COMPANY?.configurations?.ticket)
           setIsLoadedUserProfile(true)
         }
         setSync(false);
@@ -215,7 +216,8 @@ export const DynamicComponentView = ({
 
         if (
           // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+          // (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+          (!routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
         ) {
           await getPipelines();
         } else {
@@ -224,7 +226,7 @@ export const DynamicComponentView = ({
       };
       setIsLoadingHoldData(true);
       fetchData();
-    }, [defPermissions, isLoadedUserProfile]);
+    }, [isLoadedUserProfile]);
 
   const { mutate: getData, isLoading: isLoadingAPiData }: any = useMutation({
     mutationKey: ["TableData"],
@@ -254,18 +256,26 @@ export const DynamicComponentView = ({
 
       // if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       
-      if ((defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id) && (componentName === "ticket" || hubspotObjectTypeId === "0-5")) {
-         param.filterValue = defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id;
-      } else {
-        // if (mSelectedPipeline && (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5")){ 
-        if (mSelectedPipeline){ 
-          param.filterValue = mSelectedPipeline
-        }else if(specPipeLine && pipeLineId){
-          param.filterValue = pipeLineId
-        }
-        else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
-          param.filterValue = ''
-        }
+      // if ((defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id) && (componentName === "ticket" || hubspotObjectTypeId === "0-5")) {
+      //    param.filterValue = defPermissions?.pipeline_id || routeDetails?.defPermissions?.pipeline_id;
+      // } else {
+      //   if (mSelectedPipeline){ 
+      //     param.filterValue = mSelectedPipeline
+      //   }else if(specPipeLine && pipeLineId){
+      //     param.filterValue = pipeLineId
+      //   }
+      //   else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+      //     param.filterValue = ''
+      //   }
+      // }
+
+      if (mSelectedPipeline){ 
+        param.filterValue = mSelectedPipeline
+      }else if(specPipeLine && pipeLineId){
+        param.filterValue = pipeLineId
+      }
+      else if (hubspotObjectTypeId != "0-3" || hubspotObjectTypeId != "0-5"){
+        param.filterValue = ''
       }
 
       // const activePipeline = routeMenuConfigs[objectId]?.activePipeline;
@@ -307,14 +317,14 @@ export const DynamicComponentView = ({
         })
       }
       
-      if(defPermissions) {
-        setTableDefPermissions({
-          "cT": defPermissions?.create,
-          "dP": defPermissions?.display,
-          "dL": defPermissions?.display_label,
-          "pId": defPermissions?.pipeline_id,
-        })
-      }
+      // if(defPermissions) {
+      //   setTableDefPermissions({
+      //     "cT": defPermissions?.create,
+      //     "dP": defPermissions?.display,
+      //     "dL": defPermissions?.display_label,
+      //     "pId": defPermissions?.pipeline_id,
+      //   })
+      // }
 
       setTableFilterData(param)
 
@@ -332,12 +342,12 @@ export const DynamicComponentView = ({
         })
       }
 
-       if(defPermissions?.pipeline_id) { // if ticket added pipeline ID
-        param.filterValue = defPermissions?.pipeline_id
-        updateLink({
-          "fV": defPermissions?.pipeline_id
-        })
-      }
+      //  if(defPermissions?.pipeline_id) { // if ticket added pipeline ID
+      //   param.filterValue = defPermissions?.pipeline_id
+      //   updateLink({
+      //     "fV": defPermissions?.pipeline_id
+      //   })
+      // }
 
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
@@ -403,10 +413,12 @@ export const DynamicComponentView = ({
               : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
-          if ((defPermissions || routeDetails?.defPermissions)) {
+          if ((routeDetails?.defPermissions)) {
             setPermissions(data?.configurations[componentName]);
+          } else if(componentName === "ticket") {
+            setPermissions(data?.configurations?.ticket);
           } else {
-            setPermissions(data?.configurations["object"]);
+            setPermissions(data?.configurations?.object);
           }
         } else {
           setPermissions(null);
@@ -613,7 +625,8 @@ export const DynamicComponentView = ({
       if (sync || apiSync) {
         if (
           // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
-          (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+          // (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+          (routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
         ) {
           await getPipelines();
         } else {
@@ -623,7 +636,7 @@ export const DynamicComponentView = ({
     };
 
     fetchData();
-  }, [sync, apiSync, hubspotObjectTypeId, defPermissions, isLoadedUserProfile]);
+  }, [sync, apiSync, hubspotObjectTypeId, isLoadedUserProfile]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -672,7 +685,7 @@ export const DynamicComponentView = ({
     await setLimit(10);
     // if(!isHome) {
       // await ((hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") && (!defPermissions?.pipeline_id)) ? getPipelines() : getData();
-      await (!defPermissions?.pipeline_id && !specPipeLine) ? getPipelines() : getData();
+      await (!specPipeLine) ? getPipelines() : getData();
     // }
   }
 
@@ -876,7 +889,7 @@ export const DynamicComponentView = ({
                   showIframe={showIframe}
                   apis={apis}
                   componentName={componentName || "object"}
-                  defPermissions={defPermissions || routeDetails?.defPermissions}
+                  defPermissions={routeDetails?.defPermissions}
                   companyAsMediator={companyAsMediator}
                   pipeLineId={pipeLineId}
                   specPipeLine={specPipeLine}
