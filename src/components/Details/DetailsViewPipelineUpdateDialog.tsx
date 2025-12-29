@@ -143,6 +143,7 @@ export const DetailsViewPipelineUpdateDialog = ({
       typeof data === 'object' && !Array.isArray(data)
         ? Object.keys(data)
         : data
+
     dataLoop.forEach((field: any) => {
       if (
         field?.key === 'hs_pipeline_stage' ||
@@ -174,8 +175,9 @@ export const DetailsViewPipelineUpdateDialog = ({
     saveData(data)
   }
 
-  const onChangeSelect = (filled: any, selectedValue: any) => {
+  const onChangeSelect = (filled: any, selectedValue: any, stagesKey: any, setValue: any) => {
     getStags({ pipelineId: selectedValue, isNewValue: true })
+    setValue(stagesKey, null)
   }
 
   return (
@@ -203,6 +205,7 @@ export const DetailsViewPipelineUpdateDialog = ({
               control,
               watch,
               formState: { errors },
+              setValue,
             }: any) => (
               <div>
                 {/* {JSON.stringify(getValues())} */}
@@ -220,7 +223,7 @@ export const DetailsViewPipelineUpdateDialog = ({
                             name={pipelines?.name}
                             options={pipelines?.options || []}
                             control={control}
-                            onChangeSelect={onChangeSelect}
+                            onChangeSelect={(filled: any, selectedValue: any) => onChangeSelect(filled, selectedValue, stages?.key, setValue)}
                             isClearable={true}
                             defaultValue={pipeline?.value || ''}
                           />

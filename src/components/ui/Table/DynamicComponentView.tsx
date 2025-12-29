@@ -249,8 +249,8 @@ export const DynamicComponentView = ({
 
       param = getTableParam(companyAsMediator, null);
 
-
       const mSelectedPipeline = pipeline !== undefined ? pipeline : selectedPipeline;
+
 
       // if (companyAsMediator) param.mediatorObjectTypeId = "0-2";
       
@@ -325,7 +325,7 @@ export const DynamicComponentView = ({
         })
       }
 
-      if(mPipelines != undefined && mPipelines?.length === 1 && !specPipeLine) { // if pipelines length is 0 then forcefully set 0 index pipeline
+      if(mPipelines != undefined && mPipelines?.length === 1 && !specPipeLine && mSelectedPipeline != null) { // if pipelines length is 0 then forcefully set 0 index pipeline
         param.filterValue = mPipelines[0].pipelineId
         updateLink({
           "fV": param?.filterValue,
