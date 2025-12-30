@@ -534,7 +534,13 @@ export const DynamicComponentView = ({
   const { mutate: getPipelines, isLoadingPipelines } : any = useMutation({
     mutationKey: ["PipelineData"],
     mutationFn: async () => {
-      const parentObjectTypeId = paramsObject?.parentObjectTypeId ? `?parentObjectTypeId=${paramsObject?.parentObjectTypeId}` : ''
+      let parentObjectTypeId = ""
+      if(paramsObject?.parentObjectTypeId) {
+        parentObjectTypeId = `?parentObjectTypeId=${paramsObject?.parentObjectTypeId}`
+      } else if (isHome && userData?.info?.objectTypeId) {
+        parentObjectTypeId = `?parentObjectTypeId=${userData?.info?.objectTypeId}`
+      }
+
       const pipelineEndpoint = `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}${parentObjectTypeId}`;
       return await Client.Deals.pipelines({
         API_ENDPOINT: pipelineEndpoint,
