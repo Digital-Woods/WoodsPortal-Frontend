@@ -335,6 +335,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   useEffect(() => {
     setPagination([])
   }, []);
+const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === true ? window?.hubSpotData?.developerOptionTempUrl : env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
 
   const limit = 10;
   const { data, error, isLoading, refetch, isFetching } = useQuery({
@@ -447,10 +448,10 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   useEffect(() => {
     const portalId = getPortal()?.portalId;
     setImageUploadUrl(
-      `${env.VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/images/${objectId}/${id}`
+      `${VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/images/${objectId}/${id}`
     );
     setAttachmentUploadUrl(
-      `${env.VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`
+      `${VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`
     );
   }, []);
   
