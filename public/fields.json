@@ -1730,6 +1730,18 @@
         "color" : "#2797AF",
         "opacity" : 100
       }
+    }, {
+      "id" : "589a18b4-b90c-2107-3165-1949f1989622",
+      "name" : "button_text_color",
+      "label" : "Button Text Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
+      }
     } ],
     "tab" : "STYLE",
     "expanded" : false,
@@ -1743,6 +1755,10 @@
       },
       "secondary_color" : {
         "color" : "#2797AF",
+        "opacity" : 100
+      },
+      "button_text_color" : {
+        "color" : "#FFFFFF",
         "opacity" : 100
       }
     }
