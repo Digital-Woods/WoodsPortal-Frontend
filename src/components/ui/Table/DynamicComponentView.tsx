@@ -779,7 +779,9 @@ export const DynamicComponentView = ({
         <span className="text-yellow-600">
           <CautionCircle/>
         </span>
-        {errorMessage}
+        <div className="max-w-[70%]">
+          {errorMessage}
+        </div>
       </div>
     )
   }
