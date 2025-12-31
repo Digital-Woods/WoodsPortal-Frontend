@@ -131,9 +131,9 @@ export const HeaderLayout = (props: any) => {
               </Tooltip>
             </div>
 
-            <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white  rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
+            {/* <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white  rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
               <ThemeSwitcher />
-            </div>
+            </div> */}
 
             <div className="w-px h-6 bg-gray-600 dark:bg-dark-400"></div>
 

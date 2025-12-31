@@ -30,10 +30,14 @@ export const ViewNote = ({
     <>
       {dialogView ? (
         <Button size="xsm" onClick={() => setShowDialog(true)}>
-          View Note
+          View
         </Button>
       ) : (
-        <HtmlParser html={DOMPurify.sanitize(note, noteViewConfig)} className="ProseMirror" />
+        <div className="p-4 border border-gray-300 rounded-md">
+          <div className="bg-white rounded-md">
+            <HtmlParser html={DOMPurify.sanitize(note, noteViewConfig)} className="ProseMirror" />
+          </div>
+        </div>
       )}
 
       <Dialog
