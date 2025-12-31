@@ -2050,7 +2050,7 @@
     "type" : "group",
     "display_width" : null,
     "default" : {
-      "text_color" : {
+      "heading_color" : {
         "color" : "#000000",
         "opacity" : 100
       }

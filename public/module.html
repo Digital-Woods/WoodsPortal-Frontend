@@ -228,6 +228,9 @@
         textColor: "{{ module.style.sidebar_styles.text_color.color }}",
         backgroundColor: "{{ module.style.sidebar_styles.sidebar_background_color.color }}", 
       },
+      listPageStyles: {
+        textColor: "{{ module.style.list_page_styles.heading_color.color }}"
+      },
       detailsPageStyles: {
         textColor: "{{ module.style.details_page_styles.text_color.color }}",
         bannerColors: {
@@ -266,6 +269,7 @@
   :root {
     --primary-color: {{ module.style.module_global_colors.primary_color.color }} ;
     --secondary-color: {{ module.style.module_global_colors.secondary_color.color }} ;
+    --button-text-color: {{ module.style.module_global_colors.button_text_color.color }} ;
     --primary-color-hover-bg: {{ module.style.module_global_colors.primary_color.color }}30 ;
     --secondary-color-hover-bg: {{ module.style.module_global_colors.secondary_color.color }}30 ;
     --banner-overlayer-color: {{ module.style.module_global_colors.primary_color.color }}10 ; 

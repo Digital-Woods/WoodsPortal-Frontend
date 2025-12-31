@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { env } from "@/env";
 import { getQueryParamsFromCurrentUrl, getParam, removeAllParams, updateParamsFromUrl, getParamHash } from '@/utils/param'
 import { getPortal, getRouteMenuConfig, setRouteMenuConfig } from '@/data/client/auth-utils'
-import { hubId } from '@/data/hubSpotData'
+import { hubId, moduleStylesOptions } from '@/data/hubSpotData'
 import { useResponsive } from '@/utils/UseResponsive'
 import { useBreadcrumb } from '@/state/use-breadcrumb';
 import { useSync } from '@/state/use-sync';
@@ -826,8 +826,9 @@ export const DynamicComponentView = ({
                           ([key, value]: any, index: any, array: any) => {
                             return (
                               <li key={key} className="flex items-center break-all">
+                                {console.log("value", moduleStylesOptions)}
                                 <Link
-                                  className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
+                                  className={`text${moduleStylesOptions?.listPageStyles} text-xl font-semibold capitalize dark:text-white hover:underline`}
                                   to={value?.path}
                                 >
                                   {/* {getParamHash(
