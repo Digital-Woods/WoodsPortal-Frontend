@@ -2026,6 +2026,36 @@
       }
     }
   }, {
+    "id" : "f6525a88-bf66-8a70-5771-0bda34788fae",
+    "name" : "list_page_styles",
+    "label" : "List Page",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "db027850-c7ed-f436-f9ae-93787c6bce32",
+      "name" : "heading_color",
+      "label" : "Heading Color",
+      "required" : false,
+      "locked" : false,
+      "type" : "color",
+      "display_width" : null,
+      "default" : {
+        "color" : "#000000",
+        "opacity" : 100
+      }
+    } ],
+    "tab" : "STYLE",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "type" : "group",
+    "display_width" : null,
+    "default" : {
+      "text_color" : {
+        "color" : "#000000",
+        "opacity" : 100
+      }
+    }
+  }, {
     "id" : "f6525a88-bf66-8a70-5770-0bda34788fae",
     "name" : "details_page_styles",
     "label" : "Details Page",
