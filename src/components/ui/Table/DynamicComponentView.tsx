@@ -424,9 +424,14 @@ export const DynamicComponentView = ({
               : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
+
+          const param = getTableParam(companyAsMediator, null);
+
           if ((routeDetails?.defPermissions)) {
+            console.log("0", 0);
+
             setPermissions(data?.configurations[componentName]);
-          } else if(componentName === "ticket") {
+          } else if(componentName === "ticket" || (param?.isPrimaryCompany && hubspotObjectTypeId === "0-5")) { // if component is ticket or company mediator tickets
             setPermissions(data?.configurations?.ticket);
           } else {
             setPermissions(data?.configurations?.object);
