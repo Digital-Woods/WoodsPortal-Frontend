@@ -228,7 +228,6 @@ const NoteCard = ({
                     isLoadingUpdate || editorContent === "" || isUploading || isLoadingUploading
                   }
                   onClick={handleUpdateNote}
-                  className="text-white"
                   size="sm"
                   isLoading={isLoadingUpdate}
                 >
@@ -261,7 +260,7 @@ const NoteCard = ({
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
                         permissions?.update && note?.createdBy != 'Hubspot' ? "cursor-text hover:bg-secondaryBgHover hover:border-secondary" : "cursor-auto"
-                      } bg-white mt-2 border border-[transparent] dark:border-[transparent] rounded-md relative group EditorView`}`}
+                      } bg-white mt-2 relative group EditorView`} border dark:border-[transparent] rounded-md`}
                 onClick={(e) => {
                   if (isOpen && note?.createdBy != 'Hubspot') {
                     e.stopPropagation();
@@ -273,7 +272,7 @@ const NoteCard = ({
                 <div className="break-words">
                   <span>
                     {/* <HtmlParser html={DOMPurify.sanitize(note?.hs_note_body, noteViewConfig)} className="ProseMirror" /> */}
-                    <ViewNote note={note?.hs_note_body || ""} />
+                    <ViewNote note={note?.hs_note_body || ""} border={false} />
                   </span>
                 </div>
                 {permissions?.update === true && note?.createdBy != 'Hubspot' ? (

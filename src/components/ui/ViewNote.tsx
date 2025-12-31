@@ -9,6 +9,7 @@ import { Button } from './Button';
 
 export const ViewNote = ({
   note,
+  border = true,
   dialogView = false
 }: any) => {
   const [showDialog, setShowDialog] = useState(false);
@@ -32,12 +33,14 @@ export const ViewNote = ({
         <Button size="xsm" onClick={() => setShowDialog(true)}>
           View
         </Button>
-      ) : (
+      ): border ? (
         <div className="p-4 border border-gray-300 rounded-md">
           <div className="bg-white rounded-md">
             <HtmlParser html={DOMPurify.sanitize(note, noteViewConfig)} className="ProseMirror" />
           </div>
         </div>
+      ): (
+       <HtmlParser html={DOMPurify.sanitize(note, noteViewConfig)} className="ProseMirror" />
       )}
 
       <Dialog
