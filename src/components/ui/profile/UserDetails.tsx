@@ -14,6 +14,10 @@ import { homeTabsDataTypeFilter } from "@/data/hubSpotData";
 import { Notes } from "../Notes";
 import { useUpdateLink } from "@/utils/GenerateUrl";
 import { CautionCircle } from "@/assets/icons/CautionCircle";
+import { NoteSkeleton } from "../skeletons/NoteSkeleton";
+import { TableSkeleton } from "../skeletons/TableSkeleton";
+import { DashboardTableHeaderSkeleton } from "../skeletons/DashboardTableHeaderSkeleton";
+import { DashboardTitleSkeleton } from "../skeletons/DashboardTitleSkeleton";
 
 export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
@@ -191,14 +195,19 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
     useEffect(() => {
         let routeMenuConfigs = getRouteMenuConfig();
 
+        const defaultActiveTab = homeTabsDataTypeFilter?.files ? "files" :
+                                 homeTabsDataTypeFilter?.notes ? "notes" :
+                                 homeTabsDataTypeFilter?.tickets ? "tickets" : 
+                                 "files";
+
         if (
             routeMenuConfigs &&
             routeMenuConfigs.hasOwnProperty('home')
         ) {
             const activeTab = routeMenuConfigs.home?.details?.activeTab;
-            setActiveTabFucntion(activeTab || "files")
+            setActiveTabFucntion(activeTab || defaultActiveTab)
         } else {
-            setActiveTabFucntion("files")
+            setActiveTabFucntion(defaultActiveTab)
         }
     }, []);
 
@@ -231,7 +240,21 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
             >
                 <div className="h-[calc(100vh_-136px)]">
                     <div className="mt-4">
-                        <DetailsSkeleton header={false} tabs={3} active={'file'} />
+                        {activeTab === 'files' ?
+                            <>
+                                <DashboardTitleSkeleton />
+                                <DashboardTableHeaderSkeleton/>
+                                <TableSkeleton />
+                            </>
+                            : activeTab === 'notes' ?
+                            <NoteSkeleton header={false} tabs={3} active={'note'} />
+                            : activeTab === 'tickets' ? 
+                            <>
+                                <DashboardTableHeaderSkeleton/>
+                                <TableSkeleton />
+                            </>
+                            : null
+                        }
                     </div>
                 </div>
             </div>
@@ -243,147 +266,155 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
             <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
 
                 {/* main content code start */}
-                <div className={`w-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}>
-                    <div className={``}>
-                        <div className={`flex md:flex-row flex-col md:items-center justify-between my-4 gap-3`}>
-                        <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">
-                            <Tabs
-                                activeTab={activeTab}
-                                setActiveTab={setActiveTabFucntion}
-                                className="rounded-md"
-                            >
-                                <TabsList>
-                                        <TabsTrigger className="rounded-md" value="files">
-                                            <div className="text-black dark:text-white">Files</div>
-                                        </TabsTrigger>
-                                        <TabsTrigger className="rounded-md" value="notes">
-                                            <div className="text-black dark:text-white">Notes</div>
-                                        </TabsTrigger>
-                                        <TabsTrigger className="rounded-md" value="tickets">
-                                            <div className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
-                                                {totalRecord > 0 && (
-                                                    <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
-                                                        {totalRecord}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </TabsTrigger>
-                                    {/* <TabsTrigger className="rounded-md" value="photos">
-  <p className="text-black dark:text-white">Photos</p>
-</TabsTrigger> */}
-                                </TabsList>
+                {(homeTabsDataTypeFilter?.notes || homeTabsDataTypeFilter?.files || homeTabsDataTypeFilter?.tickets) && (
+                    <div className={`w-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}>
+                        <div className={``}>
+                            <div className={`flex md:flex-row flex-col md:items-center justify-between my-4 gap-3`}>
+                            <div className="border rounded-lg dark:border-none bg-graySecondary  dark:bg-dark-300 border-flatGray w-fit">
+                                <Tabs
+                                    activeTab={activeTab}
+                                    setActiveTab={setActiveTabFucntion}
+                                    className="rounded-md"
+                                >
+                                    <TabsList>
+                                        {homeTabsDataTypeFilter?.files ? (
+                                            <TabsTrigger className="rounded-md" value="files">
+                                                <div className="text-black dark:text-white">Files</div>
+                                            </TabsTrigger>
+                                        ): null}
+                                        {homeTabsDataTypeFilter?.notes ? (
+                                            <TabsTrigger className="rounded-md" value="notes">
+                                                <div className="text-black dark:text-white">Notes</div>
+                                            </TabsTrigger>
+                                        ): null}
+                                        {homeTabsDataTypeFilter?.tickets ? (
+                                            <TabsTrigger className="rounded-md" value="tickets">
+                                                <div className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
+                                                    {totalRecord > 0 && (
+                                                        <span className="ml-2 px-2 py-1 rounded-md bg-secondary dark:bg-white dark:text-dark-300 text-white text-xs">
+                                                            {totalRecord}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </TabsTrigger>
+                                        ): null}
+                                        {/* <TabsTrigger className="rounded-md" value="photos">
+    <p className="text-black dark:text-white">Photos</p>
+    </TabsTrigger> */}
+                                    </TabsList>
 
-                                <TabsContent value="overview"></TabsContent>
-                                <TabsContent value="files"></TabsContent>
-                                <TabsContent value="notes">{/* <Notes /> */}</TabsContent>
-                                {/* <TabsContent value="photos"></TabsContent> */}
-                            </Tabs>
-                             </div>
-                            {activeTab === "files" && homeTabsDataTypeFilter?.files === 'all' && (
-                                <FilterDropdown 
-                                value={selectedFileDataFilter} 
-                                onChange={(e: any) => onChangeDataFilter(e, 'files')} 
-                                />
+                                    <TabsContent value="files"></TabsContent>
+                                    <TabsContent value="notes"></TabsContent>
+                                    <TabsContent value="tickets"></TabsContent>
+                                </Tabs>
+                                </div>
+
+                                {activeTab === "files" && homeTabsDataTypeFilter?.files === 'all' && (
+                                    <FilterDropdown 
+                                    value={selectedFileDataFilter} 
+                                    onChange={(e: any) => onChangeDataFilter(e, 'files')} 
+                                    />
+                                )}
+
+                                {activeTab === "notes" && homeTabsDataTypeFilter?.notes === 'all' && objectId && id && (
+                                    <FilterDropdown 
+                                    value={selectedNotesDataFilter} 
+                                    onChange={(e: any) => onChangeDataFilter(e, 'notes')} 
+                                    />
+                                )}
+
+                                {activeTab === "tickets" && homeTabsDataTypeFilter?.tickets === 'all' && (
+                                    <FilterDropdown 
+                                    value={selectedTicketsDataFilter} 
+                                    onChange={(e: any) => onChangeDataFilter(e, 'tickets')} 
+                                    />
+                                )}
+                            </div>
+
+                            {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
+
+                            {/* {path === "/jobs" && (
+    <div className="col-span-4">
+    <DetailsTable item={item} path={path} />
+    </div>
+    )} */}
+                            {/* {sortItems && activeTab === "overview" && (
+    <DetailsView item={item} sortItems={sortItems} />
+    )} */}
+
+                            {activeTab === "files" && (
+                                permissions && permissions?.fileManager?.display ? (
+                                    <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.fileManager : null} />
+                                ) : (
+                            
+                                    <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                        <span className="text-yellow-600">
+                                            <CautionCircle/>
+                                        </span>
+                                        You do not have permission to view Files
+                                    </div>
+                                )
+                            )}
+                            
+                            {activeTab === "notes"&& (
+                                permissions && permissions?.note?.display && objectId && selectedNotesDataFilter && id ? (
+                                    <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
+                                ) : (
+                                    <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                        <span className="text-yellow-600">
+                                            <CautionCircle/>
+                                        </span>
+                                        You do not have permission to view Notes
+                                    </div>
+                                )
                             )}
 
-                            {activeTab === "notes" && homeTabsDataTypeFilter?.notes === 'all' && objectId && id && (
-                                <FilterDropdown 
-                                value={selectedNotesDataFilter} 
-                                onChange={(e: any) => onChangeDataFilter(e, 'notes')} 
+                            {activeTab === "tickets" && (
+                                // <Tickets
+                                //     path={path}
+                                //     objectId={objectId}
+                                //     id={id}
+                                //     parentObjectTypeId={objectId}
+                                //     parentObjectRowId={id}
+                                //     permissions={permissions ? permissions.ticket : null}
+                                //     companyAsMediator={false}
+                                //     profileTicket={true}
+                                // />
+                                permissions && permissions?.ticket?.display ? (
+                                <DynamicComponentView
+                                    key={`${path}-${selectedTicketsDataFilter}-${permissions?.ticket?.display}`}
+                                    hubspotObjectTypeId={hubspotObjectTypeId}
+                                    path={path}
+                                    title={permissions?.ticket?.display_label || "Tickets"}
+                                    ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
+                                    apis={apis}
+                                    componentName="ticket"
+                                    defaultPermissions={permissions ? permissions?.ticket : null}
+                                    editView={true}
+                                    setTotalRecord={setTotalRecord}
+                                    isShowTitle={false}
+                                    isHome={true}
+                                    companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
                                 />
+                                ) : (
+                                    <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                        <span className="text-yellow-600">
+                                            <CautionCircle/>
+                                        </span>
+                                        You do not have permission to view Tickets.
+                                    </div>
+                                )
                             )}
 
-                            {activeTab === "tickets" && homeTabsDataTypeFilter?.tickets === 'all' && (
-                                <FilterDropdown 
-                                value={selectedTicketsDataFilter} 
-                                onChange={(e: any) => onChangeDataFilter(e, 'tickets')} 
+                            {images.length > 0 && activeTab === "photos" && (
+                                <DetailsGallery
+                                    images={images}
+                                    setGalleryDialog={setGalleryDialog}
                                 />
                             )}
                         </div>
-
-                        {/* {(path === "/sites" || path === "/assets") && <DetailsMapsCard />} */}
-
-                        {/* {path === "/jobs" && (
-<div className="col-span-4">
-<DetailsTable item={item} path={path} />
-</div>
-)} */}
-                        {/* {sortItems && activeTab === "overview" && (
-<DetailsView item={item} sortItems={sortItems} />
-)} */}
-
-                        {activeTab === "files" && (
-                            permissions && permissions?.fileManager?.display ? (
-                                <Files tabName='home' fileId={selectedFileDataFilter == '0-2' ? userCompanyId : id} path={path} objectId={selectedFileDataFilter} id={selectedFileDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.fileManager : null} />
-                            ) : (
-                         
-                                <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
-                                    <span className="text-yellow-600">
-                                        <CautionCircle/>
-                                    </span>
-                                    You do not have permission to view Files
-                                </div>
-                            )
-                        )}
-                        
-                        {activeTab === "notes"&& (
-                            permissions && permissions?.note?.display && objectId && selectedNotesDataFilter && id ? (
-                                <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
-                            ) : (
-                                <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
-                                    <span className="text-yellow-600">
-                                        <CautionCircle/>
-                                    </span>
-                                    You do not have permission to view Notes
-                                </div>
-                            )
-                        )}
-
-                        {activeTab === "tickets" && (
-                            // <Tickets
-                            //     path={path}
-                            //     objectId={objectId}
-                            //     id={id}
-                            //     parentObjectTypeId={objectId}
-                            //     parentObjectRowId={id}
-                            //     permissions={permissions ? permissions.ticket : null}
-                            //     companyAsMediator={false}
-                            //     profileTicket={true}
-                            // />
-                            permissions && permissions?.ticket?.display ? (
-                            <DynamicComponentView
-                                key={`${path}-${selectedTicketsDataFilter}-${permissions?.ticket?.display}`}
-                                hubspotObjectTypeId={hubspotObjectTypeId}
-                                path={path}
-                                title={permissions?.ticket?.display_label || "Tickets"}
-                                ticketTableTitle={permissions?.ticket?.display_label || "Tickets"}
-                                apis={apis}
-                                componentName="ticket"
-                                defaultPermissions={permissions ? permissions?.ticket : null}
-                                editView={true}
-                                setTotalRecord={setTotalRecord}
-                                isShowTitle={false}
-                                isHome={true}
-                                companyAsMediator={selectedTicketsDataFilter == '0-2' ? true : false}
-                            />
-                            ) : (
-                                <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
-                                    <span className="text-yellow-600">
-                                        <CautionCircle/>
-                                    </span>
-                                    You do not have permission to view Tickets.
-                                </div>
-                            )
-                        )}
-
-                        {images.length > 0 && activeTab === "photos" && (
-                            <DetailsGallery
-                                images={images}
-                                setGalleryDialog={setGalleryDialog}
-                            />
-                        )}
                     </div>
-                </div>
+                )}
                 {/* main content code end */}
 
                 <Dialog
