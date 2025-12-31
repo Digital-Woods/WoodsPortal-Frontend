@@ -44,6 +44,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   };
+const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === true ? window?.hubSpotData?.developerOptionTempUrl : env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
 
   const inputChange = (e: any) => {
     const file = e.target.files[0];
@@ -191,7 +192,7 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
     formData.append("file", file); // Append the selected file to FormData
 
     const parentFolder = folderId === fileId ? "obj-root" : folderId;
-    const url = env.VITE_PUBLIC_REST_API_ENDPOINT+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
+    const url = VITE_PUBLIC_REST_API_ENDPOINT+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
 
     try {
       await ensureValidRefresh();

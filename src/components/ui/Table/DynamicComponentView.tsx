@@ -27,6 +27,7 @@ import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
 import { getParamDetails, getRouteDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
 import { isAuthenticateApp } from '@/data/client/token-store';
+import { DashboardTitleSkeleton } from '../skeletons/DashboardTitleSkeleton';
 
 
 export const DynamicComponentView = ({
@@ -85,7 +86,7 @@ export const DynamicComponentView = ({
   const router = useRouter()
   const { pathname } = router.state.location
 
-  const [isLoading, setIsLoading] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<any>(true);
   const [urlParam, setUrlParam] = useState<any>(null);
   const [apiResponse, setApiResponse] = useState<any>(null);
   const [pipelines, setPipelines] = useState<any>([]);
@@ -98,6 +99,7 @@ export const DynamicComponentView = ({
   const [currentPage, setCurrentPage] = useState<any>(null);
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
   const [isLoadedUserProfile, setIsLoadedUserProfile] = useState<any>(false);
+ const [parentObjectTypeId, setParentObjectTypeId] = useState("");
 
   const { subscriptionType }: any = useAuth();
 
@@ -234,6 +236,7 @@ export const DynamicComponentView = ({
       pipeline?: any;
       mPipelines?: any;
     } = {}) => {
+      setIsLoading(true);
       const { pipeline, mPipelines } = variables;
       // const objectId = isHome ? 'home' : hubspotObjectTypeId
       // let routeMenuConfigs = getRouteMenuConfig();
@@ -288,9 +291,9 @@ export const DynamicComponentView = ({
 
       // const API_ENDPOINT = removeAllParams(apis.tableAPI);
       const API_ENDPOINT = apis.tableAPI;
-      if (componentName != "ticket") {
-        setIsLoading(true);
-      }
+      // if (componentName != "ticket") {
+      //   setIsLoading(true);
+      // }
       // let params = param
 
       const fParams = getLinkParams()
@@ -349,6 +352,17 @@ export const DynamicComponentView = ({
       //   })
       // }
 
+      if(isHome) { // Only for home tickets
+        let parentObjectTypeId = ""
+        if (userData?.info?.objectTypeId && !param?.isPrimaryCompany) {
+          parentObjectTypeId = userData?.info?.objectTypeId
+        } else if (userData?.info?.objectTypeId && param?.isPrimaryCompany) {
+          parentObjectTypeId = "0-2"
+        }
+        param.parentObjectTypeId = parentObjectTypeId
+        setParentObjectTypeId(parentObjectTypeId)
+      }
+
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
@@ -398,9 +412,9 @@ export const DynamicComponentView = ({
             : data?.data?.total;
 
           setTotalItems(totalData || 0);
-          if (componentName != "ticket") {
-            setIsLoading(false);
-          }
+          // if (componentName != "ticket") {
+          //   setIsLoading(false);
+          // }
           setTotalRecord(totalData || 0);
           if (view === "BOARD") {
             setActiveCardData(data?.data);
@@ -413,9 +427,12 @@ export const DynamicComponentView = ({
               : Math.ceil(totalData / ItemsPerPage);
             setNumOfPages(totalPage);
           }
+
+          const param = getTableParam(companyAsMediator, null);
+
           if ((routeDetails?.defPermissions)) {
             setPermissions(data?.configurations[componentName]);
-          } else if(componentName === "ticket") {
+          } else if(componentName === "ticket" || (param?.isPrimaryCompany && hubspotObjectTypeId === "0-5")) { // if component is ticket or company mediator tickets
             setPermissions(data?.configurations?.ticket);
           } else {
             setPermissions(data?.configurations?.object);
@@ -425,6 +442,7 @@ export const DynamicComponentView = ({
         }
       // }
       // setRouteMenuConfig(routeMenuConfigs);
+      setIsLoading(false);
       setIsLoadingHoldData(false);
     },
     onError: (error: any) => {
@@ -438,9 +456,10 @@ export const DynamicComponentView = ({
       setIsLoadedFirstTime(false)
       setIsFristTimeLoadData(false)
       setIsLoadingHoldData(false);
-      if (componentName != "ticket") {
-        setIsLoading(false);
-      }
+      // if (componentName != "ticket") {
+      //   setIsLoading(false);
+      // }
+      setIsLoading(false);
     },
   });
 
@@ -534,11 +553,27 @@ export const DynamicComponentView = ({
   const { mutate: getPipelines, isLoadingPipelines } : any = useMutation({
     mutationKey: ["PipelineData"],
     mutationFn: async () => {
+      setIsLoading(true);
+      const param = getTableParam(companyAsMediator, null);
+      const apiParams: any = {}
+      
+      if(paramsObject?.parentObjectTypeId) {
+        apiParams.parentObjectTypeId = paramsObject?.parentObjectTypeId;
+      } else if (isHome && userData?.info?.objectTypeId && !param?.isPrimaryCompany) {
+        apiParams.parentObjectTypeId = userData?.info?.objectTypeId;
+      } else if (isHome && userData?.info?.objectTypeId && param?.isPrimaryCompany) {
+        apiParams.parentObjectTypeId = "0-2";
+      }
+      setParentObjectTypeId(apiParams?.parentObjectTypeId || "")
+      
+      apiParams.isPrimaryCompany = param?.isPrimaryCompany;
+      apiParams.cache = sync ? false : true;
+
+      const pipelineEndpoint = `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`;
+
       return await Client.Deals.pipelines({
-        API_ENDPOINT: `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`,
-        param: {
-          cache: sync ? false : true,
-        },
+        API_ENDPOINT: pipelineEndpoint,
+        param: apiParams,
       });
     },
 
@@ -556,6 +591,7 @@ export const DynamicComponentView = ({
       setErrorMessageCategory(error?.response?.data?.errorCode)
       setPipelines([]);
       setIsLoadedFirstTime(false)
+      setIsLoading(false);
     },
   });
 
@@ -626,7 +662,7 @@ export const DynamicComponentView = ({
         if (
           // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           // (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
-          (routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+          (!routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
         ) {
           await getPipelines();
         } else {
@@ -714,25 +750,25 @@ export const DynamicComponentView = ({
 
 
   // if (isLoadingAPiData === true && isLoadedFirstTime === true) {
-  if (isLoadingAPiData === true) {
+  if (isLoadedFirstTime === true && isLoadingAPiData === true) {
     return (
       <div
-        className={` ${
+        className={`${
           hubSpotUserDetails.sideMenu[0]?.tabName === title ||
           componentName === "ticket"
             ? "mt-0"
             : "mt-[calc(var(--nav-height)-1px)]"
         } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
-        <DashboardTableHeaderSkeleton
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          title={title}
-        />
+        {componentName !== "ticket" &&<DashboardTitleSkeleton />}
+        <div className={`${componentName === "ticket" ? "" : "md:mt-4 mt-3 rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2"}`}>
+        <DashboardTableHeaderSkeleton/>
         {view === "BOARD" && activeCardData ? (
           <BoardViewSkeleton />
         ) : (
           <TableSkeleton />
         )}
+        </div>
       </div>
     );
   }
@@ -743,7 +779,9 @@ export const DynamicComponentView = ({
         <span className="text-yellow-600">
           <CautionCircle/>
         </span>
-        {errorMessage}
+        <div className="max-w-[70%]">
+          {errorMessage}
+        </div>
       </div>
     )
   }
@@ -797,7 +835,7 @@ export const DynamicComponentView = ({
                             return (
                               <li key={key} className="flex items-center break-all">
                                 <Link
-                                  className="text-xl font-semibold text-[#0091AE] capitalize dark:text-white hover:underline"
+                                  className="text-xl font-semibold text-[var(--list-page-heading-color)] capitalize dark:text-white hover:underline"
                                   to={value?.path}
                                 >
                                   {/* {getParamHash(
@@ -919,6 +957,7 @@ export const DynamicComponentView = ({
                   isLoadingPipelines={isLoadingPipelines}
                   changeTab={changeTab}
                   errorMessage={errorMessage}
+                  parentObjectTypeId={parentObjectTypeId}
                 />
               </div>
             </div>

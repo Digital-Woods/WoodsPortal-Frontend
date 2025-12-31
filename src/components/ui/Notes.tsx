@@ -29,6 +29,7 @@ import { useAuth } from '@/state/use-auth';
 import { useUpdateLink } from '@/utils/GenerateUrl';
 import { useEditor } from '@/state/use-editor';
 import { isAuthenticateApp } from '@/data/client/token-store';
+import { ViewNote } from './ViewNote';
 
 
 const NoteCard = ({
@@ -227,7 +228,6 @@ const NoteCard = ({
                     isLoadingUpdate || editorContent === "" || isUploading || isLoadingUploading
                   }
                   onClick={handleUpdateNote}
-                  className="text-white"
                   size="sm"
                   isLoading={isLoadingUpdate}
                 >
@@ -260,7 +260,7 @@ const NoteCard = ({
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
                         permissions?.update && note?.createdBy != 'Hubspot' ? "cursor-text hover:bg-secondaryBgHover hover:border-secondary" : "cursor-auto"
-                      } bg-white mt-2 border border-[transparent] dark:border-[transparent] rounded-md relative group EditorView`}`}
+                      } bg-white mt-2 relative group EditorView`} border dark:border-[transparent] rounded-md`}
                 onClick={(e) => {
                   if (isOpen && note?.createdBy != 'Hubspot') {
                     e.stopPropagation();
@@ -271,7 +271,8 @@ const NoteCard = ({
               >
                 <div className="break-words">
                   <span>
-                    <HtmlParser html={DOMPurify.sanitize(note?.hs_note_body, noteViewConfig)} className="ProseMirror" />
+                    {/* <HtmlParser html={DOMPurify.sanitize(note?.hs_note_body, noteViewConfig)} className="ProseMirror" /> */}
+                    <ViewNote note={note?.hs_note_body || ""} border={false} />
                   </span>
                 </div>
                 {permissions?.update === true && note?.createdBy != 'Hubspot' ? (
@@ -335,6 +336,7 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   useEffect(() => {
     setPagination([])
   }, []);
+const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === true ? window?.hubSpotData?.developerOptionTempUrl : env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
 
   const limit = 10;
   const { data, error, isLoading, refetch, isFetching } = useQuery({
@@ -447,10 +449,10 @@ export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermi
   useEffect(() => {
     const portalId = getPortal()?.portalId;
     setImageUploadUrl(
-      `${env.VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/images/${objectId}/${id}`
+      `${VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/images/${objectId}/${id}`
     );
     setAttachmentUploadUrl(
-      `${env.VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`
+      `${VITE_PUBLIC_REST_API_ENDPOINT}/api/${hubId}/${portalId}/hubspot-object-notes/attachments/${objectId}/${id}`
     );
   }, []);
   

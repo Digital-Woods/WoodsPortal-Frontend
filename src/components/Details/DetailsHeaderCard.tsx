@@ -80,7 +80,7 @@ export const DetailsHeaderCard = ({
     >
       <div className="relative flex flex-col justify-center p-4 text-[var(--details-page-text-color)] z-10 break-words whitespace-normal overflow-hidden">
         <p className="text-2xl font-semibold mb-2">{displayData?.primary}</p>
-        {displayData?.secondary && (
+        {/* {displayData?.secondary && (
           <p className="text-xs font-normal text-[var(--details-page-text-color)] CUSTOM-line-clamp-2">
             {displayData?.secondary}
           </p>
@@ -105,7 +105,7 @@ export const DetailsHeaderCard = ({
         )}
         {displayData?.stage && (
           <p className="text-xs text-[var(--details-page-text-color)] mt-1">{displayData?.stage}</p>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -29,6 +29,7 @@ const ClientSession = () => {
             resolve();
         });
     };
+    const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === true ? window?.hubSpotData?.developerOptionTempUrl : env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
 
     const { mutate: clientSession, isLoading } = useMutation({
         mutationKey: ["clientSession"],
@@ -39,7 +40,7 @@ const ClientSession = () => {
         mutationFn: async () => {
             try {
                 const response = await axios.post(
-                    `${env.VITE_PUBLIC_REST_API_ENDPOINT}${API_ENDPOINTS.CLIENT_SESSION}`, // Replace with your API endpoint
+                    `${VITE_PUBLIC_REST_API_ENDPOINT}${API_ENDPOINTS.CLIENT_SESSION}`, // Replace with your API endpoint
                     {
                         refreshToken: accessToken,
                     }, // Request body (if needed)

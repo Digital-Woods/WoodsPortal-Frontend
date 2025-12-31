@@ -39,6 +39,7 @@ export const DashboardTableForm = ({
   isShowExistingRecord = false,
   specPipeLine,
   pipeLineId,
+  isHome = false
 }: any) => {
   // const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState<any>("addNew");
@@ -71,7 +72,7 @@ export const DashboardTableForm = ({
   const { mutate: getData, isLoading } = useMutation({
     mutationKey: ["TableFormData"],
     mutationFn: async () => {
-      const API = `${apis.formAPI}${mParams}`;
+      const API = `${apis.formAPI}${mParams}${isHome ? `&parentObjectTypeId=${parentObjectTypeId}` : ''}`; // add parentObjectTypeId param if isHome is true
       return await Client.form.fields({ API: API });
     },
 
