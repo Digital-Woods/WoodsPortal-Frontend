@@ -21,6 +21,9 @@ import { Input } from "../Form";
 import { useAuth } from "@/state/use-auth";
 import { useUpdateLink } from "@/utils/GenerateUrl";
 import { isAuthenticateApp } from '@/data/client/token-store';
+import { DashboardTableHeaderSkeleton } from "../skeletons/DashboardTableHeaderSkeleton";
+import { DashboardTitleSkeleton } from "../skeletons/DashboardTitleSkeleton";
+import { TableSkeleton } from "../skeletons/TableSkeleton";
 
 export const Files = ({ tabName = '', fileId, path, objectId, id, permissions: mPermissions }: any) => {
   const [permissions, setPermissions] = useState(mPermissions);
@@ -251,6 +254,17 @@ export const Files = ({ tabName = '', fileId, path, objectId, id, permissions: m
   // if (isLoading) {
   //   return <FilesSkeleton />;
   // }
+
+  if (isLoading === true) {
+    return (
+      <div
+      >
+        <DashboardTitleSkeleton />
+        <DashboardTableHeaderSkeleton/>
+        <TableSkeleton />
+      </div>
+    );
+  }
 
 
   if (error && !id && objectId == '0-2' && tabName === 'home' && !fileId) {

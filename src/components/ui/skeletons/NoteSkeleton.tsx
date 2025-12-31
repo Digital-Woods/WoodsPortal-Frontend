@@ -5,14 +5,8 @@ import { recorBtnCustom } from '@/data/hubSpotData'
 export const NoteSkeleton = () => {
     return (
         <div className="rounded-lg mt-2 bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 ">
-            <div className="flex justify-end mb-6 items-center">
-                <Button  variant={!recorBtnCustom ? 'default' : 'create'} className="text-white">
-                    <span className="mr-2">
-                        {" "}
-                        <IconPlus className="!w-3 !h-3" />{" "}
-                    </span>{" "}
-                    Create Note
-                </Button>
+            <div className="flex justify-end mb-6 items-center animate-pulse">
+                <div className="h-10 w-[140px] bg-gray-300 dark:bg-dark-white dark:bg-opacity-20 rounded-md"></div>
             </div>
             {Array.from({ length: 4 }).map((_, i) => (
                 <div className="mt-2 animate-pulse" key={i}>

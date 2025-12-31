@@ -27,6 +27,7 @@ import { useRouter } from '@tanstack/react-router';
 import { useAuth } from '@/state/use-auth';
 import { getParamDetails, getRouteDetails, getTableTitle, useUpdateLink } from '@/utils/GenerateUrl';
 import { isAuthenticateApp } from '@/data/client/token-store';
+import { DashboardTitleSkeleton } from '../skeletons/DashboardTitleSkeleton';
 
 
 export const DynamicComponentView = ({
@@ -349,6 +350,16 @@ export const DynamicComponentView = ({
       //   })
       // }
 
+      if(isHome) { // Only for home tickets
+        let parentObjectTypeId = ""
+        if (userData?.info?.objectTypeId && !param?.isPrimaryCompany) {
+          parentObjectTypeId = userData?.info?.objectTypeId
+        } else if (userData?.info?.objectTypeId && param?.isPrimaryCompany) {
+          parentObjectTypeId = "0-2"
+        }
+        param.parentObjectTypeId = parentObjectTypeId
+      }
+
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
@@ -535,21 +546,24 @@ export const DynamicComponentView = ({
     mutationKey: ["PipelineData"],
     mutationFn: async () => {
       const param = getTableParam(companyAsMediator, null);
-      let parentObjectTypeId = ""
+      const apiParams: any = {}
+      
       if(paramsObject?.parentObjectTypeId) {
-        parentObjectTypeId = `?parentObjectTypeId=${paramsObject?.parentObjectTypeId}`
+        apiParams.parentObjectTypeId = paramsObject?.parentObjectTypeId;
       } else if (isHome && userData?.info?.objectTypeId && !param?.isPrimaryCompany) {
-        parentObjectTypeId = `?parentObjectTypeId=${userData?.info?.objectTypeId}`
+        apiParams.parentObjectTypeId = userData?.info?.objectTypeId;
       } else if (isHome && userData?.info?.objectTypeId && param?.isPrimaryCompany) {
-        parentObjectTypeId = `?parentObjectTypeId=0-2`
+        apiParams.parentObjectTypeId = "0-2";
       }
+      
+      apiParams.isPrimaryCompany = param?.isPrimaryCompany;
+      apiParams.cache = sync ? false : true;
 
-      const pipelineEndpoint = `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}${parentObjectTypeId}`;
+      const pipelineEndpoint = `api/${hubId}/${portalId}/hubspot-object-pipelines/${hubspotObjectTypeId}`;
+
       return await Client.Deals.pipelines({
         API_ENDPOINT: pipelineEndpoint,
-        param: {
-          cache: sync ? false : true,
-        },
+        param: apiParams,
       });
     },
 
@@ -725,7 +739,7 @@ export const DynamicComponentView = ({
 
 
   // if (isLoadingAPiData === true && isLoadedFirstTime === true) {
-  if (isLoadingAPiData === true) {
+  if (isLoadedFirstTime === true && isLoadingAPiData === true) {
     return (
       <div
         className={` ${
@@ -735,15 +749,15 @@ export const DynamicComponentView = ({
             : "mt-[calc(var(--nav-height)-1px)]"
         } rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2`}
       >
-        <DashboardTableHeaderSkeleton
-          hubspotObjectTypeId={hubspotObjectTypeId}
-          title={title}
-        />
+        {componentName !== "ticket" &&<DashboardTitleSkeleton />}
+        <div className={`${componentName === "ticket" ? "" : "md:mt-4 mt-3 rounded-md overflow-hidden bg-cleanWhite border dark:border-none dark:bg-dark-300 md:p-4 p-2 !pb-0 md:mb-4 mb-2"}`}>
+        <DashboardTableHeaderSkeleton/>
         {view === "BOARD" && activeCardData ? (
           <BoardViewSkeleton />
         ) : (
           <TableSkeleton />
         )}
+        </div>
       </div>
     );
   }
