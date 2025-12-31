@@ -2784,7 +2784,7 @@
 }, {
   "id" : "c629adb8-ed6b-d731-e7ff-1571ca48a4e4",
   "name" : "developer_option",
-  "label" : "Developer",
+  "label" : "Developer Options",
   "required" : false,
   "locked" : false,
   "display" : "toggle",
