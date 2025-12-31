@@ -569,6 +569,15 @@ export const renderCellContent = ({
     );
   }
 
+  if (type === "details" && column?.fieldType === "textarea") {
+    return (
+      <div className="flex gap-1 relative justify-between whitespace-pre-line">
+        {/* {decodeAndStripHtml(value || "")} */}
+        <ViewNote note={value || ""} />
+      </div>
+    );
+  }
+
   if (type === "details" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
