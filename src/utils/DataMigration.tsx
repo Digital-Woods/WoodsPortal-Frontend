@@ -8,6 +8,7 @@ import { Currency } from './Currency';
 import { getUserDetails } from '@/data/client/auth-utils';
 import { formatTimestampIST } from './DateTime';
 import { useMakeLink } from './GenerateUrl';
+import { ViewNote } from '@/components/ui/ViewNote';
 
 export function profileInitial(firstName: any, lastName: any) {
   const initials =
@@ -562,7 +563,8 @@ export const renderCellContent = ({
   if ((type === "list" || type === "associations" || type === 'homeList') && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
-        {truncatedText(decodeAndStripHtml(value || ""), 23)}
+        {/* {truncatedText(decodeAndStripHtml(value || ""), 23)} */}
+        <ViewNote note={value || ""} dialogView={true} />
       </div>
     );
   }
@@ -570,7 +572,8 @@ export const renderCellContent = ({
   if (type === "details" && column?.fieldType === "html") {
     return (
       <div className="flex gap-1 relative justify-between">
-        {decodeAndStripHtml(value || "")}
+        {/* {decodeAndStripHtml(value || "")} */}
+        <ViewNote note={value || ""} />
       </div>
     );
   }

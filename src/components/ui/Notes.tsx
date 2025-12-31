@@ -29,6 +29,7 @@ import { useAuth } from '@/state/use-auth';
 import { useUpdateLink } from '@/utils/GenerateUrl';
 import { useEditor } from '@/state/use-editor';
 import { isAuthenticateApp } from '@/data/client/token-store';
+import { ViewNote } from './ViewNote';
 
 
 const NoteCard = ({
@@ -271,7 +272,8 @@ const NoteCard = ({
               >
                 <div className="break-words">
                   <span>
-                    <HtmlParser html={DOMPurify.sanitize(note?.hs_note_body, noteViewConfig)} className="ProseMirror" />
+                    {/* <HtmlParser html={DOMPurify.sanitize(note?.hs_note_body, noteViewConfig)} className="ProseMirror" /> */}
+                    <ViewNote note={note?.hs_note_body || ""} />
                   </span>
                 </div>
                 {permissions?.update === true && note?.createdBy != 'Hubspot' ? (
