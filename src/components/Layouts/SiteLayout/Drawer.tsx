@@ -234,6 +234,7 @@ export const Drawer = ({ className }: any) => {
                             <Button
                               className={`h-auto !bg-[var(--sidebarCta-button-background-color)] text-[var(--sidebarCta-button-text-color)] dark:bg-dark-200 dark:text-white dar mt-4 border-none py-2`}
                               size="sm"
+                              variant=""
                             >
                               <a
                                 className="block text-center w-full whitespace-normal break-words leading-snug"
