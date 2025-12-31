@@ -827,8 +827,9 @@ export const DynamicComponentView = ({
                             return (
                               <li key={key} className="flex items-center break-all">
                                 {console.log("value", moduleStylesOptions)}
+                                {console.log("moduleStylesOptions?.listPageStyles?.textColor", moduleStylesOptions?.listPageStyles?.textColor)}
                                 <Link
-                                  className={`text${moduleStylesOptions?.listPageStyles} text-xl font-semibold capitalize dark:text-white hover:underline`}
+                                  className={`text-[${moduleStylesOptions?.listPageStyles?.textColor || '#000000'}] text-xl font-semibold capitalize dark:text-white hover:underline`}
                                   to={value?.path}
                                 >
                                   {/* {getParamHash(
