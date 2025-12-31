@@ -86,7 +86,7 @@ export const DynamicComponentView = ({
   const router = useRouter()
   const { pathname } = router.state.location
 
-  const [isLoading, setIsLoading] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<any>(true);
   const [urlParam, setUrlParam] = useState<any>(null);
   const [apiResponse, setApiResponse] = useState<any>(null);
   const [pipelines, setPipelines] = useState<any>([]);
@@ -99,6 +99,7 @@ export const DynamicComponentView = ({
   const [currentPage, setCurrentPage] = useState<any>(null);
   const [isFristTimeLoadData, setIsFristTimeLoadData] = useState<any>(true);
   const [isLoadedUserProfile, setIsLoadedUserProfile] = useState<any>(false);
+ const [parentObjectTypeId, setParentObjectTypeId] = useState("");
 
   const { subscriptionType }: any = useAuth();
 
@@ -235,6 +236,7 @@ export const DynamicComponentView = ({
       pipeline?: any;
       mPipelines?: any;
     } = {}) => {
+      setIsLoading(true);
       const { pipeline, mPipelines } = variables;
       // const objectId = isHome ? 'home' : hubspotObjectTypeId
       // let routeMenuConfigs = getRouteMenuConfig();
@@ -289,9 +291,9 @@ export const DynamicComponentView = ({
 
       // const API_ENDPOINT = removeAllParams(apis.tableAPI);
       const API_ENDPOINT = apis.tableAPI;
-      if (componentName != "ticket") {
-        setIsLoading(true);
-      }
+      // if (componentName != "ticket") {
+      //   setIsLoading(true);
+      // }
       // let params = param
 
       const fParams = getLinkParams()
@@ -358,6 +360,7 @@ export const DynamicComponentView = ({
           parentObjectTypeId = "0-2"
         }
         param.parentObjectTypeId = parentObjectTypeId
+        setParentObjectTypeId(parentObjectTypeId)
       }
 
       return await Client.objects.all({
@@ -409,9 +412,9 @@ export const DynamicComponentView = ({
             : data?.data?.total;
 
           setTotalItems(totalData || 0);
-          if (componentName != "ticket") {
-            setIsLoading(false);
-          }
+          // if (componentName != "ticket") {
+          //   setIsLoading(false);
+          // }
           setTotalRecord(totalData || 0);
           if (view === "BOARD") {
             setActiveCardData(data?.data);
@@ -428,8 +431,6 @@ export const DynamicComponentView = ({
           const param = getTableParam(companyAsMediator, null);
 
           if ((routeDetails?.defPermissions)) {
-            console.log("0", 0);
-
             setPermissions(data?.configurations[componentName]);
           } else if(componentName === "ticket" || (param?.isPrimaryCompany && hubspotObjectTypeId === "0-5")) { // if component is ticket or company mediator tickets
             setPermissions(data?.configurations?.ticket);
@@ -441,6 +442,7 @@ export const DynamicComponentView = ({
         }
       // }
       // setRouteMenuConfig(routeMenuConfigs);
+      setIsLoading(false);
       setIsLoadingHoldData(false);
     },
     onError: (error: any) => {
@@ -454,9 +456,10 @@ export const DynamicComponentView = ({
       setIsLoadedFirstTime(false)
       setIsFristTimeLoadData(false)
       setIsLoadingHoldData(false);
-      if (componentName != "ticket") {
-        setIsLoading(false);
-      }
+      // if (componentName != "ticket") {
+      //   setIsLoading(false);
+      // }
+      setIsLoading(false);
     },
   });
 
@@ -550,6 +553,7 @@ export const DynamicComponentView = ({
   const { mutate: getPipelines, isLoadingPipelines } : any = useMutation({
     mutationKey: ["PipelineData"],
     mutationFn: async () => {
+      setIsLoading(true);
       const param = getTableParam(companyAsMediator, null);
       const apiParams: any = {}
       
@@ -560,6 +564,7 @@ export const DynamicComponentView = ({
       } else if (isHome && userData?.info?.objectTypeId && param?.isPrimaryCompany) {
         apiParams.parentObjectTypeId = "0-2";
       }
+      setParentObjectTypeId(apiParams?.parentObjectTypeId || "")
       
       apiParams.isPrimaryCompany = param?.isPrimaryCompany;
       apiParams.cache = sync ? false : true;
@@ -586,6 +591,7 @@ export const DynamicComponentView = ({
       setErrorMessageCategory(error?.response?.data?.errorCode)
       setPipelines([]);
       setIsLoadedFirstTime(false)
+      setIsLoading(false);
     },
   });
 
@@ -656,7 +662,7 @@ export const DynamicComponentView = ({
         if (
           // (hubspotObjectTypeId === "0-3" || hubspotObjectTypeId === "0-5") &&
           // (!defPermissions?.pipeline_id && !routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
-          (routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
+          (!routeDetails?.defPermissions?.pipeline_id && !specPipeLine)
         ) {
           await getPipelines();
         } else {
@@ -747,7 +753,7 @@ export const DynamicComponentView = ({
   if (isLoadedFirstTime === true && isLoadingAPiData === true) {
     return (
       <div
-        className={` ${
+        className={`${
           hubSpotUserDetails.sideMenu[0]?.tabName === title ||
           componentName === "ticket"
             ? "mt-0"
@@ -949,6 +955,7 @@ export const DynamicComponentView = ({
                   isLoadingPipelines={isLoadingPipelines}
                   changeTab={changeTab}
                   errorMessage={errorMessage}
+                  parentObjectTypeId={parentObjectTypeId}
                 />
               </div>
             </div>

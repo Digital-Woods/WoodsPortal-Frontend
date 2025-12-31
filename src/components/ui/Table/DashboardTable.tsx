@@ -68,7 +68,8 @@ export const DashboardTable: any = ({
   pipelines,
   isLoadingPipelines = false,
   changeTab = null,
-  errorMessage
+  errorMessage,
+  parentObjectTypeId = "",
 }: any) => {
   const {
     setLimit,
@@ -133,7 +134,7 @@ export const DashboardTable: any = ({
   // }, [specPipeLine]);
 
   const isPrimaryCompany = getParam("isPrimaryCompany");
-  const parentObjectTypeId = getParam("parentObjectTypeId");
+  // const parentObjectTypeId = getParam("parentObjectTypeId");
   const parentObjectRecordId = getParam("parentObjectRecordId");
 
   const { subscriptionType }: any = useAuth();
@@ -434,6 +435,7 @@ export const DashboardTable: any = ({
               info={info}
               specPipeLine={specPipeLine}
               pipeLineId={pipeLineId}
+              isHome={isHome}
             />
           )}
           {showEditDialog && (
