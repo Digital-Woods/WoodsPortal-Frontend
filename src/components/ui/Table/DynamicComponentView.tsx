@@ -846,7 +846,7 @@ export const DynamicComponentView = ({
                                   </span>
                                 </Link>
                                 {index < array.length - 1 && (
-                                  <span className="mx-1 text-xl font-semibold text-[#0091AE]">
+                                  <span className="mx-1 text-xl font-semibold text-secondary">
                                     associated with
                                   </span>
                                 )}
