@@ -42,7 +42,7 @@ export const DetailsViewEditorDialog = ({
     let defValue: any = {}
     defValue[editRow?.key] = editRow?.value || []
     setInitialValues(defValue)
-  }, [])
+  }, [editRow])
 
   const createValidationSchemaPipeline = () => {
     let schemaShape: any = {};
@@ -75,7 +75,7 @@ export const DetailsViewEditorDialog = ({
 
         <div className="flex justify-between items-center mb-4 bg-[#516f90] p-4">
           <div className="text-lg font-semibold text-white dark:text-white mb-0">
-            Edit {'title'}
+            Edit
           </div>
           <div className="flex gap-2 items-center">
             <Button
