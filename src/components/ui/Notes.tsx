@@ -255,7 +255,7 @@ const NoteCard = ({
               `}
             >
               <div
-                className={`py-3 pr-3 pl-6 ${
+                className={`p-2 ${
                   !isOpen
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
