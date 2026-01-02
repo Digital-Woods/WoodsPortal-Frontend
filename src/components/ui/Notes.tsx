@@ -255,7 +255,7 @@ const NoteCard = ({
               `}
             >
               <div
-                className={`py-3 pr-3 pl-6 ${
+                className={`p-2 ${
                   !isOpen
                     ? "rounded-md dark:bg-white mt-2"
                     : `${
@@ -514,7 +514,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
         }
       }
     }
-    return displayValue || me?.firstName;
+    return displayValue || me?.firstName|| me?.email;
   };
 
   const closeDialog = () => {
