@@ -1131,6 +1131,12 @@ ol {
   text-decoration-color: black;
 }
 
+.ProseMirror p:empty::before {
+  content: '';
+  display: inline-block;
+  height: 0;
+}
+
 .ProseMirror p,
 .EditorView p {
   line-height: 1.5;
