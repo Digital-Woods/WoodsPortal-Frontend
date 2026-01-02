@@ -567,9 +567,9 @@ form {
 }
 
 /* ProseMirror Editor */
-/* .prosemirror-editor {
-  height: 400px;
-} */
+#prosemirror-editor .ProseMirror {
+  padding: 10px;
+}
 
 .ProseMirror {
   position: relative;
