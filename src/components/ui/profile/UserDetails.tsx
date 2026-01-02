@@ -355,10 +355,10 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                     </div>
                                 )
                             )}
-                            
+
                             {activeTab === "notes"&& (
                                 permissions && permissions?.note?.display && objectId && selectedNotesDataFilter && id ? (
-                                    <Notes tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
+                                    <Notes noteCreateFor={selectedNotesDataFilter == '0-2' ? userData?.response?.associations?.COMPANY?.name?.value : null} tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
                                 ) : (
                                     <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
                                         <span className="text-yellow-600">
