@@ -59,7 +59,9 @@ export const DashboardTableData = ({
   // itemsPerPage,
   // setItemsPerPage,
   detailsUrl,
-  apis
+  apis,
+  isHome,
+  homeParentObjectTypeId
 }: any) => {
   const {
     page,
@@ -240,8 +242,10 @@ export const DashboardTableData = ({
                         hoverRow: hoverRow,
                         item: item,
                         urlParam: toQueryString(mUrlParam),
+                        isHome,
+                        homeParentObjectTypeId
                       })}
-
+                      
                       {/* {viewName === "ticket"
                         ? renderCellContent(
                             companyAsMediator,

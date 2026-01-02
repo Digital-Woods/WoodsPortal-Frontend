@@ -58,7 +58,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
   const {isLoading: isLoadingList} = states
 
   const router = useRouter()
-  const { pathname } = router.state.location
+  const { pathname, search } = router.state.location
   const panelRef = useRef(null);
 
   // Automatically adjust the sidebar based on screen size
@@ -169,15 +169,18 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     isLoading,
   }: any = useMutation({
     mutationKey: ["DetailsData", path, id],
-    mutationFn: async () =>
-      await Client.objects.byObjectId({
+    mutationFn: async () => {
+      let apiParams: any = {
         objectId: objectId,
         id: id,
         urlParam: params,
         portalId,
         hubId,
         cache: sync ? false : true,
-      }),
+      }
+      if(search?.o_t) apiParams.parentObjectTypeId = search.o_t // this only for home ticket
+      return await Client.objects.byObjectId(apiParams);
+    },
     onSuccess: (data) => {
       setSuccessResponse(data)
     },

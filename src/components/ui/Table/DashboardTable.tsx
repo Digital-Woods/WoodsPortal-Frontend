@@ -377,6 +377,8 @@ export const DashboardTable: any = ({
               componentName={componentName}
               detailsUrl={detailsUrl}
               apis={apis}
+              isHome={isHome}
+              homeParentObjectTypeId={parentObjectTypeId}
             />
           )}
 
