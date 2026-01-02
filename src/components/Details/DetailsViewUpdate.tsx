@@ -542,7 +542,7 @@ export const DetailsViewUpdate = ({
           </div>
         ) : (
           <div className={`flex ${value.fieldType === "textarea" || value.fieldType === "html" ? "items-start" : "items-center"} gap-2`}>
-            <span className="w-full line-clamp-3">{renderValue || "--"}</span>
+            <span className="line-clamp-3">{renderValue || "--"}</span>
             {value?.isEditableField &&
               (value?.key === "pipeline" || value?.key === "hs_pipeline") &&
               value?.options.length < 2 ? null : (
