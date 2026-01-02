@@ -643,6 +643,8 @@ export const ProseMirrorEditor = ({
       const content = isEmpty ? "" : getContentString();
 
       setEditorContent(content);
+    } else {
+      setEditorContent(initialData);
     }
   }, [pmState?.doc.toJSON()]);
 
