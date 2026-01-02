@@ -306,7 +306,7 @@ const NoteCard = ({
   );
 };
 
-export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermissions = null }: any) => {
+export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermissions = null, noteCreateFor = null }: any) => {
   const [permissions, setPermissions] = useState(mPermissions);
   const [showDialog, setShowDialog] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -514,7 +514,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
         }
       }
     }
-    return displayValue || me?.firstName|| me?.email;
+    return displayValue || noteCreateFor || me?.firstName || me?.email;
   };
 
   const closeDialog = () => {
