@@ -514,7 +514,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
         }
       }
     }
-    return displayValue || me?.firstName;
+    return displayValue || me?.firstName|| me?.email;
   };
 
   const closeDialog = () => {
