@@ -123,7 +123,7 @@ export const HeaderLayout = (props: any) => {
           <Breadcrumb {...props} />
         </div>
         <div className=''>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center shrink-0">
 
             <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
               <Tooltip place='right' id='clearCacheTooltip' content={`Clear cache`}>

@@ -567,7 +567,7 @@ form {
 }
 
 /* ProseMirror Editor */
-.prosemirror-editor .ProseMirror {
+.ProseMirror-editor .ProseMirror {
   padding: 10px;
 }
 
