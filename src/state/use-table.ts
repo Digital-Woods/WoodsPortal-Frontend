@@ -17,6 +17,7 @@ import {
   tableParamState,
   tableDefPermissions,
   gridDataState,
+  tableUniqueIdState
 } from "@/state/store";
 import { useSync } from "@/state/use-sync";
 import { getAuthSubscriptionType, getRouteMenuConfig, setRouteMenuConfig } from "@/data/client/auth-utils";
@@ -26,6 +27,7 @@ import { useUpdateLink } from "@/utils/GenerateUrl";
 const pageLimit = env.VITE_TABLE_PAGE_LIMIT;
 
 export function useTable() {
+  const [tableUniqueId, setTableUniqueId] = useAtom(tableUniqueIdState);
   const [data, setData] = useAtom(gridDataState);
   const [sort, setSort] = useAtom(tableSortState);
   const [limit, setLimit] = useAtom(tableLimitState);
@@ -254,5 +256,6 @@ export function useTable() {
     getTableParam,
     gridData: data,
     setGridData,
+    tableUniqueId, setTableUniqueId
   };
 }

@@ -123,7 +123,7 @@ export const HeaderLayout = (props: any) => {
           <Breadcrumb {...props} />
         </div>
         <div className=''>
-          <div className="flex gap-2 items-center shrink-0">
+          <div className="flex gap-2 items-center">
 
             <div className="text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400">
               <Tooltip place='right' id='clearCacheTooltip' content={`Clear cache`}>
@@ -138,7 +138,7 @@ export const HeaderLayout = (props: any) => {
             <div className="w-px h-6 bg-gray-600 dark:bg-dark-400"></div>
 
             <div
-              className=" px-3 max-sm:pr-0 py-1 text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section md:mr-1"
+              className="shrink-0 px-3 max-sm:pr-0 py-1 text-[var(--sidebar-text-color)]  dark:border-white dark:text-white rounded-md hover:bg-gray-600 dark:hover:bg-dark-400  cursor-pointer  profile-section md:mr-1"
               onClick={toggleDropdown}
               ref={toggleButtonRef}
             >

@@ -78,4 +78,7 @@ export const tableSelectedPipelineState = atom<string>("");
 export const tableParamState = atom<Record<string, any>>({});
 export const tableDefPermissions = atom<Record<string, any>>({});
 export const gridDataState = atom<any[]>([]);
+export const tableUniqueIdState = atom<number[]>(
+  [Math.floor(Math.random() * (1000 - 100 + 1)) + 100]
+);
 

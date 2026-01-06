@@ -375,8 +375,6 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
   const totalParentLength = getTotalParentLength(breadcrumbs)
   let parentAccessLabel = false
 
-  console.log("props", props)
-
   // param for GF, F, SON to GF relation
   if (
     (breadcrumbs[0]?.prm?.isPC &&  totalParentLength > 2) || // company object

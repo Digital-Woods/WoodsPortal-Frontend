@@ -548,7 +548,7 @@ const sidebarListDataOption: any = [
     {
         "associateObjectName": null,
         "associateObjectProperties": null,
-        "companyAsMediator": false,
+        "companyAsMediator": true,
         "hubspotObjectId": 15,
         "hubspotObjectTypeId": "0-3",
         "icon": null,
@@ -560,8 +560,8 @@ const sidebarListDataOption: any = [
                 "property_value_show_as": "button"
             }
         ],
-        "label": "Deals Normal",
-        "listObjectName": "Deals Normal",
+        "label": "Deals Primary",
+        "listObjectName": "Deals Primary",
         "listObjectProperties": "subject,hs_pipeline_stage,hs_pipeline",
         "objectType": "HUBSPOT_DEFINED",
         "pipeLineId": "0",

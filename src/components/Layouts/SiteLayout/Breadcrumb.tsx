@@ -1,9 +1,14 @@
 import { Link } from '@/components/ui/link';
 import { Chevron } from '@/assets/icons/Chevron';
 import { getBreadcrumbs } from '@/utils/GenerateUrl';
+import { useTable } from '@/state/use-table';
 
 export const Breadcrumb = () => {
   const breadcrumbs = getBreadcrumbs()
+
+  const { 
+    setTableUniqueId
+  }: any = useTable();
 
 
   function addEllipsis(text: string, limit = 20) {
@@ -23,6 +28,11 @@ export const Breadcrumb = () => {
                   : "!text-[var(--sidebar-text-color)] opacity-90"
                   } hover:text-[var(--sidebar-text-color)] opacity-90 dark:!text-white hover:opacity-90`}
                 to={breadcrumb?.path}
+                onClick={() =>
+                  setTableUniqueId(
+                    Math.floor(Math.random() * (1000 - 100 + 1)) + 100
+                  )
+                }
               >
                 {addEllipsis(breadcrumb?.name)}
               </Link>
