@@ -249,6 +249,12 @@ export const getRouteDetails = () => {
   return { routeDetails: mapped };
 };
 
+function getTotalParentLength(data: any) {
+  return data.filter((item: any) =>
+    (item.pt || item.o_t_id) && !item.o_r_id
+  ).length;
+}
+
 export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => {
   const router = useRouter()
   const search: any = router.state.location.search
@@ -366,11 +372,20 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
   //   ...(params ? { params } : {}),
   // };
 
+  const totalParentLength = getTotalParentLength(breadcrumbs)
+  let parentAccessLabel = false
+
+  // param for GF, F, SON to GF relation
+  if ((breadcrumbs[0]?.prm?.isPC &&  totalParentLength > 2) || (!breadcrumbs[0]?.prm?.isPC &&  totalParentLength > 3)) { // 1st condition for company object and 2nd condition for for normal object
+    parentAccessLabel = true
+  }
+
   return {
     breadcrumbs,
     // paramsObject:  Object.keys(mParamsObject).length === 0 ? null : mParamsObject,
     paramsObject:  paramsObject,
     params,
+    parentAccessLabel
   }
 }
 

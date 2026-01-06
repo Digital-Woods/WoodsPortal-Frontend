@@ -81,7 +81,7 @@ export const DynamicComponentView = ({
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
   const {updateLink, getLinkParams, filterParams} = useUpdateLink();
-  const { paramsObject} = getParamDetails({type: componentName});
+  const { paramsObject, parentAccessLabel} = getParamDetails({type: componentName});
 
   const router = useRouter()
   const { pathname } = router.state.location
@@ -362,6 +362,8 @@ export const DynamicComponentView = ({
         param.parentObjectTypeId = parentObjectTypeId
         setParentObjectTypeId(parentObjectTypeId)
       }
+
+      param.parentAccessLabel = parentAccessLabel
 
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,

@@ -161,7 +161,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
     setIsLoadedFirstTime(true);
   }
 
-  const {params} = getParamDetails("", true)
+  const {params, parentAccessLabel} = getParamDetails("", true)
 
   const {
     mutate: getDetails,
@@ -177,6 +177,7 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
         portalId,
         hubId,
         cache: sync ? false : true,
+        parentAccessLabel: parentAccessLabel
       }
       if(search?.o_t) apiParams.parentObjectTypeId = search.o_t // this only for home ticket
       return await Client.objects.byObjectId(apiParams);
