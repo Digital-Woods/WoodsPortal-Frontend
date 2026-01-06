@@ -53,20 +53,12 @@ const buildParentRoute = (props: any, search: any, router: any) => {
   return buildChildRoute(props, search, breadcrumbItems)
 }
 
-function lastThreeOTIdSame(arr: any) {
-  // get last 3 items that have o_t_id
-  const lastThree = arr
-    .filter((item: any) => item.o_t_id)
-    .slice(-3)
-    .map((item: any) => item.o_t_id);
-
-  // if less than 3, skip check
-  if (lastThree.length < 3) return true;
-
-  // check if all are same
-  const allSame = lastThree.every((id: any) => id === lastThree[0]);
-
-  return allSame;
+function isMessingParent(breadcrumbs: any) {
+  let lastItem = breadcrumbs[breadcrumbs.length - 1]
+  let lastItem2 = breadcrumbs[breadcrumbs.length - 2]
+  let lastItem3 = breadcrumbs[breadcrumbs.length - 3]
+  
+  return (lastItem?.o_r_id && (!lastItem2?.o_r_id && lastItem2?.o_t_id) && lastItem3?.o_r_id) ? true : false
 }
 
 const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
@@ -100,7 +92,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
   } else {
     const lastItem = breadcrumbs[breadcrumbs.length - 1]
 
-    if ((props?.objectTypeId != '0-5' && breadcrumbs.length > 2) && (!lastThreeOTIdSame(breadcrumbs) && lastItem?.o_t_id === props?.objectTypeId)) { // 1st check for only association ticket object, 2nd check for all associated object and check lastThreeOTIdSame for skip parent to child and chile to parent association data
+    if ((props?.objectTypeId != '0-5' && breadcrumbs.length > 2) && (!isMessingParent(breadcrumbItems) && lastItem?.o_t_id === props?.objectTypeId)) { // 1st check for only association ticket object, 2nd check for all associated object and check isMessingParent for skip parent to child and chile to parent association data
       const newCrumb: any = {
         n: props?.name,
         o_t_id: props?.objectTypeId,
