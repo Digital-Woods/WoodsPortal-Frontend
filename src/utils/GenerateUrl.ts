@@ -48,7 +48,7 @@ const buildParentRoute = (props: any, search: any, router: any) => {
     {
       n: routeMenu?.title,
       o_t_id: routeMenu?.path,
-      // isPC: props?.isPC || false,
+      isHome: props?.isHome || false,
     },
   ]
   return buildChildRoute(props, search, breadcrumbItems)
@@ -295,6 +295,10 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
   const router = useRouter()
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
+
+  if(breadcrumbs.length > 0 && breadcrumbs?.[0]?.isHome) {
+    breadcrumbs = breadcrumbs.slice(1)
+  }
 
   let mediatorObjectTypeId = ''
   let mediatorObjectRecordId = ''
