@@ -11,34 +11,35 @@ import { isAuthenticateApp } from '@/data/client/token-store';
 const PrivateRoute: React.FC<{
   children?: React.ReactNode;
 }> = ({ children }) => {
-  const router = useRouter();
-  // const token = getAuthCredentials();
-  // const isUser = !!token;
+  // const router = useRouter();
+  // // const token = getAuthCredentials();
+  // // const isUser = !!token;
 
-  const isUser = isAuthenticateApp();
-  React.useEffect((): any => {
-    const currentPath: any = router?.state?.location?.pathname;
-    if (!isUser) {
-        const isPublicPath = [
-        Routes.login,
-        Routes.register,
-        Routes.forgotPassword,
-        Routes.resetPassword,
-        Routes.verifyEmail,
-        Routes.ResendEmail,
-      ].includes(currentPath);
-      if(isPublicPath) return
+  // const isUser = isAuthenticateApp();
+  // React.useEffect((): any => {
+  //   const currentPath: any = router?.state?.location?.pathname;
+  //   if (!isUser) {
+  //       const isPublicPath = [
+  //       Routes.login,
+  //       Routes.register,
+  //       Routes.forgotPassword,
+  //       Routes.resetPassword,
+  //       Routes.verifyEmail,
+  //       Routes.ResendEmail,
+  //     ].includes(currentPath);
+  //     if(isPublicPath) return
 
-      const redirectPath = currentPath != Routes.login ? `?r=${router?.state?.location?.href}` : '';
-      const redirectRoute = `${Routes.login}${redirectPath}`;
-      router.history.replace(redirectRoute); // If not authenticated, force log in
-    }
-  }, [isUser]);
+  //     const redirectPath = currentPath != Routes.login ? `?r=${router?.state?.location?.href}` : '';
+  //     const redirectRoute = `${Routes.login}${redirectPath}`;
+  //     router.history.replace(redirectRoute); // If not authenticated, force log in
+  //   }
+  // }, [isUser]);
 
-  if (isUser) {
+  // if (isUser) {
+  //   return <>{children}</>;
+  // }
+
     return <>{children}</>;
-  }
-
   return <Loader showText={false} />;
 };
 

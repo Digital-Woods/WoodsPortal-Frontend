@@ -83,6 +83,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
         n: props?.title || "",
         o_t_id: props?.objectTypeId,
         "pt": `/association/${props?.objectTypeId}`,
+        isHome: props?.isHome || false,
         "prm": {
           "sort": "-hs_createdate",
           "s": "",
@@ -91,7 +92,6 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
           "fV": "",
           "c": true,
           "isPC": props?.isPC,
-          isHome: props?.isHome || false,
           "v": "LIST",
           "l": "10",
           "p": 1
@@ -128,7 +128,7 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
   } else {
     const lastItem = breadcrumbs[breadcrumbs.length - 1]
 
-    if ((props?.objectTypeId != '0-5' && breadcrumbs.length > 2) && (!isMessingParent(breadcrumbItems) && lastItem?.o_t_id === props?.objectTypeId)) { // 1st check for only association ticket object, 2nd check for all associated object and check isMessingParent for skip parent to child and chile to parent association data
+    if ((props?.objectTypeId != '0-5' && breadcrumbs.length > 2) && (!isMessingParent(breadcrumbItems) && lastItem?.o_t_id === props?.objectTypeId) && (props?.isHome && !isMessingParentLastItem(breadcrumbItems))) { // 1st check for only association ticket object, 2nd check for all associated object and check isMessingParent for skip parent to child and chile to parent association data and check home side bar chile last item is messing parent then skip
       const newCrumb: any = {
         n: props?.name,
         o_t_id: props?.objectTypeId,
@@ -296,7 +296,7 @@ export const getParamDetails = (props?: any, isDetailsPage: boolean = false) => 
   const search: any = router.state.location.search
   let breadcrumbs = decodeToBase64(search?.b) || []
 
-  if(breadcrumbs.length > 0 && breadcrumbs?.[0]?.isHome) {
+  if(breadcrumbs.length > 0 && breadcrumbs?.[0]?.isHome) { // skip 1st breadcrumb for home page sidebar data
     breadcrumbs = breadcrumbs.slice(1)
   }
 
@@ -468,7 +468,7 @@ const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
       path: `/${breadcrumb?.pt || breadcrumb?.o_t_id}?b=${bc}`,
     }
   } else if (index === 1) {
-    if(breadcrumb?.prm?.isHome) { // its for home side bard card data
+    if(breadcrumb?.isHome) { // its for home side bard card data
       return {
         name: breadcrumb?.n,
         path: `/association/${breadcrumb?.o_t_id}?b=${bc}`,
@@ -479,7 +479,7 @@ const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
       path: `/${breadcrumb?.o_r_id}/${breadcrumb?.o_t_id}/${breadcrumb?.o_r_id}?b=${bc}`,
     }
   } else {
-    if (breadcrumb?.o_t_id && breadcrumb?.o_r_id && !breadcrumb?.prm?.isHome) {
+    if (breadcrumb?.o_t_id && breadcrumb?.o_r_id && !breadcrumb?.isHome) {
       return {
         name: breadcrumb?.n,
         path: `/${breadcrumb?.o_r_id}/${breadcrumb?.o_t_id}/${breadcrumb?.o_r_id}?b=${bc}`,
