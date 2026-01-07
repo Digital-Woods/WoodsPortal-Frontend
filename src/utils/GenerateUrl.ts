@@ -48,6 +48,7 @@ const buildParentRoute = (props: any, search: any, router: any) => {
     {
       n: routeMenu?.title,
       o_t_id: routeMenu?.path,
+      // isPC: props?.isPC || false,
     },
   ]
   return buildChildRoute(props, search, breadcrumbItems)
@@ -61,6 +62,13 @@ function isMessingParent(breadcrumbs: any) {
   return (lastItem?.o_r_id && (!lastItem2?.o_r_id && lastItem2?.o_t_id) && lastItem3?.o_r_id) ? true : false
 }
 
+function isMessingParentLastItem(breadcrumbs: any) {
+  let lastItem = breadcrumbs[breadcrumbs.length - 1]
+  let lastItem2 = breadcrumbs[breadcrumbs.length - 2]
+  
+  return (!lastItem?.o_t_id && (lastItem2?.o_r_id && lastItem2?.o_t_id)) ? false : true
+}
+
 const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
   let breadcrumbs = [...breadcrumbItems]
   let breadcrumbType: string = 'child'
@@ -70,7 +78,35 @@ const buildChildRoute = (props: any, search: any, breadcrumbItems: any) => {
     breadcrumbType = 'root_details'
   }
 
-  if (breadcrumbType === 'root') {
+  if(props?.isHome && isMessingParentLastItem(breadcrumbItems)) { // its for home side bard card data
+      const parent: any = {
+        n: props?.title || "",
+        o_t_id: props?.objectTypeId,
+        "pt": `/association/${props?.objectTypeId}`,
+        "prm": {
+          "sort": "-hs_createdate",
+          "s": "",
+          "fPn": "hs_pipeline",
+          "fO": "eq",
+          "fV": "",
+          "c": true,
+          "isPC": props?.isPC,
+          isHome: props?.isHome || false,
+          "v": "LIST",
+          "l": "10",
+          "p": 1
+        }
+      }
+
+      breadcrumbs.push(parent)
+
+        const newCrumb: any = {
+          n: props?.name,
+          o_t_id: props?.objectTypeId,
+          o_r_id: props?.recordId,
+        }
+      breadcrumbs.push(newCrumb)
+  } else if (breadcrumbType === 'root') {
     const newCrumb: any = {
       n: props?.name,
       o_t_id: props?.objectTypeId,
@@ -428,12 +464,18 @@ const generatePath = (breadcrumbs: any, breadcrumb: any, index: any) => {
       path: `/${breadcrumb?.pt || breadcrumb?.o_t_id}?b=${bc}`,
     }
   } else if (index === 1) {
+    if(breadcrumb?.prm?.isHome) { // its for home side bard card data
+      return {
+        name: breadcrumb?.n,
+        path: `/association/${breadcrumb?.o_t_id}?b=${bc}`,
+      }
+    }
     return {
       name: breadcrumb?.n,
       path: `/${breadcrumb?.o_r_id}/${breadcrumb?.o_t_id}/${breadcrumb?.o_r_id}?b=${bc}`,
     }
   } else {
-    if (breadcrumb?.o_t_id && breadcrumb?.o_r_id) {
+    if (breadcrumb?.o_t_id && breadcrumb?.o_r_id && !breadcrumb?.prm?.isHome) {
       return {
         name: breadcrumb?.n,
         path: `/${breadcrumb?.o_r_id}/${breadcrumb?.o_t_id}/${breadcrumb?.o_r_id}?b=${bc}`,

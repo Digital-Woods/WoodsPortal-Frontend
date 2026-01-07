@@ -524,9 +524,9 @@ const sidebarListDataOption: any = [
     {
         "associateObjectName": null,
         "associateObjectProperties": null,
-        "companyAsMediator": true,
+        "companyAsMediator": false,
         "hubspotObjectId": 15,
-        "hubspotObjectTypeId": "0-3",
+        "hubspotObjectTypeId": "2-38796732",
         "icon": null,
         "iframeProperties": [
             {
@@ -536,8 +536,8 @@ const sidebarListDataOption: any = [
                 "property_value_show_as": "button"
             }
         ],
-        "label": "Deals Direct",
-        "listObjectName": "Deals Direct",
+        "label": "Jobs",
+        "listObjectName": "Jobs",
         "listObjectProperties": "subject,hs_pipeline_stage,hs_pipeline",
         "objectType": "HUBSPOT_DEFINED",
         "pipeLineId": "0",
