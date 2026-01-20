@@ -5,6 +5,7 @@ import { getPortal } from '@/data/client/auth-utils'
 import { hubId } from '@/data/hubSpotData'
 import { DynamicComponentView } from '@/components/ui/Table/DynamicComponentView';
 import { getParamDetails } from '@/utils/GenerateUrl';
+import { useTable } from '@/state/use-table';
 
 const AssociationComponent = () => {
   const router = useRouter()
@@ -19,6 +20,10 @@ const AssociationComponent = () => {
   if (env.VITE_DATA_SOURCE_SET != true) {
     portalId = getPortal()?.portalId;
   }
+
+  const { 
+    tableUniqueId
+  }: any = useTable();
   
   const { name } = Route.useParams()
 
@@ -48,8 +53,8 @@ const AssociationComponent = () => {
   return (
     <DynamicComponentView
       hubspotObjectTypeId={hubspotObjectTypeId}
-      key={path}
-      path={path}
+      key={tableUniqueId}
+      path={tableUniqueId}
       title={title}
       showIframe={showIframe}
       propertyName={propertyName}

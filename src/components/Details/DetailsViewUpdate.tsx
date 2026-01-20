@@ -11,7 +11,7 @@ import { DateTimeInput } from "../ui/DateTime/DateTimeInput.tsx";
 import { Form, FormItem, FormControl, FormMessage, Textarea, Input } from "../ui/Form";
 import { Select } from "../ui/Select";
 import { DetailsViewEditorDialog } from "./DetailsViewEditorDialog.tsx";
-import { useUpdateLink } from "@/utils/GenerateUrl.ts";
+import { getParamDetails, useUpdateLink } from "@/utils/GenerateUrl.ts";
 import { isObject } from "@/utils/DataMigration.tsx";
 import { useSync } from "@/state/use-sync.ts";
 import { DetailsViewPipelineUpdateDialog } from "./DetailsViewPipelineUpdateDialog.tsx";
@@ -231,6 +231,7 @@ export const DetailsViewUpdate = ({
   };
 
   const validationSchema = createValidationSchema(data);
+  const {params} = getParamDetails("", true)
 
   const { mutate: saveData, isLoading } = useMutation({
     mutationKey: ["saveData"],
@@ -242,7 +243,7 @@ export const DetailsViewUpdate = ({
             objectTypeId: objectId,
             recordId: id,
           },
-          queryParams: urlParam,
+          queryParams: params,
         });
         if (value?.isPrimaryDisplayProperty && !isAssociations) { // if is display primary then update breadcrumb name
           const value = isObject(payload) ? Object.values(payload)[0] : "";

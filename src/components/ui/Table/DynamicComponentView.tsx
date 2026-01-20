@@ -17,7 +17,7 @@ import { TableSkeleton } from '../skeletons/TableSkeleton';
 import { CautionCircle } from '@/assets/icons/CautionCircle';
 import { TableDetails } from '@/components/Details/TableDetails';
 import { Link } from '@/components/ui/link';
-import { formatCustomObjectLabel } from '@/utils/DataMigration';
+import { formatCustomObjectLabel, isEmptyObject } from '@/utils/DataMigration';
 import { HomeCompanyCard } from '../HomeCompanyCard';
 import { DetailsIcon } from '@/assets/icons/detailsIcon';
 import { HtmlParser } from '@/components/HtmlParser';
@@ -81,7 +81,7 @@ export const DynamicComponentView = ({
   // const [numOfPages, setNumOfPages] = useState<any>(1);
 
   const {updateLink, getLinkParams, filterParams} = useUpdateLink();
-  const { paramsObject} = getParamDetails({type: componentName});
+  const { paramsObject, parentAccessLabel} = getParamDetails({type: componentName});
 
   const router = useRouter()
   const { pathname } = router.state.location
@@ -363,6 +363,8 @@ export const DynamicComponentView = ({
         setParentObjectTypeId(parentObjectTypeId)
       }
 
+      param.parentAccessLabel = parentAccessLabel
+
       return await Client.objects.all({
         API_ENDPOINT: API_ENDPOINT,
         // param: updateParamsFromUrl(apis.tableAPI, params),
@@ -429,10 +431,10 @@ export const DynamicComponentView = ({
           }
 
           const param = getTableParam(companyAsMediator, null);
-
-          if ((routeDetails?.defPermissions)) {
+          
+          if (routeDetails?.defPermissions && !isEmptyObject(routeDetails?.defPermissions)) {
             setPermissions(data?.configurations[componentName]);
-          } else if(componentName === "ticket" || (param?.isPrimaryCompany && hubspotObjectTypeId === "0-5")) { // if component is ticket or company mediator tickets
+          } else if(componentName === "ticket" || (param?.isPrimaryCompany && hubspotObjectTypeId === "0-5") || (pathname === "/association/0-5")) { // if component is ticket or company mediator tickets and if association have ticket
             setPermissions(data?.configurations?.ticket);
           } else {
             setPermissions(data?.configurations?.object);

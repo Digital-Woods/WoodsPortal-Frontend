@@ -200,7 +200,7 @@ const NoteCard = ({
           </div>
           {isOpenEditor && permissions && permissions.update ? (
             <div
-              className={`p-4 cursor-text`}
+              className={`cursor-text`}
               onClick={(e) => e.stopPropagation()}
             >
               <div className={`CUSTOM-edit-note`}>

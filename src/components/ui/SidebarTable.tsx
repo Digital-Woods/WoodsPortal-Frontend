@@ -299,6 +299,8 @@ export const SidebarTable = ({ hubspotObjectTypeId, path, inputValue, pipeLineId
                           hoverRow: hoverRow,
                           item: item,
                           urlParam: null,
+                          title: title,
+                          isHome: true
                         }
                       )}
                     </td>
