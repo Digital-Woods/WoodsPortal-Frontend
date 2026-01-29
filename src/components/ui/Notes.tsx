@@ -173,14 +173,10 @@ const NoteCard = ({
         <div>
           <div className="flex items-center gap-2">
             <div className={`${note?.createdBy === 'Hubspot' ? `text-[var(--note-hs-text)]` : `text-[var(--note-wp-text)]` } dark:text-white`}>
-              {isOpen ? (
-                <Chevron className="rotate-[270deg] origin-center -webkit-transform" />
-              ) : (
-                <Chevron className="rotate-180 origin-center -webkit-transform" />
-              )}
+              <Chevron className={`transition-transform ${isOpen ? "rotate-[270deg]" : "rotate-180"} origin-center -webkit-transform`}/>
             </div>
-            <div className="flex justify-between items-center w-full">
-              <p className={`text-sm font-semibold  whitespace-nowrap ${note?.createdBy === 'Hubspot' ? `text-[var(--note-hs-text)]` : `text-[var(--note-wp-text)]` } dark:text-white`}>Note
+            <div className="flex justify-between items-center w-full flex-wrap gap-1">
+              <p className={`text-sm font-semibold  whitespace-wrap ${note?.createdBy === 'Hubspot' ? `text-[var(--note-hs-text)]` : `text-[var(--note-wp-text)]` } dark:text-white`}>Note
                 {note?.createdByName || note?.createdByEmail ? (
                     <span className={`${note?.createdBy === 'Hubspot' ? `text-[var(--note-hs-text)]` : `text-[var(--note-wp-text)]`} dark:text-white font-normal ml-1 inline-block text-xs`}>
                         by <span className=" border rounded-full px-2 py-1 text-xs ml-2 font-normal inline-block">{note?.createdByName || note?.createdByEmail}</span>

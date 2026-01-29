@@ -30,6 +30,7 @@ import { useRouter } from "@tanstack/react-router";
 import { getParamDetails, useUpdateLink } from "@/utils/GenerateUrl";
 import NotFound from "./Layouts/404";
 import { useNavHeight } from "@/utils/UseNavHeight";
+import { Emails } from "./ui/Emails";
 
 export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPreData = null, preData = null, states ={isLoading : false} }: any) => {
   useNavHeight();
@@ -289,6 +290,11 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                         <div className="text-black dark:text-white">Notes</div>
                       </TabsTrigger>
                     )}
+                    {permissions && permissions?.email?.display && (
+                      <TabsTrigger className="rounded-md" value="emails">
+                        <div className="text-black dark:text-white">Emails</div>
+                      </TabsTrigger>
+                    )}
                     {permissions && permissions?.ticket?.display && (
                       <TabsTrigger className="rounded-md" value="tickets">
                         <div className="text-black dark:text-white">
@@ -347,6 +353,13 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   objectId={objectId}
                   id={id}
                   permissions={permissions ? permissions?.note : null}
+                />
+              )}
+
+              {activeTab === "emails" && (
+                <Emails
+                  objectId={objectId}
+                  id={id}
                 />
               )}
 

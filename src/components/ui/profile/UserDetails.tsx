@@ -18,6 +18,7 @@ import { NoteSkeleton } from "../skeletons/NoteSkeleton";
 import { TableSkeleton } from "../skeletons/TableSkeleton";
 import { DashboardTableHeaderSkeleton } from "../skeletons/DashboardTableHeaderSkeleton";
 import { DashboardTitleSkeleton } from "../skeletons/DashboardTitleSkeleton";
+import { Emails } from "../Emails";
 
 export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, userCompanyId }: any) => {
     const [item, setItems] = useState<any>([]);
@@ -57,6 +58,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
     const [selectedFileDataFilter, setSelectedFileDataFilter] = useState(null);
     const [selectedNotesDataFilter, setSelectedNotesDataFilter] = useState();
     const [selectedTicketsDataFilter, setSelectedTicketsDataFilter] = useState();
+    const [selectedEmailsDataFilter, setSelectedEmailsDataFilter] = useState();
 
 
     useEffect(() => {
@@ -79,6 +81,8 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
             setSelectedNotesDataFilter(selectedTab)
         } else if (activeTab === 'tickets') {
             setSelectedTicketsDataFilter(selectedTab)
+        } else if (activeTab === 'emails') {
+            setSelectedEmailsDataFilter(selectedTab)
         }
         // setIsFristTimeLoadData(false)
     }, [activeTab]);
@@ -93,6 +97,8 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
             setSelectedFileDataFilter(value)
         } else if (view === 'notes') {
             setSelectedNotesDataFilter(value)
+        } else if (view === 'emails') {
+            setSelectedEmailsDataFilter(value)
         } else if (view === 'tickets') {
             setSelectedTicketsDataFilter(value)
             updateLink({
@@ -287,6 +293,11 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                                 <div className="text-black dark:text-white">Notes</div>
                                             </TabsTrigger>
                                         ): null}
+                                        {/* {homeTabsDataTypeFilter?.emails ? ( */}
+                                            <TabsTrigger className="rounded-md" value="emails">
+                                                <div className="text-black dark:text-white">Emails</div>
+                                            </TabsTrigger>
+                                        {/* ): null} */}
                                         {homeTabsDataTypeFilter?.tickets ? (
                                             <TabsTrigger className="rounded-md" value="tickets">
                                                 <div className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
@@ -365,6 +376,19 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                             <CautionCircle/>
                                         </span>
                                         You do not have permission to view Notes
+                                    </div>
+                                )
+                            )}
+
+                            {activeTab === "emails" && (
+                                permissions && permissions?.email?.display && objectId && selectedEmailsDataFilter && id ? (
+                                    <Emails tabName='home' item={item} path={path} objectId={selectedEmailsDataFilter} id={selectedEmailsDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.email : null} />
+                                ) : (
+                                    <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
+                                        <span className="text-yellow-600">
+                                            <CautionCircle/>
+                                        </span>
+                                        You do not have permission to view Emails
                                     </div>
                                 )
                             )}
