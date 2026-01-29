@@ -216,9 +216,15 @@ export const DashboardTableHeader = ({
         {/* } */}
       </div>
 
-      {hubSpotUserDetails.sideMenu[0]?.tabName !== title && permissions?.create && (
+      {(
+        (hubSpotUserDetails.sideMenu[0]?.tabName !== title && permissions?.create) ||
+        (subscriptionType === 'FREE' && isHome && componentName === "ticket")
+      ) && (
         <div className="text-end">
-          <Button variant={!recorBtnCustom ? 'default' : 'create'} onClick={() => setShowAddDialog(true)}>
+          <Button
+            variant={!recorBtnCustom ? 'default' : 'create'}
+            onClick={() => setShowAddDialog(true)}
+          >
             <span className="mr-2">
               <IconPlus className="!w-3 !h-3" />
             </span>
