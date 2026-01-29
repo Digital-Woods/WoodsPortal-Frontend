@@ -203,7 +203,7 @@ const NoteCard = ({
               className={`cursor-text p-4`}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className={`CUSTOM-edit-note`}>
+              <div className={`CUSTOM-edit-note mt-2`}>
               <ProseMirrorEditor
                 ref={editorRef}
                 key={id}
