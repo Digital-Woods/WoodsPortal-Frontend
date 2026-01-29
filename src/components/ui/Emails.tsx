@@ -44,7 +44,7 @@ export const EmailCard = ({ email }: any) => {
 
           <div className="flex justify-between w-full flex-wrap gap-1">
             <p className={`text-xs whitespace-wrap dark:text-white`}>
-              <span className='font-semibold text-gray-500'>Email - {email.hs_email_subject || "No subject"} </span> <span className="font-normal text-xs inline-block text-gray-500">from {email.hs_email_from_firstname} {email.hs_email_from_lastname} to {email.hs_email_to_firstname} {email.hs_email_to_lastname}</span>
+              <span className='font-semibold text-gray-500'>Email - {email.hs_email_subject || "No subject"} </span> <span className="font-normal text-xs inline-block text-gray-500">from {email.hs_email_from_firstname} {email.hs_email_from_lastname} {email.hs_email_to_firstname || email.hs_email_to_lastname ? "to" : ""} {email.hs_email_to_firstname} {email.hs_email_to_lastname}</span>
             </p>
 
             <p className="text-xs text-gray-500 whitespace-nowrap">
