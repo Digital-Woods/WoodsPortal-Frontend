@@ -39,6 +39,7 @@ export default function TailwindPrefixPlugin() {
                 if (
                   cls.startsWith('ProseMirror') ||
                   cls.startsWith('EditorView') ||
+                  cls.startsWith('EmailView') ||
                   cls.startsWith('CUSTOM') ||
                   cls.startsWith(prefix1) ||
                   cls.startsWith(prefix2)
@@ -84,11 +85,11 @@ export default function TailwindPrefixPlugin() {
             .split(/\s+/)
             .filter(Boolean)
             .map((c) => {
-              if (c.startsWith(prefix1) || c.startsWith('CUSTOM') || c.startsWith('ProseMirror')) return c
+              if (c.startsWith(prefix1) || c.startsWith('CUSTOM') || c.startsWith('ProseMirror') || c.startsWith('EmailView')) return c
               return `${prefix1}${c}`
             })
             .map((c) => {
-              if (c.startsWith('CUSTOM') || c.startsWith('ProseMirror')) return c
+              if (c.startsWith('CUSTOM') || c.startsWith('ProseMirror') || c.startsWith('EmailView')) return c
               return addImportant(c)
             })
             .join(' ')

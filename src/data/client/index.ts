@@ -130,6 +130,19 @@ export const Client = {
     },
   },
 
+  emails : {
+    all: ({objectId, id, limit = 5, page, portalId, cache, ...query}: any) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/${hubId}/${portalId}/hubspot-object-emails/${objectId}/${id}`;
+      return HttpClient.get(url, {
+        limit,
+        page: page,
+        cache: !!cache,
+        ...query,
+      });
+    }
+  },
+
   objects : {
     all: ({
       // limit = 10,
