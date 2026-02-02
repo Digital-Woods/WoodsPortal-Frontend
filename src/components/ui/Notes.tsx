@@ -244,7 +244,7 @@ const NoteCard = ({
             </div>
           ) : (
             <div
-              className={`text-black p-4 ${
+              className={`text-black ${
                 !isOpen
                   ? "relative line-clamp-3 h-[50px] overflow-hidden"
                   : "" }

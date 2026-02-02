@@ -610,6 +610,10 @@ form {
   /* the above doesn't seem to work in Edge */
 }
 
+.EmailView {
+  white-space: normal;
+}
+
 .ProseMirror pre {
   white-space: pre-wrap;
 }
