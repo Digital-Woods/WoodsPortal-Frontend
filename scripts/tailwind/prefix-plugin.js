@@ -39,6 +39,7 @@ export default function TailwindPrefixPlugin() {
                 if (
                   cls.startsWith('ProseMirror') ||
                   cls.startsWith('EditorView') ||
+                  cls.startsWith('EmailView') ||
                   cls.startsWith('CUSTOM') ||
                   cls.startsWith(prefix1) ||
                   cls.startsWith(prefix2)
