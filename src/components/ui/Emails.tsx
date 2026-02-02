@@ -13,6 +13,7 @@ import { useAuth } from '@/state/use-auth';
 import { isAuthenticateApp } from '@/data/client/token-store';
 import { ViewEmail } from './ViewEmail';
 import { useUpdateLink } from '@/utils/GenerateUrl';
+import { Attachments } from './Attachments';
 
 const formatDateTime = (timestamp: string) => {
   const date = new Date(timestamp);
@@ -25,18 +26,17 @@ const formatDateTime = (timestamp: string) => {
   };
 };
 
-export const EmailCard = ({ email }: any) => {
+export const EmailCard = ({ email, objectId, id }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const { date, time } = formatDateTime(email.hs_timestamp);
 
   return (
     <div className="mt-2">
       <div
-        className="border bg-white dark:bg-dark-500 dark:border-gray-600 shadow-md rounded-md px-2 py-3 text-sm cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+        className="border bg-white dark:bg-dark-500 dark:border-gray-600 shadow-md rounded-md px-2 py-3 text-sm cursor-pointer">
         {/* Header */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2"
+        onClick={() => setIsOpen(!isOpen)}>
           <Chevron
             className={`transition-transform text-gray-500 ${isOpen ? "rotate-[270deg]" : "rotate-180"
               }`}
@@ -63,6 +63,17 @@ export const EmailCard = ({ email }: any) => {
           <div className="bg-white rounded-md p-2 border">
             <ViewEmail html={email.hs_email_html || email.hs_email_text || ""} />
           </div>
+
+          {isOpen && (
+            <div onClick={(e) => e.stopPropagation()}>
+              <Attachments
+                attachments={email?.hs_attachment_ids || []}
+                objectId={objectId}
+                id={id}
+                remove={false}
+              />
+            </div>
+          )}
 
           {!isOpen && (
             <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent dark:from-dark-500" />
@@ -186,6 +197,8 @@ export const Emails = ({ tabName = '', objectId, id }: any) => {
           <EmailCard
             key={index}
             email={email}
+            objectId={objectId}
+            id={id}
           />
         ))
       ) : (

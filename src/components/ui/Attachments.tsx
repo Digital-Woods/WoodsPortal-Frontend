@@ -92,7 +92,7 @@ export const Attachments = ({
       <div className="flex items-start">
         <ul className={`!list-none ${attachments.length > 0 ? 'p-1' : ''} flex flex-wrap gap-2 max-w-full`}>
           {attachments.map((attachment: any) => (
-            <li className="w-full p-2 bg-[#f5f8fa] dark:bg-dark-300 dark:text-white border dark:border-gray-600 rounded-sm text-sm">
+            <li className="p-2 bg-[#f5f8fa] dark:bg-dark-300 dark:text-white border dark:border-gray-600 rounded-sm text-sm">
               <div className="flex gap-2 items-center">
                 <div className="w-[20px]">
                   <FileIcon />
