@@ -2,7 +2,7 @@
 
 A React-based Single Page Application (SPA) built to extend the native HubSpot Membership Portal with full customization capabilities.
 
-This project integrates seamlessly with **[WoodsPortal](woodsportal.digitalwoods.io)** — DigitalWoods’ hosted, enterprise-grade membership portal for HubSpot — enabling advanced UI control, routing flexibility, and scalable architecture on top of HubSpot infrastructure.
+This project integrates seamlessly with **[WoodsPortal](https://woodsportal.digitalwoods.io)** — DigitalWoods’ hosted, enterprise-grade membership portal for HubSpot — enabling advanced UI control, routing flexibility, and scalable architecture on top of HubSpot infrastructure.
 
 For feature requests: **[dev@digitalwoods.io](mailto:dev@digitalwoods.io)**
 
