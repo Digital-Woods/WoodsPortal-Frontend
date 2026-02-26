@@ -1,4 +1,41 @@
-Welcome to your new TanStack app! 
+# WoodsPortal Frontend Customization Guide
+
+
+This codebase is designed to extend the capabilities of HubSpot’s membership portal using React, enabling a fully customizable, single-page application (SPA) experience. It integrates seamlessly with **WoodsPortal**—our hosted, enterprise-level membership portal for HubSpot—offering unlimited customization potential.
+
+For feature requests, feel free to reach out at [dev@digitalwoods.io](mailto:dev@digitalwoods.io).
+
+---
+
+## 📂 High-Level Folder Structure
+
+  - **ts/**: The main folder housing all frontend code.
+  - **components/**: Contains reusable UI components that define the portal's interface.
+  - **data/**: Contains configuration and content-related data files. The `client/` folder inside it is used to manage Axios API requests.
+  - **routes/**: Contains different pages and views, segmented by function or feature.
+  - **state/**: Manages stateful logic or configuration settings across the portal.
+  - **utils/**: Utility functions supporting various operations throughout the portal.
+  - **assets/**: Used for CSS files, icons, and other static resources.
+
+### Environment Configuration
+
+  - **.env.development.example** – Development environment variables. Rename to `.env.development` to activate.
+  - **.env.production.example** – Production environment variables. Rename to `.env.production` to activate.
+  - **.env.staging.example** – Staging environment variables. Rename to `.env.staging` to activate.
+
+
+## 🌐 Layout Files
+  - **AppLayoutWrapper**: The main layout entry point that wraps the entire application.
+  - **DefaultLayout**: The default layout used for standard authenticated pages.
+  - **AuthLayout**: Used for authentication-related routes (e.g., login, register, forgot password).
+  - **UnauthorizedLayout**: Used for routes where the user is not authenticated or does not have permission to access the page.
+
+## 🌐 Route Files
+  - **_auth/**: Contains all authentication-related routes (e.g., login, register, forgot password).
+  - **_dynamicPage/$listComponent.tsx**: Dynamically fetches and displays a list of objects.
+  - **_dynamicPage/$objectName/**: Dynamically fetches and displays a single object based on its name.
+  - **association/**: Used to display object associations and related data.
+
 
 # Getting Started
 
@@ -17,12 +54,33 @@ To build this application for production:
 yarn run build
 ```
 
-## Testing
+# Upload For Production
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+To upload this application for HubSpot:
+
+After production build run this
+
+hs init and hs upload handles HubSpot account initialization and is used to connect the HubSpot account where the module will be deployed
+```bash
+hs init
+```
 
 ```bash
-yarn run test
+hs upload
+```
+
+# Watch server for local development 
+
+To watch this application for development:
+
+hs init handles HubSpot account initialization and is used to connect the HubSpot account where the module will be deployed
+
+```bash
+hs init
+```
+then run this
+```bash
+yarn watch
 ```
 
 ## Styling
@@ -55,11 +113,6 @@ import { env } from "@/env";
 
 console.log(env.VITE_APP_TITLE);
 ```
-
-
-
-
-
 
 ## Routing
 This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
