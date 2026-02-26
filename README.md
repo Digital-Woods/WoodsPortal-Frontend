@@ -17,12 +17,21 @@ For feature requests, feel free to reach out at [dev@digitalwoods.io](mailto:dev
   - **utils/**: Utility functions supporting various operations throughout the portal.
   - **assets/**: Used for CSS files, icons, and other static resources.
 
-### Environment Configuration
+  ### Environment Configuration
 
-  - **.env.development.example** – Development environment variables. Rename to `.env.development` to activate.
-  - **.env.production.example** – Production environment variables. Rename to `.env.production` to activate.
-  - **.env.staging.example** – Staging environment variables. Rename to `.env.staging` to activate.
+    - **.env.development.example** – Development environment variables. Rename to `.env.development` to activate.
+    - **.env.production.example** – Production environment variables. Rename to `.env.production` to activate.
+    - **.env.staging.example** – Staging environment variables. Rename to `.env.staging` to activate.
 
+  ### Public
+
+  - **module.html** – Contains the HTML structure of the module and globally declares all module fields.
+  - **fields.json** – Configures and defines the fields used in the HubSpot module.
+
+  ### Data
+
+    - **hubSpotData.ts** – Retrieves and handles global module data from HubSpot.
+    - **defaultData.ts** – Contains default mock data used during local development.
 
 ## 🌐 Layout Files
   - **AppLayoutWrapper**: The main layout entry point that wraps the entire application.
@@ -31,9 +40,9 @@ For feature requests, feel free to reach out at [dev@digitalwoods.io](mailto:dev
   - **UnauthorizedLayout**: Used for routes where the user is not authenticated or does not have permission to access the page.
 
 ## 🌐 Route Files
-  - **_auth/**: Contains all authentication-related routes (e.g., login, register, forgot password).
-  - **_dynamicPage/$listComponent.tsx**: Dynamically fetches and displays a list of objects.
-  - **_dynamicPage/$objectName/**: Dynamically fetches and displays a single object based on its name.
+  - **auth/**: Contains all authentication-related routes (e.g., login, register, forgot password).
+  - **dynamicPage/$listComponent.tsx**: Dynamically fetches and displays a list of objects.
+  - **dynamicPage/$objectName/**: Dynamically fetches and displays a single object based on its name.
   - **association/**: Used to display object associations and related data.
 
 
