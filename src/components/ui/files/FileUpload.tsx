@@ -10,36 +10,38 @@
 //   </svg>
 // );
 
-import { Client } from "@/data/client";
 import { getPortal, getAuthToken } from "@/data/client/auth-utils";
-import { useMe } from "@/data/user";
 import { hubId } from "@/data/hubSpotData";
-import { useSync } from "@/state/use-sync";
-import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { env } from "@/env";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
 import { getIcon } from "@/utils/GetIcon";
-import { ALLOWED_FILE_MIME_TYPES, ENTERPRISE_ACCOUNT_MAX_FILE_SIZE, FREE_ACCOUNT_MAX_FILE_SIZE } from "@/utils/constants";
-import { useAuth } from "@/state/use-auth";
-import { toast } from "sonner";
+import { ALLOWED_FILE_MIME_TYPES } from "@/utils/constants";
 import { ensureValidRefresh } from "@/data/client/token-store";
 
 export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, objectId, id }: any) => {
-  const { subscriptionType }: any = useAuth();
   // const { sync, setSync } = useSync();
   const [selectedFile, setSelectedFile] = useState<any>([]);
   const [files, setFiles] = useState<any>([]);
   const [isUploading, setIsUploading] = useState<any>(false);
-  const { me } = useMe();
+  const [activeUploadId, setActiveUploadId] = useState<string | null>(null);
+  const totalCount = selectedFile.length;
+  const successCount = selectedFile.filter((f: any) => f?.status === "success")
+    .length;
+  const failedCount = selectedFile.filter((f: any) => f?.status === "failed")
+    .length;
+  const completedCount = successCount + failedCount;
+  const remainingCount = Math.max(0, totalCount - completedCount);
+  const hasUploadable = selectedFile.some(
+    (f: any) => f?.status !== "success"
+  );
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [showUploadStatus, setShowUploadStatus] = useState<boolean>(false);
 
 
   // Added by Suman
-  const [file, setFile] = useState<any>(null);
   const [uploadProgress, setUploadProgress] = useState<any>(0);
-  const [uploadStatus, setUploadStatus] = useState<any>("");
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -47,216 +49,133 @@ export const FileUpload = ({ fileId, refetch, folderId, onClose, setToaster, obj
 const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === true ? window?.hubSpotData?.developerOptionTempUrl : env.VITE_PUBLIC_REST_API_ENDPOINT ?? '';
 
   const inputChange = (e: any) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const filesList = Array.from(e.target.files || []);
+    if (filesList.length === 0) return;
 
-    const sizeInBytes = file.size;
-    const sizeInMB: any = (sizeInBytes / (1024 * 1024)).toFixed(2);
+    setSelectedFile((prevValue: any) => [
+      ...prevValue,
+      ...filesList.map((file) => ({
+        id: generateUniqueId(),
+        filename: file.name,
+        filetype: file.type,
+        fileimage: null,
+        file,
+        status: "pending",
+      })),
+    ]);
 
-    if(subscriptionType === "FREE" && sizeInMB > FREE_ACCOUNT_MAX_FILE_SIZE) {
-      toast.success("File is too large. Maximum allowed size is 20 MB. Please choose a smaller file");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-      return
-    } else if (subscriptionType != "FREE" && sizeInMB > ENTERPRISE_ACCOUNT_MAX_FILE_SIZE) {
-      toast.success("File is too large. Maximum allowed size is 1 GB. Please choose a smaller file");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-      return
-    }
-
-    setFile(file);
-    let validFilesArray = [];
-    validFilesArray.push(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setSelectedFile((prevValue: any) => [
-        // ...prevValue,
-        {
-          id: generateUniqueId(),
-          filename: file?.name,
-          filetype: file?.type,
-          fileimage: reader.result,
-        },
-      ]);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-
-    if (validFilesArray.length > 0) {
-      e.target.value = "";
-    }
-
-
-
-    return;
-
-    // let validFilesArray = [];
-
-    for (let i = 0; i < e.target.files.length; i++) {
-      const file = e.target.files[i];
-      validFilesArray.push(file);
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedFile((prevValue: any) => [
-          ...prevValue,
-          {
-            id: generateUniqueId(),
-            filename: file.name,
-            filetype: file.type,
-            fileimage: reader.result,
-          },
-        ]);
-      };
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }
-
-    if (validFilesArray.length > 0) {
-      e.target.value = "";
-    }
+    e.target.value = "";
   };
 
   const deleteSelectFile = (id: any) => {
-    if (window.confirm("Are you sure you want to delete this file?")) {
-      const result = selectedFile.filter((data: any) => data?.id !== id);
-      setSelectedFile(result);
-    }
+    const result = selectedFile.filter((data: any) => data?.id !== id);
+    setSelectedFile(result);
   };
 
   const portalId = getPortal()?.portalId
-  const uploadFileMutation = useMutation({
-    mutationFn: async (fileData: any) => {
-      const parentFolder = folderId === fileId ? "obj-root" : folderId;
-
-      const payload = {
-        parentFolderId: parentFolder,
-        fileName: fileData?.fileName,
-        fileData: fileData?.fileData,
-      };
-
-      return await Client.files.uploadFile({
-        objectId: objectId,
-        id: id,
-        portalId: portalId,
-        fileData: payload
-      });
-    },
-    onSuccess: (data:any) => {
-      console.log(data,'dadada');
-      setFiles((prevValue: any) => [...prevValue, ...selectedFile]);
-      setSelectedFile([]);
-      setIsUploading(false);
-      setToaster({
-        message: data?.statusMsg || "Files uploaded successfully!",
-        type: "success",
-        show: true,
-      });
-      refetch();
-      // setSync(true)
-      onClose();
-    },
-    onError: (error: any) => {
-      setIsUploading(false);
-      const errorMessage = error?.response?.data?.errorMessage;
-      setToaster({
-        message: errorMessage,
-        type: "error",
-        show: true,
-      });
-      onClose();
-    },
-  });
-
   const fileUploadSubmit = async (e: any) => {
-
-    setIsUploading(true);
     e.preventDefault();
 
-    if (!file) {
-      alert("Please select a file to upload.");
+    const uploadQueue = selectedFile.filter(
+      (item: any) => item?.status !== "success"
+    );
+
+    if (uploadQueue.length === 0) {
+      alert("Please select files to upload.");
       return;
     }
-
-    const token = getAuthToken();
-
-    const formData = new FormData();
-    formData.append("file", file); // Append the selected file to FormData
 
     const parentFolder = folderId === fileId ? "obj-root" : folderId;
     const url = VITE_PUBLIC_REST_API_ENDPOINT+`/api/${hubId}/${portalId}/hubspot-object-files/${objectId}/${id}?parentFolderId=${parentFolder}`;
 
-    try {
-      await ensureValidRefresh();
-      const response = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-        onUploadProgress: (progressEvent: any) => {
-          if (progressEvent?.total) {
-            const percentCompleted = Math.round(
-              (progressEvent?.loaded * 100) / progressEvent?.total
-            );
-            setUploadProgress(percentCompleted); // Update the progress
-          }
-        },
-      });
+    setIsUploading(true);
+    setShowUploadStatus(true);
+    // counts are derived from item statuses
 
-      setFiles((prevValue: any) => [...prevValue, ...selectedFile]);
-      setSelectedFile([]);
-      setIsUploading(false);
+    const failed: any[] = [];
+    const succeeded: any[] = [];
+
+    for (const item of uploadQueue) {
+      if (!item?.file) continue;
+      setActiveUploadId(item.id);
+      setUploadProgress(0);
+
+      try {
+        await ensureValidRefresh();
+        const token = getAuthToken();
+
+        const formData = new FormData();
+        formData.append("file", item.file);
+
+        const response = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+          onUploadProgress: (progressEvent: any) => {
+            if (progressEvent?.total) {
+              const percentCompleted = Math.round(
+                (progressEvent?.loaded * 100) / progressEvent?.total
+              );
+              setUploadProgress(percentCompleted);
+            }
+          },
+        });
+
+        if (response?.data) {
+          succeeded.push(item);
+          setFiles((prevValue: any) => [...prevValue, item]);
+          setSelectedFile((prevValue: any) =>
+            prevValue.map((f: any) =>
+              f.id === item.id ? { ...f, status: "success" } : f
+            )
+          );
+        } else {
+          failed.push({ ...item, status: "failed" });
+          setSelectedFile((prevValue: any) =>
+            prevValue.map((f: any) =>
+              f.id === item.id ? { ...f, status: "failed" } : f
+            )
+          );
+        }
+      } catch (error) {
+        failed.push({ ...item, status: "failed" });
+        setSelectedFile((prevValue: any) =>
+          prevValue.map((f: any) =>
+            f.id === item.id ? { ...f, status: "failed" } : f
+          )
+        );
+      }
+    }
+
+    setIsUploading(false);
+    setActiveUploadId(null);
+    setUploadProgress(0);
+
+    if (failed.length > 0) {
+      setSelectedFile(failed);
       setToaster({
-        message: response.data?.statusMsg || "File uploaded successfully!",
-        type: "success",
-        show: true,
-      });
-      refetch();
-      // setSync(true)
-      onClose();
-      // setUploadStatus("File uploaded successfully!");
-    } catch (error: any) {
-      setIsUploading(false);
-      const errorMessage = error?.response?.data?.errorMessage;
-      setToaster({
-        message: errorMessage,
+        message: `Uploaded ${succeeded.length} file(s). ${failed.length} failed.`,
         type: "error",
         show: true,
       });
-      onClose();
+      refetch();
+      return;
     }
+
+    setToaster({
+      message: "Files uploaded successfully!",
+      type: "success",
+      show: true,
+    });
+    refetch();
+    // setSync(true)
 
     return;
-    e.preventDefault();
-    e.target.reset();
-
-    if (selectedFile.length > 0) {
-      setIsUploading(true);
-      for (const file of selectedFile) {
-        const fileData = {
-          fileName: file.filename,
-          fileData: file.fileimage.split(",")[1],
-        };
-
-        try {
-          await uploadFileMutation.mutateAsync(fileData);
-        } catch (err) {
-          console.error("Error during file upload:", err);
-        }
-      }
-    } else {
-      alert("Please select a file");
-    }
   };
-
+useEffect(() => {
+  selectedFile.length === 0 && setShowUploadStatus(false);
+}, [selectedFile]);
   const deleteFile = (id: any) => {
     if (window.confirm("Are you sure you want to delete this file?")) {
       const result = files.filter((data: any) => data.id !== id);
@@ -284,6 +203,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
                   </div>
                 </div>
                 <form onSubmit={fileUploadSubmit} className={`max-w-screen !mb-0  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
+                  {!isUploading && (
                   <div className={`CUSTOM-kb-file-upload  ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
                     <div className={`CUSTOM-file-upload-box dark:bg-dark-300 dark:text-white ${isUploading ? 'cursor-not-allowed ...':'cursor-auto'}`}>
                       {/* <div>
@@ -300,49 +220,109 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
                       <input
                         ref={fileInputRef}
                         type="file"
-                        accept={Array.from(ALLOWED_FILE_MIME_TYPES).join(',')}
+                        multiple
+                        accept={Array.from(ALLOWED_FILE_MIME_TYPES).join(",")}
                         id="fileupload"
                         className="CUSTOM-file-upload-input"
                         onChange={inputChange}
                         disabled={isUploading}
+                        aria-label="Upload files"
                       />
-                      <p> Drag and drop </p>
-                      <p> or </p>
-                      <p className={`px-6 py-2 text-sm font-medium rounded-md !mt-3 ${isUploading ? `border border-gray-300 text-gray-300 dark:border-gray-300 dark:text-gray-300 cursor-not-allowed ...`:`border border-secondary text-secondary dark:border-white dark:text-white`}`}>
+                      <p>Drag and drop</p>
+                      <p>or</p>
+                      <label
+                        htmlFor="fileupload"
+                        className={`px-6 py-2 text-sm font-medium rounded-md !mt-3 ${isUploading ? `border border-gray-300 text-gray-300 dark:border-gray-300 dark:text-gray-300 cursor-not-allowed ...` : `border border-secondary text-secondary dark:border-white dark:text-white`}`}
+                      >
                         Browse
+                      </label>
+                      <p className="mt-2 text-xs text-gray-500 dark:text-gray-300 text-center">
+                        Tip: Hold Ctrl (Windows) or Cmd (Mac) to select multiple
+                        files in one selection.
                       </p>
                     </div>
                   </div>
+                  )}
                   {/* max-h-[100px] overflow-y-scroll */}
-                  <div className="kb-attach-box mb-3  scrollbar">
+                  {showUploadStatus && totalCount > 1 && (
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-1">
+                        <span>
+                          Processed {completedCount} / {totalCount} · Remaining{" "}
+                          {remainingCount} · Success {successCount} · Failed{" "}
+                          {failedCount}
+                        </span>
+                        <span>
+                          {totalCount === 0
+                            ? 0
+                            : Math.round((completedCount / totalCount) * 100)}
+                          %
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-2">
+                        <div
+                          className="h-2 bg-secondary dark:bg-dark-400 transition-all duration-300"
+                          style={{
+                            width: `${Math.min(
+                              100,
+                              totalCount === 0
+                                ? 0
+                                : Math.round((completedCount / totalCount) * 100)
+                            )}%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="kb-attach-box CUSTOM-file-list mb-3 scrollbar max-h-[240px] overflow-y-auto pr-2 flex flex-col gap-1">
                     {selectedFile.map((data: any) => {
-                      const { id, filename } = data;
+                      const { id, filename, status } = data;
                       return (
                         <div
-                          className="CUSTOM-file-atc-box border border-gray-300 rounded-sm shadow-md p-2 mb-2 flex-col"
+                          className={`CUSTOM-file-atc-box border rounded-sm p-2 flex-col ${
+                            status === "failed"
+                              ? "border-red-300 bg-red-50"
+                              : "border-gray-300"
+                          }`}
                           key={id}
                         >
                           <div className="CUSTOM-file-detail flex items-center">
                             <div className="dark:text-white">{getIcon(filename)}</div>
-                            <div className="mx-2 text-sm dark:text-white font-medium text-left truncate">
+                            <div
+                              className={`mx-2 text-sm font-medium text-left truncate ${
+                                status === "failed"
+                                  ? "text-red-600 dark:text-red-300"
+                                  : "dark:text-white"
+                              }`}
+                            >
                               {filename}
                             </div>
+                            {status === "failed" && (
+                              <span className="text-xs font-semibold text-red-600 dark:text-red-300 mr-2">
+                                Failed
+                              </span>
+                            )}
                             <div className="CUSTOM-file-actions ml-auto">
-                              <Button
-                                type="button"
-                                variant="link"
-                                className={`CUSTOM-file-action-btn dark:text-white text-red-600 mr-0 ${isUploading ? 'hidden':''}`}
-                                onClick={() => deleteSelectFile(id)}
-                                disabled={isUploading}
-                              >
-                                Delete
-                              </Button>
+                              {status === "success" ? (
+                                <span className="text-xs font-semibold text-green-600 dark:text-green-300">
+                                  Successful
+                                </span>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className={`CUSTOM-file-action-btn dark:text-white text-red-600 mr-0 outline-none focus:outline-none focus:ring-0 ${isUploading ? 'hidden':''}`}
+                                  onClick={() => deleteSelectFile(id)}
+                                  disabled={isUploading}
+                                >
+                                  Delete
+                                </button>
+                              )}
                             </div>
                           </div>
                         {/* Progress Bar */}
-                        <div className={`transition-all w-[100%] duration-300 ${isUploading ? "opacity-100" : "opacity-0"} overflow-hidden`}>
+                        <div className={`transition-all w-[100%] duration-300 ${isUploading && activeUploadId === id ? "opacity-100" : "opacity-0"} overflow-hidden`}>
                         {
-                          isUploading && uploadProgress < 90 ?                         
+                          isUploading && activeUploadId === id && uploadProgress < 90 ?                         
                           <div className="w-full bg-gray-200 rounded-sm overflow-hidden h-3 mt-2">
                             <div
                               className="h-3 bg-secondary dark:bg-dark-400 transition-all duration-300"
@@ -351,7 +331,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
                           </div> : null
                         }
                         {
-                          isUploading && uploadProgress > 90  ? 
+                          isUploading && activeUploadId === id && uploadProgress > 90  ? 
                           <div className="CUSTOM-meter">
                             <span className="dark:bg-dark-400"></span>
                           </div> : null
@@ -366,17 +346,17 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
                   <div className="flex items-center gap-3 justify-end">
                     <Button
                       variant='outline'
-                      onClick={onClose}
+                      onClick={() => {onClose();setShowUploadStatus(false);}}
                       disabled={isUploading}
                     >
-                      Cancel
+                      Close
                     </Button>
                     <Button
                       type="submit"
-                      disabled={selectedFile.length === 0 || isUploading}
+                      disabled={!hasUploadable || isUploading}
                       isLoading={isUploading}
                     >
-                      Upload
+                      {isUploading ? "Uploading..." : "Upload"}
                     </Button>
                   </div>
                 </form>

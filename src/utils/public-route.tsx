@@ -22,6 +22,7 @@ const PublicRoute: React.FC<{
       Routes.resetPassword,
       Routes.verifyEmail,
       Routes.ResendEmail,
+      Routes.ssoLogin,
     ].includes(currentRoute);
 
 

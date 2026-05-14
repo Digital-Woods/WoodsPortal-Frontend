@@ -17,7 +17,7 @@
   "allow_new_line" : false,
   "type" : "text",
   "display_width" : null,
-  "default" : "https://woodsportal.digitalwoods.io"
+  "default" : "https://app.woodsportal.com"
 }, {
   "id" : "0d28d5a7-22f6-0266-c175-4b0de5279323",
   "name" : "page_editor_preview_",
@@ -155,7 +155,7 @@
       "id" : "80aecc32-bfe3-627b-e792-b98093408501",
       "name" : "title",
       "label" : "Card Title",
-      "help_text" : "To insert dynamic values, wrap the internal property label in double asterisks (e.g., `**first_name**`). Copy labels from <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
+      "help_text" : "To insert dynamic values, wrap the internal property label in double asterisks (e.g., `**first_name**`). Copy labels from <a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
       "inline_help_text" : "",
       "required" : false,
       "locked" : false,
@@ -196,7 +196,7 @@
       "id" : "111780a2-3978-5023-64ad-f0082cf54a1a",
       "name" : "properties",
       "label" : "Display  Properties",
-      "help_text" : "  Copy labels from \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
+      "help_text" : "  Copy labels from \n  <a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
       "inline_help_text" : "",
       "required" : false,
       "locked" : false,
@@ -210,7 +210,7 @@
         "id" : "9145f93c-3973-8bc1-e0d9-c9aebfd7ddc5",
         "name" : "properties_value",
         "label" : "Property Internal Name",
-        "help_text" : "Copy labels from <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
+        "help_text" : "Copy labels from <a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
         "required" : false,
         "locked" : false,
         "allow_new_line" : false,
@@ -362,7 +362,7 @@
     "id" : "2bb5942c-fc5f-ce7f-4200-63031a014406",
     "name" : "tabs_data_type",
     "label" : "Tab Visibility",
-    "help_text" : "Enable view/edit access for files, notes, and tickets in\n<a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1?t=Settings\" target=\"_blank\">Contact Settings</a> or\n<a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
+    "help_text" : "Enable view/edit access for files, notes, and tickets in\n<a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1?t=Settings\" target=\"_blank\">Contact Settings</a> or\n<a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
     "required" : false,
     "locked" : false,
     "children" : [ {
@@ -383,6 +383,20 @@
       "id" : "90be7079-3bee-cff1-1b54-1a15f485aea7",
       "name" : "notes",
       "label" : "Notes Tab",
+      "required" : false,
+      "locked" : false,
+      "display" : "select",
+      "choices" : [ [ "all", "All" ], [ "contact", "Contact" ], [ "company", "Company" ] ],
+      "multiple" : false,
+      "reordering_enabled" : true,
+      "preset" : null,
+      "type" : "choice",
+      "display_width" : null,
+      "default" : "contact"
+    }, {
+      "id" : "2c2de08a-9aeb-977d-591a-2d967ed04fe0",
+      "name" : "emails",
+      "label" : "Emails Tab",
       "required" : false,
       "locked" : false,
       "display" : "select",
@@ -416,6 +430,7 @@
     "default" : {
       "files" : "contact",
       "notes" : "contact",
+      "emails" : "contact",
       "tickets" : "contact"
     }
   }, {
@@ -467,7 +482,7 @@
       "id" : "33679a64-e90b-2fa3-552d-c51c1c487618",
       "name" : "object_type_id",
       "label" : "Object Type ID",
-      "help_text" : "Use the following IDs:</br>\n0-1 = Contacts </br>\n0-2 = Companies </br>\n0-3 = Deals </br>\n0-5 = Tickets </br>\n2-xxx = Custom Objects — </br><a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Custom\" target=\"_blank\">Copy custom IDs here</a>.",
+      "help_text" : "Use the following IDs:</br>\n0-1 = Contacts </br>\n0-2 = Companies </br>\n0-3 = Deals </br>\n0-5 = Tickets </br>\n2-xxx = Custom Objects — </br><a href=\"https://app.woodsportal.com/hubspot-objects?t=Custom\" target=\"_blank\">Copy custom IDs here</a>.",
       "inline_help_text" : "Visit <a href=\"https://developers.hubspot.com/beta-docs/guides/api/crm/understanding-the-crm\" target=\"_blank\"> here </a> to view the complete list of Object Type IDs",
       "required" : true,
       "locked" : false,
@@ -487,7 +502,7 @@
       "id" : "f1319d61-aa3b-088b-b243-d105de0909dc",
       "name" : "mediator_object_type_id",
       "label" : "Show Primary Company Associated Data",
-      "help_text" : "Show records linked to the user’s associated company. Enable the object association under <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Standard\" target=\"_blank\">Companies > Associations</a>.",
+      "help_text" : "Show records linked to the user’s associated company. Enable the object association under <a href=\"https://app.woodsportal.com/hubspot-objects?t=Standard\" target=\"_blank\">Companies > Associations</a>.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -498,7 +513,7 @@
       "id" : "92d7d9dc-97b4-2824-8ae4-d1b8f54d85d5",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Display records from a specific pipeline of the selected object. Choose the object from the dropdown and ensure pipelines are enabled in <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/tickets/0-5?t=Pipelines\" target=\"_blank\">Admin Settings</a>.",
+      "help_text" : "Display records from a specific pipeline of the selected object. Choose the object from the dropdown and ensure pipelines are enabled in <a href=\"https://app.woodsportal.com/hubspot-objects/tickets/0-5?t=Pipelines\" target=\"_blank\">Admin Settings</a>.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -738,6 +753,7 @@
     "tabs_data_type" : {
       "files" : "contact",
       "notes" : "contact",
+      "emails" : "contact",
       "tickets" : "contact"
     },
     "add_right_sidebar" : false,
@@ -784,7 +800,7 @@
     "id" : "ca500136-65a2-a6fd-25e2-0b89abe26dd5",
     "name" : "hubspot_defined_object",
     "label" : "Standard Objects",
-    "help_text" : "Display HubSpot standard objects in the portal menu. <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects\" target=\"_blank\">Configure objects here</a>.",
+    "help_text" : "Display HubSpot standard objects in the portal menu. <a href=\"https://app.woodsportal.com/hubspot-objects\" target=\"_blank\">Configure objects here</a>.",
     "required" : false,
     "locked" : false,
     "display" : "toggle",
@@ -860,7 +876,7 @@
       "id" : "fb458c27-1f2a-0e69-86ec-9def7b344a54",
       "name" : "properties",
       "label" : "Display  Properties",
-      "help_text" : "  Copy labels from \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
+      "help_text" : "  Copy labels from \n  <a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
       "inline_help_text" : "",
       "required" : false,
       "locked" : false,
@@ -874,7 +890,7 @@
         "id" : "7e6b8c9d-ec3b-f245-0b25-bfa5ac249dd5",
         "name" : "properties_value",
         "label" : "Property Internal Name",
-        "help_text" : "Copy labels from\n<a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or\n<a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>",
+        "help_text" : "Copy labels from\n<a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or\n<a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>",
         "required" : false,
         "locked" : false,
         "allow_new_line" : false,
@@ -1001,7 +1017,7 @@
       "id" : "ded780b2-c224-59d2-6b0d-4645d1a7ba7d",
       "name" : "mediator_object_type_id",
       "label" : "Show Company Associated Data",
-      "help_text" : "Show records linked to the user’s associated company. Enable the object association under <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Standard\" target=\"_blank\">Companies > Associations</a>.",
+      "help_text" : "Show records linked to the user’s associated company. Enable the object association under <a href=\"https://app.woodsportal.com/hubspot-objects?t=Standard\" target=\"_blank\">Companies > Associations</a>.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -1012,7 +1028,7 @@
       "id" : "bf7374bc-9f20-c4a3-91e4-2344ae1d82a6",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Display records from a specific pipeline of the selected object. Choose the object from the dropdown and ensure pipelines are enabled in <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/tickets/0-5?t=Pipelines\" target=\"_blank\">Admin Settings</a>.",
+      "help_text" : "Display records from a specific pipeline of the selected object. Choose the object from the dropdown and ensure pipelines are enabled in <a href=\"https://app.woodsportal.com/hubspot-objects/tickets/0-5?t=Pipelines\" target=\"_blank\">Admin Settings</a>.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -1216,7 +1232,7 @@
     "id" : "49155e57-6695-78de-cce9-e05e90a399c1",
     "name" : "hubspot_custom_object",
     "label" : "Hubspot Custom Object",
-    "help_text" : "Display HubSpot custom objects in the portal menu. <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Custom\" target=\"_blank\">Configure objects here</a>",
+    "help_text" : "Display HubSpot custom objects in the portal menu. <a href=\"https://app.woodsportal.com/hubspot-objects?t=Custom\" target=\"_blank\">Configure objects here</a>",
     "required" : false,
     "locked" : false,
     "display" : "toggle",
@@ -1260,7 +1276,7 @@
       "id" : "77796bcf-c61a-c1ff-d023-274924339b59",
       "name" : "object_type_id",
       "label" : "Object Type ID",
-      "help_text" : "Format: 2-xxx. <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Custom\" target=\"_blank\">Copy custom object IDs here</a>.",
+      "help_text" : "Format: 2-xxx. <a href=\"https://app.woodsportal.com/hubspot-objects?t=Custom\" target=\"_blank\">Copy custom object IDs here</a>.",
       "required" : true,
       "locked" : false,
       "visibility" : {
@@ -1288,7 +1304,7 @@
       "id" : "a7db68a4-fb30-ed07-b532-f29f19ce6144",
       "name" : "properties",
       "label" : "Display  Properties",
-      "help_text" : "  Copy labels from \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
+      "help_text" : "  Copy labels from \n  <a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\" >\n    Contact Settings\n  </a> \n  or \n  <a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\" >\n    Company Settings\n  </a> and enable visibility in the admin panel.",
       "inline_help_text" : "",
       "required" : false,
       "locked" : false,
@@ -1302,7 +1318,7 @@
         "id" : "68fa50a8-dea0-0a82-29ab-2e8fec20f774",
         "name" : "properties_value",
         "label" : "Property Internal Name",
-        "help_text" : "Copy labels from <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
+        "help_text" : "Copy labels from <a href=\"https://app.woodsportal.com/hubspot-objects/contacts/0-1\" target=\"_blank\">Contact Settings</a> or <a href=\"https://app.woodsportal.com/hubspot-objects/companies/0-2\" target=\"_blank\">Company Settings</a>.",
         "required" : false,
         "locked" : false,
         "allow_new_line" : false,
@@ -1428,7 +1444,7 @@
       "id" : "b67a7098-f453-d711-8ea6-13a769cde282",
       "name" : "mediator_object_type_id",
       "label" : "Show Company Associated Data",
-      "help_text" : "Show records linked to the user’s associated company. Enable the object association under <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects?t=Standard\" target=\"_blank\">Companies > Associations</a>.",
+      "help_text" : "Show records linked to the user’s associated company. Enable the object association under <a href=\"https://app.woodsportal.com/hubspot-objects?t=Standard\" target=\"_blank\">Companies > Associations</a>.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -1439,7 +1455,7 @@
       "id" : "0832d64c-a8dd-49ba-61bd-49273182b83a",
       "name" : "add_specific_pipeline",
       "label" : "Filter By Pipeline",
-      "help_text" : "Display records from a specific pipeline of the selected object. Choose the object from the dropdown and ensure pipelines are enabled in <a href=\"https://woodsportal.digitalwoods.io/hubspot-objects/tickets/0-5?t=Pipelines\" target=\"_blank\">Admin Settings</a>.",
+      "help_text" : "Display records from a specific pipeline of the selected object. Choose the object from the dropdown and ensure pipelines are enabled in <a href=\"https://app.woodsportal.com/hubspot-objects/tickets/0-5?t=Pipelines\" target=\"_blank\">Admin Settings</a>.",
       "required" : false,
       "locked" : false,
       "display" : "toggle",
@@ -2300,6 +2316,10 @@
       "secondary_color" : {
         "color" : "#2797AF",
         "opacity" : 100
+      },
+      "button_text_color" : {
+        "color" : "#FFFFFF",
+        "opacity" : 100
       }
     },
     "home_tab_styles" : {
@@ -2355,6 +2375,12 @@
       },
       "button_text_color" : {
         "color" : "#FFFFFF",
+        "opacity" : 100
+      }
+    },
+    "list_page_styles" : {
+      "heading_color" : {
+        "color" : "#000000",
         "opacity" : 100
       }
     },
@@ -2771,6 +2797,130 @@
   "type" : "boolean",
   "display_width" : null,
   "default" : false
+}, {
+  "id" : "69fe8632-396a-8e9b-bfe4-a1603b1c6cca",
+  "name" : "sso_buttons_customize_options",
+  "label" : "SSO buttons customize options",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "a8212e1c-5264-be8c-86aa-eb1e4b7522e8",
+    "name" : "google",
+    "label" : "Google",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "d37cf08e-3b42-8c6b-b0f5-dcdff19a66f0",
+      "name" : "button_text",
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "allow_new_line" : false,
+      "display_width" : null,
+      "type" : "text"
+    }, {
+      "id" : "e36346e3-9f60-901c-5edf-5589ffe62682",
+      "name" : "button_logo",
+      "label" : "Button logo",
+      "help_text" : "Use 16×16 or 20×20 images, with a file size under 50 KB, for best results.",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : false,
+      "show_loading" : false,
+      "display_width" : null,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "",
+        "alt" : null,
+        "loading" : "lazy"
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "display_width" : null,
+    "type" : "group",
+    "default" : {
+      "button_logo" : {
+        "size_type" : "auto",
+        "src" : "",
+        "alt" : null,
+        "loading" : "lazy"
+      }
+    }
+  }, {
+    "id" : "a203b468-68eb-03c1-8e5d-7e9db1f8f92b",
+    "name" : "cognito",
+    "label" : "AWS cognito",
+    "required" : false,
+    "locked" : false,
+    "children" : [ {
+      "id" : "24939b04-f303-4a63-c503-ef79127b6b02",
+      "name" : "button_text",
+      "label" : "Button text",
+      "required" : false,
+      "locked" : false,
+      "allow_new_line" : false,
+      "display_width" : null,
+      "type" : "text"
+    }, {
+      "id" : "1da122d6-af47-348b-6cca-ec8c1961b865",
+      "name" : "button_logo",
+      "label" : "Button logo",
+      "help_text" : "Use 16×16 or 20×20 images, with a file size under 50 KB, for best results.",
+      "required" : false,
+      "locked" : false,
+      "responsive" : true,
+      "resizable" : false,
+      "show_loading" : false,
+      "display_width" : null,
+      "type" : "image",
+      "default" : {
+        "size_type" : "auto",
+        "src" : "",
+        "alt" : null,
+        "loading" : "lazy"
+      }
+    } ],
+    "tab" : "CONTENT",
+    "expanded" : false,
+    "group_occurrence_meta" : null,
+    "display_width" : null,
+    "type" : "group",
+    "default" : {
+      "button_logo" : {
+        "size_type" : "auto",
+        "src" : "",
+        "alt" : null,
+        "loading" : "lazy"
+      }
+    }
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "display_width" : null,
+  "type" : "group",
+  "default" : {
+    "google_sso_button" : {
+      "button_logo" : {
+        "size_type" : "auto",
+        "src" : "",
+        "alt" : null,
+        "loading" : "lazy"
+      }
+    },
+    "aws_cognito_sso_button" : {
+      "button_logo" : {
+        "size_type" : "auto",
+        "src" : "",
+        "alt" : null,
+        "loading" : "lazy"
+      }
+    }
+  }
 }, {
   "id" : "e12e182f-4683-ba02-299b-e5210603c4bd",
   "name" : "developerMode",

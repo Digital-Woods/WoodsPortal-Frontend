@@ -302,7 +302,7 @@ const NoteCard = ({
   );
 };
 
-export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermissions = null, noteCreateFor = null }: any) => {
+export const Notes = ({tabName='', item, path, objectId, id, permissions: mPermissions = null, noteCreateFor = null ,title = "Notes"}: any) => {
   const [permissions, setPermissions] = useState(mPermissions);
   const [showDialog, setShowDialog] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -528,7 +528,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
               {" "}
               <IconPlus className="!w-3 !h-3" />{" "}
             </span>{" "}
-            Create Note
+            Create {title}
           </Button>
         </div>
       )}
@@ -572,7 +572,7 @@ const VITE_PUBLIC_REST_API_ENDPOINT = window?.hubSpotData?.developerOption === t
       <div className="sticky top-0 z-50">
          <div className="flex justify-between items-center bg-[#516f90] p-4 sticky top-0 z-50">
           <div className="text-lg font-semibold text-white dark:text-white mb-0">
-            Note
+            {title}
           </div>
           <div className="flex gap-2 items-center">
             <button

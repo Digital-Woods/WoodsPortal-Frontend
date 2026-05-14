@@ -26,6 +26,7 @@ export const moduleStylesOptions = isDevelopment ? defaultData.moduleStylesOptio
 export const recorBtnCustom = isDevelopment ? defaultData.recorBtnCustom : window?.hubSpotData?.recorBtnCustom
 export const sidebarCtaStyles = isDevelopment ? defaultData.sidebarCtaStyles : window?.hubSpotData?.sidebarCtaStyles
 export const developerMode = isDevelopment ? defaultData.developerMode : window?.hubSpotData?.developerModeModule
+export const ssoButtonsCustomizeOptions = isDevelopment ? defaultData.ssoButtonsCustomizeOptions : window?.hubSpotData?.ssoButtonsCustomizeOptions 
 
 // Side Menu Item Start
 const sideMenu = [

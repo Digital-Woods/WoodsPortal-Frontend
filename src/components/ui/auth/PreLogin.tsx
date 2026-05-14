@@ -1,19 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { any, z } from 'zod'
+import { z } from 'zod'
 import { Client } from '@/data/client/index'
 import { useResponsive } from '@/utils/UseResponsive'
-import { baseCompanyOptions, developerMode } from '@/data/hubSpotData'
+import { baseCompanyOptions, ssoButtonsCustomizeOptions } from '@/data/hubSpotData'
 import { Form, FormItem, FormLabel, FormControl, Input, FormMessage } from '@/components/ui/Form'
 import { hubSpotUserDetails } from '@/data/hubSpotData'
 import { EmailIcon } from '@/assets/icons/EmailIcon'
 import { Button } from '@/components/ui/Button'
 import { HtmlParser } from '@/components/HtmlParser';
+import SsoLoginButton from './SsoLoginButton';
 
-export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData } : any) => {
+export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setloginData }: any) => {
   const [serverError, setServerError] = useState(null);
-  
+
+  const { data: activeSsoData }: any = useQuery({
+    queryKey: ['activeSsoIntegrations'],
+    queryFn: () => Client.authentication.getActiveSso(),
+    retry: false,
+  });
+
+  const activeSsoIntegrations = (activeSsoData?.data || []).filter(
+    (integration: any) => integration?.activeStatus
+  );
+
   const enterEmailValidationSchema = z.object({
     email: z.string().email().nonempty({
       message: "Email is required.",
@@ -58,20 +69,27 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
     },
   });
 
-  const onSubmit = (data : any) => {
+  const onSubmit = (data: any) => {
     login(data);
   };
 
-  // const togglePasswordVisibility = () => {
-  //   setShowPassword((prevState) => !prevState);
-  // };
   const { isLargeScreen, isMediumScreen, isSmallScreen } = useResponsive();
+
+  const getSsoConfig = (integration: any) => {
+  const custom = ssoButtonsCustomizeOptions?.[integration?.integrationSlug];
+
+  return {
+    buttonText: custom?.button_text || integration?.buttonText,
+    logo: custom?.button_logo?.src || integration?.logo,
+  };
+};
+
 
   return (
     <div className="flex items-center bg-flatGray dark:bg-gray-800 justify-center h-screen">
-      <div className={`dark:bg-dark-200 gap-4 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
-        <div className="">
-          <div className="w-[200px]">
+      <div className={`dark:bg-dark-200 bg-cleanWhite py-8 px-4 flex flex-col items-center justify-center rounded-lg ${isLargeScreen && 'w-[30%]'}  ${isMediumScreen && 'w-[45%]'}  ${isSmallScreen && 'w-[85%]'} `}>
+        <div className="w-full mb-4">
+          <div className="w-[200px] mx-auto">
             <img
               src={hubSpotUserDetails?.hubspotPortals?.portalSettings?.authPopupFormLogo}
               alt="Light Mode Logo"
@@ -84,9 +102,11 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
             />
           </div>
         </div>
-        <p className="text-center dark:text-white">
-          {String(baseCompanyOptions?.welcomeMessage) || ""}
-        </p>
+        {baseCompanyOptions?.welcomeMessage &&
+          <p className="text-center dark:text-white mb-4">
+            {String(baseCompanyOptions?.welcomeMessage) || ""}
+          </p>
+        }
         <div className="w-full">
           <Form
             onSubmit={onSubmit}
@@ -95,54 +115,46 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
             className="dark:bg-dark-200"
             formName={`login-form-submited`}
           >
-            {({ register, setValue, watch, formState: { errors } } : any) => {
-              // const emailValue = watch("email");
-
-              // useEffect(() => {
-              //   if (developerMode) {
-              //     setValue("email", "krishna@digitalwoods.net");
-              //   }
-              // }, [developerMode, setValue]);
-
+            {({ register, setValue, formState: { errors } }: any) => {
               return (
-              <div className="text-gray-800 dark:text-gray-200">
-                <FormItem>
-                  <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
-                    Enter Email
-                  </FormLabel>
-                  <FormControl>
-                    <div>
-                      <Input
-                        autoFocus
-                        height="medium"
-                        icon={EmailIcon}
-                        placeholder="Email"
-                        defaultValue={entredEmail}
-                        // disabled={developerMode}
+                <div className="text-gray-800 dark:text-gray-200">
+                  <FormItem>
+                    <FormLabel className="text-xs font-semibold text-gray-800 dark:text-gray-300 focus:text-blue-600">
+                      Enter Email
+                    </FormLabel>
+                    <FormControl>
+                      <div>
+                        <Input
+                          autoFocus
+                          height="medium"
+                          icon={EmailIcon}
+                          placeholder="Email"
+                          defaultValue={entredEmail}
                           {...register("email", {
-                            onChange: (e : any) =>
+                            onChange: (e: any) =>
                               setValue("email", e.target.value.toLowerCase()),
                           })}
-                      />
-                    </div>
-                  </FormControl>
-                  {errors.email && (
-                    <FormMessage className="text-red-600 dark:text-red-400">
-                      {errors.email.message}
-                    </FormMessage>
-                  )}
-                </FormItem>
+                        />
+                      </div>
+                    </FormControl>
+                    {errors.email && (
+                      <FormMessage className="text-red-600 dark:text-red-400">
+                        {errors.email.message}
+                      </FormMessage>
+                    )}
+                  </FormItem>
 
-                <div className="mt-4 flex flex-col justify-center items-center">
-                  <Button
-                    className="w-full"
-                    isLoading={isLoading}
-                  >
-                    Continue
-                  </Button>
+                  <div className="mt-4 flex flex-col justify-center items-center">
+                    <Button
+                      className="w-full"
+                      isLoading={isLoading}
+                    >
+                      Continue
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}}
+              )
+            }}
           </Form>
           {baseCompanyOptions?.createAccountBool &&
             <p className="!mt-4 mb-0 text-xs dark:text-white flex gap-1 relative items-center justify-center flex-wrap">
@@ -153,6 +165,30 @@ export const PreLogin = ({ setActiveState, entredEmail, setEntredEmail, setlogin
             </p>
           }
         </div>
+        {activeSsoIntegrations?.length > 0 && (
+          <div className='w-full'>
+            <div className="relative mt-6 mb-6 flex flex-col items-center justify-center text-sm text-heading w-full">
+              <span className="w-full border-b border-gray-300 dark:border-gray-600 inline-block"></span>
+              <span className="start-2/4 -ms-4 absolute -top-2.5 bg-light px-2 text-gray-600 bg-white dark:bg-gray-800 dark:text-gray-300">
+                OR
+              </span>
+            </div>
+            <div className='flex gap-2 items-center justify-center flex-wrap'>
+              {activeSsoIntegrations?.map((integration: any) => {
+                const { buttonText, logo } = getSsoConfig(integration);
+
+                return (
+                  <SsoLoginButton
+                    key={integration?.portalIntegrationConfigId || integration?.integrationSlug}
+                    integrationSlug={integration?.integrationSlug}
+                    buttonText={buttonText}
+                    integrationLogo={logo}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

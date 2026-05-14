@@ -1,77 +1,92 @@
-// import { twMerge } from 'tailwind-merge';
-// import styles from './loader.module.css';
-// import classNames from 'classnames';
-
-// interface Props {
-//   className?: string;
-//   text?: string;
-//   showText?: boolean;
-//   simple?: boolean;
-// }
-
-// const Loader = (props: Props) => {
-//   const { className, showText = true, text = 'Loading...', simple } = props;
-//   return (
-//     <>
-//       {simple ? (
-//         <div className={classNames(className, styles?.simple_loading)} />
-//       ) : (
-//         <div
-//           className={twMerge(
-//             classNames('w-full flex flex-col items-center justify-center h-[calc(100vh-200px)]', className),
-//           )}
-//         >
-//           <div className={styles?.loading} />
-
-//           {showText && (
-//             <div className="text-lg font-semibold text-body italic">{text}</div>
-//           )}
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default Loader;
-
-
 import { twMerge } from 'tailwind-merge';
-
 interface Props {
   className?: string;
   text?: string;
   showText?: boolean;
-  simple?: boolean;
 }
 
+interface LoaderIconProps {
+  className?: string;
+  size?: number;
+}
+
+export const LoaderIcon = ({ className, size = 80 }: LoaderIconProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height={size}
+      width={size}
+      viewBox="0 0 200 200"
+      className={className}
+    >
+      <radialGradient
+        id="a7"
+        cx=".66"
+        fx=".66"
+        cy=".3125"
+        fy=".3125"
+        gradientTransform="scale(1.5)"
+      >
+        <stop offset="0" stopColor="#FF5C35"></stop>
+        <stop offset=".3" stopColor="#FF5C35" stopOpacity=".9"></stop>
+        <stop offset=".6" stopColor="#FF5C35" stopOpacity=".6"></stop>
+        <stop offset=".8" stopColor="#FF5C35" stopOpacity=".3"></stop>
+        <stop offset="1" stopColor="#FF5C35" stopOpacity="0"></stop>
+      </radialGradient>
+      <circle
+        transformOrigin="center"
+        fill="none"
+        stroke="url(#a7)"
+        strokeWidth="16"
+        strokeLinecap="round"
+        strokeDasharray="200 1000"
+        strokeDashoffset="0"
+        cx="100"
+        cy="100"
+        r="70"
+      >
+        <animateTransform
+          type="rotate"
+          attributeName="transform"
+          calcMode="spline"
+          dur="2"
+          values="360;0"
+          keyTimes="0;1"
+          keySplines="0 0 1 1"
+          repeatCount="indefinite"
+        ></animateTransform>
+      </circle>
+      <circle
+        transformOrigin="center"
+        fill="none"
+        opacity=".2"
+        stroke="#FF5C35"
+        strokeWidth="16"
+        strokeLinecap="round"
+        cx="100"
+        cy="100"
+        r="70"
+      ></circle>
+    </svg>
+  );
+};
 const Loader = ({
   className,
   showText = true,
-  text = 'Loading...',
-  simple,
+  text = 'Loading...'
 }: Props) => {
-  if (simple) {
-    return (
-      <div
-        className={twMerge(
-          'h-6 w-6 rounded-full border-2 border-emerald-500/30 border-t-emerald-600 animate-spin',
-          className
-        )}
-      />
-    );
-  }
-
   return (
     <div
       className={twMerge(
-        'w-full flex flex-col items-center justify-center h-[calc(100vh-200px)]',
+        'w-full flex flex-col items-center justify-center h-screen',
         className
       )}
     >
-      <div className="mb-3 h-10 w-10 rounded-full border-4 border-emerald-500/30 border-t-emerald-600 animate-spin" />
-
+      <div>
+        <LoaderIcon />
+      </div>
       {showText && (
-        <div className="text-lg font-semibold italic text-gray-600">
+        <div className="text-lg font-semibold italic text-body">
           {text}
         </div>
       )}

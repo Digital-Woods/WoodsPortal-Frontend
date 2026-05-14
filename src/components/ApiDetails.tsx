@@ -287,12 +287,20 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                     )}
                     {permissions && permissions?.note?.display && (
                       <TabsTrigger className="rounded-md" value="notes">
-                        <div className="text-black dark:text-white">Notes</div>
+                        <div className="text-black dark:text-white">
+                          {permissions?.note?.display_label
+                            ? permissions?.note?.display_label
+                            : "Notes"}
+                        </div>
                       </TabsTrigger>
                     )}
                     {permissions && permissions?.email?.display && (
                       <TabsTrigger className="rounded-md" value="emails">
-                        <div className="text-black dark:text-white">Emails</div>
+                        <div className="text-black dark:text-white">
+                          {permissions?.email?.display_label
+                            ? permissions?.email?.display_label
+                            : "Emails"}
+                        </div>
                       </TabsTrigger>
                     )}
                     {permissions && permissions?.ticket?.display && (
@@ -353,13 +361,18 @@ export const ApiDetails = ({ path, objectId, id, propertyName, showIframe, getPr
                   objectId={objectId}
                   id={id}
                   permissions={permissions ? permissions?.note : null}
+                  title={permissions?.note?.display_label || "Notes"}
                 />
               )}
 
               {activeTab === "emails" && (
                 <Emails
+                  item={item}
+                  path={path}
                   objectId={objectId}
                   id={id}
+                  permissions={permissions ? permissions?.email : null}
+                  title={permissions?.email?.display_label || "Emails"}
                 />
               )}
 

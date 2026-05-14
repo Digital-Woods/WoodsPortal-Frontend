@@ -238,7 +238,10 @@ export const objectToQueryParams = (params: any) => {
 
 export const sortData = (list: any, type = "list") => {
   if (type == "list" || type == "details") delete list?.associations;
-  const excludeKeys = ["hs_object_id", "hs_createdate", "hs_lastmodifieddate", "associations"];
+  const excludeKeys =
+    type === "list"
+      ? ["hs_object_id", "hs_lastmodifieddate", "associations"]
+      : ["hs_object_id", "associations"];
   let data = list
 
   if (type === "list") {

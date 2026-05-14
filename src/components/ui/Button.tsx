@@ -36,6 +36,7 @@ const sizeDynamicClassName : any = {
   icon: "h-9 w-9",
   link: "p-0 hover:p-0",
   hubSpot: "p-1",
+  sso:"p-4"
 };
 
 export const Button = forwardRef((props: any, ref: any) => {

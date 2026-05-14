@@ -10,6 +10,9 @@ export const API_ENDPOINTS = {
   RESEND_EMAIL: "/api/auth/resend-email",
   VERIFY_EMAIL_RESEND: "/api/auth/verify-email/resend",
   TOKEN_VALIDATE: 'api/auth/token/validate',
+  GET_ACTIVE_SSO : 'api/auth/sso/active',
+  GENERATE_SSO_URL: '/api/auth/sso/authorize',
+  SSO_CALLBACK: '/api/auth/sso/callback',
 
   USER_LOGOUT: "/api/auth/logout",
   USERS_CHANGE_PASSWORD: "/api/auth/change-password",

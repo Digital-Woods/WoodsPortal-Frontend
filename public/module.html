@@ -206,6 +206,10 @@
       const homeTabsDataTypeFilter = {{ module.home.tabs_data_type | tojson | safe  }};
   {# End Home banner data #}
 
+  {# SSO button customization options #}
+  const ssoButtonsCustomizeOptions = {{ module.sso_buttons_customize_options | tojson | safe }};
+  {# end SSO button customization options #}
+
     {# Module Custom Styles #}
     const moduleStylesOptions = {
       homeTabStyles: {
@@ -355,7 +359,8 @@
         sidebarCtaStyles,
         developerModeModule,
         developerOptionTempUrl,
-        developerOption
+        developerOption,
+        ssoButtonsCustomizeOptions
     }
   </script>
 <div id="app"></div>

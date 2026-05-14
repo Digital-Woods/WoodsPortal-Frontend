@@ -22,6 +22,7 @@ import { Route as AuthForgetPasswordRouteImport } from './routes/_auth/forget-pa
 import { Route as AuthUserProfileRouteImport } from './routes/_auth/User-Profile'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/Register'
 import { Route as DynamicPageAssociationNameRouteImport } from './routes/_dynamicPage/association/$name'
+import { Route as AuthLoginSsoRouteImport } from './routes/_auth/login/sso'
 import { Route as DynamicPageObjectNameObject_idIdIndexRouteImport } from './routes/_dynamicPage/$objectName/$object_id/$id/index'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
@@ -91,6 +92,11 @@ const DynamicPageAssociationNameRoute =
     path: '/association/$name',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthLoginSsoRoute = AuthLoginSsoRouteImport.update({
+  id: '/sso',
+  path: '/sso',
+  getParentRoute: () => AuthLoginRoute,
+} as any)
 const DynamicPageObjectNameObject_idIdIndexRoute =
   DynamicPageObjectNameObject_idIdIndexRouteImport.update({
     id: '/_dynamicPage/$objectName/$object_id/$id/',
@@ -105,12 +111,13 @@ export interface FileRoutesByFullPath {
   '/Register': typeof AuthRegisterRoute
   '/User-Profile': typeof AuthUserProfileRoute
   '/forget-password': typeof AuthForgetPasswordRoute
-  '/login': typeof AuthLoginRoute
+  '/login': typeof AuthLoginRouteWithChildren
   '/not-verified-email': typeof AuthNotVerifiedEmailRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/two-fa': typeof AuthTwoFaRoute
   '/verify-email': typeof AuthVerifyEmailRoute
   '/$listComponent': typeof DynamicPageListComponentRoute
+  '/login/sso': typeof AuthLoginSsoRoute
   '/association/$name': typeof DynamicPageAssociationNameRoute
   '/$objectName/$object_id/$id': typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
@@ -121,12 +128,13 @@ export interface FileRoutesByTo {
   '/Register': typeof AuthRegisterRoute
   '/User-Profile': typeof AuthUserProfileRoute
   '/forget-password': typeof AuthForgetPasswordRoute
-  '/login': typeof AuthLoginRoute
+  '/login': typeof AuthLoginRouteWithChildren
   '/not-verified-email': typeof AuthNotVerifiedEmailRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/two-fa': typeof AuthTwoFaRoute
   '/verify-email': typeof AuthVerifyEmailRoute
   '/$listComponent': typeof DynamicPageListComponentRoute
+  '/login/sso': typeof AuthLoginSsoRoute
   '/association/$name': typeof DynamicPageAssociationNameRoute
   '/$objectName/$object_id/$id': typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
@@ -138,12 +146,13 @@ export interface FileRoutesById {
   '/_auth/Register': typeof AuthRegisterRoute
   '/_auth/User-Profile': typeof AuthUserProfileRoute
   '/_auth/forget-password': typeof AuthForgetPasswordRoute
-  '/_auth/login': typeof AuthLoginRoute
+  '/_auth/login': typeof AuthLoginRouteWithChildren
   '/_auth/not-verified-email': typeof AuthNotVerifiedEmailRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/two-fa': typeof AuthTwoFaRoute
   '/_auth/verify-email': typeof AuthVerifyEmailRoute
   '/_dynamicPage/$listComponent': typeof DynamicPageListComponentRoute
+  '/_auth/login/sso': typeof AuthLoginSsoRoute
   '/_dynamicPage/association/$name': typeof DynamicPageAssociationNameRoute
   '/_dynamicPage/$objectName/$object_id/$id/': typeof DynamicPageObjectNameObject_idIdIndexRoute
 }
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/two-fa'
     | '/verify-email'
     | '/$listComponent'
+    | '/login/sso'
     | '/association/$name'
     | '/$objectName/$object_id/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/two-fa'
     | '/verify-email'
     | '/$listComponent'
+    | '/login/sso'
     | '/association/$name'
     | '/$objectName/$object_id/$id'
   id:
@@ -194,6 +205,7 @@ export interface FileRouteTypes {
     | '/_auth/two-fa'
     | '/_auth/verify-email'
     | '/_dynamicPage/$listComponent'
+    | '/_auth/login/sso'
     | '/_dynamicPage/association/$name'
     | '/_dynamicPage/$objectName/$object_id/$id/'
   fileRoutesById: FileRoutesById
@@ -205,7 +217,7 @@ export interface RootRouteChildren {
   AuthRegisterRoute: typeof AuthRegisterRoute
   AuthUserProfileRoute: typeof AuthUserProfileRoute
   AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
-  AuthLoginRoute: typeof AuthLoginRoute
+  AuthLoginRoute: typeof AuthLoginRouteWithChildren
   AuthNotVerifiedEmailRoute: typeof AuthNotVerifiedEmailRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthTwoFaRoute: typeof AuthTwoFaRoute
@@ -308,6 +320,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DynamicPageAssociationNameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/login/sso': {
+      id: '/_auth/login/sso'
+      path: '/sso'
+      fullPath: '/login/sso'
+      preLoaderRoute: typeof AuthLoginSsoRouteImport
+      parentRoute: typeof AuthLoginRoute
+    }
     '/_dynamicPage/$objectName/$object_id/$id/': {
       id: '/_dynamicPage/$objectName/$object_id/$id/'
       path: '/$objectName/$object_id/$id'
@@ -318,6 +337,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthLoginRouteChildren {
+  AuthLoginSsoRoute: typeof AuthLoginSsoRoute
+}
+
+const AuthLoginRouteChildren: AuthLoginRouteChildren = {
+  AuthLoginSsoRoute: AuthLoginSsoRoute,
+}
+
+const AuthLoginRouteWithChildren = AuthLoginRoute._addFileChildren(
+  AuthLoginRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ClientSessionRoute: ClientSessionRoute,
@@ -325,7 +356,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRegisterRoute: AuthRegisterRoute,
   AuthUserProfileRoute: AuthUserProfileRoute,
   AuthForgetPasswordRoute: AuthForgetPasswordRoute,
-  AuthLoginRoute: AuthLoginRoute,
+  AuthLoginRoute: AuthLoginRouteWithChildren,
   AuthNotVerifiedEmailRoute: AuthNotVerifiedEmailRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthTwoFaRoute: AuthTwoFaRoute,

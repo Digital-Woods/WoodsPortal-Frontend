@@ -1,4 +1,4 @@
-export const getIcon = (filename: any, heightInPx = '24px', widthInPx = '24px') => {
+export const getIcon = (filename: any, heightInPx = '16px', widthInPx = '16px') => {
 
     const extension = filename.split(".").pop().toLowerCase();
 

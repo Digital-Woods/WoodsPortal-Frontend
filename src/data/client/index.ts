@@ -19,6 +19,10 @@ export const Client = {
         },
       }
     ),
+    getActiveSso: () => AuthHttpClient.get(API_ENDPOINTS.GET_ACTIVE_SSO),
+    generateSsoUrl: (provider: string) =>
+      AuthHttpClient.get(API_ENDPOINTS.GENERATE_SSO_URL, { provider }),
+    ssoCallback: (code: string, state: string) => AuthHttpClient.get(API_ENDPOINTS.SSO_CALLBACK, { code , state}),
     existingUserRegister: (data: any) => AuthHttpClient.post(API_ENDPOINTS.EXISTING_USER_REGISTER, data),
     verifyEmail: (data: any) => AuthHttpClient.post(API_ENDPOINTS.VERIFY_EMAIL, data),
     verifyOtp: (data: any) => AuthHttpClient.post(API_ENDPOINTS.VERIFY_OTP, data),
@@ -140,7 +144,23 @@ export const Client = {
         cache: !!cache,
         ...query,
       });
-    }
+    },
+     createEmail: ({params, objectId, id, subject, emailBody, attachmentIds, portalId}: any) => {
+      // const url = `${API_ENDPOINTS.ALL_NOTES}/${me.hubspotPortals.templateName}${path}/${fileId}`;
+      const url = `/api/:hubId/:portalId/hubspot-object-emails/${objectId}/${id}`;
+      return HttpClient.post(
+        generateApiUrl({route: url, queryParams: params}),
+        {
+          subject: subject,
+          emailBody: emailBody,
+          attachmentIds: attachmentIds,
+        }
+      );
+    },
+    updateEmail: ({params, objectId, id, emailBody, email_id, portalId}: any) => {
+       const url = `/api/:hubId/:portalId/hubspot-object-emails/${objectId}/${id}/${email_id}`;
+      return HttpClient.put(generateApiUrl({route: url, queryParams: params}), { emailBody });
+    },
   },
 
   objects : {

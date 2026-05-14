@@ -204,6 +204,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
         const defaultActiveTab = homeTabsDataTypeFilter?.files ? "files" :
                                  homeTabsDataTypeFilter?.notes ? "notes" :
                                  homeTabsDataTypeFilter?.tickets ? "tickets" : 
+                                 homeTabsDataTypeFilter?.emails ? "emails" :
                                  "files";
 
         if (
@@ -240,6 +241,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
         // updateAPI: `/api/${hubId}/${portalId}/hubspot-object-forms/${hubspotObjectTypeId}/fields/:formId${param}`, // concat ticketId
     };
 
+
     if (!isLoadedFirstTime) {
         return (
             <div className={`dark:bg-dark-200 w-[100%] rounded-tl-xl CUSTOM-hide-scrollbar overflow-hidden `}
@@ -272,7 +274,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
             <div className=" flex relative bg-cleanWhite  dark:bg-dark-200 overflow-hidden">
 
                 {/* main content code start */}
-                {(homeTabsDataTypeFilter?.notes || homeTabsDataTypeFilter?.files || homeTabsDataTypeFilter?.tickets) && (
+                {(homeTabsDataTypeFilter?.notes || homeTabsDataTypeFilter?.files || homeTabsDataTypeFilter?.tickets || homeTabsDataTypeFilter?.emails) && (
                     <div className={`w-full CUSTOM-hide-scrollbar overflow-y-auto overflow-x-hidden`}>
                         <div className={``}>
                             <div className={`flex md:flex-row flex-col md:items-center justify-between my-4 gap-3`}>
@@ -290,14 +292,18 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                         ): null}
                                         {homeTabsDataTypeFilter?.notes ? (
                                             <TabsTrigger className="rounded-md" value="notes">
-                                                <div className="text-black dark:text-white">Notes</div>
+                                                <div className="text-black dark:text-white">
+                                                    {permissions?.note?.display_label ? permissions?.note?.display_label : 'Notes'}
+                                                </div>
                                             </TabsTrigger>
                                         ): null}
-                                        {/* {homeTabsDataTypeFilter?.emails ? ( */}
+                                        {homeTabsDataTypeFilter?.emails ? ( 
                                             <TabsTrigger className="rounded-md" value="emails">
-                                                <div className="text-black dark:text-white">Emails</div>
+                                                <div className="text-black dark:text-white">
+                                                {permissions?.email?.display_label ? permissions?.email?.display_label : 'Emails'}
+                                                </div>
                                             </TabsTrigger>
-                                        {/* ): null} */}
+                                        ): null} 
                                         {homeTabsDataTypeFilter?.tickets ? (
                                             <TabsTrigger className="rounded-md" value="tickets">
                                                 <div className="text-black dark:text-white">{permissions?.ticket?.display_label ? permissions?.ticket?.display_label : 'Tickets'}
@@ -317,6 +323,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                     <TabsContent value="files"></TabsContent>
                                     <TabsContent value="notes"></TabsContent>
                                     <TabsContent value="tickets"></TabsContent>
+                                    <TabsContent value="emails"></TabsContent>
                                 </Tabs>
                                 </div>
 
@@ -331,6 +338,13 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
                                     <FilterDropdown 
                                     value={selectedNotesDataFilter} 
                                     onChange={(e: any) => onChangeDataFilter(e, 'notes')} 
+                                    />
+                                )}
+
+                                {activeTab === "emails" && homeTabsDataTypeFilter?.emails === 'all' && objectId && id && (
+                                    <FilterDropdown 
+                                    value={selectedEmailsDataFilter} 
+                                    onChange={(e: any) => onChangeDataFilter(e, 'emails')} 
                                     />
                                 )}
 
@@ -369,7 +383,7 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
 
                             {activeTab === "notes"&& (
                                 permissions && permissions?.note?.display && objectId && selectedNotesDataFilter && id ? (
-                                    <Notes noteCreateFor={selectedNotesDataFilter == '0-2' ? userData?.response?.associations?.COMPANY?.name?.value : null} tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} />
+                                    <Notes noteCreateFor={selectedNotesDataFilter == '0-2' ? userData?.response?.associations?.COMPANY?.name?.value : null} tabName='home' item={item} path={path} objectId={selectedNotesDataFilter} id={selectedNotesDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.note : null} title={permissions?.note?.display_label || "Notes"} />
                                 ) : (
                                     <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
                                         <span className="text-yellow-600">
@@ -382,7 +396,16 @@ export const UserDetails = ({ path, objectId, id, userData, isLoadedFirstTime, u
 
                             {activeTab === "emails" && (
                                 permissions && permissions?.email?.display && objectId && selectedEmailsDataFilter && id ? (
-                                    <Emails tabName='home' item={item} path={path} objectId={selectedEmailsDataFilter} id={selectedEmailsDataFilter == '0-2' ? userCompanyId : id} permissions={permissions ? permissions?.email : null} />
+                                    <Emails
+                                        key={`${selectedEmailsDataFilter}-${selectedEmailsDataFilter == '0-2' ? userCompanyId : id}`}
+                                        tabName='home'
+                                        item={item}
+                                        path={path}
+                                        objectId={selectedEmailsDataFilter}
+                                        id={selectedEmailsDataFilter == '0-2' ? userCompanyId : id}
+                                        permissions={permissions ? permissions?.email : null}
+                                        title={permissions?.email?.display_label || "Emails"}
+                                    />
                                 ) : (
                                     <div className="flex flex-col items-center text-center p-4 min-h-[300px] max-h-[400px] justify-center gap-4 dark:text-white">
                                         <span className="text-yellow-600">

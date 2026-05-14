@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LoaderIcon } from "../loader/loader";
 
 export const FileViewer = ({ file }: any) => {
   const [loading, setLoading] = useState(true);
@@ -8,17 +9,21 @@ export const FileViewer = ({ file }: any) => {
 
   if (!file) return null;
 
-  const fileExtension = file?.data?.extension;
+  const fileExtension = file?.data?.extension?.toLowerCase();
+
+  const videoMimeType =
+    fileExtension === "mp4" || fileExtension === "m4v"
+      ? "video/mp4"
+      : fileExtension === "mov"
+      ? "video/quicktime"
+      : undefined;
 
   const handleLoad = () => setLoading(false);
+  const handleError = () => setLoading(false);
 
   const LoadingIcon = () => (
-    <div className="absolute inset-0 flex items-center justify-center z-50">
-      <div
-        className="w-14 h-14 rounded-full animate-spin
-              border-y-4 border-solid border-t-transparent 
-              "
-      ></div>
+    <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+      <LoaderIcon size={56} />
     </div>
   );
 
@@ -33,7 +38,13 @@ export const FileViewer = ({ file }: any) => {
     return (
       <div className="w-full  flex justify-center align-center relative">
         {loading && <LoadingIcon />}
-        <audio controls className="w-full relative" onLoadedData={handleLoad}>
+        <audio
+          controls
+          className="w-full relative"
+          onLoadedMetadata={handleLoad}
+          onCanPlay={handleLoad}
+          onError={handleError}
+        >
           <source src={file?.data?.url} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
@@ -43,21 +54,29 @@ export const FileViewer = ({ file }: any) => {
 
   if (
     fileExtension === "mp4" ||
+    fileExtension === "m4v" ||
     fileExtension === "mov" ||
     fileExtension === "wmv" ||
     fileExtension === "mkv" ||
     fileExtension === "avi"
   ) {
     return (
-      <div className="w-full flex justify-center ">
+      <div className="w-full flex justify-center relative">
         {loading && <LoadingIcon />}
         <video
           playsInline
           webkit-playsinline
           controls
+          preload="metadata"
           className="w-auto relative"
-          onLoadedData={handleLoad}>
-          <source src={file?.data?.url} type="video/mp4" />
+          onLoadedMetadata={handleLoad}
+          onCanPlay={handleLoad}
+          onError={handleError}
+        >
+          <source
+            src={file?.data?.url}
+            {...(videoMimeType ? { type: videoMimeType } : {})}
+          />
           Your browser does not support the video element.
         </video>
       </div>
@@ -73,7 +92,7 @@ export const FileViewer = ({ file }: any) => {
     fileExtension === "xlsx"
   ) {
     return (
-      <>
+      <div className="w-full h-full relative">
         {loading && <LoadingIcon />}
         <iframe
           src={officeViewerUrl}
@@ -84,7 +103,7 @@ export const FileViewer = ({ file }: any) => {
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-presentation"
           referrerPolicy="strict-origin-when-cross-origin"
         />
-      </>
+      </div>
     );
   }
 
@@ -106,6 +125,7 @@ export const FileViewer = ({ file }: any) => {
           alt={file?.data?.name}
           className="h-full w-auto object-contain"
           onLoad={handleLoad}
+          onError={handleError}
           allowFullScreen
           allow="autoplay; fullscreen"
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation allow-presentation"
@@ -116,15 +136,16 @@ export const FileViewer = ({ file }: any) => {
   }
 
   if (fileExtension === "pdf") {
-    return (<>
-      {loading && <LoadingIcon />}
-      <iframe
-        src={file?.data?.url}
-        className="w-full"
-        onLoad={handleLoad}
-        allowFullScreen
-      />
-    </>
+    return (
+      <div className="w-full h-full relative">
+        {loading && <LoadingIcon />}
+        <iframe
+          src={file?.data?.url}
+          className="w-full h-full"
+          onLoad={handleLoad}
+          allowFullScreen
+        />
+      </div>
     );
   }
 

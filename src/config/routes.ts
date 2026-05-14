@@ -9,6 +9,7 @@ export const Routes = {
   verifyEmail: '/verify-email',
   ResendEmail: '/resend-email',
   unauthorized: '/unauthorized',
+  ssoLogin: '/login/sso',
 
   //Common
   app: '/',

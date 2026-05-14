@@ -316,7 +316,7 @@ export const Drawer = ({ className }: any) => {
               className="h-auto hidden dark:block"
             />
           </div>
-          <div className="text-[#2F2E33] dark:text-white text-base font-semibold   leading-snug">
+          <div className="text-[#2F2E33] dark:text-white text-base leading-snug">
             Log out of your account?
           </div>
           <div className="pt-3 flex gap-x-3 justify-between w-full">
